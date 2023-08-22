@@ -1,0 +1,24 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ R(A);
+        r̲e̲a̲l̲
+            A;
+        b̲e̲g̲i̲n̲
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(B, C);
+            i̲n̲t̲e̲g̲e̲r̲
+                B,
+                C;
+            P := B + C;
+        R := P(A + 1, A)
+        e̲n̲d̲ R;
+    r̲e̲a̲l̲
+        X;
+    b̲e̲g̲i̲n̲
+        r̲e̲a̲l̲
+            Y;
+        Y := 4;
+        X := R(R(Y + 1))
+    e̲n̲d̲;
+    OUTREAL(99, X)
+e̲n̲d̲

@@ -1,0 +1,14 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        I;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(A, B);
+        i̲n̲t̲e̲g̲e̲r̲
+            A;
+        i̲n̲t̲e̲g̲e̲r̲
+            B;
+        I := A + B;
+    P(3, 4);
+    OUTREAL(99, I);
+e̲n̲d̲

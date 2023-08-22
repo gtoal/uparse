@@ -1,0 +1,38 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        I,
+        J,
+        K;
+    b̲o̲o̲l̲e̲a̲n̲
+        P,
+        T;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ FAIL;
+        b̲e̲g̲i̲n̲
+        OUTREAL(99, I);
+        OUTREAL(99, J)
+        e̲n̲d̲;
+    T := t̲r̲u̲e̲;
+    f̲o̲r̲ I := - 1,
+        0,
+        1 d̲o̲
+        f̲o̲r̲ J := - 1,
+            0,
+            1 d̲o̲
+            b̲e̲g̲i̲n̲
+            K := 3 * (I + 1) + J + 2;
+            i̲f̲ K d̲i̲v̲ 2 * 2 = K e̲q̲u̲i̲v̲ T t̲h̲e̲n̲
+                FAIL;
+            T := n̲o̲t̲ T;
+            i̲f̲ (I + J > 1 a̲n̲d̲ J # 1) o̲r̲ (I + J < - 1
+                a̲n̲d̲ I # - 1) t̲h̲e̲n̲
+                FAIL;
+            i̲f̲ n̲o̲t̲ (K >= 7 a̲n̲d̲ I # 1 i̲m̲p̲l̲ K < 0) t̲h̲e̲n̲
+                FAIL;
+            P := I = J;
+            i̲f̲ P a̲n̲d̲ I * J < 0 t̲h̲e̲n̲
+                FAIL
+            e̲n̲d̲;
+    OUTREAL(99, 0)
+e̲n̲d̲

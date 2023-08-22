@@ -1,0 +1,28 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 3;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(K, X1, X2, X3, X4, X5);
+        v̲a̲l̲u̲e̲
+            K;
+        i̲n̲t̲e̲g̲e̲r̲
+            K;
+        r̲e̲a̲l̲
+            X1,
+            X2,
+            X3,
+            X4,
+            X5;
+        b̲e̲g̲i̲n̲
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+            b̲e̲g̲i̲n̲
+            K := K - 1;
+            B := A := A(K, B, X1, X2, X3, X4)
+            e̲n̲d̲;
+        i̲f̲ K <= 0 t̲h̲e̲n̲
+            A := X4 + X5
+        e̲l̲s̲e̲ i̲f̲ B < 0 t̲h̲e̲n̲
+        e̲n̲d̲;
+    OUTREAL(99, CPUTIME);
+    OUTREAL(99, A(10, 1, - 1, - 1, 1, 0));
+    OUTREAL(99, CPUTIME);
+e̲n̲d̲

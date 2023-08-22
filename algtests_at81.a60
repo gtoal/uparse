@@ -1,0 +1,21 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    a̲r̲r̲a̲y̲
+        V,
+        A,
+        C[1 : 1];
+    i̲n̲t̲e̲g̲e̲r̲
+        K;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ I;
+        b̲e̲g̲i̲n̲
+        I := 1;
+        K := K + 1
+        e̲n̲d̲;
+    K := 0;
+    A[I] := 1;
+    C[I] := 3;
+    f̲o̲r̲ V[I] := A[I] s̲t̲e̲p̲ A[I] u̲n̲t̲i̲l̲ C[I] d̲o̲
+        ;
+    OUTREAL(99, K)
+e̲n̲d̲

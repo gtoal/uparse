@@ -1,0 +1,34 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(F);
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            F;
+        c̲o̲m̲m̲e̲n̲t̲   (F1):'LABEL' F1;
+        F((M));
+    B1 :;
+    b̲e̲g̲i̲n̲
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q(L);
+            l̲a̲b̲e̲l̲
+                L;
+            b̲e̲g̲i̲n̲
+            g̲o̲t̲o̲ L;
+            Q := 0;
+            OUTREAL(99, 1)
+            e̲n̲d̲;
+        B2 :;
+        b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲
+                I;
+            g̲o̲t̲o̲ N;
+            I := 2;
+            OUTREAL(99, I)
+        e̲n̲d̲;
+        N :;
+        P(Q);
+        OUTREAL(99, 3);
+    e̲n̲d̲ B1;
+    OUTREAL(99, 4);
+    M :;
+    OUTREAL(99, 5)
+e̲n̲d̲

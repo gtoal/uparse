@@ -1,0 +1,10 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    b̲o̲o̲l̲e̲a̲n̲
+        B;
+    B := n̲o̲t̲ t̲r̲u̲e̲;
+    B := n̲o̲t̲ ( n̲o̲t̲ B);
+    B := n̲o̲t̲ n̲o̲t̲ B;
+    OUTREAL(99, i̲f̲ B t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1)
+e̲n̲d̲
