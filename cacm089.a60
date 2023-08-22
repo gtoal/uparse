@@ -1,0 +1,20 @@
+'REAL' 'PROCEDURE' FRESNELSIN(u);
+'REAL' u;
+'BEGIN'
+      'INTEGER' N;
+      'REAL' Pi2, x, frsqr, term, frsini, frsin;
+      Pi2 := 1.5707963;
+      x := Pi2 * (u^2);
+      frsin := x/3;
+      frsqr := x^2;
+      N := 3;
+      term := (-x * frsqr)/6;
+      frsini := frsin + term/7;
+Loop: 'IF' frsin = frsini 'THEN' go to exit;
+      frsin := frsini;
+      term := - term * frsqr/((2*N-1) * (2*N-2));
+      frsini := frsin + term/(4*N - 1);
+      N := N + 1;
+      go to Loop;
+exit: FRESNELSIN := frsini * u
+'END' FRESNELSIN;

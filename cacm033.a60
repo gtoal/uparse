@@ -1,0 +1,5 @@
+'REAL' 'PROCEDURE' Factorial(n) ;
+'VALUE' n; 'INTEGER' n;
+'COMMENT';
+'begin' Factorial := 'if' n = 0 'then' 1 'else' n * Factorial(n - 1)
+      'end';

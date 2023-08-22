@@ -1,0 +1,26 @@
+'REAL' 'PROCEDURE' rombergintegr(fct, lgr, rgr, ord);
+'VALUE' lgr, rgr, ord;
+'REAL' lgr, rgr; 'INTEGER' ord; 'REAL' 'PROCEDURE' fct ;
+'COMMENT' ;
+'BEGIN'
+  'REAL' 'ARRAY' t[1:ord+1];
+  'REAL' l, u, m;
+  'INTEGER' f, h, j, n;
+  l := rgr - lgr;
+  t[1] := (fct(lgr) + fct(rgr))/2;
+  n := 1;
+  'FOR' h := 1 'STEP' 1 'UNTIL' ord 'DO'
+    'BEGIN' u := 0;
+      m := l/(2*n);
+      'FOR' j := 1 'STEP' 2 'UNTIL' 2*n - 1 'DO'
+        u := u + fct(lgr + j*m);
+      t[h + 1] := (u/n + t[h])/2;
+      f := 1;
+      'FOR' j := h 'STEP' -1 'UNTIL' 1 'DO'
+        'BEGIN' f := 4*f;
+	  t[j] := t[j + 1] + (t[j+1] - t[j])/(f - 1)
+	'END' ;
+      n := 2 * n
+    'END' ;
+    rombergintegr := t[1] * l
+'END';

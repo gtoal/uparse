@@ -1,0 +1,69 @@
+'REAL' 'PROCEDURE' INNERPRODUCT(u, v, k, s, f);
+'VALUE' s, f; 'INTEGER' k, s, f; 'REAL' u, v;
+'COMMENT';
+b̲e̲g̲i̲n̲
+  r̲e̲a̲l̲ h;
+  h := 0; 'FOR' k := s 'STEP' 1 'UNTIL' f 'DO' h := h + u * v;
+  INNERPRODUCT := h
+'END' INNERPRODUCT;
+'PROCEDURE' CROUT(A, b, n, y, pivot, INNERPRODUCT);
+'VALUE' n; 'ARRAY' A, b, y; 'INTEGER' n; 'INTEGER' 'ARRAY' pivot;
+'REAL' 'PROCEDURE' INNERPRODUCT;
+'COMMENT';
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ k, i, j, imax, p; 'REAL' TEMP, quot;
+    'FOR' k := 1 'STEP' 1 'UNTIL' n 'DO'
+  'BEGIN'
+        TEMP := 0;
+	'FOR' i := k 'STEP' 1 'UNTIL' n 'DO'
+    'BEGIN'
+          A[i, k] := A[i, k] - INNERPRODUCT(A[i,p], A[p,k],
+	    p, 1, k - 1);
+	  'IF' abs(A[i,k]) > TEMP 'THEN'
+	'BEGIN'
+	  TEMP := abs(A[i, k]); imax := i
+	  'END'
+      'END';
+      pivot[k] := imax;
+      'COMMENT';
+      i̲f̲ imax != k t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲
+	TEMP := A[k,j]; A[k,j] := A[imax,j];
+	  A[imax,j] := TEMP
+	'END';
+	TEMP := b[k]; b[k] := b[imax]; b[imax] := TEMP
+      'END';
+      'COMMENT';
+        i̲f̲ A[k,k] = 0 t̲h̲e̲n̲ g̲o̲ t̲o̲ singular;
+	'FOR' i := k+1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN' quot := 1.0/A[k,k]; A[i,k] := quot * A[i,k]
+	  'END';
+	'FOR' j:= k + 1 'STEP' 1 'UNTIL' n 'DO'
+	    A[k, j] := A[k, j] - INNERPRODUCT(A[k,p],
+	      A[p,j], p, 1, k - 1);
+	b[k] := b[k] - INNERPRODUCT(A[k, p], b[p], p,
+	      1, k - 1)
+ 'END';
+ 'COMMENT';
+ f̲o̲r̲ k := n s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+     y[k] := (b[k] - INNERPRODUCT(A[k,p], y[p], p, k + 1, n))/A[k, k];
+singular:
+'END' CROUT;
+
+'PROCEDURE' SOLVE(B, c, n, z, pivot, INNERPRODUCT);
+'VALUE' n; 'ARRAY' B, c, z; 'INTEGER' n; 'INTEGER' 'ARRAY' pivot;
+'REAL' 'PROCEDURE' INNERPRODUCT;
+'COMMENT';
+b̲e̲g̲i̲n̲
+i̲n̲t̲e̲g̲e̲r̲ k, p; 'REAL' TEMP;
+'FOR' k := 1 'STEP' 1 'UNTIL' n 'DO'
+'BEGIN'
+    TEMP := c[pivot[k]]; c[pivot[k]] := c[k]; c[k] :=
+     TEMP; c[k] := c[k] - INNERPRODUCT(B[k, p],
+     c[p], p, 1, k - 1)
+'END';
+'FOR' k := n 'STEP' -1 'UNTIL' 1 'DO'
+    z[k] := (c[k] - INNERPRODUCT(B[k,p], z[p], p,
+      k+1, n))/B[k,k]
+'END';

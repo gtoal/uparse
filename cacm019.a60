@@ -1,0 +1,10 @@
+'INTEGER' 'PROCEDURE' C(m, n);
+'INTEGER' m, n;
+'BEGIN' 'INTEGER' i, a, b ;
+      a := 1;
+      'IF' 2 * m > n 'THEN' b := n - m 'ELSE'
+         b := m ;
+      'FOR' i := 0 'STEP' 1 'UNTIL' b - 1 'DO'
+      'BEGIN' a := (n - i) * a / (i + 1) 'END';
+      C := a
+'END';

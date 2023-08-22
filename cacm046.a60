@@ -1,0 +1,9 @@
+'REAL' 'PROCEDURE' EXPC(a, b, c, d);
+'VALUE' a, b;
+'REAL' a, b, c, d;
+'COMMENT' ;
+'BEGIN'
+  c := exp(a);
+  d := c * sin(b);
+  c := c * cos(b)
+'END' EXPC;

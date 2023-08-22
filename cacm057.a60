@@ -1,0 +1,21 @@
+'REAL' 'PROCEDURE' BERBEI (r, z); 'VALUE' r, z; 'REAL' r, z;
+'COMMENT' This procedure computes ber(z) if r is set equal to
+  zero, bei(z) is produced if r equals 1.0;
+'BEGIN'
+        'REAL' s, k, c, f, t;
+        'IF' r = 0 'THEN'
+           s := 1
+        'ELSE'
+           s := (z * z)/4;
+        k := s;
+        f := z * z;
+        f := f * f;
+        'FOR' c := 2 'STEP' 2 'UNTIL' 100 'DO'
+          'BEGIN'
+            'IF' s = s + k 'THEN'
+               go to gate;
+            t := (c+r) *(c+r-1);
+            k := -0.0625 * k * f/(t * t);
+            s := s + k 'END';
+gate: BERBEI := s
+'END' BERBEI;

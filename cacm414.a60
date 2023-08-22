@@ -1,0 +1,595 @@
+'COMMENT' ACM Algorithm 414
+    Chebyshev Approximation of Continuous Functions by a Chebyshev System of
+    Functions. 4/11/70
+    G.H. Golub and L.B. Smith, Dept. of Computer Science, Stanford University,
+    Stanford, CA 94305;
+
+'PROCEDURE' remez (n, a, b, kstart, kmax, loops, f, chebyshev, eps,
+    exchange, c, emax, trouble, why);
+    'VALUE' n, a, b, kstart, kmax, loops;
+    'REAL' 'ARRAY' c;  'REAL' a, b, emax;  'LABEL' trouble;
+    'INTEGER' n, kstart, kmax, loops, why;
+    'REAL' 'PROCEDURE' f, eps; 'PROCEDURE' chebyshev, exchange;
+'COMMENT' Procedure remez finds the best fit (in the minimax sense) to
+    a function f using a linear combination of functions which form a
+    Chebyshev system.  The exchange algorithm of E.L. Stiefel is used
+    to obtain starting values for the critical points and the Remez
+    algorithm is then used to find the best fit;
+'BEGIN'
+    'PROCEDURE' quadraticmax(n, x, niter, alfa, beta, ok, a, b, c, nadded, eps);
+    	'VALUE' n, niter, alfa, beta, nadded;  'ARRAY' x, c;
+    	'INTEGER' n, niter, nadded;  'REAL' alfa, beta, a, b;
+   	'BOOLEAN' ok;  'REAL' 'PROCEDURE' eps;
+    'COMMENT' Procedure quadraticmax is called to adjust the values of
+	the critical points in each iteration of the Remez algorithm.  The
+	points are adjusted by fitting a parabola to the error curve in a
+	neighborhood, or if that proves unsatisfactory a brute force de-
+	termination of the extrema is used;
+    'BEGIN'
+	'INTEGER' i, count1, count2, nhalf, signepsxstar, signu, signv, signw,
+	    jmax, ncrude, j, nn;
+	'REAL' u, v, w, denom, epsu, epsv, epsw, xstar, epsxstar, xxx, misse,
+	    missx, dx, emax, etmp;
+	'INTEGER' 'ARRAY' signepsx [0 : n + 1];  'ARRAY' epsx [0 : n + 1];
+	nn := n - nadded;
+	'COMMENT' On arbitray parameter...
+	    ncrude The number of divisions used in the brute force
+		search for extrema.
+	    nhalf The parameter (alpha) which determines the size of
+		interval to be examined for an extremum is reduced by
+		half if a bad value for xstar is computed, however this
+		reduction may occur only nhalf times.
+	    misse If the value of the error curve at a new critical point
+		differs from the previous value by a relative difference of
+		more than misse then the brute force method is brought in.
+	    missx The brute force method keeps searching until it is
+		within missx of an extremum;
+	'COMMENT' Set values of the constants;
+	ncrude := 10;  nhalf := 4;  misse := 1.0 -2;  missx := 1.0 -5;
+	'COMMENT' Compare missx with absepsx.  They should be equal;
+	'FOR' i := 0 'STEP' 1 'UNTIL' n + 1 'DO'
+	'BEGIN'
+	    epsx[i] := eps(x[i],c,nn);
+	    signepsx[i] := sign(epsx[i]);
+	'END';
+	'FOR' i := 0 'STEP' 1 'UNTIL' n + 1 'DO'
+	'BEGIN'
+	    'COMMENT' If the startingvalues for the critical points do not
+		alternate the sign of eps(x), then we 'go' 'to' the label trouble;
+	    'IF' signepsx[i] * signepsx[i-1] != -1 'THEN' 'go' 'to' trouble;
+	'END';
+	'COMMENT' First find all the interior extrema.  Then we will find
+	    the end extrema, which may occur at the ends of the interval;
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+	    count1 := 0;  count2 := 0;
+L1:
+	    u := x[i];
+	    v := u + alfa * (x[i+1] - u);  w := u + alfa *
+	       (x[i-1] - u);
+	    epsu := epsx[i];  signu := signepsx[i];
+	    epsv := eps(v,c,nn);  signv := sign(epsv);
+	    epsw := eps(w,c,nn);  signw(epsw);
+	    'IF' ! signu = signv 'OR' ! signv = signw 'THEN' 'go' 'to' L3;
+	    'COMMENT' If the sign of eps(x) at the three points is
+	       not the same, we 'go' 'to' L# where alfa is reduced to
+	       make the points closer together;
+	    epsu := abs(epsu);  epsv := abs(epsv);  epsw := abs(epsw);
+L2:
+	    denom := 2.0 * ((epsv - epsu) * (w - u) + (epsw - epsu)
+	       * (u - v));
+	    'IF' denom = 0.0  'THEN' xstar := 0.5 * (v + w) 'ELSE' xstar :=
+	       0.5 * (v + w) + (v - w) * (epsv - epsw)/ denom;
+	    count1 := count1 + 1;
+	    'COMMENT' Test xstar to be sure it is what we want.  Is it
+	       between x[i-1] and x[i+1]?  Is eps(xstar) >= eps(u,v,w)?
+	       If xstar is too bad, 'go' 'to' L3 and reduce alfa unless
+	       alfa has been reduced nhalf times.  Otherwise if ok,
+	       'go' 'to' savexstar;
+	    'IF' xstar = u 'OR' xstar = v 'OR' w 'THEN'
+	    'BEGIN'
+	       epsxstar := eps(xstar,c,nn); signepsxstar := sign
+	       (epsxstar);
+	       epsxstar := abs(epsxstar);  'go' 'to' savexstar
+	    'END';
+	    'IF' xstar <= x[i-1] 'OR' xstar >= x[i+1] 'THEN' 'go' 'to' L3;
+	    epsxstar := eps(xstar,c,nn);
+	    signepsxstar := sign(epsxstar);
+	    epsxstar := abs(epsxstar);
+	    'IF' signepsxstar != signu 'OR' epsxstar < epsu 'OR' epsxstar <
+	       epsv 'OR' epsxstar < epsw 'THEN'
+	    'BEGIN'
+	       'IF' epsu >= epsv 'OR' epsu >= epsw 'THEN'
+	       'BEGIN'
+		    'IF' abs(epsxstar - epsu) > misse * epsu 'THEN' 'go' 'to'
+		       LBL2;       			
+		    xstar := u;  epsxstar := epsu;  signepsxtar := signu;
+		    'go' 'to' savexstar;
+	       'END';
+	       'IF' epsv >= epsu 'OR' epsv >= epsw 'THEN'
+	       'BEGIN'
+		    'IF' abs(epsxstar - epsv) > misse * epsv 'THEN' 'go' 'to'
+		       LBL2;
+		    xstar := v;  epsxstar := epsv;  signepsxstar := signv;
+		    'go' 'to' savexstar
+	       'END';
+	       'IF' abs(epsxstar - epsw) > misse * epsw 'THEN' 'go' 'to'
+		    LBL2;
+	       xstar := w;  epsxstar := epsw;  signepsxstar := signw;
+	       'go' 'to' savexstar;
+LBL2:
+	       jmax := 0;
+LBL1:
+	       dx := (v-w)/ncrude;  emax := 0.0;  xxx := w - dx;
+	       'FOR' j := 0 'STEP' 1 'UNTIL' ncrude 'DO'
+	       'BEGIN'
+		    xxx := xxx + dx;  jmax := jmax + 1;
+		    etmp := eps(xxx,c,nn);
+		    'IF' abs(etmp) > emax 'THEN'
+		    'BEGIN'
+		       emax := epsxstar := abs(etmp);
+		       signepsxstar := sign(etmp);
+		       u := xstar := xxx;
+		       v := u + dx;  w := u - dx;
+		    'END'
+	       'END';
+	       'IF' dx > missx 'THEN' 'go' 'to' LBL1;
+	       'COMMENT' Make sure v and w are thein bounds;
+	       'IF' v >= x[i+1] 'THEN' 'go' 'to' L3;
+	       'IF' w <= x[i-1] 'THEN' 'go' 'to' L3;
+	       'go' 'to' savexstar
+	    'END';
+	    'IF' count1 > niter 'THEN' 'go' 'to' savexstar;
+	    'IF' epsu <= epsw 'THEN'
+	    'BEGIN'
+	       'IF' epsv < epsu 'THEN'
+L4:
+	       'BEGIN'
+		    'COMMENT' v is minimum;
+		    'IF' xstar > u 'THEN'
+		    'BEGIN'
+		       v := xstar;  epsv := epsxstar;  'go' 'to' L2;
+		    'END';
+		    'IF' xstar > w 'THEN'
+		    'BEGIN'
+		       epsv := epsu;  v := u;
+		       epsu := epsxstar;  u := xstar;
+		       'go' 'to' L2;
+		    'END'
+		    'ELSE'
+		    'BEGIN'
+		       v := u;  epsv := epsu;
+		       u := w;  epsu := epsw;
+		       w := xstar;  epsw := epsxstar;
+		       'go' 'to' L2;
+		    'END'
+	       'END'
+	       'ELSE'
+	       'BEGIN'
+		    'COMMENT' u is minimum;
+		    'IF' xstar >= v 'THEN'
+		    'BEGIN'
+		       u := v;  epsu := epsv;
+		       v := xstar; epsv := epsxstar;
+		       'go' 'to' L2;
+		    'END';
+		    'IF' xstar >= w 'THEN'
+		    'BEGIN'
+		       u := xstar;  epsu := epsxstar;
+		       'go' 'to' L2;
+		    'END'
+		    'ELSE'
+		    'BEGIN'
+		       u := w;  epsu := epsw;
+		       w := xstar; epsw := epsxstar;
+		       'go' 'to' L2;
+		    'END'
+	       'END'
+	    'END'
+	    'ELSE'
+	    'BEGIN'
+	       'IF' epsv < epsw 'THEN'
+	       'BEGIN'
+		   'COMMENT' v is minimum;  'go' 'to' L4;
+	       'END'
+	       'ELSE'
+	       'BEGIN'
+		   'COMMENT' w is minimum;  'IF' xstar >= v 'THEN'
+		   'BEGIN'
+		       w := u;  epsw := epsu;
+		       u := v;  epsu := epsv;
+		       v := xstar;  epsv := epsxstar;
+		       'go' 'to' L2;
+		    'END';
+		    'IF' xstar >= u 'THEN'
+		    'BEGIN'
+		       w := u;  epsw := epsu;
+		       u := xstar; epsu := epsxstar;
+		    'go' 'to' L2;
+		    'END'
+		    'ELSE'
+		    'BEGIN'
+		       w := xstar;  epsw := epsxstar;
+		       'go' 'to' L2;
+		    'END'
+	       'END'
+	    'END';
+L3:
+	    count2 := count2 + 1;
+	    'IF' count2 > nhalf 'THEN' 'go' 'to' trouble;
+	    alfa := 0.5 * alfa;
+	    'COMMENT' The factor 0.5 used in reducing alpha is
+	       arbitrarily chosen;
+	    'go' 'to' L1;
+	    'COMMENT' Replace x[i] by xstar after checking alternation
+	       of signs;
+       savexstar:
+	    'IF' i > 1 'OR' signepsxstar * signepsx[i-1] != -1 'THEN' 'go' 'to'
+	       trouble;
+	    signepsx[i] := signepsxstar;
+	    x[i] := xstar;
+       'END';
+       'COMMENT' This is the end of the loop on i which finds all interior
+	    extrema.  Now we proceed to locate the extrema at or near
+	    the two endpoints (left end, then right end);
+       'COMMENT' We assume beta > alfa;
+       'FOR' i := 1 'STEP' n + 1 'UNTIL' n + 1 'DO'
+       'BEGIN'
+	    count1 := 0;  count2 := 0;
+L8:
+	    u := x[i];  'IF' i = 0 'THEN'
+	    'BEGIN'
+	       'IF' a < u 'THEN' w := u + alfa * (a - u) 'ELSE' w := u +
+	       beta * (x[1] - u);
+	       v := u + alfa * (x[1] - u);
+	    'END'
+	    'ELSE'
+	    'BEGIN'
+	       'IF' b > u 'THEN' w := u + alfa * (b - u) 'ELSE' w := u +
+	       beta xx (x[n] - u);
+	       v := u + alfa * (x[n] - u);
+	    'END';
+	    epsu := epsx[i];  signu := signepsx[i];
+	    epsv := eps(v,c,nn);  signv := sign(epsv);
+	    epsw := eps(w,c,nn);  signw := sign(epsw);
+	    'IF' signv != signu 'OR' signv != signw 'THEN' 'go' 'to' L7;
+	    epsu := abs(epsu);  epsv := abs(epsv);  epsw := abs(epsw);
+L5:
+	    denom := 2.0 * (epsu * (v-w) + epsv * (w-u) + epsw *
+		(u-v));
+	    'IF' denom = 0.0 'THEN' xstar := 0.5 * (w+v) 'ELSE' xstar :=
+		0.5 * (v+w) + (v-u) * (u-w) * (epsv - epsw)/ denom;
+	    'IF' i = 0 'AND' (xstar < a 'OR' xstar >= x[1]) 'THEN'
+	    'BEGIN'
+		xstar := a;  epsxstar := eps(a,c,nn);
+		signepsxstar := sign(epsxstar);epsxstar := abs(epsxstar);
+	    'END'
+	    'ELSE'
+	    'IF' i = n + 1 'AND' (xstar > b 'AND' xstar <= x[n]) 'THEN'
+	    'BEGIN'
+		xstar := b;  epsxstar := eps(b,c,nn);
+		signepsxstar := sign(epsxstar);epsxstar := abs (epsxstar);
+	    'END'
+	    'ELSE'
+	    'BEGIN'
+		epsxstar := eps(xstar,c,nn);
+		signepsxstar := sign(epsxstar);
+		epsxstar := abs(epsxstar);
+	    'END';
+	    count1 := count1 + 1;
+	    'IF' i = 0 'AND' xstar >= x[1] 'THEN' 'go' 'to' L7;
+	    'IF' i = n + 1 'AND' xstar <= x[n] 'THEN' 'go' 'to' L7;
+	    'IF' xstar = u 'OR' xstar = v 'OR' xstar = w 'THEN' 'go' 'to' L6;
+	    'IF' signepsxstar != signu 'OR' epsxstar < epsu 'OR' epsxstar <
+		epsv 'OR' epsxstar < epsw 'THEN'
+	    'BEGIN'
+		'IF' epsu >= epsv 'AND' epsu >= epsw 'THEN'
+		'BEGIN'
+		    xstar := u;  epsxstar := epsu;
+		    signepsxstar := signu;  'go' 'to' L6;
+		'END';
+		'IF' epsv >= epsu 'AND' epsv >= epsw 'THEN'
+		'BEGIN'
+		    xstar := v;  epsxstar := epsv;
+		    signepsxstar := signv;  'go' 'to' L6;
+		'END';
+		xstar := w;  epsxstar := epsw;
+		signepsxstar := signw; 'go' 'to' L6;
+	    'END';
+	    'IF' count1 > niter 'THEN' 'go' 'to' L6;
+	    'IF' epsu < epsw 'THEN'
+	    'BEGIN'
+		'IF' epsv < epsu 'THEN'
+		'BEGIN'
+		    'COMMENT' v is minimum;
+		    v := xstar;  epsv := epsxstar;
+		    'go' 'to' L5;
+		'END'
+		'ELSE'
+		'BEGIN'
+		    'COMMENT' u is minimum;
+		    u := xstar;  epsu := epsxstar;
+		    'go' 'to' L5;
+		'END'
+	    'END'
+	    'ELSE'
+	    'BEGIN'
+		'IF' epsv = epsw 'THEN'
+		'BEGIN'
+		    'COMMENT' v is minimum;
+		    v := xstar; epsv := epsxstar;
+		    'go' 'to' L5;
+		'END'
+		'ELSE'
+		'BEGIN'
+		    'COMMENT' w is minimum; w := xstar;epsw := epsxstar;
+		    'go' 'to' L5;
+		'END'
+	    'END';
+L7:
+	    count2 := count2 + 1;
+	    'IF' count2 > nhalf 'THEN' 'go' 'to' trouble;
+	    alfa := 0.5 * alfa;  beta := 0.5 * beta;
+	    'go' 'to' L8;
+	    'COMMENT' Replace x[i] by xstar after checking its sign;
+L6:
+	    'IF' i = 0 'AND' signepsxstar * signepsx[1] != - 1 'THEN' 'GOTO'
+		trouble;
+	    'IF' i != 0 'AND' signepsxstar * signepsx[n] != - 1 'THEN' 'GOTO'
+		trouble;
+	    signepsx[i] := signepsxstar;  x[i] := xstar;
+	'END';
+	'GOTO' done;
+trouble:
+	ok := 'FALSE';  'GOTO' L9;
+done:
+	ok := 'TRUE';
+L9:
+    'END'  quadraticmax;
+    'COMMENT' Procedure start computes the arrays which are then in-
+	put to exchange to find the best approximation on the points
+	at hand;
+    'PROCEDURE' start (m,n,a,d,xi,chebyshev,f);
+	'VALUE' m, n;  'INTEGER' m, n;
+	'ARRAY' a, d, xi;
+	'PROCEDURE' chebyshev;  'REAL' 'PROCEDURE' f;
+    'BEGIN'
+	'INTEGER' i, j;  'REAL' 'ARRAY' t[0:n];
+	'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+	    chebyshev (n, xi[i], t);
+	    'FOR' j := 0 'STEP' 1 'UNTIL' n 'DO' a[i,j] := t[j];
+	    d[i] := f(xi[i]);
+	'END'
+    'END' start;
+    'COMMENT' Now the procedure remez;
+    'REAL' epsc, alfa, beta, epsx, absepsc, absepsx, rcompare, dx, maxr,
+	minr, tempr, minsep;
+    'INTEGER' m, i, itemp, j, niter, nloop, k, nadded, isub, maxri, ilast,
+	signnow, jj;
+    'INTEGER' signnew;  'INTEGER' 'ARRAY' refset[0 : n + 1 + n];
+    'COMMENT' Assume number of points added <= n;
+    'INTEGER' 'ARRAY' ptsadd[o : n];
+    'ARRAY' clast[0 : n + 1], xq, xqlast[0 : n + 1 + n];
+    'BOOLEAN' firsttime, ok, convx, convc, addit;
+    why := 0; k := kstart;
+    'COMMENT' Come here if k gets changed;
+newk:
+    m := n + 1 + (k-1) * (n+2);
+    'BEGIN'
+	'ARRAY' r, xi, d[0 : m], aa[0 : m, 0 : n + 1];
+	firsttime := 'TRUE';  convx := 'FALSE'; convc := 'FALSE';
+	nloop := 0;
+	'COMMENT' This makes the initial points spaced according to the
+	    extrema of the Chebyshev polynomial of degree m - 1;
+	'FOR' i := 0 'STEP' 1 'UNTIL' m 'DO'
+	xi[i] := (a+b)/2.0 - (b-a) * cos((3.1415926359 * i)/m)/2.0;
+        'COMMENT' 3.14159... is pi
+	dx := (b-a)/m;
+        'COMMENT' To use equally spaced points a statement such as the
+	    following could be used. for i := 0 step 1 until m do xi[i]
+	    := a + i * dx;
+	start(m,n,aa,d,xi,chebyshev,f);
+    'COMMENT' The following constants are used in testing for convergence
+	    epsc used in relative test on coefficients
+	    absepsc used in absolute test on coefficients
+	    epsx used in relative test on critical points
+	    absepsx used in absolute test on critical points
+	    rcompare used to compare relative magnitudes of max and
+	    min values of residual on the critical points;
+	epsc := 1.0 - 7; absepsc := 1.0 - 7; epsx := 1.0 - 7;
+	    absepsx := 1.0 - 5;
+	rcompare := 1.0000005;
+	'COMMENT' epsx and absepsx should be the same as missx in pro-
+	    cedure quadraticmax.  epsc and absepsc should be adjusted
+	    according to knowledge of the expected magnitudes of the
+	    coefficients (if known).  It is best to depend on the critical
+	    points and/of the max and min of the residuals for conver-
+	    gence criteria;
+        'COMMENT' Now call on exchange to find the first approximation
+	    to the best approximating function;
+	exchange (aa,d,c,m,n,refset,emax,singular,r);
+        'COMMENT' The subscripts of the points chosen are in array ref-
+	    set[0:n+1], the coefficients of the best approximating func-
+	    tion on the m points are in c[0:n], the residuals in r;
+        'COMMENT' The reference set, the coefficients at this step, and/or
+	    the residuals may be written at this point;
+	'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO' clast[i] := c[i];
+        'COMMENT' Now we are going to look for any extrema not given
+	    by the points chosen by exchange;
+        'COMMENT' Make sure critical points are algebraically ordered;
+	'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO' 'FOR' j := i + 1 'STEP' 1 'UNTIL' n + 1 'DO'
+	'BEGIN'
+	    'IF' refset[j] < refset[i] 'THEN'
+	    'BEGIN'
+		itemp := refset[j];  refset[j] := refset[i];
+		refset[i] := itemp;
+	    'END'
+	'END';
+	nadded := 0;  maxr := 0;  maxri := 0; ilast := 0;
+	signnow := sign(r[0]);
+	'FOR' i := 0 'STEP' 1 'UNTIL' m + 1 'DO'
+	'BEGIN'
+	    'IF' i = m + 1 'THEN' 'GOTO' LBL;
+	    'IF' sign(r[i]) != 0 'AND' sign(r[i]) = signnow 'THEN'
+	    'BEGIN'
+		'IF' abs(r[i]) > maxr 'THEN'
+		'BEGIN' maxri := i;  maxr := abs(r[i]);  'END'
+	    'END'
+	    'ELSE'
+    LBL:
+	    'BEGIN'
+		'IF' i < m + 1 'THEN' signnow := sign(r[i]);
+		addit := 'TRUE';
+		'FOR' j := 0 'STEP' 1 'UNTIL' n + 1 'DO'
+		'BEGIN'
+		    'FOR' jj := ilast 'STEP' 1 'UNTIL' i - 1 'DO'
+		    'BEGIN'
+			'IF' jj = refset[j] 'THEN' addit := 'FALSE';
+		    'END'
+		'END';
+		'IF' addit 'THEN'
+		'BEGIN'
+		    nadded := nadded + 1;  'IF' nadded > n 'THEN'
+		    'BEGIN'
+			'COMMENT' We assume nadded is always <= n.  If nadded
+			    is > n, why is set to -1 and we 'go' 'to' the label
+			    trouble.  This can be modified by changing this
+			    test and changing the declarations for ptsadd,
+			    refset, xq, and xqlast above;
+			why := -1;
+			'GOTO' trouble
+		    'END';
+		    ptsadd[nadded] := maxri;
+		    refset [n + 1 + nadded] := maxri;
+		'END';
+		'IF' i < m + 1 'THEN'
+		'BEGIN'
+		    ilast := i;  maxr := abs(r[i]);  maxri := i;
+		'END'
+	    'END'
+	'END';
+	'COMMENT' We now have n + 2 + nadded points to send to
+	    quadraticmax for adjustment;
+	m := n + nadded;
+	'COMMENT' Make sure critical points are algebraically ordered;
+	'FOR' i := 0 'STEP' 1 'UNTIL' m 'DO' 'FOR' j := i + 1 'STEP' 1 'UNTIL' m + 1 'DO'
+	'BEGIN'
+	    'IF' refset[j] < refset[i] 'THEN'
+	    'BEGIN'
+		itemp := refset[j] :=  refset [j] := refset[i];
+		refset[i] := itemp;
+	    'END'
+	'END';
+	'FOR' i := 0 'STEP' 1 'UNTIL' m + 1 'DO' xq[i] := xi[refset [i]];
+	niter := 2;
+	'COMMENT' This is the number of times to iterate in quadraticmax;
+	alfa := 0.15;  beta := 0.2;
+	'COMMENT' alfa and beta are used to determine the points used
+	    in quadraticmax to fit a parabola.  They are arbitrary
+	    subject to: 0 < alfa < beta < 1.  Also beta should be
+	    fairly small to keep the points on one side of zero;
+	'COMMENT' This is the beginning of the loop that calls on
+	    quadraticmax, exchange, etc.;
+    loop:
+	nloop := nloop + 1;
+	quadraticmax(m, xq, niter, alfa, beta, ok, a, b, c, nadded, eps);
+	'IF' ! ok 'THEN'
+	'BEGIN'
+	    k := k + 1;  'IF' k > kmax 'THEN'
+	    'BEGIN' why := 1;  'GOTO' trouble;  'END'
+	    'GOTO' newk;
+	'END';
+	'IF' ! firsttime 'THEN'
+	'BEGIN'
+	    'COMMENT' Compare the largest and smallest of the residuals
+		at the critical points (after adjustment);
+      	    'COMMENT' Set minr to a large number;
+	    maxr := 0.0;  minr := 1.0 50;
+	    'FOR' i := 0 'STEP' 1 'UNTIL' n + 1 'DO'
+	    'BEGIN'
+		addit := 'TRUE';
+		'FOR' j := 1 'STEP' 1 'UNTIL' nadded 'DO' 'IF' refset[i] = ptsadd[j]
+		    'THEN' addit := 'FALSE';
+		'IF' addit 'THEN'
+		'BEGIN'
+		    tempr := abs(eps (xq [refset [i]],c,n));
+		    'IF' tempr > maxr 'THEN' maxr := tempr 'ELSE' 'IF' tempr <
+			minr 'THEN' minr := tempr;
+		'END'
+	    'END'
+	    'IF' maxr <= rcompare * minr 'THEN' why := 4;
+	'END'
+	'COMMENT' Compare xq to xqlast;
+	'IF' ! firsttime 'THEN'
+	'BEGIN'
+	    convx := 'TRUE';
+	    'FOR' i := 0 'STEP' 1 'UNTIL' m + 1 'DO'
+	    'BEGIN'
+		'IF' abs(xq [i] - xqlast[i]) > absepsx 'THEN'
+		'BEGIN'
+		'IF' abs(xq [i] - xqlast[i]) >= epsx * abs(xq [i]) 'AND'
+		    xq[i] != 0.0 'THEN' convx := 'FALSE';
+		'IF' xq[i] = 0.0 'AND' abs(xq [i] - xqlast[i]) > absepsx
+		    'THEN' convx := 'FALSE';
+		'END';
+		xqlast[i] := xq[i];
+	    'END'
+	'END'
+	'ELSE'
+	'BEGIN'
+	    firsttime := 'FALSE';
+	    'FOR' i := 0 'STEP' 1 'UNTIL' m + 1 'DO' xqlast[i] := xq[i];
+	    'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO' clast[i] := c[i];
+	'END'
+	'COMMENT' Get ready to call exchange again;
+	start(m + 1, n, aa, d, xq, chebyshev, f);
+	exchange(aa, d, c, m + 1, n, refset, emax, singular, r);
+	'COMMENT' Now compare the new coefficients to the last set of
+	    coefficients;
+	'IF' ! firsttime 'THEN'
+	'BEGIN'
+	    convc := 'TRUE';
+	    'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO'
+	    'BEGIN'
+		'IF' abs(c[i] - clast[i]) >= epsc * abs(c[i]) 'AND' c[i] != 0.0
+		    'THEN' convc := 'FALSE';
+		'IF' c[i] = 0.0 'AND' abs(c[i] - clast[i]) > absepsc 'THEN'
+		    convc := 'FALSE';  clast[i] := c[i];
+	    'END'
+	'END';
+	'COMMENT' Set the parameter why to the proper value according
+	    to the following:
+		why := 4 if maxr <= rcompare * minr.
+		why := 5 if "4" and convx := true.
+		why := 6 if "4" and convc := true.
+		why := 7 if "4" and convx := convc := true.
+		why := 8 if convx := true.
+		why := 9 if convc := true.
+		why := 10 if convx := convc := true.  Any value of why >=
+		    4 indicates convergence;
+    'IF' why = 4 'AND' convx 'THEN' why := 5;
+    'IF' why = 4 'AND' convc 'THEN' why := 6;
+    'IF' why = 5 'AND' convc 'THEN' why := 7;
+    'IF' why = 0 'AND' convx 'THEN' why := 8;
+    'IF' why = 0 'AND' convc 'THEN' why := 9;
+    'IF' why = 8 'AND' convc 'THEN' why := 10;
+    'IF' why >= 4 'THEN' 'go' 'to' converged;
+    'IF' nloop >= loops 'THEN'
+    'BEGIN' why := 3;  'GOTO' trouble 'END';
+    'COMMENT' We 'go' 'to' label trouble in calling program if no con-
+	vergence after a number of iterations equal to loops;
+    'GOTO' loop;
+singular:
+    why := 2;  'GOTO' trouble;
+    'COMMENT' We come to singular if exchange gets into trouble;
+converged:
+    'END';
+    'COMMENT' End of block using m in array declarations;
+    'COMMENT' There are four exits to the label trouble...
+	(why=1) if k gets > kmax
+	(why=2) if exchange gets into trouble
+	(why=3) if no convergence after iterating loops number of
+	    times
+	(why=-1) if number of added points is greater than n;
+'END' remez;

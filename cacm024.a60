@@ -1,0 +1,13 @@
+'REAL' 'PROCEDURE' TRIDAG(n, A, B, C, D); 'INTEGER' n ;
+'ARRAY' A, B, C, D ;
+'COMMENT' ;
+'BEGIN'
+    'REAL' w; 'INTEGER' j ;
+    D[1] := D[1]/B[1] ; w := B[1] ;
+    'FOR' j := 2 'STEP' 1 'UNTIL' n 'DO'
+        'BEGIN' B[j - 1] := C[j - 1]/w ; w := B[j] - A[j - 1]
+        * B[j - 1] ;
+          D[j] := (D[j] - A[j - 1] * D[j - 1])/w 'END' ;
+    'FOR' j := 1 'STEP' 1 'UNTIL' n - 1 'DO'
+         D[n - j] := D[n - j] - B[n - j] * D[n - j + 1]
+'END' TRIDAG;

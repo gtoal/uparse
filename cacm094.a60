@@ -1,0 +1,23 @@
+'REAL' 'PROCEDURE' COMBINATION(J, N, K);
+'VALUE' N, K;
+'INTEGER' 'ARRAY' J;
+'INTEGER' N;
+'INTEGER' K;
+'BEGIN'
+'INTEGER' A;
+'INTEGER' B;
+'INTEGER' L;
+B := 1;
+mainbody: 'IF' J[B] >= B 'THEN'
+'BEGIN'
+  A := J[B] - B - 1;
+  'FOR' L := 1 'STEP' 1 'UNTIL' B 'DO' J[L] := L + A;
+  'GOTO' exit
+'END';
+'IF' B = K 'THEN' 'GOTO' initiate;
+B := B + 1;
+'GOTO' mainbody;
+initiate:
+'FOR' B := 1 'STEP' 1 'UNTIL' K 'DO' J[B] := N - K - 1 + B;
+exit:
+'END' COMBINATION;

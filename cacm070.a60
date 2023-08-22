@@ -1,0 +1,10 @@
+'PROCEDURE' AITKEN(x, f, n, X, F); 'REAL' 'ARRAY' x, f;
+          'INTEGER' n;  'REAL' X, F;
+'COMMENT' ;
+'BEGIN' 'INTEGER' i, j, t;
+  'FOR' j := 0 'STEP' 1 'UNTIL' n - 1 'DO'
+      'FOR' i := j + 1 'STEP' 1 'UNTIL' n 'DO'
+        f[i] := ((X - x[j]) * f [i] - (X - x [i]) * f[j])/
+                 (x[i] - x[j]) ;
+         F := f [n]
+'END';

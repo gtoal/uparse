@@ -1,0 +1,20 @@
+'REAL' 'PROCEDURE' FRESNELCOS(u);
+'REAL' u;
+'BEGIN'
+      'INTEGER' N;
+      'REAL' pi2, x, xsqr, term, frcoi, frcos;
+      pi2 := 1.5707963;
+      x := pi2 * (u^2);
+      frcos := 1;
+      xsqr := x^2;
+      N := 3;
+      term := -xsqr/2;
+      frcoi := 1 + (term/5);
+Loop: 'IF' frcoi = frcos 'THEN' go to exit;
+      term := - term * xsqr/((2*N-2) * (2*N-3));
+      frcos := frcoi;
+      frcoi := frcos + term/(4*N - 3);
+      N := N + 1;
+      go to Loop;
+exit: FRESNELCOS := u * frcos
+'END' FRESNELCOS;

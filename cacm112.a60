@@ -1,0 +1,15 @@
+'BOOLEAN' 'PROCEDURE' POINT IN POLYGON (n, x, y, x0, y0);
+'VALUE' n, x0, y0; 'INTEGER' n; 'ARRAY' x, y; 'REAL' x0, y0;
+'COMMENT' if the point (x[i], y[i]) (i = 1, 2, ..., n) are - in
+this cyclic order - the vertices of a simple closed polygon and
+(x0, y0) is a point not on any side of the polygon, then the
+procedure dtermines, by setting "point in polygon" to true,
+wheter (x0, y0) lies in the interior of the polygon;
+'BEGIN' 'INTEGER' i; 'BOOLEAN' b;
+  x[n + 1] := x[1]; y[n + 1] := y[1]; b := 'TRUE';
+  'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+    'IF' (y0 < y[i] == y0 > y[i+1]) &
+        x0 - x[i] - (y0 - y[i])*(x[i + 1] - x[i])/(y[i + 1] - y[i]) < 0
+    'THEN' b := !b;
+  POINT IN POLYGON := !b
+'END' POINT IN POLYGON;

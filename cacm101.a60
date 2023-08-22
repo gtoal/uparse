@@ -1,0 +1,284 @@
+'BEGIN'
+    'COMMENT' Test rig for CACM Algorithms 100 and 101 to illustrate their failures;
+
+    'COMMENT'
+    ALGORITHM 100 
+    ADD ITEM TO CHAIN-LINKED LIST 
+    PHILIP J. KIVIAT 
+    United States Steel Corp., Appl. Research Lab., Monroeville, 
+    Penn. ;
+
+    'PROCEDURE' inlist (t,info,m,list,n,first,flag,addr,listfull); 
+    'INTEGER' n,m,first,flag,t; 'INTEGER' 'ARRAY' info,list,addr; 
+    'LABEL' listfull;
+    'COMMENT' inlist adds the information pair {t,info} to the chain-
+    link structured matrix list (i,j), where t is an order key >= 0, and
+    info(k) an information vector associated with t. info(k) has
+    dimension m, list(i,j) has dimensions (n * (m+3)). flag denotes
+    the head and tail of list(i,j), and first contains the address of
+    the first (lowest order) entry in list(i,j). addr(k) is a vector
+    containing the addresses of available (empty) rows in list(i,j).
+    Initialization: list(i,m+2) = flag, for some i <= n. If list(i,j) is
+    filled exit is to listfull; 
+
+    'BEGIN' 'INTEGER' i, j, k, link1, link2; 
+    L0: 'IF' addr [1] = 0 'THEN' 'GOTO' listfull; i := 1; 
+    L1: 'IF' list [i,1] <= t 
+            'THEN' 'BEGIN' 'IF' list [i ,2] != 0 'THEN' 'BEGIN' link1 := m + 2; 
+                link2 := m + 3; 'GO' 'TO' L2 'END' 'ELSE' 'BEGIN' 'IF' 
+                list [i,m+2] =flag 'THEN' 'BEGIN' i := flag; 
+                link1 := m+3; link2 := m+2; 'GO' 'TO' L3 'END'
+                'ELSE' 'BEGIN' i := i+1; 'GO' 'TO' L1 'END' 'END' 'END'
+            'ELSE' 'BEGIN' link1 := m+3; link2 := m+2 'END'; 
+    L2: 'IF' list [i,link2] !=  flag 
+            'THEN' 'BEGIN' k := i; i :=list [i,link2]; 
+                'IF' (link2 = m+2 'AND' list [i,1] <= t) 'OR' 
+                   (link2 != m+2 'AND' list [i,1] > t) 'THEN' 'GO' 'TO' L4
+                'ELSE' 'GO' 'TO' L1 'END'
+            'ELSE' 'BEGIN' list [i,link2] := addr [1] 'END'; 
+    L3: j := addr [1]; list [j,link1] := i; 
+        list [j ,link2] := flag; 'IF' link2 = m + 2 'THEN' 
+        first := addr [1]; 'GO' 'TO' L5; 
+    L4: j := addr [1]; list [j,link1] := list [i ,link1]; 
+        list [i,link1] := list [k,link2] := addr [1]; 
+        list [j,link2] := i; 
+    L5: list [j,1] := t; 'FOR' i := 1 'STEP' 1 'UNTIL' m 'DO' 
+        list [j,i+1] :=info [i]; 'FOR' i := 1 'STEP' 1 'UNTIL' n-1 'DO' 
+        addr [i] := addr [i+1]; addr [n] := 0 
+    'END' inlist;
+
+    'COMMENT'
+    ALGORITHM 101 
+    REMOVE ITEM FROM CHAIN-LINKED LIST 
+    PHILIP J. KIVIAT 
+    United States Steel Corp., Appl. Res. Lab., Monroeville, 
+      Penn. ;
+
+    'PROCEDURE' outlist (vector,m,list,n,first,flag,addr); 
+    'INTEGER' n,m,first,flag; 'INTEGER' 'ARRAY' vector,list,addr; 
+    'COMMENT' outlist removes the first. entry (information pair with 
+      lowest order key) from list(i,j) and puts it in vector(k); 
+    'BEGIN' 'INTEGER' i; 
+    'FOR' i := 1 'STEP' 1 'UNTIL' m+1 'DO' vector[i] :=list [first,i]; 
+    'FOR' i := n-1 'STEP' -1 'UNTIL' 1 'DO' addr [i+1] := addr [i]; 
+    addr [1] := first; 
+    'IF' list [first,m+3] = flag 'THEN' 
+      'BEGIN' list [1,m+2] := flag; first := 1; 
+      'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO' addr [i] := i 'END'
+    'ELSE' 'BEGIN' first := list [first,m+3]; 
+    list [first,m+2] := flag 'END'; 
+    'FOR' i := 1 'STEP' 1 'UNTIL' m+3 'DO' list [addr[1], i] := 0 
+    'END' outlist ;
+    'PROCEDURE' fill list (tvalues,info,m,list,n,first,flag,addr,listfull, cause failure); 
+    'COMMENT' Fill list with sample data using Algorithm 100: inlist;
+    'INTEGER' n, m, first, flag;
+    'INTEGER' 'ARRAY' addr, info, list, tvalues; 
+    'LABEL' listfull;
+    'BOOLEAN' cause failure;
+
+    'BEGIN'
+        'INTEGER' i, j, t;
+
+        'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+        'BEGIN'
+            'COMMENT' set the key;
+            t := tvalues[i];
+            'COMMENT' set arbitrary values to be associated with the key;
+            'FOR' j := 1 'STEP' 1 'UNTIL' m 'DO'
+            'BEGIN'
+                info[j] := 2*i + j
+            'END';
+            'IF' cause failure 'THEN'
+            'BEGIN'
+                info[1] := 0
+            'END';
+            outstrintnl("Adding key ", t);
+            inlist(t, info, m, list, n, first, flag, addr, listfull);
+            showlist(list, first, m, n, flag);
+            checklist(list, first, m, n, flag, i)
+        'END'
+    'END' fill list;
+
+    'PROCEDURE' showlist(list, first, m, n, flag);
+    'COMMENT' show the contents of the list, the end is
+            assumed to be indicated by list[i, m+3] = flag;
+            
+    'INTEGER' 'ARRAY' list;
+    'INTEGER' first, m, n, flag;
+    'BEGIN'
+        'INTEGER' i, prev;
+        outstring(1, "List contents: ");
+        i := first;
+        prev := flag;
+        next:
+            'IF' i = flag 'THEN' 'GO' 'TO' endofproc;
+            prev := i;
+            outinteger(1, list[i, 1]);
+            i := list[i, m+3];
+            'GO' 'TO' next;
+        endofproc:
+        outstring(1, "\n")
+    'END' showlist;
+
+    'PROCEDURE' checklist(list, first, m, n, flag, list length);
+    'COMMENT' check that list is sorted from 1 ... list length
+            and of the indicated length;
+    'INTEGER' 'ARRAY' list;
+    'INTEGER' first, m, n, flag, list length;
+    'BEGIN'
+        'BOOLEAN' error;
+
+        error := 'FALSE';
+        'IF' first < 1 'OR' first > n 'THEN'
+        'BEGIN'
+            outstrintnl("Invalid 'VALUE' 'FOR' first: ", first);
+            error := 'TRUE'
+        'END'
+        'ELSE'
+        'BEGIN'
+            'INTEGER' checked, i, prev, t;
+
+            'COMMENT' dummy key for comparison at the start of the list;
+            prev := -1;
+            i := first;
+            'COMMENT' how many have been checked;
+            checked := 0;
+            'FOR' checked := checked + 1 'WHILE' (checked <= list length 'AND' !error 'AND' i != flag) 'DO'
+            'BEGIN'
+                t := list[i, 1];
+                'IF' t < prev 'THEN'
+                'BEGIN'
+                    error := 'TRUE';
+                    outstrint("key ", t);
+                    outstrintnl("out of order at position ", i)
+                'END';
+                prev := t;
+                'COMMENT' follow the 'next' link.;
+                i := list[i, m + 3]
+            'END';
+            'IF' checked != list length + 1 'THEN'
+            'BEGIN'
+                outstrint("checking prematurely terminated after ", checked - 1);
+                outstrintnl("rather than ", list length)
+            'END'
+        'END'
+    'END' checklist;
+
+    'PROCEDURE' clear list(m, list, n, first, addr, list length);
+    'COMMENT' Clear the list sorted from 1 ... list length using
+            Algorithm 101: outlist;
+    'INTEGER' 'ARRAY' addr, list;
+    'INTEGER' first, m, n, list length;
+    'BEGIN'
+        'COMMENT' Variables for the outlist procedure;
+        'INTEGER' 'ARRAY' vector[1:m + 1];
+
+        'INTEGER' i;
+
+        outstring(1, "Clearing the list.\n");
+        'FOR' i := 1 'STEP' 1 'UNTIL' list length 'DO'
+        'BEGIN'
+            outlist(vector, m, list, n, first, flag, addr)
+        'END';
+        'IF' list[1, m+2] != flag 'THEN'
+        'BEGIN'
+            outstrintnl("list[1, m+2] has incorrect 'VALUE' 'FOR' an empty list: ", list[1, m+2])
+        'END';
+        'IF' list[1, 1] > 0 'THEN'
+        'BEGIN'
+            outstrintnl("list[1, 1] has incorrect 'VALUE' 'FOR' an empty list: ", list[1, 1])
+        'END'
+
+    'END' clear list;
+
+    'PROCEDURE' outstrint(str, i);
+    'COMMENT' output str following by i;
+    'STRING' str;
+    'INTEGER' i;
+    'BEGIN'
+        outstring(1, str); outinteger(1, i)
+    'END' outstrint;
+
+    'PROCEDURE' outstrintnl(str, i);
+    'COMMENT' output str following by i and terminate with a newline;
+    'STRING' str;
+    'INTEGER' i;
+    'BEGIN'
+        outstrint(str, i);
+        outstring(1, "\n")
+    'END' outstrintnl;
+
+    'COMMENT' Beginning of the test program;
+
+    'COMMENT' Variables for the inlist procedure;
+    'INTEGER' n, m, first, flag;
+    'COMMENT' info[1:m], list[1:n, 1:m+3], addr[1:n];
+    'COMMENT' 100 must be <= n, and 4 should be >= m;
+    'INTEGER' 'ARRAY' info[1:4], list[1:100, 1:4+3], addr[1:100];
+
+    'COMMENT' Variables for the test procedure;
+    'INTEGER' i, j;
+    'COMMENT' 100 must be <= n;
+    'INTEGER' 'ARRAY' tvalues[1:100];
+    'BOOLEAN' cause failure;
+
+    'COMMENT' capacity of the list;
+    n := 4;
+    'COMMENT' amount of data associated with each key;
+    m := 4;
+    'COMMENT' index of the head item in list.
+    first := -1;
+    'COMMENT' end-of-list marker;
+    flag := -1;
+    'COMMENT' whether to cause failures or not;
+    cause failure := 'FALSE';
+
+    'COMMENT' set up the list of free locations;
+    'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+    'BEGIN'
+        addr[i] := i
+    'END';
+
+    'COMMENT' Set necessary initial terminating marker;
+    list[1, m + 2] := flag;
+
+    'COMMENT' Set up the tvalues to be used;
+    tvalues[1] := 7;
+    tvalues[2] := 13;
+    tvalues[3] := 6;
+    tvalues[4] := 11;
+
+    'IF' cause failure 'THEN'
+    'BEGIN'
+        outstring(1, "This run should cause one 'OR' more failures.\n") 
+    'END'
+    'ELSE'
+    'BEGIN'
+        outstring(1, "Set cause failure := 'TRUE'; 'TO' demonstrate failures.\n") 
+    'END';
+    'IF' cause failure 'THEN'
+    'BEGIN' 
+        'COMMENT' causes multiple failures;
+        list[1,2] := 1
+    'END';
+    'IF' list[1, 2] != 1 'THEN'
+    'BEGIN'
+        'COMMENT' The following is needed to avoid subscript error if list[1,2] != 0;
+        list[1, m + 3] := flag
+    'END';
+
+    fill list(tvalues, info, m, list, n, first, flag, addr, listfull, cause failure);
+
+    'COMMENT' try to fill the list beyond its capacity.
+            This should fail with a jump to listfull;
+    inlist(n + 1, info, m, list, n, first, flag, addr, listfull);
+    outstring(1, "Failed 'TO' correctly detect attempt 'TO' add too many entries.\n");
+    'GO' 'TO' testend;
+listfull:
+    'IF' i = (n+1) 'THEN'
+    'BEGIN'
+        outstrintnl("List full correctly detected when attempting 'TO' add entry ", i)
+    'END';
+testend:
+    clear list(m, list, n, first, addr, n)
+'END'

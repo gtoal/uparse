@@ -1,0 +1,36 @@
+b̲e̲g̲i̲n̲
+  c̲o̲m̲m̲e̲n̲t̲
+    this example was provided by Bob Tennent <rdt@cs.queensu.ca>
+    to demonstrate non-trivial using call-by-name parameters., this
+    program doesn't work properly with nase-a60 interpreter, however,
+    it does work with the marst translator.,
+    for further discussion see:
+    J.C.Reynolds. Syntactic control of interference. In: Conference
+    Record of the 5th Annual ACM Symposium on Principles of Programming
+    Languages, pp.39-46, Tucson, Arizona, January 1978. ACM, New York.
+    P.W.O'Hearn and R.D.Tennent. Parametricity and local variables.
+    J.ACM, 42(3):658-709, May 1995. Preliminary version appeared in
+    Proceedings of POPL 93;
+  p̲r̲o̲c̲e̲d̲u̲r̲e̲ MAKECOUNTER(USER);
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ USER;
+    b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ N;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ INC; 
+        b̲e̲g̲i̲n̲
+          N := N-1
+        e̲n̲d̲;
+      N := 0;
+      USER(-N, INC)
+    e̲n̲d̲;
+  p̲r̲o̲c̲e̲d̲u̲r̲e̲ MYUSER(VAL, INC);
+    i̲n̲t̲e̲g̲e̲r̲ VAL;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ INC;
+    b̲e̲g̲i̲n̲
+      INC; INC; 
+      OUTINTEGER(1, VAL);
+      INC; INC;
+      OUTINTEGER(1, VAL)
+    e̲n̲d̲;
+  MAKECOUNTER(MYUSER);
+  OUTSTRING(1, "\n")
+e̲n̲d̲
