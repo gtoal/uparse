@@ -1,0 +1,18 @@
+p̲r̲o̲g̲r̲a̲m̲PETE;
+b̲e̲g̲i̲n̲
+p̲r̲o̲c̲e̲d̲u̲r̲e̲JIM(L,S,ST); v̲a̲l̲u̲e̲L; l̲a̲b̲e̲l̲L; s̲w̲i̲t̲c̲h̲S;
+         s̲t̲r̲i̲n̲g̲ST; a̲l̲g̲o̲l̲;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲FRED; e̲x̲t̲e̲r̲n̲a̲l̲;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲GILES; f̲o̲r̲t̲r̲a̲n̲;
+o̲w̲n̲r̲e̲a̲l̲X; i̲n̲t̲e̲g̲e̲r̲I,J,K; b̲o̲o̲l̲e̲a̲n̲B1,B2; a̲r̲r̲a̲y̲A[1:10];
+f̲o̲r̲I:=1 s̲t̲e̲p̲1 u̲n̲t̲i̲l̲10,I+1 w̲h̲i̲l̲e̲B1a̲n̲d̲t̲r̲u̲e̲d̲o̲
+     i̲f̲K g̲t̲J o̲r̲K g̲e̲J t̲h̲e̲n̲g̲o̲t̲o̲END e̲l̲s̲e̲g̲o̲t̲o̲END;
+B1:= I e̲q̲J i̲m̲p̲l̲K n̲e̲J e̲q̲u̲i̲v̲f̲a̲l̲s̲e̲;
+B2:=n̲o̲t̲ K ≤  K o̲r̲ K <  J; c̲o̲m̲m̲e̲n̲t̲ It is the codeon/codeoff that may be failing.;
+B2:=n̲o̲t̲ K l̲e̲ K o̲r̲ K l̲t̲ J;
+c̲o̲d̲e̲o̲n̲;
+c̲o̲d̲e̲o̲f̲f̲;
+I:=(Jd̲i̲v̲K)p̲o̲w̲e̲r̲I;
+c̲o̲m̲m̲e̲n̲t̲ALL KEYWORDS USED;
+END:e̲n̲d̲TEST PROG
+//OPTIONS()

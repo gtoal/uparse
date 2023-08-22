@@ -1,0 +1,111 @@
+b̲e̲g̲i̲n̲
+c̲o̲m̲m̲e̲n̲t̲ LIBRARY 3;
+i̲n̲t̲e̲g̲e̲r̲I,CL,N,REP;
+a̲r̲r̲a̲y̲ R,A,B[1:30],C[1:10];
+r̲e̲a̲l̲ J,ROOT,X;
+i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVEN(X);
+    v̲a̲l̲u̲e̲ X;
+    i̲n̲t̲e̲g̲e̲r̲X;
+    EVEN:=i̲f̲ Xd̲i̲v̲2*2 = X t̲h̲e̲n̲ 1 e̲l̲s̲e̲ -1;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GAMM(R,A,B,C);
+    a̲r̲r̲a̲y̲ R,A,B,C;
+    b̲e̲g̲i̲n̲    i̲n̲t̲e̲g̲e̲r̲REP,I,CL;
+        r̲e̲a̲l̲ J,ROOT,X;
+        REP:=100*N;
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+            ;
+        OUTREAL(99,CPUTIME);
+        REP:=N;
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 30 d̲o̲
+            R[I]:=A[I]+B[I];
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 30 d̲o̲
+            R[I]:=A[I]*B[I];
+        OUTREAL(99,CPUTIME);
+        REP:=6*N;
+        X := .5;
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        b̲e̲g̲i̲n̲    J:=0.0;
+            f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+                J:=(J+C[I])*X
+        e̲n̲d̲;
+        OUTREAL(99,CPUTIME);
+        OUTREAL(99,J);
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        b̲e̲g̲i̲n̲    J:=C[1];
+            f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+                i̲f̲ C[I]>J t̲h̲e̲n̲ J:=C[I]
+        e̲n̲d̲;
+        OUTREAL(99,CPUTIME);
+        J:=2;
+        REP := 8*N;
+        OUTREAL(99,CPUTIME);
+        f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        b̲e̲g̲i̲n̲    ROOT:=1.0;
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+                ROOT:= 0.5*(ROOT+J/ROOT)
+        e̲n̲d̲;
+        OUTREAL(99,CPUTIME);
+        OUTREAL(99,ROOT);
+    e̲n̲d̲ OF GAMM;
+    I:=1;
+    f̲o̲r̲ J:=104.5,3.7,-68.9,228.2,-1004.4,500.0,308.1,45.0,152.35,161.8 
+d̲o̲
+    b̲e̲g̲i̲n̲    C[I]:=J;
+        I:=I+1
+    e̲n̲d̲;
+    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 30 d̲o̲
+    b̲e̲g̲i̲n̲    A[I]:=EVEN(I)*I*I;
+        B[I]:=1-EVEN(I)*I*I
+    e̲n̲d̲;
+    N := 2000;
+    REP:=100*N;
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+        ;
+    OUTREAL(99,CPUTIME);
+    REP:=N;
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+    f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 30 d̲o̲
+        R[I]:=A[I]+B[I];
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 30 d̲o̲
+        R[I]:=A[I]*B[I];
+    OUTREAL(99,CPUTIME);
+    REP:=6*N;
+        X := .5;
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+    b̲e̲g̲i̲n̲    J:=0.0;
+        f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            J:=(J+C[I])*X
+    e̲n̲d̲;
+    OUTREAL(99,CPUTIME);
+    OUTREAL(99,J);
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+    b̲e̲g̲i̲n̲    J:=C[1];
+        f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            i̲f̲ C[I]>J t̲h̲e̲n̲ J:=C[I]
+    e̲n̲d̲;
+    OUTREAL(99,CPUTIME);
+    J:=2;
+    REP := 8*N;
+    OUTREAL(99,CPUTIME);
+    f̲o̲r̲ CL:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ REP d̲o̲
+    b̲e̲g̲i̲n̲    ROOT:=1.0;
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+            ROOT:= 0.5*(ROOT+J/ROOT)
+    e̲n̲d̲;
+    OUTREAL(99,CPUTIME);
+    OUTREAL(99,ROOT);
+    GAMM(R,A,B,C);
+e̲n̲d̲

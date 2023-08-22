@@ -1,0 +1,36 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        NN;
+    s̲w̲i̲t̲c̲h̲ A :=
+        B[1],
+        B[2];
+    s̲w̲i̲t̲c̲h̲ B :=
+        A[G],
+        A[2];
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ F(N, S);
+        v̲a̲l̲u̲e̲
+            N;
+        i̲n̲t̲e̲g̲e̲r̲
+            N;
+        s̲w̲i̲t̲c̲h̲
+            S;
+        b̲e̲g̲i̲n̲
+        NN := N;
+        g̲o̲t̲o̲ S[1];
+        F := NN
+        e̲n̲d̲;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ G;
+        b̲e̲g̲i̲n̲
+        i̲n̲t̲e̲g̲e̲r̲
+            N;
+        N := NN;
+        G := 0;
+        NN :=
+            i̲f̲ N <= 1 t̲h̲e̲n̲
+                N
+            e̲l̲s̲e̲
+                F(N - 1, A) + F(N - 2, A)
+        e̲n̲d̲;
+    OUTREAL(99, F(20, A))
+e̲n̲d̲

@@ -1,0 +1,10 @@
+c̲o̲m̲m̲e̲n̲t̲ CHECK ERROR ON DELN GIVES RIGHT LINE NO;
+b̲e̲g̲i̲n̲
+i̲n̲t̲e̲g̲e̲r̲I;
+i̲n̲t̲e̲g̲e̲r̲J;
+i̲n̲t̲e̲g̲e̲r̲K;
+c̲o̲d̲e̲o̲n̲;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A[I:10]
+e̲n̲d̲;
+c̲o̲d̲e̲o̲f̲f̲;
+e̲n̲d̲

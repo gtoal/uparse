@@ -1,0 +1,10 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲   STRING TESTS;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(ST);
+        s̲t̲r̲i̲n̲g̲
+            ST;
+        ;
+    P( <*STRING s̲t̲r̲i̲n̲g̲ <NESTED<<>>> b̲e̲g̲i̲n̲ e̲n̲d̲;> );
+    P( < ,
+        > )
+e̲n̲d̲

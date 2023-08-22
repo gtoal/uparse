@@ -1,0 +1,72 @@
+b̲e̲g̲i̲n̲
+c̲o̲m̲m̲e̲n̲t̲ LIBRARY5;
+    r̲e̲a̲l̲
+        R;
+    b̲o̲o̲l̲e̲a̲n̲
+        B;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ F(X);
+        r̲e̲a̲l̲
+            X;
+        F := 0;
+    i̲n̲t̲e̲g̲e̲r̲
+        I,
+        N,
+        S;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ G(Y);
+        b̲o̲o̲l̲e̲a̲n̲
+            Y;
+        G :=
+            i̲f̲ Y t̲h̲e̲n̲
+                2
+            e̲l̲s̲e̲
+                3;
+    R := 3.5;
+    N := 4;
+    S := R + (1) + N;
+    OUTREAL(99, S);
+    b̲e̲g̲i̲n̲
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲
+            RA[F(i̲f̲ t̲r̲u̲e̲ t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 0) : 1];
+        a̲r̲r̲a̲y̲
+            A[ - 1 : F(0)];
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q;
+            Q := R^2;
+        S :=
+            i̲f̲ + 0 = 0 t̲h̲e̲n̲
+                SQRT(Q)
+            e̲l̲s̲e̲
+                1
+    e̲n̲d̲;
+    OUTREAL(99, S);
+    b̲e̲g̲i̲n̲
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ W(T, U);
+            s̲t̲r̲i̲n̲g̲
+                T,
+                U;
+            ;
+        W( < A r̲e̲a̲l̲ >, < B e̲n̲d̲ > );
+        f̲o̲r̲ I := 0 d̲o̲
+    e̲n̲d̲;
+    i̲f̲ 2 = 2 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲
+        I := 1
+        e̲n̲d̲
+    e̲l̲s̲e̲
+        I := 0;
+    f̲o̲r̲ I := 5 w̲h̲i̲l̲e̲ R < N d̲o̲
+        C : b̲e̲g̲i̲n̲
+        B := t̲r̲u̲e̲;
+        N :=
+            i̲f̲ B o̲r̲ n̲o̲t̲ B t̲h̲e̲n̲
+                G(B o̲r̲ B) d̲i̲v̲ S
+            e̲l̲s̲e̲
+                10;
+        B :=
+            i̲f̲ B t̲h̲e̲n̲
+                f̲a̲l̲s̲e̲ o̲r̲ f̲a̲l̲s̲e̲
+            e̲l̲s̲e̲
+                t̲r̲u̲e̲;
+        R := N / 2
+        e̲n̲d̲;
+    OUTREAL(99, N);
+e̲n̲d̲

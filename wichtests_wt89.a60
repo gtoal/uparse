@@ -1,0 +1,24 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    r̲e̲a̲l̲
+        I,
+        J;
+    a̲r̲r̲a̲y̲
+        A[1 : 2, 1 : 3];
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GPS(I, N, Z, V);
+        r̲e̲a̲l̲
+            I,
+            N,
+            Z,
+            V;
+        b̲e̲g̲i̲n̲
+        f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            Z := V;
+        GPS := 1
+        e̲n̲d̲;
+    OUTREAL(99, GPS(J, 3.0, I, GPS(I, 2.0, A[I, J], I + J)));
+    f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+        f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+            i̲f̲ A[I, J] # I + J t̲h̲e̲n̲
+                OUTREAL(99, 11 * I + J)
+e̲n̲d̲

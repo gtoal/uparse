@@ -1,0 +1,31 @@
+b̲e̲g̲i̲n̲
+c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        N;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(Q, R);
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q;
+        c̲o̲m̲m̲e̲n̲t̲   (R):'INTEGER''PROCEDURE' R;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ R;
+        b̲e̲g̲i̲n̲
+        i̲n̲t̲e̲g̲e̲r̲
+            B;
+        B := 3 * Q(R);
+        P := B
+        e̲n̲d̲;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(F);
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            F;
+        A := 2 * F;
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+        b̲e̲g̲i̲n̲
+        N := N - 1;
+        B :=
+            i̲f̲ N = 0 t̲h̲e̲n̲
+                1
+            e̲l̲s̲e̲
+                P(A, B) + 1
+        e̲n̲d̲;
+    N := 2;
+    N := P(A, B);
+    OUTREAL(99, N)
+e̲n̲d̲

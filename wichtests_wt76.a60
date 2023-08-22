@@ -1,0 +1,49 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    r̲e̲a̲l̲
+        X,
+        Y;
+    i̲n̲t̲e̲g̲e̲r̲
+        I,
+        J;
+    a̲r̲r̲a̲y̲
+        A[1 : 10];
+    X := Y := 1.0;
+    I := J := 0;
+    b̲e̲g̲i̲n̲
+        s̲w̲i̲t̲c̲h̲ A := A1,A2,A3;
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ P;
+            b̲e̲g̲i̲n̲
+            X := 20;
+            I := X + Y;
+            Q(A[3], I + J)
+            e̲n̲d̲;
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q(L, K);
+            v̲a̲l̲u̲e̲
+                K;
+            l̲a̲b̲e̲l̲
+                L;
+            i̲n̲t̲e̲g̲e̲r̲
+                K;
+            i̲f̲ K = 0 t̲h̲e̲n̲
+                g̲o̲t̲o̲ L;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ J;
+            J := Y;
+        r̲e̲a̲l̲
+            I;
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Y;
+            Y := X;
+        i̲n̲t̲e̲g̲e̲r̲
+            X;
+        A1 :;
+        X := 10;
+        Q(A[2], Y - X);
+        A2 :;
+        P;
+        i̲f̲ I = 0 o̲r̲ J = 0 o̲r̲ X = 1.0 o̲r̲ Y = 1.0 t̲h̲e̲n̲
+            OUTREAL(99, 100);
+        A3 :;
+    e̲n̲d̲;
+    i̲f̲ I = 0 a̲n̲d̲ J = 0 a̲n̲d̲ X = 1.0 a̲n̲d̲ Y = 1.0 t̲h̲e̲n̲
+        OUTREAL(99, 0)
+e̲n̲d̲

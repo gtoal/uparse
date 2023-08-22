@@ -1,0 +1,13 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ A SYNTAX PASS IS REQUIRED TO REMOVE COMMENTS;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P( ST );c̲o̲m̲m̲e̲n̲t̲ ST IS A STRING;c̲o̲m̲m̲e̲n̲t̲;
+        s̲t̲r̲i̲n̲g̲ ST; ;c̲o̲m̲m̲e̲n̲t̲ DUMMY BODY;
+    P( <;c̲o̲m̲m̲e̲n̲t̲<;>> );
+    b̲e̲g̲i̲n̲
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q( A ) PARAMETER COMMENT :( B );
+            r̲e̲a̲l̲ A, B; ;c̲o̲m̲m̲e̲n̲t̲ DUMMY AGAIN;
+        Q( 1.0, 2.5 ); c̲o̲m̲m̲e̲n̲t̲ IS THE SAME AS;
+        Q( 1.0) WITH PARAMETER COMMENT:( 2.5 );
+    e̲n̲d̲ COMMENT CAN INCLUDE MOST BASIC SYMBOLS f̲o̲r̲
+        w̲h̲i̲l̲e̲ t̲h̲e̲n̲i̲f̲ d̲o̲ := b̲e̲g̲i̲n̲( WHICH ARE NOT MATCHED;
+e̲n̲d̲

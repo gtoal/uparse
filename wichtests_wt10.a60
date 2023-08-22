@@ -1,0 +1,6 @@
+b̲e̲g̲i̲n̲
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P( ST, A ); s̲t̲r̲i̲n̲g̲ ST, A;
+        ;
+    P( <;c̲o̲m̲m̲e̲n̲t̲> )VALID:( <;> );
+    c̲o̲m̲m̲e̲n̲t̲ COULD FAIL TOO FEW PARAMETERS;
+e̲n̲d̲

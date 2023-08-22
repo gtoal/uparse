@@ -1,0 +1,49 @@
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲
+        I,
+        J,
+        CASE;
+    r̲e̲a̲l̲
+        X,
+        Y;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ REQUAL(A, B);
+        v̲a̲l̲u̲e̲
+            A,
+            B;
+        r̲e̲a̲l̲
+            A,
+            B;
+        i̲f̲ A # B t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+            OUTREAL(99, A);
+            OUTREAL(99, B);
+            OUTREAL(99, CASE)
+            e̲n̲d̲
+        e̲l̲s̲e̲
+            CASE := CASE + 1;
+    CASE := 1;
+    X := 2.0;
+    Y := 3.0;
+    I := 2;
+    J := 3;
+    REQUAL(X^I, 4.0);
+    i̲f̲ I^J # 8 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲
+        OUTREAL(99, I^J);
+        OUTREAL(99, 8);
+        e̲n̲d̲;
+    REQUAL(X^0, 1.0);
+    i̲f̲ I^0 # 1 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲
+        OUTREAL(99, I^0);
+        OUTREAL(99, 1)
+        e̲n̲d̲;
+    REQUAL(X^( - I), 1.0 / (2.0 * 2.0));
+    REQUAL(I^( - I), 1.0 / (2.0 * 2.0));
+    REQUAL(X^Y, EXP(Y * LN(X)));
+    REQUAL(J^Y, EXP(Y * LN(J)));
+    REQUAL(0.0^X, 0.0);
+    REQUAL(0^X, 0.0);
+    c̲o̲m̲m̲e̲n̲t̲   SHOULD FAIL;
+    REQUAL(( - X)^Y, - 1)
+e̲n̲d̲
