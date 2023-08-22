@@ -1,0 +1,26 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ euler (fct,sum,eps,tim); v̲a̲l̲u̲e̲ eps,tim; i̲n̲t̲e̲g̲e̲r̲ tim;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fct; r̲e̲a̲l̲ sum,eps;
+c̲o̲m̲m̲e̲n̲t̲ euler computes the sum of fct(i) for i from zero up to
+        infinity by means of a suitably refined euler transformation. The
+        summation is stopped as soon as tim times in succession the absolute
+        value of the terms of the transformed series are found to be less than
+        eps. Hence, one should provide a function fct with one integer argument,
+        an upper bound eps, and an integer tim. The output is the sum sum. euler
+        is particularly efficient in the case of a slowly convergent or
+        divergent alternating series;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ i,k,n,t; a̲r̲r̲a̲y̲ m[0:15]; r̲e̲a̲l̲ mn,mp,ds;
+    i:=n; t:=0; m[0]:=fct(0); sum:=m[0]/2;
+nextterm: i:=i+1; mn:=fct(i);
+    f̲o̲r̲ k:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+    b̲e̲g̲i̲n̲ mp:=(mn+m[k])/2; m[k]:=mn;
+          mn:=mp
+    e̲n̲d̲ means;
+    i̲f̲ (abs(mn)<abs(m[n])) ∧ (n<15) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+        ds:=mn/2; n:=n+1; m[n]:=mn
+    e̲n̲d̲ accept
+    e̲l̲s̲e̲ ds:=mn;
+    sum:=sum+ds;
+    i̲f̲ abs(ds) < eps t̲h̲e̲n̲ t:=t+1 e̲l̲s̲e̲ t:=0;
+    i̲f̲ t < tim t̲h̲e̲n̲ g̲o̲t̲o̲ nextterm
+e̲n̲d̲ euler;

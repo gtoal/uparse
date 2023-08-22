@@ -1,0 +1,64 @@
+b̲e̲g̲i̲n̲
+	c̲o̲m̲m̲e̲n̲t̲
+		321.a60:			oct '90
+		Erik Schoenfelder
+
+		This is the
+			0. Start with a natural number n.
+			1. If n is odd, set n to be 3 * n + 1
+			   If n is even, set n to be n / 2
+			   Repeat step 1 until n is equal 1.
+			2. Print the number of repetitons.
+		fun.
+		And: Who knows, if this termimates for any n...
+	;
+
+	i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ doit (n);
+	v̲a̲l̲u̲e̲ n;
+	i̲n̲t̲e̲g̲e̲r̲ n;
+	b̲e̲g̲i̲n̲
+		b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ odd (x);
+			v̲a̲l̲u̲e̲ x; i̲n̲t̲e̲g̲e̲r̲ x;
+			odd := n n̲o̲t̲e̲q̲u̲a̲l̲ (n d̲i̲v̲ 2) * 2;
+
+		i̲n̲t̲e̲g̲e̲r̲ count;
+
+		count := 0;
+	do:
+		i̲f̲ odd (n) t̲h̲e̲n̲
+			n := 3 * n + 1
+		e̲l̲s̲e̲
+			n := n d̲i̲v̲ 2;
+
+		count := count + 1;
+	
+		i̲f̲ n n̲o̲t̲e̲q̲u̲a̲l̲ 1 t̲h̲e̲n̲ g̲o̲t̲o̲ do;
+
+		doit := count;
+	e̲n̲d̲;
+
+
+	i̲n̲t̲e̲g̲e̲r̲ i, n, val, max, NN;
+
+	NN := 12;
+
+	vprint ("Hi!\n                n           iterations\n");
+	f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲
+		vprint (i, doit (i));
+	vprint ("...");
+
+	vprint ("\nnow looking for maxima:");
+	vprint ("\n                n           iterations\n");
+
+	n := 0;  max := -1;
+	f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲ b̲e̲g̲i̲n̲
+	do:
+		n := n + 1;
+		val := doit (n);
+		i̲f̲ val n̲o̲t̲g̲r̲e̲a̲t̲e̲r̲ max t̲h̲e̲n̲ g̲o̲t̲o̲ do;
+
+		vprint (n, val);
+		max := val;
+	e̲n̲d̲;
+	vprint ("...\ndone.")
+e̲n̲d̲

@@ -1,0 +1,67 @@
+b̲e̲g̲i̲n̲
+        c̲o̲m̲m̲e̲n̲t̲
+          -- From the NASE A60 distribution --
+                calculation of the prime numbers between 2 and 200
+        ;
+
+        i̲n̲t̲e̲g̲e̲r̲ NN;
+
+        NN := 200;
+
+        b̲e̲g̲i̲n̲
+                c̲o̲m̲m̲e̲n̲t̲ first algorithm (check division in a loop) ;
+
+                b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ISPRIME (N);
+                v̲a̲l̲u̲e̲ N;
+                i̲n̲t̲e̲g̲e̲r̲ N;
+                b̲e̲g̲i̲n̲
+                        b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVEN (N);
+                        v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+                                EVEN := ENTIER (N / 2) * 2 = N;
+                        i̲n̲t̲e̲g̲e̲r̲ I;
+
+                        ISPRIME := FALSE;
+                        i̲f̲ EVEN (N) & N != 2 t̲h̲e̲n̲
+                                g̲o̲t̲o̲ RET;
+
+                        f̲o̲r̲ I := 3 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ N d̲i̲v̲ 2 d̲o̲
+                                i̲f̲ ENTIER (N / I) * I = N t̲h̲e̲n̲
+                                        g̲o̲t̲o̲ RET;
+                        ISPRIME := TRUE;
+                    RET:
+
+                e̲n̲d̲;
+
+                i̲n̲t̲e̲g̲e̲r̲ I;
+
+                PRINTSLN (`FIRST:');
+
+                f̲o̲r̲ I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲
+                        i̲f̲ ISPRIME (I) t̲h̲e̲n̲
+                                PRINTNLN (I);
+                PRINTSLN (`DONE.')
+        e̲n̲d̲;
+
+        b̲e̲g̲i̲n̲
+                c̲o̲m̲m̲e̲n̲t̲ second algorithm (sieve) ;
+
+
+                b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ ARR [2 : NN];
+                i̲n̲t̲e̲g̲e̲r̲ I, J;
+
+                PRINTSLN (`SECOND:');
+
+                f̲o̲r̲ I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲
+                        ARR [I] := TRUE;
+
+                f̲o̲r̲ I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲i̲v̲ 2 d̲o̲
+                        f̲o̲r̲ J := 2 * I s̲t̲e̲p̲ I u̲n̲t̲i̲l̲ NN d̲o̲
+                                ARR [J] := FALSE;
+                
+                f̲o̲r̲ I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲
+                        i̲f̲ ARR [I] t̲h̲e̲n̲
+                                PRINTNLN (I);
+                PRINTSLN (`DONE.')
+
+        e̲n̲d̲
+e̲n̲d̲             

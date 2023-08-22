@@ -1,0 +1,23 @@
+b̲e̲g̲i̲n̲
+	c̲o̲m̲m̲e̲n̲t̲
+			ALGOL Praktikum, Dr. Karl Nickel, 1964,
+			page 215 (Aufgabe 40)
+
+		``Teilsummen-Formel nach Euler.
+		  Loesung von Doz. Dr. R. Wagener.
+		  Elegantissimum''
+	;
+
+	i̲n̲t̲e̲g̲e̲r̲ N, H, U, K ;  i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ S[0:200] ;
+	
+	f̲o̲r̲ N := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 200 d̲o̲
+	b̲e̲g̲i̲n̲ S[0] := N ;  S[N] := 0 ;  H := U := -1 ;
+		f̲o̲r̲ K := N-1 s̲t̲e̲p̲ H u̲n̲t̲i̲l̲ 0 d̲o̲
+		b̲e̲g̲i̲n̲ S[N] := S[K] + S[N]*U ;
+			H := ((3+U)*H - 2) / (3-U) ;
+			U := -U
+		e̲n̲d̲ ;
+		S[N] := ABS( S[N] ) ;
+		VPRINT (N, S[N])
+	e̲n̲d̲
+e̲n̲d̲

@@ -1,0 +1,2317 @@
+c̲o̲d̲e̲ 41000;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BIN(X, N, P);
+v̲a̲l̲u̲e̲ X, N, P; r̲e̲a̲l̲ X, N, P;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ IX;
+
+      IX:= ENTIER(X);
+      i̲f̲ N < 0 ∨ N > ENTIER(N) t̲h̲e̲n̲
+      BIN:= STATAL3 ERROR(“BIN”, 2, N) e̲l̲s̲e̲
+      i̲f̲ P < 0 ∨ P > 1 t̲h̲e̲n̲
+      BIN:= STATAL3 ERROR(“BIN”, 3, P) e̲l̲s̲e̲
+      i̲f̲ IX < 0 t̲h̲e̲n̲ BIN:= 0 e̲l̲s̲e̲
+      i̲f̲ IX ≥ N t̲h̲e̲n̲ BIN:= 1 e̲l̲s̲e̲
+      i̲f̲ P = 0 t̲h̲e̲n̲ BIN:= 1 e̲l̲s̲e̲
+      i̲f̲ P = 1 t̲h̲e̲n̲ BIN:= 0 e̲l̲s̲e̲
+      i̲f̲ N > 1000 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B;
+          B:= 1 - INCOMPLETE BETA(P, IX + 1, N - IX, ⏨-12);
+          BIN:= i̲f̲ B < 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ B;
+      e̲n̲d̲   e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TAIL;
+          b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ PROB, CUM, LAST;
+              PROB:= CUM:= BINPROB(IX, N, P);
+              f̲o̲r̲ I:= IX - 1, I - 1 w̲h̲i̲l̲e̲ CUM > LAST d̲o̲
+              b̲e̲g̲i̲n̲ PROB:=
+                   PROB × (1 - P) / P × (I + 1) / (N - I);
+                   LAST:= CUM; CUM:= CUM + PROB
+              e̲n̲d̲;
+              TAIL:= CUM
+          e̲n̲d̲;
+          i̲f̲ X > ENTIER(N / 2) t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ IX:= N - IX - 1; P:= 1 - P;
+              BIN:= 1 - TAIL
+          e̲n̲d̲ e̲l̲s̲e̲ BIN:= TAIL
+     e̲n̲d̲;
+e̲n̲d̲ BIN;
+e̲o̲p̲
+c̲o̲d̲e̲ 41001;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BININV(PROB, N, P, LEFT);
+v̲a̲l̲u̲e̲ PROB, N, P, LEFT;
+r̲e̲a̲l̲ PROB, N, P; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ X; r̲e̲a̲l̲ PX, PCUM;
+
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“BININV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ N > ENTIER(N) ∨ N < 0 t̲h̲e̲n̲
+    STATALS ERROR(“BININV”, 2, N) e̲l̲s̲e̲
+    i̲f̲ P < 0 ∨ P > 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“BININV”, 3, P);
+
+    i̲f̲ P = 0 ∨ N = 0 t̲h̲e̲n̲
+        BININV:= (i̲f̲ LEFT t̲h̲e̲n̲ -1 e̲l̲s̲e̲ 1)
+    e̲l̲s̲e̲ i̲f̲ P = 1 t̲h̲e̲n̲
+        BININV:= (i̲f̲ LEFT t̲h̲e̲n̲ N - 1 e̲l̲s̲e̲ N + 1)
+    e̲l̲s̲e̲ i̲f̲ LEFT t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ X:= PHINV(PROB) ×
+        SQRT(N × P × (1 - P)) - 0.5 + N × P;
+        i̲f̲ X < 0 t̲h̲e̲n̲ X:= 0
+        e̲l̲s̲e̲ i̲f̲ X > N t̲h̲e̲n̲ X:= N;
+        i̲f̲ PROB < (1 - P) ⭡ N t̲h̲e̲n̲ BININV:= -1 e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PX:= BINPROB(X, N, P); PCUM:= BIN(X, N, P);
+            i̲f̲ PCUM > PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × X × (1 - P) /
+                    (N - X + 1) / P;
+                    X:= X - 1
+                e̲n̲d̲; X:= X - 1
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:=
+                PX × (N - X) / (X + 1) × P / (1 - P)
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲  X:= X + 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲;
+            BININV:= X
+        e̲n̲d̲
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ X:= PHINV(1 - PROB) ×
+        SQRT(N × P × (1 - P)) + 0.5 + N × P;
+        i̲f̲ X < 0 t̲h̲e̲n̲ X:= 0 e̲l̲s̲e̲
+        i̲f̲ X > N t̲h̲e̲n̲ X:= N;
+        i̲f̲ PROB < P ⭡ N t̲h̲e̲n̲ BININV:= N + 1 e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PCUM:= 1 - BIN(X - 1, N, P);
+            PX:= BINPROB(X, N, P);
+            i̲f̲ PCUM < PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:=
+                PX × X × (1 - P) / (N - X + 1) /P
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲ X:= X - 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × (N - X) × P /
+                    (X + 1) / (1 - P);
+                    X:= X + 1
+                e̲n̲d̲; X:= X + 1
+            e̲n̲d̲;
+            BININV:= X
+        e̲n̲d̲
+    e̲n̲d̲
+e̲n̲d̲ BININV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41004;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HYPERG(X, N, R, NN);
+v̲a̲l̲u̲e̲ X, N, R, NN; r̲e̲a̲l̲ X, N, R, NN;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ SUM, LAST, TERM; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+    i̲f̲ N < 0 ∨ N > NN ∨ N - ENTIER(N) ≠ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“HYPERG”, 2, N);
+    i̲f̲ R <0 ∨ R > NN ∨ R - ENTIER(R) ≠ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“HYPERG”, 3, R);
+    i̲f̲ NN - ENTIER(NN) ≠ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“HYPERG”, 4, NN);
+    LEFT:= t̲r̲u̲e̲;
+    i̲f̲ N > NN / 2 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ LEFT:= f̲a̲l̲s̲e̲; N:= NN - N; X:= R - X - 1 e̲n̲d̲;
+    i̲f̲ R > NN / 2 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ LEFT:= ¬ LEFT; R:= NN - R;
+        X:= N - X - 1
+    e̲n̲d̲;
+    i̲f̲ N > R t̲h̲e̲n̲ b̲e̲g̲i̲n̲ I:= N; N:= R; R:= I e̲n̲d̲;
+    i̲f̲ X <  0 t̲h̲e̲n̲ HYPERG:= i̲f̲ LEFT t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1
+    e̲l̲s̲e̲
+    i̲f̲ X ≥ N t̲h̲e̲n̲ HYPERG:= i̲f̲ LEFT t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0
+    e̲l̲s̲e̲ i̲f̲ NN > ⏨5 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ BETA, TAU, CHI;
+        TAU:= SQRT(R × N × (NN - N) × (NN - R) / NN) / NN;
+        CHI:= (X + .5 - N × R / NN) / TAU;
+        BETA:= (CHI × CHI + 2) / 12;
+        X:= i̲f̲ R ≤ NN / 4 t̲h̲e̲n̲
+               2 × (SQRT((X + .5 + BETA)
+               × (NN - R - N + X + .5 + BETA))
+               - SQRT((N - X - .5 + BETA) ×
+               (R - X - .5 + BETA))) /
+               SQRT(NN + 1.5 - NN × NN / 2 / N / (NN - N))
+                                e̲l̲s̲e̲
+               CHI + (CHI × CHI - 1) ×
+               (2 × N - NN) × (NN - 2 × R)
+               / 6 / TAU / NN / NN + CHI ×
+               (1 - 3 × (NN - N) × N / NN / NN)
+               / 48 / TAU / TAU;
+        HYPERG:= PHI(i̲f̲ LEFT t̲h̲e̲n̲ X e̲l̲s̲e̲ -X)
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ X:= ENTIER(X);
+        TERM:= SUM:= HYPERGPROB(X, N, R, NN);
+        i̲f̲ X > (N + 1) × (R + 1) / (NN + 2) t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ LEFT:= ¬ LEFT; SUM:= 0;
+            f̲o̲r̲ I:= X + 1, I + 1 w̲h̲i̲l̲e̲ LAST < SUM d̲o̲
+            b̲e̲g̲i̲n̲ TERM:= TERM × (N - I + 1) × (R - I + 1)
+                    / I / (NN - R - N + I);
+                LAST:= SUM; SUM:= SUM + TERM
+            e̲n̲d̲
+        e̲n̲d̲ e̲l̲s̲e̲
+        f̲o̲r̲ I:= X, I - 1 w̲h̲i̲l̲e̲ LAST < SUM d̲o̲
+        b̲e̲g̲i̲n̲ TERM:= TERM × I × (NN - N - R + I)
+              / (N - I + 1) / (R - I + 1);
+              LAST:= SUM; SUM:= SUM + TERM
+        e̲n̲d̲;
+        HYPERG:= i̲f̲ LEFT t̲h̲e̲n̲ SUM e̲l̲s̲e̲ 1 - SUM
+    e̲n̲d̲
+e̲n̲d̲ HYPERG;
+e̲o̲p̲
+c̲o̲d̲e̲ 41005;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HYPERGINV(PROB, N, R, M, LEFT);
+v̲a̲l̲u̲e̲ PROB, N, R, M, LEFT;
+r̲e̲a̲l̲ PROB, N, R, M; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ X; r̲e̲a̲l̲ PX, PCUM, LOW, UP;
+
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“HYPERGINV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ N > ENTIER(N) ∨ N < 0 ∨ N > M t̲h̲e̲n̲
+    STATAL3 ERROR(“HYPERGINV”, 2, N) e̲l̲s̲e̲
+    i̲f̲ R > ENTIER(R) ∨ R < 0 ∨ R > M t̲h̲e̲n̲
+    STATAL3 ERROR(“HYPERGINV”, 3, R) e̲l̲s̲e̲
+    i̲f̲ M > ENTIER(M) ∨ M < 0 t̲h̲e̲n̲
+    STATAL3 ERROR(“HYPERGINV”, 4, M);
+    LOW:= i̲f̲ N + R - M > 0 t̲h̲e̲n̲ N + R - M e̲l̲s̲e̲ 0;
+    UP:= i̲f̲ N < R t̲h̲e̲n̲ N e̲l̲s̲e̲ R;
+    i̲f̲ N = 0 ∨ R = 0 t̲h̲e̲n̲
+        HYPERGINV:= (i̲f̲ LEFT t̲h̲e̲n̲ -1 e̲l̲s̲e̲ +1)
+    e̲l̲s̲e̲ i̲f̲ N = M ∨ R = M t̲h̲e̲n̲
+        HYPERGINV:= (i̲f̲ LEFT t̲h̲e̲n̲ M - 1 e̲l̲s̲e̲ M + 1)
+    e̲l̲s̲e̲ i̲f̲ LEFT t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ X:= PHINV(PROB) × SQRT((M - N) × N × R ×
+        (M - R) / (M × M × (M - 1))) + R × N / M + 0.5;
+        i̲f̲ X < LOW t̲h̲e̲n̲ X:= LOW e̲l̲s̲e̲
+        i̲f̲ X > UP t̲h̲e̲n̲ X:= UP;
+        i̲f̲ PROB < HYPERGPROB(LOW, N, R, M) t̲h̲e̲n̲
+            HYPERGINV:= LOW - 1
+        e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PX:= HYPERGPROB(X, N, R, M);
+            PCUM:= HYPERG(X, N, R, M);
+            i̲f̲ PCUM > PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                    w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × X × (M - N - R + X) /
+                     (N - X + 1) / (R - X + 1); X:= X - 1
+                e̲n̲d̲; X:= X - 1
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × (N - X) × (R - X) /
+                (X + 1) / (R - X + 1)
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲ X:= X + 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲;
+            HYPERGINV:= X
+        e̲n̲d̲
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ X:= PHINV(1 - PROB) × SQRT((M - N) × N × R ×
+        (M - R) / (M × M × (M - 1))) + R × N / M - 0.5;
+        i̲f̲ X < LOW t̲h̲e̲n̲ X:= LOW e̲l̲s̲e̲
+        i̲f̲ X > UP t̲h̲e̲n̲ X:= UP;
+        i̲f̲ PROB < HYPERGPROB(UP, N, R, M) t̲h̲e̲n̲
+            HYPERGINV:= UP + 1
+        e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PCUM:= 1 - HYPERG(X - 1, N, R, M);
+            PX:= HYPERGPROB(X, N, R, M);
+            i̲f̲ PCUM < PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × X × (M - N - R + X) /
+                (N - X + 1) / (R - X + 1)
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲ X:= X - 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × (N - X) × (R - X) /
+                    (X + 1) / (M - N - R + X + 1);
+                    X:= X + 1
+                e̲n̲d̲; X:= X + 1
+            e̲n̲d̲;
+            HYPERGINV:= X
+        e̲n̲d̲
+    e̲n̲d̲
+e̲n̲d̲ HYPERGINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41009;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEGBIN(X, K, P);
+v̲a̲l̲u̲e̲ X, K, P; r̲e̲a̲l̲ X, K, P;
+NEGBIN:= i̲f̲ K < 0 ∨ K > ENTIER(K)
+         t̲h̲e̲n̲ STATAL3 ERROR(“NEGBIN”, 2, K)
+         e̲l̲s̲e̲ i̲f̲ P ≤ 0 ∨ P > 1
+         t̲h̲e̲n̲ STATAL3 ERROR(“NEGBIN”, 3, P)
+         e̲l̲s̲e̲ i̲f̲ X ≥ K t̲h̲e̲n̲
+              1 - BIN(K - 1, ENTIER(X), P)
+         e̲l̲s̲e̲ 0;
+e̲o̲p̲
+c̲o̲d̲e̲ 41010;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEGBININV(PROB, K, P, LEFT);
+v̲a̲l̲u̲e̲ PROB, K, P, LEFT;
+r̲e̲a̲l̲ PROB, K, P; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ X; r̲e̲a̲l̲ PX, PCUM;
+
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“NEGBININV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ K > ENTIER(K) ∨ K < 0 t̲h̲e̲n̲
+    STATAL3 ERROR(“NEGBININV”, 2, K) e̲l̲s̲e̲
+    i̲f̲ P ≤ 0 ∨ P > 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“NEGBININV”, 3, P);
+    
+    i̲f̲ P = 1 ∨ K = 0 t̲h̲e̲n̲
+        NEGBININV:= (i̲f̲ LEFT t̲h̲e̲n̲ K - 1 e̲l̲s̲e̲ K + 1)
+    e̲l̲s̲e̲ i̲f̲ LEFT t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ X:= (PHINV(PROB) ×
+        SQRT(K × (1 - P)) + K - P / 2) / P;
+        i̲f̲ X < K t̲h̲e̲n̲ X:= K;
+        i̲f̲ PROB < P ⭡ K t̲h̲e̲n̲ NEGBININV:= K - 1 e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PX:= NEGBINPROB(X, K, P);
+            PCUM:= NEGBIN(X, K, P);
+            i̲f̲ PCUM > PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × (X - K) / (1 - P)
+                    / (X - 1);
+                    X:= X - 1
+                e̲n̲d̲; X:= X - 1
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × (1- P) × X / (X - K + 1)
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲ X:= X + 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲;
+            NEGBININV:= X
+        e̲n̲d̲
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ X:= (PHINV(1 - PROB) ×
+        SQRT(K × (1 - P)) + K + P / 2) / P;
+        i̲f̲ X > K t̲h̲e̲n̲ X:= K;
+        PCUM:= 1 - NEGBIN(X - 1, K, P);
+        PX:= NEGBINPROB(X, K, P);
+        i̲f̲ PCUM < PROB t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × (X - K) / (1 - P) / (X - 1)
+            w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+            b̲e̲g̲i̲n̲ X:= X - 1; PCUM:= PCUM + PX e̲n̲d̲
+        e̲n̲d̲ e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+            w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+            b̲e̲g̲i̲n̲ PX:= PX × (1 - P) × X / (X - K + 1);
+                X:= X + 1
+            e̲n̲d̲; X:= X + 1
+        e̲n̲d̲
+    e̲n̲d̲;
+    NEGBININV:= X
+e̲n̲d̲ NEGBININV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41013;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ POISSON(X, MU);
+v̲a̲l̲u̲e̲ X, MU; r̲e̲a̲l̲ X, MU;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ IX;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ KSI(K, L);
+    v̲a̲l̲u̲e̲ K, L; r̲e̲a̲l̲ L; i̲n̲t̲e̲g̲e̲r̲ K;
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ U, U2, W; W:= SQRT(L);
+         U:= 2 × (SQRT(K + 1) - W);
+         U2:= U × U; KSI:=
+         U + (U2 - 4) / 12 / W + (-U2 × U + 10 × U) / 72 /
+         L + (21 × U2 × U2 - 371 × U2 - 52) / 6480 / L / W
+    e̲n̲d̲;
+    
+    IX:= ENTIER(X);
+    i̲f̲ IX < 0 t̲h̲e̲n̲ POISSON:= 0 e̲l̲s̲e̲
+    i̲f̲ MU ≤ 0 t̲h̲e̲n̲
+        POISSON:= STATAL3 ERROR(“POISSON”,2,MU)
+    e̲l̲s̲e̲
+    i̲f̲ MU > 1000 t̲h̲e̲n̲ POISSON:= PHI(KSI(IX, MU))
+    e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, MODUS; r̲e̲a̲l̲ MODUSPROB, PROB, CUM;
+        MODUS:= ENTIER(MU) + 1; i̲f̲ IX < MODUS t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ PROB:= CUM:= POISSONPROB(IX, MU);
+            f̲o̲r̲ I:= IX s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ PROB:= PROB × I / MU;
+                CUM:= CUM + PROB
+            e̲n̲d̲
+        e̲n̲d̲ e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ MODUSPROB:= PROB:= CUM:=
+            POISSONPROB(MODUS, MU);
+            f̲o̲r̲ I:= MODUS s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ PROB:= PROB × I / MU;
+                CUM:= CUM + PROB
+            e̲n̲d̲;  PROB:= MODUSPROB;
+            f̲o̲r̲ I:= MODUS + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ IX d̲o̲
+            b̲e̲g̲i̲n̲ PROB:= PROB × MU / I;
+                CUM:= CUM + PROB
+            e̲n̲d̲
+        e̲n̲d̲;
+        POISSON:= CUM
+    e̲n̲d̲
+e̲n̲d̲ POISSON;
+e̲o̲p̲
+c̲o̲d̲e̲ 41014;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ POISSONINV(PROB, MU, LEFT);
+v̲a̲l̲u̲e̲ PROB, MU, LEFT;
+r̲e̲a̲l̲ PROB, MU; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ X; r̲e̲a̲l̲ PX, PCUM;
+
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“POISSONINV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ MU ≤ 0 t̲h̲e̲n̲
+    STATAL3 ERROR(“POISSONINV”, 2, MU);
+      
+    i̲f̲ LEFT t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ X:= (PHINV(PROB) / 2 + SQRT(MU)) ⭡ 2 - 1;
+        i̲f̲ X < 0 t̲h̲e̲n̲ X:= 0;
+        i̲f̲ PROB < EXP(-MU) t̲h̲e̲n̲ POISSONINV:= -1 e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ PX:= POISSONPROB(X, MU);
+            PCUM:= POISSON(X, MU);
+            i̲f̲ PCUM > PROB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+                w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+                b̲e̲g̲i̲n̲ PX:= PX × X / MU; X:= X - 1 e̲n̲d̲;
+                X:=X - 1
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × MU / (X + 1)
+                w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+                b̲e̲g̲i̲n̲ X:= X + 1; PCUM:= PCUM + PX e̲n̲d̲
+            e̲n̲d̲;
+            POISSONINV:= X
+        e̲n̲d̲
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ X:= (PHINV(1 - PROB) / 2 + SQRT(MU)) ⭡ 2 + 1;
+       i̲f̲ X < 0 t̲h̲e̲n̲ X:= 0;
+       PCUM:= 1 - POISSON(X - 1, MU);
+       PX:= POISSONPROB(X, MU);
+       i̲f̲ PCUM < PROB t̲h̲e̲n̲
+       b̲e̲g̲i̲n̲ f̲o̲r̲ PX:= PX × X / MU
+           w̲h̲i̲l̲e̲ PCUM + PX < PROB d̲o̲
+           b̲e̲g̲i̲n̲ X:= X - 1; PCUM:= PCUM + PX e̲n̲d̲
+        e̲n̲d̲ e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ f̲o̲r̲ PCUM:= PCUM - PX
+            w̲h̲i̲l̲e̲ PCUM > PROB d̲o̲
+            b̲e̲g̲i̲n̲ PX:= PX × MU / (X + 1); X:= X + 1 e̲n̲d̲;
+            X:= X + 1
+        e̲n̲d̲;
+        POISSONINV:= X
+    e̲n̲d̲
+e̲n̲d̲ POISSONINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41020;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WILCOX(X,M,N);
+v̲a̲l̲u̲e̲ X,M,N; r̲e̲a̲l̲ X,M,N;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MIN(A,B);
+    v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+        MIN := i̲f̲ A > B t̲h̲e̲n̲ B e̲l̲s̲e̲ A;
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MAX(A,B);
+    v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+        MAX := i̲f̲ A > B t̲h̲e̲n̲ A e̲l̲s̲e̲ B;
+    r̲e̲a̲l̲ WP1;    B̲o̲o̲l̲e̲a̲n̲ X EVEN, RIGHT;
+    i̲n̲t̲e̲g̲e̲r̲ MN;
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOX”, 2, M);
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOX”, 3, N);
+    MN := M × N;
+    X := ENTIER(X/2);
+    i̲f̲ X < MN/2 t̲h̲e̲n̲ RIGHT := f̲a̲l̲s̲e̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ RIGHT := t̲r̲u̲e̲; X := MN-X-1 e̲n̲d̲;
+    X EVEN := ENTIER(X/2) × 2 = X;
+    M := MIN(M,N); N := MN/M;
+    i̲f̲ X < 0 t̲h̲e̲n̲ WP1 := 0 e̲l̲s̲e̲
+    i̲f̲ M = 1 t̲h̲e̲n̲ WP1 := (X+1) / (N+1) e̲l̲s̲e̲
+    i̲f̲ M = 2 t̲h̲e̲n̲ WP1 := (i̲f̲ X EVEN t̲h̲e̲n̲
+        (X+2)×(X+2) / (2×(N+1)×(N+2)) e̲l̲s̲e̲
+        (X+1)×(X+3) / (2×(N+1)×(N+2)) )     e̲l̲s̲e̲
+    i̲f̲ 2×X = MN - 1 t̲h̲e̲n̲ WP1 := .5 e̲l̲s̲e̲
+    i̲f̲ MN > 400 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ NOEM, N2, N3, N4, M2, M3, M4;
+        r̲e̲a̲l̲ F0Y, F3Y, F5Y, F7Y, T3, T5, T7, Y, Y2;
+        Y := (2×X + 1 - MN) / SQRT(MN × (M + N + 1) / 3);
+        Y2 := Y × Y;
+        NOEF := 10 × MN × (M + N + 1); F0Y := PHIDENS(Y);
+        N2 := N × N; N3 := N2 × N; N4 := N2 × N2;
+        M2 := M × M; M3 := M2 × M; M4 := M2 × M2;
+        F3Y := Y × (3 - Y2);
+        F5Y := Y × (-15 + Y2 × (10 - Y2));
+        F7Y := Y × (105 - Y2 × (105 - Y2 × (21 - Y2)));
+        T3 := (M2 + N2 + MN + M + N) / NOEM / 2;
+        T5 := ( 2 × (M4 + N4) + 4 +
+                  (M3 × N + N3 × M + M3 + N3) +
+                  6 × M2 × N2 + 7 × MN × (M + N) + M2 + N2 +
+                  2 × MN - M - N) / (NOEM × NOEM × 2.1);
+        T7 := (M2 + N2 + MN + M + N) ⭡ 2
+              / (NOEM × NOEM × 8);
+        WP1 := MAX(PHI(Y) - F0Y ×
+               (T3 × F3Y - T5 × F5Y - T7 × F7Y), 0);
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,W,UP,UP1,UP2; r̲e̲a̲l̲ H1,H2;
+        i̲f̲ N × (X+1) ≤ 12000 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ M := N; N := MN / M e̲n̲d̲;
+        b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ WP[0:X, 1:M];
+            UP2 := MIN(M, ENTIER((MN-X-1)/(N-1)));
+            f̲o̲r̲ I := MAX(2, -ENTIER(X/2-M)) s̲t̲e̲p̲ 1
+            u̲n̲t̲i̲l̲ UP2 d̲o̲
+            b̲e̲g̲i̲n̲ UP:= X-(M-I)×2; UP1 := MIN(UP,I-1);
+                   H1 := 1/(I+1);
+                   f̲o̲r̲ W:= MAX(0, X-(M-I)×N) s̲t̲e̲p̲ 1
+                   u̲n̲t̲i̲l̲ UP1 d̲o̲
+                   WP[W,I] := H1 × (W+1);
+            e̲n̲d̲;
+            f̲o̲r̲ J := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ UP:= MIN(X-(M-1)×J , J-1);
+                H2 := 1/(J+1);
+                f̲o̲r̲ W:= MAX(0, X-(M-2)×N-J) s̲t̲e̲p̲ 1
+                u̲n̲t̲i̲l̲ UP d̲o̲
+                WP[W,1] := H2 × (W+1);
+                UP2 := (i̲f̲ J×M < X+1 t̲h̲e̲n̲
+                  ENTIER((MN-X-1)/(N-J)) e̲l̲s̲e̲ M);
+                f̲o̲r̲ I := MAX(2,-ENTIER(X/J-M)) s̲t̲e̲p̲ 1
+               u̲n̲t̲i̲l̲ UP2 d̲o̲
+               b̲e̲g̲i̲n̲ UP:= X - (M-I)×J;
+                  H1:= J/(I+J); H2 := I/(I+J);
+                  UP1 := MIN(UP,J-1);
+                  f̲o̲r̲  W := MAX(0, X-(M-I)×N) s̲t̲e̲p̲ 1
+                  u̲n̲t̲i̲l̲ UP1 d̲o̲
+                    WP[W,I] := WP[W,I]×H1;
+                  UP1 := MIN(UP,I×J-I-1);
+                  f̲o̲r̲  W := MAX(J, X-(M-I)×N) s̲t̲e̲p̲ 1
+                  u̲n̲t̲i̲l̲ UP1 d̲o̲
+                       WP[W,I] := WP[W,I]×H1 + WP[W-J,I-1]×H2;
+                    UP1 := MIN(UP,I×J-1);
+                    f̲o̲r̲ W:= MAX(I×J-I, X-(M-I)×N) s̲t̲e̲p̲ 1
+                    u̲n̲t̲i̲l̲ UP1 d̲o̲
+                      WP[W,I] := H1 + WP[W-J,I-1]×H2;
+                   e̲n̲d̲
+              e̲n̲d̲;
+              WP1 := WP[X,M];
+          e̲n̲d̲;
+     e̲n̲d̲;
+     WILCOX := i̲f̲ RIGHT t̲h̲e̲n̲ 1-WP1 e̲l̲s̲e̲ WP1;
+e̲n̲d̲ WILCOXCDF;
+e̲o̲p̲
+c̲o̲d̲e̲ 41021;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WILCOXINV(PROB, M, N, LEFT);
+v̲a̲l̲u̲e̲ PROB, M, N, LEFT; r̲e̲a̲l̲ PROB, M, N; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ X, W, WI, MN; r̲e̲a̲l̲ Z; B̲o̲o̲l̲e̲a̲n̲ MN EVEN;
+    MN := M × N;
+    MN EVEN := ENTIER(MN/2) × 2 = MN;
+    X := i̲f̲ MN EVEN t̲h̲e̲n̲ MN/2 - 1 e̲l̲s̲e̲ MN/2 - 1.5;
+    PROB := PROB + ⏨-13×(1-PROB);
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOXINV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOXINV”, 2, M) e̲l̲s̲e̲
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOXINV”, 2, N) e̲l̲s̲e̲
+    i̲f̲ MN = 0 t̲h̲e̲n̲ WI := -2 e̲l̲s̲e̲
+    i̲f̲ PROB = .5 t̲h̲e̲n̲ WI := ENTIER((MN-1)/2) × 2 e̲l̲s̲e̲
+    i̲f̲ M = 1 t̲h̲e̲n̲ WI := ENTIER(PROB×(N+1)) × 2 - 2
+    e̲l̲s̲e̲
+    i̲f̲ N = 1 t̲h̲e̲n̲ WI := ENTIER(PROB×(M+1)) × 2 - 2
+    e̲l̲s̲e̲ i̲f̲ MN > 400 ∨ M=2 ∨ N=2 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ Z := PHINV(PROB) × SQRT(MN×(M+N+1)/3) + MN;
+        WI := W := ENTIER(Z/2) × 2;
+        i̲f̲ WI < 0 t̲h̲e̲n̲ WI := W := 0;
+        i̲f̲ WI > 2×MN t̲h̲e̲n̲ WI := W := 2×MN;
+        i̲f̲ WILCOX(W, M, N) ≤ PROB t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ f̲o̲r̲ W := W + 2
+          w̲h̲i̲l̲e̲ WILCOX(W, M, N) ≤ PROB d̲o̲ WI := W
+        e̲n̲d̲ e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲ f̲o̲r̲ W:= W - 2
+           w̲h̲i̲l̲e̲ WILCOX(W, M, N) > PROB d̲o̲ WI := W;
+             WI := WI - 2;
+        e̲n̲d̲;
+    e̲n̲d̲ e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,UP,UP1; r̲e̲a̲l̲ H1,H2;
+        B̲o̲o̲l̲e̲a̲n̲ RIGHT, EQUAL; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ WCMN[-1:X+2];
+        i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MAX(A,B);
+        v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+             MAX := i̲f̲ A > B t̲h̲e̲n̲ A e̲l̲s̲e̲ B;
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MIN(A,B);
+         v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+             MIN := i̲f̲ A > B t̲h̲e̲n̲ B e̲l̲s̲e̲ A;
+         RIGHT := PROB > .5;
+            i̲f̲ RIGHT t̲h̲e̲n̲ PROB := 1 - PROB;
+            I := MAX(M,N); J := MIN(M,N);
+            i̲f̲ I × (X+1) > 12000 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ M := J; N := I e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ M := I; N := J e̲n̲d̲;
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ WP[0:X, 1:M];
+             f̲o̲r̲ I := MAX(2,-ENTIER(X/2-M)) s̲t̲e̲p̲ 1
+                u̲n̲t̲i̲l̲ M d̲o̲
+                b̲e̲g̲i̲n̲ UP:= X-(M-I)×2; UP1 := MIN(UP,I);
+                  H1 := 1/(I+1);
+                  f̲o̲r̲ W:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP1 d̲o̲
+                  WP[W,I] := H1;
+               e̲n̲d̲;
+               f̲o̲r̲ J := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ UP:= MIN(X-(M-1)×J , J); H2 := 1/(J+1);
+                 f̲o̲r̲ W:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP d̲o̲
+                  WP[W,1] := H2;
+                  f̲o̲r̲ I := MAX(2,-ENTIER(X/J-M)) s̲t̲e̲p̲ 1
+                  u̲n̲t̲i̲l̲ M d̲o̲
+                  b̲e̲g̲i̲n̲ UP:= X - (M-I)×J;
+                    H1:= J/(I+J); H2 := I/(I+J);
+                    UP1 := MIN(UP,J-1);
+                    f̲o̲r̲ W := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP1 d̲o̲
+                      WP[W,I] := WP[W,I]×H1;
+                    UP1 := MIN(UP,I×J-I);
+                    f̲o̲r̲ W := J s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP1 d̲o̲
+                      WP[W,I] := WP[W,I]×H1 + WP[W-J,I-1]×H2;
+                    UP1 := MIN(UP,I×J);
+                    f̲o̲r̲  W := I×J-I+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP1
+                    d̲o̲  WP[W,I] := WP[W-J,I-1]×H2;
+                   e̲n̲d̲
+               e̲n̲d̲;
+               WCMN[-1] := 0;
+               WCMN[0] := WP[0,M];
+               f̲o̲r̲ W := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X d̲o̲
+                     WCMN[W] := WCMN[W-1] + WP[W,M];
+               i̲f̲ MN EVEN t̲h̲e̲n̲
+                 b̲e̲g̲i̲n̲ WCMN[X+1] := 1 - WCMN[X];
+                         WCMN[X+2] := 1 - WCMN[X-1];
+                   e̲n̲d̲
+               e̲l̲s̲e̲
+                 b̲e̲g̲i̲n̲ WCMN[X+1] := .5;
+                         WCMN[X+2] := 1 - WCMN[X];
+                   e̲n̲d̲;
+          e̲n̲d̲;
+          WI := PHINV(PROB) × SQRT(MN×(M+N+1)/3) + MN;
+          W := ENTIER(WI/2);
+          i̲f̲ W < 0 t̲h̲e̲n̲ WI := W := 0 e̲l̲s̲e̲ WI:= W;
+          i̲f̲ WCMN[W] ≤ PROB t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ f̲o̲r̲ W := W + 1
+                w̲h̲i̲l̲e̲ WCMN[W] ≤ PROB d̲o̲ WI := W
+          e̲n̲d̲ e̲l̲s̲e̲
+          b̲e̲g̲i̲n̲ f̲o̲r̲ W := W - 1
+              w̲h̲i̲l̲e̲ WCMN[W] > PROB d̲o̲ WI := W;
+              WI := WI - 1;
+          e̲n̲d̲;
+          EQUAL := WCMN[WI] = PROB;
+          i̲f̲ RIGHT t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ i̲f̲ EQUAL t̲h̲e̲n̲ WI := 2 × (MN - WI - 1)
+                             e̲l̲s̲e̲ WI := 2 × (MN - WI - 2)
+          e̲n̲d̲
+          e̲l̲s̲e̲ WI := 2 × WI;
+      e̲n̲d̲;
+      WILCOXINV := i̲f̲ LEFT t̲h̲e̲n̲ WI e̲l̲s̲e̲ 2×MN - WI;
+e̲n̲d̲ WILCOXINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41022;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WILCOXPROB(X,M,N);
+v̲a̲l̲u̲e̲ X,M,N; r̲e̲a̲l̲ X,M,N;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MIN(A,B);
+    v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+         MIN := i̲f̲ A> B t̲h̲e̲n̲ B e̲l̲s̲e̲ A;
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MAX(A,B);
+    v̲a̲l̲u̲e̲ A,B; i̲n̲t̲e̲g̲e̲r̲ A,B;
+         MAX := i̲f̲ A> B t̲h̲e̲n̲ A e̲l̲s̲e̲ B;
+    r̲e̲a̲l̲ WP1;
+    i̲n̲t̲e̲g̲e̲r̲ MN;
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOXPROB”, 2, M);
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“WILCOXPROB”, 3, N);
+    MN := M × N;
+    X := MIN(X/2, MN - X/2);
+    M := MIN(M,N); N := MN/M;
+    i̲f̲ ENTIER(X) < X t̲h̲e̲n̲ WP1 := 0 e̲l̲s̲e̲
+    i̲f̲ X < 0 t̲h̲e̲n̲ WP1 := 0 e̲l̲s̲e̲
+    i̲f̲ MN = 0 t̲h̲e̲n̲ WP1 := 1 e̲l̲s̲e̲
+    i̲f̲ M = 1 t̲h̲e̲n̲ WP1 := 1/(N+1) e̲l̲s̲e̲
+    i̲f̲ M = 2 t̲h̲e̲n̲
+             WP1 := ENTIER(X/2+1) / ((N+1)×(N+2)/2) e̲l̲s̲e̲
+     i̲f̲ MN > 400 t̲h̲e̲n̲
+         WP1 := WILCOX(2×X,M,N) - WILCOX(2×X-2,M,N) e̲l̲s̲e̲
+     b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,W,UP,UP1,UP2; r̲e̲a̲l̲ H1,H2;
+         i̲f̲ N × (X+1) ≤ 12000 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ M := N; N := MN/M e̲n̲d̲;
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ WP[0:X, 1:M];
+             UP2 := MIN(M, ENTIER((MN-X)/(N-1)));
+             f̲o̲r̲ I := MAX(2,-ENTIER(X/2-M)) s̲t̲e̲p̲ 1
+             u̲n̲t̲i̲l̲ UP2 d̲o̲
+             b̲e̲g̲i̲n̲ UP:= X-(M-I)×2; UP1 := MIN(UP,I);
+                      H1 := 1/(I+1);
+                      f̲o̲r̲ W:= MAX(0, X-(M-I)×N) s̲t̲e̲p̲ 1
+                      u̲n̲t̲i̲l̲ UP1 d̲o̲
+                      WP[W,I] := H1;
+                  e̲n̲d̲;
+                  f̲o̲r̲ J := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ UP:= MIN(X-(M-1)×J , J); H2 := 1/(J+1);
+                    f̲o̲r̲ W:= MAX(0, X-(M-2)×N-J) s̲t̲e̲p̲ 1
+                    u̲n̲t̲i̲l̲ UP d̲o̲
+                      WP[W,1] := H2;
+                      UP2 := i̲f̲ J×M<X+1 t̲h̲e̲n̲
+                          ENTIER((MN-X)/(N-J)) e̲l̲s̲e̲ M;
+                      f̲o̲r̲ I := MAX(2,-ENTIER(X/2-M)) s̲t̲e̲p̲ 1
+                      u̲n̲t̲i̲l̲ UP2 d̲o̲
+                      b̲e̲g̲i̲n̲ UP:= X - (M-I)×J;
+                        H1:= J/(I+J); H2 := I/(I+J);
+                        UP1 := MIN(UP,J-1);
+                        f̲o̲r̲ W := MAX(0, X-(M-I)×N) s̲t̲e̲p̲ 1
+                        u̲n̲t̲i̲l̲ UP1 d̲o̲
+                          WP[W,I] := WP[W,1]×H1;
+                        UP1 := MIN(UP,I×J-I);
+                        f̲o̲r̲ W := MAX(J, X-(M-I)×N) s̲t̲e̲p̲ 1
+                        u̲n̲t̲i̲l̲ UP1 d̲o̲
+                          WP[W,I] := WP[W,I]×H1 + WP[W-J,I-1]×H2;
+                        UP1 := MIN(UP,I×J);
+                        f̲o̲r̲ W:=MAX(I×J-I+1,X-(M-I)×N) s̲t̲e̲p̲ 1
+                        u̲n̲t̲i̲l̲ UP1 d̲o̲
+                          WP[W,I] := WP[W-J,I-1]×H2;
+                      e̲n̲d̲
+                  e̲n̲d̲;
+                  WP1   := WP[X,M];
+             e̲n̲d̲;
+     e̲n̲d̲;
+     WILCOXPROB := WP1
+e̲n̲d̲ WILCOXPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41023;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ RUN(X, M, N);
+v̲a̲l̲u̲e̲ X, M, N; r̲e̲a̲l̲ X, M, N;
+b̲e̲g̲i̲n̲
+    r̲e̲a̲l̲ P, PCUM; i̲n̲t̲e̲g̲e̲r̲ IX, I, K, UP;
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“RUN”, 2, M) e̲l̲s̲e̲
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“RUN”, 3, N) e̲l̲s̲e̲
+    i̲f̲ M > N t̲h̲e̲n̲ b̲e̲g̲i̲n̲ K:= M; M:= N; N:= K e̲n̲d̲;
+    i̲f̲ M = 0 t̲h̲e̲n̲ RUN:= (i̲f̲ X < 1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1)
+    e̲l̲s̲e̲ i̲f̲ X < 2 t̲h̲e̲n̲ RUN:= 0 e̲l̲s̲e̲
+    i̲f̲ M = N ∧ X ≥ M × 2 t̲h̲e̲n̲ RUN:= 1 e̲l̲s̲e̲
+    i̲f̲ X > M × 2 t̲h̲e̲n̲ RUN:= 1 e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ IX:= ENTIER(X); i̲f̲ IX ÷ 2 × 2 < IX t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ PCUM:= P:= RUNPROB(IX, M, N);
+                 K:= (IX - 1) / 2;
+                 P:= P×K×2 / (M + N - K × 2); PCUM:= PCUM + P
+             e̲n̲d̲ e̲l̲s̲e̲
+             b̲e̲g̲i̲n̲ K:= IX / 2;
+                 P:= PCUM:= RUNPROB(IX, M, N)
+             e̲n̲d̲;
+          f̲o̲r̲ I:= K - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+          b̲e̲g̲i̲n̲ P:= P × (M + N - I × 2) × I / (N - I) /
+              (M - I) / 2; PCUM:= PCUM + P;
+              P:= P×2×I / (M + N - 2 × I); PCUM:= PCUM + P
+          e̲n̲d̲;
+          RUN:= PCUM
+      e̲n̲d̲
+e̲n̲d̲ RUN;
+e̲o̲p̲
+c̲o̲d̲e̲ 41024;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ RUNINV(PROB, M, N, LEFT);
+v̲a̲l̲u̲e̲ PROB, M, N, LEFT; r̲e̲a̲l̲ PROB, M, N; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ H, R, MN; r̲e̲a̲l̲ P, PCUM;
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3 ERROR(“RUNINV”, 1, PROB) e̲l̲s̲e̲
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“RUNINV”, 2, M) e̲l̲s̲e̲
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“RUNINV”, 3, N);
+    MN:= M + N;
+    i̲f̲ M > N t̲h̲e̲n̲ b̲e̲g̲i̲n̲ H:= M; M:= N; N:= H e̲n̲d̲;
+    i̲f̲ M = 0 t̲h̲e̲n̲
+         RUNINV:= (i̲f̲ LEFT t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 2) e̲l̲s̲e̲
+     i̲f̲ LEFT t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ R:= PHINV(PROB) ×
+         SQRT((MN ⭡ 3 - MN) / (2 × M × N ×
+         (2 × M × N - MN))) + .5 + 2 × M × N / MN;
+         i̲f̲ R < 2 t̲h̲e̲n̲ R:= 2 e̲l̲s̲e̲
+         i̲f̲ R > M × 2 t̲h̲e̲n̲ R:= M × 2;
+         i̲f̲ PROB < RUNPROB(2, M, N)
+         t̲h̲e̲n̲ RUNINV:= +1 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ PCUM:= RUN(R, M, N);
+             i̲f̲ PCUM ≤ PROB t̲h̲e̲n̲
+             b̲e̲g̲i̲n̲ f̲o̲r̲ P:= RUNPROB(R + 1, M, N)
+                  w̲h̲i̲l̲e̲ PCUM + P ≤ PROB d̲o̲
+                  b̲e̲g̲i̲n̲ R:= R + 1; PCUM:= PCUM + P e̲n̲d̲
+                   e̲n̲d̲ e̲l̲s̲e̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ P:= RUNPROB(R, M, N)
+                       w̲h̲i̲l̲e̲ PCUM - P > PROB d̲o̲
+                       b̲e̲g̲i̲n̲ R:= R - 1; PCUM:= PCUM - P e̲n̲d̲;
+                       R:= R - 1
+                   e̲n̲d̲; RUNINV:= R
+           e̲n̲d̲
+     e̲n̲d̲ e̲l̲s̲e̲
+     b̲e̲g̲i̲n̲ R:= PHINV(1 - PROB) ×
+         SQRT((MN ⭡ 3 - MN) / (2 × M × N ×
+         (2 × M × N - MN))) + 1.5 + 2 × M × N / MN;
+         i̲f̲ R < 2 t̲h̲e̲n̲ R:= 2 e̲l̲s̲e̲
+         i̲f̲ R > M × 2 t̲h̲e̲n̲ R:= M × 2;
+         MN:= i̲f̲ M = N t̲h̲e̲n̲ 2 × M e̲l̲s̲e̲ 2 × M + 1;
+         i̲f̲ PROB < RUNPROB(MN, M, N)
+         t̲h̲e̲n̲ RUNINV:= MN + 1 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ PCUM:= 1 - RUN(R - 1, M, N);
+             i̲f̲ PCUM ≤ PROB t̲h̲e̲n̲
+             b̲e̲g̲i̲n̲ f̲o̲r̲ P:= RUNPROB(R - 1, M, N)
+                  w̲h̲i̲l̲e̲ PCUM + P ≤ PROB d̲o̲
+                 b̲e̲g̲i̲n̲ R:= R - 1; PCUM:= PCUM + P e̲n̲d̲
+                   e̲n̲d̲ e̲l̲s̲e̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ P:= RUNPROB(R, M, N)
+                       w̲h̲i̲l̲e̲ PCUM - P > PROB d̲o̲
+                      b̲e̲g̲i̲n̲ R:= R + 1; PCUM:= PCUM - P e̲n̲d̲;
+                      R:= R + 1
+                e̲n̲d̲;
+                RUNINV:= R
+         e̲n̲d̲
+     e̲n̲d̲
+e̲n̲d̲ RUNINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41025;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ RUNPROB(X, M, N); v̲a̲l̲u̲e̲ X, M, N;
+r̲e̲a̲l̲ X, M, N;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ P; B̲o̲o̲l̲e̲a̲n̲ EVEN;
+
+    i̲f̲ M < 0 ∨ ENTIER(M) < M t̲h̲e̲n̲
+    STATAL3 ERROR(“RUNPROB”, 2, M) e̲l̲s̲e̲
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“RUNPROB”, 3, N);
+    i̲f̲ M > N t̲h̲e̲n̲ b̲e̲g̲i̲n̲ K:= N; N:= M; M:= K e̲n̲d̲;
+    EVEN:= ENTIER(X / 2) × 2 = X;
+    K:= i̲f̲ EVEN t̲h̲e̲n̲ X / 2 e̲l̲s̲e̲ (X + 1) / 2;
+    RUNPROB :=
+    i̲f̲ N = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+    i̲f̲ M = 0 t̲h̲e̲n̲ (i̲f̲ X = 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0) e̲l̲s̲e̲
+    i̲f̲ X < 2 ∨ X > 2 × M + 1 ∨ ENTIER(X) < X
+    t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+    i̲f̲ EVEN t̲h̲e̲n̲
+    2 × M × N × EXP(2 × (LOGGAMMA(M) + LOGGAMMA(N) -
+    LOGGAMMA(K)) - LOGGAMMA(M - K + 1) - LOGGAMMA(N - K + 1)
+    - LOGGAMMA(M + N + 1)) e̲l̲s̲e̲
+    (M + N - X + 1) × M × N / (K - 1) × EXP(2 × (LOGGAMMA(M)
+    + LOGGAMMA(N) - LOGGAMMA(K - 1)) - LOGGAMMA(M + N + 1)
+    - LOGGAMMA(M - K + 2) - LOGGAMMA(N - K + 2))
+e̲n̲d̲ RUNPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41026;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ KENDALL(X, N); v̲a̲l̲u̲e̲ X, N; r̲e̲a̲l̲ X, N;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ I, G, IX; r̲e̲a̲l̲ P;
+    i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+    STATAL3 ERROR(“KENDALL”, 2, N);
+    G:= N × (N - 1) / 2; IX:= G + ENTIER(-(G - X) / 2) × 2;
+    i̲f̲ IX ≥ G t̲h̲e̲n̲ KENDALL:= 1 e̲l̲s̲e̲
+    i̲f̲ IX < -G t̲h̲e̲n̲ KENDALL:= 0 e̲l̲s̲e̲
+    i̲f̲ N > 9 t̲h̲e̲n̲
+    KENDALL:= PHI(IX + 1 / SQRT(N × (N - 1) × (N+N+5) / 18))
+    e̲l̲s̲e̲ i̲f̲ IX > 0 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ P:= 0; f̲o̲r̲ I:= G s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ IX + 2 d̲o̲
+        P:= P + KENDALLPROB(I, N); KENDALL:= 1 - P
+     e̲n̲d̲ e̲l̲s̲e̲
+     b̲e̲g̲i̲n̲ P:= 0; f̲o̲r̲ I:= -G s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ IX d̲o̲
+         P:= P + KENDALLPROB(I, N); KENDALL:= P
+     e̲n̲d̲
+e̲n̲d̲ KENDALL;
+e̲o̲p̲
+c̲o̲d̲e̲ 41027;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ KENDALLINV(PROB, N, LEFT);
+v̲a̲l̲u̲e̲ PROB, N, LEFT; r̲e̲a̲l̲ PROB, N; B̲o̲o̲l̲e̲a̲n̲ LEFT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ S, G; r̲e̲a̲l̲ P, PCUM;
+
+     i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+     STATAL3 ERROR(“KENDALLINV”, 1, PROB) e̲l̲s̲e̲
+     i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+     STATAL3 ERROR(“KENDALLINV”, 2, N);
+     G:= N × (N - 1) / 2;
+     i̲f̲ N = 0 t̲h̲e̲n̲
+           KENDALLINV:= (i̲f̲ LEFT t̲h̲e̲n̲ -1 e̲l̲s̲e̲ +1)
+     e̲l̲s̲e̲ i̲f̲ LEFT t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ S:= PHINV(PROB) × SQRT(G × (N × 2 + 5) / 9);
+         S:= i̲f̲ ABS(S) > G t̲h̲e̲n̲ G × SIGN(S) e̲l̲s̲e̲
+         G + ENTIER(-(G - S) / 2) × 2;
+           i̲f̲ PROB < KENDALLPROB(-G, N) t̲h̲e̲n̲
+               KENDALLINV:= -G - 2
+           e̲l̲s̲e̲
+           b̲e̲g̲i̲n̲ PCUM:= KENDALL(S, N);
+                   i̲f̲ PCUM ≤ PROB t̲h̲e̲n̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ P:= KENDALLPROB(S + 2, N)
+                        w̲h̲i̲l̲e̲ PCUM + P ≤ PROB d̲o̲
+                        b̲e̲g̲i̲n̲ S:= S + 2; PCUM:= PCUM + P e̲n̲d̲
+                   e̲n̲d̲ e̲l̲s̲e̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ P:= KENDALLPROB(S, N)
+                       w̲h̲i̲l̲e̲ PCUM - P > PROB d̲o̲
+                       b̲e̲g̲i̲n̲ S:= S - 2; PCUM:= PCUM - P e̲n̲d̲;
+                        S:=S-2
+                   e̲n̲d̲; KENDALLINV:= S
+           e̲n̲d̲
+     e̲n̲d̲ e̲l̲s̲e̲
+     b̲e̲g̲i̲n̲ S:= PHINV(1 - PROB) × SQRT(G × (N × 2 + 5) / 9);
+         S:= i̲f̲ ABS(S) > G t̲h̲e̲n̲ G × SIGN(S) e̲l̲s̲e̲
+           G - ENTIER((G - S) / 2) × 2;
+           i̲f̲ PROB < KENDALLPROB(G, N) t̲h̲e̲n̲
+           KENDALLINV:= G + 2 e̲l̲s̲e̲
+           b̲e̲g̲i̲n̲ PCUM:= 1 - KENDALL(S - 2, N);
+               i̲f̲ PCUM ≤ PROB t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ P:= KENDALLPROB(S - 2, N)
+                        w̲h̲i̲l̲e̲ PCUM + P ≤ PROB d̲o̲
+                        b̲e̲g̲i̲n̲ S:= S - 2; PCUM:= PCUM + P e̲n̲d̲
+                   e̲n̲d̲ e̲l̲s̲e̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ P:= KENDALLPROB(S, ND)
+                       w̲h̲i̲l̲e̲ PCUM - P > PROB d̲o̲
+                        b̲e̲g̲i̲n̲ S:= S + 2; PCUM:= PCUM - P e̲n̲d̲;
+                        S:= S +2
+                   e̲n̲d̲;
+                   KENDALLINV:= S
+           e̲n̲d̲
+     e̲n̲d̲
+e̲n̲d̲ KENDALLINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41028;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ KENDALLPROB(X, N);
+v̲a̲l̲u̲e̲ X, N; r̲e̲a̲l̲ X, N;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ G, IX;
+
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PROB(S, N);
+     v̲a̲l̲u̲e̲ S, N; i̲n̲t̲e̲g̲e̲r̲ S, N;
+     b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ P;
+         i̲f̲ N = 2 t̲h̲e̲n̲ PROB:= (i̲f̲ ABS(S) = 1 t̲h̲e̲n̲ .5
+         e̲l̲s̲e̲ 0) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ P:= 0;
+             f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+             P:= P + PROB(S - N + 1 + I × 2, N - 1);
+             PROB:= P / N
+             e̲n̲d̲
+      e̲n̲d̲;
+      
+      i̲f̲ N < 0 ∨ ENTIER(N) < N t̲h̲e̲n̲
+      STATAL3 ERROR(“KENDALLPROB”, 2, N);
+      G:=N × (N - 1) / 2; IX:= ENTIER(X);
+      i̲f̲ N > 9 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S; S:= SQRT(N × (N-1) × (N+N+5) / 18);
+            KENDALLPROB:= PHI(IX + 1/S) - PHI(IX - 1/S)
+        e̲n̲d̲ e̲l̲s̲e̲
+        KENDALLPROB:= i̲f̲ IX < X ∨ ABS(IX) > G ∨
+        (G - IX) ÷ 2 × 2 < G - IX t̲h̲e̲n̲ 0 e̲l̲s̲e̲ PROB(IX, N)
+e̲n̲d̲ KENDALLPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41251;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BINPROB(X, N, P);
+v̲a̲l̲u̲e̲ X, N, P; r̲e̲a̲l̲ X, N, P;
+BINPROB:= i̲f̲ N < 0 ∨ N > ENTIER(N)
+          t̲h̲e̲n̲ STATAL3 ERROR(“BINPROB”, 2, N)
+          e̲l̲s̲e̲ i̲f̲ P < 0 ∨ P > 1
+          t̲h̲e̲n̲ STATAL3 ERROR(“BINPROB”, 3, P)
+          e̲l̲s̲e̲ i̲f̲ X < 0 ∨ X > N ∨ X > ENTIER(X)
+          t̲h̲e̲n̲ 0 e̲l̲s̲e̲ i̲f̲ P = 0 ∨ N = 0
+          t̲h̲e̲n̲ (i̲f̲ X = 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0)
+          e̲l̲s̲e̲ i̲f̲ P = 1
+          t̲h̲e̲n̲ (i̲f̲ X = N t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0)
+          e̲l̲s̲e̲ EXP(LOGGAMMA(N+1) - LOGGAMMA(X+1)
+          - LOGGAMMA(N-X+1) + X × LN(P) + (N-X) × LN(1-P));
+e̲o̲p̲
+c̲o̲d̲e̲ 41252;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ POISSONPROB(X, MU);
+v̲a̲l̲u̲e̲ X, MU; r̲e̲a̲l̲ X, MU;
+POISSONPROB:= i̲f̲ MU ≤ 0
+              t̲h̲e̲n̲ STATAL3 ERROR(“POISSONPROB”, 2, MU)
+              e̲l̲s̲e̲ i̲f̲ X < 0 ∨ X > ENTIER(X) t̲h̲e̲n̲ 0
+              e̲l̲s̲e̲ EXP(-MU + X × LN(MU) - LOGGAMMA(X+1));
+e̲o̲p̲
+c̲o̲d̲e̲ 41253;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HYPERGPROB(X, N, R, M);
+v̲a̲l̲u̲e̲ X, N, R, M; r̲e̲a̲l̲ X, N, R, M;
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BINCOEF(N, K); v̲a̲l̲u̲e̲ N, K;
+    i̲n̲t̲e̲g̲e̲r̲ N, K;
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ B, L, B1;
+        B1:= i̲f̲ K > N - K t̲h̲e̲n̲ N - K e̲l̲s̲e̲ K; B:= 1;
+        f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B1 d̲o̲
+        B:= B × (N + 1 - L) ÷ L;
+        BINCOEF:= B
+    e̲n̲d̲;
+    i̲f̲ N < 0 ∨ N > M ∨ N > ENTIER(N)
+    t̲h̲e̲n̲ STATAL3 ERROR(“HYPERGPROB”, 2, N)
+    e̲l̲s̲e̲ i̲f̲ R < 0 ∨ R > M ∨ R > ENTIER(R)
+    t̲h̲e̲n̲ STATAL3 ERROR(“HYPERGPROB”, 3, R)
+    e̲l̲s̲e̲ i̲f̲ M > ENTIER(M)
+    t̲h̲e̲n̲ STATAL3 ERROR(“HYPERGPROB”, 4, M);
+    i̲f̲ X < 0 ∨ X < N + R - M ∨ X > N ∨ X > R
+    ∨ X > ENTIER(X)
+    t̲h̲e̲n̲ HYPERGPROB:= 0 e̲l̲s̲e̲
+    i̲f̲ N = 0 ∨ M = 0 t̲h̲e̲n̲ HYPERGPROB:=
+        (i̲f̲ X = 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0) e̲l̲s̲e̲
+    i̲f̲ N = M ∨ R = M t̲h̲e̲n̲ HYPERGPROB:=
+        (i̲f̲ X = M t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0) e̲l̲s̲e̲
+    i̲f̲ M ≤ 51 t̲h̲e̲n̲
+    HYPERGPROB:= (BINCOEF(N, X) × BINCOEF(M - N, R - X))
+        / BINCOEF(M, R)
+    e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ PROB; PROB:= 0;
+        f̲o̲r̲ I:= N, M-N, R, M-R d̲o̲
+        PROB:= PROB + LOGGAMMA(I + 1);
+        f̲o̲r̲ I:= N - X, X, M - N - R + X, R - X, M d̲o̲
+        PROB:= PROB - LOGGAMMA(I + 1);
+        HYPERGPROB:= EXP(PROB)
+    e̲n̲d̲
+e̲n̲d̲ HYPERGPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41254;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEGBINPROB(X, K, P);
+    v̲a̲l̲u̲e̲ X, K, P; r̲e̲a̲l̲ X, K, P;
+NEGBINPROB:= i̲f̲ K < 0 ∨ K > ENTIER(K)
+             t̲h̲e̲n̲ STATAL3 ERROR(“NEGBINPROB”, 2, K)
+             e̲l̲s̲e̲ i̲f̲ P ≤ 0 ∨ P > 1
+             t̲h̲e̲n̲ STATAL3 ERROR(“NEGBINPROB”, 3, P)
+             e̲l̲s̲e̲ i̲f̲ X < K ∨ X > ENTIER(X) t̲h̲e̲n̲ 0
+             e̲l̲s̲e̲ i̲f̲ P = 0 t̲h̲e̲n̲ 0
+             e̲l̲s̲e̲ i̲f̲ P = 1 ∨ K = 0
+             t̲h̲e̲n̲ (i̲f̲ X = K t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0)
+             e̲l̲s̲e̲ P × BINPROB(K - 1, X - 1, P);
+e̲o̲p̲
+c̲o̲d̲e̲ 41255;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MULNOMPROB(XVEC, N, K, PVEC);
+    v̲a̲l̲u̲e̲ N,K; r̲e̲a̲l̲ N,K; a̲r̲r̲a̲y̲ XVEC, PVEC;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ XL, PL, LNPR, EPS, PSUM;
+    i̲n̲t̲e̲g̲e̲r̲ J, XSUM;
+    
+      i̲f̲ N > ENTIER(N) ∨ N < 1 t̲h̲e̲n̲
+      STATAL3 ERROR(“MULNOMPROB”,2,N) e̲l̲s̲e̲
+      i̲f̲ K > ENTIER(K) ∨ K < 2 t̲h̲e̲n̲
+      STATAL3 ERROR(“MULNOMPROB”,3,K) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ PSUM := 0; XSUM := 0; EPS := ⏨-14;
+          f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+          b̲e̲g̲i̲n̲ PL := PVEC[J];
+              i̲f̲ PL < 0 t̲h̲e̲n̲
+              STATAL3 ERROR(“MULNOMPROB”,4,PL) e̲l̲s̲e̲
+                PSUM := PSUM + PL
+          e̲n̲d̲;
+          i̲f̲ ABS(PSUM-1) > EPS t̲h̲e̲n̲
+          STATAL3 ERROR(“MULNOMPROB”,4,PSUM) e̲l̲s̲e̲
+          b̲e̲g̲i̲n̲ f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+              b̲e̲g̲i̲n̲ XL := XVEC[J];
+                  i̲f̲ XL > ENTIER(XL) ∨ XL < 0 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ MULNOMPROB := 0; g̲o̲t̲o̲ OUT e̲n̲d̲;
+                  XSUM := XSUM + XL;
+              e̲n̲d̲;
+              i̲f̲ XSUM ¬= N t̲h̲e̲n̲
+              b̲e̲g̲i̲n̲ MULNOMPROB := 0; g̲o̲t̲o̲ OUT e̲n̲d̲ e̲l̲s̲e̲
+              b̲e̲g̲i̲n̲ LNPR := LOGGAMMA(N+1);
+                   f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                   i̲f̲ PVEC[J] = 0 t̲h̲e̲n̲
+                   b̲e̲g̲i̲n̲ i̲f̲ XVEC[J] ≠ 0 t̲h̲e̲n̲
+                       b̲e̲g̲i̲n̲ MULNOMPROB := 0;
+                             g̲o̲t̲o̲ OUT
+                       e̲n̲d̲
+                   e̲n̲d̲ e̲l̲s̲e̲
+                   LNPR := LNPR - LOGGAMMA(XVEC[J]+1) +
+                           XVEC[J] × LN(PVEC[J]);
+                   MULNOMPROB := EXP(LNPR);
+              e̲n̲d̲;
+          e̲n̲d̲;
+    e̲n̲d̲; OUT:
+e̲n̲d̲ MULNOMPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41256;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MULHYPERGPROB(X,N,K,R);
+v̲a̲l̲u̲e̲ N,K; r̲e̲a̲l̲ N,K; a̲r̲r̲a̲y̲ X,R;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,L,SR,SX; r̲e̲a̲l̲ MHP,XJ,RJ;
+    i̲f̲ N < 1 ∨ N > ENTIER(N) t̲h̲e̲n̲
+        STATAL3 ERROR(“MULHYPERGPROB”,2,N);
+    i̲f̲ K < 1 ∨ K > ENTIER(K) t̲h̲e̲n̲
+        STATAL3 ERROR(“MULHYPERGPROB”,3,K);
+    SX := SR := 0;
+    MHP := 0;
+    f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+    b̲e̲g̲i̲n̲ RJ := R[J]; XJ := X[J];
+            i̲f̲ RJ < 0 ∨ RJ > ENTIER(RJ) t̲h̲e̲n̲
+                STATAL3 ERROR(“MULHYPERGPROB”,4,RJ);
+            SR := SR + RJ; SX := SX + XJ;
+            i̲f̲ XJ > RJ ∨ XJ < 0 ∨ XJ > ENTIER(XJ) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ MULHYPERGPROB := 0; g̲o̲t̲o̲ OUT e̲n̲d̲;
+            MHP := MHP + LOGGAMMA(RJ+1) - LOGGAMMA(XJ+1)
+            - LOGGAMMA(RJ-XJ+1);
+     e̲n̲d̲ J ;
+     i̲f̲ SX ≠ N t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ MULHYPERGPROB := 0; g̲o̲t̲o̲ OUT e̲n̲d̲;
+     MHP := MHP + LOGGAMMA(N+1) + LOGGAMMA(SR-N+1)
+            - LOGGAMMA(SR+1);
+     MULHYPERGPROB := EXP(MHP);
+   OUT:
+e̲n̲d̲ MULHYPERGPROB;
+e̲o̲p̲
+c̲o̲d̲e̲ 41500;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PHI(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ABSX, ERF, ERFC, C, P, Q;
+    X:= X × .70710 67811 8655; ABSX:= ABS(X);
+    i̲f̲ X > 5.5 t̲h̲e̲n̲ PHI:= 1 e̲l̲s̲e̲ i̲f̲ X < -5.5
+    t̲h̲e̲n̲ PHI:= 0 e̲l̲s̲e̲ i̲f̲ ABSX ≤ 0.5 t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ C:= X × X;
+          P:= ((-0.35609 84370 1815⏨-1 × C +
+          0.69963 83488 6191⏨+1) × C + 0.21979 26161 8294⏨+2)
+          × C + 0.24266 79552 3053⏨+3;
+          Q:= ((C +
+          0.15082 79763 0408⏨+2) × C +
+          0.91164 90540 4515⏨+2) × C +
+          0.21505 88758 6986⏨+3;
+          PHI:= .5 × X × P / Q + .5
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲f̲ ABSX < 4 t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ C:= ABSX;
+             P:= ((((((-0.13686 48573 8272⏨-6 × C +
+             0.56419 55174 7897⏨+0) × C +
+             0.72117 58250 8831⏨+1) × C +
+             0.43162 22722 2057⏨+2) × C +
+             0.15298 92850 4694⏨+3) × C +
+             0.33932 08167 3434⏨+3) × C +
+             0.45191 89537 1187⏨+3) × C +
+             0.30045 92610 2016⏨+3;
+             Q:= ((((((C +
+             0.12782 72731 9629⏨+2) × C +
+             0.77000 15293 5230⏨+2) × C +
+             0.27758 54447 4399⏨+3) × C +
+             0.63898 02644 6563⏨+3) × C +
+             0.93135 40948 3061⏨+3) × C +
+             0.79095 09253 2790⏨+3) × C +
+             0.30045 92609 3698⏨+3;
+              C:= P/Q
+          e̲n̲d̲ e̲l̲s̲e̲
+          b̲e̲g̲i̲n̲ C:= 1 / X / X;
+              P:= (((0.22319 24597 3419⏨-1 × C +
+              0.27866 13086 0965⏨-0) × C +
+              0.22695 65935 3969⏨-0) × C +
+              0.49473 09106 2325⏨-1) × C +
+              0.29961 07077 0354⏨-2;
+              Q:= (((C +
+              0.19873 32018 1714⏨+1) × C +
+              0.10516 75107 0679⏨+1) × C +
+              0.19130 89261 0783⏨+0) × C +
+              0.10620 92305 2847⏨-1;
+              C:= (C × (-P) / Q + 0.56418 95835 4776) / ABSX
+          e̲n̲d̲;
+          PHI:= .5 + .5 × SIGN(X) × (1 - C × EXP(-X × X))
+     e̲n̲d̲
+e̲n̲d̲ PHI;
+e̲o̲p̲
+c̲o̲d̲e̲ 41501;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PHINV(PROB); v̲a̲l̲u̲e̲ PROB; r̲e̲a̲l̲ PROB;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ EPS;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVERF(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ABSX, P, BETAX;
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲ A[0 : 23];
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHEPOLSER(N, X, A);
+        v̲a̲l̲u̲e̲ N, X; i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ A;
+           b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ H, R, S, TX;
+              TX:= X + X; R:= A[N];
+               H:= A[N - 1] + R × TX;
+               f̲o̲r̲ K:= N - 2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ S:= R; R:= H;
+                   H:= A[K] + R × TX - S
+               e̲n̲d̲;
+               CHEPOLSER:= A[0]- R + H × X
+           e̲n̲d̲ CHEPOLSER;
+           
+           ABSX:= ABS(X);
+           i̲f̲ ABSX ≤ 0.8 t̲h̲e̲n̲
+           b̲e̲g̲i̲n̲
+               A[ 0]:=                 0.99288   53766   1894;
+               A[ 1]:=                 0.12046   75161   4310;
+               A[ 2]:=                 0.01607   81993   4210;
+               A[ 3]:=                 0.00268   67044   3716;
+               A[ 4]:=                 0.00049   96347   3024;
+               A[ 5]:=                 0.00009   88982   1860;
+               A[ 6]:=                 0.00002   03918   1276;
+               A[ 7]:=                 0.00000   43272   7162;
+               A[ 8]:=                 0.00000   09380   8141;
+               A[ 9]:=                 0.00000   02067   3472;
+               A[10]:=                 0.00000   00461   5970;
+               A[11]:=                 0.00000   00104   1668;
+               A[12]:=                 0.00000   00023   7150;
+               A[13]:=                 0.00000   00005   4393;
+               A[14]:=                 0.00000   00001   2555;
+               A[15]:=                 0.00000   00000   2914;
+               A[16]:=                 0.00000   00000   0680;
+               A[17]:=                 0.00000   00000   0159;
+               A[18]:=                 0.00000   00000   0037;
+               A[19]:=                 0.00000   00000   0009;
+               A[20]:=                 0.00000   00000   0002;
+               A[21]:=                 0.00000   00000   0001;
+            INVERF:= CHEPOLSER(21, X × X / 0.32 - 1, A) × X
+        e̲n̲d̲ e̲l̲s̲e̲
+        i̲f̲ 1 - ABSX ≥ 25⏨-4 t̲h̲e̲n̲
+        b̲e̲g̲i̲n̲
+            A[ 0]:=                      0.91215   88034   1755;
+            A[ 1]:=                     -0.01626   62818   6766;
+            A[ 2]:=                      0.00043   35564   7295;
+            A[ 3]:=                      0.00021   44385   7007;
+            A[ 4]:=                      0.00000   26257   5108;
+            A[ 5]:=                     -0.00000   30210   9105;
+            A[ 6]:=                     -0.00000   00124   0606;
+            A[ 7]:=                      0.00000   00624   0661;
+            A[ 8]:=                     -0.00000   00005   4015;
+            A[ 9]:=                     -0.00000   00014   2321;
+            A[10]:=                      0.00000   00000   3438;
+            A[11]:=                      0.00000   00000   3358;
+            A[12]:=                     -0.00000   00000   0146;
+            A[13]:=                     -0.00000   00000   0081;
+            A[14]:=                      0.00000   00000   0005;
+            A[15]:=                      0.00000   00000   0002;
+            BETAX:= SQRT(- LN((1 + ABSX) × (1 - ABSX)));
+            P:= -1.54881 30423 7326 × BETAX +
+                2.56549 01231 4782;
+            P:= CHEPOLSER(15, P, A);
+            INVERF:= i̲f̲ X < 0 t̲h̲e̲n̲ - BETAX × P
+                e̲l̲s̲e̲ BETAX × P
+        e̲n̲d̲ e̲l̲s̲e̲
+        b̲e̲g̲i̲n̲
+              A[ 0]:=    0.95667 97090   2049;
+              A[ 1]:=   -0.02310 70043   0907;
+              A[ 2]:=   -0.00437 42360   9751;
+              A[ 3]:=   -0.00057 65034   2265;
+              A[ 4]:=   -0.00001 09610   2231;
+              A[ 5]:=    0.00002 51085   4703;
+              A[ 6]:=    0.00001 05623   3607;
+              A[ 7]:=    0.00000 27544   1233;
+              A[ 8]:=    0.00000 04324   8450;
+              A[ 9]:=   -0.00000 00205   3034;
+              A[10]:=   -0.00000 00438   9154;
+              A[11]:=   -0.00000 00176   8401;
+              A[12]:=   -0.00000 00039   9129;
+              A[13]:=   -0.00000 00001   8693;
+              A[14]:=    0.00000 00002   7292;
+              A[15]:=    0.00000 00001   3282;
+              A[16]:=    0.00000 00000   3183;
+              A[17]:=    0.00000 00000   0167;
+              A[18]:=   -0.00000 00000   0204;
+              A[19]:=   -0.00000 00000   0097;
+              A[20]:=   -0.00000 00000   0022;
+              A[21]:=   -0.00000 00000   0001;
+              A[22]:=    0.00000 00000   0001;
+              A[23]:=    0.00000 00000   0001;
+              BETAX:=   SQRT(- LN((1 +   ABSX) × (1 - ABSX)));
+              P:= -0.55945 76313 29832 × BETAX +
+                  2.28791 57162 6336;
+              P:= CHEPOLSER(23, P, A);
+              INVERF:= i̲f̲ X < 0 t̲h̲e̲n̲ - BETAX × P
+                  e̲l̲s̲e̲ BETAX × P
+          e̲n̲d̲
+     e̲n̲d̲ INVERSE ERROR FUNCTION;
+     EPS:= ⏨-14;
+     i̲f̲ PROB < EPS ∨ 1 - PROB < EPS t̲h̲e̲n̲
+     STATAL3 ERROR(“PHINV”, 1, PROB);
+    PHINV:= INVERF(2 × PROB - 1) × 1.41421356237310
+e̲n̲d̲ PHINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41502;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORMAL(X, MU, SIGMA);
+    v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+NORMAL:= i̲f̲ SIGMA ≤ 0
+         t̲h̲e̲n̲ STATAL3 ERROR(“NORMAL”, 3, SIGMA)
+         e̲l̲s̲e̲ PHI((X - MU) / SIGMA);
+e̲o̲p̲
+c̲o̲d̲e̲ 41503;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORMALINV(PROB, MU, SIGMA);
+    v̲a̲l̲u̲e̲ PROB, MU, SIGMA; r̲e̲a̲l̲ PROB, MU, SIGMA;
+NORMALINV:= i̲f̲ SIGMA ≤ 0
+            t̲h̲e̲n̲ STATAL3 ERROR(“NORMALINV”, 3, SIGMA)
+            e̲l̲s̲e̲ i̲f̲ PROB < ⏨-14 ∨ PROB > 1 - ⏨-14
+            t̲h̲e̲n̲ STATAL3 ERROR(“NORMALINV”, 1, PROB)
+            e̲l̲s̲e̲ MU + PHINV(PROB) × SIGMA;
+e̲o̲p̲
+c̲o̲d̲e̲ 41506;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHISQ(X, DF);
+v̲a̲l̲u̲e̲ X, DF; r̲e̲a̲l̲ X, DF;
+CHISQ:= i̲f̲ DF ≤ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“CHISQ”, 2, DF)
+        e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+        GAMMA(X, DF / 2, 2);
+e̲o̲p̲
+c̲o̲d̲e̲ 41507;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHISQINV(PROB, DF);
+    v̲a̲l̲u̲e̲ PROB, DF; r̲e̲a̲l̲ PROB, DF;
+i̲f̲ PROB < ⏨-10 ∨ PROB > 1 - ⏨-10
+t̲h̲e̲n̲ STATAL3 ERROR(“CHISQINV”, 1, PROB)
+e̲l̲s̲e̲ i̲f̲ DF ≤ 0
+t̲h̲e̲n̲ STATAL3 ERROR(“CHISQINV”, 2, DF)
+e̲l̲s̲e̲
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X;
+    X:= PHINV(PROB) × SQRT(2 × DF) + DF;
+    CHISQINV:= INVERSE(X, CHISQ(X, DF), PROB, ⏨-10)
+e̲n̲d̲ CHISQINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41509;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NCCHISQ(X, DF, DELTA);
+v̲a̲l̲u̲e̲ X, DF, DELTA; r̲e̲a̲l̲ X, DF, DELTA;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ FACTOR1, FACTOR2, PROB, SUM, TERM;
+    i̲n̲t̲e̲g̲e̲r̲ M;
+    i̲f̲ DF < 1 ∨ DF > ENTIER(DF) t̲h̲e̲n̲
+    STATAL3ERROR(“NCCHISQ”, 2, DF);
+    i̲f̲ DELTA < 0 t̲h̲e̲n̲
+        STATAL3ERROR(“NCCHISQ”, 3, DELTA);
+      i̲f̲ X ≤ 0 t̲h̲e̲n̲ NCCHISQ:= 0 e̲l̲s̲e̲
+      i̲f̲ DELTA = 0 t̲h̲e̲n̲ NCCHISQ:= CHISQ(X, DF) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ PROB:= CHISQ(X, DF); X:= X / 2; DF:= DF / 2;
+          DELTA:= DELTA / 2; FACTOR1:= EXP(-DELTA);
+          FACTOR2:= EXP(DF × LN(X) - X - LOGGAMMA(DF + 1));
+          TERM:= SUM:= PROB × FACTOR1; M:= 0;
+          f̲o̲r̲ M:= M + 1
+          w̲h̲i̲l̲e̲ ¬( TERM < ⏨-9 ∧ M > DELTA ) d̲o̲
+          b̲e̲g̲i̲n̲ FACTOR1:= FACTOR1 × DELTA / M;
+              PROB:= PROB - FACTOR2;
+              FACTOR2:= FACTOR2 × X / (DF + M);
+              TERM:= PROB × FACTOR1; SUM:= SUM + TERM
+          e̲n̲d̲;
+          NCCHISQ:= SUM
+     e̲n̲d̲;
+e̲n̲d̲ NCCHISQ;
+e̲o̲p̲
+c̲o̲d̲e̲ 41513;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GAMMA(X, ALPHA, SCALE);
+    v̲a̲l̲u̲e̲ X, ALPHA, SCALE; r̲e̲a̲l̲ X, ALPHA, SCALE;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ DELTA, UPP;
+    r̲e̲a̲l̲ BETA, START, SUM, TERM;
+    
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INCGAM(X, A, EPS);
+      v̲a̲l̲u̲e̲ X, A, EPS; r̲e̲a̲l̲ X, A, EPS;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C0, C1, C2, D0, D1, D2, X2, AX, P,
+          Q, R, S, R1, R2, SCF; i̲n̲t̲e̲g̲e̲r̲ N;
+          S:= EXP(-X + A × LN(X)); SCF:= ⏨+300;
+          i̲f̲ X ≤ 1 t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ X2:= X × X; AX:= A × X;
+               D0:= 1; P:= A; C0:= S;
+               D1:= (A + 1) × (A + 2 - X);
+               C1:= (D1 + AX + 2 × X) × S;
+               R2:= C1 / D1;
+               f̲o̲r̲ N:= 1, N + 1
+               w̲h̲i̲l̲e̲ ABS((R2 - R1) / R2) > EPS d̲o̲
+               b̲e̲g̲i̲n̲ P:= P + 2;
+                    Q:= (P + 1) × (P × (P + 2) - AX);
+                    R:= N × (N + A) × (P + 2) × X2;
+                    C2:= (Q × C1 + R × C0) / P;
+                    D2:= (Q × D1 + R × D0) / P;
+                    R1:= R2; R2:= C2 / D2;
+                    C0:= C1; C1:= C2; D0:= D1; D1:= D2;
+                    i̲f̲ ABS(C1) > SCF ∨ ABS(D1) > SCF t̲h̲e̲n̲
+                    b̲e̲g̲i̲n̲ C0:= C0 / SCF; C1:= C1 / SCF;
+                        D0:= D0 / SCF; D1:= D1 / SCF
+                    e̲n̲d̲
+               e̲n̲d̲; INCGAM:= R2 / A / EXP(LOGGAMMA(A))
+          e̲n̲d̲ e̲l̲s̲e̲
+          b̲e̲g̲i̲n̲ C0:= A × S; C1:= (1 + X) × C0;
+               Q:= X + 2 - A;
+               D0:= X; D1:= X × Q; R2:= C1 / D1;
+               f̲o̲r̲ N:= 1, N + 1
+               w̲h̲i̲l̲e̲ ABS((R2 - R1) / R2) > EPS d̲o̲
+               b̲e̲g̲i̲n̲ Q:= Q + 2; R:=N × (N + 1 - A);
+                   C2:= Q × C1 - R × C0; D2:= Q × D1 - R × D0;
+                   R1:= R2; R2:= C2 / D2;
+                   C0:= C1; C1:= C2; D0:= D1; D1:= D2;
+                   i̲f̲ ABS(C1) > SCF ∨ ABS(D1) > SCF t̲h̲e̲n̲
+                   b̲e̲g̲i̲n̲ C0:= C0 / SCF; C1:= C1 / SCF;
+                       D0:= D0 / SCF; D1:= D1 / SCF
+                   e̲n̲d̲
+               e̲n̲d̲; INCGAM:= 1 - R2 / A / EXP(LOGGAMMA(A))
+          e̲n̲d̲
+      e̲n̲d̲ INCGAM;
+      
+      i̲f̲ ALPHA ≤ 0 t̲h̲e̲n̲
+          STATAL3 ERROR(“GAMMA”, 2, ALPHA)
+      e̲l̲s̲e̲ i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+          STATAL3 ERROR(“GAMMA”, 3, SCALE)
+      e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ GAMMA:= 0 e̲l̲s̲e̲
+      i̲f̲ ALPHA ≥ 500 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+          GAMMA:= PHI(((X / SCALE / ALPHA) ⭡ .33333333353333
+                   - 1 + 1 / (9 × ALPHA)) × 3 × SQRT(ALPHA))
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ X:= X / SCALE; BETA:= ALPHA - ENTIER(ALPHA) + 1;
+          START:= i̲f̲ X ≥ 40 t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+                  INCGAM(X, BETA, ⏨-12);
+          i̲f̲ ALPHA < 1 t̲h̲e̲n̲
+              GAMMA:= START + EXP(-X + ALPHA × LN(X)
+                      - LOGGAMMA(ALPHA + 1))
+          e̲l̲s̲e̲ i̲f̲ ALPHA < 2 t̲h̲e̲n̲ GAMMA:= START
+          e̲l̲s̲e̲ i̲f̲ X > 700 t̲h̲e̲n̲ GAMMA:= 1
+          e̲l̲s̲e̲
+          b̲e̲g̲i̲n̲ UPP:= ENTIER(ALPHA) - 2; SUM:= TERM:=
+              EXP(-X + (ALPHA - 1) × LN(X) - LOGGAMMA(ALPHA));
+              f̲o̲r̲ DELTA:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲
+              b̲e̲g̲i̲n̲ TERM:= TERM × (ALPHA - DELTA) / X;
+                  SUM:= SUM + TERM
+              e̲n̲d̲;
+              GAMMA:= START - SUM
+          e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ GAMMA;
+e̲o̲p̲
+c̲o̲d̲e̲ 41514;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GAMMAINV(PROB,ALPHA,SCALE);
+v̲a̲l̲u̲e̲ PROB,ALPHA,SCALE; r̲e̲a̲l̲ PROB,ALPHA,SCALE;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X,TOL;
+
+  TOL:= ⏨-10;
+  i̲f̲ ALPHA ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“GAMMAINV”,2,ALPHA) e̲l̲s̲e̲
+  i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“GAMMAINV”,3,SCALE) e̲l̲s̲e̲
+  i̲f̲ PROB ≤ TOL ∨ PROB ≥ 1 - TOL t̲h̲e̲n̲
+      STATAL3 ERROR(“GAMMAINV”,1,PROB);
+  X:= ALPHA × SCALE;
+  GAMMAINV:= INVERSE(X,GAMMA(X,ALPHA,SCALE),PROB, TOL)
+e̲n̲d̲ GAMMAINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41517;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BETA(X, ALPHA1, ALPHA2);
+    v̲a̲l̲u̲e̲ X, ALPHA1, ALPHA2; r̲e̲a̲l̲ X, ALPHA1, ALPHA2;
+BETA:= i̲f̲ ALPHA1 ≤ 0
+       t̲h̲e̲n̲ STATAL3 ERROR(“BETA”, 2, ALPHA1)
+       e̲l̲s̲e̲ i̲f̲ ALPHA2 ≤ 0
+       t̲h̲e̲n̲ STATAL3 ERROR(“BETA”, 3, ALPHA2)
+       e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0
+       e̲l̲s̲e̲ i̲f̲ X ≥ 1 t̲h̲e̲n̲ 1
+       e̲l̲s̲e̲ INCOMPLETE BETA(X, ALPHA1, ALPHA2, ⏨-12);
+e̲o̲p̲
+c̲o̲d̲e̲ 41518;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BETAINV(PROB,ALPHA1,ALPHAZ2);
+v̲a̲l̲u̲e̲ PROB,ALPHA1,ALPHA2; r̲e̲a̲l̲ PROB,ALPHA1,ALPHA2;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X,Y,TOL;
+
+  c̲o̲m̲m̲e̲n̲t̲ DEFINE ACCURACY;
+  TOL:= ⏨-10;
+  
+  c̲o̲m̲m̲e̲n̲t̲ TEST FOR ADMISSIBILITY OF PARAMETERS;
+  i̲f̲ ALPHA1 ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“BETAINV”,2,ALPHA1)
+  e̲l̲s̲e̲
+  i̲f̲ ALPHA2 ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“BETAINV”,3,ALPHA2)
+  e̲l̲s̲e̲
+  i̲f̲ PROB ≤ TOL ∨ PROB ≥ 1 - TOL t̲h̲e̲n̲
+      STATAL3 ERROR(“BETAINV”,1,PROB);
+    
+  X:= 0;
+  BETAINV:= INVERSE(X,BETA(X,ALPHA1,ALPHA2),PROB,TOL)
+e̲n̲d̲ BETAINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41521;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FISHER(X, DF1, DF2); v̲a̲l̲u̲e̲ X, DF1, DF2;
+    r̲e̲a̲l̲ X, DF1, DF2;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ IB;
+
+      i̲f̲ DF1 ≤ 0 t̲h̲e̲n̲
+           FISHER:= STATAL3 ERROR(“FISHER”,2,DF1)
+      e̲l̲s̲e̲
+      i̲f̲ DF2 ≤ 0 t̲h̲e̲n̲
+           FISHER:= STATAL3 ERROR(“FISHER”,3,DF2)
+      e̲l̲s̲e̲
+      i̲f̲ X ≤ 0 t̲h̲e̲n̲ FISHER:= 0
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ IB:= INCOMPLETE BETA(DF2/(DF2 + DF1 × X)
+           , DF2/2,DF1/2,⏨-12);
+           i̲f̲ IB < 0 t̲h̲e̲n̲ IB:= 0
+           e̲l̲s̲e̲ i̲f̲ IB > 1 t̲h̲e̲n̲ IB:= 1;
+           FISHER:= 1 - IB
+      e̲n̲d̲
+e̲n̲d̲ FISHER;
+e̲o̲p̲
+c̲o̲d̲e̲ 41522;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FISHERINV(PROB, DF1, DF2);
+    v̲a̲l̲u̲e̲ PROB, DF1, DF2; r̲e̲a̲l̲ PROB, DF1, DF2;
+b̲e̲g̲i̲n̲
+    i̲f̲ PROB < ⏨-10 ∨ PROB > 1 - ⏨-10
+    t̲h̲e̲n̲ STATAL3 ERROR(“FISHERINV”, 1, PROB)
+    e̲l̲s̲e̲ i̲f̲ DF1 ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“FISHERINV”, 2, DF1)
+    e̲l̲s̲e̲ i̲f̲ DF2 ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“FISHERINV”, 3, DF2)
+    e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X;
+          X:= i̲f̲ PROB ≤ .5 t̲h̲e̲n̲ .5 e̲l̲s̲e̲
+              i̲f̲ DF2 ≤ 4 t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+              DF2 / (DF2 - 2) + PHINV(PROB) ×
+              SQRT(2 × DF2 × DF2 × (DF1 + DF2 - 2) /
+                   (DF1 × (DF2 - 4) × (DF2- 2) × (DF2 - 2)));
+          FISHERINV:=
+              INVERSE(X, FISHER(X, DF1, DF2), PROB, ⏨-10)
+    e̲n̲d̲
+e̲n̲d̲ FISHERINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41525;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NCFISHER(X,DF1,DF2,DELTA);
+v̲a̲l̲u̲e̲ X,DF1,DF2,DELTA; r̲e̲a̲l̲ X,DF1,DF2,DELTA;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ XX,FAKTOR1,FAKTOR2,EPS,SUM;
+
+  i̲f̲ DF1 ≤ 0 t̲h̲e̲n̲ STATAL3 ERROR(“NCFISHER”,2,DF1)
+  e̲l̲s̲e̲
+  i̲f̲ DF2 ≤ 0 t̲h̲e̲n̲ STATAL3 ERROR(“NCFISHER”,3,DF2)
+  e̲l̲s̲e̲
+  i̲f̲ DELTA < 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“NCFISHER”,4,DELTA)
+  e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ NCFISHER:= 0 e̲l̲s̲e̲
+  b̲e̲g̲i̲n̲ XX:= (DF1 × X) / (DF1 × X + DF2); EPS:= ⏨-12;
+    DF1:= DF1 / 2; DF2:= DF2 / 2; DELTA:= DELTA / 2;
+    FAKTOR1:= 1;
+    FAKTOR2:= SUM:= INCOMPLETE BETA(XX,DF1,DF2,EPS);
+    i̲f̲ DELTA = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ UIT;
+    J:= 0; f̲o̲r̲ J:= J + 1 w̲h̲i̲l̲e̲ FAKTOR2 > EPS d̲o̲
+    b̲e̲g̲i̲n̲ FAKTOR1:= FAKTOR1 × DELTA / J;
+       FAKTOR2:= FAKTOR1 ×
+                   INCOMPLETE BETA(XX,DF1 + J,DF2,EPS);
+         SUM:= SUM + FAKTOR2
+    e̲n̲d̲;
+UIT: NCFISHER:= EXP(-DELTA) × SUM
+  e̲n̲d̲
+e̲n̲d̲ NCFISHER;
+e̲o̲p̲
+c̲o̲d̲e̲ 41530;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ STUDENT(X, DF); v̲a̲l̲u̲e̲ X, DF;
+    r̲e̲a̲l̲ X, DF;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲IB;
+
+     i̲f̲ DF ≤ 0 t̲h̲e̲n̲
+         STUDENT:= STATAL3 ERROR(“STUDENT”,2,DF)
+     e̲l̲s̲e̲
+     b̲e̲g̲i̲n̲ IB:=
+         INCOMPLETE BETA(DF/(DF + X × X),DF/2,0.5,⏨-12);
+         i̲f̲ IB < 0 t̲h̲e̲n̲ IB:= 0
+         e̲l̲s̲e̲ i̲f̲ IB > 2 t̲h̲e̲n̲ IB:= 2;
+         STUDENT:= i̲f̲ X < 0 t̲h̲e̲n̲ IB / 2 e̲l̲s̲e̲ 1 - IB / 2
+     e̲n̲d̲
+e̲n̲d̲ STUDENT;
+e̲o̲p̲
+c̲o̲d̲e̲ 41531;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ STUDENTINV(PROB, DF);
+    v̲a̲l̲u̲e̲ PROB, DF; r̲e̲a̲l̲ PROB, DF;
+b̲e̲g̲i̲n̲
+    i̲f̲ PROB < ⏨-10 ∨ PROB > 1 - ⏨-10
+    t̲h̲e̲n̲ STATAL3 ERROR(“STUDENTINV”, 1, PROB)
+    e̲l̲s̲e̲ i̲f̲ DF ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“STUDENTINV”, 2, DF)
+    e̲l̲s̲e̲
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X, U, U2;
+           U:= PHINV(PROB); U2:= U × U;
+           X:= U × (1 + (U2 + 1) / 4 / DF +
+                     (3 + U2 × (U2 × 5 + 16)) / 96 / DF / DF);
+           STUDENTINV:= INVERSE(X, STUDENT(X, DF), PROB, ⏨-10)
+     e̲n̲d̲
+e̲n̲d̲ STUDENTINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41533;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NCSTUDENT(X, DF, DELTA);
+v̲a̲l̲u̲e̲ X, DF, DELTA; r̲e̲a̲l̲ X, DF, DELTA;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A, B, A2, WB, D2, TOL, TOLI, H, HELP, RESULT;
+    B̲o̲o̲l̲e̲a̲n̲ DFEVEN;
+    
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTEGRATE(Y0, Y4, F0, F2, F4);
+      v̲a̲l̲u̲e̲ Y0, Y4, F0, F2, F4; r̲e̲a̲l̲ Y0, Y4, F0, F2, F4;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ F1, F3, Y2, TEE, Y;
+          Y2:=(Y0 + Y4)/2;
+          Y :=(Y0 + Y2)/2; F1:= EXP(H×(1 + Y×Y))/(1 + Y×Y);
+          Y :=(Y2 + Y4)/2; F3:= EXP(H×(1 + Y×Y))/(1 + Y×Y);
+          TEE:=6×F2 - 4×(F1 + F3) + F0 + F4;
+          INTEGRATE:=i̲f̲ ABS(TEE) < TOLI
+               t̲h̲e̲n̲ (Y4 - Y0)×(4×(F1 + F3) + 2×F2 +
+                      F0 + F4 - TEE/15)
+               e̲l̲s̲e̲ INTEGRATE(Y0, Y2, F0, F1, F2) +
+                      INTEGRATE(Y2, Y4, F2, F3, F4);
+      e̲n̲d̲ INTEGRATE;
+   
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUMMATION OF FACTORS M;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+          r̲e̲a̲l̲ MSUM, COEF, MIMIN2, MIMIN1, MI;
+          B̲o̲o̲l̲e̲a̲n̲ ADD;
+          MSUM:= 0;
+          i̲f̲ DF > 1 t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲
+              MIMIN2:= A×WB × EXP(H) × PHI(HELP×WB) ×
+                       .3989422804;
+               i̲f̲ DFEVEN t̲h̲e̲n̲ MSUM:= MSUM + MIMIN2;
+               i̲f̲ DF > 2 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ COEF:= 1;
+                   MIMIN1:= B×(HELP×MIMIN2 +
+                                   A×.1591549431×EXP(-.5×D2));
+                     i̲f̲ ¬ DFEVEN t̲h̲e̲n̲ MSUM:= MSUM + MIMIN1;
+                     ADD:= DFEVEN;
+                     f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ DF - 2 d̲o̲
+                     b̲e̲g̲i̲n̲ MI:= (I - 1)/I×B×
+                                   (COEF×HELP×MIMIN1 + MIMIN2);
+                         i̲f̲ ADD t̲h̲e̲n̲ MSUM:= MSUM + MI;
+                         ADD:=¬ ADD; COEF:= 1/(I - 1)/COEF;
+                         MIMIN2:= MIMIN1; MIMIN1:= MI;
+                     e̲n̲d̲ I;
+              e̲n̲d̲ DF>2;
+          e̲n̲d̲ DF>1;
+          SUMMATION OF FACTORS M:= MSUM;
+      e̲n̲d̲ SUMMATION OF FACTORS M;
+      
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ INITIALISATION;
+      b̲e̲g̲i̲n̲ TOL:= ⏨-8;
+          i̲f̲ DF < 1 ∨ ENTIER(DF) ≠ DF t̲h̲e̲n̲
+          STATAL3 ERROR(“NCSTUDENT”, 2, DF);
+          DFEVEN:= ENTIER(DF/2) = DF/2;
+          A:= X/SQRT(DF); A2:= A×A; D2:= DELTA×DELTA;
+          HELP:= DELTA×A;
+          B:=DF/(DF + X×X); WB:= SQRT(B); H:=-D2×B×.5;
+          i̲f̲ ABS(A) > TOL t̲h̲e̲n̲ TOLI:= 180 × TOL / ABS(A);
+      e̲n̲d̲ INITIALISATION;
+      
+      INITIALISATION;
+      
+      RESULT :=
+      i̲f̲ DFEVEN t̲h̲e̲n̲
+          PHI(-DELTA) + SUMMATION OF FACTORS M × 2.5066282746
+      e̲l̲s̲e̲
+          PHI(-DELTA×WB) + SUMMATION OF FACTORS M × 2 +
+          (i̲f̲ ABS(A) ≤ TOL t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+          .31830 98862 × INTEGRATE(0, A, EXP(H),
+          EXP(H×(1 + A2/4))/(1 + A2/4),
+          EXP(H×(1 + A2))/(1 + A2)) / 12);
+          
+      NCSTUDENT:=
+    i̲f̲ TOL ≤ RESULT ∧ RESULT ≤ 1 - TOL t̲h̲e̲n̲ RESULT
+    e̲l̲s̲e̲
+    i̲f̲ ABS(RESULT) < TOL t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+    i̲f̲ ABS(RESULT - 1) < TOL t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+    STATAL3 ERROR(“NCSTUDENT”, 0, RESULT);
+e̲n̲d̲ NCSTUDENT;
+e̲o̲p̲
+c̲o̲d̲e̲ 41534;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NCSTUDENTINVC(PROB, DF, DELTA);
+    v̲a̲l̲u̲e̲ PROB, DF, DELTA; r̲e̲a̲l̲ PROB, DF, DELTA;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X, Y, TOL;
+
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ CORNISH FISHER EXPANSION;
+     b̲e̲g̲i̲n̲ r̲e̲a̲l̲ UA, UA2, UA3, UA4, UA5;
+         i̲n̲t̲e̲g̲e̲r̲ DF4, DFDF;
+         UA:=PHINV(PROB);
+         UA2:=UA×UA; UA3:=UA2×UA; UA4:=UA2×UA2;
+         UA5:=UA4×UA; DF4:=DF×4; DFDF:=DF×DF;
+           X:=-UA/DFDF/32;
+           X:=X×DELTA - (UA2 - 1)/DFDF/24;
+           X:=X×DELTA + UA/DF4 + (UA3 + UA×4)/DFDF/16;
+           X:=X×DELTA + 1 + (UA2×2 + 1)/DF4 +
+              (UA4×4 + UA2×12 + 1)/DFDF/32;
+           X:=X×DELTA + UA + (UA3 + UA)/DF4 + (UA5×5 + UA3×16
+              + UA×3)/DFDF/96;
+     e̲n̲d̲ INITIAL APPROXIMATION BY CORNISH-FISHER METHOD;
+     
+     TOL:= ⏨-7;
+     i̲f̲ PROB < TOL ∨ PROB > 1 - TOL t̲h̲e̲n̲
+     STATAL3 ERROR(“NCSTUDENTINV”, 1, PROB);
+     i̲f̲ DF < 1 ∨ ENTIER(DF) ≠ DF t̲h̲e̲n̲
+     STATAL3 ERROR(“NCSTUDENTINV”, 2, DF);
+     
+     CORNISH FISHER EXPANSION;
+     
+     NCSTUDENTINV:=
+        INVERSE(X, NCSTUDENT(X, DF, DELTA), PROB, TOL)
+e̲n̲d̲ NCSTUDENTINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41539;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGNORMAL(X, MU, SIGMA);
+    v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+LOGNORMAL:= i̲f̲ SIGMA ≤ 0
+            t̲h̲e̲n̲ STATAL3 ERROR(“LOGNORMAL”, 3, SIGMA)
+            e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0
+            e̲l̲s̲e̲ PHI((LN(X) - MU) / SIGMA);
+e̲o̲p̲
+c̲o̲d̲e̲ 41540;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGNORMALINV(PROB, MU, SIGMA);
+v̲a̲l̲u̲e̲ PROB, MU, SIGMA; r̲e̲a̲l̲ PROB, MU, SIGMA;
+LOGNORMALINV:= i̲f̲ SIGMA ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“LOGNORMALINV”, 3, SIGMA)
+    e̲l̲s̲e̲ i̲f̲ PROB < ⏨-14 ∨ PROB > 1 - ⏨-14
+    t̲h̲e̲n̲ STATAL3 ERROR(“LOGNORMALINV”, 1, PROB)
+    e̲l̲s̲e̲ EXP(PHINV(PROB) × SIGMA + MU);
+e̲o̲p̲
+c̲o̲d̲e̲ 41541;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CAUCHY(X, LOC, SCALE);
+v̲a̲l̲u̲e̲ X, LOC, SCALE; r̲e̲a̲l̲ X, LOC, SCALE;
+CAUCHY:= i̲f̲ SCALE ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“CAUCHY”, 3, SCALE)
+    e̲l̲s̲e̲ ARCTAN((X - LOC) / SCALE) × .31830988618379 + .5;
+e̲o̲p̲
+c̲o̲d̲e̲ 41542;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CAUCHYINV (PROB, LOC, SCALE);
+v̲a̲l̲u̲e̲ PROB, LOC, SCALE; r̲e̲a̲l̲ PROB, LOC, SCALE;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ARG;
+    ARG:= 3.1415 92653 5898 × PROB;
+    CAUCHYINV:= i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+            STATAL3 ERROR (“CAUCHYINV”, 1, PROB)
+        e̲l̲s̲e̲ i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+            STATAL3 ERROR (“CAUCHYINV”, 3, SCALE)
+        e̲l̲s̲e̲
+            -SCALE × COS (ARG) / SIN (ARG) + LOC
+e̲n̲d̲ CAUCHYINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41545;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WEIBULL(X, LOC, SCALE, ALPHA);
+v̲a̲l̲u̲e̲ X, LOC, SCALE, ALPHA; r̲e̲a̲l̲ X, LOC, SCALE, ALPHA;
+WEIBULL:= i̲f̲ SCALE ≤ 0
+          t̲h̲e̲n̲ STATAL3 ERROR(“WEIBULL”, 3, SCALE)
+          e̲l̲s̲e̲ i̲f̲ ALPHA ≤ 0
+          t̲h̲e̲n̲ STATAL3 ERROR(“WEIBULL”, 4, ALPHA)
+          e̲l̲s̲e̲ i̲f̲ X ≤ LOC t̲h̲e̲n̲ 0
+          e̲l̲s̲e̲ 1 - EXP(-((X - LOC) / SCALE) ⭡ ALPHA);
+e̲o̲p̲
+c̲o̲d̲e̲ 41546;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WEIBULLINV(PROB,LOC,SCALE,ALPHA);
+v̲a̲l̲u̲e̲ PROB,LOC,SCALE,ALPHA; r̲e̲a̲l̲ PROB,LOC,SCALE,ALPHA;
+b̲e̲g̲i̲n̲
+  i̲f̲ PROB ≤ ⏨-10 ∨ PROB ≥ 1 - ⏨-10 t̲h̲e̲n̲
+    STATAL3 ERROR(“WEIBULLINV”,1,PROB) e̲l̲s̲e̲
+  i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“WEIBULLINV”,3,SCALE)
+  e̲l̲s̲e̲
+  i̲f̲ ALPHA ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“WEIBULLINV”,4,ALPHA);
+
+  WEIBULLINV:= LOC + SCALE × (-LN(1 - PROB)) ⭡ (1 / ALPHA)
+e̲n̲d̲ WEIBULLINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41550;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGISTIC(X, MU, SIGMA);
+v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+LOGISTIC:= i̲f̲ SIGMA ≤ 0
+           t̲h̲e̲n̲ STATAL3 ERROR(“LOGISTIC”, 3, SIGMA)
+           e̲l̲s̲e̲ 1 / (1 + EXP(-(X - MU) / SIGMA));
+e̲o̲p̲
+c̲o̲d̲e̲ 41551;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGISTICINV (PROB, MU, SIGMA);
+v̲a̲l̲u̲e̲ PROB, MU, SIGMA; r̲e̲a̲l̲ PROB, MU, SIGMA;
+LOGISTICINV:= i̲f̲ SIGMA ≤ 0
+     t̲h̲e̲n̲   STATAL3 ERROR(“LOGISTICINV”, 3, SIGMA)
+     e̲l̲s̲e̲   i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1
+     t̲h̲e̲n̲   STATAL3 ERROR(“LOGISTICINV”, 1, PROB)
+     e̲l̲s̲e̲   - SIGMA × LN((1 - PROB) / PROB) + MU;
+e̲o̲p̲
+c̲o̲d̲e̲ 41556;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ KOLSMIR(D, XSIZE, YSIZE, EPS);
+v̲a̲l̲u̲e̲ D, XSIZE, YSIZE, EPS; r̲e̲a̲l̲ D, XSIZE, YSIZE, EPS;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, KGV, M, N;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GGD(M, N);
+      v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N;
+      GGD:= i̲f̲ N = 0 t̲h̲e̲n̲ M e̲l̲s̲e̲ GGD(N, M - M ÷ N × N);
+      
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ APPROX;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ SUM, X, TERM, THETA;
+          SUM:= .5; THETA:= (1 + (M / KGV) ⭡ 1.2) / (M + N);
+          X:= (I / KGV + THETA) ⭡ 2 × 2 / (1 / M + 1 / N);
+          f̲o̲r̲ K:= 1, K + 2 w̲h̲i̲l̲e̲ TERM > EPS d̲o̲
+          b̲e̲g̲i̲n̲ TERM:= EXP(-X × K × K);
+              SUM:= SUM - TERM × (1 - EXP(-X × (2 × K + 1)))
+          e̲n̲d̲;
+          KOLSMIR:= 2 × SUM
+      e̲n̲d̲;
+      
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXACT;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ LOW[0:N]; a̲r̲r̲a̲y̲ H[0:M];
+          i̲n̲t̲e̲g̲e̲r̲ DMN, MN1, X, Y, UPP; r̲e̲a̲l̲ SUM, BINCOEF;
+          BINCOEF:= 1; LOW[0]:= 0; MN1:= M + N + 1;
+          DMN:= I × M × N / KGV;
+          f̲o̲r̲ X:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+          b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ T, TN;
+              T:= M × X - DMN; TN:= T ÷ N;
+              LOW[X]:= i̲f̲ T ≤ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+                  i̲f̲ TN = T / N t̲h̲e̲n̲ TN e̲l̲s̲e̲ TN + 1;
+              BINCOEF:= BINCOEF × (MN1 - X) / X;
+              i̲f̲ BINCOEF > ⏨318 t̲h̲e̲n̲
+              b̲e̲g̲i̲n̲ EPS:= ⏨-4;g̲o̲t̲o̲ L e̲n̲d̲
+          e̲n̲d̲;
+          H[0]:= 1;
+          f̲o̲r̲ Y:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ H[Y]:= 0;
+          f̲o̲r̲ X:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+          b̲e̲g̲i̲n̲ Y:= LOW[X]; SUM:= H[Y];
+              UPP:= M - LOW[N - X];
+              f̲o̲r̲  Y:= Y + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲
+              H[Y]:= SUM:= SUM + H[Y]
+          e̲n̲d̲;
+          KOLSMIR:= SUM / BINCOEF
+      e̲n̲d̲;
+    i̲f̲ XSIZE ≤ 0 ∨ XSIZE > ENTIER(XSIZE) t̲h̲e̲n̲
+        STATAL3 ERROR(“KOLSMIR”, 2, XSIZE);
+    i̲f̲ YSIZE ≤ 0 ∨ YSIZE > ENTIER(YSIZE) t̲h̲e̲n̲
+        STATAL3 ERROR(“KOLSMIR”, 3, YSIZE);
+    i̲f̲ XSIZE < YSIZE t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ N:= XSIZE; M:= YSIZE e̲n̲d̲
+    e̲l̲s̲e̲ b̲e̲g̲i̲n̲ M:= XSIZE; N:= YSIZE e̲n̲d̲;
+    i̲f̲ EPS < 0 ∨ EPS > ⏨-2 t̲h̲e̲n̲ EPS:= ⏨-3;
+    i̲f̲ XSIZE < YSIZE t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲ N:= XSIZE; M:= YSIZE e̲n̲d̲
+    e̲l̲s̲e̲ b̲e̲g̲i̲n̲ M:= XSIZE; N:= YSIZE e̲n̲d̲;
+    KGV:= M × N / GGD(M, N);
+    I:= ENTIER((1 + ⏨-14) × D × KGV);
+    i̲f̲ EPS ≥ ⏨-3 t̲h̲e̲n̲ L: APPROX e̲l̲s̲e̲ EXACT;
+e̲n̲d̲ KOLSMIR;
+e̲o̲p̲
+c̲o̲d̲e̲ 41558;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BIVANORM(H, K, RHO); v̲a̲l̲u̲e̲ H, K, RHO;
+    r̲e̲a̲l̲ H, K, RHO;
+    b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B;
+    
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ V(H, K, EPS); v̲a̲l̲u̲e̲ H, K, EPS;
+          r̲e̲a̲l̲ H, K, EPS;
+          i̲f̲ H = 0 ∨ K = 0 t̲h̲e̲n̲ V:= 0 e̲l̲s̲e̲
+          i̲f̲ ABS(H) < ABS(K) t̲h̲e̲n̲
+          V:= (PHI(H) - .5) × (PHI(K) - .5) - V(K, H, EPS)
+          e̲l̲s̲e̲
+          i̲f̲ ABS(K)> 8 t̲h̲e̲n̲
+              V:=.15915 49430 9189 × ARCTAN (K/H)
+          e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ M, L, L2, S, R, T, SS, TSN; i̲n̲t̲e̲g̲e̲r̲ N;
+          L:= K / H; M:= H × H / 2; L2:= L × L; R:= EXP(-M);
+          S:= 1 - R; T:= L; SS:= T × S;
+          f̲o̲r̲ N:= 1, N + 1 w̲h̲i̲l̲e̲ ABS(TSN) ≥ EPS d̲o̲
+          b̲e̲g̲i̲n̲ R:= R × M / N; S:= S - R; T:= -T × L2;
+              TSN:=S × T / (2 × N + 1);
+              SS:= SS + TSN
+          e̲n̲d̲;
+          V:= SS × .15915 49430 9189
+      e̲n̲d̲ V;
+    
+    i̲f̲ H < -8 ∨ K < -8 t̲h̲e̲n̲ B:=0 e̲l̲s̲e̲
+    i̲f̲ H > 8 ∧ K > 8 t̲h̲e̲n̲ B:=1 e̲l̲s̲e̲
+    B:= i̲f̲ ABS(RHO) > 1 t̲h̲e̲n̲
+            STATAL3 ERROR(“BIVANORM”, 3, RHO)
+        e̲l̲s̲e̲ i̲f̲ ABS(RHO) = 1 t̲h̲e̲n̲
+           (i̲f̲ RHO = 1 t̲h̲e̲n̲ (i̲f̲ K ≤ H t̲h̲e̲n̲ PHI(K)
+                                              e̲l̲s̲e̲ PHI(H))
+                          e̲l̲s̲e̲ (i̲f̲ H ≤ -K t̲h̲e̲n̲ 0
+                                 e̲l̲s̲e̲ PHI(K) - PHI(H)))
+        e̲l̲s̲e̲ V(H,(K - RHO × H)/ SQRT(1 - RHO ⭡ 2), ⏨-14)
+             + V(K,(H - RHO × K)/ SQRT(1 - RHO ⭡ 2), ⏨-14)
+             + .5 × (PHI(H) + PHI(K))
+             - .15915 49430 9189 × ARCCOS(RHO);
+    i̲f̲ B < 0 t̲h̲e̲n̲ BIVANORM:=0 e̲l̲s̲e̲ BIVANORM:=B;
+e̲n̲d̲ BIVANORM;
+e̲o̲p̲
+c̲o̲d̲e̲ 41560;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ STUDRANGE(Q,N,NU);
+v̲a̲l̲u̲e̲ Q,N,NU; r̲e̲a̲l̲ Q,N,NU;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X, PI, LN4, LNSQRT2PI, LNSQRTPI4;
+     a̲r̲r̲a̲y̲ E[1 : 3];
+     
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ POWER(X)TO:(N); v̲a̲l̲u̲e̲ X, N;
+     r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N;
+     b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N2; r̲e̲a̲l̲ Y;
+           Y:= 1;
+     WHILE POS N:
+           i̲f̲ N ≤ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ END WHILE POS N;
+           N2:= N ÷ 2;
+       WHILE EVEN N:
+         i̲f̲ N2 × 2 ≠ N t̲h̲e̲n̲ g̲o̲t̲o̲ END WHILE EVEN N;
+           N:= N2; X:= X × X; N2:= N ÷ 2;
+         g̲o̲t̲o̲ WHILE EVEN N;
+       END WHILE EVEN N:
+         N:= N - 1; Y:= Y × X;
+         g̲o̲t̲o̲ WHILE POS N;
+     END WHILE POS N:
+         POWER:= Y
+     e̲n̲d̲ POWER;
+     
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ RANGE(T,N); v̲a̲l̲u̲e̲ T,N; r̲e̲a̲l̲ T,N;
+     b̲e̲g̲i̲n̲ r̲e̲a̲l̲ U; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ E[1:3];
+       E[1]:= E[2]:= ⏨-7;
+       RANGE:= N × QADRAT(U, -5, +5,
+         PHIDENS(U) × POWER(PHI(U + T) - PHI(U), N - 1), E);
+     e̲n̲d̲ RANGE;
+     
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTEGRAND(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+     b̲e̲g̲i̲n̲ r̲e̲a̲l̲ XQ;
+         XQ:= X / Q;
+         INTEGRAND:= EXP(NU × (LN4 + LN(XQ) - LNSQRT2PI
+             - XQ × XQ / 2)) × (1 - RANGE(X, N)) / X;
+     e̲n̲d̲ INTEGRAND;
+     
+     i̲f̲ N < 2 ∨ ENTIER(N) < N t̲h̲e̲n̲
+       STATAL ERROR(“STUDRANGE”, 2, N);
+     i̲f̲ NU < 1 ∨ ENTIER(NU) < NU t̲h̲e̲n̲
+       STATAL ERROR(“STUDRANGE”, 3, NU);
+       
+    E[1]:= E[2]:= ⏨-6; PI:= ARCTAN(1) × 4;
+    LNSQRT2PI:= .5 × LN(2 × PI); LN4:= LN(4);
+    LNSQRTPI4:= .5 × LN(PI) - LN4;
+    STUDRANGE:= i̲f̲ Q ≤ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+      1 - 2 × EXP(NU × (LN(NU) / 2 + LNSQRTPI4)
+      - LOGGAMMA(NU / 2)) ×
+      QADRAT(X, ⏨-6, Q × 7, INTEGRAND(X), E);
+e̲n̲d̲ STUDRANGE;
+e̲o̲p̲
+c̲o̲d̲e̲ 41561;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXPON (X, LAMBDA);
+v̲a̲l̲u̲e̲ X, LAMBDA; r̲e̲a̲l̲ X, LAMBDA;
+EXPON:= i̲f̲ LAMBDA ≤ 0
+        t̲h̲e̲n̲ STATAL3 ERROR(“EXPON”, 2, LAMBDA)
+        e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0
+        e̲l̲s̲e̲ 1 - EXP(-LAMBDA × X);
+e̲o̲p̲
+c̲o̲d̲e̲ 41562;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXPONINV(PROB, LAMBDA);
+v̲a̲l̲u̲e̲ PROB, LAMBDA; r̲e̲a̲l̲ PROB, LAMBDA;
+EXPONINV:= i̲f̲ LAMBDA ≤ 0
+           t̲h̲e̲n̲ STATAL3 ERROR(“EXPONINV”,2,LAMBDA)
+           e̲l̲s̲e̲ i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1
+           t̲h̲e̲n̲ STATAL3 ERROR(“EXPONINV”,1,PROB)
+           e̲l̲s̲e̲ - LN(1 - PROB) / LAMBDA;
+e̲o̲p̲
+c̲o̲d̲e̲ 41563;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERLANG(X, N, SCALE);
+v̲a̲l̲u̲e̲ X, N, SCALE; r̲e̲a̲l̲ X, N, SCALE;
+ERLANG:= i̲f̲ SCALE ≤ 0
+         t̲h̲e̲n̲ STATAL3 ERROR(“ERLANG”, 3, SCALE)
+         e̲l̲s̲e̲ i̲f̲ N ≤ 0 ∨ ENTIER(N) < N
+         t̲h̲e̲n̲ STATAL3 ERROR(“ERLANG”, 2, N)
+         e̲l̲s̲e̲ GAMMA(X, N, SCALE);
+e̲o̲p̲
+c̲o̲d̲e̲ 41564;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERLANGINV(PROB,ALPHA,SCALE);
+v̲a̲l̲u̲e̲ PROB,ALPHA,SCALE; r̲e̲a̲l̲ PROB,ALPHA,SCALE;
+i̲f̲ PROB ≤ ⏨-10 ∨ PROB ≥ 1 - ⏨-10 t̲h̲e̲n̲
+    STATAL3 ERROR(“ERLANGINV”,1,PROB)
+e̲l̲s̲e̲ i̲f̲ ALPHA ≤ 0 ∨ ENTIER(ALPHA) < ALPHA t̲h̲e̲n̲
+    STATAL3 ERROR(“ERLANGINV”,2,ALPHA)
+e̲l̲s̲e̲ i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+    STATAL3 ERROR(“ERLANGINV”,3,SCALE)
+e̲l̲s̲e̲ ERLANGINV:= GAMMAINV(PROB,ALPHA, SCALE);
+e̲o̲p̲
+c̲o̲d̲e̲ 41565;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LAPLACE(X, MU, SIGMA);
+v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+b̲e̲g̲i̲n̲
+    i̲f̲ SIGMA ≤ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“LAPLACE”, 3, SIGMA);
+    X:= (X - MU) / SIGMA;
+    LAPLACE:= .5 × (1 + (1 - EXP(-ABS(X))) × SIGN(X))
+e̲n̲d̲ LAPLACE;
+e̲o̲p̲
+c̲o̲d̲e̲ 41566;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LAPLACEINV(PROB,LOC,SCALE);
+v̲a̲l̲u̲e̲ PROB, LOC, SCALE; r̲e̲a̲l̲ PROB, LOC, SCALE;
+b̲e̲g̲i̲n̲
+    i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“LAPLACEINV”,3,SCALE);
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+        STATAL3 ERROR(“LAPLACEINV”,1,PROB);
+    i̲f̲ PROB ≤ .5 t̲h̲e̲n̲
+        LAPLACEINV := LOC + LN(2 × PROB) × SCALE
+    e̲l̲s̲e̲
+        LAPLACEINV := LOC - LN(2 × (1 - PROB)) × SCALE;
+e̲n̲d̲ LAPLACEINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41567;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ UNIFORM(X, A, B);
+v̲a̲l̲u̲e̲ X, A, B; r̲e̲a̲l̲ X, A, B;
+b̲e̲g̲i̲n̲
+    i̲f̲ B ≤ A t̲h̲e̲n̲
+        STATAL3ERROR(“UNIFORM”, 2, B);
+    UNIFORM:= i̲f̲ X ≤ A t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+        i̲f̲ X ≥ B t̲h̲e̲n̲ 1 e̲l̲s̲e̲ (X - A) / (B - A)
+e̲n̲d̲ UNIFORM;
+e̲o̲p̲
+c̲o̲d̲e̲ 41568;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ UNIFORMINV(PROB, A, B);
+v̲a̲l̲u̲e̲ PROB, A, B; r̲e̲a̲l̲ PROB, A, B;
+b̲e̲g̲i̲n̲
+    i̲f̲ B ≤ A t̲h̲e̲n̲ STATAL3ERROR(“UNIFORMINV”, 2, B);
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+    STATAL3ERROR(“UNIFORMINV”, 1, PROB);
+    UNIFORMINV:= (B - A) × PROB + A
+e̲n̲d̲ UNIFORMINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41569;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BINORCOR(R,RHO,N);
+v̲a̲l̲u̲e̲ R, RHO, N; r̲e̲a̲l̲ R, RHO, N;
+b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SAMCORBIVNORDEN(R,RHO,N);
+      v̲a̲l̲u̲e̲ R, RHO, N; r̲e̲a̲l̲ R, RHO, N;
+      b̲e̲g̲i̲n̲
+          i̲f̲ ABS(R) ≥ 1 t̲h̲e̲n̲ SAMCORBIVNORDEN := 0
+           e̲l̲s̲e̲
+           b̲e̲g̲i̲n̲
+               r̲e̲a̲l̲ W1, W3, Y1, Y2, Y3, Y4, N1, R2, RRHO,
+                 R2RHO2, W2, PI, RHO2;
+               R2 := R × R;
+               RHO2 := RHO × RHO;
+               RRHO := R × RHO;
+               R2RHO2 := R2 × RHO2;
+               W1 := SQRT(1 - R2);
+               W2 := SQRT(1 - RHO2);
+               W3 := SQRT(1 - RHO2 × R2);
+               PI := ARCTAN(1) × 4;
+               N1 := N - 1;
+               i̲f̲ N < 15 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                 r̲e̲a̲l̲ a̲r̲r̲a̲y̲ SB[3:N]; i̲n̲t̲e̲g̲e̲r̲ I;
+                 SB[3] :=
+                   (1-RHO2) / PI / W1 × (1 + RRHO ×
+                    ARCCOS(-RRHO) / W3) / (1 - R2RHO2);
+                 i̲f̲ N =3 t̲h̲e̲n̲ SAMCORBIVNORDEN := SB[3]
+                 e̲l̲s̲e̲
+                 b̲e̲g̲i̲n̲
+                   SB[4] :=
+                     (1 - RHO2) × W2 / PI × (3 × RRHO +
+                     (1 + 2 × R2RHO2) × ARCCOS(-RRHO) / W3)
+                     / (1 - R2RHO2) / (1 - R2RHO2);
+                   i̲f̲ N = 4 t̲h̲e̲n̲ SAMCORBIVNORDEN := SB[4]
+                   e̲l̲s̲e̲
+                   b̲e̲g̲i̲n̲ f̲o̲r̲ I := 5 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                     SB[I] :=
+                       (2 × I - 5) / (I - 3) × RRHO × W1 × W2
+                       / (1 - R2RHO2) × SB[I-1] +
+                       (I - 3) / (I - 4) × (1 - RHO2) ×
+                       (1 - R2) / (1 - R2RHO2) × SB[I-2];
+                     SAMCORBIVNORDEN := SB[N];
+                   e̲n̲d̲;
+                 e̲n̲d̲;
+           e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                 Y1 := (RRHO + 2) / 8;
+                 Y2 := (3 × RRHO + 2) × (3 × RRHO + 2) / 128;
+                 Y3 := (((15 × RRHO + 18) × RRHO - 4)
+                     × RRHO - 8) × 5 / 1024;
+                 Y4 := ((((3675 × RRHO + 4200) × RRHO - 2520)
+                   × RRHO - 3360) × RRHO - 336) / 32768;
+                 SAMCORBIVNORDEN :=
+                   (N - 2) / SQRT(N - 1) × (1 - RHO2) × W2
+                   × (W1 × W2 / (1 - RRHO)) ⭡ N1 ×
+                   SQRT((1 - RRHO) / 2 / PI)
+                   / ((1 - R2) × W1 × (1 - RHO2) × W2)
+                   × ((((Y4 / N1 + Y3) / N1 + Y2) / N1 + Y1)
+                   / N1 + 1);
+               e̲n̲d̲;
+           e̲n̲d̲;
+     e̲n̲d̲ SAMCORBIVNORDEN;
+     i̲f̲ ABS(RHO) ≥ 1 t̲h̲e̲n̲
+         STATAL3 ERROR(“BINORCOR”, 2, RHO)
+     e̲l̲s̲e̲ i̲f̲ N > ENTIER(N) ∨ N < 3 t̲h̲e̲n̲
+         STATAL3 ERROR(“BINORCOR”, 3, N)
+     e̲l̲s̲e̲ i̲f̲ R ≤ -1 t̲h̲e̲n̲ BINORCOR := 0
+     e̲l̲s̲e̲ i̲f̲ R ≥ 1 t̲h̲e̲n̲ BINORCOR := 1
+     e̲l̲s̲e̲ i̲f̲ RHO = 0 t̲h̲e̲n̲
+         BINORCOR :=
+         STUDENT(R × SQRT((N - 2) / (1 - R × R)), N - 2)
+     e̲l̲s̲e̲
+     i̲f̲ N ≤ 500 t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ r̲e̲a̲l̲ W1, W2, W3, PI, R2, RHO2, RHO3,
+               RHO4, RRHO, R2RHO2;
+               R2 := R × R;
+               RHO2 := RHO × RHO;
+               RHO3 := RHO2 × RHO;
+               RHO4 := RHO2 × RHO2;
+               RRHO := R × RHO;
+               R2RHO2 := R2 × RHO2;
+               W1 := SQRT(1 - R2);
+               W2 := SQRT(1 - RHO2);
+               W3 := SQRT(1 - RHO2 × R2);
+               PI := ARCTAN(1) × 4;
+               i̲f̲ N = 3 t̲h̲e̲n̲
+                 BINORCOR :=
+                 (ARCCOS(-R) - RHO × W1 / W3 × ARCCOS(-RRHO)) / PI
+               e̲l̲s̲e̲ i̲f̲ N = 4 t̲h̲e̲n̲
+                 BINORCOR :=
+                 W1 × W2 × SAMCORBIVNORDEN(R, RHO, 3) / RHO -
+                 (W2 / RHO - ARCCOS(RHO)) / PI
+               e̲l̲s̲e̲ i̲f̲ N = 5 t̲h̲e̲n̲
+                 BINORCOR :=
+                 W1 × W2 × SAMCORBIVNORDEN(R, RHO, 4) / 2 / RHO
+                 - R × (1 - R2) / 2 × SAMCORBIVNORDENC(R, RHO, 3)
+                 - W1 × (1 + RHO2) / (2 × PI × RHO) × ARCCOS(-RRHO)
+                 / W3 + ARCCOS(-R) / PI
+               e̲l̲s̲e̲
+               i̲f̲ N = 6 t̲h̲e̲n̲
+                 BINORCOR :=
+                 W2 × (1 - 4 × RHO2) / (3 × PI × RHO3)
+                 + ARCCOS(RHO) / PI
+                 - (1 - RHO2) × W1 × W2 / 3 / RHO3 ×
+              SAMCORBIVNORDEN(R, RHO, 3)
+              + (1 - RHO2) × R / 3 / RHO2 ×
+              SAMCORBIVNORDEN(R, RHO, 4)
+              + W1 × W2 / 3 / RHO × SAMCORBIVNORDEN(R, RHO, 5)
+           e̲l̲s̲e̲ i̲f̲ N = 7 t̲h̲e̲n̲
+              BINORCOR :=
+              ARCCOS(-R) / PI - (3 + 6 × RHO2 - RHO4) ×
+              ARCCOS(-RRHO) / W3 × W1 / (8 × PI × RHO)
+              -R × (1 - R2) × (4 - 3 × RHO2 + 3 × RHO4) / 8 /
+              RHO2 × SAMCORBIVNORDEN(R, RHO, 3)
+              - R2 × W1 × W2 × (2 - RHO2) / 8 / RHO ×
+              SAMCORBIVNORDEN(R, RHO, 4)
+              + (1 - RHO2) × R / 4 / RHO2 ×
+              SAMCORBIVNORDEN(R, RHO, 5)
+              + W1 × W2 / 4 / RHO × SAMCORBIVNORDEN(R, RHO, 6)
+           e̲l̲s̲e̲ i̲f̲ N = 8 t̲h̲e̲n̲
+              BINORCOR := ARCCOS(RHO)
+              / PI - W2 × (3 - 11 × RHO2 + 23 × RHO4)
+              / 15 / PI / RHO4 / RHO
+              + (W2 / RHO) ⭡ 5 × W1 / 5 ×
+              SAMCORBIVNORDEN(R, RHO, 3)
+              - R × (1-RHO2) × (1-RHO2) / 5 / RHO4 ×
+              SAMCORBIVNORDEN(R, RHO, 4)
+              + (3 × R2 - 1) × (1 - RHO2) × W2 / W1 / 15 / RHO3
+              × SAMCORBIVNORDEN(R, RHO, 5)
+              + (1 - RHO2) × R / 5 / RHO2 ×
+              SAMCORBIVNORDEN(R, RHO, 6)
+              + W1 × W2 / 5 / RHO × SAMCORBIVNORDENC(R, RHO, 7)
+           e̲l̲s̲e̲
+           b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ E[1:3]; r̲e̲a̲l̲ X;
+               E[1] := E[2] := ⏨-6;
+               BINORCOR :=
+               STUDENT(-RHO × SQRT(N - 1) / W2, N - 1)
+               + QADRAT(X, 0, R, SAMCORBIVNORDEN(X, RHO, N), E)
+           e̲n̲d̲;
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R2, RHO2, RHO3; i̲n̲t̲e̲g̲e̲r̲ N1, N2, N3;
+           N1 := N - 1; N2 := N1 × N1; N3 := N1 × N2;
+           R2 := R × R;
+           RHO2 := RHO × RHO;
+           RHO3 := RHO2 × RHO;
+           BINORCOR :=
+           i̲f̲ ABS(RHO) ≤ .7 t̲h̲e̲n̲
+               PHI((R × SQRT((N - 2.5) / (1 - R2)) -
+               RHO × SQRT((N - 1.5) / (1 - RHO2)))
+               / SQRT(1 + RHO2 / 2 / (1 - RHO2) + R2 /
+               2 / (1 - R2)))
+           e̲l̲s̲e̲
+                PHI((.5 × LN((1 + R) × (1 - RHO) / (1 - R) /
+                (1 + RHO)) - RHO / 2/ N1 -
+                (5 × RHO + RHO3) / 8 / N2 - (11 × RHO +
+                (2 + RHO2) × 3 × RHO3) / 16 / N3)
+                / SQRT(1 / N1 + (4 - RHO2) / 2 / N2 +
+                (22 - (6 - 3 × RHO2) × RHO2) / 6 / N3));
+     e̲n̲d̲;
+e̲n̲d̲  BINORCOR;
+e̲o̲p̲
+c̲o̲d̲e̲ 41571;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXTVAL(X, LOC, SCALE);
+v̲a̲l̲u̲e̲ X, LOC, SCALE; r̲e̲a̲l̲ X, LOC, SCALE;
+b̲e̲g̲i̲n̲
+    i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+        STATAL3 ERROR(“EXTVAL”, 3, SCALE);
+    X:= -(X - LOC) / SCALE;
+    EXTVAL:= i̲f̲ X > LN(-LN(MINREAL))
+                    t̲h̲e̲n̲ 0
+                    e̲l̲s̲e̲ EXP(-EXP(X));
+e̲n̲d̲ EXTVAL;
+e̲o̲p̲
+c̲o̲d̲e̲ 41572;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXTVALINV(PROB, LOC, SCALE);
+v̲a̲l̲u̲e̲ PROB, LOC, SCALE; r̲e̲a̲l̲ PROB, LOC, SCALE;
+b̲e̲g̲i̲n̲
+    i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+      STATAL3 ERROR(“EXTVALINV”, 3, SCALE);
+    i̲f̲ PROB ≤ 0 ∨ PROB ≥ 1 t̲h̲e̲n̲
+      STATAL3 ERROR(“EXTVALINV”, 1, PROB);
+    EXTVALINV:= -SCALE × LN(-LN(PROB)) + LOC
+e̲n̲d̲ EXTVALINV;
+e̲o̲p̲
+c̲o̲d̲e̲ 41751;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ UNIFORMDENS(X, A, B);
+v̲a̲l̲u̲e̲ X, A, B; r̲e̲a̲l̲ X,A,B;
+b̲e̲g̲i̲n̲
+    i̲f̲ B ≤ A
+    t̲h̲e̲n̲ STATAL3ERROR(“UNIFORMDENS”, 2, B);
+    UNIFORMDENS:= i̲f̲ X ≤ A ∨ X > B
+    t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1 / (B - A)
+e̲n̲d̲ UNIFORMDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41752;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PHIDENS(X); v̲a̲l̲u̲e̲ X;
+PHIDENS:= .39894228040143 × EXP(- X × X / 2);
+e̲o̲p̲
+c̲o̲d̲e̲ 41753;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORMALDENS(X, MU, SIGMA);
+    v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+NORMALDENS:= i̲f̲ SIGMA ≤ 0
+             t̲h̲e̲n̲
+                   STATAL3 ERROR(“NORMALDENS”, 3, SIGMA)
+             e̲l̲s̲e̲ EXP(-(((X - MU) / SIGMA) ⭡ 2) / 2)
+                        × .39894228040143 / SIGMA;
+e̲o̲p̲
+c̲o̲d̲e̲ 41754;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGNORMALDENS(X, MU, SIGMA);
+    v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+LOGNORMALDENS:= i̲f̲ SIGMA ≤ 0
+                t̲h̲e̲n̲
+                STATAL3 ERROR(“LOGNORMALDENS”, 3, SIGMA)
+                e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0
+                e̲l̲s̲e̲
+                  EXP(-(((LN(X) - MU) / SIGMA) ⭡ 2) / 2)
+                       × .39894228040143 / X / SIGMA;
+e̲o̲p̲
+c̲o̲d̲e̲ 41755;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXPONDENS(X, LAMBDA); v̲a̲l̲u̲e̲ X, LAMBDA;
+    r̲e̲a̲l̲ X, LAMBDA;
+EXPONDENS:= i̲f̲ LAMBDA ≤ 0
+            t̲h̲e̲n̲
+               STATAL3 ERROR(“EXPONDENS”, 2, LAMBDA)
+            e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0
+                 e̲l̲s̲e̲ LAMBDA × EXP(- LAMBDA × X);
+e̲o̲p̲
+c̲o̲d̲e̲ 41756;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GAMMADENS(X,ALPHA, SCALE);
+v̲a̲l̲u̲e̲ X,ALPHA,SCALE; r̲e̲a̲l̲ X,ALPHA,SCALE;
+i̲f̲ X ≤ 0 t̲h̲e̲n̲ GAMMADENS:= 0 e̲l̲s̲e̲
+b̲e̲g̲i̲n̲
+  i̲f̲ ALPHA ≤ 0
+  t̲h̲e̲n̲ STATAL3 ERROR(“GAMMADENS”,2,ALPHA)
+  e̲l̲s̲e̲ i̲f̲ SCALE ≤ 0
+         t̲h̲e̲n̲ STATAL3 ERROR(“GAMMADENS”, 35,SCALE);
+         
+  GAMMADENS :=
+    EXP(- ALPHA × LN(SCALE) - LOGGAMMA(ALPHA) -
+       X / SCALE + (ALPHA - 1) × LN(X))
+e̲n̲d̲ GAMMADENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41757;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERLANGDENS(X,ALPHA,SCALE);
+v̲a̲l̲u̲e̲ X,ALPHA,SCALE; r̲e̲a̲l̲ X,ALPHA,SCALE;
+i̲f̲ X < 0
+t̲h̲e̲n̲ STATAL3 ERROR(“ERLANGDENS”,1,X) e̲l̲s̲e̲
+i̲f̲ ALPHA ≤ 0 ∨ ENTIER(ALPHA) < ALPHA t̲h̲e̲n̲
+STATAL3 ERROR(“ERLANGDENS”,2,ALPHA) e̲l̲s̲e̲
+i̲f̲ SCALE ≤ 0
+t̲h̲e̲n̲ STATAL3 ERROR(“ERLANGDENS”,3,SCALE)
+e̲l̲s̲e̲ ERLANGDENS:= i̲f̲ X = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+EXP(-ALPHA × LN(SCALE) - LOGGAMMA(ALPHA) - X / SCALE +
+    (ALPHA - 1) × LN(X));
+e̲o̲p̲
+c̲o̲d̲e̲ 41758;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHISQDENS(X, DF);
+v̲a̲l̲u̲e̲ X, DF; r̲e̲a̲l̲ X, DF;
+CHISQDENS:= i̲f̲ DF ≤ 0
+            t̲h̲e̲n̲ STATAL3ERROR(“CHISQDENS”, 2, DF)
+            e̲l̲s̲e̲ i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+            EXP((DF / 2 - 1) × LN(X) - X / 2 -
+                 DF × LN(2) / 2 - LOGGAMMA(DF / 2));
+e̲o̲p̲
+c̲o̲d̲e̲ 41759;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ WEIBULLDENS(X,LOC,SCALE,ALPHA);
+v̲a̲l̲u̲e̲ X,LOC,SCALE,ALPHA; r̲e̲a̲l̲ X,LOC,SCALE,ALPHA;
+b̲e̲g̲i̲n̲
+  i̲f̲ SCALE ≤ 0
+  t̲h̲e̲n̲ STATAL3 ERROR(“WEIBULLDENS”,3,SCALE) e̲l̲s̲e̲
+  i̲f̲ ALPHA ≤ 0 
+  t̲h̲e̲n̲ STATAL3 ERROR(“WEIBULLDENS”,4,ALPHA);
+  
+  WEIBULLDENS:= i̲f̲ X ≤ LOC t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+    (ALPHA / SCALE) × EXP((ALPHA - 1) ×
+      LN((X - LOC) / SCALE) - ((X - LOC) / SCALE) ⭡ ALPHA)
+e̲n̲d̲ WEIBULLDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41760;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BETADENS(X,ALPHA1,ALPHA2);
+v̲a̲l̲u̲e̲ X,ALPHA1,ALPHA2; r̲e̲a̲l̲ X,ALPHA1,ALPHA2;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ BET;
+
+  i̲f̲ ALPHA1 ≤ 0
+  t̲h̲e̲n̲ STATAL3 ERROR(“BETADENS”,2,ALPHA1);
+  i̲f̲ ALPHA2 ≤ 0
+  t̲h̲e̲n̲ STATAL3 ERROR(“BETADENS”,3,ALPHA2);
+  
+  i̲f̲ X ≤ 0 ∨ X ≥ 1 t̲h̲e̲n̲ BETADENS:= 0 e̲l̲s̲e̲
+  b̲e̲g̲i̲n̲ BET:= EXP(LOGGAMMA(ALPHA1 + ALPHA2) -
+                  LOGGAMMA(ALPHA1) - LOGGAMMA(ALPHA2));
+      BETADENS:= BET × EXP((ALPHA1 - 1) × LN(X) +
+                    (ALPHA2 - 1 ) × LN(1 - X))
+  e̲n̲d̲;
+e̲n̲d̲ BETADENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41761;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FISHERDENS(X, DF1, DF2);
+v̲a̲l̲u̲e̲ X, DF1, DF2;
+    r̲e̲a̲l̲ X, DF1, DF2;
+FISHERDENS:= i̲f̲ DF1 ≤ 0
+             t̲h̲e̲n̲ STATAL3 ERROR(“FISHERDENS”, 2, DF1)
+             e̲l̲s̲e̲
+             i̲f̲ DF2 ≤ 0
+             t̲h̲e̲n̲ STATAL3 ERROR(“FISHERDENS”, 3, DF2)
+             e̲l̲s̲e̲
+             i̲f̲ X ≤ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+             EXP(LOGGAMMA((DF1 + DF2) / 2) -
+              LOGGAMMA(DF1 / 2) - LOGGAMMA(DF2 / 2) +
+               (DF1 × LN(DF1) + DF2 × LN(DF2)) / 2 +
+                (DF1 / 2 - 1) × LN(X) - (DF1 + DF2) / 2 ×
+                  LN(DF1 × X + DF2));
+e̲o̲p̲
+c̲o̲d̲e̲ 41762;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ STUDENTDENS(X, DF);
+v̲a̲l̲u̲e̲ X, DF; r̲e̲a̲l̲ X, DF;
+STUDENTDENS:= i̲f̲ DF ≤ 0
+              t̲h̲e̲n̲ STATAL3 ERROR(“STUDENTDENS”, 2, DF)
+                    e̲l̲s̲e̲
+                    EXP(LOGGAMMA((DF + 1) / 2) - LOGGAMMA(DF / 2) -
+                     (DF + 1) / 2 × LN(1 + X × X / DF) -
+                      LN(DF) / 2 - .57236494299247);
+e̲o̲p̲
+c̲o̲d̲e̲ 41763;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CAUCHYDENS(X,LOC,SCALE);
+v̲a̲l̲u̲e̲ X,LOC,SCALE; r̲e̲a̲l̲ X,LOC,SCALE;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ PI,Q;
+
+  i̲f̲ SCALE ≤ 0
+  t̲h̲e̲n̲ STATAL3 ERROR(“CAUCHYDENS”,3,SCALE);
+  PI:= 3.1415926535898;
+  Q:= (X - LOC) / SCALE;
+  CAUCHYDENS:= 1 / (PI × SCALE × (1 + Q × Q))
+e̲n̲d̲ CAUCHYDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41764;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LAPLACEDENS(X,LOC,SCALE);
+    v̲a̲l̲u̲e̲ X, LOC, SCALE; r̲e̲a̲l̲ X, LOC, SCALE;
+b̲e̲g̲i̲n̲
+    i̲f̲ SCALE ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“LAPLACEDENS”,3,SCALE);
+    X := (X - LOC) / SCALE;
+    LAPLACEDENS := .5 / SCALE × EXP(-ABS(X));
+e̲n̲d̲ LAPLACEDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41765;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOGISTICDENS(X, MU, SIGMA);
+    v̲a̲l̲u̲e̲ X, MU, SIGMA; r̲e̲a̲l̲ X, MU, SIGMA;
+b̲e̲g̲i̲n̲
+    i̲f̲ SIGMA ≤ 0
+    t̲h̲e̲n̲ STATAL3 ERROR(“LOGISTICDENS”, 3, SIGMA);
+    X:= EXP(-(X - MU) / SIGMA);
+    LOGISTICDENS:= X / ((1 + X) × (1 + X) × SIGMA)
+e̲n̲d̲ LOGISTICDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 41766;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXTVALDENS(X, LOC, SCALE);
+    v̲a̲l̲u̲e̲ X, LOC, SCALE; r̲e̲a̲l̲ X, LOC, SCALE;
+b̲e̲g̲i̲n̲
+    i̲f̲ SCALE ≤ 0 t̲h̲e̲n̲
+    STATAL3 ERROR(“EXTVALDENS”, 3, SCALE);
+    X:= (X - LOC) / SCALE;
+    EXTVALDENS:= EXP(-(X + EXP(-X))) / SCALE
+e̲n̲d̲ EXTVALDENS;
+e̲o̲p̲
+c̲o̲d̲e̲ 49999;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ANDERSON DARLING(X, L, U, SORTED);
+v̲a̲l̲u̲e̲ L, U, SORTED;
+a̲r̲r̲a̲y̲ X; i̲n̲t̲e̲g̲e̲r̲ L, U; B̲o̲o̲l̲e̲a̲n̲ SORTED;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, N;
+    r̲e̲a̲l̲ MU, SIGMA, XI, FACTOR, SUM, ESTIMATE;
+
+    N:= U - L +1;
+    i̲f̲ N ≤ 1 t̲h̲e̲n̲
+        STATAL3 ERROR(“ANDERSON-DARLING”, 3, U);
+    i̲f̲ ¬ SORTED t̲h̲e̲n̲ VECQSORT(X, L, U);
+    i̲f̲ X[L] = X[U] t̲h̲e̲n̲
+    STATAL3 ERROR(“ANDERSON-DARLING”, 1, X[L]);
+
+    c̲o̲m̲m̲e̲n̲t̲ FIRST THE ESTIMATION (IN THE USUAL WAY) OF
+        EXPECTATION AND STANDARD DEVIATION OF THE NORMAL
+        DISTRIBUTION. ;
+    MU:= SIGMA:= 0; ESTIMATE:= (X[L] + X[U]) / 2;
+    f̲o̲r̲ I:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+    b̲e̲g̲i̲n̲ XI:= X[I]:= X[I] - ESTIMATE;
+        MU:= MU + XI; SIGMA:= SIGMA + XI × XI;
+    e̲n̲d̲;
+    MU:= MU / N;
+    SIGMA:= SQRT((SIGMA - N × MU × MU) / (N - 1));
+
+    c̲o̲m̲m̲e̲n̲t̲ TRANSFORMATION OF THE OBSERVATIONS TO
+              UNIFORM(0, 1)-DISTRIBUTED QUANTITIES.;
+    f̲o̲r̲ I:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+    X[I]:=PHI((X[I] - MU) / SIGMA);
+
+    c̲o̲m̲m̲e̲n̲t̲ ANDERSON-DARLING TEST QUANTITY;
+
+    SUM:= 0; FACTOR:= -1;
+    f̲o̲r̲ I:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+    b̲e̲g̲i̲n̲ FACTOR:= FACTOR + 2;
+        SUM:= SUM +
+              FACTOR × (LN(X[I]) + LN(1 - X[L + U - I]))
+    e̲n̲d̲;
+    ANDERSON DARLING:=
+        (1 + 4 / N - 25 / N / N) × (-SUM / N - N)
+e̲n̲d̲ OF ANDERSON DARLING;
+e̲o̲p̲

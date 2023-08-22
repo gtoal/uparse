@@ -1,0 +1,1247 @@
+b̲e̲g̲i̲n̲
+
+        c̲o̲m̲m̲e̲n̲t̲ A0006,A0013;
+        
+        c̲o̲m̲m̲e̲n̲t̲ A0012;
+        
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ findprog(dv,a);
+                 v̲a̲l̲u̲e̲
+                         dv;
+                 i̲n̲t̲e̲g̲e̲r̲
+                         dv;
+                 i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲
+                         a;
+                 b̲e̲g̲i̲n̲
+                 c̲o̲m̲m̲e̲n̲t̲ A̲L̲G̲O̲L̲;
+                 e̲n̲d̲  findprog;
+
+        i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ readprog;
+                 b̲e̲g̲i̲n̲
+                 c̲o̲m̲m̲e̲n̲t̲ A̲L̲G̲O̲L̲;
+                 e̲n̲d̲  readprog;
+
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ printtitle(od);
+                v̲a̲l̲u̲e̲
+                        od;
+                i̲n̲t̲e̲g̲e̲r̲
+                        od;
+                b̲e̲g̲i̲n̲
+                c̲o̲m̲m̲e̲n̲t̲ A̲L̲G̲O̲L̲;
+                e̲n̲d̲  printtitle;
+
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ print(s, n);
+                v̲a̲l̲u̲e̲
+                        n;
+                s̲t̲r̲i̲n̲g̲
+                        s;
+                i̲n̲t̲e̲g̲e̲r̲
+                        n;
+                b̲e̲g̲i̲n̲
+                writetext(out, s);
+                write(out, format( { ssndd } ), n);
+                e̲n̲d̲  print;
+
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ algoledit(linelimit, id, od, failure);
+                v̲a̲l̲u̲e̲
+                        linelimit, id, od;
+                i̲n̲t̲e̲g̲e̲r̲
+                        linelimit, id, od;
+                l̲a̲b̲e̲l̲
+                        failure;
+                c̲o̲m̲m̲e̲n̲t̲   This procedure edits one Algol 60 program when it is called.
+                        The meaning of the parameters is:-
+                        ‘line limit’ - the maximum number of basic symbols to be output on one line
+                        ‘id’ - the input device number
+                        ‘od’ - the output device number
+                        ‘failure’ - the procedure jumps to this label is a failure occurs while
+                          editing is in progress;
+                b̲e̲g̲i̲n̲
+                c̲o̲m̲m̲e̲n̲t̲   ‘algol edit’ uses arrays for the following purposes:-
+                        ‘n tabs’ - the elements of this array are used to remember the number
+                          of tabs which must precede the start of each statement and declaration
+                          of every block
+                        ‘disk buffer’ - this array is used as a buffer if the Algol program is read from the disc
+                        ‘buffer’ - this array is used as a buffer to hold the symbols which will
+                          be output on the next line
+                        ‘s’ - this array is used as a temporary store when a line must be split
+                          because it is too long
+                        ‘spa’, ‘spb’ - these arrays are used to specify the number of spaces which
+                          are to be output before and after each different basic symbol;
+                i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲
+                        ntabs[1 : 25],
+                        buffer,
+                        s[0 : 150],
+                        discbuffer[0 : i̲f̲ id = 120 t̲h̲e̲n̲ 640 e̲l̲s̲e̲ 1],
+                        spa,
+                        spb[0 : 255];
+                c̲o̲m̲m̲e̲n̲t̲   At any point in the Algol program being edited, these integer variables have
+                        the following values:-
+                        ‘b ctr’, ‘e ctr’ - the number of b̲e̲g̲i̲n̲s and e̲n̲d̲s that have occurred so far
+                        ‘bs’ - the current basic symbol
+                        ‘depth’ - the currentnested block depth, ie. ‘b ctr’ - ‘e ctr’
+                        ‘i’ - this is used as the controlled variable in a f̲o̲r̲ statement
+                        ‘lc’ - the next symbol to be output will be put in ‘buffer[lc]’
+                        ‘line number’ - the value of this variable is the number of lines
+                          which are to be utput before the next gap
+                        ‘start of string’ - this variable is used in the procedures ‘read string’ and
+                          ‘copy string’.  Its value indicates the start of the current string
+                          in the output buffer and is needed if the string is too long to be
+                          put on one line
+                        ‘tabs’ - the number of tab symbols which must start the next line to be output
+                        ‘tabspace’ - the number of spae symbols equivalent to oe tab symbol;
+                i̲n̲t̲e̲g̲e̲r̲
+                        bctr,
+                        bs,
+                        depth,
+                        ectr,
+                        l,
+                        lc,
+                        linenumber,
+                        startofstring,
+                        tabs,
+                        tabspace;
+                c̲o̲m̲m̲e̲n̲t̲   Each one of these variables represents an Algol basic symbol and has
+                        an appropriate constant value;
+                i̲n̲t̲e̲g̲e̲r̲
+                        capital A,
+                        and,
+                        array,
+                        becomes,
+                        begin,
+                        boolean,
+                        colon,
+                        comma,
+                        comment,
+                        divide,
+                        do,
+                        else,
+                        end,
+                        equals,
+                        eqv,
+                        false,
+                        for,
+                        goto,
+                        greaterthan,
+                        gtequal,
+                        if,
+                        imp,
+                        intdiv,
+                        integer,
+                        label,
+                        lrbracket,
+                        lsqbracket,
+                        lstrbracket,
+                        lessthan,
+                        ltequal,
+                        minus,
+                        multiply,
+                        newline,
+                        nine,
+                        not,
+                        notequal,
+                        or,
+                        own,
+                        plus,
+                        procedure,
+                        real,
+                        rrbracket,
+                        rsqbracket,
+                        rstrbracket,
+                        semicolon,
+                        space,
+                        step,
+                        string,
+                        subscript ten,
+                        switch,
+                        tab,
+                        then,
+                        true,
+                        until,
+                        value,
+                        while,
+                        zero,
+                        small z;
+
+                c̲o̲m̲m̲e̲n̲t̲   Each one of these variables represents a KDF9 pseudo basic symbol and has the appropriate
+                          constant value;
+                i̲n̲t̲e̲g̲e̲r̲
+                        algol,
+                        endmessage,
+                        exit,
+                        kdf9,
+                        library,
+                        segment,
+                        tabdummy;
+                        
+                c̲o̲m̲m̲e̲n̲t̲   A list of the procedures in algol edit.
+                        read symbol
+                        out line ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ od, i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ buffer, i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ lc )
+                        nbs
+                        b̲o̲o̲l̲e̲a̲n̲ letter or digit
+                        identifier or label
+                        scan ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol 1, i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol 2 )
+                        next line
+                        out 1 ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ char )
+                        out ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ char )
+                        clear full line ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol )
+                        specifications or declarations ( b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ declarations )
+                        proc declaration
+                        fail ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ n )
+                        expression ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol )
+                        for variable and list
+                        if clause
+                        statement
+                        possible label(b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ inserting a dummy statement is possible)
+                        copy string
+                        read string
+                        copy square brackets
+                        copy round brackets
+                        block ( b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ inner )
+                        call library
+                        code body
+                        ;
+                        
+                c̲o̲m̲m̲e̲n̲t̲   label numbers
+                         1  statement
+                         2  scan
+                         3  specifications or declarations
+                         4  clear full line
+                         5  copy square brackets
+                         6  fail
+                         7  nbs
+                         8  read string
+                         9  comment statement
+                        10  block
+                        11  block
+                        12  copy round brackets
+                        13  call library
+                        14  specifications or declarations
+                        15  code body
+                        16  code body
+                        17  out
+                        18  identifier or label
+                        19  expression
+                        20  expression
+                        21  for variable and list
+                        22  statement
+                        ;
+                        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ readsymbol;
+                        c̲o̲m̲m̲e̲n̲t̲ This procedure assigns the next basic symbol of the
+                                Algol program being edited to the global variable ‘be’.
+                                It is a machine-dependent procedure;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs = endmessage t̲h̲e̲n̲
+                                fail(114);
+                        bs :=
+                                i̲f̲ id = 120 t̲h̲e̲n̲ readprog e̲l̲s̲e̲ inbasicsymbol(id);
+                        e̲n̲d̲  readsymbol;
+                        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ outline(od, buffer, lc);
+                        v̲a̲l̲u̲e̲
+                                od,
+                                lc;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                od,
+                                lc;
+                        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲
+                                buffer;
+                                
+                        b̲e̲g̲i̲n̲
+                        c̲o̲m̲m̲e̲n̲t̲   This is the basic output routine which prints the next line of the
+                                  program on device od.  The symbols of the output line are stored
+                                  in elements 1 to lc of the array buffer .  outline is a
+                                  machine dependent procedure;
+                        c̲o̲m̲m̲e̲n̲t̲ A̲L̲G̲O̲L̲;
+                        e̲n̲d̲  outline;
+                       
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ nbs;
+                        c̲o̲m̲m̲e̲n̲t̲    ‘nbs’ assigns the next non-printing symbol of the Algol program
+                                  being edited to the variabe ‘bs’;
+                        b̲e̲g̲i̲n̲
+                   label7 :;
+                        readsymbol;
+                        i̲f̲ bs = space ∨ bs = newline ∨ bs = tab t̲h̲e̲n̲
+                                g̲o̲t̲o̲ label7;
+                        e̲n̲d̲  nbs;
+                        
+                b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ letter or digit;
+                        letter or digit := (bs ≥ capital A ∧ bs ≤ small z) ∨ (bs ≥ zero ∧ bs ≤ nine);
+                        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ identifier or label;
+                        c̲o̲m̲m̲e̲n̲t̲ This procedure copies successive symbols of the Algol program which
+                                form either an identifier or label;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ ¬ letter or digit t̲h̲e̲n̲ fail(105);
+                   label18 :;
+                        out(bs);
+                        nbs;
+                        i̲f̲ letter or digit t̲h̲e̲n̲
+                                g̲o̲t̲o̲ label18;
+                        e̲n̲d̲  identifier or label;
+                        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ scan(symbol1, symbol2);
+                        v̲a̲l̲u̲e̲
+                                symbol1,
+                                symbol2;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                symbol1, symbol2;
+                        c̲o̲m̲m̲e̲n̲t̲ ‘scan’ copies successive non-printing symbols and bracketed elements
+                                of the Algol program.  It inserts spaces where appropriate and stops
+                                when the current basic symbol is either ‘symbol1’ or ‘symbol2’;
+                                
+                        b̲e̲g̲i̲n̲
+                   label2 :;
+                        i̲f̲ bs = lrbracket t̲h̲e̲n̲
+                               b̲e̲g̲i̲n̲
+                               copy round brackets;
+                               g̲o̲t̲o̲ label2
+                               e̲n̲d̲;
+                        i̲f̲ bs = lsqbracket t̲h̲e̲n̲
+                               b̲e̲g̲i̲n̲
+                               copy square brackets;
+                               g̲o̲t̲o̲ label2
+                               e̲n̲d̲;
+                        out(bs);
+                        i̲f̲ bs ≠ symbol1 ∧ bs ≠ symbol2 t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                nbs;
+                                g̲o̲t̲o̲ label2;
+                                e̲n̲d̲
+                        e̲n̲d̲  scan;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ next line;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘next line’ outputs the next line of the edited Algol program and
+                                 stores in ‘buffer’ the tab symbols at the beginning of the next line;
+                        b̲e̲g̲i̲n̲
+                        i̲n̲t̲e̲g̲e̲r̲
+                                i,
+                                j;
+                        i̲f̲ linenumber = 0 t̲h̲e̲n̲
+                               b̲e̲g̲i̲n̲
+                               i̲f̲ od = 10 t̲h̲e̲n̲
+                                       b̲e̲g̲i̲n̲
+                                       outline(od, buffer, lc-1);
+                                       gap(od, 50);
+                                       e̲n̲d̲
+                               e̲l̲s̲e̲
+                                       b̲e̲g̲i̲n̲
+                                       buffer[lc] := newline;
+                                       outline(od, buffer, lc);
+                                       e̲n̲d̲;
+                               linenumber := 31;
+                               e̲n̲d̲
+                        e̲l̲s̲e̲
+                               b̲e̲g̲i̲n̲
+                               linenumber := linenumber+1;
+                               buffer[lc] := newline;
+                               outline(od, buffer, lc);
+                               e̲n̲d̲;
+                        lc := tabspace × tabs;
+                        f̲o̲r̲ i := 1 s̲t̲e̲p̲ tabspace u̲n̲t̲i̲l̲ lc d̲o̲
+                               b̲e̲g̲i̲n̲
+                               buffer[i] := tab;
+                               f̲o̲r̲ j := i+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i+tabspace-1 d̲o̲
+                                       buffer[j] := tabdummy;
+                        e̲n̲d̲  for i;
+                lc := lc + 1;
+                e̲n̲d̲  next line;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ comment statement;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘comment statement’ edits a comment from the basic symbol c̲o̲m̲m̲e̲n̲t̲ up to
+                                  the semicolon;
+                        b̲e̲g̲i̲n̲
+                        next line;
+                        tabs := tabs+1;
+                        out(bs);
+                   label9 :;
+                        i̲f̲ lc > 150 t̲h̲e̲n̲ fail(113);
+                        readsymbol;
+                        i̲f̲ bs ≠ semicolon t̲h̲e̲n̲
+                              b̲e̲g̲i̲n̲
+                              i̲f̲ bs = newline t̲h̲e̲n̲
+                                      next line
+                              e̲l̲s̲e̲ i̲f̲ bs = tab t̲h̲e̲n̲
+                                      out1(space)
+                              e̲l̲s̲e̲
+                                      out1(bs);
+                              g̲o̲t̲o̲ label9;
+                              e̲n̲d̲;
+                        out1(semicolon);
+                        tabs := tabs-1;
+                        next line;
+                        next line;
+                        nbs;
+                        e̲n̲d̲  comment statement;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ out1(char);
+                        v̲a̲l̲u̲e̲
+                                char;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                char;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘out 1’ inserts the symbol ‘char’ into the output buffer and increases the
+                                 counter ‘lc’ by one;
+                        b̲e̲g̲i̲n̲
+                        buffer[lc] := char;
+                        lc := lc+1;
+                        e̲n̲d̲  out1;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ out(char);
+                        v̲a̲l̲u̲e̲
+                                char;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                char;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘out’ inserts the symbol ‘char’into the output buffer.  If necessary ‘out’
+                                 also puts a space before and/or after‘char’.  ‘out’ also checks to see
+                                 if the buffer is full, if so it is emptied;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ buffer[lc - 1] = subscript ten t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                i̲f̲ char = plus ∨ char = minus t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        out1(char);
+                                        nbs;
+                                        out1(bs);
+                                        g̲o̲t̲o̲ label17;
+                                        e̲n̲d̲
+                                e̲n̲d̲;
+                        i̲f̲ spb[char] ≠ 0 ∧ buffer[lc-1] ≠ space t̲h̲e̲n̲
+                                out1(space);
+                        i̲f̲ (char = comma ∨ char = semicolon) ∧ buffer[lc-1] = space t̲h̲e̲n̲
+                                lc := lc-1;
+                        out1(char);
+                        i̲f̲ spa[char] ≠ 0 t̲h̲e̲n̲
+                                out1(space);
+                   label17 :;
+                        i̲f̲ lc > linelimit+3 t̲h̲e̲n̲
+                                fail(106);
+                        i̲f̲ lc ≥ linelimit t̲h̲e̲n̲
+                                clear full line(space);
+                        e̲n̲d̲  out character;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ clear full line(symbol);
+                        v̲a̲l̲u̲e̲
+                                symbol;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                symbol;
+                        c̲o̲m̲m̲e̲n̲t̲    clear full line is called when an edited line is too long to be
+                                  output on a single line.  It looks for the latest occurrence of the
+                                  symbol specified by the parameter ‘symbol’, and splits the line at
+                                  this point.  It outputs the first part of the line and puts the
+                                  remaining characters at the beginning of the next line.  The
+                                  procedure fails if it is unable to find a point at which the line
+                                  can be split;
+                        b̲e̲g̲i̲n̲
+                        i̲n̲t̲e̲g̲e̲r̲
+                                i,
+                                j,
+                                k;
+                        j := lc - 1;
+                        f̲o̲r̲ k := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ linelimit - tabspace × (tabs-1) + 1 d̲o̲
+                                b̲e̲g̲i̲n̲
+                                i̲f̲ buffer[j] = symbol t̲h̲e̲n̲
+                                        g̲o̲t̲o̲ label4;
+                                s[k] := buffer[j];
+                                j := j-1;
+                                e̲n̲d̲;
+                        fail(100);
+                   label4 :;
+                        lc := j;
+                        i̲f̲ symbol = semicolon t̲h̲e̲n̲
+                                out1(semicolon);
+                        tabs := tabs+1;
+                        next line;
+                        lc := lc-1;
+                        f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ k-1 d̲o̲
+                                buffer[lc+j] := s[k-j];
+                        lc := lc+k;
+                        tabs := tabs-1;
+                        e̲n̲d̲  clear full line;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ specifications or declarations(declarations);
+                        v̲a̲l̲u̲e̲
+                                declarations;
+                        b̲o̲o̲l̲e̲a̲n̲
+                                declarations;
+                        c̲o̲m̲m̲e̲n̲t̲   If the parameter of ‘specifications or declarations’ is false,
+                                  then this procedure edits the value and specification part of a
+                                  procedure declaration.  If the parameter is true, then the procedure
+                                  edits a list of declarations separated by semicolons;
+                        b̲e̲g̲i̲n̲
+                   label3 :;
+                        i̲f̲ bs = procedure ∧ declarations t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                proc declaration;
+                                g̲o̲t̲o̲ label3;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = switch ∧ declarations t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                scan(becomes, becomes);
+                                nbs;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = library t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                call library;
+                                g̲o̲t̲o̲ label3;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = comment t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                comment statement;
+                                g̲o̲t̲o̲ label3;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = real ∨ bs = integer ∨ bs = boolean ∨ bs = array ∨ bs = switch ∨ bs = label ∨ bs =
+                                string ∨ bs = own ∨ bs = value ∨ bs = procedure t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                out(bs);
+                                nbs;
+                                g̲o̲t̲o̲ label3;
+                                e̲n̲d̲;
+                        i̲f̲ lc ≠ tabspace × tabs + 1 t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                tabs := tabs+1;
+                                next line;
+                           label14 :;
+                                scan(comma,semicolon);
+                                i̲f̲ bs = semicolon t̲h̲e̲n̲ tabs := tabs-1;
+                                next line;
+                        i̲f̲ bs = comma t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                nbs;
+                                g̲o̲t̲o̲ label14;
+                                e̲n̲d̲;
+                        nbs;
+                        g̲o̲t̲o̲ label3;
+                        e̲n̲d̲;
+                e̲n̲d̲  specifications or declarations;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc declaration;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘proc declaration’ edits a procedure declaration.  The call of
+                                   statement must be extended if it is necessary to take account of
+                                   procedures with code bodies;
+                        b̲e̲g̲i̲n̲
+                        scan(semicolon, semicolon);
+                        tabs := tabs+1;
+                        next line;
+                        nbs;
+                        specifications or declarations(f̲a̲l̲s̲e̲);
+                        i̲f̲ bs = segment t̲h̲e̲n̲
+                                scan(semicolon, semicolon)
+                        e̲l̲s̲e̲
+                                b̲e̲g̲i̲n̲
+                                i̲f̲ bs = kdf9 t̲h̲e̲n̲
+                                        code body
+                                e̲l̲s̲e̲
+                                        statement;
+                                i̲f̲ bs = semicolon t̲h̲e̲n̲
+                                        out(bs)
+                                e̲l̲s̲e̲
+                                        fail(107);
+                                e̲n̲d̲;
+                        tabs := ntabs[depth];
+                        next line;
+                        next line;
+                        nbs;
+                        e̲n̲d̲  proc declaration;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ fail(n);
+                        v̲a̲l̲u̲e̲
+                                n;
+                        i̲n̲t̲e̲g̲e̲r̲
+                                n;
+                        c̲o̲m̲m̲e̲n̲t̲  ‘fail’ outputs the current line and a brief failure message.
+                                 It then looks for the end of the program and exits to the label
+                                 ‘failure’.
+
+                                 The procedures in which the various failure numbers are generated are :-
+                                 100  clear full line
+                                 101  read string
+                                 102  copy square brackets
+                                 103  copy round brackets
+                                 104  block
+                                 105  identifier or label
+                                 106  out
+                                 107  proc declaration
+                                 108  call library
+                                 109  read string
+                                 110  block
+                                 111  code body
+                                 112  code body
+                                 113  comment statement
+                                 114  read symbol
+                                 114  for variable and list
+                                 117  if clause
+                                 ;
+
+                        b̲e̲g̲i̲n̲
+                        lc :=
+                                i̲f̲ lc > linelimit t̲h̲e̲n̲
+                                        linelimit
+                                e̲l̲s̲e̲
+                                        lc;
+                        next line;
+                        print( { fail }, n);
+                   label6 :;
+                        readsymbol;
+                        i̲f̲ bs = begin t̲h̲e̲n̲
+                                bctr := bctr+1
+                        e̲l̲s̲e̲ i̲f̲ bs = end t̲h̲e̲n̲
+                                ectr := ectr+1;
+                        i̲f̲ bctr = ectr t̲h̲e̲n̲
+                                g̲o̲t̲o̲ failure
+                        e̲l̲s̲e̲
+                                g̲o̲t̲o̲ label6;
+                        e̲n̲d̲  fail;
+                
+                        p̲r̲o̲c̲e̲d̲u̲r̲e̲ expression(symbol);
+                                v̲a̲l̲u̲e̲
+                                        symbol;
+                                i̲n̲t̲e̲g̲e̲r̲
+                                        symbol;
+                                
+                        c̲o̲m̲m̲e̲n̲t̲ This procedure edits a conditional or simple expression.  It
+                                stops when the current basic sybol is e̲n̲d̲ or ‘comma’ or s̲t̲e̲p̲
+                                or w̲h̲i̲l̲e̲ or ‘symbol’;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs = if t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                        tabs := tabs+1;
+                        next line;
+                   label19 :;
+                        if clause;
+                        expression(else);
+                        tabs := tabs-1;
+                        next line;
+                        out1(else);
+                        nbs;
+                        i̲f̲ bs = if t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                out1(space);
+                                g̲o̲t̲o̲ label19
+                                e̲n̲d̲;
+                        tabs := tabs+1;
+                        next line;
+                        expression(symbol);
+                        tabs := tabs-2;
+                        e̲n̲d̲
+                        e̲l̲s̲e̲
+                        b̲e̲g̲i̲n̲
+                   label20 :;
+                        i̲f̲ bs = lrbracket t̲h̲e̲n̲
+                                copy round brackets
+                        e̲l̲s̲e̲ i̲f̲ bs = lsqbracket t̲h̲e̲n̲
+                                copy square brackets;
+                        i̲f̲ bs = end ∨ bs = comma ∨ bs = step ∨ bs = while ∨ bs = symbol t̲h̲e̲n̲
+                        e̲l̲s̲e̲
+                                b̲e̲g̲i̲n̲
+                                out(bs);
+                                nbs;
+                                g̲o̲t̲o̲ label20
+                                e̲n̲d̲;
+                        e̲n̲d̲;
+                e̲n̲d̲  expression;
+        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ for variable and list;
+        
+                        c̲o̲m̲m̲e̲n̲t̲   for variable and list edits the first part of a f̲o̲r̲ statement,
+                                 from f̲o̲r̲ upto and including d̲o̲ ;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs ≠ for t̲h̲e̲n̲
+                                fail(114);
+                        tabs := tabs + 1;
+                        scan(becomes, becomes);
+                   label21 :;
+                        nbs;
+                        scan(comma,do);
+                        next line;
+                        i̲f̲ bs = comma t̲h̲e̲n̲
+                                g̲o̲t̲o̲ label21;
+                        nbs
+                        e̲n̲d̲  for variable and list;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ if clause;
+
+                        c̲o̲m̲m̲e̲n̲t̲   This procedure edits an if clause ;
+
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs ≠ if t̲h̲e̲n̲
+                                fail(117);
+                        out(bs);
+                        nbs;
+                        expression(then);
+                        out(bs);
+                        tabs := tabs+1;
+                        next line;
+                        nbs;
+                        e̲n̲d̲  if clause;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ statement;
+
+                        c̲o̲m̲m̲e̲n̲t̲ ‘statement’ edits any unlabelled statement;
+
+                        b̲e̲g̲i̲n̲
+                   label1 :;
+                        i̲f̲ letter or digit t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                possible label(f̲a̲l̲s̲e̲);
+                                g̲o̲t̲o̲ label1
+                                e̲n̲d̲;
+                        i̲f̲ bs = if t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                if clause;
+                                g̲o̲t̲o̲ label1
+                                e̲n̲d̲;
+                        i̲f̲ bs = for t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                for variable and list;
+                                g̲o̲t̲o̲ label1
+                                e̲n̲d̲;
+                        i̲f̲ bs = begin t̲h̲e̲n̲
+                                block(f̲a̲l̲s̲e̲);
+                   label22 :;
+                        i̲f̲ bs = lrbracket t̲h̲e̲n̲
+                                copy round brackets
+                        e̲l̲s̲e̲ i̲f̲ bs = lsqbracket t̲h̲e̲n̲
+                                copy square brackets
+                        e̲l̲s̲e̲ i̲f̲ bs = if t̲h̲e̲n̲
+                                expression(semicolon)
+                        e̲l̲s̲e̲ i̲f̲ bs = else t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                tabs := tabs-1;
+                                next line;
+                                out1(else);
+                                nbs;
+                                i̲f̲ bs = if t̲h̲e̲n̲
+                                        out1(space)
+                                e̲l̲s̲e̲
+                                        b̲e̲g̲i̲n̲
+                                        tabs := tabs+1;
+                                        next line;
+                                        e̲n̲d̲;
+                                g̲o̲t̲o̲ label1
+                                e̲n̲d̲;
+                        i̲f̲ bs ≠ semicolon ∧ bs ≠ end t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                out(bs);
+                                nbs;
+                                g̲o̲t̲o̲ label22
+                                e̲n̲d̲
+                        e̲n̲d̲  statement;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ possible label(inserting a dummy statement is possible);
+                        v̲a̲l̲u̲e̲
+                                inserting a dummy statement is possible;
+                        b̲o̲o̲l̲e̲a̲n̲
+                                inserting a dummy statement is possible;
+                        c̲o̲m̲m̲e̲n̲t̲   ‘possible label’ is called at the beginning of a statement if the statement
+                                  starts with a letter or digit.  ‘possible label’ looks to see if this
+                                  identifier or integer is followed by a colon - if it is then the
+                                  statement is labelled, the label is shifted half a tab to the left and put on a line by itself;
+
+                        b̲e̲g̲i̲n̲
+                        i̲n̲t̲e̲g̲e̲r̲
+                                i,
+                                di;
+                        identifier or label;
+                        i̲f̲ bs = colon t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                i̲f̲ tabs ≠ 0 t̲h̲e̲n̲
+                                     b̲e̲g̲i̲n̲
+                                     di := (tabspace+1)+2;
+                                     lc := lc-di;
+                                     f̲o̲r̲ i := tabspace × tabs+1-di s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lc-1 d̲o̲
+                                             buffer[i] := buffer[i+di];
+                                     f̲o̲r̲ i := tabspace × (tabs-1)+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ tabspace × tabs-di d̲o̲
+                                             buffer[i] := space;
+                                e̲n̲d̲;
+                        out(colon);
+                        nbs;
+                        i̲f̲ bs ≠ semicolon t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                i̲f̲ inserting a dummy statement is possible t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        out(semicolon);
+                                        next line
+                                        e̲n̲d̲
+                                e̲n̲d̲;
+                       e̲n̲d̲;
+                       e̲n̲d̲  possible label;
+        
+                 p̲r̲o̲c̲e̲d̲u̲r̲e̲ copy string;
+                         c̲o̲m̲m̲e̲n̲t̲  The two procedures ‘copy string’ and ‘read string’ edit a string
+                                   ( including nested strings ).  Editing characters are also copied
+                                   except any tab symbols which occur immediately after a newline symbol;
+                         b̲e̲g̲i̲n̲
+                         i̲f̲ buffer[lc-1] ≠ space t̲h̲e̲n̲
+                                 out1(space);
+                         startofstring := lc;
+                         read string;
+                 e̲n̲d̲  copy string;
+
+                 p̲r̲o̲c̲e̲d̲u̲r̲e̲ read string;
+                         c̲o̲m̲m̲e̲n̲t̲  The two procedures ‘copy string’ and ‘read string’ edit a string
+                                  ( including nested strings ).  Editing characters are also copied
+                                  except any tab symbols which occur immediately after a newline symbol;
+                         b̲e̲g̲i̲n̲
+                         i̲n̲t̲e̲g̲e̲r̲
+                                 i;
+                         i̲f̲ bs ≠ lstrbracket t̲h̲e̲n̲
+                                 fail(101);
+                    label8 :;
+                         out1(bs);
+                         i̲f̲ lc > linelimit t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                 lc := startofstring;
+                                 tabs := tabs+1;
+                                 next line;
+                                 tabs := tabs-1;
+                                 i̲f̲ lc ≥ startofstring t̲h̲e̲n̲
+                                         fail(109);
+                                 startofstring := lc;
+                                 f̲o̲r̲ i := startofstring s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ linelimit d̲o̲
+                                          out1(buffer[i]);
+                                 e̲n̲d̲;
+                         readsymbol;
+                         i̲f̲ bs = lstrbracket t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                 read string;
+                                 g̲o̲t̲o̲ label8;
+                                 e̲n̲d̲
+                         e̲l̲s̲e̲ i̲f̲ bs = newline t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                 tabs := tabs+1;
+                                 next line;
+                                 tabs := tabs-1;
+                                 startofstring := lc;
+                                 nbs;
+                                 g̲o̲t̲o̲ label8;
+                                 e̲n̲d̲
+                         e̲l̲s̲e̲ i̲f̲ bs ≠ rstrbracket t̲h̲e̲n̲
+                                 g̲o̲t̲o̲ label8;
+                        e̲n̲d̲  read string;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ copy square brackets;
+                        c̲o̲m̲m̲e̲n̲t̲ ‘copy square brackets’ edits a balanced syntactic structure enclosed
+                                in square brackets;
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs ≠ lsqbracket t̲h̲e̲n̲
+                                fail(102);
+                   label5 :;
+                        out(bs);
+                        nbs;
+                        i̲f̲ bs = lrbracket t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                copy round brackets;
+                                g̲o̲t̲o̲ label5
+                                e̲n̲d̲;
+                        i̲f̲ bs = lsqbracket t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                copy square brackets;
+                                g̲o̲t̲o̲ label5
+                                e̲n̲d̲;
+                        i̲f̲ bs ≠ rsqbracket t̲h̲e̲n̲ g̲o̲t̲o̲ label5;
+                        e̲n̲d̲  copy square brackets;
+
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ copy round brackets;
+
+                        c̲o̲m̲m̲e̲n̲t̲ ‘copy round brackets’ edits a balanced syntactic structure enclosed
+                                in round brackets;
+
+                        b̲e̲g̲i̲n̲
+                        i̲f̲ bs ≠ lrbracket t̲h̲e̲n̲
+                                fail(103);
+                   label12 :;
+                        out(bs);
+                        nbs;
+                        i̲f̲ bs = lstrbracket t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                copy string;
+                                g̲o̲t̲o̲ label12
+                                e̲n̲d̲;
+                        i̲f̲ bs = lrbracket t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                copy round brackets;
+                                g̲o̲t̲o̲ label12
+                                e̲n̲d̲;
+                        i̲f̲ bs ≠ rrbracket t̲h̲e̲n̲
+                        g̲o̲t̲o̲ label12;
+                        e̲n̲d̲  copy round brackets;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ block(inner);
+                        v̲a̲l̲u̲e̲
+                                inner;
+                        b̲o̲o̲l̲e̲a̲n̲
+                                inner;
+                        
+                        c̲o̲m̲m̲e̲n̲t̲ ‘block’ edits a block.  If the parameter ‘inner’ is true then the
+                                block being edited is a statement of the enclosing block and its declarations
+                                and statements start with an extra tab.  But if the value of ‘inner’ is
+                                false then the block to be edited is a part of a conditional
+                                or f̲o̲r̲ statement and extra tabs are unnecessary.
+
+                                e̲n̲d̲ comments are copied except that newline symbols are ignored
+                                and tab symbols are replaced by a space.
+
+                                Dummy statements which are not followed by e̲n̲d̲ are put on
+                                a line by themselves;
+
+                        b̲e̲g̲i̲n̲
+                        out(begin);
+                        bctr := bctr+1;
+                        depth := depth+1;
+                        ntabs[depth] := tabs := tabs + (i̲f̲ inner t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0);
+                        next line;
+                        nbs;
+                        specifications or declarations(t̲r̲u̲e̲);
+                   label11 :;
+                        i̲f̲ letter or digit t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                possible label(t̲r̲u̲e̲);
+                                g̲o̲t̲o̲ label11;
+                                e̲n̲d̲;
+                        i̲f̲ bs = begin t̲h̲e̲n̲
+                                block(t̲r̲u̲e̲)
+                        e̲l̲s̲e̲ i̲f̲ bs = comment t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                comment statement;
+                                g̲o̲t̲o̲ label11;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = library t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                call library;
+                                g̲o̲t̲o̲ label11;
+                                e̲n̲d̲
+                        e̲l̲s̲e̲
+                                statement;
+                        tabs := ntabs[depth];
+                        i̲f̲ bs = semicolon t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                out(semicolon);
+                                nbs;
+                                i̲f̲ bs ≠ end t̲h̲e̲n̲
+                                        next line;
+                                g̲o̲t̲o̲ label11;
+                                e̲n̲d̲;
+                        i̲f̲ bs ≠ end t̲h̲e̲n̲
+                                fail(104);
+                        i̲f̲ inner t̲h̲e̲n̲
+                                tabs := tabs-1;
+                        next line;
+                        out(end);
+                        ectr := ectr+1;
+                        depth := depth-1;
+                        i̲f̲ depth = 0 t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                next line;
+                                out(endmessage);
+                                next line;
+                                i̲f̲ id = 120 t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        nbs;
+                                        i̲f̲ bs ≠ endmessage t̲h̲e̲n̲
+                                                fail(110);
+                                        e̲n̲d̲
+                                e̲n̲d̲
+                        e̲l̲s̲e̲
+                                b̲e̲g̲i̲n̲
+                           label10 :;
+                                readsymbol;
+                                i̲f̲ bs = newline t̲h̲e̲n̲
+                                        g̲o̲t̲o̲ label10;
+                                i̲f̲ bs = tab t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        out(space);
+                                        g̲o̲t̲o̲ label10
+                                        e̲n̲d̲;
+                                i̲f̲ bs ≠ end ∧ bs ≠ else ∧ bs ≠ semicolon t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        out(bs);
+                                        g̲o̲t̲o̲ label10
+                                        e̲n̲d̲
+                                e̲n̲d̲
+                        e̲n̲d̲ block;
+        
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ call library;
+        
+                        c̲o̲m̲m̲e̲n̲t̲ ‘call library’ edits a library call by assuming that the
+                                call is followed by a comment;
+                        b̲e̲g̲i̲n̲
+                        nbs;
+                        i̲f̲ bs ≠ comment t̲h̲e̲n̲
+                                fail(108);
+                        bs := library;
+                        comment statement;
+                        out(comment);
+                   label13 :;
+                        i̲f̲ buffer[lc] ≠ semicolon t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                lc := lc+1;
+                                g̲o̲t̲o̲ label13;
+                                e̲n̲d̲;
+                        lc := lc+1;
+                        next line;
+                        next line;
+                        e̲n̲d̲  call library;
+                
+                p̲r̲o̲c̲e̲d̲u̲r̲e̲ code body;
+                        c̲o̲m̲m̲e̲n̲t̲  ‘code body’ edits a procedure body written in KDF9 User-code;
+
+                        b̲e̲g̲i̲n̲
+                        i̲n̲t̲e̲g̲e̲r̲
+                                i,
+                                j;
+                        scan(semicolon, semicolon);
+                        bs := newline;
+                   label15 :;
+                        i̲f̲ bs = newline t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                next line;
+                                nbs;
+                                i := space;
+                                i̲f̲ bs = 23 ∨ bs = 27 ∨ bs = 49 ∨ bs = 53 t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        i := bs;
+                                        nbs;
+                                        e̲n̲d̲;
+                                i̲f̲ bs ≤ nine t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        i̲f̲ i ≠ space t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                                next line;
+                                                out1(i);
+                                                e̲n̲d̲;
+                                        e̲n̲d̲
+                                e̲l̲s̲e̲
+                                        b̲e̲g̲i̲n̲
+                                out1(tab);
+                                f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ tabspace-1 d̲o̲
+                                        out1(tabdummy);
+                                i̲f̲ i ≠ space t̲h̲e̲n̲
+                                        out1(i);
+                                e̲n̲d̲;
+                        g̲o̲t̲o̲ label15;
+                        e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs = library t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                next line;
+                                out(library);
+                                nbs;
+                                i̲f̲ bs ≠ lrbracket t̲h̲e̲n̲
+                                        fail(111);
+                           label16 :;
+                                nbs;
+                                i̲f̲ bs ≠ rrbracket t̲h̲e̲n̲
+                                        b̲e̲g̲i̲n̲
+                                        out(bs);
+                                        g̲o̲t̲o̲ label16;
+                                        e̲n̲d̲;
+                                i := lc;
+                                out(semicolon);
+                                next line;
+                                out(lrbracket);
+                                buffer[i] := rrbracket;
+                                lc := i+1;
+                                nbs;
+                                i̲f̲ bs ≠ semicolon t̲h̲e̲n̲
+                                        fail(112);
+                                out(bs);
+                                next line;
+                                nbs;
+                                g̲o̲t̲o̲ label15
+                                e̲n̲d̲
+                        e̲l̲s̲e̲ i̲f̲ bs ≠ algol t̲h̲e̲n̲
+                                b̲e̲g̲i̲n̲
+                                out1(bs);
+                                i̲f̲ lc ≥ linelimit t̲h̲e̲n̲
+                                        clear full line(semicolon);
+                                readsymbol;
+                                g̲o̲t̲o̲ label15;
+                                e̲n̲d̲;
+                        i̲f̲ lc ≠ (tabs+1) × tabspace+1 t̲h̲e̲n̲
+                                next line
+                        e̲l̲s̲e̲
+                                lc := tabs × tabspace+1;
+                out(algol);
+                nbs;
+                e̲n̲d̲  code body;
+                
+        c̲o̲m̲m̲e̲n̲t̲  The declarations in algol edit  end here;
+
+
+        c̲o̲m̲m̲e̲n̲t̲  Assign a suitable value to each of the variables representing an
+                Algol basic symbol.  This section of ‘algol edit’ is machine dependent;
+
+        capital A := 12;
+        and := 147;
+        array := 72;
+        becomes := 181;
+        begin := 140;
+        boolean := 67;
+        colon := 185;
+        comma := 166;
+        comment := 128;
+        divide := 161;
+        do := 214;
+        else := 165;
+        end := 156;
+        equals := 162;
+        eqv := 195;
+        false := 205;
+        for := 134;
+        goto := 136;
+        greaterthan := 194;
+        gtequal := 178;
+        if := 133;
+        imp := 179;
+        intdiv := 145;
+        integer := 66;
+        label := 121;
+        lrbracket := 132;
+        lsqbracket := 137;
+        lstrbracket := 141;
+        lessthan := 130;
+        ltequal := 146;
+        minus := 209;
+        multiply := 177;
+        newline := 160;
+        nine := 9;
+        not := 131;
+        notequal := 131;
+        or := 163;
+        own := 143;
+        plus := 193;
+        procedure := 80;
+        real := 65;
+        rrbracket := 148;
+        rsqbracket := 153;
+        rstrbracket := 157;
+        semicolon := 152;
+        space := 158;
+        step := 182;
+        string := 122;
+        subscript ten := 10;
+        switch := 88;
+        tab := 174;
+        then := 149;
+        true := 221;
+        until := 198;
+        value := 159;
+        while := 150;
+        zero := 0;
+        small z := 63;
+        c̲o̲m̲m̲e̲n̲t̲  Assign suitable values to the variables representing pseudo basic symbols;
+        
+        algol := 192;
+        endmessage := 190;
+        exit := 240;
+        kdf9 := 176;
+        library := 208;
+        segment := 224;
+        tabdummy := 254;
+        c̲o̲m̲m̲e̲n̲t̲  Assign suitable values for the elments of ‘spa’ and ‘spb’ arrays.
+                This part of ‘algol edit’ is partly a matter of taste;
+        f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 255 d̲o̲
+                spb[i] := spa[i] := 0;
+        f̲o̲r̲ i := plus,
+                minus,
+                divide,
+                intdiv,
+                lessthan,
+                equals,
+                gtequal,
+                greaterthan,
+                notequal,
+                becomes,
+                and,
+                or,
+                not,
+                then,
+                else,
+                colon,
+                eqv,
+                imp,
+                step,
+                until,
+                while d̲o̲
+                spb[i] := spa[i] := 1;
+        f̲o̲r̲ i := real,
+                integer,
+                boolean,
+                procedure,
+                comment,
+                if,
+                for,
+                goto,
+                own,
+                end,
+                rstrbracket,
+                comma,
+                semicolon,
+                switch d̲o̲
+                spa[i] := 1;
+        f̲o̲r̲ i := do,
+                lstrbracket d̲o̲
+                spb[i] := 1;
+        f̲o̲r̲ i := kdf9,
+                library,
+                segment d̲o̲
+                spa[i] := 1;
+
+                c̲o̲m̲m̲e̲n̲t̲ Assign the initial values to the global variables of ‘algol edit’;
+
+                bctr := depth := ectr := 0;
+                bs := - 1;
+                lc := 1;
+                linenumber := tabs := 0;
+                tabspace := 6;
+                i̲f̲ id = 120 t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲
+                        findprog(20, discbuffer);
+                        printtitle(od);
+                        e̲n̲d̲;
+                next line;
+           start :;
+                nbs;
+                i̲f̲ bs ≠ begin t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲
+                        out(bs);
+                        g̲o̲t̲o̲ start
+                        e̲n̲d̲;
+                next line;
+                block(t̲r̲u̲e̲);
+        e̲n̲d̲  algoledit;
+        
+        i̲n̲t̲e̲g̲e̲r̲
+                cases,
+                i,
+                id,
+                no,
+                out;
+        open(20);
+        out := read(20);
+        cases := read(20);
+        i̲f̲ (out = 10 ∨ out = 30) ∧ cases > 0 t̲h̲e̲n̲
+                open(out)
+        e̲l̲s̲e̲
+                b̲e̲g̲i̲n̲
+                open(30);
+                writetext(30, { error _ in _ initial _ data } );
+                close(30);
+                g̲o̲t̲o̲ boob2
+                e̲n̲d̲;
+        f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ cases d̲o̲
+                b̲e̲g̲i̲n̲
+        no := read(20);
+        id := read(20);
+        i̲f̲ (id = 20 ∨ id = 120) ∧ no > 0 t̲h̲e̲n̲
+                b̲e̲g̲i̲n̲
+                algoledit(no, id, out, boob);
+                gap(out, i̲f̲ out = 10 t̲h̲e̲n̲ 200 e̲l̲s̲e̲ 1);
+                e̲n̲d̲
+        e̲l̲s̲e̲
+                b̲e̲g̲i̲n̲
+                writetext(outc, { error _ in _ data } );
+                g̲o̲t̲o̲ boob
+                e̲n̲d̲;
+        e̲n̲d̲;
+   boob :;
+        close(out);
+   boob2 :;
+        close(20);
+e̲n̲d̲

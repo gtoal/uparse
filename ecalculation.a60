@@ -1,0 +1,35 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ecalculation(n,d);
+   v̲a̲l̲u̲e̲ n;
+   i̲n̲t̲e̲g̲e̲r̲ n;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ d;
+   c̲o̲m̲m̲e̲n̲t̲ This procedure for calculating the transcendental
+           number e to n correct decimal places uses only integer
+           arithmetic, except for estimating the required series
+           length. The digits of the result are placed in the array
+           d, the array element d[0] containing entier(e), and the
+           subsequent elements the following digits.  These digits
+           are individually calculated and may be oriented one-by-
+           one within the for statement labelled sweep.;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ m;
+   r̲e̲a̲l̲ test;
+   m := 4;
+   test := (n + 1) × 2.30258509;
+   loop: m := m + 1;
+   i̲f̲ m × (ln(m)-1.0)+0.5 × ln(6.2831852 × m) ≤ test t̲h̲e̲n̲ g̲o̲ t̲o̲ loop;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i,j,carry,temp;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ coef[2:m];
+      f̲o̲r̲ j:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲ coef[j]:=1;
+      d[0] := 2;
+      sweep: f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ b̲e̲g̲i̲n̲
+         carry := 0;
+         f̲o̲r̲ j:=m s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 2 d̲o̲ b̲e̲g̲i̲n̲
+            temp := coef[j] × 10 + carry;
+            carry := temp ÷ j;
+            coef[j] := temp - carry × j
+         e̲n̲d̲ of digit generation
+         d[i] := carry
+      e̲n̲d̲ having calculated n digits
+   e̲n̲d̲ deleting declarations
+e̲n̲d̲ of ecalculation;

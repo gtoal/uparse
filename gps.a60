@@ -1,0 +1,21 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ Example of call by name.;
+
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ data [1:10];
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   i̲n̲t̲e̲g̲e̲r̲ sum;
+
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GPS(I, N, Z, V);
+      i̲n̲t̲e̲g̲e̲r̲ I, N, Z, V;
+   b̲e̲g̲i̲n̲
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           Z := V;
+      GPS := 1
+   e̲n̲d̲;
+
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+        data[i] := i × i;
+   sum := 0;
+   GPS(i, 10, sum, sum + data[i]);
+   vprint(“Result is ”, sum)
+e̲n̲d̲

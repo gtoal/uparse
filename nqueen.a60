@@ -1,0 +1,124 @@
+b̲e̲g̲i̲n̲
+	c̲o̲m̲m̲e̲n̲t̲
+		FIND A SOLUTION FOR THE `N QUEEN' PROBLEM.
+		(GOT THE ALGORITHM FROM A MODULA PROGRAM FROM
+		 MARTIN NEITZEL).
+	;
+
+	i̲n̲t̲e̲g̲e̲r̲ N, MAXN;
+
+	MAXN := 9;		c̲o̲m̲m̲e̲n̲t̲ MAXIMUM SIZE;
+	N := 2;			c̲o̲m̲m̲e̲n̲t̲ CURRENT SIZE;
+
+TRY NEXT N:
+
+	b̲e̲g̲i̲n̲
+
+	i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ COLUMN [1 : N];
+	b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ EMPCOL [1 : N];
+	b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ EMPUP [-N+1 : N-1];
+	b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ EMPDO [2 : 2*N];
+	i̲n̲t̲e̲g̲e̲r̲ I;
+
+	p̲r̲o̲c̲e̲d̲u̲r̲e̲ PRINT;
+	c̲o̲m̲m̲e̲n̲t̲
+		PRINT THE CURRENT SOLUTION IN A CHESSBOARD ALIKE
+		PICTURE ;
+	b̲e̲g̲i̲n̲
+		i̲n̲t̲e̲g̲e̲r̲ I, J;
+
+		p̲r̲o̲c̲e̲d̲u̲r̲e̲ OUTFRAME;
+		b̲e̲g̲i̲n̲
+			i̲n̲t̲e̲g̲e̲r̲ I;
+
+			f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+				OUTSTRING (1, `+---');
+			OUTSTRING (1, `+\N')
+		e̲n̲d̲;
+
+		OUTSTRING (1, `SEE:\N') ;
+
+		f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲
+			OUTFRAME;
+			OUTSTRING (1, `|');
+			f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲
+				i̲f̲ N + 1 - J = COLUMN [I] t̲h̲e̲n̲
+					OUTSTRING (1, ` Q |')
+				e̲l̲s̲e̲
+					OUTSTRING (1, `   |')
+			e̲n̲d̲;
+			OUTSTRING (1, `\N')
+		e̲n̲d̲;
+		OUTFRAME
+	e̲n̲d̲;
+
+
+	p̲r̲o̲c̲e̲d̲u̲r̲e̲ SET (X);
+	v̲a̲l̲u̲e̲ X;
+	i̲n̲t̲e̲g̲e̲r̲ X;
+	b̲e̲g̲i̲n̲
+		i̲n̲t̲e̲g̲e̲r̲ Y;
+	
+		f̲o̲r̲ Y := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+		b̲e̲g̲i̲n̲
+	    		i̲f̲ EMPCOL [ Y ] a̲n̲d̲ EMPUP [ X-Y ] 
+					a̲n̲d̲ EMPDO [ X+Y ] t̲h̲e̲n̲
+			b̲e̲g̲i̲n̲
+				COLUMN [ Y ] := X ;
+				EMPCOL [ Y ] := f̲a̲l̲s̲e̲ ;
+				EMPUP [ X-Y ] := f̲a̲l̲s̲e̲ ;
+				EMPDO [ X+Y ] := f̲a̲l̲s̲e̲ ;
+				i̲f̲ X = N t̲h̲e̲n̲
+					g̲o̲t̲o̲ GOTONE
+				e̲l̲s̲e̲
+					SET ( X + 1 ) ;
+				EMPDO [ X+Y ] := t̲r̲u̲e̲ ;
+				EMPUP [ X-Y ] := t̲r̲u̲e̲ ;
+				EMPCOL [ Y ] := t̲r̲u̲e̲ ;
+				COLUMN [ Y ] := 0
+			e̲n̲d̲
+		e̲n̲d̲
+	e̲n̲d̲;
+
+	c̲o̲m̲m̲e̲n̲t̲
+		MAIN PROGRAM START
+	;
+
+	OUTSTRING (1, `LOOKING ONTO A ');
+	OUTINTEGER (1, N);
+	OUTSTRING (1, ` X ');
+	OUTINTEGER (1, N);
+	OUTSTRING (1, ` CHESSBOARD...\N');
+
+	f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+	b̲e̲g̲i̲n̲
+		 COLUMN [ I ] := 0 ;
+		 EMPCOL [ I ] := t̲r̲u̲e̲
+	e̲n̲d̲;
+
+	f̲o̲r̲ I := -N+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+		 EMPUP [ I ] := t̲r̲u̲e̲ ;
+
+	f̲o̲r̲  I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2*N d̲o̲
+		 EMPDO [ I ] := t̲r̲u̲e̲ ;
+
+	SET ( 1 ) ;
+
+	OUTSTRING (1, `NO SOLUTION.\N');
+	g̲o̲t̲o̲ CONTN;
+
+GOTONE:
+	PRINT;
+
+CONTN:
+	i̲f̲ N < MAXN t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+		N := N + 1;
+		g̲o̲t̲o̲ TRY NEXT N
+	e̲n̲d̲;
+
+	OUTSTRING (1, `DONE.\N')
+
+	e̲n̲d̲
+e̲n̲d̲
+
+

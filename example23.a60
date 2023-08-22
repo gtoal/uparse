@@ -1,0 +1,45 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ testing of formal procedures and non local accesses;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ main;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ a, b, c;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ p (b, q, r, s); 
+         v̲a̲l̲u̲e̲ b; b̲o̲o̲l̲e̲a̲n̲ b;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ q; p̲r̲o̲c̲e̲d̲u̲r̲e̲ r; p̲r̲o̲c̲e̲d̲u̲r̲e̲ s; 
+      b̲e̲g̲i̲n̲
+         i̲f̲ b t̲h̲e̲n̲ q (s) e̲l̲s̲e̲ r (s)
+      e̲n̲d̲;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ f1 (p1); p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1; p1 (a, b, c);
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ f2 (p1); p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1; p1 (a, b);
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ a1 (a, b, c); i̲n̲t̲e̲g̲e̲r̲ a, b, c; a := b + c;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ a2 (a, b); i̲n̲t̲e̲g̲e̲r̲ a, b; a := b;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ mainer;
+         b̲e̲g̲i̲n̲
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ go to (L); v̲a̲l̲u̲e̲ L; l̲a̲b̲e̲l̲ L; g̲o̲t̲o̲ L;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ dummy (p, L); p̲r̲o̲c̲e̲d̲u̲r̲e̲ p; l̲a̲b̲e̲l̲ L;
+         p(L);
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ doit;
+         b̲e̲g̲i̲n̲
+            s̲w̲i̲t̲c̲h̲ L := L1, i̲f̲ b t̲h̲e̲n̲ L2 e̲l̲s̲e̲ L1;
+            dummy (go to, L [n]);
+         e̲n̲d̲;
+         i̲n̲t̲e̲g̲e̲r̲ n;
+         b̲o̲o̲l̲e̲a̲n̲ b;
+         n := 2; b := t̲r̲u̲e̲;
+         doit;
+     L1: outstring (1, "Incorrect\n");
+         g̲o̲t̲o̲ L end;
+     L end:
+      e̲n̲d̲;
+      b := 1; c := 2;
+      c̲o̲m̲m̲e̲n̲t̲ now two calls;
+      outstring (1, "Example 23: switches, formals a̲n̲d̲ non local access\n");
+      p (t̲r̲u̲e̲, f1, f2, a1); 
+      outstring (1, " after the call t̲o̲ a1 "); outinteger (1, a); 
+      p (f̲a̲l̲s̲e̲, f1, f2, a2); 
+      outstring (1, " after the call t̲o̲ a2 "); outinteger (1, a); 
+      mainer;
+     L2: outstring(1, "Correct\n");
+   e̲n̲d̲;
+   main;
+e̲n̲d̲
