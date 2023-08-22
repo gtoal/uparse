@@ -1,0 +1,120 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        SUM;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P1(S, R, I, B, RA, IA);
+        s̲t̲r̲i̲n̲g̲
+            S;
+        r̲e̲a̲l̲
+            R;
+        i̲n̲t̲e̲g̲e̲r̲
+            I;
+        b̲o̲o̲l̲e̲a̲n̲
+            B;
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲
+            RA;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲
+            IA;
+        SUM := SUM + R + I + (i̲f̲ B t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0) + RA[1] +
+            IA[1];
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P2(BA, L, SW, PR, RPR, IPR, BPR);
+        b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲
+            BA;
+        l̲a̲b̲e̲l̲
+            L;
+        s̲w̲i̲t̲c̲h̲
+            SW;
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            PR;
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            RPR;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            IPR;
+        b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+            BPR;
+        b̲e̲g̲i̲n̲
+        PR;
+        SUM := SUM + RPR + IPR;
+        i̲f̲ BPR t̲h̲e̲n̲
+            g̲o̲t̲o̲ L;
+        i̲f̲ BA[1] t̲h̲e̲n̲
+            g̲o̲t̲o̲ SW[2]
+        e̲n̲d̲;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P3(R, I, B, RA, IA, BA, L);
+        v̲a̲l̲u̲e̲
+            R,
+            I,
+            B,
+            RA,
+            IA,
+            BA,
+            L;
+        r̲e̲a̲l̲
+            R;
+        i̲n̲t̲e̲g̲e̲r̲
+            I;
+        b̲o̲o̲l̲e̲a̲n̲
+            B;
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲
+            RA;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲
+            IA;
+        b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲
+            BA;
+        l̲a̲b̲e̲l̲
+            L;
+        b̲e̲g̲i̲n̲
+        SUM := SUM + R + I + RA[1] + IA[1] + (i̲f̲ B t̲h̲e̲n̲ 1
+            e̲l̲s̲e̲ 0) + (i̲f̲ BA[1] t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0);
+        i̲f̲ BA[1] t̲h̲e̲n̲
+            g̲o̲t̲o̲ L
+        e̲n̲d̲;
+    r̲e̲a̲l̲
+        R;
+    b̲o̲o̲l̲e̲a̲n̲
+        B;
+    r̲e̲a̲l̲ a̲r̲r̲a̲y̲
+        RA[1 : 1];
+    i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲
+        IA[1 : 1];
+    b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲
+        BA[1 : 1];
+    i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ IPR;
+        IPR := 2 * SUM;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ RPR;
+        RPR := 3 * SUM;
+    b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BPR;
+        BPR := n̲o̲t̲ B;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ PR;
+        SUM := 5 * SUM + 1;
+    s̲w̲i̲t̲c̲h̲ SS :=
+        WORK,
+        FAIL;
+    SUM := 0;
+    IA[1] := - 2;
+    RA[1] := 3.55;
+    BA[1] := f̲a̲l̲s̲e̲;
+    B := t̲r̲u̲e̲;
+    R := 6.4;
+    P1( <AB>, R, SUM, B, RA, IA);
+    i̲f̲ SUM # 9 t̲h̲e̲n̲
+        OUTREAL(99, SUM);
+    P2(BA, SS[2], SS, PR, RPR, IPR, BPR);
+    i̲f̲ SUM # 276 t̲h̲e̲n̲
+        OUTREAL(99, SUM);
+    WORK :;
+    OUTREAL(99, 0);
+    P3(4.6, - 200, t̲r̲u̲e̲, RA, IA, BA, i̲f̲ t̲r̲u̲e̲ t̲h̲e̲n̲ SS[2] e̲l̲s̲e̲
+        FAIL);
+    i̲f̲ SUM # 83 t̲h̲e̲n̲
+        OUTREAL(99, SUM);
+    P1( <CD>, RPR, IPR, BPR, RA, IA);
+    i̲f̲ SUM # 500 t̲h̲e̲n̲
+        OUTREAL(99, SUM);
+    P3(RPR, IPR, BPR, RA, IA, BA, FAIL);
+    i̲f̲ SUM # 3002 t̲h̲e̲n̲
+        OUTREAL(99, SUM);
+    i̲f̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲
+        FAIL : OUTREAL(99, - 1);
+e̲n̲d̲

@@ -1,0 +1,796 @@
+b̲e̲g̲i̲n̲
+   b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ALGOBEY (S);
+      s̲t̲r̲i̲n̲g̲ S; e̲x̲t̲e̲r̲n̲a̲l̲;
+
+   b̲o̲o̲l̲e̲a̲n̲ TR5;
+
+   SELECT CAMERA (7);
+   IDENTIFICATION;
+
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ XMAX,YMAX;
+      i̲n̲t̲e̲g̲e̲r̲ CH HEIGHT,CH WIDTH;
+      i̲n̲t̲e̲g̲e̲r̲ HEIGHT 2 CH,WIDTH 3 CH,CH SP;
+      i̲n̲t̲e̲g̲e̲r̲ DTB,DRP,DNS;
+      i̲n̲t̲e̲g̲e̲r̲ DELTA MLP;
+      r̲e̲a̲l̲ RJX,RKY;
+      r̲e̲a̲l̲ TOP WINDOW,LEFT WINDOW,BOTTOM WINDOW,RIGHT WINDOW;
+
+      b̲o̲o̲l̲e̲a̲n̲ FIRST TIME, INTERSECT;
+      i̲n̲t̲e̲g̲e̲r̲ COUNT, NODE NUM;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ NODE TABLE [1:2,1:5000];
+
+      i̲n̲t̲e̲g̲e̲r̲ BLANK,SHRIEK,HYPHEN,BACKSLASH,HASH;
+      i̲n̲t̲e̲g̲e̲r̲ ENDLINE,EQUALS,QUERY,SQUOTE,SEMICOLON;
+      i̲n̲t̲e̲g̲e̲r̲ FULLSTOP;
+
+      BLANK := CODE(“ ”);
+      SHRIEK := CODE(“!”);
+      HYPHEN := CODE(“-”);
+      BACKSLASH := CODE(“$”);
+      HASH := CODE(“#”);
+      ENDLINE := CODE(“EL”);
+      EQUALS := CODE(“=”);
+      QUERY := CODE(“?”);
+      SQUOTE := CODE(“'”);
+      SEMICOLON := CODE(“;”);
+      FULLSTOP := CODE(“.”);
+
+      SELECT INPUT (5);
+      XMAX := YMAX := READ;
+      CH HEIGHT := CH WIDTH := 8;
+      HEIGHT 2 CH := 16;
+      WIDTH 3 CH := 20;
+      CH SP := 2;
+      DNS := 10;        c̲o̲m̲m̲e̲n̲t̲ NODE SPACING;
+      c̲o̲m̲m̲e̲n̲t̲ DTB := 5;
+                        c̲o̲m̲m̲e̲n̲t̲ LENGTH OF VERTICAL STATEMENT LINE;
+      DRP := 40;        c̲o̲m̲m̲e̲n̲t̲ HORIZONTAL OFFSET FOR NEXT PARALLEL NODE;
+      DELTA MLP := 100; c̲o̲m̲m̲e̲n̲t̲ HORIZ OFFSET FOR ML PARAS;
+
+      b̲e̲g̲i̲n̲
+         LIMITS ( 0,0,16383,16383 );
+         REGION ( 1995,1995,14393,14393,0 );
+         LIMITS ( 0,YMAX,XMAX,0 );
+         REGION ( 0,YMAX,XMAX,0,1 );
+
+         SELECT REGION (1);
+         LIMITS ( 0,YMAX,XMAX,0 );
+
+         CHARACTER SIZE ( CH HEIGHT,CH WIDTH );
+
+         b̲e̲g̲i̲n̲
+
+            c̲o̲m̲m̲e̲n̲t̲ DRAW 30 FLOWCHART;
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               i̲n̲t̲e̲g̲e̲r̲ CH;
+               i̲n̲t̲e̲g̲e̲r̲ J;
+
+               i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MAX (A,B);
+                  v̲a̲l̲u̲e̲ A,B;
+                  i̲n̲t̲e̲g̲e̲r̲ A,B;
+               b̲e̲g̲i̲n̲
+                  MAX := i̲f̲ A > B t̲h̲e̲n̲ A e̲l̲s̲e̲ B;
+               e̲n̲d̲;
+
+               i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GCHAR (CHARACTER);
+                  v̲a̲l̲u̲e̲ CHARACTER;
+                  i̲n̲t̲e̲g̲e̲r̲ CHARACTER;
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT CH (CH);
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT ( CHARACTER,12,0 );
+
+                  i̲f̲ CHARACTER= ENDLINE t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WRITE TEXT (“EL ERROR”);
+                     g̲o̲t̲o̲ FINI;
+                  e̲n̲d̲;
+
+                  i̲f̲ CHARACTER ≥ 0 ∧ CHARACTER ≤ 9
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER + 16
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER ≥ 3873 ∧ CHARACTER ≤ 3898
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER - 3840
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 29 ∨ CHARACTER = 30
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER + 1
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 24 ∨ CHARACTER = 25
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER - 16
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 18 ∨ CHARACTER = 31
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER - 16
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 17 ∨ CHARACTER = 21
+                    t̲h̲e̲n̲ CHARACTER := CHARACTER + 49
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 16
+                    t̲h̲e̲n̲ CHARACTER := 1
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 28
+                    t̲h̲e̲n̲ CHARACTER := 10
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 26
+                    t̲h̲e̲n̲ CHARACTER := 14
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 27
+                    t̲h̲e̲n̲ CHARACTER := 29
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 10
+                    t̲h̲e̲n̲ CHARACTER := 79
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 11
+                    t̲h̲e̲n̲ CHARACTER := 78
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 12
+                    t̲h̲e̲n̲ CHARACTER := 26
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 13
+                    t̲h̲e̲n̲ CHARACTER := 28
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 14
+                    t̲h̲e̲n̲ CHARACTER := 27
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 15
+                    t̲h̲e̲n̲ CHARACTER := 12
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 19
+                    t̲h̲e̲n̲ CHARACTER := 69
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 22
+                    t̲h̲e̲n̲ CHARACTER := 13
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 23
+                    t̲h̲e̲n̲ CHARACTER := 32
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 20
+                    t̲h̲e̲n̲ CHARACTER := 67
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 3872
+                    t̲h̲e̲n̲ CHARACTER := 96
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 3899
+                    t̲h̲e̲n̲ CHARACTER := 81
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 4020
+                    t̲h̲e̲n̲ CHARACTER := 75
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 4021
+                    t̲h̲e̲n̲ CHARACTER := 82
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 4022
+                    t̲h̲e̲n̲ CHARACTER := 68
+                    e̲l̲s̲e̲ i̲f̲ CHARACTER = 4023
+                    t̲h̲e̲n̲ CHARACTER := 91
+                  e̲l̲s̲e̲ CHARACTER := -1;
+                  c̲o̲m̲m̲e̲n̲t̲   PRINT   ( CHARACTER,12,0 );
+                  GCHAR   := CHARACTER;
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW THE FLOWCHART (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ J;
+
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE HEADING;
+                  b̲e̲g̲i̲n̲
+                     NEWLINE (1);
+                     c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('FLOWCHART')');
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT NAME OF FLOWCHART;
+                  b̲e̲g̲i̲n̲
+
+                     c̲o̲m̲m̲e̲n̲t̲ JUMP OVER NAME;
+                     b̲e̲g̲i̲n̲
+                        f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲ CH := READCH;
+                     e̲n̲d̲;
+
+                     MOVE TYPE TO ( LEFT,TOP );
+
+                     J := 0;
+                     f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ CH ≠ SEMICOLON ∧ J < 82 d̲o̲
+                        b̲e̲g̲i̲n̲
+                           PRINT CH (CH);
+                           TYPE ( GCHAR(CH) );
+                           CHARACTER SPACE ( CH SP );
+                           CH := READCH;
+                        e̲n̲d̲;
+
+                     i̲f̲ J = 82 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        WRITE TEXT (“ERR0R IN COPY TILL ;”);
+                        g̲o̲t̲o̲ FINI;
+                     e̲n̲d̲;
+
+                     COPYTEXT (“!”);
+
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ RESET POINTERS TO DRAW NEXT LEVEL;
+                  b̲e̲g̲i̲n̲
+                     NEW TOP := NEW BOTTOM := TOP + HEIGHT 2CH;
+                     NEW LEFT := NEW RIGHT := LEFT;
+                  e̲n̲d̲;
+
+                  DRAW NEXT LEVEL (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+
+                  c̲o̲m̲m̲e̲n̲t̲ RESET POINTERS TO TOP OF NEW RECTANGLE;
+                  b̲e̲g̲i̲n̲
+                     NEW TOP := NEW BOTTOM;
+                     NEW LEFT := NEW RIGHT;
+                  e̲n̲d̲;
+                  PRINT OUT POINTERS (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  DRAW NODE (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  PRINT OUT POINTERS (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  J := 0;
+                  f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ CH ≠ FULLSTOP ∧ ( J < 82) d̲o̲ CH := READCH;
+
+                  i̲f̲ J = 82 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WRITE TEXT (“.ERROR”);
+                     PRINT CH (CH);
+                     LOOP ERROR (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  e̲n̲d̲ ;
+                  BOTTOM := NEW BOTTOM;
+                  RIGHT := NEW RIGHT;
+                  COPY TEXT(“;”);
+
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ GET NON BLANK CHAR (CH);
+                  i̲n̲t̲e̲g̲e̲r̲ CH;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ J;
+
+                  SKIP CH;
+                  CH := NEXTCH;
+
+                  J := 0;
+                  f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ ( CH = BLANK ∨ CH = ENDLINE) ∧ ( J < 82 ) d̲o̲
+
+                     b̲e̲g̲i̲n̲
+                        SKIP CH;
+                        CH := NEXTCH;
+                     e̲n̲d̲;
+
+                  i̲f̲ J = 82 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WRITE TEXT (“ERROR IN NON BLANK CHAR”);
+                     PRINT CH (CH);
+                     g̲o̲t̲o̲ FINI;
+                  e̲n̲d̲;
+
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW NEXT LEVEL (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ DIAGONAL;
+
+                  DIAGONAL := 25;
+
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE NEXT LEVEL;
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE(1);
+                     c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('NEXT%LEVEL')');
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ DRAW DIAGONAL LINE;
+                  b̲e̲g̲i̲n̲
+                     RIGHT := ( LEFT + WIDTH 3 CH ) + DIAGONAL;
+                     BOTTOM := TOP + DIAGONAL;
+
+                     VECTOR ( LEFT + WIDTH 3CH,TOP,RIGHT,BOTTOM);
+                  e̲n̲d̲;
+
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT,BOTTOM,RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  NEWLINE (1);
+                  PRINT ( TOP,6,0 );
+                  PRINT ( LEFT,6,0 );
+                  PRINT ( BOTTOM,6,0 );
+                  PRINT ( RIGHT,6,0 );
+                  NEWLINE (1);
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW NODE (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP, LEFT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ NWTOP,NWLEFT,NWBOTTOM,NWRIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ NODE ENTRY;
+
+                  NUTOP := TOP;
+                  NWLEFT := LEFT;
+                  NWBOTTOM := BOTTOM;
+                  NWRIGHT := RIGHT;
+
+                  c̲o̲m̲m̲e̲n̲t̲ NODE WINDOWING MECHANISM;
+
+                  i̲f̲ NODE NUM < 5000 t̲h̲e̲n̲ NODE NUM := NODE NUM + 1
+                  e̲l̲s̲e̲ b̲e̲g̲i̲n̲ WRITE TEXT (“NODETABLE OVERFLOW”);
+                     g̲o̲t̲o̲ FINI e̲n̲d̲;
+                  NODE ENTRY := NODE NUM;
+
+                  i̲f̲ FIRST TIME t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ ALWAYS DRAW;
+                     INTERSECT := t̲r̲u̲e̲;
+                  e̲n̲d̲
+                  e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+                     NWBOTTOM := NODE TABLE[1,NODENUM];
+                     NWRIGHT  := NODE TABLE[2,NODENUM];
+                     INTERSECT :=
+                       i̲f̲ NWRIGHT  < RJX       t̲h̲e̲n̲ f̲a̲l̲s̲e̲
+                     e̲l̲s̲e̲ i̲f̲ RJX+XMAX < NWLEFT    t̲h̲e̲n̲ f̲a̲l̲s̲e̲
+                     e̲l̲s̲e̲ i̲f̲ NWTOP    > RKY+YMAX  t̲h̲e̲n̲ f̲a̲l̲s̲e̲
+                     e̲l̲s̲e̲ i̲f̲ RKY      > NWBOTTOM  t̲h̲e̲n̲ f̲a̲l̲s̲e̲
+                     e̲l̲s̲e̲ t̲r̲u̲e̲;
+                  e̲n̲d̲;
+                  i̲f̲ INTERSECT t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     DRAW THE NODE (NWTOP,NWLEFT,NWBOTTOM,NWRIGHT);
+                     NODE TABLE[1,NODE ENTRY] := NWBOTTOM;
+                     NODE TABLE[2,NODE ENTRY] := NWRIGHT;
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ SKIP TO CORRESPONDING HASH;
+                     CH := READCH;
+                     COUNT := 1;
+                     f̲o̲r̲ COUNT:=COUNT w̲h̲i̲l̲e̲ COUNT ≠ 0
+                       d̲o̲ b̲e̲g̲i̲n̲
+                           CH := READCH;
+                           i̲f̲ (CH = SHRIEK) ∨
+                             (CH = EQUALS) ∨
+                             (CH = HYPHEN)
+                             t̲h̲e̲n̲ b̲e̲g̲i̲n̲ COUNT := COUNT + 1; NODENUM := NODENUM + 1; e̲n̲d̲
+                             e̲l̲s̲e̲ i̲f̲ CH = HASH t̲h̲e̲n̲ COUNT:= COUNT + 1
+                             e̲l̲s̲e̲ i̲f̲ CH = SQUOTE t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                              f̲o̲r̲ CH := READCH w̲h̲i̲l̲e̲ CH ≠ SQUOTE d̲o̲ e̲n̲d̲
+                             e̲l̲s̲e̲ i̲f̲ CH = QUERY t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                              f̲o̲r̲ CH := READCH w̲h̲i̲l̲e̲ CH ≠ QUERY d̲o̲ e̲n̲d̲
+                           e̲l̲s̲e̲
+                             ;
+                        e̲n̲d̲;
+
+                     c̲o̲m̲m̲e̲n̲t̲ SKIP OVER HASH;
+                     i̲f̲ CH = HASH t̲h̲e̲n̲ GET NON BLANK CHAR (CH)
+                     e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+                        WRITE TEXT (“NODE WINDOW ERROR”);
+                        PRINT CH (CH);
+                     e̲n̲d̲
+                  e̲n̲d̲;
+                  BOTTOM := NWBOTTOM;
+                  RIGHT  := NWRIGHT;
+
+                  g̲o̲t̲o̲ MISS OUT PRINTING;
+
+                  NEWLINE (4);
+                  WRITE TEXT (“ NODE TABLE ”);
+                  PRINT (NODE ENTRY,10,0); PRINT (NODE NUM,10,0); NEWLINE (1);
+
+                  f̲o̲r̲ COUNT := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NODE NUM
+                    d̲o̲ b̲e̲g̲i̲n̲
+                        PRINT (COUNT,10,0);
+                        PRINT (NODETABLE[1,COUNT],10,0);
+                        PRINT (NODETABLE[2,COUNT],10,0);
+                        NEWLINE (1);
+                     e̲n̲d̲;
+
+                  PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  MISS OUT PRINTING:
+
+               e̲n̲d̲ NODE WINDOWING PROC;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW THE NODE (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ MAX NEW BOTTOM,MAX NEW RIGHT;
+
+                  i̲n̲t̲e̲g̲e̲r̲ TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP;
+                  i̲n̲t̲e̲g̲e̲r̲ MAX BOTTOM MLP, MAX RIGHT MLP;
+
+                  i̲n̲t̲e̲g̲e̲r̲ J;
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE NODE;
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                     c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('NODE')');
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  c̲o̲m̲m̲e̲n̲t̲ RESET POINTERS FOR NODE;
+                  b̲e̲g̲i̲n̲
+                     NEW TOP := TOP;
+                     NEW LEFT := LEFT;
+                     NEW BOTTOM := MAX NEW BOTTOM := TOP + DNS;
+                     NEW RIGHT := MAX NEW RIGHT := LEFT;
+                  e̲n̲d̲;
+
+                  GET NON BLANK CHAR (CH);
+                  c̲o̲m̲m̲e̲n̲t̲ DRAW ONE OR MORE SERIALS;
+                  b̲e̲g̲i̲n̲
+                     J := 0;
+                     f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ ( CH = SQUOTE ∨ CH = QUERY ) ∧ ( J < 5000 ) d̲o̲
+
+                        b̲e̲g̲i̲n̲
+                           DRAW SERIAL (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                           MAX NEW BOTTOM := MAX ( NEW BOTTOM,MAX NEW BOTTOM );
+                           MAX NEW RIGHT := MAX ( NEW RIGHT,MAX NEW RIGHT );
+                        e̲n̲d̲;
+
+                     i̲f̲ J = 5000 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        WRITE TEXT (“ONE OR MORE SERIALS ERROR”);
+                        PRINT CH (CH);
+                        LOOP ERROR (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                     e̲n̲d̲;
+
+                     c̲o̲m̲m̲e̲n̲t̲ DRAW ZERO OR MORE MIN LENGTH PARALLEL NODES;
+
+                     i̲f̲ CH = EQUALS t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+
+                        c̲o̲m̲m̲e̲n̲t̲ SETUP MIN LEN PARALLELS;
+                        b̲e̲g̲i̲n̲
+                           TOP MLP := BOTTOM MLP := MAX BOTTOM MLP := TOP;
+                           LEFT MLP := LEFT;
+                           RIGHT MLP := MAX RIGHT MLP := MAX NEW RIGHT;
+                        e̲n̲d̲;
+
+                        c̲o̲m̲m̲e̲n̲t̲ DRAW MLP S;
+                        b̲e̲g̲i̲n̲
+                           J := 0;
+                           f̲o̲r̲ J:=J+1 w̲h̲i̲l̲e̲ ((CH = EQUALS) ∧ (J<50)) d̲o̲
+                              b̲e̲g̲i̲n̲
+                                 c̲o̲m̲m̲e̲n̲t̲ NEWLINE(1);
+                                 c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('MIN%LEN%PARALLEL')');
+                                 c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+
+                                 DRAW HORIZONTAL LINE (TOP MLP, LEFT MLP,
+                                   BOTTOM MLP, RIGHT MLP+DELTA MLP);
+                                 LEFT MLP := RIGHT MLP := RIGHT MLP + DELTA MLP;
+                                 BOTTOM MLP := TOP MLP;
+
+                                 DRAW NODE (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+
+                                 MAX BOTTOM MLP  := MAX ( BOTTOM MLP, MAX BOTTOM MLP);
+                                 MAX RIGHT MLP := MAX ( RIGHT MLP, MAX RIGHT MLP);
+
+                              e̲n̲d̲ OF WHILE LOOP;
+                           i̲f̲ J ≥ 50 t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲
+                              WRITE TEXT (“MIN LEN PAR LOOP ERROR”);
+                              PRINT CH (CH);
+                              LOOP ERROR (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+                           e̲n̲d̲;
+
+                           MAX NEW BOTTOM := MAX ( MAX BOTTOM MLP, MAX NEW BOTTOM);
+                           MAX NEW RIGHT := MAX ( MAX RIGHT MLP, MAX NEW RIGHT);
+
+                        e̲n̲d̲ OF DRAW MLP S;
+
+                     e̲n̲d̲ OF MIN LEN PARALLELS;
+
+                     i̲f̲ CH ≠ HASH t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        WRITE TEXT (“#ERROR”);
+                        PRINT CH (CH);
+                        g̲o̲t̲o̲ FINI;
+                     e̲n̲d̲;
+
+
+                     GET NON BLANK CHAR (CH);
+
+                     BOTTOM := MAX ( BOTTOM, (MAX NEW BOTTOM + DNS) ) ;
+                     RIGHT := MAX ( RIGHT,MAX NEW RIGHT );
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('END%OF%NODE')');
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW SFRIAL (TOP,LEFT,BOTTOM,RIGHT);
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ TOP SERIAL,LEFT SERIAL,BOTTOM SERIAL,RIGHT SERIAL;
+                  i̲n̲t̲e̲g̲e̲r̲ NEXT TOP,NEXT LEFT,NEXT BOTTOM,NEXT RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP  PARA,LEFT PARA,BOTTOM PARA, RIGHT PARA;
+                  i̲n̲t̲e̲g̲e̲r̲ MAX BOTTOM PARA,MAX RIGHT PARA;
+                  i̲n̲t̲e̲g̲e̲r̲ J;
+
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE SERIAL;
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE ( 1 );
+                     c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('SERIAL')');
+                     c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  e̲n̲d̲;
+
+                  DRAW VERTICAL LINE (TOP,LEFT,(BOTTOM + DTB),RIGHT);
+                  RESET SERIAL POINTERS;
+                  b̲e̲g̲i̲n̲
+                     TOP SERIAL := BOTTOM SERIAL := BOTTOM + DTB;
+                     LEFT SERIAL := RIGHT SERIAL := LEFT;
+                  e̲n̲d̲;
+
+                  DRAW STATEMENT (TOP SERIAL,LEFT SERIAL, BOTTOM SERIAL,
+                    RIGHT SERIAL);
+
+                  c̲o̲m̲m̲e̲n̲t̲ SET PARALLEL POINTERS;
+                  b̲e̲g̲i̲n̲
+                     TOP PARA := BOTTOM PARA := MAX BOTTOM PARA := TOP;
+                     LEFT PARA := LEFT;
+                     RIGHT PARA := MAX RIGHT PARA := RIGHT SERIAL;
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ NEXT LEVEL;
+                  b̲e̲g̲i̲n̲
+                     GET NON BLANK CHAR (CH);
+
+                     NEXT TOP := NEXT BOTTOM := 0;
+                     NEXT LEFT := NEXT RIGHT := 0;
+
+                     i̲f̲ CH = SHRIEK t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+
+                        c̲o̲m̲m̲e̲n̲t̲ RESET NEXT LEVEL POINTERS;
+                        b̲e̲g̲i̲n̲
+                           NEXT TOP := BOTTOM SERIAL;
+                           NEXT LEFT := LEFT;
+                        e̲n̲d̲;
+
+                        c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                        c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('SERIAL~NEXT%LEVEL')');
+
+                        DRAW NEXT LEVEL (NEXT TOP,NEXT LEFT,NEXT BOTTOM,
+                          NEXT RIGHT);
+
+                        NEXT TOP := NEXT BOTTOM;
+                        NEXT LEFT := NEXT RIGHT;
+
+                        DRAW NODE (NEXT TOP,NEXT LEFT,NEXT BOTTOM,NEXT RIGHT);
+
+                        RIGHT PARA := MAX RIGHT PARA := MAX ( RIGHT PARA,
+                          NEXT RIGHT);
+                     e̲n̲d̲;
+
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ PARALLEL;
+                  b̲e̲g̲i̲n̲
+                     J := 0;
+                     f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ CH = HYPHEN ∧ ( J < 82 ) d̲o̲
+
+                        b̲e̲g̲i̲n̲
+
+                           c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                           c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('SERIAL-PARALLEL')');
+
+                           c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP PARA,LEFT PARA,BOTTOM PARA, RIGHT PARA);
+
+                           DRAW HORIZONTAL LINE (TOP PARA,LEFT PARA,BOTTOM PARA,
+                             (RIGHT PARA + DRP ));
+
+                           LEFT PARA := RIGHT PARA := RIGHT PARA + DRP;
+                           BOTTOM PARA := TOP PARA;
+
+                           DRAW NODE (TOP PARA,LEFT PARA,BOTTOM PARA,RIGHT PARA);
+                           MAX BOTTOM PARA := MAX ( BOTTOM PARA,MAX BOTTOM PARA );
+                           MAX RIGHT PARA := MAX ( RIGHT PARA,MAX RIGHT PARA );
+
+                        e̲n̲d̲;
+
+                     i̲f̲ J = 82 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        WRITE TEXT (“PARALLEL LOOP ERROR”);
+                        PRINT CH (CH);
+                        LOOP ERROR (TOP PARA,LEFT PARA,BOTTOM PARA,RIGHT PARA);
+                     e̲n̲d̲;
+
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ OVERALL SIZES;
+
+                  b̲e̲g̲i̲n̲
+                     TOP := BOTTOM SERIAL;
+                     BOTTOM := MAX ( BOTTOM SERIAL,MAX (NEXT BOTTOM,BOTTOM PARA) );
+                     RIGHT := MAX ( RIGHT SERIAL,MAX (NEXT RIGHT,RIGHT PARA) );
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('END%OF%SERIAL')');
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW VERTICAL LINE (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT,BOTTOM,RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('VERTICAL%LINE')');
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  VECTOR ( LEFT,TOP,LEFT,BOTTOM );
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW STATEMENT (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ TOP TEXT, RIGHT TEXT;
+                  i̲n̲t̲e̲g̲e̲r̲ J;
+                  b̲o̲o̲l̲e̲a̲n̲ ACTION;
+
+                  i̲f̲ CH = SQUOTE t̲h̲e̲n̲ ACTION := t̲r̲u̲e̲
+                    e̲l̲s̲e̲ i̲f̲ CH = QUERY t̲h̲e̲n̲ ACTION := f̲a̲l̲s̲e̲
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     WRITE TEXT (“? or  ERR0R”);
+                     PRINT CH (CH);
+                     g̲o̲t̲o̲ FINI;
+                  e̲n̲d̲;
+
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE OUT TEXT;
+                  b̲e̲g̲i̲n̲
+
+                     c̲o̲m̲m̲e̲n̲t̲ SET TEXT POINTERS;
+                     b̲e̲g̲i̲n̲
+                        TOP TEXT := T OP + CH HEIGHT;
+                        RIGHT TEXT := RIGHT := LEFT;
+                     e̲n̲d̲;
+
+                     c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                     GET NON BLANK CHAR (CH);
+                     MOVE TYPE TO ( LEFT,TOP TEXT);
+
+                     J := 0;
+                     f̲o̲r̲ J := J + 1 w̲h̲i̲l̲e̲ ¬ ((CH = (i̲f̲ ACTION t̲h̲e̲n̲ QUOTE e̲l̲s̲e̲ QUERY)) ∨ J ≥ 999)
+                       d̲o̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲ CH = ENDLINE t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲
+                              c̲o̲m̲m̲e̲n̲t̲ START NEW LINE OF TEXT;
+                              RIGHT := MAX (RIGHT, RIGHT TEXT);
+                              TOP TEXT := TOP TEXT + HEIGHT 2 CH;
+                              MOVE TYPE TO (LEFT, TOP TEXT);
+
+                              RIGHT TEXT := LEFT;
+                              GET NON BLANK CHAR (CH);
+                           e̲n̲d̲
+                           e̲l̲s̲e̲
+                           b̲e̲g̲i̲n̲
+                              c̲o̲m̲m̲e̲n̲t̲ PRINT CH (CH);
+
+                              c̲o̲m̲m̲e̲n̲t̲ WINDOWING FRIG ;
+                              i̲f̲ ( LEFT WINDOW < RIGHT TEXT) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                 i̲f̲ (RIGHT TEXT < RIGHT WINDOW) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                    i̲f̲ (TOP WINDOW  < TOP TEXT) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                       i̲f̲ (TOP TEXT < BOTTOM WINDOW)
+                                         t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                                          MOVE TYPE TO (RIGHT TEXT,TOP TEXT);
+                                          TYPE ( GCHAR(CH) );
+                                          CHARACTER SPACE ( CH SP );
+                                       e̲n̲d̲ e̲n̲d̲ e̲n̲d̲
+                              e̲n̲d̲;
+
+                              RIGHT TEXT := RIGHT TEXT+ CH WIDTH+ CH SP;
+                              SKIP CH;
+                              CH := NEXTCH;
+                           e̲n̲d̲
+                        e̲n̲d̲;
+                     i̲f̲ J = 999 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        NEWLINE (1);
+                        WRITE TEXT (“WRITE OUT TEXT ERR0R”);
+                        PRINT CH (CH);
+                        LOOP ERROR (TOP,LEFT,BOTTOM,RIGHT);
+                     e̲n̲d̲;
+
+                     c̲o̲m̲m̲e̲n̲t̲ OVERALL SIZE OF TEXT;
+                     b̲e̲g̲i̲n̲
+                        BOTTOM := TOP TEXT := CH HEIGHT;
+                        RIGHT := MAX(RIGHT, RIGHT TEXT);
+                     e̲n̲d̲
+
+                  e̲n̲d̲;
+                  i̲f̲ ((ACTION ≡ t̲r̲u̲e̲) ∧ (CH = QUERY)) ∨ ((ACTION ≡ f̲a̲l̲s̲e̲) ∧ (CH = SQUOTE)) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WRITE TEXT (“ACTION OR ' OR ? ERROR”);
+                     PRINT CH (CH);
+                     g̲o̲t̲o̲ FINI;
+                  e̲n̲d̲;
+
+                  i̲f̲ ACTION ≡ t̲r̲u̲e̲ t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ SPACE OVER TEXT I.E. DO NOTHING;
+                  e̲n̲d̲;
+
+                  i̲f̲ ACTION ≡ f̲a̲l̲s̲e̲ t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+
+                     c̲o̲m̲m̲e̲n̲t̲ DRAW HALF SQUARE;
+                     b̲e̲g̲i̲n̲
+                        c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                        c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('HALF-SQUARE')');
+                        VECTOR ( LEFT,TOP,(LEFT - CH WIDTH),TOP);
+                        VECTOR ((LEFT - CH WIDTH),TOP,(LEFT - CH WIDTH),BOTTOM );
+                        VECTOR ((LEFT - CH WIDTH),BOTTOM,LEFT,BOTTOM );
+                     e̲n̲d̲
+                  e̲n̲d̲
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ DRAW HORIZONTAL LINE (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT,BOTTOM,RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ NEWLINE (1);
+                  c̲o̲m̲m̲e̲n̲t̲ WRITE TEXT ('('HORIZONTAL%LINE')');
+                  c̲o̲m̲m̲e̲n̲t̲ PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  VECTOR ( LEFT,TOP,RIGHT,TOP );
+               e̲n̲d̲;
+
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOOP ERROR (TOP,LEFT,BOTTOM,RIGHT);
+                  v̲a̲l̲u̲e̲ TOP,LEFT,BOTTOM,RIGHT;
+                  i̲n̲t̲e̲g̲e̲r̲ TOP,LEFT,BOTTOM,RIGHT;
+               b̲e̲g̲i̲n̲
+                  WRITE TEXT (“A L00P ERR0R HAS 0CCURRED”);
+                  PRINT CH (CH);
+
+                  PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  g̲o̲t̲o̲ FINI;
+               e̲n̲d̲;
+
+               c̲o̲m̲m̲e̲n̲t̲ DECIDE ON INPUT OUTPUT STREAMS;
+               b̲e̲g̲i̲n̲
+                  SELECT INPUT (5);
+                  SELECT OUTPUT (5);
+               e̲n̲d̲;
+
+               c̲o̲m̲m̲e̲n̲t̲ SET INITIAL VALUES OF POINTERS;
+               b̲e̲g̲i̲n̲
+                  TOP := BOTTOM := 100;
+                  LEFT := RIGHT := 100;
+               e̲n̲d̲;
+
+               c̲o̲m̲m̲e̲n̲t̲ INITIALISE NODE WINDOWING;
+               FIRST TIME := t̲r̲u̲e̲;
+
+               c̲o̲m̲m̲e̲n̲t̲ DRAW THE BIG PICTURE;
+               b̲e̲g̲i̲n̲
+                  f̲o̲r̲ RJX := 0 s̲t̲e̲p̲ XMAX u̲n̲t̲i̲l̲ RIGHT d̲o̲
+                     b̲e̲g̲i̲n̲
+                        f̲o̲r̲ RKY := 0 s̲t̲e̲p̲ YMAX u̲n̲t̲i̲l̲ BOTTOM d̲o̲
+                           b̲e̲g̲i̲n̲
+                              FREE INPUT;
+                              TR5 := ALGOBEY (“RL *TR5”);
+                              TR5 := ALGOBEY (“AS *TR5,£E”);
+                              SELECT INPUT (5);
+
+                              TOP := BOTTOM := 100;
+                              LEFT := RIGHT := 100;
+                              XMAX := YMAX := READ;
+
+                              TOP  WINDOW := RKY - 50;
+                              LEFT WINDOW := RJX - 50;
+                              BOTTOM WINDOW := RKY + YMAX - 50;
+                              RIGHT  WINDOW := RJX + XMAX - 50;
+
+                              NODE NUM := 0;
+
+                              LIMITS (RJX,RKY+YMAX,RJX+XMAX,RKY);
+                              DRAW THE FLOWCHART (TOP,LEFT,BOTTOM,RIGHT);
+                              VECTOR (RJX+XMAX,RKY,RJX+XMAX,RKY+YMAX);
+                              VECTOR (RJX     ,RKY,RJX     ,RKY+YMAX);
+                              ADVANCE FILM;
+                              FIRST TIME := f̲a̲l̲s̲e̲;
+                           e̲n̲d̲;
+                        ADVANCE FILM;
+                     e̲n̲d̲
+               e̲n̲d̲;
+               FINI:
+               b̲e̲g̲i̲n̲
+                  NEWLINE (3);
+               e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲;
+
+   ENDPLOTTING;
+
+e̲n̲d̲

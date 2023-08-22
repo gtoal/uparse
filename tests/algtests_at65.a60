@@ -1,0 +1,10 @@
+
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+    i̲n̲t̲e̲g̲e̲r̲
+        I,
+        J;
+    I := 2;
+    J := 3;
+    OUTREAL(99, I^J d̲i̲v̲ J)
+e̲n̲d̲

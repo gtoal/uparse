@@ -1,0 +1,45 @@
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TSIGN(X);
+        v̲a̲l̲u̲e̲
+            X;
+        r̲e̲a̲l̲
+            X;
+        TSIGN :=
+            i̲f̲ X > 0 t̲h̲e̲n̲
+                1
+            e̲l̲s̲e̲ i̲f̲ X < 0 t̲h̲e̲n̲
+                 - 1
+            e̲l̲s̲e̲
+                0;
+    i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TENTIER(X);
+        v̲a̲l̲u̲e̲
+            X;
+        r̲e̲a̲l̲
+            X;
+        TENTIER := X - .5;
+    r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TABS(X);
+        v̲a̲l̲u̲e̲
+            X;
+        r̲e̲a̲l̲
+            X;
+        TABS :=
+            i̲f̲ X < 0 t̲h̲e̲n̲
+                 - X
+            e̲l̲s̲e̲
+                X;
+    r̲e̲a̲l̲
+        X;
+    f̲o̲r̲ X := - 100,
+         - 100.1,
+         - 99.4,
+         - .4,
+         - .1,
+        0,
+        .1,
+        .4,
+        .6,
+        300 d̲o̲
+        i̲f̲ TSIGN(X) # SIGN(X) o̲r̲ TENTIER(X) # ENTIER(X) o̲r̲
+            TABS(X) # ABS(X) t̲h̲e̲n̲
+            OUTREAL(99, X)
+e̲n̲d̲

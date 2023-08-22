@@ -1,0 +1,5 @@
+b̲e̲g̲i̲n̲
+    r̲e̲a̲l̲ X, Y;
+        X := Y := 0.0;
+    r̲e̲a̲l̲ Z;
+e̲n̲d̲

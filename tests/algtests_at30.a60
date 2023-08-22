@@ -1,0 +1,28 @@
+b̲e̲g̲i̲n̲
+    i̲n̲t̲e̲g̲e̲r̲
+        N1,
+        N2;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(X, L);
+        v̲a̲l̲u̲e̲
+            X;
+        i̲n̲t̲e̲g̲e̲r̲
+            X;
+        l̲a̲b̲e̲l̲
+            L;
+        b̲e̲g̲i̲n̲
+        i̲f̲ X = N1 t̲h̲e̲n̲
+            P(X - 1, L1)
+        e̲l̲s̲e̲ i̲f̲ X = N2 t̲h̲e̲n̲
+            g̲o̲t̲o̲ L
+        e̲l̲s̲e̲
+            P(X - 1, L);
+        L1 :;
+                OUTREAL(99, X)
+        e̲n̲d̲ P;
+    N1 := 4;
+    N2 := 2;
+    P(5, L2);
+    N2 := 0;
+    P(7, L2);
+    L2:;
+e̲n̲d̲

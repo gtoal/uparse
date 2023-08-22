@@ -1,0 +1,134 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ AlgolEdit(characterset, linelimit);
+s̲t̲r̲i̲n̲g̲ characterset;
+i̲n̲t̲e̲g̲e̲r̲ linelimit;
+c̲o̲m̲m̲e̲n̲t̲ If this procedure is presented an ALGOL 60 program or procedure
+in the form of a sequence of basic symbols, it will transmit to the
+output medium a copy of the text with indentations between each
+begin-end pair and some rearrangement of the blank spaces within the
+text. This procedure is an example of its own output. It is used to
+edit ALGOL 60 text that is difficult to read because, for example, the
+ALGOL has been transcribed from printed documents, or written by
+inexperienced programmers, or stored in compressed form (i.e., with all
+redundant blank spaces removed). The integer “-1” will represent the
+nonbasic symbol “carriage return”, “-2” will represent an end-of-file
+mark, other symbols will have the integer value corresponding to their
+position in the parametric string “characterset”. The string must
+contain exactly the 116 basic symbols of ALGOL 60. The parameter
+line-limit” sets an upper bound on the number of basic symbols that
+the user wishes to appear on a line of output. The identifiers “lsq”
+and “rsq” will be used in place of strings of length one whose only
+elements are “‘” and “’”, respectively;
+b̲e̲g̲i̲n̲
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ spacesbefore, spacesafter[1 : 116], buffer[1 : linelimit];
+     i̲n̲t̲e̲g̲e̲r̲ tabstop, symbol, i, symbolcount, level;
+     B̲o̲o̲l̲e̲a̲n̲ newline;
+     i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ val(s);
+     s̲t̲r̲i̲n̲g̲ s;
+     b̲e̲g̲i̲n̲
+     c̲o̲m̲m̲e̲n̲t̲ The value of this procedure is the integer corresponding
+             to the position in the string “characterset” of the symbol in the
+             string “s”. The body of the procedure must be expressed in code;
+     e̲n̲d̲ val;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ get(symbol);
+     i̲n̲t̲e̲g̲e̲r̲ symbol;
+     b̲e̲g̲i̲n̲ insymbol(2, characterset, symbol);
+        i̲f̲ symbol = -2 t̲h̲e̲n̲ g̲o̲ t̲o̲ eof
+     e̲n̲d̲ get;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ send(symbol);
+     i̲n̲t̲e̲g̲e̲r̲ symbol;
+     b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ “send” must not break identifiers across lines or
+                   insert spurious characters into strings;
+          i̲n̲t̲e̲g̲e̲r̲ i, u, v;
+          i̲f̲ symbol = -1 ∨ symbolcount ≥ linelimit
+          t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ v := tabstop;
+               i̲f̲ newline t̲h̲e̲n̲ g̲o̲ t̲o̲ E;
+               i̲f̲ level ≠ 0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ Inside a string;
+                    f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ symbolcount d̲o̲ outsymbol(1, characterset, buffer[i]);
+                    outsymbol(1, characterset, -1) ;
+                    v := 0
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ u := symbolcount;
+                    newline := true;
+                    i̲f̲ symbol = -1 t̲h̲e̲n̲ g̲o̲ t̲o̲ D;
+                    c̲o̲m̲m̲e̲n̲t̲ Find a convenient place to break the line;
+                    f̲o̲r̲ u := symbolcount - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ tabstop d̲o̲
+                         i̲f̲ buffer[u + 1] = val(‘ ’) ∨ buffer[u] = val(rsq) t̲h̲e̲n̲ g̲o̲ t̲o̲ D;
+                    u := symbolcount;
+                    c̲o̲m̲m̲e̲n̲t̲ Send the line;
+                    D: f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ u d̲o̲ outsymbol(1, characterset, buffer[i]);
+                    outsymbol(1, characterset, -1);
+                    c̲o̲m̲m̲e̲n̲t̲ Find a non-blank character to start the next line;
+                    f̲o̲r̲ i := u + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ symbolcount d̲o̲ i̲f̲ buffer[i] ≠ val(‘ ’) t̲h̲e̲n̲ g̲o̲ t̲o̲ F;
+                    g̲o̲ t̲o̲ G;
+                    c̲o̲m̲m̲e̲n̲t̲ Move a new line to the head of the buffer area;
+                    F: f̲o̲r̲ i := i s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ symbolcount d̲o̲
+                    b̲e̲g̲i̲n̲ v := v + 1;
+                         newline := false;
+                         buffer[v] := buffer[i]
+                    e̲n̲d̲;
+                    c̲o̲m̲m̲e̲n̲t̲ Insert blanks for tab stops;
+                    G: f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ tabstop d̲o̲ buffer[i] := val(‘ ’)
+               e̲n̲d̲;
+               E: symbolcount := v
+          e̲n̲d̲;
+          c̲o̲m̲m̲e̲n̲t̲ Now we can put the new symbol in the buffer array;
+          i̲f̲ symbol ≠ -1 ∧ ¬ (newline ∧ symbol = val(‘ ’)) t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲ symbolcount := symbolcount + 1;
+               newline := false;
+               buffer[symbolcount] := symbol
+          e̲n̲d̲
+     e̲n̲d̲ send;
+     f̲o̲r̲ symbol := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 116 d̲o̲ spacesbefore[symbol] := spacesafter[symbol] := 0;
+     f̲o̲r̲ symbol := val(‘+’), val(‘-’), val(‘¬’), val(‘:’), val(‘:=’),
+       val(‘<’), val(‘≤’), val(‘=’), val(‘≠’), val(‘≥’), val(‘>’) d̲o̲
+       spacesbefore[symbol] := spacesafter[symbol] := 1;
+     f̲o̲r̲ symbol := val(‘∧’), val(‘∨’), val(‘⊃’), val(‘≡’), val(‘t̲h̲e̲n̲’),
+       val(‘e̲l̲s̲e̲’), val(‘s̲t̲e̲p̲’), val(‘u̲n̲t̲i̲l̲’),val(‘w̲h̲i̲l̲e̲’), val(‘d̲o̲’) d̲o̲
+       spacesbefore[symbol] := spacesafter[symbol] := 2;
+     f̲o̲r̲ symbol := val(‘g̲o̲ t̲o̲’), val(‘b̲e̲g̲i̲n̲’), val(‘i̲f̲’), val(‘f̲o̲r̲’),
+       val(‘p̲r̲o̲c̲e̲d̲u̲r̲e̲’), val(‘v̲a̲l̲u̲e̲’), val(‘o̲w̲n̲’), val(‘r̲e̲a̲l̲’),
+       val(‘B̲o̲o̲l̲e̲a̲n̲’), val(‘i̲n̲t̲e̲g̲e̲r̲’), val(‘a̲r̲r̲a̲y̲’), val(‘s̲w̲i̲t̲c̲h̲’),
+       val(‘l̲a̲b̲e̲l̲’), val(‘s̲t̲r̲i̲n̲g̲’), val(‘,’) d̲o̲ spacesafter[symbol] := 2;
+     level := symbolcount := tabstop := 0;
+     newline := true;
+     nextsymbol: deblank: get(symbol);
+     scanned: i̲f̲ symbol = val(‘ ’) ∨ symbol = -1 t̲h̲e̲n̲ g̲o̲ t̲o̲ deblank;
+     i̲f̲      symbol = val(‘b̲e̲g̲i̲n̲’) t̲h̲e̲n̲ send( -1)
+     e̲l̲s̲e̲ i̲f̲ symbol = val(‘e̲n̲d̲’)   t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ tabstop := tabstop - 5;
+          send( -1)
+     e̲n̲d̲;
+     f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ spacesbefore[symbol] d̲o̲ send(val(‘ ’));
+     send(symbol);
+     f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ spacesafter[symbol] d̲o̲ send(val(‘ ’));
+     i̲f̲ symbol = val(‘c̲o̲m̲m̲e̲n̲t̲’) t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ Pass comments on unchanged;
+          f̲o̲r̲ i := 1 w̲h̲i̲l̲e̲ symbol ≠ val(‘;’) d̲o̲
+          b̲e̲g̲i̲n̲ get(symbol);
+               send(symbol)
+          e̲n̲d̲
+     e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ symbol = val(‘e̲n̲d̲’) t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ ‘end’ comments;
+          f̲o̲r̲ i := 1 w̲h̲i̲l̲e̲ symbol ≠ val(‘;’) d̲o̲
+          b̲e̲g̲i̲n̲ get(symbol);
+               i̲f̲ symbol = val(‘e̲l̲s̲e̲’) ∨ symbol = val(‘e̲n̲d̲’) t̲h̲e̲n̲ g̲o̲ t̲o̲ scanned;
+               send(symbol)
+          e̲n̲d̲
+     e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ symbol = val(lsq) t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ Pass strings on unchanged;
+          level := 1;
+          f̲o̲r̲ i := 1 w̲h̲i̲l̲e̲ level ≠ 0 d̲o̲
+          b̲e̲g̲i̲n̲ get(symbol);
+               send(symbol);
+               i̲f̲      symbol = val(lsq) t̲h̲e̲n̲ level := level + 1
+               e̲l̲s̲e̲ i̲f̲ symbol = val(rsq) t̲h̲e̲n̲ level := level - 1
+          e̲n̲d̲
+     e̲n̲d̲;
+     i̲f̲      symbol = val(‘b̲e̲g̲i̲n̲’) t̲h̲e̲n̲ tabstop := tabstop + 5
+     e̲l̲s̲e̲ i̲f̲ symbol = val(‘;’)     t̲h̲e̲n̲ send(-1);
+     g̲o̲ t̲o̲ nextsymbol;
+     eof: send( -1);
+     outsymbol (1, characterset, -2)
+e̲n̲d̲ Algoledit;
