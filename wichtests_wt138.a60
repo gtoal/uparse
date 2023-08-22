@@ -1,0 +1,20 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    r̲e̲a̲l̲
+        X;
+    i̲n̲t̲e̲g̲e̲r̲
+        I;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ NOTFUNCTION(Y);
+        v̲a̲l̲u̲e̲
+            Y;
+        r̲e̲a̲l̲
+            Y;
+        b̲e̲g̲i̲n̲
+        I := I + 1;
+        X := Y
+        e̲n̲d̲;
+    X := 1.0;
+    I := 0;
+    X := 3 * NOTFUNCTION(4.0);
+    OUTREAL(99, X + NOTFUNCTION(X) + I)
+e̲n̲d̲

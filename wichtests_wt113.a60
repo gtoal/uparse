@@ -1,0 +1,10 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    r̲e̲a̲l̲
+        A,
+        X;
+    X := 0.8;
+    A := (i̲f̲ X >= 0 a̲n̲d̲ X <= 1 t̲h̲e̲n̲ X * X - 3 * X + 4 e̲l̲s̲e̲
+        0);
+       OUTREAL(A);
+e̲n̲d̲

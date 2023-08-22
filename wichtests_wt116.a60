@@ -1,0 +1,24 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+    c̲o̲m̲m̲e̲n̲t̲   USE OF A PROCEDURE;
+    r̲e̲a̲l̲
+        A,
+        B
+        ;
+    p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXAMPLE(X, Y)RESULT : (R);
+        v̲a̲l̲u̲e̲
+            X,
+            Y;
+        r̲e̲a̲l̲
+            X,
+            Y,
+            R;
+        b̲e̲g̲i̲n̲
+        X := X + Y;
+        R := X^2 + Y^2
+        e̲n̲d̲;
+    A := 1;
+    B := 2;
+    EXAMPLE(A, A + B, R);
+OUTREAL(99,R)
+e̲n̲d̲

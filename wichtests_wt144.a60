@@ -1,0 +1,73 @@
+b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY'5;
+    r̲e̲a̲l̲ PR;
+    i̲n̲t̲e̲g̲e̲r̲ PI;
+    b̲o̲o̲l̲e̲a̲n̲ PB;
+    PI := 1;
+    PR := 0.0&0;
+    PB :=
+        i̲f̲ n̲o̲t̲ PI > 0 a̲n̲d̲ PI >= 1 o̲r̲ PI < 0 i̲m̲p̲l̲ PR <= 0
+            e̲q̲u̲i̲v̲ PI # 0 t̲h̲e̲n̲
+            t̲r̲u̲e̲
+        e̲l̲s̲e̲
+            t̲r̲u̲e̲;
+    i̲f̲ PB t̲h̲e̲n̲
+        PR := - 1 * PI^3 d̲i̲v̲ 2 +
+            ENTIER(SIGN(SQRT(ABS(ARCTAN(LN(EXP(COS(SIN(1)))))
+            )))) - (PR / (i̲f̲ PR = 0.0 t̲h̲e̲n̲ 3 e̲l̲s̲e̲ 3));
+    b̲e̲g̲i̲n̲
+        s̲w̲i̲t̲c̲h̲ PSW := ENTRY, EXIT;
+        o̲w̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ PRA(/0 : 1/);
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PIA(/2 : 3/);
+        b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ PBA(/ - 1 : 0/);
+        b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PFB;
+            PFB := f̲a̲l̲s̲e̲;
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ WRITE TEXT(OD, S);
+            v̲a̲l̲u̲e̲ OD;
+            i̲n̲t̲e̲g̲e̲r̲ OD;
+            s̲t̲r̲i̲n̲g̲ S;
+            OUTREAL(99, OD);
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ ALL PARAMETERS(CSR, CSI, CSB, CA1, CA2, CB,
+            CRFA, CIFA, CBFA, CFR, CFI, CFB, CL, CSL, CPR,
+            CST, CSW, CAR, CAI, CAB);
+            v̲a̲l̲u̲e̲ CA1, CA2, CB, CRFA, CIFA, CBFA, CSL;
+            i̲n̲t̲e̲g̲e̲r̲ CSI, CA2;
+            r̲e̲a̲l̲ CSR, CA1;
+            b̲o̲o̲l̲e̲a̲n̲ CSB, CB;
+            i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ CIFA, CAI;
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲ CRFA, CAR;
+            r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CFR; c̲o̲m̲m̲e̲n̲t̲(X): 'VALUE' X: 'REAL' X;
+            i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CFI; c̲o̲m̲m̲e̲n̲t̲(X): 'VALUE' X: 'REAL' X;
+            b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CFB;
+            b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ CBFA, CAB;
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ CPR;c̲o̲m̲m̲e̲n̲t̲(D,S):'VALUE' D:'INTEGER' D:'STRING' S;
+            s̲t̲r̲i̲n̲g̲ CST;
+            s̲w̲i̲t̲c̲h̲ CSW;
+            l̲a̲b̲e̲l̲ CL, CSL;
+            b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TAKE FORMAL(TF);
+                r̲e̲a̲l̲ TF;
+                TAKE FORMAL := TF;
+            CAR(/1/):= TAKE FORMAL(CA1);
+            CAI(/2/):= CA2;
+            CAB(/ - 1/):= CB;
+            CPR(30, CST);
+            CFB;
+            CA2 := CFI(1);
+            g̲o̲t̲o̲ CL;
+            e̲n̲d̲ ALL PARAMETERS;
+        f̲o̲r̲ PI := PI + 1 w̲h̲i̲l̲e̲ PI < 3,
+            1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 1,
+            1 d̲o̲
+            PI := PI := PI;
+        g̲o̲t̲o̲ PSW(/1/);
+        ENTRY :;
+        ALL PARAMETERS(PR, PI, PB, 3.0, 3, f̲a̲l̲s̲e̲, PRA, PIA,
+            PBA, SIN,  ENTIER, PFB, PSW(/2/), EXIT, WRITE
+            TEXT, <<C>
+            THIS$IS$A$STRING>, PSW, PRA, PIA, PBA);
+        EXIT :;
+        OUTREAL(99, PRA(/1/)+ PIA(/2/)+ PI + PR + (i̲f̲ PBA(/ - 1/)
+            t̲h̲e̲n̲ 10 e̲l̲s̲e̲ 0));
+    e̲n̲d̲;
+e̲n̲d̲
