@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux/x86 version 5.9.20">
+<meta charset="utf-8">
+<title>A general parser in C</title>
+</head>
+<body>
+<h2>A general parser in C</h2>
+<p>This is a system for building a parser (in C) for any programming
+language. It uses a simple but effective parsing algorithm, is
+acceptably fast (the ALGOL 60 parser supplied as an example parsed
+the largest ALGOL 60 program I've been able to find in under
+a second on my 10-yr old 686 (when compiled using clang and the 'fast' options),
+which included generating a reformatted
+version of the input file from the parse tree). The grammars are
+  easy to write and a skeleton compiler source is built for you.
+  Unicode input is supported in both the user's programs and in the
+grammar definition itself.</p>
+<p>(If you have previous experience with the unix systems yacc or bison and their lexers lex and flex,
+  this parser is easier to use: there are no 'shift-reduce' conflicts to resolve, there is arbitrary lookahead,
+  and lexing is built-in to the parser which is capable of matching terminals against regular expressions.
+'Scannerless parsing' is supported and old-style 'line reconstruction' can be done if needed.)</p>
+<p>The file you are currently reading is <a href="http://gtoal.com/languages/algol60/new-unicode-parser/README.html">http://gtoal.com/languages/algol60/new-unicode-parser/README.html</a> and
+the associated files are all available at <a href="http://gtoal.com/languages/algol60/new-unicode-parser/">http://gtoal.com/languages/algol60/new-unicode-parser/</a></p>
+<h3>How to use it - the short version</h3>
+<ul>
+<li>Create a working directory somewhere and <tt>cd</tt> into
+it.</li>
+<li>Fetch the code: <tt>wget
+<a href="http://www.gtoal.com/languages/algol60/new-unicode-parser/algol60.tar">http://www.gtoal.com/languages/algol60/new-unicode-parser/algol60.tar</a></tt><br>
+
+<tt>tar -xvf algol60.tar</tt></li>
+<li>Build the executable: <tt>make</tt></li>
+<li>run the regression tests for the example supplied: <tt>./REGRESSION.sh</tt></li>
+</ul>
+Then when you want to try a grammar of your own:
+<ul>
+<li>Create your own <tt><em>language</em>.g</tt> grammar and <tt>test.<em>language</em></tt> input file.</li>
+<li>Create your new project by using <tt>./build-parser.sh <em>language</em></tt> once.</li>
+<li>Build the new project by typing: <tt>make</tt></li>
+<li>Test your new project with <tt>./<em>language</em> test.<em>language</em></tt></li>
+</ul>
+<p>(Note: the use of specific file extensions in this description
+is arbitrary - the utilities are agnostic to the actual extension
+  used.)</p>
+
+The demonstration parser builds an executable, "<tt>algol60</tt>", which will
+re-indent an Algol60 source file (such as the examples in <tt>test/*.a60</tt>)
+while canonicalizing some of the alternative Algol symbols to something
+approaching the <em>publication syntax</em> standard, with stropped keywords
+having been converted to underlined format.  You can compile the canonical
+Algol60 program by piping it through the <tt>unicode_to_jff</tt> utility in
+the <tt>tools/</tt> subdirectory, and feeding that to the <tt>jff-a2c</tt>
+compiler from <tt><a href="https://github.com/JvanKatwijk/algol-60-compiler">https://github.com/JvanKatwijk/algol-60-compiler</a></tt>.
+<h3>The grammar files</h3>
+<p>In the description below, I assume the reader is already
+familiar with the overall concept of parsing to some extent, and
+perhaps has previously used other parsing tools.</p>
+<p>The grammar files used by this code are very similar to classic
+Backus-Naur Form (BNF). The actual format is <a href="https://gtoal.com/history.dcs.ed.ac.uk/archive/languages/ERCC-IMP-grammars/imptocps">inherited from various
+parsers written in Edinburgh in the 70's</a> and those in turn were
+derived from <a href="https://gtoal.com/history.dcs.ed.ac.uk/archive/languages/atlas-autocode/Phrase_Structure-Brooker-Morris.pdf">Tony Brooker's parsers</a> from the 60's, including his
+Compiler-Compiler system, so the syntax is not exactly BNF but is
+very close. The grammar can be written as a stand-alone <tt>.g</tt>
+file or it can be embedded in your compiler source code in the
+tradition (but not the syntax) of Yacc etc. The embedded version
+makes use of comments in the C code: any text found in a line
+containing <tt>//\\</tt> is extracted and written to a grammar file
+by the <tt>Makefile</tt> before building the parser.</p>
+Note: The entire sequence beginning with <tt>P&lt;PHRASE_NAME&gt;
+=</tt> is called a <em>production rule</em> or more commonly just a
+<em>rule</em>. The components of a rule are either <em>phrases</em>
+or <em>terminals</em> (sometimes abbreviated to <em>term</em>
+although I try to avoid that word in documentation because TERM
+also has another meaning in the context of parsing. Occasionally I
+may slip and refer to a <em>phrase</em> as a <em>term</em> but the
+reader should consider either word to be equivalent and to
+represent a single unit on the right-hand side of a grammar rule.)
+All rules must be terminated by a semi-colon (';'). Names in this
+system are case sensitive. Both upper and lower case are allowed in
+phrase names, and are considered different. The '-' character is
+allowed within a phrase name, and is converted to '_' internally.
+<p>I'll illustrate the different kinds of grammar rule by
+example:<br></p>
+<pre>        P&lt;EXACT-MATCH&gt; = "string";</pre>
+This rule, used for literal text and keywords for example, has to
+match the text in the source file exactly. (There's more that needs
+to be said in the context of keywords for stropped languages, but
+that will be added to a later revision of this document. For now
+we'll handle stropped languages such as ALGOL 60 by insisting that
+the keywords are actually underlined using Unicode characters and
+that they can be parsed like ordinary text.)
+<pre>        P&lt;BOTH&gt; = &lt;TERM&gt; &lt;ANOTHER-TERM&gt;;</pre>
+For this rule to match text, the source file must contain a
+<tt>TERM</tt> followed by an <tt>ANOTHER-TERM</tt>.
+<pre>        P&lt;EITHER&gt; = &lt;SOME-TERM&gt;, &lt;ALTERNATIVE-TERM&gt;;</pre>
+The comma between these rules means that the either
+<tt>SOME-TERM</tt> has to be present in the source text, or
+<tt>ALTERNATIVE-TERM</tt> has to be present. If neither are
+present, the entire rule for <tt>EITHER</tt> fails.
+<p>The list of phrases between commas is referred to as an
+<em>Alternative</em> or an <em>Alt</em> for short.</p>
+<!--  <h4>White space</h4> -->
+<p>It is an option that the programmer must specify in their source
+code as to whether white space is generally allowed before phrases
+or terminals. (At some point this option will likely become
+something that can be specified in the grammar file.) If white
+space is permitted, it is included in the matched text that is
+returned to the programmer, though it is very simple for the
+programmer to eliminate that white space from the returned tokens &ndash;
+or canonicalise the text in some other way &ndash; before using the text.
+Precise details will be added in a later revision of this
+document.</p>
+<p>Phrases within an alternative must <em>all</em> match for the
+alternative to match; if one phrase fails (say the 3rd item in an
+alternative that consists of 10 phrases or terminals), then that
+whole alternative fails and the next alternative is examined
+instead. If all alternatives fail, the entire rule fails. Note that
+this parses a language in a <em>slightly</em> different way from a
+full backtracking parser in the details of where the backtracking
+resumes from. This parsing algorithm is essentially the same as
+that used by PEG parsers (PEG = Parsing Expression Grammar)
+although it predates it by 45 years. Unlike packrat PEG parsers we
+don't memoize the parsing function (although that could trivially
+be added, and indeed was done in some experimental parsers in the
+90's) because the programmer normally crafts the grammar so that
+significant backtracking is not needed.</p>
+<pre>        P&lt;REGULAR-EXPRESSION&gt; = &#171;[A-Za-z][A-Za-z0-9]*&#187;;</pre>
+The text in the source file must match the regular expression
+contained between the guillemets. Terminal matching with regular
+expressions is a relatively recent addition to Edinburgh-style
+parsers: historically, the compiler writers would either construct
+an equivalent recogniser using grammar rules, or &ndash; more likely &ndash;
+would implement an <em>ad-hoc</em> recogniser using a <em>built-in
+phrase</em>. (The regular expression facility was first added in my
+TACC parser in the late 80's while I was working at Acorn.)
+<pre>        P&lt;EITHER_or_nothing&gt; = &lt;SOME-TERM&gt;,  &lt;ALTERNATIVE-TERM&gt;, ;</pre>
+Note the ',' just before the ';' at the end of the rule. This
+denotes a null rule. (You could specify this as <tt>""</tt> or
+several other forms of empty string, but simply leaving a blank
+alternative is the conventional way to add a null option.) A null
+option always parses successfully. It is helpful but not required
+to name rules that terminate in a null option with a consistent
+suffix, for example <tt>_opt</tt>:
+<pre>        P&lt;EITHER_opt&gt; = &lt;SOME-TERM&gt;,  &lt;ALTERNATIVE-TERM&gt;, ;</pre>
+<p>(There are other terminal constructs available such as
+<tt>'x'</tt> for a single 8-bit ASCII character, but these are not
+really necessary and will likely be removed. It was once believed
+they were necessary for performance but that turned out not to be
+the case.)</p>
+<p>Note that due to the combination of rules being tested in order,
+and entire alternatives failing if one component of an alternative
+fails, it is important to order any rules where one rule may match
+the prefix of another rule - the longer rule must be given first,
+for example, the following would not work as you might
+expect:<br></p>
+<pre>
+        P&lt;BOOL&gt; = &lt;NAME&gt; &lt;COMPARE&gt; &lt;NAME&gt;;
+        P&lt;COMPARE&gt; = "==", "!=", "&lt;", "&gt;", "&lt;=", "&gt;=";
+      </pre>
+In this rule, the <tt>&lt;</tt> is tested first, and if the
+<em>parent</em> rule fails because the <tt>&lt;</tt> was not
+followed by a variable, then the <tt>&lt;=</tt> terminal will never
+be tested. This rule can be made to work by re-writing as follows:
+<pre>
+        P&lt;BOOL&gt; = &lt;NAME&gt; &lt;COMPARE&gt; &lt;NAME&gt;;
+        P&lt;COMPARE&gt; = "==", "!=", "&lt;=", "&gt;=", "&lt;", "&gt;";
+      </pre>
+In some circumstances, the problematic matching prefix occurs several
+levels distant from the failing grammar rule and knowing where to
+correct the problem by reordering rules may prove difficult. In such an
+instance we have an alternative fix: we call for a guard.
+<h4>Guards, guards!</h4>
+<p>There are two modifiers that can be applied to any
+<tt>&lt;PHRASE&gt;</tt> to modify the parsing rules. These
+modifiers are called &lsquo;guards&rsquo; because they guard a rule from being
+executed if some condition is not met:<br></p>
+<pre>        P&lt;BOTH&gt; = &lt;?GUARD-TERM&gt; &lt;ACTUAL-TERM&gt;;</pre>
+In this case, the term which will be matched, and cause the text to
+be accepted by the parser, is in fact <tt>ACTUAL-TERM</tt>, but
+before <tt>ACTUAL-TERM</tt> can be accepted, a test is made for
+<tt>GUARD-TERM</tt>. <tt>GUARD-TERM</tt> must match the following
+input (which may match only the first few characters of
+<tt>ACTUAL-TERM</tt> &ndash; or it may include <tt>ACTUAL-TERM</tt> and
+many characters beyond it) but anything which matches
+<tt>GUARD-TERM</tt> is <em>not</em> removed from the input.<br>
+<pre>        P&lt;BOTH&gt; = &lt;!GUARD-TERM&gt; &lt;ACTUAL-TERM&gt;;</pre>
+This form of a phrase implements the same concept of a guarding
+test, but in this case the parse of <tt>GUARD-TERM</tt> must
+<em>fail</em> for the guard to allow parsing of this rule to
+continue. (The '!' symbol should be read as 'not')<br/><br/>
+(I added guards to an early parser of mine when I was a student around 1980,
+after a theory lecture (I can't remember if it was by Les Valiant or
+Rod Burstall) explaining P. J. Landin's work on guards in the context
+of lambda calculus. All of which I've forgotten but the idea
+of using them in a parser managed to stick.  Also the concept of
+negative guards did come indirectly from Les Valiant who published
+an article along the lines of "<a href="https://core.ac.uk/download/pdf/82226226.pdf">Negation can be exponentially powerful</a>"&hellip; my 
+take-away from his article &ndash; which I am 100% sure was not the
+point he was making! &ndash; was that if you have a huge list of N options, rather than
+test for N-1 of them which you want to match, you just test for the
+one that you don't want to match and negate the result of that test.
+Yes, that's a <em>Blinding Flash Of The Obvious</em> to some extent, but as a general
+programming pattern which is often overlooked, that one stuck with me too!)
+<h4>Built-in phrases</h4>
+<p>In the old days, simply parsing the <tt>NAME</tt>s or numeric
+constants in a language might have taken 25% of all the parsing
+time (which could be minutes - who all remembers the routine correlation
+between kicking off a build and going to make tea or coffee?!),
+so a mechanism was added to allow some rules to be
+implemented with built-in code rather than general phrase rules
+which included a
+long list of terminals containing all the letters of the alphabet. (This
+was before the addition of regular expression
+matching, which along with the use of  pre-compiled regular expressions,
+speeded up the parsing of certain forms of terminal
+considerably). In this parser, we do have the <em>built-in-phrase</em> (aka
+<em>BIP</em>) mechanism, but it is not needed nearly as often as
+was the case for 1970's compilers. There are a small number of BIPs
+built-in to the parser, each one being assigned a fixed ID number.
+When the programmer wants to use one of these BIPs he should
+consult the source code and determine the appropriate number to use
+for the specific function, for example:</p>
+<pre>        B&lt;nl&gt; = 2;</pre>
+which is implemented by this code to be found deep in the bowels of
+the main parser code:
+<pre>
+        case 2: { // nl
+          if (source(*TP) == '\n') {
+            if (debug_parser) fprintf(stderr, "BIP: nl (Matched)\n");
+            (*TP)++;
+            return literal_descriptor(InitialTP, *TP);
+          } else {
+            if (debug_parser) fprintf(stderr, "BIP: nl (No match)\n");
+            return 0;
+          }
+        }
+      </pre>
+The <tt>&lt;nl&gt;</tt> would match against the end of lines in the
+source file. The most useful BIP that cannot be implemented more
+simply using a terminal is EOF which checks for the end of the
+source file and fails if there is more input present &ndash; although
+having just said that, it occurs to me just now that (as long as I
+have implemented the regular expression code correctly!) EOF could
+be defined by:<br>
+<pre>
+        P&lt;any&gt; = &#171;.&#187;;
+        P&lt;EOF&gt; = &lt;!any&gt;;
+      </pre>
+You should consider using either regular expressions, or parse-time
+code as described below, as a substitute for BIPs in new code. Any
+new BIPs you do create should be added to the base code of the
+parser to be made available to other grammars.
+<h4>Parse-time actions</h4>
+<p>You might think the guard phrases above would allow you to
+modify the parse as it happens, for instance by testing whether a
+variable whose name had just been parsed was a <u>Boolean</u> or an
+<u>integer</u> variable, so that the parser would allow a different
+set of operators (e.g. AND and OR) to be used on operations between
+Booleans as opposed to arithmetic operations (PLUS, MINUS) on
+integers. Unfortunately, this is not the case. Because the entire
+source is parsed and built into a tree before the users code ever
+sees the output from the parser, it is too late to make parsing
+decisions based on the results of earlier syntax recognition in
+this way. However there <em>is</em> a mechanism which does exactly
+what you want in these circumstances &hellip; but it has to be used
+carefully:</p>
+<p>Parse-time rules (or phrases) are sometimes called <em>semantic</em>
+rules (or phrases) because normal rules just check the <em>syntax</em>
+of your text, but these phrases which execute code as your
+source is being parsed check the <em>semantics</em> of your text.</p>
+<p>Parse-time rules have to be implemented with C code that is
+embedded within the grammar file. Here is a very small example
+which sets a run-time flag in one part of the parse and tests it in
+another. Pay especial attention to the extra rule added to the
+<em>following</em> alternative which undoes the run-time action in
+the event of a failed alternative.<br>
+In this trivial example, we will access a &lt;NAME&gt; but set a
+flag according to whether the NAME was capitalised or not, then
+when we use that name, we'll behave differently depending on
+whether it was capitalised or not: we will not allow subtraction in
+expressions if the immediately-preceding &lt;NAME&gt; was
+capitalised!</p>
+<pre>
+        C&lt;set-flag&gt; = {
+          flag = TRUE;
+          return TRUE;
+        };
+        C&lt;clear-flag&gt; = {
+          flag = FALSE;
+          return TRUE;
+        };
+        C&lt;flag&gt; = {
+          if (flag) return TRUE; else return FALSE;
+        }
+        P&lt;EXPR&gt; = &lt;NAME&gt; &lt;OP&gt; &lt;NAME&gt;;
+        P&lt;OP&gt; = "*", "/", &lt;!flag&gt; "-", "+";
+        P&lt;NAME&gt; = &lt;set-flag&gt;&#171;[A-Z][A-Za-z0-9]*&#187;, &lt;clear-flag&gt;&#171;[A-Za-z][A-Za-z0-9]*&#187;
+</pre>
+Note that it is a current but temporary restriction that <tt>C&lt;&hellip;&gt;</tt> phrases must
+be defined in the grammar file before they are used.
+<br/>
+I will say this once more just in case your eyes have glazed over already - the
+code in parse-time phrases is executed <em>as the text is parsed</em> and if present
+in a rule will have executed at that time <em>even if that rule subsequently fails</em> due to
+the following terms in the alternative.  Parse-time code is <b>not</b> the same as the code
+in your main <tt>.c</tt> file which is executed only after a successful parse of
+the entire input.  This is a critical distinction that you must appreciate before
+writing any semantic phrases using the <tt>C&lt;&hellip;&gt;</tt> construct.  In fact it's
+a construct that should only be used by advanced experts in parsing, as a mistake
+in the use of that code will cause extremely confusing consequences.  You have
+been warned!<br/><br/>
+Your semantic-phrase code may require some new shared variables to be
+created&hellip; or some helper procedures.  These can be added by
+simply including a block of C code in the grammar file, surrounded
+by {} brackets.  Note that the code will be inserted at the outer level,
+i.e. not within any procedure, so the block must consist only of
+data and procedure declarations &ndash; i.e. no imperative code.
+<p>Finally, the grammar file is terminated with an 'E'
+command:<br></p>
+<pre>        E</pre>
+<h4>Embedded grammars</h4>
+The quickest way to develop a new language using this parser is to
+simply create a <tt><em>language</em>.g</tt> file and build an
+executable using the supplied Makefile. The executable acts as a
+syntax checker for the given language. However to do more with the
+parser, i.e. compile a program in some language or translate it to
+another language, you need to start writing code to act on the
+Abstract Syntax Tree (AST) generated by the parser. The easiest way
+to do this is to embed the grammar in the same code as the
+compiler. We do this by marking grammar rules in the source file
+with the comment delimiter <tt>//\\</tt>. For example, this code is
+from the Imp to C translator:<br>
+<pre>
+      case P_CONST_EXPR: //\\ P&lt;CONST-EXPR&gt; = &lt;const-guard&gt; &lt;EXPR&gt; &lt;cancel-const-guard&gt; ;
+      {
+        int expr = compile_expression(child(P,2), -1, VALUE_WANTED);
+        constval = IntConstant_c(expr);
+        if (constval == -1) {
+          if (AstOP(expr) != C_CONST_STRING) {
+            warn("%s is not an integer constant", SOURCE(P,2));
+          }
+          return expr;
+        }
+        return constval;
+      }        
+    </pre>
+<p>The entire grammar must be present in the source file, commented
+in this fashion. The grammar file can be extracted from these
+embedded comments using any convenient utility on the host system
+such such as:<br></p>
+<pre>      sed -ne 's|\(.*\)//\\\\ \(.*\)|\2|gp' <em>language</em>.g</pre>
+<p>The precise details of how the programmer's C code accesses the
+parse tree and the parsed text attached to that tree will be given
+in a later revision of this document. For now I will just mention
+that the matched text is returned as a pair of pointers to the
+start and end of that text within the source file, rather than as
+an explicit string. In this way, two consecutive matches could be
+concatenated very simply by returning a pair of start-pointer from
+the first match and end-pointer from the second match. The use of a
+string descriptor like this also allows the possibility of mapping
+the source file to a virtual memory address and accessing the
+source directly, thus avoiding the need to read the source and
+store it in an array. However intermediate storage may still be
+required if the language is of the type where keywords are
+stropped: the easiest way to support stropping is by having a 'line
+reconstruction' phase where stropped text is converted to a
+different representation on input. Line reconstruction can also be
+applied to languages such as C which do not have stropped keywords
+(to canonicalise white space for example, or remove <tt>/* comments
+*/</tt> between tokens) but this is seldom wanted, especially in
+source-to-source translators where all text is of interest and
+should be preserved in the translated output.</p>
+<p>A closely related issue concerning internal text representation
+is that the parser stores all characters (or more precisely,
+Unicode code points) in 32-bit wint_t variables. In other words, we
+convert UTF-8 text to UTF-32 format on input (and generate UTF-8
+again on output). This simplifies some of the internal code
+considerably &ndash; for example matching a single character in a regular
+expression) but does unfortunately force us to read the entire
+source file into an array of 32-bit integers rather than allowing
+the direct memory-mapped access as suggested in the paragraph
+above. For this reason we have not yet implemented memory-mapped
+source file access, and the string descriptors passed around as the
+result of a successful parse therefore are indexes into this
+source[] array rather than pointers to the actual characters in the
+source file.</p>
+<h4>Efficiency of grammar rules</h4>
+<p>In the early days of parsers in this style, the parser generator
+itself would look for common prefixes in alternatives and attempt
+to factor them out at a character level so that the parser would
+never need to backtrack unnecessarily. In terms a programmer would
+recognise, it formed a trie from the terminals acceptable at any
+point in the grammar. For instance if the grammar allowed either
+the word "<u>comment</u>" or the word "<u>continue</u>" at some
+point, it would (invisibly to the programmer) factor the choice out
+into "<u>co</u>" followed by a choice between "<u>mment</u>" and
+"<u>ntinue</u>". We do not do this. The small amount of
+backtracking that this saves is computationally irrelevant.
+Similarly the advice used to be that the programmer should
+explicitly factor higher level phrases within the grammar in a
+similar way to achieve efficient parsing. Unless the backtracking
+is significant, we do not recommend factoring out common terms if
+doing so makes the grammar harder to understand.</p>
+<h4>EBNF? Nein Danke!</h4>
+<p>Some parsers support Extended BNF grammars which use syntactic
+sugar to write more concise rules. We don't. The basic mechanisms
+described above are sufficient to describe any construct we need,
+albeit slightly more verbosely, and the syntax for referring
+to the matched text with one of these extended rules is not obvious.
+Whereas with a simple sequential list of phrases or terminals in an
+alternative, you can access the parsed text from your program with simple
+calls such as Phrase(2) or Terminal(3), where the number is simply
+the index of that term within the sequence for that alternative.</p>
+<p>To see how we would describe various grammar items using our
+simplified syntax, let's look at an example where we would like to
+define a parameter list as a comma-separated list of names.</p>
+<p>Typical EBNF extensions could use syntax similar to any of these
+examples:</p>
+<ul>
+<li><tt>{ &hellip; }</tt> for an optional item.<br></li>
+<li><tt>[ &hellip; ]</tt> for an optional item.<br></li>
+<li><tt>( &hellip; )?</tt> for an optional item.<br></li>
+<li><tt>?</tt> for an optional item.<br></li>
+<li><tt>{ &hellip; }*</tt> for 0 or more items.<br></li>
+<li><tt>[ &hellip; ]*</tt> for 1 or more items.<br></li>
+<li><tt>( &hellip; )+</tt> for 1 or more items.<br></li>
+<li><tt>*</tt> for repeating the last item.<br></li>
+<li><tt>*</tt> for repeating the entire preceding alt.<br></li>
+</ul>
+(reminder: none of the above are supported in our grammars) Let's
+look at an example using "( &hellip; )*" to define 0 or more repeats:
+<pre>
+       P&lt;PARAM-LIST&gt; = &lt;NAME&gt;  ("," &lt;NAME&gt; )* ;
+    </pre>
+In our grammars, you'll need to expand the rule as follows:
+<pre>
+      P&lt;PARAM-LIST&gt; = &lt;NAME&gt; &lt;REST-OF-PARAM-LIST&gt;;
+      P&lt;REST-OF-PARAM-LIST&gt; = "," &lt;NAME&gt; &lt;REST-OF-PARAM-LIST&gt;, ;
+    </pre>
+Note that the recursive call <tt>REST-OF-PARAM-LIST</tt> must
+follow other non-null phrases otherwise there will be infinite
+recursion. This type of grammar is called 'right recursive'. Many
+other parsers with which you may be familiar rely on grammars which
+are written to be 'left recursive'. Please bear this in mind when
+converting a grammar description from some other system to work
+with this parser generator. The classic problem you should look out
+for is something very roughly along the lines of this
+left-recursive definition, which would cause an infinite loop:
+<pre>
+      P&lt;EXPR&gt; = &lt;REST-OF-EXPR&gt; &lt;TERM&gt;;
+      P&lt;REST-OF-EXPR&gt; = &lt;EXPR&gt; &lt;OP&gt;, ;
+    </pre>
+as opposed to the right-recursive version, which should work:
+<pre>
+      P&lt;EXPR&gt; = &lt;TERM&gt; &lt;REST-OF-EXPR&gt;;
+      P&lt;REST-OF-EXPR&gt; = &lt;OP&gt; &lt;EXPR&gt;, ;
+    </pre>
+<p>The parser generator actually detects such loops and considers
+them to be errors, as well as warning the user about phrases which
+are never invoked if starting from P&lt;SS&gt;.
+</p>
+<p>There are a small subset of runaway recursions caused by
+grammar loops which are not currently detected - those are ones
+where there is a terminal in the path of the loop.  The code
+here assumes all terminals will match some text, but it *is*
+possible (deliberately or in error) for a terminal to succeed
+without matching any text.  However these errors will still
+be detected - only they are detected at runtime, not while
+building the tables.  It is possible that in the future such
+hidden loops can also be warned about by takeon, if takeon
+compiles the regular expressions and tries to match them
+against an empty string.  This has not yet been implemented.
+</p>
+<p>Another common extension is an optional item, e.g.</p>
+<pre>
+      P&lt;TERM&gt; = &lt;NAME&gt; "++"?;
+    </pre>
+or sometimes
+<pre>
+      P&lt;TERM&gt; = &lt;NAME&gt; {"++"};
+    </pre>
+In our grammars, the optional term should be created as a rule with
+a null alternative, i.e.:
+<pre>
+      P&lt;TERM&gt; = &lt;NAME&gt; &lt;plusplus_opt&gt;;
+      P&lt;plusplus_opt&gt; = "++", ;
+    </pre>
+or if you prefer, a slightly more verbose version to be used if you
+also need to use the non-optional version somewhere in your grammar
+as well:
+<pre>
+      P&lt;TERM&gt; = &lt;NAME&gt; &lt;plusplus_opt&gt;;
+      P&lt;plusplus&gt; = "++";
+      P&lt;plusplus_opt&gt; = &lt;plusplus&gt;, ;
+    </pre>
+People familiar with systems where a '?' suffix denotes an optional
+item should take a minute to appreciate the difference between a
+hypothetical <tt>&lt;TERM?&gt;</tt> and our <tt>&lt;?TERM&gt;</tt>.
+The former is an optional item which may match the given
+<tt>TERM</tt> phrase or may match an empty string, and the latter
+is a guard which must be matched, but which does not advance the
+text pointer.
+<p>A BNF extension to support 1 or more repeats (as opposed to the
+example above of 0 or more repeats) is constructed in a similar
+fashion. I'll leave this one as the traditional <em>exercise for
+the reader</em> to give you a chance to put what you've read into
+practice. If you can't work out the equivalent of this construct
+using basic BNF then you're probably not ready yet to start writing
+your own grammars:</p>
+<pre>
+      P&lt;TWO-PARAM-LIST&gt; = &lt;NAME&gt;  ["," &lt;NAME&gt; ]* ;
+    </pre>
+or maybe you might be more familiar with syntax like this, with the
+same meaning:
+<pre>
+      P&lt;TWO-PARAM-LIST&gt; = &lt;NAME&gt;  ("," &lt;NAME&gt; )+ ;
+    </pre>
+<p>If you are having difficulty debugging a new rule set, try running the
+generated program with either of these options:<br/><br/>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-dp</tt>: debug the parse<br/>
+<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-dc</tt>: debug the completion stage, i.e. see how far the parse got.<br/><br/>
+  The <tt>-dc</tt> option simply outputs the source text as it is parsed,
+  to the diagnostic stream, so that you can see where the parse might be failing.
+  This is also useful with a working compiler to determine what it is in your
+  input file is not being accepted.  Note that the normal output from an error
+  while parsing is a line number and column in a format that is compatible with
+  'compile mode' in Emacs, so you can use Emacs' "M-x compile" command to
+  invoke your parser and step to the next error. (We recommend setting: <tt>(setq-default compilation-auto-jump-to-first-error 1)</tt> in your ~/.emacs file)<br/>
+  The <tt>-dp</tt> option documents in full the attempt to parse, including
+  blind alleys that were tried and failed.  The tracing information can be somewhat voluminous and
+  we recommend outputting the trace to a file for easier comprehension, e.g.
+  by <tt>./algol60 badprog.a60 2> badprog.log</tt>
+</p>
+<h4>Grammar loops and other errors</h4>
+<p>The table-builder, <tt>takeon</tt>, includes several internal consistency
+  checks of your grammar.  These checks will detect phrase definitions which
+  would otherwise lead to infinite loops when parsing. Detecting these is
+  more complex than you might guess, and relies on performing a transitive
+  closure of the phrases referenced by other phrases and an understanding
+  by the grammar converter of nullable phrases, i.e. phrases which can
+  return success without matching any text in the user's input.  Previous
+  parsers in this style from Edinburgh did not include these checks - the
+  grammar authors were presumed to be smart enough that they never made
+  that kind of mistake :-)  However given that users of this package may
+  come from prior experience with left-recursive grammars (usually because
+  their parsers work bottom-up) I thought it wise to offer these safety
+  features, especially as people frequently start from someone else's
+  grammar file and if they have to convert a left-recursive grammar into
+  the right-recursive style that this parser requires, the chances of a
+  loop happening by accident while developing the grammar are quite high!
+  It's a lot nicer for the developer to be told of a grammar loop while
+  working on the grammar than to wait until the product is in the hands
+  of the users and the loop is only detected at runtime and only for some
+  specific and obscure input that only one user ever creates!
+</p>
+<p>Here are a sample of the error messages output by <tt>takeon</tt>.
+I do intend to report the line number where the error is detected,
+  but that will not be for a day or two.  The error format should be
+compatible with <em><tt>compile mode</tt></em> in Emacs.</p>
+<pre>
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/unused.g &gt; /dev/null
+? Warning: P&lt;BBB&gt; UNUSED
+
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/undefined.g &gt; /dev/null
+* Error: P&lt;BBB&gt; not defined.
+
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/selfloop.g &gt; /dev/null
+* Error: P&lt;Confusing&gt; can fail due to direct left recursion.
+
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/broken-loops.g &gt; /dev/null
+* Error: P&lt;AAA&gt; can left-recurse indirectly through &lt;BBB&gt;
+
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/chain.g &gt; /dev/null
+* Error: P&lt;nullable7&gt; can left-recurse indirectly through &lt;nullable6&gt;
+
+gtoal@linux:~/src/unicode$ ./takeon grammar-tests/no-ss.g &gt; /dev/null
+? Warning: P&lt;SS&gt; is required, as the root of the grammar to be parsed.
+           I'll use P&lt;statement&gt; as the root instead.
+</pre>
+Here's a real-life example that was found in my grammar for Atlas Autocode:
+<pre>
+P&lt;plus-opt> =
+    '+','-',
+    ;
+
+P&lt;exprn>=
+    &lt;operand>&lt;rest_of_exprn>;
+
+P&lt;rest_of_exprn> =
+    &lt;operator>&lt;operand>&lt;rest_of_exprn>,
+    ;
+
+P&lt;operand> =
+    &lt;name>&lt;actual_parameters>,
+    &lt;const>,
+    '('&lt;plus-opt>&lt;exprn>')',
+    &lt;plus-opt>&lt;exprn>,
+    ;
+</pre>
+which was reported as:<br/>
+<pre>* Error: P&lt;operand> can left-recurse indirectly through &lt;rest_of_exprn></pre>
+
+&hellip; Parsing an &lt;operand> resolved into parsing a &lt;plus-opt> followed by an &lt;exprn>.  The &lt;plus-opt> could be null,
+and the &lt;exprn> in turned called &lt;operand> and thus would loop indefinitely without consuming any characters.  The fact that
+&lt;operand> also had an unwanted null option was just the cherry on the cake :-(
+<p><em>To be continued&hellip;</em></p>
+<hr>
+<p>
+  Although this page is here to talk about the general purpose parser I wrote, I suspect a few people may end up here
+  more for the Algol 60 content.  So for you, here are a couple of things that may be of interest&hellip;<br/><br/>
+  I use an old-school command-line editor for any editing that isn't trivial - it's called Ecce and came from
+  Edinburgh in the 60's - indeed the same era as Algol 60.  However it's now past 2020, and we use screen editors
+  most of the time.  So &hellip; I came up with a way to embed the Ecce command line within Emacs, so that trivial
+  editing is done on-screen but complex work can be done with an Ecce command line simply by typing Control-E to
+  invoke it.  Also, Emacs allows user-written syntax highlighting as well as keyboard shortcuts for symbols used
+  in Algol 60 such as '&le;', not to mention <u>underlined</u> keywords, so I've written some e-Lisp to perform
+  syntax highlighting and to assist in keyboarding characters that would otherwise not be available.  You can see some of this in action
+  at <a href="https://gtoal.com/recordings/algol-editing.html">https://gtoal.com/recordings/algol-editing.html</a> (although
+  you may need to shrink the page or just scroll down so that you can see the Ecce commands being entered at the bottom of the screen).
+  My ".emacs" file is online here at <a href="http:/www.gtoal.com/src/DOTemacs.txt">http:/www.gtoal.com/src/DOTemacs.txt</a>.
+  You may also want Ecce which you can download at <a href="https://ecce.sourceforge.net/ecce.c">https://ecce.sourceforge.net/ecce.c</a> although as of today (27th Jul 2023) I haven't updated
+  that source with the new 'z' command (that adds Unicode underlining to letters) which is under development.  I'll do
+  so after the new feature has been extensively tested - the Ecce release is very stable and I don't want to risk breaking
+  it.  Ecce documentation is at <a href="https://ecce.sourceforge.net/manual.html">https://ecce.sourceforge.net/manual.html</a>
+  with an online demo and a very brief introduction at <a href="https://ecce.sourceforge.net/tutorial.html">https://ecce.sourceforge.net/tutorial.html</a>
+</p>
+<p>
+  I have other Algol 60 related web pages:
+  <ul>
+    <li><a href="https://gtoal.com/languages/algol60/KDF9/">https://gtoal.com/languages/algol60/KDF9/</a></li>
+    <li><a href="https://gtoal.com/languages/algol60/x1algol/">https://gtoal.com/languages/algol60/x1algol/</a></li>
+    <li><a href="https://gtoal.com/history.dcs.ed.ac.uk/archive/languages/algol60/Edinburgh_ALGOL_Language_Manual.html">https://gtoal.com/history.dcs.ed.ac.uk/archive/languages/algol60/Edinburgh_ALGOL_Language_Manual.html</a></li>
+    <li><a href="https://gtoal.com/languages/algol60/TESTS/NUMAL/StatalI.a60.html">https://gtoal.com/languages/algol60/TESTS/NUMAL/StatalI.a60.html</a></li>
+    <li><a href="https://gtoal.com/languages/algol60/TESTS/NUMAL/NUMAL.a60.html">https://gtoal.com/languages/algol60/TESTS/NUMAL/NUMAL.a60.html</a></li>
+  </ul>
+</p>
+<hr>
+<address>gtoal@gtoal.com</address>
+</body>
+</html>
