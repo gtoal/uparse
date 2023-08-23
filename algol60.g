@@ -531,7 +531,7 @@ P<or-term> = "o̲r̲", "∨";
 P<or_Boolean_term> = <or-term> <Boolean_term>, ;
 P<Boolean_term> = <Boolean_factor> <or_Boolean_term>;
 
-P<impl-term> = "i̲m̲p̲l̲", "i̲m̲p̲", "⊃", "\u2283", "->";
+P<impl-term> = "i̲m̲p̲l̲i̲e̲s̲", "i̲m̲p̲l̲", "i̲m̲p̲", "⊃", "\u2283", "->";
 P<more_implication_Boolean> = <impl-term> <implication_Boolean>, ;
 P<implication_Boolean> = <Boolean_term> <more_implication_Boolean>;
 
