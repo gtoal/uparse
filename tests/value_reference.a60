@@ -1,0 +1,13 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ n;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ p(k); v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k; c̲o̲m̲m̲e̲n̲t̲ if value not passed 5;
+   b̲e̲g̲i̲n̲
+      n:=n+1;
+      k:=k+4;
+      outinteger(1,n);
+   e̲n̲d̲;
+
+   n := 0;
+   p(n);
+   outinteger(1,n);
+e̲n̲d̲

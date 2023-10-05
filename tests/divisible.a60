@@ -1,0 +1,14 @@
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ count divisible by 2 from 1 'to' 50;
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   i̲n̲t̲e̲g̲e̲r̲ count;
+
+   count := 0;
+
+   f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 50 d̲o̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ i/2×2 = i t̲h̲e̲n̲ count :=count +1
+      e̲n̲d̲;
+
+   outstring(1,“This many numbers between 1 & 50 are divisible by 2: ”);
+   outinteger(1,count); newline
+e̲n̲d̲

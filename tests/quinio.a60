@@ -90,8 +90,7 @@ b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲  L. Meertens, R 1082, LM 010964/9219.
                b̲e̲g̲i̲n̲
                   i̲f̲ maxim (v, SUM (j, 1, 4, 2 × RVAL[k, j] + RNUM[k, kleur, j]) +
                          SUM (j, 0, 1, 2 ⭡ (7 - WT[k, j] - abs (j - kleur) / 2))) t̲h̲e̲n̲ m:= k
-                                         c̲o̲m̲m̲e̲n̲t̲ Not sure if ⭡ above is correct interpretation of underlined a̲n̲d̲ symbol in original? ;
-               e̲n̲d̲
+               e̲n̲d̲                       ^ Not sure if ⭡ above is correct interpretation of underlined a̲n̲d̲ symbol in original? ;
             e̲n̲d̲;
          SEL:= m
       e̲n̲d̲;

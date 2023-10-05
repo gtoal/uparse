@@ -1,0 +1,23 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ Dieses Programm berechnet die Fakultät einer Zahl I mithilfe einer Prozedur;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ fakultaet(n);
+      v̲a̲l̲u̲e̲ n; r̲e̲a̲l̲ n;
+   b̲e̲g̲i̲n̲
+
+      i̲n̲t̲e̲g̲e̲r̲ I, S, iterator;
+      I := n;
+      S := 1;
+
+      f̲o̲r̲ iterator := I s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ b̲e̲g̲i̲n̲
+            S := S × iterator;
+         e̲n̲d̲;
+
+      outinteger(1, S);
+      outstring(1, “\n”);
+
+   e̲n̲d̲;
+
+   fakultaet(10)
+
+e̲n̲d̲;

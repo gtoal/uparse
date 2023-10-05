@@ -1,0 +1,12 @@
+b̲e̲g̲i̲n̲
+
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ factorial(n); i̲n̲t̲e̲g̲e̲r̲ n;
+   b̲e̲g̲i̲n̲
+      factorial := i̲f̲ n<1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ factorial(n-1)×n
+   e̲n̲d̲;
+
+   i:=1;
+   f̲o̲r̲ i:= i+1 w̲h̲i̲l̲e̲ i≤10 d̲o̲
+        outinteger(1,fatorial(5));
+
+e̲n̲d̲

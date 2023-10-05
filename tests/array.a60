@@ -1,0 +1,17 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ a[1:10];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ b[-10:10,1:10];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ c[-10:0];
+   i̲n̲t̲e̲g̲e̲r̲ i;
+
+   f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ 
+        b̲e̲g̲i̲n̲ a[i]:= i×i ; outinteger(1,a[i]) e̲n̲d̲;
+
+   f̲o̲r̲ i:= 1,2,3,4,5,6,7,8,9,10 d̲o̲ 
+        b̲e̲g̲i̲n̲ a[i]:= i×i×i ; outinteger(1,a[i]) e̲n̲d̲;
+
+   i:=1;
+   f̲o̲r̲ i:=i+1 w̲h̲i̲l̲e̲ i≤10 d̲o̲
+      b̲e̲g̲i̲n̲ a[i]:= i×i×i×i; outinteger(1,a[i]) e̲n̲d̲;
+
+e̲n̲d̲
