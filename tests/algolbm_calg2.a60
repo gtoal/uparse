@@ -1,0 +1,116 @@
+c̲o̲m̲m̲e̲n̲t̲
+                         ***************
+                         *             *
+                         *   ALGG002   *
+                         *             *
+                         ***************
+;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,K,NEQS,NVBS;
+      r̲e̲a̲l̲ SUM;
+      c̲o̲m̲m̲e̲n̲t̲ INPUT/OUTPUT PROCEDURES;
+
+      c̲o̲m̲m̲e̲n̲t̲ END OF INPUT/OUTPUT PROCEDURES;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVERT(N,A,B);
+      v̲a̲l̲u̲e̲ N;
+      i̲n̲t̲e̲g̲e̲r̲ N;
+      a̲r̲r̲a̲y̲ A,B;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ INVERTS MATRIX A, N BY N, AND PUTS
+         INVERSE INTO MATRIX B;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K;
+      r̲e̲a̲l̲ M;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      B[I,J] := i̲f̲ I = J t̲h̲e̲n̲ 1.0 e̲l̲s̲e̲ 0.0;
+      M := A[1,1];
+      i̲f̲ M # 1.0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ A[1,I] := A[1,I]/M;
+      B[1,I] := B[1,I]/M
+      e̲n̲d̲
+      e̲n̲d̲;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+      f̲o̲r̲ J := I+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲
+      M := -A[J,I]/A[I,I];
+      f̲o̲r̲ K := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ A[J,K] := M*A[I,K] + A[J,K];
+      B[J,K] := M*B[I,K] + B[J,K]
+      e̲n̲d̲
+      e̲n̲d̲;
+      f̲o̲r̲ I := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ M := A[I,I];
+      f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲
+      A[I,J] := A[I,J]/M;
+      B[I,J] := B[I,J]/M;
+      e̲n̲d̲
+      e̲n̲d̲;
+      f̲o̲r̲ I := N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 2 d̲o̲
+      f̲o̲r̲ J := I-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲
+      M := -A[J,I]/A[I,I];
+      f̲o̲r̲ K := N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ A[J,K] := M*A[I,K] + A[J,K];
+      B[J,K] := M*B[I,K] + B[J,K];
+      e̲n̲d̲
+      e̲n̲d̲
+   ;  f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      PRINT(A[I,J],5,4);
+      NEWLINES(1)
+      e̲n̲d̲;
+      NEWLINES(2);
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      PRINT(B[I,J],5,4);
+      NEWLINES(1)
+      e̲n̲d̲;
+      e̲n̲d̲ PROCEDURE INVERT;
+
+      NEQS := READ;
+      NVBS := READ;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ A[1:NEQS,1:NVBS+1],
+         B[1:NVBS,1:NVBS+1],C[1:NVBS,1:NVBS];
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NEQS d̲o̲
+      f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS+1 d̲o̲
+      A[I,J] := READ;
+c̲o̲m̲m̲e̲n̲t̲ PDS DELETION      NEWPAGE;
+      NEWLINES(3);
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS d̲o̲
+      b̲e̲g̲i̲n̲ PRINT(I,6,0);
+      SPACES(3)
+      e̲n̲d̲;
+      NEWLINES(2);
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NEQS d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS+1 d̲o̲
+      PRINT(A[I,J],4,4);
+      NEWLINES(1)
+      e̲n̲d̲;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS d̲o̲
+      f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS+1 d̲o̲
+      b̲e̲g̲i̲n̲ SUM := 0.0;
+      f̲o̲r̲ K := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NEQS d̲o̲
+      SUM := A[K,I]*A[K,J]+SUM;
+      B[I,J] := SUM
+      e̲n̲d̲;
+      NEWLINES(3);
+      INVERT(NVBS,B,C);
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS d̲o̲
+      b̲e̲g̲i̲n̲ SUM := 0.0;
+      f̲o̲r̲ K := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NVBS d̲o̲
+      SUM := C[I,K]*B[K,NVBS+1] + SUM;
+      NEWLINES(1);
+      SPACES(3);
+      WRITE TEXT('('VALUE')');
+      SPACES(1);
+      WRITE TEXT('('OF')');
+      SPACES(1);
+      WRITE TEXT('('VARIABLE')');
+      PRINT(I,4,0);
+      SPACES(1);
+      WRITE TEXT('('IS')');
+      PRINT(SUM,8,4);
+      e̲n̲d̲
+      e̲n̲d̲
+      e̲n̲d̲

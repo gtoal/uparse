@@ -1,0 +1,660 @@
+c̲o̲m̲m̲e̲n̲t̲
+                         ***************
+                         *             *
+                         *   ALGG055   *
+                         *             *
+                         ***************
+;
+b̲e̲g̲i̲n̲
+c̲o̲m̲m̲e̲n̲t̲    YC02   ;
+c̲o̲m̲m̲e̲n̲t̲  ANALYSIS OF VARIANCE TABLE FOR MG,NA,K,P.;
+c̲o̲m̲m̲e̲n̲t̲   A0,A6,A14;
+i̲n̲t̲e̲g̲e̲r̲ SETS,N,R,C,X,Y,I,J,Z;
+r̲e̲a̲l̲  K,GM,TB1,TB2,TB3,TB4,T1,T2,T3;
+r̲e̲a̲l̲  a̲r̲r̲a̲y̲  DATA[1:7,1:11],  AV[1:17,1:6],AGN[1:3,1:7],
+             ALS[1:3,1:3], NG[1:3,1:4],GLSN[1:3,1:7],SN[1:5,1:7]
+;
+c̲o̲m̲m̲e̲n̲t̲   SET TO ZERO;
+SETS:=N:=I:=J:=0;
+T1:=T2:=T3:=0;
+f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+b̲e̲g̲i̲n̲
+AV[I,1]:=0 e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ STANDARDS  AND DEGRES OF FREEDOM;
+SETS:=READ;
+T1:= 12.706;
+T2:= 3.182;
+T3:= 2.086;
+AV[1,1]:=47;
+AV[2,1]:=7;
+AV[3,1]:=3;
+AV[4,1]:=AV[5,1]:=AV[6,1]:=AV[7,1]:=AV[8,1]:=AV[11,1]:=1;
+AV[12,1]:=AV[13,1]:=2;
+AV[9,1]:=3;
+AV[10,1]:=AV[14,1]:=AV[15,1]:=AV[16,1]:=5;
+AV[17,1]:=20;
+c̲o̲m̲m̲e̲n̲t̲   START OF LOOP BEGINING WITH SET TO ZERO;
+     START:
+R:=C:=X:=Y:=Z:=0;   K:=0.0;
+       K:=TB1:=TB2:=TB3:=TB4:=0;
+f̲o̲r̲ R:=1  s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7  d̲o̲  f̲o̲r̲ C:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲  11 d̲o̲
+             DATA[R,C]:=0;
+f̲o̲r̲ X:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲        f̲o̲r̲ Y:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲
+6 d̲o̲
+            AV[X,Y]:=0;
+f̲o̲r̲I:=1,2,3 d̲o̲ f̲o̲r̲J:=1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+      ALS[I,J]:=0 e̲n̲d̲;
+f̲o̲r̲ I:= 1,2,3 d̲o̲       f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+b̲e̲g̲i̲n̲
+NG[I,J]:= 0 e̲n̲d̲;
+f̲o̲r̲ I:=1,2,3 d̲o̲        f̲o̲r̲J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲
+b̲e̲g̲i̲n̲
+     GLSN[I,J]:= 0 e̲n̲d̲;
+f̲o̲r̲ I:= 1,2,3 d̲o̲   f̲o̲r̲  J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲
+b̲e̲g̲i̲n̲
+      AGN[I,J]:=0 e̲n̲d̲;
+f̲o̲r̲I:=1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ 5d̲o̲  f̲o̲r̲J:=1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ 7 d̲o̲
+b̲e̲g̲i̲n̲
+     SN[I,J]:=0 e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲  WRITE TITLE AND READ IN DATA;
+NEWLINES(1);SPACES(3);WRITE TEXT({TITLE});SPACES(5);
+COPY TEXT ({<>});
+f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲ f̲o̲r̲ C:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 8 d̲o̲
+         DATA[R,C]:=READ;
+c̲o̲m̲m̲e̲n̲t̲  SUB%TOTAL AND SUB TABLES;
+f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+      DATA[R,9]:= DATA[R,1]+DATA[R,3]+DATA[R,5]+DATA[R,7];
+      DATA[R,10]:=DATA[R,2]+DATA[R,4]+DATA[R,6]+DATA[R,8];
+      DATA[R,11]:=DATA[R,9]+DATA[R,10]  e̲n̲d̲;
+f̲o̲r̲ C:= 1s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲ 11 d̲o̲     f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6
+d̲o̲
+      DATA[7,C]:= DATA[7,C]+DATA[R,C];
+      TB1:= DATA[7,1]+DATA[7,2];
+      TB2:=DATA[7,3]+DATA[7,4];
+      TB3:=DATA[7,5]+DATA[7,6];
+      TB4:=DATA[7,7]+DATA[7,8];
+f̲o̲r̲ R:= 1,2,3,4,5,6 d̲o̲
+b̲e̲g̲i̲n̲
+ALS[1,1]:=ALS[1,1]+DATA[R,1]+DATA[R,5];
+ALS[1,2]:=ALS[1,2]+DATA[R,2]+DATA[R,6];
+ALS[2,1]:=ALS[2,1]+DATA[R,3]+DATA[R,7];
+ALS[2,2]:=ALS[2,2]+DATA[R,4]+DATA[R,8]e̲n̲d̲;
+f̲o̲r̲ I:= 1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+           NG[1,I]:=DATA[I,11];
+      NG[2,I]:=DATA[I+3,11] e̲n̲d̲;
+f̲o̲r̲  R := 1 d̲o̲
+b̲e̲g̲i̲n̲
+GLSN[1,1]:=GLSN[1,1]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:= 2 d̲o̲
+GLSN[1,2]:=GLSN[1,2]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:= 3 d̲o̲
+GLSN[1,3]:=GLSN[1,3]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:= 4 d̲o̲
+GLSN[1,4]:=GLSN[1,4]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:= 5 d̲o̲
+GLSN[1,5]:=GLSN[1,5]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:=6 d̲o̲
+GLSN[1,6]:=GLSN[1,6]+DATA[R,1]+DATA[R,2]+DATA[R,5]+DATA
+[R,6];
+f̲o̲r̲ R:= 1 d̲o̲
+GLSN[2,1]:=GLSN[2,1]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8];
+f̲o̲r̲ R:= 2 d̲o̲
+GLSN[2,2]:=GLSN[2,2]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8];
+f̲o̲r̲ R:= 3 d̲o̲
+GLSN[2,3]:=GLSN[2,3]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8];
+f̲o̲r̲ R:= 4 d̲o̲
+GLSN[2,4]:=GLSN[2,4]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8];
+f̲o̲r̲ R:=5 d̲o̲
+GLSN[2,5]:=GLSN[2,5]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8];
+f̲o̲r̲ R:= 6 d̲o̲
+GLSN[2,6]:=GLSN[2,6]+DATA[R,3]+DATA[R,4]+DATA[R,7]+DATA
+[R,8] e̲n̲d̲;
+f̲o̲r̲ R:=1 d̲o̲
+b̲e̲g̲i̲n̲
+     AGN[1,1]:=AGN[1,1]+DATA[R,9];
+     AGN[1,2]:=AGN[1,2]+DATA[R+1,9];
+     AGN[1,3]:=AGN[1,3]+DATA[R+2,9];
+  AGN[1,4]:=AGN[1 ,4]+DATA[R+3,9];
+     AGN[1,5]:=AGN[1,5]+DATA[R+4,9];
+      AGN[1,6]:=AGN[1,6]+DATA[R+5,9];
+      AGN[2,1]:=AGN[2,1]+DATA[R,10];
+      AGN[2,2]:=AGN[2,2]+DATA[R+1,10];
+      AGN[2,3]:=AGN[2,3]+DATA[R+2,10];
+      AGN[2,4]:=AGN[2,4]+DATA[R+3 ,10];
+      AGN[2,5]:=AGN[2,5]+DATA[R+4 ,10];
+      AGN[2,6]:=AGN[2,6]+DATA[R+5,10]e̲n̲d̲;
+f̲o̲r̲R:=1 d̲o̲
+b̲e̲g̲i̲n̲
+      SN[1,1]:=SN[1,1]+DATA[R,1]+DATA[R,5];
+      SN[1,4]:=SN[1,4]+DATA[R,3]+DATA[R,7];
+   SN[3,1]:=SN[3,1]+DATA[R,2]+DATA[R,6];
+      SN[3,4]:=SN[3,4]+DATA[R,4]+DATA[R,8];
+f̲o̲r̲R:= 2 d̲o̲
+    SN[1,2]:=SN[1,2]+DATA[R,1]+DATA[R,5];
+       SN[1,5]:=SN[1,5]+DATA[R,3]+DATA[R,7];
+       SN[3,2]:=SN[3,2]+DATA[R,2]+DATA[R,6];
+       SN[3,5]:=SN[3,5]+DATA[R,4]+DATA[R,8];
+f̲o̲r̲R:= 3 d̲o̲
+       SN[1,3]:=SN[1,3]+DATA[R,1]+DATA[R,5];
+     SN[1,6]:=SN[1,6]+DATA[R,3]+DATA[R,7];
+        SN[3,3]:=SN[3,3]+DATA[R,2]+DATA[R,6];
+        SN[3,6]:=SN[R,6]+DATA[R,4]+DATA[R,8];
+f̲o̲r̲R:= 4 d̲o̲
+        SN[2,1]:=SN[2,1]+DATA[R,1]+DATA[R,5];
+        SN[2,4]:=SN[2,4]+DATA[R,3]+DATA[R,7];
+        SN[4,1]:=SN[4,1]+DATA[R,2]+DATA[R,6];
+    SN[4,4]:=SN[4,4]+DATA[R,4]+DATA[R,8];
+f̲o̲r̲R:= 5 d̲o̲
+      SN[2,2]:=SN[2,2]+DATA[R,1]+DATA[R,5];
+    SN[2,5]:=SN[2,5]+DATA[R,3]+DATA[R,7];
+       SN[4,2]:=SN[4,2]+DATA[R,2]+DATA[R,6];
+       SN[4,5]:=SN[4,5]+DATA[R,4]+DATA[R,8];
+f̲o̲r̲R:= 6 d̲o̲
+       SN[2,3]:=SN[2,3]+DATA[R,1]+DATA[R,5];
+       SN[2,6]:=SN[2,6]+DATA[R,3]+DATA[R,7];
+       SN[4,3]:=SN[4,3]+DATA[R,2]+DATA[R,6];
+       SN[4,6]:=SN[4,6]+DATA[R,4]+DATA[R,8]e̲n̲d̲;
+f̲o̲r̲I:=1,2 d̲o̲  f̲o̲r̲J:=1,2 d̲o̲
+b̲e̲g̲i̲n̲
+      ALS[I,3]:=ALS[I,3]+ALS[I,J] e̲n̲d̲;
+f̲o̲r̲ I:= 1 ,2 d̲o̲         f̲o̲r̲ J:= 1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+     NG[I,4]:=NG[I,4]+NG[I,J]e̲n̲d̲;
+f̲o̲r̲J:=1,2,3 d̲o̲
+  b̲e̲g̲i̲n̲
+      ALS[3,J]:=ALS[1,J]+ALS[2,J] e̲n̲d̲;
+f̲o̲r̲ J:= 1,2, 3,4d̲o̲
+b̲e̲g̲i̲n̲
+NG[3,J]:=NG[1,J]+NG[2,J]e̲n̲d̲;
+f̲o̲r̲ I:=1,2 d̲o̲   f̲o̲r̲ J:= 1, 2,3,4,5,6 d̲o̲
+b̲e̲g̲i̲n̲
+      AGN[I,7]:=AGN[I,7]+AGN[I,J];
+f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲   f̲o̲r̲ I:= 1,2d̲o̲
+      AGN[3,J]:= AGN[3,J]+AGN[I,J]  e̲n̲d̲;
+f̲o̲r̲ I:=1,2 d̲o̲            f̲o̲r̲ J:=1,2,3,4,5,6  d̲o̲
+b̲e̲g̲i̲n̲
+      GLSN[I,7]:=GLSN[I,7]+GLSN[I,J]e̲n̲d̲;
+f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+       GLSN[3,J]:=GLSN[1,J]+GLSN[2,J]e̲n̲d̲ ;
+f̲o̲r̲ I:= 1,2,3,4 d̲o̲
+f̲o̲r̲ J:= 1,2,3,4,5,6 d̲o̲
+b̲e̲g̲i̲n̲
+     SN[I,7]:=SN[I,7]+SN[I,J];
+ e̲n̲d̲;
+GM:=DATA[7,11]/48;
+K:=DATA[7,11]**2/48;
+NEWLINES(3);SPACES(3);WRITE TEXT({GENERAL MEAN });
+SPACES(3);
+PRINT(GM,6,5);
+NEWLINES(2);
+c̲o̲m̲m̲e̲n̲t̲ WRITE MEANS;
+NEWLINES(3);SPACES(3);
+WRITE TEXT({SUB.BLOCK%MEANS});
+NEWLINES(3);SPACES(3);WRITE TEXT({BL1YR.1});SPACES(2);
+WRITE TEXT({BL1YR.2});
+SPACES(2);
+WRITE TEXT({BL1YR.3});
+SPACES(2);
+WRITE TEXT({BL2YR.1});
+SPACES(2);
+WRITE TEXT({BL2YR.2});
+SPACES(2);
+WRITE TEXT({BL2YR.3});
+SPACES(2);
+WRITE TEXT({BL3YR.1});
+SPACES(2);
+WRITE TEXT({BL3YR.2});
+SPACES(2);
+WRITE TEXT({BL3YR.3});
+SPACES(2);
+WRITE TEXT({BL4YR.1});
+SPACES(2);
+WRITE TEXT({BL4YR.2});
+SPACES(2);
+WRITE TEXT({BL4YR.3});
+SPACES(2);
+f̲o̲r̲C:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ 8 d̲o̲
+PRINT(DATA[R,C]/6,4,3);
+NEWLINES(3);SPACES(3);
+WRITE TEXT({BLOCK %MEANS});
+NEWLINES(4);SPACES(8);
+WRITE TEXT({BL1});
+SPACES(13);
+WRITE TEXT({BL2});
+SPACES(13);
+WRITE TEXT({BL3});
+SPACES(13);
+WRITE TEXT({BL4});
+NEWLINES(2);
+SPACES(3);
+PRINT(TB1/12,6,5);
+SPACES(3);
+PRINT(TB2/12,6,5);
+SPACES(3);
+PRINT(TB3/12,6,5);
+SPACES(3);
+PRINT(TB4/12,6,5);
+NEWLINES(4);SPACES(3);
+WRITE TEXT ({ MEAN%OF%G%GC,N* TREAMENTS,AND%GVGC%
+TIMES%N*TREATMENTS*AT%MEAN%YEAR.});
+NEWLINES(3);SPACES(38);
+WRITE TEXT({NITROGEN});
+SPACES(2);
+WRITE TEXT({RATE});
+SPACES(16);
+WRITE TEXT({MEAN%OF%GVGC});
+NEWLINES(1);SPACES(25);
+WRITE TEXT({N1});
+SPACES(15);
+WRITE TEXT({N2});
+SPACES(14);
+WRITE TEXT({N3});
+SPACES(6);
+WRITE TEXT({%TREATMENTS});
+NEWLINES(2);SPACES(13);
+WRITE TEXT({G});
+SPACES(2);
+f̲o̲r̲J:=1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(NG[1,J]/8,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(NG[1,4]/24,6,5);
+NEWLINES(1);SPACES(1);
+WRITE TEXT ({%GRASS%TR.});
+NEWLINES(1);SPACES(13);
+WRITE TEXT({GC});SPACES(1);
+f̲o̲r̲J:=1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(NG[2,J]/8,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(NG[2,4]/24,6,5);
+NEWLINES(2);
+WRITE TEXT ({N*TREATMENT*MEAN});
+f̲o̲r̲J:=1,2,3 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(NG[3,J]/16,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(NG[3,4]/48,6,5);
+NEWLINES(3);SPACES(20);
+WRITE TEXT ({MEANS*OF*LS,GC,GCN,});
+NEWLINES(4);SPACES(44);
+WRITE TEXT({GRASS});
+SPACES(2);
+WRITE TEXT({TREATMENTS});
+SPACES(45);
+WRITE TEXT({MEANS*OF*LS});
+NEWLINES(2);SPACES(25);
+WRITE TEXT({GN1});
+SPACES(10);
+WRITE TEXT({GN2});
+SPACES(10);
+WRITE TEXT({GN3});
+SPACES(10);
+WRITE TEXT({GCN1});
+SPACES(10);
+WRITE TEXT({GCN2});
+SPACES(10);
+WRITE TEXT({GCN3});
+SPACES(10);
+WRITE TEXT({TREATMENTS});
+NEWLINES(2);SPACES(1);
+WRITE TEXT({METHOD*OF});
+SPACES(3);
+WRITE TEXT({L});
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(GLSN[1,J]/4,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(GLSN[1,7]/24,6,5);
+NEWLINES(1);SPACES(1);
+WRITE TEXT ({N*APLICATION});
+NEWLINES(1);SPACES(13);
+WRITE TEXT({S});
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(GLSN[2,J]/4,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(GLSN[2,7]/24,6,5);
+NEWLINES(2);SPACES(2);
+WRITE TEXT({GR.*TR.MEANS});
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(GLSN[3,J]/8,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(GLSN[3,7]/48,6,5);
+NEWLINES(8);SPACES(14);
+WRITE TEXT ({ MEANS*OF*GN,GCN,AGE*OF*LEY});
+NEWLINES(7);SPACES(44);
+WRITE TEXT({GRASS});
+SPACES(2);
+WRITE TEXT({TREATMENTS});
+SPACES(45);
+WRITE TEXT({MEANS*OF*AGE});
+NEWLINES(3);SPACES(22);
+WRITE TEXT({GN1});
+SPACES(12);
+WRITE TEXT({GN2});
+SPACES(11);
+WRITE TEXT({GN3});
+SPACES(12);
+WRITE TEXT({GCN1});
+SPACES(12);
+WRITE TEXT({GCN2});
+SPACES(10);
+WRITE TEXT({GCN3});
+SPACES(10);
+WRITE TEXT({TREATMENTS});
+NEWLINES(2);SPACES(3);
+WRITE TEXT({AGE*OF});
+SPACES(2);
+WRITE TEXT({ 1 });
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(AGN[1,J]/4,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(AGN[1,7]/24,6,5);
+NEWLINES(1);SPACES(5);
+WRITE TEXT ({LEYS});
+SPACES(2);
+WRITE TEXT({ 2});
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(AGN[2,J]/4,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(AGN[2,7]/24,6,5);
+NEWLINES(2);
+WRITE TEXT({GR.*TR.MEANS});
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(AGN[3,J]/3,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(AGN[3,7]/48,6,5);
+NEWLINES(10);SPACES(13);
+WRITE TEXT ({MEANS *OF G,GC,AGE*OF*LEY,N*TREATMENTS});
+NEWLINES(6);SPACES(35);
+WRITE TEXT({ L });
+SPACES(35);
+WRITE TEXT({ S });
+SPACES(33);
+WRITE TEXT({MEANS*OF*});
+NEWLINES(3);SPACES(20);
+WRITE TEXT({N1});
+SPACES(11);
+WRITE TEXT({N2});
+SPACES(12);
+WRITE TEXT({N3});
+SPACES(14);
+WRITE TEXT({N1});
+SPACES(12);
+WRITE TEXT({N2});
+SPACES(13);
+WRITE TEXT({N3});
+SPACES(10);
+WRITE TEXT({GRASS*TREATMENTS});
+NEWLINES(2);SPACES(5);
+WRITE TEXT({G});
+SPACES(3);
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(SN[1,J]/2,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(SN[1,7]/12,6,5);
+NEWLINES(1);SPACES(2);WRITE TEXT({ 1});SPACES(2);
+NEWLINES(1);SPACES(5);WRITE TEXT({GC});SPACES(2);
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(SN[2,J]/2,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(SN[2,7]/12,6,5);
+NEWLINES(2);SPACES(5);WRITE TEXT({G});SPACES(3);
+f̲o̲r̲J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(SN[3,J]/2,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(SN[3,7]/12,6,5);
+NEWLINES(1);SPACES(2);WRITE TEXT({ 2 });SPACES(2);
+NEWLINES(1);SPACES(5);WRITE TEXT({GC});SPACES(2);
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(SN[4,J]/2,6,5);
+e̲n̲d̲;
+SPACES(3);
+PRINT(SN[4,7]/12,6,5);
+NEWLINES(2);
+WRITE TEXT({MEAN*OF*N});
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+b̲e̲g̲i̲n̲
+PRINT(SN[5,J]/8,6,5);
+SPACES(3);
+e̲n̲d̲;
+SPACES(3);
+PRINT(SN[5,7]/48,6,5);
+NEWLINES(10);SPACES(3);
+WRITE TEXT({CORRECTION*FACTOR*K});
+SPACES(3);
+PRINT(K,6,5);
+NEWLINES(2);
+NEWLINES(2);SPACES(3);
+WRITE TEXT({GENERAL MEAN });
+SPACES(3);
+PRINT(GM,6,5);
+NEWLINES(2);
+ c̲o̲m̲m̲e̲n̲t̲ SUMSOF SQUARES;
+f̲o̲r̲ C:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 8 d̲o̲ f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ 6 d̲o̲
+AV[1,2]:=AV[1,2]+DATA[R,C]**2-K/48;
+f̲o̲r̲ C:= 1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ 8 d̲o̲
+AV[2,2]:=AV[2,2]+DATA[7,C]**2-K/8;
+      AV[3,2]:=(TB1**2+TB2**2+TB3**2+TB4**2)/12-K;
+      AV[4,2]:=((TB1+TB3)**2 + (TB2+TB4)**2)/24-K;
+      AV[5,2]:=((TB1+TB2)**2 + (TB3+TB4)**2)/24-K;
+       AV[6,2]:=AV[3,2]-AV[4,2]-AV[5,2];
+f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+      AV[7,2]:=(DATA[7,9]**2 + DATA[7,10]**2)/24-K;
+      AV[8,2]:=AV[8,2]+(ALS[1,1]**2+ALS[1,2]**2+ALS[2,1]**2
+      + ALS[2,2]**2)/12-K-AV[4,2]-AV[7,2];
+        AV[9,2]:=AV[2,2]-AV[3,2]-AV[7,2]-AV[8,2];
+f̲o̲r̲ J:= 1s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+AV[10,2]:=AV[10,2]+GLSN[3,J]**2/8-K/6;
+  f̲o̲r̲ I:= 1,2 d̲o̲
+     AV[11,2]:=AV[11,2] + NG[I,4]**2/24-K/2;
+f̲o̲r̲ J:=1,2,3 d̲o̲
+     AV[12,2]:=AV[12,2] + NG[3,J]**2/16-K/3;
+AV[13,2]:=AV[10,2]-AV[11,2]-AV[12,2];
+f̲o̲r̲ I:=1,2 d̲o̲  f̲o̲r̲ J:=1,2,3,4,5,6 d̲o̲
+     AV[14,2]:=AV[14,2] + AGN[I,J]**2/4-K/12 -
+     AV[10,2]/12-AV[7,2]/12;
+f̲o̲r̲ I:=1,2 d̲o̲  f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+     AV[15,2]:=AV[15,2] + GLSN[I,J]**2/4-K/12 -
+     AV[10,2]/12-AV[4,2]/12;
+f̲o̲r̲I:=1,2,3,4 d̲o̲   f̲o̲r̲J:=1,2,3,4,5,6 d̲o̲
+     AV[16,2]:=AV[16,2] + SN[I,J]**2/2-K/24-AV[10,2]/24
+     -AV[7,2]/24 -
+AV[4,2]/24-AV[14,2]/24-AV[15,2]/24-AV[8,2]/24;
+AV[17,2]:=AV[1,2]-AV[2,2]-AV[10,2]-AV[14,2]-AV[15,2]-AV[16,
+2];
+c̲o̲m̲m̲e̲n̲t̲ MEAN SQUARES;
+f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+AV[I,3]:=AV[I,2]/AV[I,1];
+c̲o̲m̲m̲e̲n̲t̲ VARIANCE RATIOS;
+f̲o̲r̲ I:=2,3,4,5 d̲o̲
+AV[I,4]:=AV[I,3]/AV[6,3];
+f̲o̲r̲ I:=7,8 d̲o̲
+AV[I,4]:=AV[I,3]/AV[9,3];
+f̲o̲r̲ I:=10 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 16 d̲o̲
+AV[I,4]:=AV[I,3]/AV[17,3];
+c̲o̲m̲m̲e̲n̲t̲ LEVEL OF SIGNIFICANCE;
+i̲f̲ AV[2,4] >=  5.981          t̲h̲e̲n̲ AV[2,5]:=1.0 e̲l̲s̲e̲
+i̲f̲ AV[2,4] >= 0.39          t̲h̲e̲n̲ AV[2,5]:=5.0 e̲l̲s̲e̲
+AV[2,5]:=-1.0;
+i̲f̲ AV[3,4]>=     5.403      t̲h̲e̲n̲ AV[3,5]:=1.0 e̲l̲s̲e̲
+i̲f̲ AV[3,4]  >=   216        t̲h̲e̲n̲ AV[3,5]:=5.0 e̲l̲s̲e̲
+AV[3,5]:=-1.0;
+i̲f̲ AV[4,4]  >=   4.052       t̲h̲e̲n̲ AV[4,5]:=1.0 e̲l̲s̲e̲
+i̲f̲ AV[4,4]  >=  0.161           t̲h̲e̲n̲ AV[4,5]:=5.0    e̲l̲s̲e̲
+AV[4,5]:=-1.0;
+i̲f̲ AV[5,4]  >=  4.052          t̲h̲e̲n̲ AV[5,5]:=1.0e̲l̲s̲e̲
+i̲f̲ AV[5,4]  >=  0.161           t̲h̲e̲n̲ AV[5,5]:=5.0    e̲l̲s̲e̲
+AV[5,5]:=-1.0;
+f̲o̲r̲ I:=7,8 d̲o̲
+b̲e̲g̲i̲n̲
+i̲f̲ AV[I,4]  >= 0.81         t̲h̲e̲n̲ AV[I,5]:=1.0    e̲l̲s̲e̲
+i̲f̲ AV[I,4]  >= .55             t̲h̲e̲n̲ AV[I,5]:=5.0    e̲l̲s̲e̲
+AV[I,5]:=-1.0 e̲n̲d̲;
+f̲o̲r̲ I:=10,14,15,16 d̲o̲
+b̲e̲g̲i̲n̲
+i̲f̲ AV[I,4] >= 6.46         t̲h̲e̲n̲ AV[I,5]:=0.1 e̲l̲s̲e̲
+i̲f̲ AV[I,4] >= 4.10                t̲h̲e̲n̲ AV[I,5]:=1.0    e̲l̲s̲e̲
+i̲f̲ AV[I,4] >= 6.46             t̲h̲e̲n̲ AV[I,5]:=5.0 e̲l̲s̲e̲
+AV[I,5]:=-1.0 e̲n̲d̲;
+i̲f̲ AV[11,4] >= 14.82             t̲h̲e̲n̲ AV[11,5]:=0.1    e̲l̲s̲e̲
+i̲f̲ AV[11,4] >= 8.10             t̲h̲e̲n̲ AV[11,5]:=1.0    e̲l̲s̲e̲
+i̲f̲ AV[11,4] >= 4.35             t̲h̲e̲n̲ AV[11,5]:=5.0    e̲l̲s̲e̲
+AV[11,5]:=-1.0;
+f̲o̲r̲ I:=12,13 d̲o̲
+b̲e̲g̲i̲n̲
+i̲f̲ AV[I,4] >= 9.95            t̲h̲e̲n̲ AV[I,5]:=0.1    e̲l̲s̲e̲
+i̲f̲ AV[I,4] >= 5.85             t̲h̲e̲n̲ AV[I,5]:=1.0    e̲l̲s̲e̲
+i̲f̲ AV[I,4] >= 3.49             t̲h̲e̲n̲ AV[I,5]:=5.0    e̲l̲s̲e̲
+AV[I,5]:=-1.0 e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ LEAST  SIGNIFICANT DIFFERENCES;
+i̲f̲ AV[2,5] >= 0.1 t̲h̲e̲n̲ AV[2,6]:=SQRT(AV[6,3]/3)*T1
+e̲l̲s̲e̲ AV[2,6]:=-1.0;
+i̲f̲ AV[3,5] >= 0.1 t̲h̲e̲n̲ AV[3,6]:=SQRT(AV[6,3]/6)*T1
+e̲l̲s̲e̲ AV[3,6]:=-1.0;
+i̲f̲ AV[4,5] >= 0.1 t̲h̲e̲n̲ AV[4,6]:=SQRT(AV[6,3]/12)*T1
+e̲l̲s̲e̲ AV[4,6]:=-1.0;
+i̲f̲ AV[5,5] >= 0.1 t̲h̲e̲n̲ AV [5,6]:=SQRT(AV[6,3]/12)*T1
+e̲l̲s̲e̲ AV[5,6]:=-1.0;
+i̲f̲ AV[7,5] >= 0.1 t̲h̲e̲n̲ AV[7,6]:=SQRT(AV[9,3]/12)*T2
+e̲l̲s̲e̲ AV[7,6]:=-1.0;
+i̲f̲ AV[8,5] >= 0.1 t̲h̲e̲n̲ AV[8,6]:=SQRT(AV[9,3]/3)*T2
+e̲l̲s̲e̲ AV[8,6]:=-1.0;
+i̲f̲ AV[10,5] >= 0.1 t̲h̲e̲n̲ AV[10,6]:=SQRT(AV[17,3]/4)*T3
+e̲l̲s̲e̲ AV[10,6]:=-1.0;
+i̲f̲ AV[11,5] >=  0.1 t̲h̲e̲n̲ AV[11,6]:=SQRT(AV[17,3]/12)*T3
+e̲l̲s̲e̲ AV[11,6]:=-1.0;
+i̲f̲ AV[12,5] >= 0.1 t̲h̲e̲n̲ AV[12,6]:=SQRT(AV[17,3]/8)*T3
+e̲l̲s̲e̲ AV[12,6]:=-1.0;
+i̲f̲ AV[13,5] >= 0.1 t̲h̲e̲n̲ AV[13,6]:= SQRT(AV[17,3]/2)*T3
+e̲l̲s̲e̲ AV[13,6]:=-1.0;
+i̲f̲ AV[14,5] >= 0.1 t̲h̲e̲n̲ AV[14,6]:=SQRT(AV[17,3])*T3
+e̲l̲s̲e̲ AV[14,6]:=-1.0;
+i̲f̲ AV[15,5] >= 0.1 t̲h̲e̲n̲ AV[15,6]:=SQRT(AV[17,3]/2)*T3
+e̲l̲s̲e̲ AV[15,6]:=-1.0;
+i̲f̲ AV[16,5] >= 0.1 t̲h̲e̲n̲ AV[16,6]:= SQRT(AV[17,3]*4)*T3
+e̲l̲s̲e̲ AV[16,6]:=-1.0;
+c̲o̲m̲m̲e̲n̲t̲ WRITE ANALYSIS OF VARIANCE TABLE;
+NEWLINES(1);SPACES(3);
+WRITE TEXT ({ ANALYSIS*OF*VARIANCE*TABLE.});
+NEWLINES(1);SPACES(3);
+WRITE TEXT({*BREAKDOWN*AS*FOLLOVS.
+(1)TOTAL.(2)SUB.BLOCKS.(3)BLOCKS.(4)LVS.(5)REPLICATION.(6)ERROR.(A).
+});
+NEWLINES(2);SPACES(1);
+WRITE TEXT({(7)AGE OF LEY.(8) AGE*LVS.(9)ERROR.(B).(10)GRASS});
+WRITE TEXT({TREATMENTS});
+NEWLINES(2);SPACES(3);
+WRITE TEXT({(11)GVGC
+.(12)NITROGEN.(13)INTERACTION.(14)GRASS
+TR,*AGE.(15)GRASSTR,*LVS.});
+NEWLINES(2);SPACES(3);
+WRITE TEXT({(16)GRASS TR,*AGE*LVS.
+(17)ERROR.(C).
+});
+NEWLINES(3);SPACES(7);
+WRITE TEXT({ D*OF*F});
+SPACES(10);
+WRITE TEXT({ S*S*D});
+SPACES(12);
+WRITE TEXT({*M*S});
+SPACES(11);
+WRITE TEXT({ V*R});
+SPACES(12);
+WRITE TEXT({ L*OF
+*S});
+SPACES(51);
+WRITE TEXT({ L*S*D});
+NEWLINES(2);
+f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+b̲e̲g̲i̲n̲
+f̲o̲r̲J:= 1s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5d̲o̲
+b̲e̲g̲i̲n̲
+     i̲f̲ AV[I,J]<0.0000 t̲h̲e̲n̲
+     b̲e̲g̲i̲n̲
+      SPACES(8);
+      WRITE TEXT ({  N.*S});
+     e̲n̲d̲
+e̲l̲s̲e̲
+b̲e̲g̲i̲n̲
+SPACES(3);
+PRINT(AV[I,J],6,5);
+e̲n̲d̲;
+e̲n̲d̲;
+i̲f̲ AV[I,6]<0.0 t̲h̲e̲n̲
+b̲e̲g̲i̲n̲
+   SPACES(8);
+ WRITE TEXT ({
+N.S.});
+e̲n̲d̲
+ e̲l̲s̲e̲ PRINT(AV[I,6],6,5); e̲n̲d̲;
+NEWLINES(2);
+c̲o̲m̲m̲e̲n̲t̲ WRITE COEFFICIENTS OF VARIATION;
+SPACES(3);
+WRITE TEXT ({ COEFFICIENT *OF *VARIATION*FOR*E1});
+SPACES(3);
+PRINT((SQRT(AV[6,3])/GM)*100,6,5);
+      NEWLINES(1);
+SPACES(3);
+WRITE TEXT ({ COEFFICIENT*OF*VARIATION*FOR*E2});
+SPACES(3);
+PRINT((SQRT(AV[9,3])/GM)*100,6,5);
+      NEWLINES(1);
+SPACES(3);
+WRITE TEXT ({ COEFFICIENT*OF*VARIATION*FOR*E3});
+SPACES(3);
+PRINT((SQRT(ABS(AV[17,3]))/GM)*100,6,5);
+      NEWLINES(1);
+c̲o̲m̲m̲e̲n̲t̲ LOOP MESSAGE;
+     N:=N+1;
+i̲f̲ N=SETS t̲h̲e̲n̲ g̲o̲t̲o̲ START;
+FINISH:
+               e̲n̲d̲

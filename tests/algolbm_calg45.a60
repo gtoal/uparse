@@ -1,0 +1,191 @@
+c̲o̲m̲m̲e̲n̲t̲
+                         ***************
+                         *             *
+                         *   ALGG045   *
+                         *             *
+                         ***************
+;
+
+ b̲e̲g̲i̲n̲
+c̲o̲m̲m̲e̲n̲t̲ G4628T;
+i̲n̲t̲e̲g̲e̲r̲ COUNT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,K,M,N,MIN,L,FLOWH,F,X;
+COUNT:=0;
+      M:=READ;N:=READ;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ZERO,BOOL,U[1:N-1,1:M-1],C,WGHT[1:N,1:M],
+            COL[1:N,1:2],ROW[1:2,1:M];
+      b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ NLROW[1:N-1],NLCOL[1:M-1];b̲o̲o̲l̲e̲a̲n̲ MLAB;
+    WRITETEXT({{C}COST{S}MATRIX{S}IS});
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲ WRITETEXT({{C}}
+);
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+
+      b̲e̲g̲i̲n̲ C[I,J]:=READ;WGHT[I,J]:=0;PRINT(C[I,J],2,0);e̲n̲d̲;
+  e̲n̲d̲;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      b̲e̲g̲i̲n̲ BOOL[I,J]:=0;ZERO[I,J]:=0;U[I,J]:=0;e̲n̲d̲;
+      K:=0;MIN:=0;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲ K:=K+C[I,M];
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ MIN:=MIN+C[N,J];
+      i̲f̲ K\=MINt̲h̲e̲n̲ b̲e̲g̲i̲n̲ WRITETEXT({{C}NO SOLN}); g̲o̲t̲o̲
+NOSOLN;e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲  GETTING STARTED  IE.FIND STARTING WEIGHTS AND ZERO MATRIX;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ MIN:=C[I,1]; f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-2 d̲o̲
+      i̲f̲ MIN>C[I,J+1] t̲h̲e̲n̲ MIN:=C[I,J+1];
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      i̲f̲ C[I,J]=MIN t̲h̲e̲n̲ BOOL[I,J]:=1;
+      WGHT[I,M]:=-MIN;
+e̲n̲d̲;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1d̲o̲
+      i̲f̲ BOOL[I,J]=1 t̲h̲e̲n̲ g̲o̲t̲o̲ FINISH;
+      WGHT[1,J]:=C[1,J]+WGHT[1,M];
+      MIN:=WGHT[1,J];
+      f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+      b̲e̲g̲i̲n̲ WGHT[I,J]:=C[I,J]+WGHT[I,M];
+            i̲f̲ MIN>WGHT[I,J] t̲h̲e̲n̲ MIN:=WGHT[I,J];
+      e̲n̲d̲;
+      f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+      b̲e̲g̲i̲n̲ WGHT[I,J]:=WGHT[I,J]-MIN;
+            i̲f̲ WGHT[I,J]=0 t̲h̲e̲n̲ BOOL[I,J]:=1;
+      e̲n̲d̲;
+      WGHT[N,J]:=-MIN;
+FINISH:
+e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ DETERMINATION OF INITIAL ALLOCATIONS;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ C[I,M]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ LOOP1;
+      f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      i̲f̲ BOOL[I,J]=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ C[N,J]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ LOOP2;
+           X:=i̲f̲ U[I,J]>C[N,J] t̲h̲e̲n̲ C[N,J] e̲l̲s̲e̲ U[I,J];
+            i̲f̲ C[I,M]>X t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ ZERO[I,J]:=X;C[I,M]:=C[I,M]-X;
+                  C[N,J]:=C[N,J]-X;
+            e̲n̲d̲
+            e̲l̲s̲e̲ b̲e̲g̲i̲n̲ ZERO[I,J]:=C[I,M];
+                      C[N,J]:=C[N,J]-C[I,M];C[I,M]:=0;g̲o̲t̲o̲ LOO
+P1;
+                  e̲n̲d̲;
+e̲n̲d̲;
+LOOP2:
+LOOP1:
+e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ STARTING LABELLING PROCESS,FIRST ROWS WITH SURPLUS;STLAB:
+COUNT:=COUNT + 1;
+i̲f̲ COUNT > 100 t̲h̲e̲n̲ g̲o̲t̲o̲ NOSOLN;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ COL[I,1]:=COL[I,2]:=0;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ ROW[1,J]:=ROW[2,J]:=0;
+WRITETEXT({{CC}C[I,J],WGHT[I,J]});
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+b̲e̲g̲i̲n̲ WRITETEXT({{C}});
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ PRINT(C[I,J],2,0);
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ PRINT(WGHT[I,J],2,0);
+e̲n̲d̲;
+WRITETEXT({{C}BOOL[I,J],ZERO[I,J]});
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ WRITETEXT({{C}});
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ PRINT(BOOL[I,J],2,0);
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ PRINT(ZERO[I,J],2,0);
+e̲n̲d̲;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ WGHT[I,J]:=0;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲ NLROW[I]:=f̲a̲l̲s̲e̲;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ NLCOL[J]:=f̲a̲l̲s̲e̲;MLAB:=f̲a̲l̲s̲e̲;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+i̲f̲ C[I,M]>0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ COL[I,1]:=C[I,M];COL[I,2]:=0;
+            NLROW[I]:=t̲r̲u̲e̲;MLAB:=t̲r̲u̲e̲;e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲  LABELLING COLUMNS AND TEST FOR NO MORE LABELLING;
+LABCOL:i̲f̲ n̲o̲t̲ MLAB t̲h̲e̲n̲ g̲o̲t̲o̲ NOBREAK;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ NLCOL[J]:=f̲a̲l̲s̲e̲;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ COL[I,1]=0 o̲r̲ n̲o̲t̲ NLROW[I] t̲h̲e̲n̲ g̲o̲t̲o̲ JUMP;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      i̲f̲ BOOL[I,J]=1 a̲n̲d̲ ROW[1,J]=0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ROW[1,J]:=COL[I,1];ROW[2,J]:=I;
+            i̲f̲ C[N,J]>0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ WRITETEXT({{C}BRTHR})
+;PRINT(J,2,0);
+             g̲o̲t̲o̲ BREAKTHROUGH;e̲n̲d̲;MLAB:=t̲r̲u̲e̲;NLCOL[J]:=t̲r̲u̲e̲;
+      e̲n̲d̲;  JUMP:
+e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ TEST FOR NO MORE LABELLING;
+ i̲f̲ n̲o̲t̲ MLAB t̲h̲e̲n̲ g̲o̲t̲o̲ NOBREAK;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲ NLROW[I]:=f̲a̲l̲s̲e̲; MLAB:=f̲a̲l̲s̲e̲;
+c̲o̲m̲m̲e̲n̲t̲ LABELLING ROWS;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ n̲o̲t̲ NLCOL[J]  t̲h̲e̲n̲ g̲o̲t̲o̲ AGAIN;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ COL[I,1]>0 t̲h̲e̲n̲ g̲o̲t̲o̲ AG2;
+      i̲f̲ BOOL[I,J]=1 a̲n̲d̲ ZERO[I,J]>0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ NLROW[I]:=t̲r̲u̲e̲;MLAB:=t̲r̲u̲e̲;
+            COL[I,1]:=i̲f̲ ZERO[I,J]>ROW[1,J] t̲h̲e̲n̲ ROW[1,J]
+             e̲l̲s̲e̲ ZERO[I,J];
+            COL[I,2]:=J;
+      e̲n̲d̲;AG2:
+e̲n̲d̲;
+      AGAIN:
+e̲n̲d̲;
+WRITETEXT({{C}COL[I,J]});
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲ b̲e̲g̲i̲n̲
+      PRINT(COL[I,1],2,0); PRINT(COL[I,2],2,0);
+         e̲n̲d̲;
+WRITETEXT({{C}ROW[I,J]});
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ b̲e̲g̲i̲n̲
+      PRINT(ROW[1,J],2,0); PRINT(COL[2,J],2,0);
+          e̲n̲d̲;
+g̲o̲t̲o̲ LABCOL;
+c̲o̲m̲m̲e̲n̲t̲ %NO BREAKTHROUGH% ACHIEVED;NOBREAK:
+WRITETEXT({{C}NOBREAK});
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ COL[I,1]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ ROW[1 ,J]\=0t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT1 ;
+            WGHT[I,J]:=C[I,J]+WGHT[I,M]+WGHT[N,J];NEXT1:
+e̲n̲d̲;NEXT:
+e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ FIND %K%;
+K:=5*10**5;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ COL[I,1]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT2 ;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ ROW[1,J]\=0t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT3;
+            i̲f̲ WGHT[I,J]<K t̲h̲e̲n̲ K:=WGHT[I,J];
+      NEXT3:
+e̲n̲d̲;NEXT2:
+e̲n̲d̲;
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ i̲f̲ ROW[1,J]>0 t̲h̲e̲n̲ WGHT[N,J
+]:=W
+GHT[N,J]+K;
+c̲o̲m̲m̲e̲n̲t̲ ADDING CIRCLES AND REMOVING CIRCLES;
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ i̲f̲ COL[I,1]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ RTURN;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ ROW[1,J]>0 t̲h̲e̲n̲ f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+            i̲f̲ BOOL[L,J]=1 a̲n̲d̲ COL[L,1]>0 t̲h̲e̲n̲ BOOL[L,J]:=0;
+            i̲f̲ WGHT[I,J]=K t̲h̲e̲n̲ BOOL[I,J]:=1;
+      e̲n̲d̲;WGHT[I,M]:=WGHT[I,M]-K;RTURN:
+e̲n̲d̲;
+g̲o̲t̲o̲ STLAB;
+c̲o̲m̲m̲e̲n̲t̲ %BREAKTHROUGH% ACHIEVED;BREAKTHROUGH:
+STOP; c̲o̲m̲m̲e̲n̲t̲ ADDED BY PDS PROG LOOPING;
+ X:=i̲f̲ U[I,J]>C[N,J] t̲h̲e̲n̲ C[N,J] e̲l̲s̲e̲ U[I,J];
+FLOWH:= i̲f̲ X>ROW[1,J] t̲h̲e̲n̲ ROW[1,J] e̲l̲s̲e̲ X;
+ C[N,J]:=C[N,J]-FLOWH;REPEAT:
+ZERO[I,J]:=ZERO[I,J]+FLOWH;J:=COL[I,2];
+i̲f̲ J=0 t̲h̲e̲n̲ g̲o̲t̲o̲ RPEAT;ZERO[I,J]:=ZERO[I,J]-FLOWH;
+I:=ROW[2,J];g̲o̲t̲o̲ REPEAT; RPEAT:
+C[I,M]:=C[I,M]-FLOWH;g̲o̲t̲o̲ TESTOP;
+TESTOP:
+f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ i̲f̲ C[N,J]>0 t̲h̲e̲n̲ g̲o̲t̲o̲ STLAB
+;
+WRITETEXT({{CC}SOLN%IS});
+f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+b̲e̲g̲i̲n̲ WRITETEXT({{C}});
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1 d̲o̲ PRINT(ZERO[I,J],2,0);
+e̲n̲d̲;
+NOSOLN:
+e̲n̲d̲;
+ e̲n̲d̲;
+e̲n̲d̲

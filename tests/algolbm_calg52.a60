@@ -1,0 +1,87 @@
+c̲o̲m̲m̲e̲n̲t̲
+                         ***************
+                         *             *
+                         *   ALGG052   *
+                         *             *
+                         ***************
+;
+ b̲e̲g̲i̲n̲
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ A0,A6; r̲e̲a̲l̲ CHI,MU,NU,S,DX,ZETAE,ZETA,
+A,B,LCHI,SCHI,UCHI,LMU,SMU,UMU,THETAIG,PHI,LAMDA,ETA;
+i̲n̲t̲e̲g̲e̲r̲ M,X,I,J,CHOICE;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EM(Y,L); v̲a̲l̲u̲e̲ Y,L; r̲e̲a̲l̲ Y; i̲n̲t̲e̲g̲e̲r̲ L;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S, Q; i̲n̲t̲e̲g̲e̲r̲ R;
+i̲f̲ L = 0 t̲h̲e̲n̲ S:=1 e̲l̲s̲e̲ b̲e̲g̲i̲n̲ S:=1; Q:=1;
+f̲o̲r̲ R:=1 s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ L d̲o̲ b̲e̲g̲i̲n̲ Q:=Q*Y/R; S:=S+Q e̲n̲d̲;
+EM:=S e̲n̲d̲; e̲n̲d̲ OF PROCEDURE EM;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FA(X); v̲a̲l̲u̲e̲ X; i̲n̲t̲e̲g̲e̲r̲ X; b̲e̲g̲i̲n̲
+i̲n̲t̲e̲g̲e̲r̲ I,P; i̲f̲ X = 0 t̲h̲e̲n̲ P:=1e̲l̲s̲e̲ b̲e̲g̲i̲n̲ P:=1;
+f̲o̲r̲ I:=1s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲ X d̲o̲ P:=P*I e̲n̲d̲; FA:=P e̲n̲d̲ 0F FA;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTA(U,Z,L); v̲a̲l̲u̲e̲ U,Z,L; r̲e̲a̲l̲ U,Z;
+i̲n̲t̲e̲g̲e̲r̲ L; b̲e̲g̲i̲n̲ r̲e̲a̲l̲ Q,S;
+i̲f̲ U = 0t̲h̲e̲n̲ S:=(1-(1+Z)**(1+L))/(1+L) e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+Q:= EXP(U*Z)* EM(-U*(1+Z),L)-EM(-U,L);
+S:=FA(L)*Q/(-U)**(1+L) e̲n̲d̲; INTA:=S e̲n̲d̲ OF INTA;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTB(V,Z,L);v̲a̲l̲u̲e̲ V,Z,L;r̲e̲a̲l̲ V,Z;
+i̲n̲t̲e̲g̲e̲r̲ L; b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S, Q;i̲f̲ V = 0 t̲h̲e̲n̲
+S:=(1-(1+Z)**(1+L))/(1+L) e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+Q:=EXP(-V*Z)*EM(V*(1+Z),L)-EM(V,L);S:=FA(L)*Q/V**(1+L) e̲n̲d̲;
+INTB:=S e̲n̲d̲ OF PROC INTB;
+M:=READ;LCHI:=READ;
+SCHI:=READ;UCHI:=READ;LMU:=READ;SMU:=READ;
+UMU:=READ;J:=READ;CHOICE:=READ;
+PHI:=1+M;
+WRITETEXT('('N = ')');
+PRINT(M,0,3); NEWLINES(1);
+f̲o̲r̲ CHI:=LCHI s̲t̲e̲p̲ SCHIu̲n̲t̲i̲l̲ UCHId̲o̲ b̲e̲g̲i̲n̲
+WRITETEXT('(''('P')'CHI = ')');
+PRINT(CHI,0,3);   NEWLINES(1);
+WRITE TEXT('(''('2S')'MU'('8S')'ETA'('8S')'SQRT(ETA)'('5S')'ZETAE
+'('7S')'THETAIG'('7S')'LAMDA'('2S2C')'')');
+f̲o̲r̲ MU:=LMUs̲t̲e̲p̲ SMUu̲n̲t̲i̲l̲ UMUd̲o̲ b̲e̲g̲i̲n̲
+i̲f̲ MU=0a̲n̲d̲ CHI=0 t̲h̲e̲n̲ g̲o̲t̲o̲ SPECIAL;
+I:=0;
+X:=-1;NU:=i̲f̲ MU=0o̲r̲ CHI =0t̲h̲e̲n̲ 0e̲l̲s̲e̲ MU*CHI/(MU+CHI);
+A:=INTA(MU,X,M);B:=INTB(NU,X,M);S:=EXP(NU*X)*B-A;
+i̲f̲ S> 0t̲h̲e̲n̲ g̲o̲t̲o̲ ONE;
+ZETA:=0;DX:= -1;
+LOOP:ZETA:=ZETA+DX;
+A:=INTA(MU,ZETA,M);B:=INTB(NU,ZETA,M);
+S:=EXP(NU*ZETA)*B-A;ZETAE:=ZETA;
+i̲f̲ S>0t̲h̲e̲n̲ g̲o̲t̲o̲ LOOP;ZETA:=ZETAE-DX;I:=I+1;
+i̲f̲ I =J t̲h̲e̲n̲ g̲o̲t̲o̲ TWO;DX:=DX/10;g̲o̲t̲o̲ LOOP;
+SPECIAL:  PRINT(MU,1,2);
+WRITE TEXT('(''('7S')'0.0'('9S')'0.0'('8S')'-1.00000'('5S')'
++1.00000'('C')'')');g̲o̲t̲o̲ FINAL;
+ONE:ZETA:=-1;THETAIG:=MU*PHI*A/(MU+2*CHI);
+ETA:=MU*MU/(MU+CHI);
+PRINT(MU,1,2); SPACES(4); PRINT(ETA,2,5); SPACES(4);
+PRINT(SQRT(ETA),2,5); SPACES(4); PRINT(ZETA,1,5);
+SPACES(4); PRINT(THETAIG,2,5); NEWLINES(1);
+g̲o̲t̲o̲ FINAL;
+TWO:THETAIG:=MU*PHI*A/(MU+2*CHI);
+LAMDA:=(1+ZETA)**PHI;
+ETA:=MU*MU/(MU+CHI);
+PRINT(MU,1,2); SPACES(4); PRINT(ETA,2,5); SPACES(4);
+PRINT(SQRT(ETA),2,5); SPACES(4); PRINT(ZETA,1,5);
+SPACES(4); PRINT(THETAIG,2,5); SPACES(4);
+PRINT(LAMDA,2,5); NEWLINES(1);
+FINAL:e̲n̲d̲;e̲n̲d̲;
+i̲f̲ CHOICE = 0t̲h̲e̲n̲ g̲o̲t̲o̲ HELL;
+f̲o̲r̲ CHI:=SCHI s̲t̲e̲p̲ SCHI u̲n̲t̲i̲l̲ UCHI d̲o̲ b̲e̲g̲i̲n̲
+SMU:=READ;UMU:=READ;WRITE TEXT('(''('P')'CHI%=%')');
+PRINT(CHI,2,3);
+NEWLINES(1);
+WRITE TEXT('(''('2S')'MU'('8S')'ETA'('6S')'SQRT(ETA)'('5S')'THETAIG'('7S
+2C')'')');
+f̲o̲r̲ MU:=0s̲t̲e̲p̲ SMU u̲n̲t̲i̲l̲ UMU d̲o̲ b̲e̲g̲i̲n̲
+i̲f̲ MU=0a̲n̲d̲ CHI=0t̲h̲e̲n̲ b̲e̲g̲i̲n̲ PRINT(MU,1,2);
+WRITE TEXT('(''('7S')'0.0'('9S')'0.0'('6S')'+1.00000'('C')'')');
+g̲o̲t̲o̲ LAST;
+e̲n̲d̲; ZETAE:=-1;A:=INTA(MU,ZETAE,M);THETAIG:=MU*A
+*PHI/(MU+2*CHI);ETA:=MU*MU/(MU+CHI);PRINT(MU,1,2);
+SPACES(4); PRINT(ETA,2,5);  SPACES(4); PRINT(SQRT(ETA),2,5);
+SPACES(4); PRINT(THETAIG,2,5); NEWLINES(1);
+LAST:e̲n̲d̲; e̲n̲d̲;HELL:
+e̲n̲d̲
+ e̲n̲d̲;

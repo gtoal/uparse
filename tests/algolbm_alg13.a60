@@ -1,0 +1,76 @@
+c̲o̲m̲m̲e̲n̲t̲
+                         ***************
+                         *             *
+                         *   ALGG013   *
+                         *             *
+                         ***************
+;
+ b̲e̲g̲i̲n̲
+ p̲r̲o̲c̲e̲d̲u̲r̲e̲CPUTIM(T);
+ r̲e̲a̲l̲ T;
+   T:=CPUTIME;
+ i̲n̲t̲e̲g̲e̲r̲ I,J,K,L;
+ r̲e̲a̲l̲T;
+ CPUTIM(T);
+   I:=-100; J:=0;  K:=100;
+ f̲o̲r̲L:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲1000d̲o̲
+ b̲e̲g̲i̲n̲
+        g̲o̲t̲o̲ L200;
+ L100: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L101e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L200
+        e̲l̲s̲e̲g̲o̲t̲o̲L201;
+ L101: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L102
+        e̲l̲s̲e̲g̲o̲t̲o̲L201;
+ L102: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L201
+        e̲l̲s̲e̲g̲o̲t̲o̲L103;
+ L103: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L104e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L200
+        e̲l̲s̲e̲g̲o̲t̲o̲L200;
+ L104: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L105
+        e̲l̲s̲e̲g̲o̲t̲o̲L200;
+ L105: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L200
+        e̲l̲s̲e̲g̲o̲t̲o̲L106;
+ L106: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L107e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L107
+        e̲l̲s̲e̲g̲o̲t̲o̲L200;
+ L107: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L108
+        e̲l̲s̲e̲g̲o̲t̲o̲L108;
+ L108: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L109e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L200
+        e̲l̲s̲e̲g̲o̲t̲o̲L109;
+ L109: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L110e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L200
+        e̲l̲s̲e̲g̲o̲t̲o̲L110;
+ L110: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L111e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L111
+        e̲l̲s̲e̲g̲o̲t̲o̲L200;
+ L111: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L200e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L112
+        e̲l̲s̲e̲g̲o̲t̲o̲L112;
+ L112:
+        g̲o̲t̲o̲ L300;
+ L200: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L201e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L100
+        e̲l̲s̲e̲g̲o̲t̲o̲L101;
+ L202: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L101
+        e̲l̲s̲e̲g̲o̲t̲o̲L203;
+ L201: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L202
+        e̲l̲s̲e̲g̲o̲t̲o̲L101;
+ L203: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L204e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L100
+        e̲l̲s̲e̲g̲o̲t̲o̲L100;
+ L205: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L100
+        e̲l̲s̲e̲g̲o̲t̲o̲L206;
+ L204: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L205
+        e̲l̲s̲e̲g̲o̲t̲o̲L100;
+ L206: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L207e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L207
+        e̲l̲s̲e̲g̲o̲t̲o̲L100;
+ L208: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L209e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L100
+        e̲l̲s̲e̲g̲o̲t̲o̲L209;
+ L207: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L208
+        e̲l̲s̲e̲g̲o̲t̲o̲L208;
+ L209: i̲f̲I<0t̲h̲e̲n̲g̲o̲t̲o̲L210e̲l̲s̲e̲i̲f̲I=0t̲h̲e̲n̲g̲o̲t̲o̲L100
+        e̲l̲s̲e̲g̲o̲t̲o̲L210;
+ L211: i̲f̲K<0t̲h̲e̲n̲g̲o̲t̲o̲L100e̲l̲s̲e̲i̲f̲K=0t̲h̲e̲n̲g̲o̲t̲o̲L212
+        e̲l̲s̲e̲g̲o̲t̲o̲L212;
+ L210: i̲f̲J<0t̲h̲e̲n̲g̲o̲t̲o̲L211e̲l̲s̲e̲i̲f̲J=0t̲h̲e̲n̲g̲o̲t̲o̲L211
+        e̲l̲s̲e̲g̲o̲t̲o̲L100;
+ L212:
+        g̲o̲t̲o̲ L100;
+ L300:;
+ L:=L;
+ e̲n̲d̲;
+ CPUTIM(T);
+ OUTPUT(T);
+ e̲n̲d̲
