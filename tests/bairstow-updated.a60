@@ -1,0 +1,182 @@
+b̲e̲g̲i̲n̲
+
+
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ bairstow(poly,lp,a,b,iterm,eps,vr1,vr2,vim1,vim2);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ poly;
+        i̲n̲t̲e̲g̲e̲r̲ lp,iterm;
+        r̲e̲a̲l̲ a,b,eps;
+        r̲e̲a̲l̲ vr1,vr2,vim1,vim2;
+   b̲e̲g̲i̲n̲
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ trinomroots(a,b,c,vr1,vim1,vr2,vim2);
+         c̲o̲m̲m̲e̲n̲t̲ find roots of a*x^2+b*x+c . reals parts are returned
+           in vr1,vr2 a̲n̲d̲ imaginary parts in vim1, vim2. a is supposed t̲o̲ be non
+           zero (n̲o̲t̲ tested);
+
+         v̲a̲l̲u̲e̲ a,b,c;
+         r̲e̲a̲l̲ a,b,c,vr1,vr2,vim1,vim2;
+
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ delta;	
+           delta := b×b-4.0×a×c;
+         i̲f̲ delta <0.0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            vr1 := vr2 := -b/(2×a)	;
+            vim1 :=  -sqrt(-delta)/(2×a);
+            vim2 :=  -vim1;
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            vr1 :=  (-b-sqrt(delta))/(2×a);
+            vr2 :=  (-b+sqrt(delta))/(2×a);
+            vim1 := vim2 := 0.0;
+         e̲n̲d̲
+
+      e̲n̲d̲ trinomroots;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ divide2(p,div2,lp,quotient,rem);
+         c̲o̲m̲m̲e̲n̲t̲ divide polynomial p (degree :  lp-1) by div2 trinom.;
+
+         v̲a̲l̲u̲e̲ lp;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ p,div2,quotient,rem;
+           i̲n̲t̲e̲g̲e̲r̲ lp;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ degrep,i,j; r̲e̲a̲l̲ c;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ ploc[1:lp];
+         degrep :=lp-1;
+         f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp d̲o̲ ploc[i] := p[i];
+         f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp-2 d̲o̲ quotient[i] := 0.0 ;
+         f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ degrep-1 d̲o̲
+            b̲e̲g̲i̲n̲
+               c:= ploc[i];
+               quotient[i]:= c;
+               ploc[i] := 0.0 ;
+               ploc[i+1]:= ploc[i+1]-c×div2[2];
+               ploc[i+2]:= ploc[i+2]-c×div2[3];
+            e̲n̲d̲;
+         rem[1]:= ploc[degrep]; rem[2]:= ploc[degrep+1];
+      e̲n̲d̲ divide2;
+      b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Newton(p,a,b,degre,iterm,eps);
+         c̲o̲m̲m̲e̲n̲t̲ the iterative p̲r̲o̲c̲e̲d̲u̲r̲e̲ t̲o̲ find a quadratic factor x^2+ax+b
+           a a̲n̲d̲ b are both starting values a̲n̲d̲ results;
+         v̲a̲l̲u̲e̲ degre,iterm,eps;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ p;
+           r̲e̲a̲l̲ a,b,eps;
+           i̲n̲t̲e̲g̲e̲r̲ degre,iterm;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NewtonStep(p,lp,a,b,iterm);
+            c̲o̲m̲m̲e̲n̲t̲ one s̲t̲e̲p̲ of the iterative p̲r̲o̲c̲e̲d̲u̲r̲e̲;
+
+            v̲a̲l̲u̲e̲ iterm,lp;
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲ p; r̲e̲a̲l̲ a,b; i̲n̲t̲e̲g̲e̲r̲ lp,iterm;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲  d[1:3], rema[1:lp],remb[1:lp];
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲  qa[1:lp-1],ra[1:2];
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲ qb[1:lp-1],rb[1:2],quot[1:lp],m[1:2,1:2];
+            r̲e̲a̲l̲ delta, reta,retb;
+            d[1] :=1.0; d[2]:=a; d[3]:=b;
+            divide2(p,d,lp,quotient,rem);
+            f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp-2 d̲o̲ qa[i]:= -quotient[i];
+            qa[lp-1]:=0.0;
+            f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp-2 d̲o̲ qb[i]:= -quotient[i];
+            divide2(qa,d,lp-1,quot,rema);
+            m[1,1] := rema[1]; m[2,1] := rema[2];
+            divide2(qb,d,lp-2,quot,remb);
+            m[1,2] := remb[1];
+            m[2,2] := remb[2];
+            delta := m[1,1]×m[2,2]-m[1,2]×m[2,1];
+            reta :=(rem[1]×m[2,2]-rem[2]×m[1,2])/delta;
+            a := a- reta;	
+              retb :=(m[1,1]×rem[2]-m[2,1]×rem[1])/delta;
+            b := b- retb;
+            NewtonStep := reta×reta+retb×retb;
+         e̲n̲d̲ NewtonStep;
+         c̲o̲m̲m̲e̲n̲t̲ ------------------- ;
+
+         r̲e̲a̲l̲ resid;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ q[1 : degre+1];
+         i̲n̲t̲e̲g̲e̲r̲ i;
+         b̲o̲o̲l̲e̲a̲n̲ ok;
+         resid :=1;
+         f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ degre+1 d̲o̲ q[i]:=p[i];
+         ok := f̲a̲l̲s̲e̲;
+         f̲o̲r̲  i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ iterm d̲o̲
+            b̲e̲g̲i̲n̲
+               resid := NewtonStep(p,degre+1,a,b,iterm);
+               i̲f̲ sqrt(resid)<eps t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  ok := t̲r̲u̲e̲;
+                  g̲o̲t̲o̲ outloop;
+               e̲n̲d̲;
+            e̲n̲d̲;
+
+         outloop:
+         Newton :=ok;
+      e̲n̲d̲ Newton;
+
+
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ quotient[1:lp],rem[1:lp];
+      i̲n̲t̲e̲g̲e̲r̲ degree,nroots;
+
+      degree := lp-1;
+      i̲f̲ degree=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         vr1:=-poly[2]/poly[1]; vim1:=0.0;
+         lp :=0;
+         nroots:=1;
+      e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ degree=2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         trinomroots(poly[1],poly[2],poly[3],vr,vr2,vim1,vim2);
+         lp :=0;
+         nroots:=2;
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         a := poly[2]/poly[1]+1;
+         b := poly[3]/poly[1]+1;
+
+         Newton(poly,a,b,degree,iterm,eps);
+         trinomroots(1.0,a,b,vr1,vr2,vim1,vim2);
+         lp:= lp-2;
+         nroots:=2;
+         f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp d̲o̲
+              poly[i]:=quotient[i];
+      e̲n̲d̲;
+      bairstow:=nroots;
+   e̲n̲d̲ bairstow;	   
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲  outRealArray(a,l);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a;
+        i̲n̲t̲e̲g̲e̲r̲ l;
+   b̲e̲g̲i̲n̲
+      f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ l d̲o̲
+         b̲e̲g̲i̲n̲
+            outreal(1,a[i]);
+            outstring(1,“ ”);
+         e̲n̲d̲;
+      outstring(1,“\n”);
+   e̲n̲d̲ outRealArray;
+
+   c̲o̲m̲m̲e̲n̲t̲ -------------------------main---------------------------------;
+   r̲e̲a̲l̲ a,b,c,vr,vi,wr,wi,eps;
+   b̲o̲o̲l̲e̲a̲n̲ ok;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ pol[1:50],div2[1:3];
+   i̲n̲t̲e̲g̲e̲r̲ i,lp,iterm,nr;      
+     a:=1; b:=1; c:=1;
+   lp:=12;
+   f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ lp d̲o̲ pol[i]:=1.0;
+   eps :=0.00001;
+   iterm :=50;
+   f̲o̲r̲ iterm:=50 w̲h̲i̲l̲e̲ lp>0 d̲o̲
+      b̲e̲g̲i̲n̲
+         nr:=bairstow(pol,lp,a,b,iterm,eps,vr,vi,wr,wi);
+         outreal(1,vr);outstring(1,“ ”);
+         outreal(1,vi);outstring(1,“ ”); outstring(1,“\n”);
+         i̲f̲ nr> 1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            outreal(1,wr);outstring(1,“ ”);
+            outreal(1,wi);outstring(1,“ ”); outstring(1,“\n”);
+         e̲n̲d̲
+      e̲n̲d̲
+        outstring(1,"fin")		
+  e̲n̲d̲
