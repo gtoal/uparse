@@ -1,7 +1,7 @@
 #
 # This is an ALGOL 60 grammar that I am using to test my latest parser generator.
 # Significantly, the parser supports the use of Unicode, and the test ALGOL 60
-# files (in *.a60 in the tests/ subdirector) are written using Unicode and attempt
+# files (in *.a60 in the tests/ subdirectory) are written using Unicode and attempt
 # to duplicate the preferred syntax of the ALGOL 60 report as closely as the current
 # technology allows.  View a typical source file at:
 #    http://gtoal.com/languages/algol60/TESTS/NUMAL/StatalI.a60.html
