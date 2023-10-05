@@ -1,0 +1,47 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ calculate average 'and' standard deviation;
+
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ aa[1:100000];
+   i̲n̲t̲e̲g̲e̲r̲ n;
+   r̲e̲a̲l̲ b, c;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ vectRandom( v, ndim, seed);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ ndim, seed;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      i̲n̲t̲e̲g̲e̲r̲ m, a, b, s, r;
+      m := 32768; a := 805; b := 6925;
+      s := seed;
+      f̲o̲r̲ i :=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ndim d̲o̲
+         b̲e̲g̲i̲n̲
+            s := s×a+b; r := entier(s/m); s := s - r×m; 
+              v[i] := (entier((s+1)/(m+1)×10000)) / 10000 
+           e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ statAverageStDev(a, dim, avr, std); 
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ dim; r̲e̲a̲l̲ avr, std;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ s;
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      avr := 0;  std := 0;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ 
+           b̲e̲g̲i̲n̲
+            avr := avr + a[i];
+            std := std + a[i]×a[i]
+         e̲n̲d̲;
+      avr := avr / dim;
+      std := (std - dim×avr×avr) / (dim-1);
+      std := sqrt (std )
+   e̲n̲d̲ ;
+
+   n := 10000;
+
+   vectRandom(aa, n, n);
+   statAverageStDev(aa, n, b, c);
+
+   outstring (1,“average = ”);  outreal (1, b );
+   outstring (1,“st. dev = ”);  outreal (1, c );
+   outstring (1,“\n”)
+
+e̲n̲d̲

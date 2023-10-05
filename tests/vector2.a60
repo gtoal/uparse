@@ -1,0 +1,19 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'procedure' inVector of reading vector from a file;
+
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[1:100];
+   i̲n̲t̲e̲g̲e̲r̲ i, dim;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ inVector( channel, v, ndim);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ channel, ndim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      ininteger (channel, ndim);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ndim d̲o̲ inreal (channel, v[i])
+   e̲n̲d̲;
+
+   inVector(6, a, dim);
+
+   f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ outreal (1,a[i]);
+   outstring (1,“\n”)
+e̲n̲d̲
