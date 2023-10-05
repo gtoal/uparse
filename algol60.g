@@ -341,6 +341,7 @@ P<FORLIST> =
 # C-style multiple assignment A := B := C;
 P<MORE-LHS> = <LHS> ':=' <MORE-LHS>, ;
 
+# Note there is a unicode character for :=  (≔ - U+2254) but currently only supported in html, not unicode text files.
 P<ASSIGNMENT> = <LHS> ':=' <MORE-LHS> <RHS>;
 
 P<LHS> = <NAME> <ARRAY-LB> <ARRAY-INDEX> <ARRAY-INDICES> <ARRAY-RB>,
@@ -412,6 +413,7 @@ P<exp-factor> = <exp-op> <factor>, ;
 P<factor> = <primary> <exp-factor>;
 P<mul-op> = "*", "×";
 P<rdiv-op> = "/";
+# non-standard "m̲o̲d̲" missing.
 P<idiv-op> = "//",  "÷",  "%",  "d̲i̲v̲", "'/'";
 P<div-op> = <idiv-op>, <rdiv-op>;
 P<muldiv-op> = <mul-op>, <div-op>;
@@ -589,8 +591,8 @@ P<string_literal> = <BALANCED-STRING>, <C-STRING>;
 P<dchs> = <dch> <dchs>, ;
 P<dch> = <!rdquo> <ch>;
 
-P<ldquo> = "“", '{', "‘", "'('", "«", "|<", "<" ;
-P<rdquo> = "”", '}', "’", "')'", "»", "|>", ">" ;
+P<ldquo> = "“", '{', "‘", "'('", "«", "|<", "<", "«" ;
+P<rdquo> = "”", '}', "’", "')'", "»", "|>", ">", "»" ;
 
 #P<BALANCED-STRING> = '<' <BALANCED-CHAR-SEQUENCE> '>';
 #P<BALANCED-CHAR-SEQUENCE> = <BALANCED-CHAR> <BALANCED-CHAR-SEQUENCE> , ;
