@@ -452,7 +452,7 @@ P<decnum> =
    <DIGITS>;
 
 P<subten> =
-   "@", "&", "⏨", "\u23E8", "\u2081\u2080";  # Marst uses # instead of ⏨. Some other Algol uses # for not-equals. Can't have both.
+   "@", "&", "⏨", "\u23E8", "\u2081\u2080", "'10'";  # Marst uses # instead of ⏨. Some other Algol uses # for not-equals. Can't have both.
 
 # Could have been expressed as «[+-]?» or «(+|-)?» but code returned by AST would be the same for each.
 # I didn't think this was allowed but Brian Wichmann's test 136 seems to say it is:     X := + + 1.0; X := - - X; OUTREAL(99, + - X)
