@@ -5,7 +5,7 @@ b̲e̲g̲i̲n̲
    r̲e̲a̲l̲ bias, output, target;
    i̲n̲t̲e̲g̲e̲r̲ i, j, epochs;
 
-   c̲o̲m̲m̲e̲n̲t̲ init 'and' random bias;
+   c̲o̲m̲m̲e̲n̲t̲ init and random bias;
    weights[1] := rand(0.0, 1.0);
    weights[2] := rand(0.0, 1.0);
    bias := rand(0.0, 1.0);
