@@ -1,0 +1,112 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 3;
+   <u>integer</u>I,CL,N,REP;
+   <u>array</u> R,A,B[1:30],C[1:10];
+   <u>real</u> J,ROOT,X;
+   <u>integerprocedure</u> EVEN(X);
+      <u>value</u> X;
+      <u>integer</u>X;
+      EVEN ≔ ̲<u>f</u> X÷2×2 = X <u>then</u> 1 <u>else</u> -1;
+   <u>procedure</u> GAMM(R,A,B,C);
+      <u>array</u> R,A,B,C;
+   <u>begin</u>    <u>integer</u>REP,I,CL;
+      <u>real</u> J,ROOT,X;
+      REP ≔ 00×N;
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+        ;
+      OUTREAL(99,CPUTIME);
+      REP ≔ ;
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+           <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 30 <u>do</u>
+              R[I] ≔ [I]+B[I];
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+           <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 30 <u>do</u>
+              R[I] ≔ [I]×B[I];
+      OUTREAL(99,CPUTIME);
+      REP ≔ ×N;
+      X ≔ ·5;
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+         <u>begin</u>    J ≔ ·0;
+            <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 10 <u>do</u>
+                 J ≔ J+C[I])×X
+         <u>end</u>;
+      OUTREAL(99,CPUTIME);
+      OUTREAL(99,J);
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+         <u>begin</u>    J ≔ [1];
+            <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 10 <u>do</u>
+                 <u>if</u> C[I]&gt;J <u>then</u> J ≔ [I]
+         <u>end</u>;
+      OUTREAL(99,CPUTIME);
+      J ≔ ;
+      REP ≔ 8×N;
+      OUTREAL(99,CPUTIME);
+      <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+         <u>begin</u>    ROOT ≔ ·0;
+            <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 5 <u>do</u>
+                 ROOT ≔ 0·5×(ROOT+J/ROOT)
+         <u>end</u>;
+      OUTREAL(99,CPUTIME);
+      OUTREAL(99,ROOT);
+   <u>end</u> OF GAMM;
+   I ≔ ;
+   <u>for</u> J ≔ 04·5,3·7,-68·9,228·2,-1004·4,500·0,308·1,45·0,152·35,161·8 
+     <u>do</u>
+      <u>begin</u>    C[I] ≔ ;
+         I ≔ +1
+      <u>end</u>;
+   <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 30 <u>do</u>
+      <u>begin</u>    A[I] ≔ VEN(I)×I×I;
+         B[I] ≔ -EVEN(I)×I×I
+      <u>end</u>;
+   N ≔ 2000;
+   REP ≔ 00×N;
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+     ;
+   OUTREAL(99,CPUTIME);
+   REP ≔ ;
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+        <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 30 <u>do</u>
+           R[I] ≔ [I]+B[I];
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+        <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 30 <u>do</u>
+           R[I] ≔ [I]×B[I];
+   OUTREAL(99,CPUTIME);
+   REP ≔ ×N;
+   X ≔ ·5;
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+      <u>begin</u>    J ≔ ·0;
+         <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 10 <u>do</u>
+              J ≔ J+C[I])×X
+      <u>end</u>;
+   OUTREAL(99,CPUTIME);
+   OUTREAL(99,J);
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔ 1 <u>step</u> 1 <u>until</u> REP <u>do</u>
+      <u>begin</u>    J ≔ [1];
+         <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 10 <u>do</u>
+              <u>if</u> C[I]&gt;J <u>then</u> J ≔ [I]
+      <u>end</u>;
+   OUTREAL(99,CPUTIME);
+   J ≔ ;
+   REP ≔ 8×N;
+   OUTREAL(99,CPUTIME);
+   <u>for</u> CL ≔  <u>step</u> 1 <u>until</u> REP <u>do</u>
+      <u>begin</u>    ROOT ≔ ·0;
+         <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 5 <u>do</u>
+              ROOT ≔ 0·5×(ROOT+J/ROOT)
+      <u>end</u>;
+   OUTREAL(99,CPUTIME);
+   OUTREAL(99,ROOT);
+   GAMM(R,A,B,C);
+<u>end</u>
+</pre></body></html>

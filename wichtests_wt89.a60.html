@@ -1,0 +1,25 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 1;
+   <u>real</u>
+     I,
+     J;
+   <u>array</u>
+     A[1 : 2, 1 : 3];
+   <u>real</u> <u>procedure</u> GPS(I, N, Z, V);
+      <u>real</u>
+        I,
+        N,
+        Z,
+        V;
+   <u>begin</u>
+      <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+           Z ≔ V;
+      GPS ≔ 1
+   <u>end</u>;
+   OUTREAL(99, GPS(J, 3·0, I, GPS(I, 2·0, A[I, J], I + J)));
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 2 <u>do</u>
+        <u>for</u> J ≔ 1 <u>step</u> 1 <u>until</u> 3 <u>do</u>
+           <u>if</u> A[I, J] ≠ I + J <u>then</u>
+           OUTREAL(99, 11 × I + J)
+<u>end</u>
+</pre></body></html>

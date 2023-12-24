@@ -1,0 +1,28 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 3;
+   <u>real</u> <u>procedure</u> A(K, X1, X2, X3, X4, X5);
+      <u>value</u>
+        K;
+      <u>integer</u>
+        K;
+        <u>real</u>
+        X1,
+        X2,
+        X3,
+        X4,
+        X5;
+   <u>begin</u>
+      <u>real</u> <u>procedure</u> B;
+      <u>begin</u>
+         K ≔ K - 1;
+         B ≔ A ≔ A(K, B, X1, X2, X3, X4)
+      <u>end</u>;
+      <u>if</u> K &LessSlantEqual; 0 <u>then</u>
+        A ≔ X4 + X5
+        <u>else</u> <u>if</u> B &lt; 0 <u>then</u>
+   <u>end</u>;
+   OUTREAL(99, CPUTIME);
+   OUTREAL(99, A(10, 1, - 1, - 1, 1, 0));
+   OUTREAL(99, CPUTIME);
+<u>end</u>
+</pre></body></html>

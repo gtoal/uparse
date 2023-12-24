@@ -1,0 +1,31 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 1;
+   <u>integer</u>
+     N;
+   <u>integerprocedure</u> P(Q, R);
+      <u>integerprocedure</u> Q;
+        <u>comment</u>   (R):'INTEGER''PROCEDURE' R;
+        <u>integerprocedure</u> R;
+   <u>begin</u>
+      <u>integer</u>
+        B;
+      B ≔ 3 × Q(R);
+      P ≔ B
+   <u>end</u>;
+   <u>integerprocedure</u> A(F);
+      <u>integerprocedure</u>
+        F;
+      A ≔ 2 × F;
+   <u>integerprocedure</u> B;
+   <u>begin</u>
+      N ≔ N - 1;
+      B ≔         <u>if</u> N = 0 <u>then</u>
+        1
+      <u>else</u>
+        P(A, B) + 1
+   <u>end</u>;
+   N ≔ 2;
+   N ≔ P(A, B);
+   OUTREAL(99, N)
+<u>end</u>
+</pre></body></html>
