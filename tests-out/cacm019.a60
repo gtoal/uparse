@@ -1,0 +1,10 @@
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ C(m, n);
+   i̲n̲t̲e̲g̲e̲r̲ m, n;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, a, b ;
+   a := 1;
+   i̲f̲ 2 × m > n t̲h̲e̲n̲ b := n - m e̲l̲s̲e̲
+     b := m ;
+   f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ b - 1 d̲o̲
+      b̲e̲g̲i̲n̲ a := (n - i) × a / (i + 1) e̲n̲d̲;
+   C := a
+e̲n̲d̲;

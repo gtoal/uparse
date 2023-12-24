@@ -1,0 +1,14 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ tridiag(a, b, c, d) order : (n) result : (x);
+   a̲r̲r̲a̲y̲ a, b, c, d, x; i̲n̲t̲e̲g̲e̲r̲ n;
+     c̲o̲m̲m̲e̲n̲t̲ ;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ gamma[1 :n-1]; i̲n̲t̲e̲g̲e̲r̲ i; r̲e̲a̲l̲ y;
+   gamma [1] := -a[1]/b[1];
+   x[1] := -d[1]/b[1];
+   f̲o̲r̲	    i := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n-1 d̲o̲
+      b̲e̲g̲i̲n̲	    y := b[i] + c[i] × gamma [i - 1];
+         gamma [i] := -a[i]/y; x[i] := -(c[i] × x[i-1]
+           + d[i])/y e̲n̲d̲;
+   x[n] := -(c[n] × x[n-1] + d[n])/(b[n] + c[n]× gamma[n-1]);
+   f̲o̲r̲	    i := n s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 2 d̲o̲
+        x[i - 1] := x[i] × gamma [i - 1] + x[i - 1]
+e̲n̲d̲ tridiag;

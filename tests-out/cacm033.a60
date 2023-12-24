@@ -1,0 +1,5 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Factorial(n) ;
+   v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+     c̲o̲m̲m̲e̲n̲t̲;
+b̲e̲g̲i̲n̲ Factorial := i̲f̲ n = 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ n × Factorial(n - 1)
+e̲n̲d̲;

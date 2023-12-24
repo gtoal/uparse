@@ -1,0 +1,12 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRIDAG(n, A, B, C, D); i̲n̲t̲e̲g̲e̲r̲ n ;
+     a̲r̲r̲a̲y̲ A, B, C, D ;
+     c̲o̲m̲m̲e̲n̲t̲ ;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ w; i̲n̲t̲e̲g̲e̲r̲ j ;
+   D[1] := D[1]/B[1] ; w := B[1] ;
+   f̲o̲r̲ j := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲ B[j - 1] := C[j - 1]/w ; w := B[j] - A[j - 1]× B[j - 1] ;
+         D[j] := (D[j] - A[j - 1] × D[j - 1])/w e̲n̲d̲ ;
+   f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n - 1 d̲o̲
+        D[n - j] := D[n - j] - B[n - j] × D[n - j + 1]
+e̲n̲d̲ TRIDAG;

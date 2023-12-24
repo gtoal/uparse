@@ -1,0 +1,16 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     I;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ C;
+   b̲e̲g̲i̲n̲
+      f̲o̲r̲ C := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+         b̲e̲g̲i̲n̲
+            I := I + 1;
+            i̲f̲ I < 10 t̲h̲e̲n̲
+              C := C + 1
+         e̲n̲d̲
+   e̲n̲d̲;
+   I := 0;
+   OUTREAL(99, C)
+e̲n̲d̲

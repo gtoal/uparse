@@ -1,0 +1,49 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J,
+     CASE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHECKB(BOOL, ANSWER);
+      v̲a̲l̲u̲e̲
+        ANSWER;
+      b̲o̲o̲l̲e̲a̲n̲
+        BOOL;
+        i̲n̲t̲e̲g̲e̲r̲
+        ANSWER;
+   b̲e̲g̲i̲n̲
+      b̲o̲o̲l̲e̲a̲n̲
+        B;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ FAIL;
+      b̲e̲g̲i̲n̲
+         OUTREAL(99, I);
+         OUTREAL(99, J);
+         OUTREAL(99, CASE)
+      e̲n̲d̲;
+      f̲o̲r̲ I := 0,
+        1 d̲o̲
+           f̲o̲r̲ J := 0,
+           1 d̲o̲
+            b̲e̲g̲i̲n̲
+               B := ANSWER ÷ 2 × 2 = ANSWER;
+               i̲f̲ B t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ BOOL t̲h̲e̲n̲
+                  e̲l̲s̲e̲
+                    FAIL
+               e̲n̲d̲
+                 e̲l̲s̲e̲ i̲f̲ BOOL t̲h̲e̲n̲
+                 FAIL;
+               ANSWER := ANSWER ÷ 2;
+            e̲n̲d̲;
+      CASE := CASE + 1
+   e̲n̲d̲ CHECKB;
+   CASE := 1;
+   CHECKB(J = 0 ∨ I = 0, 8);
+   CHECKB(J = 0 ∧ I = 0, 14);
+   CHECKB(J = 0 ≡ I = 0, 6);
+   CHECKB(J = 0 i̲m̲p̲l̲ I = 0, 4);
+   CHECKB(J = 0, 10);
+   CHECKB( ¬ (J = 0), 5);
+   OUTREAL(99, CASE)
+e̲n̲d̲

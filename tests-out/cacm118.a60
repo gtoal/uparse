@@ -1,0 +1,18 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ magicodd (n, x); v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n; i̲n̲t̲e̲g̲e̲r̲
+     a̲r̲r̲a̲y̲ x;
+     c̲o̲m̲m̲e̲n̲t̲ for given side n the procedure generates a magic
+     square of the integers 1 - n^2. For the method of De la
+     Loubere, see M. Kraitchik, "Mathematical Recreations," p.
+     149. n must be odd and n >= 3;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+        f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ x[i,j] := 0;
+   i := (n + 1) / 2; j := n;
+   f̲o̲r̲ k := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n × n d̲o̲ b̲e̲g̲i̲n̲
+         i̲f̲ x[i,j] ≠ 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i := i - 1; j := j - 2;
+            i̲f̲ i < 1 t̲h̲e̲n̲ i := i + n; i̲f̲ j < 1 t̲h̲e̲n̲ j := j + n e̲n̲d̲;
+         x[i, j] := k;
+         i := i + 1; i̲f̲ i > n t̲h̲e̲n̲ i := i - n;
+         j := j + 1; i̲f̲ j > n t̲h̲e̲n̲ j := j - n
+      e̲n̲d̲
+e̲n̲d̲ magicodd;

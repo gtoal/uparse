@@ -1,0 +1,69 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INNERPRODUCT(u, v, k, s, f);
+   v̲a̲l̲u̲e̲ s, f; i̲n̲t̲e̲g̲e̲r̲ k, s, f; r̲e̲a̲l̲ u, v;
+     c̲o̲m̲m̲e̲n̲t̲;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ h;
+   h := 0; f̲o̲r̲ k := s s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ f d̲o̲ h := h + u × v;
+   INNERPRODUCT := h
+e̲n̲d̲ INNERPRODUCT;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CROUT(A, b, n, y, pivot, INNERPRODUCT);
+   v̲a̲l̲u̲e̲ n; a̲r̲r̲a̲y̲ A, b, y; i̲n̲t̲e̲g̲e̲r̲ n; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ pivot;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INNERPRODUCT;
+     c̲o̲m̲m̲e̲n̲t̲;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ k, i, j, imax, p; r̲e̲a̲l̲ TEMP, quot;
+   f̲o̲r̲ k := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲
+         TEMP := 0;
+         f̲o̲r̲ i := k s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+            b̲e̲g̲i̲n̲
+               A[i, k] := A[i, k] - INNERPRODUCT(A[i,p], A[p,k],
+                 p, 1, k - 1);
+               i̲f̲ abs(A[i,k]) > TEMP t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  TEMP := abs(A[i, k]); imax := i
+               e̲n̲d̲
+            e̲n̲d̲;
+         pivot[k] := imax;
+         c̲o̲m̲m̲e̲n̲t̲;
+         i̲f̲ imax ≠ k t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+               b̲e̲g̲i̲n̲
+                  TEMP := A[k,j]; A[k,j] := A[imax,j];
+                  A[imax,j] := TEMP
+               e̲n̲d̲;
+            TEMP := b[k]; b[k] := b[imax]; b[imax] := TEMP
+         e̲n̲d̲;
+         c̲o̲m̲m̲e̲n̲t̲;
+         i̲f̲ A[k,k] = 0 t̲h̲e̲n̲ g̲o̲ t̲o̲ singular;
+         f̲o̲r̲ i := k+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+            b̲e̲g̲i̲n̲ quot := 1·0/A[k,k]; A[i,k] := quot × A[i,k]
+            e̲n̲d̲;
+         f̲o̲r̲ j:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+              A[k, j] := A[k, j] - INNERPRODUCT(A[k,p],
+              A[p,j], p, 1, k - 1);
+         b[k] := b[k] - INNERPRODUCT(A[k, p], b[p], p,
+           1, k - 1)
+      e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲;
+   f̲o̲r̲ k := n s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        y[k] := (b[k] - INNERPRODUCT(A[k,p], y[p], p, k + 1, n))/A[k, k];
+   singular:
+e̲n̲d̲ CROUT;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLVE(B, c, n, z, pivot, INNERPRODUCT);
+   v̲a̲l̲u̲e̲ n; a̲r̲r̲a̲y̲ B, c, z; i̲n̲t̲e̲g̲e̲r̲ n; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ pivot;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INNERPRODUCT;
+     c̲o̲m̲m̲e̲n̲t̲;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ k, p; r̲e̲a̲l̲ TEMP;
+   f̲o̲r̲ k := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲
+         TEMP := c[pivot[k]]; c[pivot[k]] := c[k]; c[k] :=
+           TEMP; c[k] := c[k] - INNERPRODUCT(B[k, p],
+           c[p], p, 1, k - 1)
+      e̲n̲d̲;
+   f̲o̲r̲ k := n s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        z[k] := (c[k] - INNERPRODUCT(B[k,p], z[p], p,
+        k+1, n))/B[k,k]
+e̲n̲d̲;

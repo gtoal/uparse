@@ -1,0 +1,595 @@
+c̲o̲m̲m̲e̲n̲t̲ ACM Algorithm 414
+  Chebyshev Approximation of Continuous Functions by a Chebyshev System of
+  Functions. 4/11/70
+  G.H. Golub and L.B. Smith, Dept. of Computer Science, Stanford University,
+  Stanford, CA 94305;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ remez (n, a, b, kstart, kmax, loops, f, chebyshev, eps,
+  exchange, c, emax, trouble, why);
+   v̲a̲l̲u̲e̲ n, a, b, kstart, kmax, loops;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ c;  r̲e̲a̲l̲ a, b, emax;  l̲a̲b̲e̲l̲ trouble;
+     i̲n̲t̲e̲g̲e̲r̲ n, kstart, kmax, loops, why;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f, eps; p̲r̲o̲c̲e̲d̲u̲r̲e̲ chebyshev, exchange;
+     c̲o̲m̲m̲e̲n̲t̲ Procedure remez finds the best fit (in the minimax sense) to
+     a function f using a linear combination of functions which form a
+     Chebyshev system.  The exchange algorithm of E.L. Stiefel is used
+     to obtain starting values for the critical points and the Remez
+     algorithm is then used to find the best fit;
+b̲e̲g̲i̲n̲
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ quadraticmax(n, x, niter, alfa, beta, ok, a, b, c, nadded, eps);
+      v̲a̲l̲u̲e̲ n, niter, alfa, beta, nadded;  a̲r̲r̲a̲y̲ x, c;
+        i̲n̲t̲e̲g̲e̲r̲ n, niter, nadded;  r̲e̲a̲l̲ alfa, beta, a, b;
+        b̲o̲o̲l̲e̲a̲n̲ ok;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ eps;
+        c̲o̲m̲m̲e̲n̲t̲ Procedure quadraticmax is called to adjust the values of
+        the critical points in each iteration of the Remez algorithm.  The
+        points are adjusted by fitting a parabola to the error curve in a
+        neighborhood, or if that proves unsatisfactory a brute force de-
+        termination of the extrema is used;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, count1, count2, nhalf, signepsxstar, signu, signv, signw,
+        jmax, ncrude, j, nn;
+      r̲e̲a̲l̲ u, v, w, denom, epsu, epsv, epsw, xstar, epsxstar, xxx, misse,
+        missx, dx, emax, etmp;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ signepsx [0 : n + 1];  a̲r̲r̲a̲y̲ epsx [0 : n + 1];
+      nn := n - nadded;
+      c̲o̲m̲m̲e̲n̲t̲ On arbitray parameter...
+        ncrude The number of divisions used in the brute force
+        search for extrema.
+        nhalf The parameter (alpha) which determines the size of
+        interval to be examined for an extremum is reduced by
+        half if a bad value for xstar is computed, however this
+        reduction may occur only nhalf times.
+        misse If the value of the error curve at a new critical point
+        differs from the previous value by a relative difference of
+        more than misse then the brute force method is brought in.
+        missx The brute force method keeps searching until it is
+        within missx of an extremum;
+      c̲o̲m̲m̲e̲n̲t̲ Set values of the constants;
+      ncrude := 10;  nhalf := 4;  misse := 1·0 -2;  missx := 1·0 -5;
+      c̲o̲m̲m̲e̲n̲t̲ Compare missx with absepsx.  They should be equal;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            epsx[i] := eps(x[i],c,nn);
+            signepsx[i] := sign(epsx[i]);
+         e̲n̲d̲;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲ If the startingvalues for the critical points do not
+              alternate the sign of eps(x), then we go to the label trouble;
+            i̲f̲ signepsx[i] × signepsx[i-1] ≠ -1 t̲h̲e̲n̲ g̲o̲t̲o̲ trouble;
+         e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ First find all the interior extrema.  Then we will find
+        the end extrema, which may occur at the ends of the interval;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲
+            count1 := 0;  count2 := 0;
+            L1:
+            u := x[i];
+            v := u + alfa × (x[i+1] - u);  w := u + alfa ×
+              (x[i-1] - u);
+            epsu := epsx[i];  signu := signepsx[i];
+            epsv := eps(v,c,nn);  signv := sign(epsv);
+            epsw := eps(w,c,nn);  signw(epsw);
+            i̲f̲ ¬ signu = signv ∨ ¬ signv = signw t̲h̲e̲n̲ g̲o̲t̲o̲ L3;
+            c̲o̲m̲m̲e̲n̲t̲ If the sign of eps(x) at the three points is
+              not the same, we go to L# where alfa is reduced to
+              make the points closer together;
+            epsu := abs(epsu);  epsv := abs(epsv);  epsw := abs(epsw);
+            L2:
+            denom := 2·0 × ((epsv - epsu) × (w - u) + (epsw - epsu)× (u - v));
+            i̲f̲ denom = 0·0  t̲h̲e̲n̲ xstar := 0·5 × (v + w) e̲l̲s̲e̲ xstar :=
+              0·5 × (v + w) + (v - w) × (epsv - epsw)/ denom;
+            count1 := count1 + 1;
+            c̲o̲m̲m̲e̲n̲t̲ Test xstar to be sure it is what we want.  Is it
+              between x[i-1] and x[i+1]?  Is eps(xstar) >= eps(u,v,w)?
+              If xstar is too bad, go to L3 and reduce alfa unless
+              alfa has been reduced nhalf times.  Otherwise if ok,
+              go to savexstar;
+            i̲f̲ xstar = u ∨ xstar = v ∨ w t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               epsxstar := eps(xstar,c,nn); signepsxstar := sign
+                 (epsxstar);
+               epsxstar := abs(epsxstar);  go to savexstar
+            e̲n̲d̲;
+            i̲f̲ xstar ≤ x[i-1] ∨ xstar ≥ x[i+1] t̲h̲e̲n̲ g̲o̲t̲o̲ L3;
+            epsxstar := eps(xstar,c,nn);
+            signepsxstar := sign(epsxstar);
+            epsxstar := abs(epsxstar);
+            i̲f̲ signepsxstar ≠ signu ∨ epsxstar < epsu ∨ epsxstar <
+              epsv ∨ epsxstar < epsw t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsu ≥ epsv ∨ epsu ≥ epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ abs(epsxstar - epsu) > misse × epsu t̲h̲e̲n̲ g̲o̲t̲o̲
+                    LBL2;                               
+                    xstar := u;  epsxstar := epsu;  signepsxtar := signu
+                    go to savexstar;
+               e̲n̲d̲;
+               i̲f̲ epsv ≥ epsu ∨ epsv ≥ epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ abs(epsxstar - epsv) > misse × epsv t̲h̲e̲n̲ g̲o̲t̲o̲
+                    LBL2;
+                  xstar := v;  epsxstar := epsv;  signepsxstar := signv;
+                  go to savexstar
+               e̲n̲d̲;
+               i̲f̲ abs(epsxstar - epsw) > misse × epsw t̲h̲e̲n̲ g̲o̲t̲o̲
+                 LBL2;
+               xstar := w;  epsxstar := epsw;  signepsxstar := signw;
+               go to savexstar;
+               LBL2:
+               jmax := 0;
+               LBL1:
+               dx := (v-w)/ncrude;  emax := 0·0;  xxx := w - dx;
+               f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ncrude d̲o̲
+                  b̲e̲g̲i̲n̲
+                     xxx := xxx + dx;  jmax := jmax + 1;
+                     etmp := eps(xxx,c,nn);
+                     i̲f̲ abs(etmp) > emax t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        emax := epsxstar := abs(etmp);
+                        signepsxstar := sign(etmp);
+                        u := xstar := xxx;
+                        v := u + dx;  w := u - dx;
+                     e̲n̲d̲
+                  e̲n̲d̲;
+               i̲f̲ dx > missx t̲h̲e̲n̲ g̲o̲t̲o̲ LBL1;
+               c̲o̲m̲m̲e̲n̲t̲ Make sure v and w are thein bounds;
+               i̲f̲ v ≥ x[i+1] t̲h̲e̲n̲ g̲o̲t̲o̲ L3;
+               i̲f̲ w ≤ x[i-1] t̲h̲e̲n̲ g̲o̲t̲o̲ L3;
+               g̲o̲t̲o̲ savexstar
+            e̲n̲d̲;
+            i̲f̲ count1 > niter t̲h̲e̲n̲ g̲o̲t̲o̲ savexstar;
+            i̲f̲ epsu ≤ epsw t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsv < epsu t̲h̲e̲n̲
+                 L4:
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ v is minimum;
+                  i̲f̲ xstar > u t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     v := xstar;  epsv := epsxstar;  g̲o̲t̲o̲ L2;
+                  e̲n̲d̲;
+                  i̲f̲ xstar > w t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     epsv := epsu;  v := u;
+                     epsu := epsxstar;  u := xstar;
+                     g̲o̲t̲o̲ L2;
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     v := u;  epsv := epsu;
+                     u := w;  epsu := epsw;
+                     w := xstar;  epsw := epsxstar;
+                     g̲o̲t̲o̲ L2;
+                  e̲n̲d̲
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ u is minimum;
+                  i̲f̲ xstar ≥ v t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     u := v;  epsu := epsv;
+                     v := xstar; epsv := epsxstar;
+                     g̲o̲t̲o̲ L2
+                  e̲n̲d̲;
+                  i̲f̲ xstar ≥ w t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     u := xstar;  epsu := epsxstar;
+                     g̲o̲t̲o̲ L2
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     u := w;  epsu := epsw;
+                     w := xstar; epsw := epsxstar;
+                     g̲o̲t̲o̲ L2
+                  e̲n̲d̲
+               e̲n̲d̲
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsv < epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ v is minimum;  g̲o̲t̲o̲ L4;
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ w is minimum;  i̲f̲ xstar ≥ v t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     w := u;  epsw := epsu;
+                     u := v;  epsu := epsv;
+                     v := xstar;  epsv := epsxstar;
+                     g̲o̲t̲o̲ L2;
+                  e̲n̲d̲;
+                  i̲f̲ xstar ≥ u t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     w := u;  epsw := epsu;
+                     u := xstar; epsu := epsxstar;
+                     g̲o̲t̲o̲ L2;
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     w := xstar;  epsw := epsxstar;
+                     g̲o̲t̲o̲ L2;
+                  e̲n̲d̲
+               e̲n̲d̲
+            e̲n̲d̲;
+            L3:
+            count2 := count2 + 1;
+            i̲f̲ count2 > nhalf t̲h̲e̲n̲ g̲o̲t̲o̲ trouble;
+            alfa := 0·5 × alfa;
+            c̲o̲m̲m̲e̲n̲t̲ The factor 0.5 used in reducing alpha is
+              arbitrarily chosen;
+            g̲o̲t̲o̲ L1;
+            c̲o̲m̲m̲e̲n̲t̲ Replace x[i] by xstar after checking alternation
+              of signs;
+            savexstar:
+            i̲f̲ i > 1 ∨ signepsxstar × signepsx[i-1] ≠ -1 t̲h̲e̲n̲ g̲o̲t̲o̲
+              trouble;
+            signepsx[i] := signepsxstar;
+            x[i] := xstar;
+         e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ This is the end of the loop on i which finds all interior
+        extrema.  Now we proceed to locate the extrema at or near
+        the two endpoints (left end, then right end);
+      c̲o̲m̲m̲e̲n̲t̲ We assume beta > alfa;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ n + 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            count1 := 0;  count2 := 0;
+            L8:
+            u := x[i];  i̲f̲ i = 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ a < u t̲h̲e̲n̲ w := u + alfa × (a - u) e̲l̲s̲e̲ w := u +
+                 beta × (x[1] - u);
+               v := u + alfa × (x[1] - u);
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ b > u t̲h̲e̲n̲ w := u + alfa × (b - u) e̲l̲s̲e̲ w := u +
+                 beta xx (x[n] - u);
+               v := u + alfa × (x[n] - u);
+            e̲n̲d̲;
+            epsu := epsx[i];  signu := signepsx[i];
+            epsv := eps(v,c,nn);  signv := sign(epsv);
+            epsw := eps(w,c,nn);  signw := sign(epsw);
+            i̲f̲ signv ≠ signu ∨ signv ≠ signw t̲h̲e̲n̲ g̲o̲t̲o̲ L7;
+            epsu := abs(epsu);  epsv := abs(epsv);  epsw := abs(epsw);
+            L5:
+            denom := 2·0 × (epsu × (v-w) + epsv × (w-u) + epsw ×
+              (u-v));
+            i̲f̲ denom = 0·0 t̲h̲e̲n̲ xstar := 0·5 × (w+v) e̲l̲s̲e̲ xstar :=
+              0·5 × (v+w) + (v-u) × (u-w) × (epsv - epsw)/ denom;
+            i̲f̲ i = 0 ∧ (xstar < a ∨ xstar ≥ x[1]) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               xstar := a;  epsxstar := eps(a,c,nn);
+               signepsxstar := sign(epsxstar);epsxstar := abs(epsxstar);
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲ i = n + 1 ∧ (xstar > b ∧ xstar ≤ x[n]) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               xstar := b;  epsxstar := eps(b,c,nn);
+               signepsxstar := sign(epsxstar);epsxstar := abs (epsxstar);
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               epsxstar := eps(xstar,c,nn);
+               signepsxstar := sign(epsxstar);
+               epsxstar := abs(epsxstar);
+            e̲n̲d̲;
+            count1 := count1 + 1;
+            i̲f̲ i = 0 ∧ xstar ≥ x[1] t̲h̲e̲n̲ g̲o̲t̲o̲ L7;
+            i̲f̲ i = n + 1 ∧ xstar ≤ x[n] t̲h̲e̲n̲ g̲o̲t̲o̲ L7;
+            i̲f̲ xstar = u ∨ xstar = v ∨ xstar = w t̲h̲e̲n̲ g̲o̲t̲o̲ L6;
+            i̲f̲ signepsxstar ≠ signu ∨ epsxstar < epsu ∨ epsxstar <
+              epsv ∨ epsxstar < epsw t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsu ≥ epsv ∧ epsu ≥ epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  xstar := u;  epsxstar := epsu;
+                  signepsxstar := signu;  g̲o̲t̲o̲ L6;
+               e̲n̲d̲;
+               i̲f̲ epsv ≥ epsu ∧ epsv ≥ epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  xstar := v;  epsxstar := epsv;
+                  signepsxstar := signv;  g̲o̲t̲o̲ L6;
+               e̲n̲d̲;
+               xstar := w;  epsxstar := epsw;
+               signepsxstar := signw; g̲o̲t̲o̲ L6;
+            e̲n̲d̲;
+            i̲f̲ count1 > niter t̲h̲e̲n̲ g̲o̲t̲o̲ L6;
+            i̲f̲ epsu < epsw t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsv < epsu t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ v is minimum;
+                  v := xstar;  epsv := epsxstar;
+                  g̲o̲t̲o̲ L5;
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ u is minimum;
+                  u := xstar;  epsu := epsxstar;
+                  g̲o̲t̲o̲ L5;
+               e̲n̲d̲
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ epsv = epsw t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ v is minimum;
+                  v := xstar; epsv := epsxstar;
+                  g̲o̲t̲o̲ L5;
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  c̲o̲m̲m̲e̲n̲t̲ w is minimum; w := xstar;epsw := epsxstar;
+                  g̲o̲t̲o̲ L5;
+               e̲n̲d̲
+            e̲n̲d̲;
+            L7:
+            count2 := count2 + 1;
+            i̲f̲ count2 > nhalf t̲h̲e̲n̲ g̲o̲t̲o̲ trouble;
+            alfa := 0·5 × alfa;  beta := 0·5 × beta;
+            g̲o̲t̲o̲ L8;
+            c̲o̲m̲m̲e̲n̲t̲ Replace x[i] by xstar after checking its sign;
+            L6:
+            i̲f̲ i = 0 ∧ signepsxstar × signepsx[1] ≠ - 1 t̲h̲e̲n̲ g̲o̲t̲o̲
+              trouble;
+            i̲f̲ i ≠ 0 ∧ signepsxstar × signepsx[n] ≠ - 1 t̲h̲e̲n̲ g̲o̲t̲o̲
+              trouble;
+            signepsx[i] := signepsxstar;  x[i] := xstar;
+         e̲n̲d̲;
+      g̲o̲t̲o̲ done;
+      trouble:
+      ok := f̲a̲l̲s̲e̲;  g̲o̲t̲o̲ L9;
+      done:
+      ok := t̲r̲u̲e̲;
+      L9:
+   e̲n̲d̲  quadraticmax;
+   c̲o̲m̲m̲e̲n̲t̲ Procedure start computes the arrays which are then in-
+     put to exchange to find the best approximation on the points
+     at hand;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ start (m,n,a,d,xi,chebyshev,f);
+      v̲a̲l̲u̲e̲ m, n;  i̲n̲t̲e̲g̲e̲r̲ m, n;
+        a̲r̲r̲a̲y̲ a, d, xi;
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ chebyshev;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;  r̲e̲a̲l̲ a̲r̲r̲a̲y̲ t[0:n];
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲
+            chebyshev (n, xi[i], t);
+            f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ a[i,j] := t[j];
+            d[i] := f(xi[i]);
+         e̲n̲d̲
+   e̲n̲d̲ start;
+   c̲o̲m̲m̲e̲n̲t̲ Now the procedure remez;
+   r̲e̲a̲l̲ epsc, alfa, beta, epsx, absepsc, absepsx, rcompare, dx, maxr,
+     minr, tempr, minsep;
+   i̲n̲t̲e̲g̲e̲r̲ m, i, itemp, j, niter, nloop, k, nadded, isub, maxri, ilast,
+     signnow, jj;
+   i̲n̲t̲e̲g̲e̲r̲ signnew;  i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ refset[0 : n + 1 + n];
+   c̲o̲m̲m̲e̲n̲t̲ Assume number of points added <= n;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ptsadd[o : n];
+   a̲r̲r̲a̲y̲ clast[0 : n + 1], xq, xqlast[0 : n + 1 + n];
+   b̲o̲o̲l̲e̲a̲n̲ firsttime, ok, convx, convc, addit;
+   why := 0; k := kstart;
+   c̲o̲m̲m̲e̲n̲t̲ Come here if k gets changed;
+   newk:
+   m := n + 1 + (k-1) × (n+2);
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ r, xi, d[0 : m], aa[0 : m, 0 : n + 1];
+      firsttime := t̲r̲u̲e̲;  convx := f̲a̲l̲s̲e̲; convc := f̲a̲l̲s̲e̲;
+      nloop := 0;
+      c̲o̲m̲m̲e̲n̲t̲ This makes the initial points spaced according to the
+        extrema of the Chebyshev polynomial of degree m - 1;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲
+           xi[i] := (a+b)/2·0 - (b-a) × cos((3·1415926359 × i)/m)/2·0;
+      c̲o̲m̲m̲e̲n̲t̲ 3.14159... is pi
+        dx := (b-a)/m;
+      c̲o̲m̲m̲e̲n̲t̲ To use equally spaced points a statement such as the
+        following could be used. for i := 0 step 1 until m do xi[i]
+        := a + i * dx;
+      start(m,n,aa,d,xi,chebyshev,f);
+      c̲o̲m̲m̲e̲n̲t̲ The following constants are used in testing for convergence
+        epsc used in relative test on coefficients
+        absepsc used in absolute test on coefficients
+        epsx used in relative test on critical points
+        absepsx used in absolute test on critical points
+        rcompare used to compare relative magnitudes of max and
+        min values of residual on the critical points;
+      epsc := 1·0 - 7; absepsc := 1·0 - 7; epsx := 1·0 - 7;
+      absepsx := 1·0 - 5;
+      rcompare := 1·0000005;
+      c̲o̲m̲m̲e̲n̲t̲ epsx and absepsx should be the same as missx in pro-
+        cedure quadraticmax.  epsc and absepsc should be adjusted
+        according to knowledge of the expected magnitudes of the
+        coefficients (if known).  It is best to depend on the critical
+        points and/of the max and min of the residuals for conver-
+        gence criteria;
+      c̲o̲m̲m̲e̲n̲t̲ Now call on exchange to find the first approximation
+        to the best approximating function;
+      exchange (aa,d,c,m,n,refset,emax,singular,r);
+      c̲o̲m̲m̲e̲n̲t̲ The subscripts of the points chosen are in array ref-
+        set[0:n+1], the coefficients of the best approximating func-
+        tion on the m points are in c[0:n], the residuals in r;
+      c̲o̲m̲m̲e̲n̲t̲ The reference set, the coefficients at this step, and/or
+        the residuals may be written at this point;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ clast[i] := c[i];
+      c̲o̲m̲m̲e̲n̲t̲ Now we are going to look for any extrema not given
+        by the points chosen by exchange;
+      c̲o̲m̲m̲e̲n̲t̲ Make sure critical points are algebraically ordered;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ f̲o̲r̲ j := i + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ refset[j] < refset[i] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  itemp := refset[j];  refset[j] := refset[i];
+                  refset[i] := itemp;
+               e̲n̲d̲
+            e̲n̲d̲;
+      nadded := 0;  maxr := 0;  maxri := 0; ilast := 0;
+      signnow := sign(r[0]);
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m + 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ i = m + 1 t̲h̲e̲n̲ g̲o̲t̲o̲ LBL;
+            i̲f̲ sign(r[i]) ≠ 0 ∧ sign(r[i]) = signnow t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ abs(r[i]) > maxr t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ maxri := i;  maxr := abs(r[i]);  e̲n̲d̲
+            e̲n̲d̲
+            e̲l̲s̲e̲
+              LBL:
+            b̲e̲g̲i̲n̲
+               i̲f̲ i < m + 1 t̲h̲e̲n̲ signnow := sign(r[i]);
+               addit := t̲r̲u̲e̲;
+               f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+                  b̲e̲g̲i̲n̲
+                     f̲o̲r̲ jj := ilast s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i - 1 d̲o̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲ jj = refset[j] t̲h̲e̲n̲ addit := f̲a̲l̲s̲e̲;
+                        e̲n̲d̲
+                  e̲n̲d̲;
+               i̲f̲ addit t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  nadded := nadded + 1;  i̲f̲ nadded > n t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ We assume nadded is always <= n.  If nadded
+                       is > n, why is set to -1 and we g̲o̲t̲o̲ the label
+                       trouble.  This can be modified by changing this
+                       test and changing the declarations for ptsadd,
+                       refset, xq, and xqlast above;
+                     why := -1;
+                     g̲o̲t̲o̲ trouble
+                  e̲n̲d̲;
+                  ptsadd[nadded] := maxri;
+                  refset [n + 1 + nadded] := maxri;
+               e̲n̲d̲;
+               i̲f̲ i < m + 1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  ilast := i;  maxr := abs(r[i]);  maxri := i;
+               e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ We now have n + 2 + nadded points to send to
+        quadraticmax for adjustment;
+      m := n + nadded;
+      c̲o̲m̲m̲e̲n̲t̲ Make sure critical points are algebraically ordered;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲ f̲o̲r̲ j := i + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m + 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ refset[j] < refset[i] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  itemp := refset[j] :=  refset [j] := refset[i];
+                  refset[i] := itemp;
+               e̲n̲d̲
+            e̲n̲d̲;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m + 1 d̲o̲ xq[i] := xi[refset [i]];
+      niter := 2;
+      c̲o̲m̲m̲e̲n̲t̲ This is the number of times to iterate in quadraticmax;
+      alfa := 0·15;  beta := 0·2;
+      c̲o̲m̲m̲e̲n̲t̲ alfa and beta are used to determine the points used
+        in quadraticmax to fit a parabola.  They are arbitrary
+        subject to: 0 < alfa < beta < 1.  Also beta should be
+        fairly small to keep the points on one side of zero;
+      c̲o̲m̲m̲e̲n̲t̲ This is the beginning of the loop that calls on
+        quadraticmax, exchange, etc.;
+      loop:
+      nloop := nloop + 1;
+      quadraticmax(m, xq, niter, alfa, beta, ok, a, b, c, nadded, eps);
+      i̲f̲ ¬ ok t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         k := k + 1;  i̲f̲ k > kmax t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ why := 1;  g̲o̲t̲o̲ trouble;  e̲n̲d̲;
+         g̲o̲t̲o̲ newk;
+      e̲n̲d̲;
+      i̲f̲ ¬ firsttime t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ Compare the largest and smallest of the residuals
+           at the critical points (after adjustment);
+         c̲o̲m̲m̲e̲n̲t̲ Set minr to a large number;
+         maxr := 0·0;  minr := 1·0 50;
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n + 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               addit := t̲r̲u̲e̲;
+               f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ nadded d̲o̲ i̲f̲ refset[i] = ptsadd[j]
+                    t̲h̲e̲n̲ addit := f̲a̲l̲s̲e̲;
+               i̲f̲ addit t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  tempr := abs(eps (xq [refset [i]],c,n));
+                  i̲f̲ tempr > maxr t̲h̲e̲n̲ maxr := tempr e̲l̲s̲e̲ i̲f̲ tempr <
+                    minr t̲h̲e̲n̲ minr := tempr;
+               e̲n̲d̲
+            e̲n̲d̲;
+         i̲f̲ maxr ≤ rcompare × minr t̲h̲e̲n̲ why := 4;
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ Compare xq to xqlast;
+      i̲f̲ ¬ firsttime t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         convx := t̲r̲u̲e̲;
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m + 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ abs(xq [i] - xqlast[i]) > absepsx t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ abs(xq [i] - xqlast[i]) ≥ epsx × abs(xq [i]) ∧
+                    xq[i] ≠ 0·0 t̲h̲e̲n̲ convx := f̲a̲l̲s̲e̲;
+                  i̲f̲ xq[i] = 0·0 ∧ abs(xq [i] - xqlast[i]) > absepsx
+                    t̲h̲e̲n̲ convx := f̲a̲l̲s̲e̲;
+               e̲n̲d̲;
+               xqlast[i] := xq[i];
+            e̲n̲d̲
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         firsttime := f̲a̲l̲s̲e̲;
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m + 1 d̲o̲ xqlast[i] := xq[i];
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ clast[i] := c[i];
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ Get ready to call exchange again;
+      start(m + 1, n, aa, d, xq, chebyshev, f);
+      exchange(aa, d, c, m + 1, n, refset, emax, singular, r);
+      c̲o̲m̲m̲e̲n̲t̲ Now compare the new coefficients to the last set of
+        coefficients;
+      i̲f̲ ¬ firsttime t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         convc := t̲r̲u̲e̲;
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ abs(c[i] - clast[i]) ≥ epsc × abs(c[i]) ∧ c[i] ≠ 0·0
+                 t̲h̲e̲n̲ convc := f̲a̲l̲s̲e̲;
+               i̲f̲ c[i] = 0·0 ∧ abs(c[i] - clast[i]) > absepsc t̲h̲e̲n̲
+                 convc := f̲a̲l̲s̲e̲;  clast[i] := c[i];
+            e̲n̲d̲
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ Set the parameter why to the proper value according
+        to the following:
+        why := 4 if maxr <= rcompare * minr.
+        why := 5 if "4" and convx := true.
+        why := 6 if "4" and convc := true.
+        why := 7 if "4" and convx := convc := true.
+        why := 8 if convx := true.
+        why := 9 if convc := true.
+        why := 10 if convx := convc := true.  Any value of why >=
+        4 indicates convergence;
+      i̲f̲ why = 4 ∧ convx t̲h̲e̲n̲ why := 5;
+      i̲f̲ why = 4 ∧ convc t̲h̲e̲n̲ why := 6;
+      i̲f̲ why = 5 ∧ convc t̲h̲e̲n̲ why := 7;
+      i̲f̲ why = 0 ∧ convx t̲h̲e̲n̲ why := 8;
+      i̲f̲ why = 0 ∧ convc t̲h̲e̲n̲ why := 9;
+      i̲f̲ why = 8 ∧ convc t̲h̲e̲n̲ why := 10;
+      i̲f̲ why ≥ 4 t̲h̲e̲n̲ g̲o̲t̲o̲ converged;
+      i̲f̲ nloop ≥ loops t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ why := 3;  g̲o̲t̲o̲ trouble e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ We go to label trouble in calling program if no con-
+        vergence after a number of iterations equal to loops;
+      g̲o̲t̲o̲ loop;
+      singular:
+      why := 2;  g̲o̲t̲o̲ trouble;
+      c̲o̲m̲m̲e̲n̲t̲ We come to singular if exchange gets into trouble;
+      converged:
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ End of block using m in array declarations;
+   c̲o̲m̲m̲e̲n̲t̲ There are four exits to the label trouble...
+     (why=1) if k gets > kmax
+     (why=2) if exchange gets into trouble
+     (why=3) if no convergence after iterating loops number of
+     times
+     (why=-1) if number of added points is greater than n;
+e̲n̲d̲ remez;
+

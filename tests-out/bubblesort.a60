@@ -1,0 +1,43 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ index;
+   i̲n̲t̲e̲g̲e̲r̲ size;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ bubbleSort(arr,size); v̲a̲l̲u̲e̲ size; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ arr; i̲n̲t̲e̲g̲e̲r̲ size;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i,j;
+      r̲e̲a̲l̲ temp;
+      f̲o̲r̲ i := size-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ j:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i-1 d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ (arr[j+1] < arr[j]) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     temp:=arr[j+1];
+                     arr[j+1]:=arr[j];
+                     arr[j]:=temp;
+                  e̲n̲d̲;
+               e̲n̲d̲;
+         e̲n̲d̲;
+   e̲n̲d̲;
+
+   c̲o̲m̲m̲e̲n̲t̲ `see 5.2.4.2: The expressions cannot include any identifier that is declared, either explicitly o̲r̲ implicitly (see  Section 4.1.3), in the same block head as the a̲r̲r̲a̲y̲ in question.' ;
+   size:=10;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ arrayToSort[0:size];
+      c̲o̲m̲m̲e̲n̲t̲ `allocate the a̲r̲r̲a̲y̲ with random v̲a̲l̲u̲e̲, here it is r̲e̲a̲l̲ ones'
+        arrayToSort[0]:=1.0;
+      arrayToSort[1]:=6·1;
+      arrayToSort[2]:=3·2;
+      arrayToSort[3]:=5·3;
+      arrayToSort[4]:=2·4;
+      arrayToSort[5]:=9·5;
+      arrayToSort[6]:=8·6;
+      arrayToSort[7]:=4·7;
+      arrayToSort[8]:=7·8;
+      arrayToSort[9]:=0·9;
+      outstring(1, “Before sorting:”);
+      f̲o̲r̲ index:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ size-1 d̲o̲ outreal(1,arrayToSort[index]);
+      bubbleSort(arrayToSort,size);
+      outstring(1, “After sorting:”);
+      f̲o̲r̲ index:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ size-1 d̲o̲ outreal(1,arrayToSort[index]);
+   e̲n̲d̲
+e̲n̲d̲

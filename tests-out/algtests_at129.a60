@@ -1,0 +1,7 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   r̲e̲a̲l̲
+     X;
+   X := @-1000;
+   OUTREAL(99, X);
+e̲n̲d̲

@@ -1,0 +1,26 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ rombergintegr(fct, lgr, rgr, ord);
+   v̲a̲l̲u̲e̲ lgr, rgr, ord;
+   r̲e̲a̲l̲ lgr, rgr; i̲n̲t̲e̲g̲e̲r̲ ord; r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fct ;
+     c̲o̲m̲m̲e̲n̲t̲ ;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ t[1:ord+1];
+   r̲e̲a̲l̲ l, u, m;
+   i̲n̲t̲e̲g̲e̲r̲ f, h, j, n;
+   l := rgr - lgr;
+   t[1] := (fct(lgr) + fct(rgr))/2;
+   n := 1;
+   f̲o̲r̲ h := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ord d̲o̲
+      b̲e̲g̲i̲n̲ u := 0;
+         m := l/(2×n);
+         f̲o̲r̲ j := 1 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ 2×n - 1 d̲o̲
+              u := u + fct(lgr + j×m);
+         t[h + 1] := (u/n + t[h])/2;
+         f := 1;
+         f̲o̲r̲ j := h s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ f := 4×f;
+               t[j] := t[j + 1] + (t[j+1] - t[j])/(f - 1)
+            e̲n̲d̲ ;
+         n := 2 × n
+      e̲n̲d̲ ;
+   rombergintegr := t[1] × l
+e̲n̲d̲;

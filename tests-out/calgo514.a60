@@ -1,0 +1,76 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ FIND GRADIENTS AT NODES(X,Y,GRAD,LBX,UBX);
+   v̲a̲l̲u̲e̲ LBX,UBX;   i̲n̲t̲e̲g̲e̲r̲ LBX,UBX;
+     a̲r̲r̲a̲y̲ X,Y,GRAD;
+     c̲o̲m̲m̲e̲n̲t̲ X AND Y ARE ARRAYS WITH SUBSCRIPTS FROM LBX
+     TO UBX GIVING THE ABSCISSAE AND ORDINATES RESPECT-
+     IVELY OF THE DATA POINTS.  THESE SHOULD BE IN
+     ASCENDING ORDER OF ABSCISSAE, WITH NO TWO ABSCISSAE
+     EQUAL.  THE ARRAYS MUST CONTAIN AT LEAST FOUR
+     POINTS.
+     GRAD IS AN ARRAY HAVING THE SAME SUBSCRIPTS AS X
+     AND Y INTO WHICH WILL BE PLACED THE CALCULATED
+     GRADIENTS OF THE REQUIRED CUBICS AT EACH OF THE
+     DATA POINTS.
+     LBX AND UBX ARE INTEGERS GIVING THE MINIMUM AND
+     MAXIMUM VALUES RESPECTIVELY OF THE SUBSCRIPTS OF
+     THE ARRAYS X, Y, AND GRAD;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ I,ILESS2,ILESS1,IPLUS1,IPLUS2;
+   r̲e̲a̲l̲ X0,X1,X2,X3,X4,Y2,PROD1,PROD2,NUM,DENOM,G,
+     COEFF2,XDIFF,XPROD,WEIGHT;
+   f̲o̲r̲ I:= LBX s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UBX d̲o̲
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ SPECIAL TREATMENT IS NEEDED AT END POINT;
+         ILESS1:= i̲f̲ I>LBX t̲h̲e̲n̲ I-1 e̲l̲s̲e̲ I+3;
+         IPLUS1:= i̲f̲ I<UBX t̲h̲e̲n̲ I+1 e̲l̲s̲e̲ I-3;
+         X2:= X[I];    Y2:= Y[I];
+         X1:= X[ILESS1]-X2;    X3:= X[IPLUS1]-X2;
+         c̲o̲m̲m̲e̲n̲t̲ FIRST FIT A QUADRATIC THROUGH X1,X2,X3;
+         PROD1:= (Y[ILESS1]-Y2)×X3;
+         PROD2:= (Y[IPLUS1]-Y2)×X1;
+         DENOM:= X1×X3×(X[ILESS1]-X[IPLUS1]);
+         G:= (X1×PROD2-X3×PROD1)/DENOM;
+         COEFF2:= (PROD1-PROD2)/DENOM;
+         c̲o̲m̲m̲e̲n̲t̲ IF X0 EXISTS, FIND ITS CONTRIBUTION TO THE
+           CUBIC ADJUSTMENT;
+         i̲f̲ I≤LBX+1 t̲h̲e̲n̲ NUM:= DENOM:= 0·0 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            ILESS2:= I-2;    X0:= X[ILESS2]-X2;
+            XDIFF:= X[ILESS2]-X[ILESS1];
+            XPROD:= X0×XDIFF×(X[ILESS2]-X[IPLUS1]);
+            WEIGHT:= XPROD/(XDIFF×XDIFF);
+            NUM:= WEIGHT×(Y[ILESS2]-Y2-X0×(G+X0×COEFF2));
+            DENOM:= WEIGHT×XPROD
+         e̲n̲d̲;
+         c̲o̲m̲m̲e̲n̲t̲ IF X4 EXISTS, FIND ITS CONTRIBUTION TO THE
+           CUBIC ADJUSTMENT;
+         i̲f̲ I<UBX-1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            IPLUS2:= I+2;    X4:= X[IPLUS2]-X2;
+            XDIFF:= X[IPLUS2]-X[IPLUS1];
+            XPROD:= X4×XDIFF×(X[IPLUS2]-X[ILESS1]);
+            WEIGHT:= XPROD/(XDIFF×XDIFF);
+            NUM:= NUM+WEIGHT×(Y[IPLUS2]-Y2-X4×(G+X4×COEFF2));
+            DENOM:= DENOM+WEIGHT×XPROD
+         e̲n̲d̲;
+         GRAD[I]:= G+NUM×X1×X3/DENOM
+      e̲n̲d̲
+e̲n̲d̲ OF PROCEDURE FIND GRADIENTS AT NODES;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFS(X,Y,GRAD,I,C0,C1,C2,C3);
+   v̲a̲l̲u̲e̲ I;   i̲n̲t̲e̲g̲e̲r̲ I;
+     r̲e̲a̲l̲ C0,C1,C2,C3;
+     a̲r̲r̲a̲y̲ X,Y,GRAD;
+     c̲o̲m̲m̲e̲n̲t̲ THIS PROCEDURE CALCULATES THE COEFFICIENTS
+     OF THE CUBIC (IN THE RANGE X[I] TO X[I+1]) WHICH
+     HAS VALUES Y[I], Y[I 1] AND GRADIENTS GRAD[I],
+     GRAD[I+1] AT X[I], X[I+1] RESPECTIVELY.
+     THE CUBIC TAKES THE FORM
+     C0 + C1*(X-X[I]) + C2*(X-X[I])'2 + C3*(X-X[I])'3;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ H,DY;
+   C0:= Y[I];
+   H:= X[I+1]-X[I];    DY:= Y[I+1]-C0;
+   C1:= GRAD[I];
+   C2:= (3·0×DY-H×(2·0×C1+GRAD[I+1]))/(H×H);
+   C3:= (H×(C1+GRAD[I+1])-2·0×DY)/H;
+e̲n̲d̲ OF PROCEDURE COEFFS;

@@ -1,0 +1,21 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BERBEI (r, z); v̲a̲l̲u̲e̲ r, z; r̲e̲a̲l̲ r, z;
+     c̲o̲m̲m̲e̲n̲t̲ This procedure computes ber(z) if r is set equal to
+     zero, bei(z) is produced if r equals 1.0;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ s, k, c, f, t;
+   i̲f̲ r = 0 t̲h̲e̲n̲
+     s := 1
+   e̲l̲s̲e̲
+     s := (z × z)/4;
+   k := s;
+   f := z × z;
+   f := f × f;
+   f̲o̲r̲ c := 2 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ 100 d̲o̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ s = s + k t̲h̲e̲n̲
+           go to gate;
+         t := (c+r) ×(c+r-1);
+         k := -0·0625 × k × f/(t × t);
+         s := s + k e̲n̲d̲;
+   gate: BERBEI := s
+e̲n̲d̲ BERBEI;

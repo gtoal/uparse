@@ -1,0 +1,23 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMBINATION(J, N, K);
+   v̲a̲l̲u̲e̲ N, K;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ J;
+     i̲n̲t̲e̲g̲e̲r̲ N;
+     i̲n̲t̲e̲g̲e̲r̲ K;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ A;
+   i̲n̲t̲e̲g̲e̲r̲ B;
+   i̲n̲t̲e̲g̲e̲r̲ L;
+   B := 1;
+   mainbody: i̲f̲ J[B] ≥ B t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      A := J[B] - B - 1;
+      f̲o̲r̲ L := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B d̲o̲ J[L] := L + A;
+      g̲o̲t̲o̲ exit
+   e̲n̲d̲;
+   i̲f̲ B = K t̲h̲e̲n̲ g̲o̲t̲o̲ initiate;
+   B := B + 1;
+   g̲o̲t̲o̲ mainbody;
+   initiate:
+   f̲o̲r̲ B := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲ J[B] := N - K - 1 + B;
+   exit:
+e̲n̲d̲ COMBINATION;

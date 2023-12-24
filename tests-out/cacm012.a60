@@ -1,0 +1,21 @@
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ La(n, X);
+   c̲o̲m̲m̲e̲n̲t̲ This procedure computes the Laguerre polynomial
+     Ln(X) = exp(X) * (d^n/dX^n(exp(-X)) for any
+     given real argument X, and any order, n, by
+     the recursion formula below;
+   i̲n̲t̲e̲g̲e̲r̲ n;
+     r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ a, b, c;
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   a := 1;
+   b := 1 - X;
+   i̲f̲ n = 0 t̲h̲e̲n̲ c := a e̲l̲s̲e̲ i̲f̲ n = 1 t̲h̲e̲n̲
+     c := b e̲l̲s̲e̲ f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n - 1 d̲o̲
+      b̲e̲g̲i̲n̲
+         c := (1 + 2 × i - X) × b - (i⭡2) × a;
+         a := b;
+         b := c
+      e̲n̲d̲;
+   La := c
+e̲n̲d̲;

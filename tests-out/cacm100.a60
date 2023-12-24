@@ -1,0 +1,284 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ Test rig for CACM Algorithms 100 and 101 to illustrate their failures;
+
+   c̲o̲m̲m̲e̲n̲t̲
+     ALGORITHM 100 
+     ADD ITEM TO CHAIN-LINKED LIST 
+     PHILIP J. KIVIAT 
+     United States Steel Corp., Appl. Research Lab., Monroeville, 
+     Penn. ;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ inlist (t,info,m,list,n,first,flag,addr,listfull); 
+        i̲n̲t̲e̲g̲e̲r̲ n,m,first,flag,t; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ info,list,addr; 
+        l̲a̲b̲e̲l̲ listfull;
+        c̲o̲m̲m̲e̲n̲t̲ inlist adds the information pair {t,info} to the chain-
+        link structured matrix list (i,j), where t is an order key >= 0, and
+        info(k) an information vector associated with t. info(k) has
+        dimension m, list(i,j) has dimensions (n * (m+3)). flag denotes
+        the head and tail of list(i,j), and first contains the address of
+        the first (lowest order) entry in list(i,j). addr(k) is a vector
+        containing the addresses of available (empty) rows in list(i,j).
+        Initialization: list(i,m+2) = flag, for some i <= n. If list(i,j) is
+        filled exit is to listfull; 
+
+     b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k, link1, link2; 
+        L0: i̲f̲ addr [1] = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ listfull; i := 1; 
+        L1: i̲f̲ list [i,1] ≤ t 
+        t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲f̲ list [i ,2] ≠ 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ link1 := m + 2; 
+              link2 := m + 3; g̲o̲ t̲o̲ L2 e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲ i̲f̲ 
+              list [i,m+2] =flag t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i := flag; 
+                 link1 := m+3; link2 := m+2; g̲o̲ t̲o̲ L3 e̲n̲d̲
+            e̲l̲s̲e̲ b̲e̲g̲i̲n̲ i := i+1; g̲o̲ t̲o̲ L1 e̲n̲d̲ e̲n̲d̲ e̲n̲d̲
+      e̲l̲s̲e̲ b̲e̲g̲i̲n̲ link1 := m+3; link2 := m+2 e̲n̲d̲; 
+        L2: i̲f̲ list [i,link2] ≠  flag 
+        t̲h̲e̲n̲ b̲e̲g̲i̲n̲ k := i; i :=list [i,link2]; 
+           i̲f̲ (link2 = m+2 ∧ list [i,1] ≤ t) ∨ 
+           (link2 ≠ m+2 ∧ list [i,1] > t) t̲h̲e̲n̲ g̲o̲ t̲o̲ L4
+         e̲l̲s̲e̲ g̲o̲ t̲o̲ L1 e̲n̲d̲
+      e̲l̲s̲e̲ b̲e̲g̲i̲n̲ list [i,link2] := addr [1] e̲n̲d̲; 
+        L3: j := addr [1]; list [j,link1] := i; 
+        list [j ,link2] := flag; i̲f̲ link2 = m + 2 t̲h̲e̲n̲ 
+        first := addr [1]; g̲o̲ t̲o̲ L5; 
+        L4: j := addr [1]; list [j,link1] := list [i ,link1]; 
+        list [i,link1] := list [k,link2] := addr [1]; 
+        list [j,link2] := i; 
+        L5: list [j,1] := t; f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲ 
+           list [j,i+1] :=info [i]; f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n-1 d̲o̲ 
+           addr [i] := addr [i+1]; addr [n] := 0 
+     e̲n̲d̲ inlist;
+
+   c̲o̲m̲m̲e̲n̲t̲
+     ALGORITHM 101 
+     REMOVE ITEM FROM CHAIN-LINKED LIST 
+     PHILIP J. KIVIAT 
+     United States Steel Corp., Appl. Res. Lab., Monroeville, 
+     Penn. ;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outlist (vector,m,list,n,first,flag,addr); 
+        i̲n̲t̲e̲g̲e̲r̲ n,m,first,flag; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ vector,list,addr; 
+        c̲o̲m̲m̲e̲n̲t̲ outlist removes the first. entry (information pair with 
+        lowest order key) from list(i,j) and puts it in vector(k); 
+     b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i; 
+        f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m+1 d̲o̲ vector[i] :=list [first,i]; 
+        f̲o̲r̲ i := n-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ addr [i+1] := addr [i]; 
+        addr [1] := first; 
+        i̲f̲ list [first,m+3] = flag t̲h̲e̲n̲ 
+        b̲e̲g̲i̲n̲ list [1,m+2] := flag; first := 1; 
+           f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ addr [i] := i e̲n̲d̲
+      e̲l̲s̲e̲ b̲e̲g̲i̲n̲ first := list [first,m+3]; 
+           list [first,m+2] := flag e̲n̲d̲; 
+        f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m+3 d̲o̲ list [addr[1], i] := 0 
+     e̲n̲d̲ outlist ;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ fill list (tvalues,info,m,list,n,first,flag,addr,listfull, cause failure); 
+        c̲o̲m̲m̲e̲n̲t̲ Fill list with sample data using Algorithm 100: inlist;
+      i̲n̲t̲e̲g̲e̲r̲ n, m, first, flag;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ addr, info, list, tvalues; 
+        l̲a̲b̲e̲l̲ listfull;
+        b̲o̲o̲l̲e̲a̲n̲ cause failure;
+
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j, t;
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲ set the key;
+            t := tvalues[i];
+            c̲o̲m̲m̲e̲n̲t̲ set arbitrary values to be associated with the key;
+            f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲
+               b̲e̲g̲i̲n̲
+                  info[j] := 2×i + j
+               e̲n̲d̲;
+            i̲f̲ cause failure t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               info[1] := 0
+            e̲n̲d̲;
+            outstrintnl(“Adding key ”, t);
+            inlist(t, info, m, list, n, first, flag, addr, listfull);
+            showlist(list, first, m, n, flag);
+            checklist(list, first, m, n, flag, i)
+         e̲n̲d̲
+   e̲n̲d̲ fill list;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ showlist(list, first, m, n, flag);
+      c̲o̲m̲m̲e̲n̲t̲ show the contents of the list, the end is
+        assumed to be indicated by list[i, m+3] = flag;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ list;
+        i̲n̲t̲e̲g̲e̲r̲ first, m, n, flag;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, prev;
+      outstring(1, “List contents: ”);
+      i := first;
+      prev := flag;
+      next:
+      i̲f̲ i = flag t̲h̲e̲n̲ g̲o̲ t̲o̲ endofproc;
+      prev := i;
+      outinteger(1, list[i, 1]);
+      i := list[i, m+3];
+      g̲o̲ t̲o̲ next;
+      endofproc:
+      outstring(1, “\n”)
+   e̲n̲d̲ showlist;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ checklist(list, first, m, n, flag, list length);
+      c̲o̲m̲m̲e̲n̲t̲ check that list is sorted from 1 ... list length
+        and of the indicated length;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ list;
+        i̲n̲t̲e̲g̲e̲r̲ first, m, n, flag, list length;
+   b̲e̲g̲i̲n̲
+      b̲o̲o̲l̲e̲a̲n̲ error;
+
+      error := f̲a̲l̲s̲e̲;
+      i̲f̲ first < 1 ∨ first > n t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         outstrintnl(“Invalid v̲a̲l̲u̲e̲ f̲o̲r̲ first: ”, first);
+         error := t̲r̲u̲e̲
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ checked, i, prev, t;
+
+         c̲o̲m̲m̲e̲n̲t̲ dummy key for comparison at the start of the list;
+         prev := -1;
+         i := first;
+         c̲o̲m̲m̲e̲n̲t̲ how many have been checked;
+         checked := 0;
+         f̲o̲r̲ checked := checked + 1 w̲h̲i̲l̲e̲ (checked ≤ list length ∧ ¬error ∧ i ≠ flag) d̲o̲
+            b̲e̲g̲i̲n̲
+               t := list[i, 1];
+               i̲f̲ t < prev t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  error := t̲r̲u̲e̲;
+                  outstrint(“key ”, t);
+                  outstrintnl(“out of order at position ”, i)
+               e̲n̲d̲;
+               prev := t;
+               c̲o̲m̲m̲e̲n̲t̲ follow the n̲e̲x̲t̲ link.;
+               i := list[i, m + 3]
+            e̲n̲d̲;
+         i̲f̲ checked ≠ list length + 1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            outstrint(“checking prematurely terminated after ”, checked - 1);
+            outstrintnl(“rather than ”, list length)
+         e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ checklist;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ clear list(m, list, n, first, addr, list length);
+      c̲o̲m̲m̲e̲n̲t̲ Clear the list sorted from 1 ... list length using
+        Algorithm 101: outlist;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ addr, list;
+        i̲n̲t̲e̲g̲e̲r̲ first, m, n, list length;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ Variables for the outlist procedure;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ vector[1:m + 1];
+
+      i̲n̲t̲e̲g̲e̲r̲ i;
+
+      outstring(1, “Clearing the list.\n”);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ list length d̲o̲
+         b̲e̲g̲i̲n̲
+            outlist(vector, m, list, n, first, flag, addr)
+         e̲n̲d̲;
+      i̲f̲ list[1, m+2] ≠ flag t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         outstrintnl(“list[1, m+2] has incorrect v̲a̲l̲u̲e̲ f̲o̲r̲ an empty list: ”, list[1, m+2])
+      e̲n̲d̲;
+      i̲f̲ list[1, 1] > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         outstrintnl(“list[1, 1] has incorrect v̲a̲l̲u̲e̲ f̲o̲r̲ an empty list: ”, list[1, 1])
+      e̲n̲d̲
+
+   e̲n̲d̲ clear list;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outstrint(str, i);
+      c̲o̲m̲m̲e̲n̲t̲ output str following by i;
+      s̲t̲r̲i̲n̲g̲ str;
+        i̲n̲t̲e̲g̲e̲r̲ i;
+   b̲e̲g̲i̲n̲
+      outstring(1, str); outinteger(1, i)
+   e̲n̲d̲ outstrint;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outstrintnl(str, i);
+      c̲o̲m̲m̲e̲n̲t̲ output str following by i and terminate with a newline;
+      s̲t̲r̲i̲n̲g̲ str;
+        i̲n̲t̲e̲g̲e̲r̲ i;
+   b̲e̲g̲i̲n̲
+      outstrint(str, i);
+      outstring(1, “\n”)
+   e̲n̲d̲ outstrintnl;
+
+   c̲o̲m̲m̲e̲n̲t̲ Beginning of the test program;
+
+   c̲o̲m̲m̲e̲n̲t̲ Variables for the inlist procedure;
+   i̲n̲t̲e̲g̲e̲r̲ n, m, first, flag;
+   c̲o̲m̲m̲e̲n̲t̲ info[1:m], list[1:n, 1:m+3], addr[1:n];
+   c̲o̲m̲m̲e̲n̲t̲ 100 must be <= n, and 4 should be >= m;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ info[1:4], list[1:100, 1:4+3], addr[1:100];
+
+   c̲o̲m̲m̲e̲n̲t̲ Variables for the test procedure;
+   i̲n̲t̲e̲g̲e̲r̲ i, j;
+   c̲o̲m̲m̲e̲n̲t̲ 100 must be <= n;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ tvalues[1:100];
+   b̲o̲o̲l̲e̲a̲n̲ cause failure;
+
+   c̲o̲m̲m̲e̲n̲t̲ capacity of the list;
+   n := 4;
+   c̲o̲m̲m̲e̲n̲t̲ amount of data associated with each key;
+   m := 4;
+   c̲o̲m̲m̲e̲n̲t̲ index of the head item in list.
+     first := -1;
+   c̲o̲m̲m̲e̲n̲t̲ end-of-list marker;
+   flag := -1;
+   c̲o̲m̲m̲e̲n̲t̲ whether to cause failures or not;
+   cause failure := f̲a̲l̲s̲e̲;
+
+   c̲o̲m̲m̲e̲n̲t̲ set up the list of free locations;
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲
+         addr[i] := i
+      e̲n̲d̲;
+
+   c̲o̲m̲m̲e̲n̲t̲ Set necessary initial terminating marker;
+   list[1, m + 2] := flag;
+
+   c̲o̲m̲m̲e̲n̲t̲ Set up the tvalues to be used;
+   tvalues[1] := 7;
+   tvalues[2] := 13;
+   tvalues[3] := 6;
+   tvalues[4] := 11;
+
+   i̲f̲ cause failure t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      outstring(1, “This run should cause one o̲r̲ more failures.\n”) 
+     e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲
+      outstring(1, “Set cause failure := t̲r̲u̲e̲; t̲o̲ demonstrate failures.\n”) 
+     e̲n̲d̲;
+   i̲f̲ cause failure t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ 
+        c̲o̲m̲m̲e̲n̲t̲ causes multiple failures;
+      list[1,2] := 1
+   e̲n̲d̲;
+   i̲f̲ list[1, 2] ≠ 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ The following is needed to avoid subscript error if list[1,2] != 0;
+      list[1, m + 3] := flag
+   e̲n̲d̲;
+
+   fill list(tvalues, info, m, list, n, first, flag, addr, listfull, cause failure);
+
+   c̲o̲m̲m̲e̲n̲t̲ try to fill the list beyond its capacity.
+     This should fail with a jump to listfull;
+   inlist(n + 1, info, m, list, n, first, flag, addr, listfull);
+   outstring(1, “Failed t̲o̲ correctly detect attempt t̲o̲ add too many entries.\n”);
+   g̲o̲ t̲o̲ testend;
+   listfull:
+   i̲f̲ i = (n+1) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      outstrintnl(“List full correctly detected when attempting t̲o̲ add entry ”, i)
+   e̲n̲d̲;
+   testend:
+   clear list(m, list, n, first, addr, n)
+e̲n̲d̲

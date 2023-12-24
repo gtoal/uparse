@@ -1,0 +1,37 @@
+b̲e̲g̲i̲n̲
+
+   c̲o̲m̲m̲e̲n̲t̲
+     99 Bottles of Beer on the Wall
+     written in Algol60, for the a60 interpreter
+     by Erik Schoenfelder.
+
+     Lower case, whitespace, ASCII, literal strings,
+     implementation character set, etc, and other    
+     modern conceits are ahistoric and waste cards and tape.
+
+     Tom Jennings 5 Jan 2006
+     ;
+
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ bottles(n);
+      v̲a̲l̲u̲e̲ n;
+      i̲n̲t̲e̲g̲e̲r̲ n;
+   b̲e̲g̲i̲n̲
+      i̲f̲ n < 1 t̲h̲e̲n̲ outstring(1, “no more ”) e̲l̲s̲e̲ outinteger(1, n);
+      i̲f̲ n = 1 t̲h̲e̲n̲ outstring(1, “bottle”) e̲l̲s̲e̲ outstring(1, “bottles”);
+      outstring(1, “ of beer”);
+   e̲n̲d̲;
+
+
+
+   c̲o̲m̲m̲e̲n̲t̲ Here is main.  ;
+
+   i̲n̲t̲e̲g̲e̲r̲ i;
+
+   f̲o̲r̲ i := 99 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ b̲e̲g̲i̲n̲
+         bottles(i); outstring(1, “ on the wall, ”);
+         bottles(i); outstring(1, “\n”);
+         outstring(1, “take one down and pass it around, ”);
+         bottles(i - 1); outstring(1, “ on the wall.\n”);
+      e̲n̲d̲;
+
+e̲n̲d̲

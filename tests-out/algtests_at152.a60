@@ -1,0 +1,8 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY'5;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(Q);
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+        Q; c̲o̲m̲m̲e̲n̲t̲(X): 'VALUE' X: 'REAL' X;
+      P := ABS(Q( - 6·4));
+   OUTREAL(99, P(ABS))
+e̲n̲d̲
