@@ -1,0 +1,40 @@
+'begin'
+
+  'real' y,a,n,i,r;
+  'integer' b,c;
+  'boolean' b1,b2,b3;
+  'integer' 'array' nPT[1:10.1]; 'comment' limite non entière;
+  'integer' 'array' tab[1:15];
+  'real' 'procedure' poly2(a0,a1,a2,x);'real' a0,a1,a2,a; 'real' x;
+    'begin'
+      poly2 := a0+a1*x+a2*x*x
+    'end';
+
+  y := 12.0;
+  b:=y+a; 'comment' non concordance des types;
+  n:=10**(y+p); 'comment' variable non déclarée;
+  z:=poly2(0,0,1.0,2.0); 'comment' affectation d'une valeur à une variable non déclarée;
+  y:=poly2(0,0,1.0); 'comment' appel d'une procédure avec un argument manquant;
+  tab[4.2]:=12; 'comment' accès à un emplacement de tableau non entier;
+  tab[17]:=0; 'comment' accès à un emplacement de tableau dépassant les limites;
+
+  'if' c < 0 'then'
+  'begin'
+    'if' c>= -100	'then' b := c-100.0 'else' b := -100; 'comment' non concordance des types au sein d'un if;
+  'end'
+  'else' b := 0;
+
+
+  'for' i:=1 'step' 1 'until' 10.05 'do' a:=2; 'comment' la borne de fin n'est pas entière alors que l'itérateur commence à un entier et que le pas est entier;
+  'for' b:=1 'step' 0.5 'until' 10 'do' outinteger(1, b); 'comment' b est un entier et ne peut pas évoluer par pas non entier;
+  'for' b3 := 0 'step' 0.2 'until' 5 'do' a:=7; 'comment' iterateur non entier ou réel;
+
+  'if' b1<0 'then' a:=4.0; 'comment' on ne peut pas effectuer de comparaison sur un boolean et quoi que ce soit d'autre;
+  b3:=b1+b2; 'comment' on ne peut pas additioner de booleens;
+  b3:=b1**b3; 'comment' on ne peut pas mettre un booleen dans une puissance;
+  'comment' mix of Boolean and real rejected by uparse at parse time.   b2:=b3&&y; 'comment' on ne peut pas mettre autre chose qu'un booleen dans une op logique;
+
+
+  n:=y/0; 'comment' Erreur sem division explicite par 0;
+
+'end'

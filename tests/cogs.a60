@@ -1,0 +1,213 @@
+c̲o̲m̲m̲e̲n̲t̲ COGS f̲o̲r̲ 803 a̲l̲g̲o̲l̲;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 27-MAR-2003;
+   i̲n̲t̲e̲g̲e̲r̲ LIM, I, M, N, Z;
+   PUNCH(3);
+   PRINT (“p̲r̲o̲g̲r̲a̲m̲ COMPILED OK”);
+   READ (LIM, I, M, N, Z);
+   PRINT (“LIM=”, LIM, “I=”, I, “M=”, M, “N=”, N, “Z=”, Z);
+
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ J, K, L, R, XA, XB, XC; b̲o̲o̲l̲e̲a̲n̲ F, G;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P, Q, T[1:M], A, B, C, W, ZERO[1:N];
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MOD(X, Y); v̲a̲l̲u̲e̲ X, Y; i̲n̲t̲e̲g̲e̲r̲ X, Y;
+         MOD := X - (X ÷ Y) × Y;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ADDI(A, B, C); i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A, B, C;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ J, CARRY, SUM;
+         CARRY := 0;
+         f̲o̲r̲ J:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               SUM := B[J] + C[J] + CARRY;
+               i̲f̲ SUM GREQ LIM t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  A[J] := SUM - LIM;
+                  CARRY := 1
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  A[J] := SUM;
+                  CARRY := 0
+               e̲n̲d̲
+            e̲n̲d̲
+      e̲n̲d̲ OF ADDI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUBI(A, B, C); i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A,B,C;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ J, BORROW, DIFF;
+         BORROW := 0;
+         f̲o̲r̲ J := N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               DIFF := B[J] - C[J] - BORROW;
+               i̲f̲ DIFF < 0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  A[J] := DIFF + LIM;
+                  BORROW := 1
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  A[J] := DIFF;
+                  BORROW := 0
+               e̲n̲d̲
+            e̲n̲d̲
+      e̲n̲d̲ OF SUBBI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ MPYI(A, X); v̲a̲l̲u̲e̲ X;
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A; i̲n̲t̲e̲g̲e̲r̲ X;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ PROD, J, CARRY;
+         c̲o̲m̲m̲e̲n̲t̲ PRINT £MPYI?,SAMELINE,X;
+         CARRY := 0;
+         f̲o̲r̲ J := N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               PROD := A[J] × X + CARRY;
+               CARRY := PROD ÷ LIM;
+               A[J] := MOD(PROD, LIM)
+            e̲n̲d̲;
+      e̲n̲d̲ OF MPYI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIVI(A, X); v̲a̲l̲u̲e̲ X;
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A; i̲n̲t̲e̲g̲e̲r̲ X;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ J, QUOT, REM;
+         REM := 0;
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               QUOT := (REM × LIM + A[J]) ÷ X;
+               REM := MOD(REM × LIM + A[J], X);
+               A[J] := QUOT
+            e̲n̲d̲;
+      e̲n̲d̲ OF DIVI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ PUTI(A); i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ J;
+         PRINT (“\n”);;
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              PRINT (“%6d”, A[J]);
+      e̲n̲d̲ OF PUTI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ GETI(A);
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ J;
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              READ (A[J]);
+      e̲n̲d̲ OF GETI;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ RESID(XA, A, P);
+         v̲a̲l̲u̲e̲ P; i̲n̲t̲e̲g̲e̲r̲ XA, P; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+      b̲e̲g̲i̲n̲
+         PRINT (“P=”,P);
+         PUTI(W);
+         PUTI(A);
+         ADDI(W,A,ZERO);
+         PUTI(W);
+         DIVI(W,P);
+         PUTI(W);
+         MPYI(W,P);
+         PUTI(W);
+         SUBI(W,A,W);
+         PUTI(W);
+         XA := W[N]+LIM×W[N-1];
+         PRINT (“XA=”,XA);
+
+      e̲n̲d̲ OF RESID;
+
+      b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SQ(X); v̲a̲l̲u̲e̲ X; i̲n̲t̲e̲g̲e̲r̲ X;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ H, V; b̲o̲o̲l̲e̲a̲n̲ F;
+         H := -1; F := f̲a̲l̲s̲e̲; V := P[J] ÷ 2;
+         f̲o̲r̲ H := H+1 w̲h̲i̲l̲e̲ (¬ F ∧ (H LESSEQ V)) d̲o̲
+              i̲f̲ MOD(H×H, P[J]) = X t̲h̲e̲n̲ F := t̲r̲u̲e̲;
+         SQ := F
+      e̲n̲d̲ OF SQ;
+
+      c̲o̲m̲m̲e̲n̲t̲ p̲r̲o̲g̲r̲a̲m̲ START;
+      PUNCH(3);        c̲o̲m̲m̲e̲n̲t̲ SET ALL OUTPUT t̲o̲ ONLINE T/P;
+      f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            ZERO[J] := 0
+         e̲n̲d̲;
+      GETI(A); GETI(B); GETI(C);
+      PUTI(A); PUTI(B); PUTI(C);
+      PRINT (“    3    5”);
+      P[1] := 3; P[2] := 5; Q[1] := 0; Q[2] := 3;
+      f̲o̲r̲ K := 3 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲
+            P[K] := P[K-1] + 2; F := f̲a̲l̲s̲e̲; J := 0;
+            f̲o̲r̲ J := J+1 w̲h̲i̲l̲e̲ ((¬ F) ∧ (J < K)) d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ MOD(P[K], P[J]) = 0 t̲h̲e̲n̲ F := t̲r̲u̲e̲;
+                  i̲f̲ F t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     P[K] := P[K] + 2;
+                     J := 0;
+                     F := f̲a̲l̲s̲e̲
+                  e̲n̲d̲
+               e̲n̲d̲;
+            Q[K] := Q[K-1] + P[K-1];
+            i̲f̲ MOD(K, 10) = 1 t̲h̲e̲n̲
+              PRINT (“\n”);
+            PRINT (“%4d”, P[K])
+         e̲n̲d̲ OF PRIME SET UP;
+
+      b̲e̲g̲i̲n̲
+         b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ S[0:Q[M]+P[M]-1];
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲
+               L := T[J] := 0;
+               RESID(XA,A,P[J]);
+               RESID(XB,B,P[J]);
+               RESID(XC,C,P[J]);
+               f̲o̲r̲ K := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ P[J] - 1 d̲o̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲ MOD(L, 70) = 0 t̲h̲e̲n̲
+                       PRINT (“\n”);
+                     L := L + 1;
+                     G := S[Q[J]+K] := SQ(MOD(MOD(XA×K, P[J]) × K +
+                       XB × K + XC, P[J]));
+                     i̲f̲ G ∧ Z=1 t̲h̲e̲n̲
+                       PRINT (T);
+                     i̲f̲ ¬ G ∧ Z=1 t̲h̲e̲n̲
+                       PRINT (F)
+                  e̲n̲d̲
+            e̲n̲d̲ OF TEETH SET UP;
+
+         PRINT (“START FOR 1000000”);
+
+         R := 0; F := f̲a̲l̲s̲e̲;
+         f̲o̲r̲ R := R+1 w̲h̲i̲l̲e̲ ¬ F d̲o̲
+            b̲e̲g̲i̲n̲
+               G := t̲r̲u̲e̲;
+               f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                  b̲e̲g̲i̲n̲
+                     T[J] := T[J] + 1;
+                     i̲f̲ T[J] = P[J] t̲h̲e̲n̲ T[J] := 0;
+                     i̲f̲ G t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        i̲f̲ ¬ S[Q[J]+T[J]] t̲h̲e̲n̲ G := f̲a̲l̲s̲e̲
+                     e̲n̲d̲
+                  e̲n̲d̲ OF TEETH ON ALL COGS;
+
+               F := G;
+               i̲f̲ MOD(R, I) = 0 t̲h̲e̲n̲
+                 PRINT (R);
+               i̲f̲ G t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  PRINT (“X = ”, R);
+               e̲n̲d̲;
+               i̲f̲ R=1000000 t̲h̲e̲n̲
+                 PRINT (“X = ”, R, STOP)
+            e̲n̲d̲ OF R LOOP
+      e̲n̲d̲ OF S BLOCK
+   e̲n̲d̲ OF A, B, C BLOCK;
+   c̲o̲m̲m̲e̲n̲t̲
+     100000 10000  30 4 1
+     00000 09189 47703 02976
+     00287 72252 88670 21824
+     00256 52759 65410 64768
+     ;
+e̲n̲d̲;

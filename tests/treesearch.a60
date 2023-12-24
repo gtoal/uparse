@@ -1,0 +1,56 @@
+b̲e̲g̲i̲n̲
+  c̲o̲m̲m̲e̲n̲t̲ from https://github.com/mde-figu/FORTRAN90/blob/main/Chapter1/treesearch.alg - several bits of bad algol corrected. ;
+  i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ Data[1:100];      c̲o̲m̲m̲e̲n̲t̲ Array to hold node values;
+  i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ Left[1:100];      c̲o̲m̲m̲e̲n̲t̲ Array to hold left child indices;
+  i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ Right[1:100];     c̲o̲m̲m̲e̲n̲t̲ Array to hold right child indices;
+
+  b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Treesearch(root, arg, m);
+    v̲a̲l̲u̲e̲ root, arg, m; i̲n̲t̲e̲g̲e̲r̲ root, arg, m;
+  b̲e̲g̲i̲n̲
+    c̲o̲m̲m̲e̲n̲t̲ Data[], Left[], Right are global arrays in this procedure.
+            This procedure searches the tree with root r̲o̲o̲t̲ for the node n such that Data[n] == arg.;
+    i̲f̲ root = 0 t̲h̲e̲n̲
+      Treesearch := f̲a̲l̲s̲e̲
+    e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+        i̲n̲t̲e̲g̲e̲r̲ d;
+        d := Data[root];
+        i̲f̲ arg = d t̲h̲e̲n̲
+          b̲e̲g̲i̲n̲
+            m := root;
+            Treesearch := t̲r̲u̲e̲;
+          e̲n̲d̲
+        e̲l̲s̲e̲
+          i̲f̲ arg > d t̲h̲e̲n̲
+            Treesearch := Treesearch(Left[root], arg, m)
+          e̲l̲s̲e̲
+            Treesearch := Treesearch(Right[root], arg, m);
+      e̲n̲d̲
+  e̲n̲d̲;
+
+  i̲n̲t̲e̲g̲e̲r̲ result index;
+  b̲o̲o̲l̲e̲a̲n̲ found;
+
+  c̲o̲m̲m̲e̲n̲t̲ Build the binary tree structure (example):;
+  Data[1] := 10;               c̲o̲m̲m̲e̲n̲t̲ Root node with value 10;
+  Left[1] := 2;                c̲o̲m̲m̲e̲n̲t̲ Index of left child;
+  Right[1] := 3;               c̲o̲m̲m̲e̲n̲t̲ Index of right child;
+
+  Data[2] := 5;                c̲o̲m̲m̲e̲n̲t̲ Left child of root with value 5;
+  Left[2] := 4;
+  Right[2] := 0;               c̲o̲m̲m̲e̲n̲t̲ No right child;
+
+  Data[3] := 15;               c̲o̲m̲m̲e̲n̲t̲ Right child of root with value 15;
+  Left[3] := 0;                c̲o̲m̲m̲e̲n̲t̲ No left child;
+  Right[3] := 6;               c̲o̲m̲m̲e̲n̲t̲ Index of right child;
+
+  found := Treesearch(1, 15, result index);  c̲o̲m̲m̲e̲n̲t̲ Search for value 15 in the tree;
+
+  i̲f̲ found t̲h̲e̲n̲
+    b̲e̲g̲i̲n̲
+      outstring(1, “Value 15 found at index: ”);
+      outinteger(1, result index);
+    e̲n̲d̲
+  e̲l̲s̲e̲
+    outstring(1, “Value 15 not found in the tree.”);
+e̲n̲d̲.
