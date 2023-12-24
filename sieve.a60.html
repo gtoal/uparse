@@ -1,0 +1,18 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u> <u>comment</u> zeef van Erathostenes;
+   <u>integer</u> p, m;
+   <u>boolean</u> <u>array</u> prime [2 : 10000];
+   <u>for</u> p ≔ 2, 3 <u>step</u> 2 <u>until</u> 10000 <u>do</u>
+        prime[p] ≔ <u>true</u> ;
+   <u>for</u> p ≔ 2, 3 <u>step</u> 2 <u>until</u> 10 <u>do</u>
+      <u>begin</u> <u>if</u> prime[p]
+           <u>then</u> <u>for</u> m ≔ p × p <u>step</u> p <u>until</u> 10000 <u>do</u>
+              prime[m] ≔ <u>false</u>
+      <u>end</u>;
+   m ≔ 0;
+   <u>for</u> p ≔ 2, 3 <u>step</u> 2 <u>until</u> 10000 <u>do</u>
+      <u>begin</u> <u>if</u> prime[p]
+           <u>then</u> <u>begin</u> m ≔ m + 1 <u>end</u>
+      <u>end</u>;
+   NLCR; PRINTTEXT(“number of primes below 100 000: ”); ABSFIXT(5,0,m)
+<u>end</u>
+</pre></body></html>

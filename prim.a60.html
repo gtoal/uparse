@@ -1,0 +1,68 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u>
+     CALCULATION OF THE PRIME NUMBERS BETWEEN 2 AND 200
+     ;
+
+   <u>integer</u> NN;
+
+   NN ≔ 200;
+
+   <u>begin</u>
+      <u>comment</u> FIRST ALGORITHM (CHECK DIVISION IN A LOOP) ;
+
+      <u>boolean</u> <u>procedure</u> ISPRIME (N);
+         <u>value</u> N;
+         <u>integer</u> N;
+      <u>begin</u>
+         <u>boolean</u> <u>procedure</u> EVEN (N);
+            <u>value</u> N; <u>integer</u> N;
+            EVEN ≔ ENTIER (N / 2) × 2 = N;
+         <u>integer</u> I;
+
+         ISPRIME ≔ <u>false</u>;
+         <u>if</u> EVEN (N) ∧ N ≠ 2 <u>then</u>
+           <u>goto</u> RET;
+
+         <u>for</u> I ≔ 3 <u>step</u> 2 <u>until</u> N ÷ 2 <u>do</u>
+              <u>if</u> ENTIER (N / I) × I = N <u>then</u>
+              <u>goto</u> RET;
+         ISPRIME ≔ <u>true</u>;
+         RET:
+
+      <u>end</u>;
+
+      <u>integer</u> I;
+
+      VPRINT (“FIRST:”);
+
+      <u>for</u> I ≔ 2 <u>step</u> 1 <u>until</u> NN <u>do</u>
+           <u>if</u> ISPRIME (I) <u>then</u>
+           OUTINTEGER (1, I);
+      VPRINT (“\NDONE.”)
+   <u>end</u>;
+
+   <u>begin</u>
+      <u>comment</u> SECOND ALGORITHM (SIEVE) ;
+
+
+      <u>boolean</u> <u>array</u> ARR [2 : NN];
+      <u>integer</u> I, J;
+
+      VPRINT (“SECOND:”);
+
+      <u>for</u> I ≔ 2 <u>step</u> 1 <u>until</u> NN <u>do</u>
+           ARR [I] ≔ <u>true</u>;
+
+      <u>for</u> I ≔ 2 <u>step</u> 1 <u>until</u> NN ÷ 2 <u>do</u>
+           <u>for</u> J ≔ 2 × I <u>step</u> I <u>until</u> NN <u>do</u>
+              ARR [J] ≔ <u>false</u>;
+
+      <u>for</u> I ≔ 2 <u>step</u> 1 <u>until</u> NN <u>do</u>
+           <u>if</u> ARR [I] <u>then</u>
+           OUTINTEGER (1, I);
+      VPRINT (“\NDONE.”)
+
+   <u>end</u>
+<u>end</u>		
+
+</pre></body></html>

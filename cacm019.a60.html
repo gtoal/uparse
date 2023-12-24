@@ -1,0 +1,11 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>integer</u> <u>procedure</u> C(m, n);
+   <u>integer</u> m, n;
+<u>begin</u> <u>integer</u> i, a, b ;
+   a ≔ 1;
+   <u>if</u> 2 × m &gt; n <u>then</u> b ≔ n - m <u>else</u>
+     b ≔ m ;
+   <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> b - 1 <u>do</u>
+      <u>begin</u> a ≔ (n - i) × a / (i + 1) <u>end</u>;
+   C ≔ a
+<u>end</u>;
+</pre></body></html>

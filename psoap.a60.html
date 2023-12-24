@@ -1,0 +1,1246 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+
+   <u>comment</u> A0006,A0013;
+
+   <u>comment</u> A0012;
+
+   <u>procedure</u> findprog(dv,a);
+      <u>value</u>
+        dv;
+      <u>integer</u>
+        dv;
+        <u>integer</u> <u>array</u>
+        a;
+   <u>begin</u>
+      <u>comment</u> A̲L̲G̲O̲L̲;
+   <u>end</u>  findprog;
+
+   <u>integer</u> <u>procedure</u> readprog;
+   <u>begin</u>
+      <u>comment</u> A̲L̲G̲O̲L̲;
+   <u>end</u>  readprog;
+
+   <u>procedure</u> printtitle(od);
+      <u>value</u>
+        od;
+      <u>integer</u>
+        od;
+   <u>begin</u>
+      <u>comment</u> A̲L̲G̲O̲L̲;
+   <u>end</u>  printtitle;
+
+   <u>procedure</u> print(s, n);
+      <u>value</u>
+        n;
+      <u>string</u>
+        s;
+        <u>integer</u>
+        n;
+   <u>begin</u>
+      writetext(out, s);
+      write(out, format( “ ssndd ” ), n);
+   <u>end</u>  print;
+
+   <u>procedure</u> algoledit(linelimit, id, od, failure);
+      <u>value</u>
+        linelimit, id, od;
+      <u>integer</u>
+        linelimit, id, od;
+        <u>label</u>
+        failure;
+        <u>comment</u>   This procedure edits one Algol 60 program when it is called.
+        The meaning of the parameters is:-
+        ‘line limit’ - the maximum number of basic symbols to be output on one line
+        ‘id’ - the input device number
+        ‘od’ - the output device number
+        ‘failure’ - the procedure jumps to this label is a failure occurs while
+        editing is in progress;
+   <u>begin</u>
+      <u>comment</u>   ‘algol edit’ uses arrays for the following purposes:-
+        ‘n tabs’ - the elements of this array are used to remember the number
+        of tabs which must precede the start of each statement and declaration
+        of every block
+        ‘disk buffer’ - this array is used as a buffer if the Algol program is read from the disc
+        ‘buffer’ - this array is used as a buffer to hold the symbols which will
+        be output on the next line
+        ‘s’ - this array is used as a temporary store when a line must be split
+        because it is too long
+        ‘spa’, ‘spb’ - these arrays are used to specify the number of spaces which
+        are to be output before and after each different basic symbol;
+      <u>integer</u> <u>array</u>
+        ntabs[1 : 25],
+        buffer,
+        s[0 : 150],
+        discbuffer[0 : <u>if</u> id = 120 <u>then</u> 640 <u>else</u> 1],
+        spa,
+        spb[0 : 255];
+      <u>comment</u>   At any point in the Algol program being edited, these integer variables have
+        the following values:-
+        ‘b ctr’, ‘e ctr’ - the number of b̲e̲g̲i̲n̲s and e̲n̲d̲s that have occurred so far
+        ‘bs’ - the current basic symbol
+        ‘depth’ - the currentnested block depth, ie. ‘b ctr’ - ‘e ctr’
+        ‘i’ - this is used as the controlled variable in a f̲o̲r̲ statement
+        ‘lc’ - the next symbol to be output will be put in ‘buffer[lc]’
+        ‘line number’ - the value of this variable is the number of lines
+        which are to be utput before the next gap
+        ‘start of string’ - this variable is used in the procedures ‘read string’ and
+        ‘copy string’.  Its value indicates the start of the current string
+        in the output buffer and is needed if the string is too long to be
+        put on one line
+        ‘tabs’ - the number of tab symbols which must start the next line to be output
+        ‘tabspace’ - the number of spae symbols equivalent to oe tab symbol;
+      <u>integer</u>
+        bctr,
+        bs,
+        depth,
+        ectr,
+        l,
+        lc,
+        linenumber,
+        startofstring,
+        tabs,
+        tabspace;
+      <u>comment</u>   Each one of these variables represents an Algol basic symbol and has
+        an appropriate constant value;
+      <u>integer</u>
+        capital A,
+        and,
+        array,
+        becomes,
+        begin,
+        boolean,
+        colon,
+        comma,
+        comment,
+        divide,
+        do,
+        else,
+        end,
+        equals,
+        eqv,
+        false,
+        for,
+        goto,
+        greaterthan,
+        gtequal,
+        if,
+        imp,
+        intdiv,
+        integer,
+        label,
+        lrbracket,
+        lsqbracket,
+        lstrbracket,
+        lessthan,
+        ltequal,
+        minus,
+        multiply,
+        newline,
+        nine,
+        not,
+        notequal,
+        or,
+        own,
+        plus,
+        procedure,
+        real,
+        rrbracket,
+        rsqbracket,
+        rstrbracket,
+        semicolon,
+        space,
+        step,
+        string,
+        subscript ten,
+        switch,
+        tab,
+        then,
+        true,
+        until,
+        value,
+        while,
+        zero,
+        small z;
+
+      <u>comment</u>   Each one of these variables represents a KDF9 pseudo basic symbol and has the appropriate
+        constant value;
+      <u>integer</u>
+        algol,
+        endmessage,
+        exit,
+        kdf9,
+        library,
+        segment,
+        tabdummy;
+
+      <u>comment</u>   A list of the procedures in algol edit.
+        read symbol
+        out line ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ od, i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ buffer, i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ lc )
+        nbs
+        b̲o̲o̲l̲e̲a̲n̲ letter or digit
+        identifier or label
+        scan ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol 1, i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol 2 )
+        next line
+        out 1 ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ char )
+        out ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ char )
+        clear full line ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol )
+        specifications or declarations ( b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ declarations )
+        proc declaration
+        fail ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ n )
+        expression ( i̲n̲t̲e̲g̲e̲r̲ v̲a̲l̲u̲e̲ symbol )
+        for variable and list
+        if clause
+        statement
+        possible label(b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ inserting a dummy statement is possible)
+        copy string
+        read string
+        copy square brackets
+        copy round brackets
+        block ( b̲o̲o̲l̲e̲a̲n̲ v̲a̲l̲u̲e̲ inner )
+        call library
+        code body
+        ;
+
+      <u>comment</u>   label numbers
+        1  statement
+        2  scan
+        3  specifications or declarations
+        4  clear full line
+        5  copy square brackets
+        6  fail
+        7  nbs
+        8  read string
+        9  comment statement
+        10  block
+        11  block
+        12  copy round brackets
+        13  call library
+        14  specifications or declarations
+        15  code body
+        16  code body
+        17  out
+        18  identifier or label
+        19  expression
+        20  expression
+        21  for variable and list
+        22  statement
+        ;
+
+      <u>procedure</u> readsymbol;
+         <u>comment</u> This procedure assigns the next basic symbol of the
+           Algol program being edited to the global variable ‘be’.
+           It is a machine-dependent procedure;
+      <u>begin</u>
+         <u>if</u> bs = endmessage <u>then</u>
+           fail(114);
+         bs ≔            <u>if</u> id = 120 <u>then</u> readprog <u>else</u> inbasicsymbol(id);
+      <u>end</u>  readsymbol;
+
+      <u>procedure</u> outline(od, buffer, lc);
+         <u>value</u>
+           od,
+           lc;
+         <u>integer</u>
+           od,
+           lc;
+           <u>integer</u> <u>array</u>
+           buffer;
+
+      <u>begin</u>
+         <u>comment</u>   This is the basic output routine which prints the next line of the
+           program on device od.  The symbols of the output line are stored
+           in elements 1 to lc of the array buffer .  outline is a
+           machine dependent procedure;
+         <u>comment</u> A̲L̲G̲O̲L̲;
+      <u>end</u>  outline;
+
+      <u>procedure</u> nbs;
+         <u>comment</u>    ‘nbs’ assigns the next non-printing symbol of the Algol program
+           being edited to the variabe ‘bs’;
+      <u>begin</u>
+         label7 :;
+         readsymbol;
+         <u>if</u> bs = space ∨ bs = newline ∨ bs = tab <u>then</u>
+           <u>goto</u> label7;
+      <u>end</u>  nbs;
+
+      <u>boolean</u> <u>procedure</u> letter or digit;
+         letter or digit ≔ (bs &GreaterSlantEqual; capital A ∧ bs &LessSlantEqual; small z) ∨ (bs &GreaterSlantEqual; zero ∧ bs &LessSlantEqual; nine);
+
+      <u>procedure</u> identifier or label;
+         <u>comment</u> This procedure copies successive symbols of the Algol program which
+           form either an identifier or label;
+      <u>begin</u>
+         <u>if</u> ¬ letter or digit <u>then</u> fail(105);
+         label18 :;
+         out(bs);
+         nbs;
+         <u>if</u> letter or digit <u>then</u>
+           <u>goto</u> label18;
+      <u>end</u>  identifier or label;
+
+      <u>procedure</u> scan(symbol1, symbol2);
+         <u>value</u>
+           symbol1,
+           symbol2;
+         <u>integer</u>
+           symbol1, symbol2;
+           <u>comment</u> ‘scan’ copies successive non-printing symbols and bracketed elements
+           of the Algol program.  It inserts spaces where appropriate and stops
+           when the current basic symbol is either ‘symbol1’ or ‘symbol2’;
+
+      <u>begin</u>
+         label2 :;
+         <u>if</u> bs = lrbracket <u>then</u>
+         <u>begin</u>
+            copy round brackets;
+            <u>goto</u> label2
+         <u>end</u>;
+         <u>if</u> bs = lsqbracket <u>then</u>
+         <u>begin</u>
+            copy square brackets;
+            <u>goto</u> label2
+         <u>end</u>;
+         out(bs);
+         <u>if</u> bs ≠ symbol1 ∧ bs ≠ symbol2 <u>then</u>
+         <u>begin</u>
+            nbs;
+            <u>goto</u> label2;
+         <u>end</u>
+      <u>end</u>  scan;
+
+      <u>procedure</u> next line;
+         <u>comment</u>   ‘next line’ outputs the next line of the edited Algol program and
+           stores in ‘buffer’ the tab symbols at the beginning of the next line;
+      <u>begin</u>
+         <u>integer</u>
+           i,
+           j;
+         <u>if</u> linenumber = 0 <u>then</u>
+         <u>begin</u>
+            <u>if</u> od = 10 <u>then</u>
+            <u>begin</u>
+               outline(od, buffer, lc-1);
+               gap(od, 50);
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               buffer[lc] ≔ newline;
+               outline(od, buffer, lc);
+            <u>end</u>;
+            linenumber ≔ 31;
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u>
+            linenumber ≔ linenumber+1;
+            buffer[lc] ≔ newline;
+            outline(od, buffer, lc);
+         <u>end</u>;
+         lc ≔ tabspace × tabs;
+         <u>for</u> i ≔ 1 <u>step</u> tabspace <u>until</u> lc <u>do</u>
+            <u>begin</u>
+               buffer[i] ≔ tab;
+               <u>for</u> j ≔ i+1 <u>step</u> 1 <u>until</u> i+tabspace-1 <u>do</u>
+                    buffer[j] ≔ tabdummy;
+            <u>end</u>  for i;
+         lc ≔ lc + 1;
+      <u>end</u>  next line;
+
+      <u>procedure</u> comment statement;
+         <u>comment</u>   ‘comment statement’ edits a comment from the basic symbol c̲o̲m̲m̲e̲n̲t̲ up to
+           the semicolon;
+      <u>begin</u>
+         next line;
+         tabs ≔ tabs+1;
+         out(bs);
+         label9 :;
+         <u>if</u> lc &gt; 150 <u>then</u> fail(113);
+         readsymbol;
+         <u>if</u> bs ≠ semicolon <u>then</u>
+         <u>begin</u>
+            <u>if</u> bs = newline <u>then</u>
+              next line
+              <u>else</u> <u>if</u> bs = tab <u>then</u>
+              out1(space)
+            <u>else</u>
+              out1(bs);
+            <u>goto</u> label9;
+         <u>end</u>;
+         out1(semicolon);
+         tabs ≔ tabs-1;
+         next line;
+         next line;
+         nbs;
+      <u>end</u>  comment statement;
+
+      <u>procedure</u> out1(char);
+         <u>value</u>
+           char;
+         <u>integer</u>
+           char;
+           <u>comment</u>   ‘out 1’ inserts the symbol ‘char’ into the output buffer and increases the
+           counter ‘lc’ by one;
+      <u>begin</u>
+         buffer[lc] ≔ char;
+         lc ≔ lc+1;
+      <u>end</u>  out1;
+
+      <u>procedure</u> out(char);
+         <u>value</u>
+           char;
+         <u>integer</u>
+           char;
+           <u>comment</u>   ‘out’ inserts the symbol ‘char’into the output buffer.  If necessary ‘out’
+           also puts a space before and/or after‘char’.  ‘out’ also checks to see
+           if the buffer is full, if so it is emptied;
+      <u>begin</u>
+         <u>if</u> buffer[lc - 1] = subscript ten <u>then</u>
+         <u>begin</u>
+            <u>if</u> char = plus ∨ char = minus <u>then</u>
+            <u>begin</u>
+               out1(char);
+               nbs;
+               out1(bs);
+               <u>goto</u> label17;
+            <u>end</u>
+         <u>end</u>;
+         <u>if</u> spb[char] ≠ 0 ∧ buffer[lc-1] ≠ space <u>then</u>
+           out1(space);
+         <u>if</u> (char = comma ∨ char = semicolon) ∧ buffer[lc-1] = space <u>then</u>
+           lc ≔ lc-1;
+         out1(char);
+         <u>if</u> spa[char] ≠ 0 <u>then</u>
+           out1(space);
+         label17 :;
+         <u>if</u> lc &gt; linelimit+3 <u>then</u>
+           fail(106);
+         <u>if</u> lc &GreaterSlantEqual; linelimit <u>then</u>
+           clear full line(space);
+      <u>end</u>  out character;
+
+      <u>procedure</u> clear full line(symbol);
+         <u>value</u>
+           symbol;
+         <u>integer</u>
+           symbol;
+           <u>comment</u>    clear full line is called when an edited line is too long to be
+           output on a single line.  It looks for the latest occurrence of the
+           symbol specified by the parameter ‘symbol’, and splits the line at
+           this point.  It outputs the first part of the line and puts the
+           remaining characters at the beginning of the next line.  The
+           procedure fails if it is unable to find a point at which the line
+           can be split;
+      <u>begin</u>
+         <u>integer</u>
+           i,
+           j,
+           k;
+         j ≔ lc - 1;
+         <u>for</u> k ≔ 1 <u>step</u> 1 <u>until</u> linelimit - tabspace × (tabs-1) + 1 <u>do</u>
+            <u>begin</u>
+               <u>if</u> buffer[j] = symbol <u>then</u>
+                 <u>goto</u> label4;
+               s[k] ≔ buffer[j];
+               j ≔ j-1;
+            <u>end</u>;
+         fail(100);
+         label4 :;
+         lc ≔ j;
+         <u>if</u> symbol = semicolon <u>then</u>
+           out1(semicolon);
+         tabs ≔ tabs+1;
+         next line;
+         lc ≔ lc-1;
+         <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> k-1 <u>do</u>
+              buffer[lc+j] ≔ s[k-j];
+         lc ≔ lc+k;
+         tabs ≔ tabs-1;
+      <u>end</u>  clear full line;
+
+      <u>procedure</u> specifications or declarations(declarations);
+         <u>value</u>
+           declarations;
+         <u>boolean</u>
+           declarations;
+           <u>comment</u>   If the parameter of ‘specifications or declarations’ is false,
+           then this procedure edits the value and specification part of a
+           procedure declaration.  If the parameter is true, then the procedure
+           edits a list of declarations separated by semicolons;
+      <u>begin</u>
+         label3 :;
+         <u>if</u> bs = procedure ∧ declarations <u>then</u>
+         <u>begin</u>
+            proc declaration;
+            <u>goto</u> label3;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = switch ∧ declarations <u>then</u>
+         <u>begin</u>
+            scan(becomes, becomes);
+            nbs;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = library <u>then</u>
+         <u>begin</u>
+            call library;
+            <u>goto</u> label3;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = comment <u>then</u>
+         <u>begin</u>
+            comment statement;
+            <u>goto</u> label3;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = real ∨ bs = integer ∨ bs = boolean ∨ bs = array ∨ bs = switch ∨ bs = label ∨ bs =
+           string ∨ bs = own ∨ bs = value ∨ bs = procedure <u>then</u>
+         <u>begin</u>
+            out(bs);
+            nbs;
+            <u>goto</u> label3;
+         <u>end</u>;
+         <u>if</u> lc ≠ tabspace × tabs + 1 <u>then</u>
+         <u>begin</u>
+            tabs ≔ tabs+1;
+            next line;
+            label14 :;
+            scan(comma,semicolon);
+            <u>if</u> bs = semicolon <u>then</u> tabs ≔ tabs-1;
+            next line;
+            <u>if</u> bs = comma <u>then</u>
+            <u>begin</u>
+               nbs;
+               <u>goto</u> label14;
+            <u>end</u>;
+            nbs;
+            <u>goto</u> label3;
+         <u>end</u>;
+      <u>end</u>  specifications or declarations;
+
+      <u>procedure</u> proc declaration;
+         <u>comment</u>   ‘proc declaration’ edits a procedure declaration.  The call of
+           statement must be extended if it is necessary to take account of
+           procedures with code bodies;
+      <u>begin</u>
+         scan(semicolon, semicolon);
+         tabs ≔ tabs+1;
+         next line;
+         nbs;
+         specifications or declarations(<u>false</u>);
+         <u>if</u> bs = segment <u>then</u>
+           scan(semicolon, semicolon)
+         <u>else</u>
+         <u>begin</u>
+            <u>if</u> bs = kdf9 <u>then</u>
+              code body
+            <u>else</u>
+              statement;
+            <u>if</u> bs = semicolon <u>then</u>
+              out(bs)
+            <u>else</u>
+              fail(107);
+         <u>end</u>;
+         tabs ≔ ntabs[depth];
+         next line;
+         next line;
+         nbs;
+      <u>end</u>  proc declaration;
+
+      <u>procedure</u> fail(n);
+         <u>value</u>
+           n;
+         <u>integer</u>
+           n;
+           <u>comment</u>  ‘fail’ outputs the current line and a brief failure message.
+           It then looks for the end of the program and exits to the label
+           ‘failure’.
+
+           The procedures in which the various failure numbers are generated are :-
+           100  clear full line
+           101  read string
+           102  copy square brackets
+           103  copy round brackets
+           104  block
+           105  identifier or label
+           106  out
+           107  proc declaration
+           108  call library
+           109  read string
+           110  block
+           111  code body
+           112  code body
+           113  comment statement
+           114  read symbol
+           114  for variable and list
+           117  if clause
+           ;
+
+      <u>begin</u>
+         lc ≔            <u>if</u> lc &gt; linelimit <u>then</u>
+           linelimit
+         <u>else</u>
+           lc;
+         next line;
+         print( “ fail ”, n);
+         label6 :;
+         readsymbol;
+         <u>if</u> bs = begin <u>then</u>
+           bctr ≔ bctr+1
+           <u>else</u> <u>if</u> bs = end <u>then</u>
+           ectr ≔ ectr+1;
+         <u>if</u> bctr = ectr <u>then</u>
+           <u>goto</u> failure
+         <u>else</u>
+           <u>goto</u> label6;
+      <u>end</u>  fail;
+
+      <u>procedure</u> expression(symbol);
+         <u>value</u>
+           symbol;
+         <u>integer</u>
+           symbol;
+
+           <u>comment</u> This procedure edits a conditional or simple expression.  It
+           stops when the current basic sybol is e̲n̲d̲ or ‘comma’ or s̲t̲e̲p̲
+           or w̲h̲i̲l̲e̲ or ‘symbol’;
+      <u>begin</u>
+         <u>if</u> bs = if <u>then</u> <u>begin</u>
+            tabs ≔ tabs+1;
+            next line;
+            label19 :;
+            if clause;
+            expression(else);
+            tabs ≔ tabs-1;
+            next line;
+            out1(else);
+            nbs;
+            <u>if</u> bs = if <u>then</u>
+            <u>begin</u>
+               out1(space);
+               <u>goto</u> label19
+            <u>end</u>;
+            tabs ≔ tabs+1;
+            next line;
+            expression(symbol);
+            tabs ≔ tabs-2;
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u>
+            label20 :;
+            <u>if</u> bs = lrbracket <u>then</u>
+              copy round brackets
+              <u>else</u> <u>if</u> bs = lsqbracket <u>then</u>
+              copy square brackets;
+            <u>if</u> bs = end ∨ bs = comma ∨ bs = step ∨ bs = while ∨ bs = symbol <u>then</u>
+            <u>else</u>
+            <u>begin</u>
+               out(bs);
+               nbs;
+               <u>goto</u> label20
+            <u>end</u>;
+         <u>end</u>;
+      <u>end</u>  expression;
+
+      <u>procedure</u> for variable and list;
+
+         <u>comment</u>   for variable and list edits the first part of a f̲o̲r̲ statement,
+           from f̲o̲r̲ upto and including d̲o̲ ;
+      <u>begin</u>
+         <u>if</u> bs ≠ for <u>then</u>
+           fail(114);
+         tabs ≔ tabs + 1;
+         scan(becomes, becomes);
+         label21 :;
+         nbs;
+         scan(comma,do);
+         next line;
+         <u>if</u> bs = comma <u>then</u>
+           <u>goto</u> label21;
+         nbs
+      <u>end</u>  for variable and list;
+
+      <u>procedure</u> if clause;
+
+         <u>comment</u>   This procedure edits an if clause ;
+
+      <u>begin</u>
+         <u>if</u> bs ≠ if <u>then</u>
+           fail(117);
+         out(bs);
+         nbs;
+         expression(then);
+         out(bs);
+         tabs ≔ tabs+1;
+         next line;
+         nbs;
+      <u>end</u>  if clause;
+
+      <u>procedure</u> statement;
+
+         <u>comment</u> ‘statement’ edits any unlabelled statement;
+
+      <u>begin</u>
+         label1 :;
+         <u>if</u> letter or digit <u>then</u>
+         <u>begin</u>
+            possible label(<u>false</u>);
+            <u>goto</u> label1
+         <u>end</u>;
+         <u>if</u> bs = if <u>then</u>
+         <u>begin</u>
+            if clause;
+            <u>goto</u> label1
+         <u>end</u>;
+         <u>if</u> bs = for <u>then</u>
+         <u>begin</u>
+            for variable and list;
+            <u>goto</u> label1
+         <u>end</u>;
+         <u>if</u> bs = begin <u>then</u>
+           block(<u>false</u>);
+         label22 :;
+         <u>if</u> bs = lrbracket <u>then</u>
+           copy round brackets
+           <u>else</u> <u>if</u> bs = lsqbracket <u>then</u>
+           copy square brackets
+           <u>else</u> <u>if</u> bs = if <u>then</u>
+           expression(semicolon)
+           <u>else</u> <u>if</u> bs = else <u>then</u>
+         <u>begin</u>
+            tabs ≔ tabs-1;
+            next line;
+            out1(else);
+            nbs;
+            <u>if</u> bs = if <u>then</u>
+              out1(space)
+            <u>else</u>
+            <u>begin</u>
+               tabs ≔ tabs+1;
+               next line;
+            <u>end</u>;
+            <u>goto</u> label1
+         <u>end</u>;
+         <u>if</u> bs ≠ semicolon ∧ bs ≠ end <u>then</u>
+         <u>begin</u>
+            out(bs);
+            nbs;
+            <u>goto</u> label22
+         <u>end</u>
+      <u>end</u>  statement;
+
+      <u>procedure</u> possible label(inserting a dummy statement is possible);
+         <u>value</u>
+           inserting a dummy statement is possible;
+         <u>boolean</u>
+           inserting a dummy statement is possible;
+           <u>comment</u>   ‘possible label’ is called at the beginning of a statement if the statement
+           starts with a letter or digit.  ‘possible label’ looks to see if this
+           identifier or integer is followed by a colon - if it is then the
+           statement is labelled, the label is shifted half a tab to the left and put on a line by itself;
+
+      <u>begin</u>
+         <u>integer</u>
+           i,
+           di;
+         identifier or label;
+         <u>if</u> bs = colon <u>then</u>
+         <u>begin</u>
+            <u>if</u> tabs ≠ 0 <u>then</u>
+            <u>begin</u>
+               di ≔ (tabspace+1)+2;
+               lc ≔ lc-di;
+               <u>for</u> i ≔ tabspace × tabs+1-di <u>step</u> 1 <u>until</u> lc-1 <u>do</u>
+                    buffer[i] ≔ buffer[i+di];
+               <u>for</u> i ≔ tabspace × (tabs-1)+1 <u>step</u> 1 <u>until</u> tabspace × tabs-di <u>do</u>
+                    buffer[i] ≔ space;
+            <u>end</u>;
+            out(colon);
+            nbs;
+            <u>if</u> bs ≠ semicolon <u>then</u>
+            <u>begin</u>
+               <u>if</u> inserting a dummy statement is possible <u>then</u>
+               <u>begin</u>
+                  out(semicolon);
+                  next line
+               <u>end</u>
+            <u>end</u>;
+         <u>end</u>;
+      <u>end</u>  possible label;
+
+      <u>procedure</u> copy string;
+         <u>comment</u>  The two procedures ‘copy string’ and ‘read string’ edit a string
+           ( including nested strings ).  Editing characters are also copied
+           except any tab symbols which occur immediately after a newline symbol;
+      <u>begin</u>
+         <u>if</u> buffer[lc-1] ≠ space <u>then</u>
+           out1(space);
+         startofstring ≔ lc;
+         read string;
+      <u>end</u>  copy string;
+
+      <u>procedure</u> read string;
+         <u>comment</u>  The two procedures ‘copy string’ and ‘read string’ edit a string
+           ( including nested strings ).  Editing characters are also copied
+           except any tab symbols which occur immediately after a newline symbol;
+      <u>begin</u>
+         <u>integer</u>
+           i;
+         <u>if</u> bs ≠ lstrbracket <u>then</u>
+           fail(101);
+         label8 :;
+         out1(bs);
+         <u>if</u> lc &gt; linelimit <u>then</u>
+         <u>begin</u>
+            lc ≔ startofstring;
+            tabs ≔ tabs+1;
+            next line;
+            tabs ≔ tabs-1;
+            <u>if</u> lc &GreaterSlantEqual; startofstring <u>then</u>
+              fail(109);
+            startofstring ≔ lc;
+            <u>for</u> i ≔ startofstring <u>step</u> 1 <u>until</u> linelimit <u>do</u>
+                 out1(buffer[i]);
+         <u>end</u>;
+         readsymbol;
+         <u>if</u> bs = lstrbracket <u>then</u>
+         <u>begin</u>
+            read string;
+            <u>goto</u> label8;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = newline <u>then</u>
+         <u>begin</u>
+            tabs ≔ tabs+1;
+            next line;
+            tabs ≔ tabs-1;
+            startofstring ≔ lc;
+            nbs;
+            <u>goto</u> label8;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs ≠ rstrbracket <u>then</u>
+           <u>goto</u> label8;
+      <u>end</u>  read string;
+
+      <u>procedure</u> copy square brackets;
+         <u>comment</u> ‘copy square brackets’ edits a balanced syntactic structure enclosed
+           in square brackets;
+      <u>begin</u>
+         <u>if</u> bs ≠ lsqbracket <u>then</u>
+           fail(102);
+         label5 :;
+         out(bs);
+         nbs;
+         <u>if</u> bs = lrbracket <u>then</u>
+         <u>begin</u>
+            copy round brackets;
+            <u>goto</u> label5
+         <u>end</u>;
+         <u>if</u> bs = lsqbracket <u>then</u>
+         <u>begin</u>
+            copy square brackets;
+            <u>goto</u> label5
+         <u>end</u>;
+         <u>if</u> bs ≠ rsqbracket <u>then</u> <u>goto</u> label5;
+      <u>end</u>  copy square brackets;
+
+      <u>procedure</u> copy round brackets;
+
+         <u>comment</u> ‘copy round brackets’ edits a balanced syntactic structure enclosed
+           in round brackets;
+
+      <u>begin</u>
+         <u>if</u> bs ≠ lrbracket <u>then</u>
+           fail(103);
+         label12 :;
+         out(bs);
+         nbs;
+         <u>if</u> bs = lstrbracket <u>then</u>
+         <u>begin</u>
+            copy string;
+            <u>goto</u> label12
+         <u>end</u>;
+         <u>if</u> bs = lrbracket <u>then</u> <u>begin</u>
+            copy round brackets;
+            <u>goto</u> label12
+         <u>end</u>;
+         <u>if</u> bs ≠ rrbracket <u>then</u>
+           <u>goto</u> label12;
+      <u>end</u>  copy round brackets;
+
+      <u>procedure</u> block(inner);
+         <u>value</u>
+           inner;
+         <u>boolean</u>
+           inner;
+
+           <u>comment</u> ‘block’ edits a block.  If the parameter ‘inner’ is true then the
+           block being edited is a statement of the enclosing block and its declarations
+           and statements start with an extra tab.  But if the value of ‘inner’ is
+           false then the block to be edited is a part of a conditional
+           or f̲o̲r̲ statement and extra tabs are unnecessary.
+
+           e̲n̲d̲ comments are copied except that newline symbols are ignored
+           and tab symbols are replaced by a space.
+
+           Dummy statements which are not followed by e̲n̲d̲ are put on
+           a line by themselves;
+
+      <u>begin</u>
+         out(begin);
+         bctr ≔ bctr+1;
+         depth ≔ depth+1;
+         ntabs[depth] ≔ tabs ≔ tabs + (<u>if</u> inner <u>then</u> 1 <u>else</u> 0);
+         next line;
+         nbs;
+         specifications or declarations(<u>true</u>);
+         label11 :;
+         <u>if</u> letter or digit <u>then</u>
+         <u>begin</u>
+            possible label(<u>true</u>);
+            <u>goto</u> label11;
+         <u>end</u>;
+         <u>if</u> bs = begin <u>then</u>
+           block(<u>true</u>)
+           <u>else</u> <u>if</u> bs = comment <u>then</u>
+         <u>begin</u>
+            comment statement;
+            <u>goto</u> label11;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = library <u>then</u>
+         <u>begin</u>
+            call library;
+            <u>goto</u> label11;
+         <u>end</u>
+         <u>else</u>
+           statement;
+         tabs ≔ ntabs[depth];
+         <u>if</u> bs = semicolon <u>then</u>
+         <u>begin</u>
+            out(semicolon);
+            nbs;
+            <u>if</u> bs ≠ end <u>then</u>
+              next line;
+            <u>goto</u> label11;
+         <u>end</u>;
+         <u>if</u> bs ≠ end <u>then</u>
+           fail(104);
+         <u>if</u> inner <u>then</u>
+           tabs ≔ tabs-1;
+         next line;
+         out(end);
+         ectr ≔ ectr+1;
+         depth ≔ depth-1;
+         <u>if</u> depth = 0 <u>then</u>
+         <u>begin</u>
+            next line;
+            out(endmessage);
+            next line;
+            <u>if</u> id = 120 <u>then</u>
+            <u>begin</u>
+               nbs;
+               <u>if</u> bs ≠ endmessage <u>then</u>
+                 fail(110);
+            <u>end</u>
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u>
+            label10 :;
+            readsymbol;
+            <u>if</u> bs = newline <u>then</u>
+              <u>goto</u> label10;
+            <u>if</u> bs = tab <u>then</u>
+            <u>begin</u>
+               out(space);
+               <u>goto</u> label10
+            <u>end</u>;
+            <u>if</u> bs ≠ end ∧ bs ≠ else ∧ bs ≠ semicolon <u>then</u>
+            <u>begin</u>
+               out(bs);
+               <u>goto</u> label10
+            <u>end</u>
+         <u>end</u>
+      <u>end</u> block;
+
+      <u>procedure</u> call library;
+
+         <u>comment</u> ‘call library’ edits a library call by assuming that the
+           call is followed by a comment;
+      <u>begin</u>
+         nbs;
+         <u>if</u> bs ≠ comment <u>then</u>
+           fail(108);
+         bs ≔ library;
+         comment statement;
+         out(comment);
+         label13 :;
+         <u>if</u> buffer[lc] ≠ semicolon <u>then</u>
+         <u>begin</u>
+            lc ≔ lc+1;
+            <u>goto</u> label13;
+         <u>end</u>;
+         lc ≔ lc+1;
+         next line;
+         next line;
+      <u>end</u>  call library;
+
+      <u>procedure</u> code body;
+         <u>comment</u>  ‘code body’ edits a procedure body written in KDF9 User-code;
+
+      <u>begin</u>
+         <u>integer</u>
+           i,
+           j;
+         scan(semicolon, semicolon);
+         bs ≔ newline;
+         label15 :;
+         <u>if</u> bs = newline <u>then</u>
+         <u>begin</u>
+            next line;
+            nbs;
+            i ≔ space;
+            <u>if</u> bs = 23 ∨ bs = 27 ∨ bs = 49 ∨ bs = 53 <u>then</u>
+            <u>begin</u>
+               i ≔ bs;
+               nbs;
+            <u>end</u>;
+            <u>if</u> bs &LessSlantEqual; nine <u>then</u>
+            <u>begin</u>
+               <u>if</u> i ≠ space <u>then</u> <u>begin</u>
+                  next line;
+                  out1(i);
+               <u>end</u>;
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               out1(tab);
+               <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> tabspace-1 <u>do</u>
+                    out1(tabdummy);
+               <u>if</u> i ≠ space <u>then</u>
+                 out1(i);
+            <u>end</u>;
+            <u>goto</u> label15;
+         <u>end</u>
+           <u>else</u> <u>if</u> bs = library <u>then</u>
+         <u>begin</u>
+            next line;
+            out(library);
+            nbs;
+            <u>if</u> bs ≠ lrbracket <u>then</u>
+              fail(111);
+            label16 :;
+            nbs;
+            <u>if</u> bs ≠ rrbracket <u>then</u>
+            <u>begin</u>
+               out(bs);
+               <u>goto</u> label16;
+            <u>end</u>;
+            i ≔ lc;
+            out(semicolon);
+            next line;
+            out(lrbracket);
+            buffer[i] ≔ rrbracket;
+            lc ≔ i+1;
+            nbs;
+            <u>if</u> bs ≠ semicolon <u>then</u>
+              fail(112);
+            out(bs);
+            next line;
+            nbs;
+            <u>goto</u> label15
+         <u>end</u>
+           <u>else</u> <u>if</u> bs ≠ algol <u>then</u>
+         <u>begin</u>
+            out1(bs);
+            <u>if</u> lc &GreaterSlantEqual; linelimit <u>then</u>
+              clear full line(semicolon);
+            readsymbol;
+            <u>goto</u> label15;
+         <u>end</u>;
+         <u>if</u> lc ≠ (tabs+1) × tabspace+1 <u>then</u>
+           next line
+         <u>else</u>
+           lc ≔ tabs × tabspace+1;
+         out(algol);
+         nbs;
+      <u>end</u>  code body;
+
+      <u>comment</u>  The declarations in algol edit  end here;
+
+
+      <u>comment</u>  Assign a suitable value to each of the variables representing an
+        Algol basic symbol.  This section of ‘algol edit’ is machine dependent;
+
+      capital A ≔ 12;
+      and ≔ 147;
+      array ≔ 72;
+      becomes ≔ 181;
+      begin ≔ 140;
+      boolean ≔ 67;
+      colon ≔ 185;
+      comma ≔ 166;
+      comment ≔ 128;
+      divide ≔ 161;
+      do ≔ 214;
+      else ≔ 165;
+      end ≔ 156;
+      equals ≔ 162;
+      eqv ≔ 195;
+      false ≔ 205;
+      for ≔ 134;
+      goto ≔ 136;
+      greaterthan ≔ 194;
+      gtequal ≔ 178;
+      if ≔ 133;
+      imp ≔ 179;
+      intdiv ≔ 145;
+      integer ≔ 66;
+      label ≔ 121;
+      lrbracket ≔ 132;
+      lsqbracket ≔ 137;
+      lstrbracket ≔ 141;
+      lessthan ≔ 130;
+      ltequal ≔ 146;
+      minus ≔ 209;
+      multiply ≔ 177;
+      newline ≔ 160;
+      nine ≔ 9;
+      not ≔ 131;
+      notequal ≔ 131;
+      or ≔ 163;
+      own ≔ 143;
+      plus ≔ 193;
+      procedure ≔ 80;
+      real ≔ 65;
+      rrbracket ≔ 148;
+      rsqbracket ≔ 153;
+      rstrbracket ≔ 157;
+      semicolon ≔ 152;
+      space ≔ 158;
+      step ≔ 182;
+      string ≔ 122;
+      subscript ten ≔ 10;
+      switch ≔ 88;
+      tab ≔ 174;
+      then ≔ 149;
+      true ≔ 221;
+      until ≔ 198;
+      value ≔ 159;
+      while ≔ 150;
+      zero ≔ 0;
+      small z ≔ 63;
+      <u>comment</u>  Assign suitable values to the variables representing pseudo basic symbols;
+
+      algol ≔ 192;
+      endmessage ≔ 190;
+      exit ≔ 240;
+      kdf9 ≔ 176;
+      library ≔ 208;
+      segment ≔ 224;
+      tabdummy ≔ 254;
+      <u>comment</u>  Assign suitable values for the elments of ‘spa’ and ‘spb’ arrays.
+        This part of ‘algol edit’ is partly a matter of taste;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> 255 <u>do</u>
+           spb[i] ≔ spa[i] ≔ 0;
+      <u>for</u> i ≔ plus,
+        minus,
+        divide,
+        intdiv,
+        lessthan,
+        equals,
+        gtequal,
+        greaterthan,
+        notequal,
+        becomes,
+        and,
+        or,
+        not,
+        then,
+        else,
+        colon,
+        eqv,
+        imp,
+        step,
+        until,
+        while <u>do</u>
+           spb[i] ≔ spa[i] ≔ 1;
+      <u>for</u> i ≔ real,
+        integer,
+        boolean,
+        procedure,
+        comment,
+        if,
+        for,
+        goto,
+        own,
+        end,
+        rstrbracket,
+        comma,
+        semicolon,
+        switch <u>do</u>
+           spa[i] ≔ 1;
+      <u>for</u> i ≔ do,
+        lstrbracket <u>do</u>
+           spb[i] ≔ 1;
+      <u>for</u> i ≔ kdf9,
+        library,
+        segment <u>do</u>
+           spa[i] ≔ 1;
+
+      <u>comment</u> Assign the initial values to the global variables of ‘algol edit’;
+
+      bctr ≔ depth ≔ ectr ≔ 0;
+      bs ≔ - 1;
+      lc ≔ 1;
+      linenumber ≔ tabs ≔ 0;
+      tabspace ≔ 6;
+      <u>if</u> id = 120 <u>then</u>
+      <u>begin</u>
+         findprog(20, discbuffer);
+         printtitle(od);
+      <u>end</u>;
+      next line;
+      start :;
+      nbs;
+      <u>if</u> bs ≠ begin <u>then</u>
+      <u>begin</u>
+         out(bs);
+         <u>goto</u> start
+      <u>end</u>;
+      next line;
+      block(<u>true</u>);
+   <u>end</u>  algoledit;
+
+   <u>integer</u>
+     cases,
+     i,
+     id,
+     no,
+     out;
+   open(20);
+   out ≔ read(20);
+   cases ≔ read(20);
+   <u>if</u> (out = 10 ∨ out = 30) ∧ cases &gt; 0 <u>then</u>
+     open(out)
+   <u>else</u>
+   <u>begin</u>
+      open(30);
+      writetext(30, “ error _ in _ initial _ data ” );
+      close(30);
+      <u>goto</u> boob2
+   <u>end</u>;
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> cases <u>do</u>
+      <u>begin</u>
+         no ≔ read(20);
+         id ≔ read(20);
+         <u>if</u> (id = 20 ∨ id = 120) ∧ no &gt; 0 <u>then</u>
+         <u>begin</u>
+            algoledit(no, id, out, boob);
+            gap(out, <u>if</u> out = 10 <u>then</u> 200 <u>else</u> 1);
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u>
+            writetext(outc, “ error _ in _ data ” );
+            <u>goto</u> boob
+         <u>end</u>;
+      <u>end</u>;
+   boob :;
+   close(out);
+   boob2 :;
+   close(20);
+<u>end</u>
+</pre></body></html>

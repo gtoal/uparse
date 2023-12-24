@@ -1,0 +1,65 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u>
+     321.a60:			oct '90
+     Erik Schoenfelder
+
+     This is the
+     0. Start with a natural number n.
+     1. If n is odd, set n to be 3 * n + 1
+     If n is even, set n to be n / 2
+     Repeat step 1 until n is equal 1.
+     2. Print the number of repetitons.
+     fun.
+     And: Who knows, if this termimates for any n...
+     ;
+
+   <u>integer</u> <u>procedure</u> doit (n);
+      <u>value</u> n;
+      <u>integer</u> n;
+   <u>begin</u>
+      <u>boolean</u> <u>procedure</u> odd (x);
+         <u>value</u> x; <u>integer</u> x;
+         odd ≔ n ≠ (n ÷ 2) × 2;
+
+      <u>integer</u> count;
+
+      count ≔ 0;
+      do:
+      <u>if</u> odd (n) <u>then</u>
+        n ≔ 3 × n + 1
+      <u>else</u>
+        n ≔ n ÷ 2;
+
+      count ≔ count + 1;
+
+      <u>if</u> n ≠ 1 <u>then</u> <u>goto</u> do;
+
+      doit ≔ count;
+   <u>end</u>;
+
+
+   <u>integer</u> i, n, val, max, NN;
+
+   NN ≔ 12;
+
+   vprint (“Hi!\n                n           iterations\n”);
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> NN <u>do</u>
+        vprint (i, doit (i));
+   vprint (“...”);
+
+   vprint (“\nnow looking for maxima:”);
+   vprint (“\n                n           iterations\n”);
+
+   n ≔ 0;  max ≔ -1;
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> NN <u>do</u> <u>begin</u>
+         do:
+         n ≔ n + 1;
+         val ≔ doit (n);
+         <u>if</u> val &LessSlantEqual; max <u>then</u> <u>goto</u> do;
+
+         vprint (n, val);
+         max ≔ val;
+      <u>end</u>;
+   vprint (“...\ndone.”)
+<u>end</u>
+</pre></body></html>

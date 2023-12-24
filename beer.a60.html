@@ -1,0 +1,38 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+
+   <u>comment</u>
+     99 Bottles of Beer on the Wall
+     written in Algol60, for the a60 interpreter
+     by Erik Schoenfelder.
+
+     Lower case, whitespace, ASCII, literal strings,
+     implementation character set, etc, and other    
+     modern conceits are ahistoric and waste cards and tape.
+
+     Tom Jennings 5 Jan 2006
+     ;
+
+   <u>integer</u> <u>procedure</u> bottles(n);
+      <u>value</u> n;
+      <u>integer</u> n;
+   <u>begin</u>
+      <u>if</u> n &lt; 1 <u>then</u> outstring(1, “no more ”) <u>else</u> outinteger(1, n);
+      <u>if</u> n = 1 <u>then</u> outstring(1, “bottle”) <u>else</u> outstring(1, “bottles”);
+      outstring(1, “ of beer”);
+   <u>end</u>;
+
+
+
+   <u>comment</u> Here is main.  ;
+
+   <u>integer</u> i;
+
+   <u>for</u> i ≔ 99 <u>step</u> -1 <u>until</u> 1 <u>do</u> <u>begin</u>
+         bottles(i); outstring(1, “ on the wall, ”);
+         bottles(i); outstring(1, “\n”);
+         outstring(1, “take one down and pass it around, ”);
+         bottles(i - 1); outstring(1, “ on the wall.\n”);
+      <u>end</u>;
+
+<u>end</u>
+</pre></body></html>
