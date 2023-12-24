@@ -1,0 +1,22 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲
+     I;
+   r̲e̲a̲l̲
+     X;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ASS(X, I);
+      r̲e̲a̲l̲
+        X;
+        i̲n̲t̲e̲g̲e̲r̲
+        I;
+      i̲f̲ I < 0 t̲h̲e̲n̲
+        X := I + 3
+      e̲l̲s̲e̲
+        I := 2·0 × X;
+   ASS(X, - 1);
+   I := 2;
+   ASS(X, I);
+   ASS(I, I);
+   ASS(I, X);
+   OUTREAL(99, I);
+   OUTREAL(99, X)
+e̲n̲d̲

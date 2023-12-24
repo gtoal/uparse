@@ -1,0 +1,42 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J,
+     K,
+     K1;
+   r̲e̲a̲l̲
+     T1,
+     T2;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ ACKERMANN(M, N);
+      v̲a̲l̲u̲e̲
+        M,
+        N;
+      i̲n̲t̲e̲g̲e̲r̲
+        M,
+        N;
+      ACKERMANN :=
+        i̲f̲ M = 0 t̲h̲e̲n̲
+        N + 1
+      e̲l̲s̲e̲ i̲f̲ N = 0 t̲h̲e̲n̲
+        ACKERMANN(M - 1, 1)
+      e̲l̲s̲e̲
+        ACKERMANN(M - 1, ACKERMANN(M, N - 1));
+   K := 16;
+   K1 := 1;
+   f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+      b̲e̲g̲i̲n̲
+         T1 := CPUTIME;
+         J := ACKERMANN(3, I);
+         T2 := CPUTIME;
+         i̲f̲ J ≠ K - 3 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            OUTREAL(99, I);
+            OUTREAL(99, J)
+         e̲n̲d̲;
+         OUTREAL(99, T2 - T1);
+         OUTREAL(99, 3 × (T2 - T1) / (512 × K1 - 15 × K + 9 × I + 37) );
+         K1 := 4 × K1;
+         K := 2 × K;
+      e̲n̲d̲
+e̲n̲d̲

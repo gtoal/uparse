@@ -1,0 +1,51 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲
+     I;
+   r̲e̲a̲l̲
+     R;
+   b̲o̲o̲l̲e̲a̲n̲
+     B;
+   a̲r̲r̲a̲y̲
+     A1[1 : I + B],
+     A2[2 : 4, 5 : 7];
+   s̲w̲i̲t̲c̲h̲ S :=
+     i̲f̲ R × P0 < 0 t̲h̲e̲n̲ L e̲l̲s̲e̲ L2;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ P0;
+      R := I ÷ R;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ P1(F);
+      r̲e̲a̲l̲
+        F;
+      B := I + R;
+   L :;
+   B := I > S;
+   B := B ∨ P0;
+   R := B + A1;
+   L2 :;
+   R := B ∧ B;
+   I := P1(R);
+   g̲o̲t̲o̲ B;
+   I;
+   P1(A2 / R);
+   R[I] := 5;
+   I :=
+     i̲f̲ B t̲h̲e̲n̲
+     S
+   e̲l̲s̲e̲
+     R;
+   P1(i̲f̲ B t̲h̲e̲n̲ B e̲l̲s̲e̲ I - I);
+   R := B := B ∧ B;
+   f̲o̲r̲ I := B s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+        A1[S] := A2[2];
+   A1 := 0;
+   i̲f̲ R t̲h̲e̲n̲
+     g̲o̲t̲o̲ L;
+   f̲o̲r̲ P0 := 1,
+     2 d̲o̲
+        A2[B, I] := 0;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲
+        Q[B : 1];
+   e̲n̲d̲;
+   P1(I, R);
+   P1;
+e̲n̲d̲

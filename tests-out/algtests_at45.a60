@@ -1,0 +1,8 @@
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲
+     X;
+   X := 8·4;
+   OUTREAL(99,
+     SQRT(SQRT(SQRT(SQRT(SQRT(SQRT(SQRT(SQRT(SQRT(X⭡9)))))))))
+     );
+e̲n̲d̲

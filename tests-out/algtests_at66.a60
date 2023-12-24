@@ -1,0 +1,53 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J,
+     K,
+     CASE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ EQUAL(I, J);
+      v̲a̲l̲u̲e̲
+        I,
+        J;
+      i̲n̲t̲e̲g̲e̲r̲
+        I,
+        J;
+      i̲f̲ I ≠ J t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         OUTREAL(99, CASE);
+         OUTREAL(99, I);
+         OUTREAL(99, J)
+      e̲n̲d̲
+      e̲l̲s̲e̲
+        CASE := CASE + 1;
+   I := 2;
+   J := 5;
+   K := 9;
+   CASE := 0;
+   EQUAL(I + J + K, 16);
+   EQUAL(I + J - K, - 2);
+   EQUAL(I + J × K, 47);
+   EQUAL(I + J ÷ K, 2);
+   EQUAL(I + J⭡K, 1953127);
+   EQUAL(I - J + K, 6);
+   EQUAL(I - J - K, - 12);
+   EQUAL(I - J × K, - 43);
+   EQUAL(I - J ÷ K, 2);
+   EQUAL(I - J⭡K, -1953123);
+   EQUAL(I × J + K, 19);
+   EQUAL(I × J - K, 1);
+   EQUAL(I × J × K, 90);
+   EQUAL(I × J ÷ K, 1);
+   EQUAL(I × J⭡2, 50);
+   EQUAL(J ÷ I + K, 11);
+   EQUAL(J ÷ I - K, - 7);
+   EQUAL(J ÷ I × K, 18);
+   EQUAL(J ÷ I ÷ K, 0);
+   EQUAL(J ÷ I⭡K, 0);
+   EQUAL(I⭡J + K, 41);
+   EQUAL(I⭡J - K, 23);
+   EQUAL(I⭡J × K, 288);
+   EQUAL(I⭡J ÷ K, 3);
+   EQUAL(I⭡J⭡2, 1024);
+   OUTREAL(99, CASE)
+e̲n̲d̲

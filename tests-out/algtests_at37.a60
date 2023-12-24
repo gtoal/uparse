@@ -1,0 +1,32 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲
+     A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11;
+   i̲n̲t̲e̲g̲e̲r̲
+     SUM;
+   SUM := 0;
+   f̲o̲r̲ A0 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+         f̲o̲r̲ A1 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+               f̲o̲r̲ A2 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                     f̲o̲r̲ A3 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                           f̲o̲r̲ A4 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                 f̲o̲r̲ A5 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                       f̲o̲r̲ A6 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                             f̲o̲r̲ A7 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                                   f̲o̲r̲ A8 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                                         f̲o̲r̲ A9 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                                               f̲o̲r̲ A10 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                                                     f̲o̲r̲ A11 := 1,2 d̲o̲ b̲e̲g̲i̲n̲ SUM := SUM + 1;
+                                                                        e̲n̲d̲
+                                                                  e̲n̲d̲
+                                                            e̲n̲d̲
+                                                      e̲n̲d̲
+                                                e̲n̲d̲
+                                          e̲n̲d̲
+                                    e̲n̲d̲
+                              e̲n̲d̲
+                        e̲n̲d̲
+                  e̲n̲d̲
+            e̲n̲d̲
+      e̲n̲d̲;
+   OUTREAL(99, SUM);
+e̲n̲d̲

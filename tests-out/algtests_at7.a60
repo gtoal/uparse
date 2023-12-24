@@ -1,0 +1,23 @@
+b̲e̲g̲i̲n̲
+   b̲o̲o̲l̲e̲a̲n̲
+     ASSIGN;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(X);
+      r̲e̲a̲l̲
+        X;
+   b̲e̲g̲i̲n̲
+      OUTREAL(99, X);
+      i̲f̲ ASSIGN t̲h̲e̲n̲
+        X := 3·14;
+   e̲n̲d̲;
+   r̲e̲a̲l̲
+     X,
+     Y;
+   ASSIGN := f̲a̲l̲s̲e̲;
+   P(1·0);
+   X := Y := 2·0;
+   P(X + Y);
+   ASSIGN := t̲r̲u̲e̲;
+   P(X);
+   P(1·0);
+   OUTREAL(99, 1·0)
+e̲n̲d̲

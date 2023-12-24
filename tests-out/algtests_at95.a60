@@ -1,0 +1,27 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ G(X);
+      r̲e̲a̲l̲
+        X;
+      G := X + 1;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(H);
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+        H;
+        c̲o̲m̲m̲e̲n̲t̲   (H1): 'REAL' H1;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOC(X);
+         r̲e̲a̲l̲
+           X;
+         LOC := H(G(X));
+      A := LOC(0);
+   e̲n̲d̲ A;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B(F, H);
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+        F;
+        c̲o̲m̲m̲e̲n̲t̲   (F1): 'REAL' F1;
+        r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲
+        H;
+        c̲o̲m̲m̲e̲n̲t̲   (H1): 'REAL' 'PROCEDURE' H1;
+      B := F(H(F) + A(G) + G(1));
+   OUTREAL(99, B(G, A))
+e̲n̲d̲

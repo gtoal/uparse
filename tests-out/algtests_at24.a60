@@ -1,0 +1,29 @@
+b̲e̲g̲i̲n̲
+   a̲r̲r̲a̲y̲
+     A[1 : 9];
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     S;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DUMMY(A);
+      v̲a̲l̲u̲e̲
+        A;
+      a̲r̲r̲a̲y̲
+        A;
+      SUM(A);
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUM(A);
+      a̲r̲r̲a̲y̲
+        A;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+         b̲e̲g̲i̲n̲
+            S := S + A[I];
+            A[I]:= 0
+         e̲n̲d̲;
+   S := 0;
+   f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+        A[I]:= I;
+   DUMMY(A);
+   OUTREAL(99,S);
+   f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+        i̲f̲ A[I]≠ I t̲h̲e̲n̲
+        OUTREAL(99,I)
+e̲n̲d̲

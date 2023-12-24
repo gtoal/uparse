@@ -1,0 +1,33 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     J,
+     K,
+     S;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ F(N);
+      v̲a̲l̲u̲e̲
+        N;
+      i̲n̲t̲e̲g̲e̲r̲
+        N;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲
+        I,
+        L;
+      f̲o̲r̲ I := N,
+        S ÷ 2 w̲h̲i̲l̲e̲ S < 16 ∨ S = 28 d̲o̲
+         b̲e̲g̲i̲n̲
+            S := S + I + N;
+            L := I
+         e̲n̲d̲;
+      F := N + L;
+   e̲n̲d̲ F;
+   S := - 1;
+   f̲o̲r̲ J := F(2),
+     F(3) w̲h̲i̲l̲e̲ S = 97 d̲o̲
+      b̲e̲g̲i̲n̲
+         S := S + F(5) + J + S;
+         K := J
+      e̲n̲d̲;
+   S := S + K;
+   OUTREAL(99, S)
+e̲n̲d̲

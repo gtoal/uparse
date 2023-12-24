@@ -1,0 +1,66 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 3;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     CASE;
+   b̲o̲o̲l̲e̲a̲n̲
+     B;
+   r̲e̲a̲l̲
+     X;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(K, Q);
+      v̲a̲l̲u̲e̲
+        K;
+      i̲n̲t̲e̲g̲e̲r̲
+        K;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲
+        Q;
+        c̲o̲m̲m̲e̲n̲t̲ (X1) : 'VALUE' X1 : 'INTEGER'X1 ;
+      P :=
+        i̲f̲ K = 1 t̲h̲e̲n̲
+        Q(I)
+      e̲l̲s̲e̲ i̲f̲ K = 2 t̲h̲e̲n̲
+        Q
+      e̲l̲s̲e̲ i̲f̲ K = 3 t̲h̲e̲n̲
+        Q(X)
+      e̲l̲s̲e̲
+        Q(Q(20));
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q1(I);
+      v̲a̲l̲u̲e̲
+        I;
+      i̲n̲t̲e̲g̲e̲r̲
+        I;
+      Q1 := 100 + I;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q2;
+      Q2 := 200 + (i̲f̲ B t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0);
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q3(X);
+      v̲a̲l̲u̲e̲
+        X;
+      r̲e̲a̲l̲
+        X;
+      Q3 := 300 + X;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ FAIL(M, N);
+      v̲a̲l̲u̲e̲
+        M,
+        N;
+      i̲n̲t̲e̲g̲e̲r̲
+        M,
+        N;
+      i̲f̲ M ≠ N t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         OUTREAL(99, M);
+         OUTREAL(99, N);
+         OUTREAL(99, CASE)
+      e̲n̲d̲
+      e̲l̲s̲e̲
+        CASE := CASE + 1;
+   I := 1;
+   X := 10·4;
+   CASE := 0;
+   B := f̲a̲l̲s̲e̲;
+   FAIL(P(1, Q1), 101);
+   FAIL(P(4, Q1), 220);
+   FAIL(P(2, Q2), 200);
+   FAIL(P(3, Q3), 310);
+   FAIL(P(4, Q3), 620);
+   OUTREAL(99, CASE)
+e̲n̲d̲

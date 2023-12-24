@@ -1,0 +1,33 @@
+b̲e̲g̲i̲n̲
+   a̲r̲r̲a̲y̲
+     A[1 : 3],
+     B[1 : 3, 1 : 3];
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUM(DIM, A);
+      v̲a̲l̲u̲e̲
+        DIM;
+      i̲n̲t̲e̲g̲e̲r̲
+        DIM;
+        a̲r̲r̲a̲y̲
+        A;
+      SUM :=
+        i̲f̲ DIM = 1 t̲h̲e̲n̲
+        (A[1]+ A[2]+ A[3])
+      e̲l̲s̲e̲
+        (A[1, 1]+ A[1, 2]+ A[1, 3]+ A[2, 1]+ A[2, 2]
+        + A[2, 3]+ A[3, 1]+ A[3, 2]+ A[3, 3]);
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J;
+   f̲o̲r̲ I := 1,
+     2,
+     3 d̲o̲
+      b̲e̲g̲i̲n̲
+         A[I]:= I × I;
+         f̲o̲r̲ J := 1,
+           2,
+           3 d̲o̲
+              B[I, J]:= A[I]+ J
+      e̲n̲d̲;
+   OUTREAL(99,SUM(1, A));
+   OUTREAL(99,SUM(2, B));
+e̲n̲d̲
