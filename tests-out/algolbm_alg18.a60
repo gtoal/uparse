@@ -1,0 +1,188 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG018   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲ THE TRANSPORTATION PROBLEM;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CPUTIM(T);
+      r̲e̲a̲l̲T; 
+        T:=CPUTIME;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ S1(K,N,M2,A,U,DEL);
+      v̲a̲l̲u̲e̲ K,N,M2;
+      i̲n̲t̲e̲g̲e̲r̲ K,N,M2;
+        a̲r̲r̲a̲y̲ A,U,DEL;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J;
+      r̲e̲a̲l̲ T;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+         b̲e̲g̲i̲n̲
+            T:=0·0;
+            f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+                 T:=T+U[K,I]×A[I,J];
+            DEL[J]:=T;
+         e̲n̲d̲;
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ S2(ICODE,S,N,DEL);
+      v̲a̲l̲u̲e̲ N;
+      i̲n̲t̲e̲g̲e̲r̲ ICODE,S,N;
+        a̲r̲r̲a̲y̲ DEL;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J;
+      r̲e̲a̲l̲ DMIN;
+      DMIN:=1·0@30;
+      ICODE:=1;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲DEL[J]>-1·0@-5t̲h̲e̲n̲g̲o̲t̲o̲ FINISH;
+            ICODE:=2;
+            i̲f̲DEL[J]≥DMINt̲h̲e̲n̲g̲o̲t̲o̲ FINISH;
+            DMIN:=DEL[J];
+            S:=J;
+            FINISH:
+         e̲n̲d̲;
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ S3(JCODE,S,R,M,M2,A,U,X,V);
+      v̲a̲l̲u̲e̲ S,M,M2;
+      i̲n̲t̲e̲g̲e̲r̲ S,R,M,M2,JCODE;
+        a̲r̲r̲a̲y̲ A,U,X,V;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J;
+      r̲e̲a̲l̲ T,RMIN;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+         b̲e̲g̲i̲n̲
+            T:=0·0;
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+                 T:=T+U[I,J]×A[J,S];
+            V[I]:=T;
+         e̲n̲d̲;
+      RMIN:=1·0@30;
+      JCODE:=1;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲V[I]≤0·0t̲h̲e̲n̲g̲o̲t̲o̲ FINISH;
+            JCODE:=2;
+            T:=X[I]/V[I];
+            i̲f̲T≥RMINt̲h̲e̲n̲g̲o̲t̲o̲ FINISH;
+            RMIN:=T;
+            R:=I;
+            FINISH:
+         e̲n̲d̲;
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ S6(R,M2,U,X,V);
+      v̲a̲l̲u̲e̲ R,M2;
+      i̲n̲t̲e̲g̲e̲r̲ R,M2;
+        a̲r̲r̲a̲y̲ U,X,V;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J;
+      r̲e̲a̲l̲ T;
+      T:=X[R]/V[R];
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+           X[I]:=X[I]-V[I]×T;
+      X[R]:=T;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+         b̲e̲g̲i̲n̲
+            T:=U[R,J]/V[R];
+            f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+                 U[I,J]:=U[I,J]-V[I]×T;
+            U[R,J]:=T;
+         e̲n̲d̲;
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ START OF THE MAIN ROUTINE;
+   i̲n̲t̲e̲g̲e̲r̲ S,R,M,N,M2,IMANY,IMANY1,IMANY2,I,J,ICODE,JCODE;
+   r̲e̲a̲l̲ T,TT;
+   CPUTIM(TT);
+   M := READ; N := READ; IMANY1 := READ; IMANY2 := READ;
+   M2:=M+2;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ A[1:M2,1:N],U[1:M2,1:M2],X[1:M2],DEL[1:N],
+        LABEL[1:M], V[1:M2];
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+              A[I,J] := READ;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+           A[M+1,J] := READ;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           X[I ] := READ;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+           A[M+1,J]:=-A[M+1,J];
+      X[M+1]:=0·0;
+      T:=0·0;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           T:=T+X[I];
+      X[M2]:=-T;
+      f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+         b̲e̲g̲i̲n̲
+            T:=0·0;
+            f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+                 T:=T+A[I,J];
+            A[M2,J]:=-T;
+         e̲n̲d̲;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲M2d̲o̲
+                 U[I,J]:=0·0;
+            U[I,I]:=1·0;
+         e̲n̲d̲;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           LABEL[I]:=N+I;
+      IMANY:=0;
+      LA: S1(M2,N,M2,A,U,DEL);
+      IMANY:=IMANY+1;
+      i̲f̲IMANY>IMANY1t̲h̲e̲n̲g̲o̲t̲o̲ STOP;
+      S2(ICODE,S,N,DEL);
+      i̲f̲ICODE=1t̲h̲e̲n̲g̲o̲t̲o̲ L1;
+      S3(JCODE,S,R,M,M2,A,U,X,V);
+      i̲f̲JCODE=1t̲h̲e̲n̲g̲o̲t̲o̲ L1;
+      LABEL[R]:=S;
+      S6(R,M2,U,X,V);
+      i̲f̲X[M2]<-1·0@-5t̲h̲e̲n̲g̲o̲t̲o̲ LA;
+      WRITETEXT(“PHASE“S”I”); WRITETEXT(“IMANY”);
+      WRITETEXT(“STEPS”);
+      IMANY:=0;
+      LB: S1(M+1,N,M2,A,U,DEL);
+      IMANY:=IMANY+1;
+      i̲f̲IMANY>IMANY2t̲h̲e̲n̲g̲o̲t̲o̲ STOP;
+      S2(ICODE,S,N,DEL);
+      i̲f̲ICODE=1t̲h̲e̲n̲g̲o̲t̲o̲ L3;
+      S3(JCODE,S,R,M,M2,A,U,X,V);
+      i̲f̲JCODE=1t̲h̲e̲n̲g̲o̲t̲o̲ L2;
+      LABEL[R]:=S;
+      S6(R,M2,U,X,V);
+      g̲o̲t̲o̲ LB;
+      L1: WRITETEXT(“NO SOLUTION EXISTS”);
+      g̲o̲t̲o̲ STOP;
+      L2:WRITETEXT(“UNBOUNDED“S”OPTIMUM“S”EXISTS”);
+      g̲o̲t̲o̲ STOP;
+      L3:WRITETEXT(“PHASE“S”II”);
+      OUTPUT(IMANY);
+      WRITETEXT(“OBJECTIVE“S”FUNCTION“S”MAXIMUM”);
+      OUTPUT(X[M+1]);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+         b̲e̲g̲i̲n̲
+            WRITETEXT(“X(”);PRINT(LABEL[I],6,0);
+            WRITETEXT(“)“S”=“S””); OUTPUT(X[I]);
+         e̲n̲d̲;
+      WRITETEXT(“DUAL“S”SOLUTION”);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           OUTPUT(U[M+1,I]);
+      STOP: e̲n̲d̲;
+   CPUTIM(TT);
+   OUTPUT(TT);
+e̲n̲d̲
+  9,20,100,100,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,
+  0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,
+  1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,
+  0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,
+  0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,
+  0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,
+  0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,
+  -3.0&0,-4.0&0,-5.0&0,-6.0&0,0.0&0,
+  -1.0&9,-5.0&0,-6.0&0,-7.0&0,0.0&0,
+  -1.0&9,-1.0&9,-4.0&0,-5.0&0,0.0&0,
+  -1.0&9,-1.0&9,-1.0&9,-6.0&0,0.0&0,
+  6.0,6.0,6.0,6.0,4.0,7.0,5.0,7.0,1.0,

@@ -1,0 +1,42 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ Dieses Programm findet mit einfachen Brute-Force die ersten drei Lösungen;
+   c̲o̲m̲m̲e̲n̲t̲ bis zu einer reellen Zahl n für ein pythagoreisches Zahlentripel;
+
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A [1 : 9];
+   i̲n̲t̲e̲g̲e̲r̲ itA;
+   itA := 1;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ aAdd(a, b, c);
+      i̲n̲t̲e̲g̲e̲r̲ a, b, c;
+   b̲e̲g̲i̲n̲
+      i̲f̲ itA ≤ (9 - 3) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         A[itA] := a;
+         itA := itA + 1;
+         A[itA] := b;
+         itA := itA + 1;
+         A[itA] := c;
+         itA := itA + 1; 
+        e̲n̲d̲;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ pytripelPruefung(a, b, c, j);
+      i̲n̲t̲e̲g̲e̲r̲ a, b, c; p̲r̲o̲c̲e̲d̲u̲r̲e̲ j;
+   b̲e̲g̲i̲n̲
+      i̲f̲ (a×a + b×b = c×c) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         j(a, b, c);
+      e̲n̲d̲;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ pytripel(n);
+      v̲a̲l̲u̲e̲ n; r̲e̲a̲l̲ n;
+        i̲n̲t̲e̲g̲e̲r̲ fitA, fitB, fitC;
+   b̲e̲g̲i̲n̲
+      f̲o̲r̲ fitA := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ b̲e̲g̲i̲n̲
+            f̲o̲r̲ fitB := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ b̲e̲g̲i̲n̲
+                  f̲o̲r̲ fitC := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ b̲e̲g̲i̲n̲
+                        pytripelPruefung(fitA, fitB, fitC, aAdd)
+                     e̲n̲d̲;
+               e̲n̲d̲;
+         e̲n̲d̲;
+   e̲n̲d̲;
+e̲n̲d̲;

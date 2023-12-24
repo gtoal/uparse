@@ -1,0 +1,53 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG019   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ READ; c̲o̲m̲m̲e̲n̲t̲ e̲x̲t̲e̲r̲n̲a̲l̲READ1900;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A,B,C; i̲n̲t̲e̲g̲e̲r̲ I,J,K;
+      b̲o̲o̲l̲e̲a̲n̲ BOOL;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 82   d̲o̲ b̲e̲g̲i̲n̲
+            J := NEXTCH; PRINTCH(J);J := READCH; PRINTCH(J);
+         e̲n̲d̲;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 81 d̲o̲ SKIPCH;
+      PRINTCH(48); SPACES(10);NEWLINES(1);NEWLINES(10);PRINTCH(49);
+      NEWPAGE;
+      SELECT OUTPUT(3);
+      PRINTCH(CODE(“R”));
+      c̲o̲m̲m̲e̲n̲t̲RUNOUT;
+      PRINTCH(CODE(“A”));
+      SELECT OUTPUT(0);
+      PRINTCH(CODE(“B”));
+      PRINTCH(CODE(“1”));
+      PRINTCH(CODE(“;”));
+      SELECT OUTPUT(3);
+      PRINTCH(CODE(“_”));
+      PRINTCH(CODE(“W”));
+      PRINTCH(CODE(“_”));
+      PRINTCH(CODE(“\”));
+      c̲o̲m̲m̲e̲n̲t̲FREEOU;
+      PRINTCH(CODE(“Q”));
+      PRINTCH(CODE(“D”));
+      PRINTCH(CODE(“\”));
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ b̲e̲g̲i̲n̲
+            A := READ;
+            OUTPUT(A); PRINT(A,2,5); NEWLINES(1);
+         e̲n̲d̲;
+      SELECT INPUT(2);
+      B:=READ;PRINT(B,2,5);OUTPUT(B);NEWLINES(1);
+      SELECT INPUT(0);
+      f̲o̲r̲ J := 1,2,2 d̲o̲ b̲e̲g̲i̲n̲
+            BOOL := READBOOLEAN;  WRITEBOOLEAN(BOOL); e̲n̲d̲;
+      SELECT INPUT(2);
+      BOOL :=READBOOLEAN; WRITEBOOLEAN(BOOL);
+      SELECTINPUT(0);c̲o̲m̲m̲e̲n̲t̲FREEIN;
+      c̲o̲m̲m̲e̲n̲t̲ WRITETEXT({ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@%*<-/,.#});
+      WRITETEXT(““C”ADFG“P”)”);
+      WRITETEXT(“ABC“S” DEF “P” ASD“QUSSQSSUSSUP””);
+      WRITETEXT(“ONE LINE“3S4Q5S4U2P”ASDF“9S124Q”“P””);
+      COPYTEXT(“ABCDEFGH”); COPYTEXT(“123456”);
+   e̲n̲d̲;
+e̲n̲d̲;

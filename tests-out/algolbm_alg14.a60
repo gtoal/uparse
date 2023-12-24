@@ -1,0 +1,29 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG014   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲AN IBM ALGOL PROGRAM ON PARTITION;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CPUTIM(T);
+      r̲e̲a̲l̲ T;
+      T:=CPUTIME;
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ P[1:100];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(M,N,I);
+      v̲a̲l̲u̲e̲ M,N,I;
+      i̲n̲t̲e̲g̲e̲r̲ M,N,I;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ Z,K;
+      f̲o̲r̲Z:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+         b̲e̲g̲i̲n̲
+            P[I]:=Z;
+            i̲f̲Z=Nt̲h̲e̲n̲g̲o̲t̲o̲EX;
+            A(Z,N-Z,I+1);
+         e̲n̲d̲ FOR;
+      EX: e̲n̲d̲ A;
+   r̲e̲a̲l̲ T;
+   CPUTIM(T);
+   A(30,30,1);
+   CPUTIM(T);
+   OUTPUT(T);
+e̲n̲d̲

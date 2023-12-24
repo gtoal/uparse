@@ -1,0 +1,1513 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG043   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲ PROGRAM ON H & O GRADE SURVEYS, IN ALGOL 1900,
+     MODIFIED TO I.B.M. CARD PUNCHES;
+   c̲o̲m̲m̲e̲n̲t̲ INPUT/OUTPUT PROCEDURES;
+
+   c̲o̲m̲m̲e̲n̲t̲ END OF INPUT/OUTPUT PROCEDURES;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CRDTXT;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J;
+      TRY AGAIN : INSYMBOL(98,“*”,I);
+      i̲f̲ I = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         NEXTSYM : INSYMBOL(98,“*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-,.=()@%“”?&_”,J);
+         i̲f̲ J = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ OUT;
+         OUTSYMBOL
+           (99,“*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+-,.=()@%“”?&_”,J);
+         g̲o̲t̲o̲ NEXTSYM
+      e̲n̲d̲
+      e̲l̲s̲e̲ g̲o̲t̲o̲ TRYAGAIN;
+      OUT :
+   e̲n̲d̲ PROCEDURE CRDTXT;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲SORT(COL,LISTC,CYCLON);
+      v̲a̲l̲u̲e̲ COL,CYCLON;
+      i̲n̲t̲e̲g̲e̲r̲ COL,CYCLON;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲LISTC;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,N,P,Q,ROW,POS,MIN;
+      f̲o̲r̲ P := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲CYCLON-1 d̲o̲
+         b̲e̲g̲i̲n̲ MIN := 100000;
+            f̲o̲r̲ Q := P+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ CYCLON d̲o̲
+                 i̲f̲ LISTC[Q,COL] < MIN t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ MIN := LISTC[Q,COL];
+                  POS := Q
+               e̲n̲d̲;
+            i̲f̲ LISTC[POS,COL] < LISTC[P,COL] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ M := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+                  b̲e̲g̲i̲n̲ ROW := LISTC[POS,M];
+                     LISTC[POS,M] := LISTC[P,M];
+                     LISTC[P,M] := ROW
+                  e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲
+   e̲n̲d̲
+     SEMICOLON;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ GRAPH( CYCLON, LISTF ,COL);
+      v̲a̲l̲u̲e̲CYCLON ,COL;
+      i̲n̲t̲e̲g̲e̲r̲CYCLON ,COL;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲LISTF;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J, K,GRADE,MAXBAR;
+      r̲e̲a̲l̲ SCALE;
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ ME,YOU[1:10];
+      NEWPAGE;
+      NEWLINES(1);
+      NEWLINES(1);
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+           ME[I]:=0;
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲CYCLONd̲o̲
+         b̲e̲g̲i̲n̲
+            GRADE:=LISTF[I,COL];
+            i̲f̲COL=2t̲h̲e̲n̲b̲e̲g̲i̲n̲
+               f̲o̲r̲J:=20s̲t̲e̲p̲10u̲n̲t̲i̲l̲110d̲o̲
+                    i̲f̲GRADE≥J-10∧GRADE<Jt̲h̲e̲n̲ME[(J-10)÷10]:=
+                    ME[(J-10)÷10]+1;
+               i̲f̲GRADE≥100t̲h̲e̲n̲ME[10]:=ME[10]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲COL=1t̲h̲e̲n̲b̲e̲g̲i̲n̲
+               f̲o̲r̲J:=100s̲t̲e̲p̲30u̲n̲t̲i̲l̲400d̲o̲
+                    i̲f̲GRADE≥J-30∧GRADE<Jt̲h̲e̲n̲ME[(J-100)÷30]:=
+                    ME[(J-100)÷30]+1;
+               i̲f̲GRADE=400t̲h̲e̲n̲ME[10]:=ME[10]+1;
+            e̲n̲d̲;
+         e̲n̲d̲;
+      MAXBAR:=ME[1];
+      f̲o̲r̲I:=2s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+           i̲f̲ MAXBAR<ME[I] t̲h̲e̲n̲ MAXBAR:=ME[I];
+      SCALE :=100/MAXBAR;
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            YOU[I]:=ME[I]×SCALE;
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲5d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ J=3 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     PRINT( ME[I],8,0);
+                     SPACES(2);
+                  e̲n̲d̲
+                    e̲l̲s̲e̲
+                  i̲f̲ J=5 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲COL=2t̲h̲e̲n̲PRINT(10+10×I,7,0)
+                       e̲l̲s̲e̲i̲f̲COL=1t̲h̲e̲n̲
+                       PRINT(100+30×I,7,0);
+                     OUTSYMBOL(99,“-”,1);
+                     SPACES(2);
+                  e̲n̲d̲
+                  e̲l̲s̲e̲ SPACES(10);
+                  f̲o̲r̲ K:= 1s̲t̲e̲p̲1u̲n̲t̲i̲l̲YOU[I]d̲o̲
+                       OUTSYMBOL(99,“+”,1);
+                  NEWLINES(100);
+               e̲n̲d̲
+         e̲n̲d̲;
+      SPACES(10);
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲9d̲o̲
+                 OUTSYMBOL(99,“_”,1);
+            OUTSYMBOL(99,“!”,1);
+         e̲n̲d̲;
+      NEWLINES(100);
+      SPACES(12);
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+           PRINT(10×I×MAXBAR/CYCLON,7,2);
+   e̲n̲d̲ OF GRAPH PROCEDURE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲
+     GRAFITI(LIST,COL,COLUMN,CYCLON,STARTX,STARTY,ENDX,ENDY);
+      v̲a̲l̲u̲e̲   COL,COLUMN,CYCLON,STARTX,STARTY,ENDX,ENDY;
+      i̲n̲t̲e̲g̲e̲r̲ COL,COLUMN,CYCLON,STARTX,STARTY,ENDX,ENDY;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲LIST;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲LIMITA,LIMITB;
+      LIMITA:=28;
+      LIMITB:=105;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲I,J,K,INC I,INC J;
+         i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲X[1:LIMITA],Y[1:LIMITB],
+           GRAFT[1:LIMITA+1,1:LIMITB+1];
+         INC I:=(ENDX-STARTX)÷(LIMITA+1)+1;
+         INC J:=(ENDY-STARTY)÷(LIMITB+1)+1;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITAd̲o̲
+              X[I]:=0+STARTX+I×INC I;
+         f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITBd̲o̲
+              Y[J]:=0+STARTY+J×INC J;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITA+1d̲o̲
+              f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITB+1d̲o̲
+                 GRAFT[I,J]:=0;
+         f̲o̲r̲K:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲CYCLONd̲o̲
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲XI,YJ;
+               XI:=LIST[K,COL];
+               YJ:=LIST[K,COLUMN];
+               f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITAd̲o̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲XI<X[I]t̲h̲e̲n̲g̲o̲t̲o̲FOUNDX;
+                  e̲n̲d̲;
+               I:=LIMITA+1;
+               FOUNDX:
+               f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITBd̲o̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲YJ<Y[J]t̲h̲e̲n̲g̲o̲t̲o̲FOUNDY;
+                  e̲n̲d̲;
+               J:=LIMITB+1;
+               FOUNDY:
+               GRAFT[I,J]:=GRAFT[I,J]+1;
+            e̲n̲d̲;
+         NEWPAGE;
+         f̲o̲r̲I:=LIMITA+1s̲t̲e̲p̲-1u̲n̲t̲i̲l̲1d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲I=5t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  PRINT(X[I],8,0);
+                  SPACES(1);
+                  OUTSYMBOL(99,“-”,1);
+                  f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITB+1d̲o̲
+                       i̲f̲GRAFT[I,J]>9t̲h̲e̲n̲OUTSYMBOL(99,“&”,1)
+                       e̲l̲s̲e̲i̲f̲GRAFT[I,J]=0t̲h̲e̲n̲SPACES(1)
+                       e̲l̲s̲e̲i̲f̲GRAFT[I,J]>0t̲h̲e̲n̲PRINT(GRAFT[I,J],1,0);
+                  NEWLINES(1);
+               e̲n̲d̲
+                 e̲l̲s̲e̲i̲f̲I≠LIMITA+1t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  PRINT(X[I],8,0);
+                  SPACES(1);
+                  OUTSYMBOL(99,“-”,1);
+                  f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITB+1d̲o̲
+                     b̲e̲g̲i̲n̲
+                        i̲f̲GRAFT[I,J]>9t̲h̲e̲n̲OUTSYMBOL(99,“&”,1)
+                          e̲l̲s̲e̲i̲f̲GRAFT[I,J]=0t̲h̲e̲n̲SPACES(1)
+                          e̲l̲s̲e̲i̲f̲GRAFT[I,J]>0t̲h̲e̲n̲PRINT(GRAFT[I,J],1,0);
+                     e̲n̲d̲;
+                  NEWLINES(100);
+                  SPACES(9);
+                  OUTSYMBOL(99,“*”,1);
+                  NEWLINES(100);
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  SPACES(9);
+                  OUTSYMBOL(99,“*”,1);
+                  f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITB+1d̲o̲
+                     b̲e̲g̲i̲n̲
+                        i̲f̲GRAFT[I,J]>9t̲h̲e̲n̲OUTSYMBOL(99,“&”,1)
+                          e̲l̲s̲e̲i̲f̲GRAFT[I,J]=0t̲h̲e̲n̲SPACES(1)
+                          e̲l̲s̲e̲i̲f̲GRAFT[I,J]>0t̲h̲e̲n̲PRINT(GRAFT[I,J],1,0);
+                     e̲n̲d̲;
+                  NEWLINES(100);
+                  SPACES(9);
+                  OUTSYMBOL(99,“*”,1);
+                  NEWLINES(100);
+               e̲n̲d̲
+            e̲n̲d̲;
+         SPACES(10);
+         f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲LIMITB+1d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲J÷10×10=Jt̲h̲e̲n̲OUTSYMBOL(99,“!”,1)
+               e̲l̲s̲e̲OUTSYMBOL(99,“_”,1);
+            e̲n̲d̲;
+         NEWLINES(100);
+         SPACES(10);
+         f̲o̲r̲J:=10s̲t̲e̲p̲10u̲n̲t̲i̲l̲LIMITB÷10×10d̲o̲
+              PRINT(Y[J],10,0);
+         NEWLINES(100);
+         SPACES(23);
+         WRITE TEXT(“&”);
+         SPACES(1);
+         WRITE TEXT(“=”);
+         SPACES(1);
+         WRITE TEXT(“NO.”);
+         SPACES(1);
+         WRITE TEXT(“GREATER”);
+         SPACES(1);
+         WRITE TEXT(“THAN”);
+         SPACES(1);
+         WRITE TEXT(“9”);
+      e̲n̲d̲;
+   e̲n̲d̲;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲SIGMA(A,M,N,P,Q);
+      v̲a̲l̲u̲e̲     M,N,P,Q;
+      i̲n̲t̲e̲g̲e̲r̲   M,N,P,Q;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ SUM,I;
+      SUM:=0;
+      i̲f̲ Q= 1 t̲h̲e̲n̲ g̲o̲t̲o̲ NONZERO;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ Md̲o̲
+           SUM:=SUM+A[I,N];
+      g̲o̲t̲o̲EXIT;
+      NONZERO:
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ Md̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ A[I,P]>0t̲h̲e̲n̲
+              SUM:=SUM+A[I,N];
+         e̲n̲d̲;
+      EXIT:
+      SIGMA:=SUM;
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲RPBI(A,M,N,P);
+      v̲a̲l̲u̲e̲    M,N,P;
+      i̲n̲t̲e̲g̲e̲r̲  M,N,P;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I;
+      r̲e̲a̲l̲K,J,R,T,L;
+      NEWLINES(9);
+      L:=0;
+      K:=SIGMA(A,M,P,P,1);
+      J:=SIGMA(A,M,N,P,0);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+           L:=L+(A[I,N]-J/M)⭡2;
+      i̲f̲SQRT(L/M)=0t̲h̲e̲n̲g̲o̲t̲o̲OOPS;
+      SPACES(2);
+      WRITE TEXT(“SD”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(SQRT(L/M),4,4);
+      NEWLINES(2);
+      i̲f̲M=K∨K=0t̲h̲e̲n̲g̲o̲t̲o̲OOPS;
+      R:=(SIGMA(A,M,N,P,1)/K-J/M)/SQRT(L/M)×SQRT(K/(M-K));
+      i̲f̲R=1t̲h̲e̲n̲g̲o̲t̲o̲OOPS;
+      T:=R×SQRT((M-2)/(1-R×R));
+      T:=ABS(T);
+      WRITE TEXT(“R”);
+      SPACES(1);
+      WRITE TEXT(“(POINT”);
+      SPACES(1);
+      WRITE TEXT(“BISERIAL”);
+      SPACES(1);
+      WRITE TEXT(“CORRELATION”);
+      SPACES(1);
+      WRITE TEXT(“COEFFT.”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      PRINT(R,4,4);
+      NEWLINES(1);
+      SPACES(36);
+      WRITE TEXT(“T”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      PRINT(T,4,4);
+      NEWLINES(1);
+      i̲f̲T< 1·29       t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“NO”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(1);
+         WRITE TEXT(“CORRELATION”);
+         SPACES(65);
+      e̲n̲d̲;
+      i̲f̲T≥1·29∧T<1·67t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“20%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥1·67∧T<2·00t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“10%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·00∧T<2·39t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“5%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·39∧T<2·66t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“2%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·66∧T<3·46t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“1%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥3·46       t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“0.1%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+         SPACES(1);
+      e̲n̲d̲;
+      OOPS:
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CORRAL(A,B,X,Y);
+      v̲a̲l̲u̲e̲   B,X,Y;
+      i̲n̲t̲e̲g̲e̲r̲ B,X,Y;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I;
+      r̲e̲a̲l̲ J,K,L,M,N,R,T,SD X,SD Y;
+      NEWLINES(10);
+      L:=M:=N:=0;
+      J:=SIGMA(A,B,X,0,0)/B;
+      K:=SIGMA(A,B,Y,0,0)/B;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Bd̲o̲
+         b̲e̲g̲i̲n̲
+            L:=L+A[I,X]×A[I,Y];
+            M:=M+(A[I,X]-J)⭡2;
+            N:=N+(A[I,Y]-K)⭡2;
+         e̲n̲d̲;
+      SD X:=SQRT(M/B);
+      SD Y:=SQRT(N/B);
+      SPACES(1);
+      WRITE TEXT(“SD”);
+      SPACES(1);
+      WRITE TEXT(“X”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(SD X,4,4);
+      SPACES(1);
+      WRITE TEXT(“SD”);
+      SPACES(1);
+      WRITE TEXT(“Y”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(SD Y,4,4);
+      NEWLINES(1);
+      i̲f̲SD X=0∨SD Y=0t̲h̲e̲n̲g̲o̲t̲o̲ TUT TUT;
+      R:=(L-B×J×K)/(B×SD X×SD Y);
+      i̲f̲R=1t̲h̲e̲n̲g̲o̲t̲o̲ TUT TUT;
+      T:=R×SQRT((B-2)/(1-R×R));
+      T:=ABS(T);
+      SPACES(2);
+      WRITE TEXT(“PEARSON S”);
+      SPACES(1);
+      WRITE TEXT(“R”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(R,4,4);
+      NEWLINES(1);
+      SPACES(36);
+      WRITE TEXT(“T”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      PRINT(T,4,4);
+      NEWLINES(1);
+      i̲f̲T< 1·29       t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“NO”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(1);
+         WRITE TEXT(“CORRELATION”);
+         SPACES(65);
+      e̲n̲d̲;
+      i̲f̲T≥1·29∧T<1·67t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“20%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥1·67∧T<2·00t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“10%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·00∧T<2·39t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“5%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·39∧T<2·66t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“2%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥2·66∧T<3·46t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(2);
+         WRITE TEXT(“1%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+      e̲n̲d̲;
+      i̲f̲T≥3·46       t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         WRITE TEXT(“CORRELATION”);
+         SPACES(1);
+         WRITE TEXT(“SIGNIFICANT”);
+         SPACES(19);
+         WRITE TEXT(“AT”);
+         SPACES(1);
+         WRITE TEXT(“THE”);
+         SPACES(1);
+         WRITE TEXT(“0.1%”);
+         SPACES(1);
+         WRITE TEXT(“LEVEL”);
+         SPACES(1);
+      e̲n̲d̲;
+      TUT TUT:
+   e̲n̲d̲;
+
+   i̲n̲t̲e̲g̲e̲r̲SCHOOL,CARD,TOTPER,LABPER,LENPER,TIMALL,REQPER,REQLAB,SIZ,
+     AVSIZ,A,B,C,D,E,I,J,K,L,NE,X,Y,Z,TIM,NOTES,COUNT,CYCLE,CENT;
+   i̲n̲t̲e̲g̲e̲r̲SUBTIM,SUBSIZ,SUBAVE,CARDS,ENOS;
+   NEWPAGE;
+   SUBTIM:=SUBAVE:=SUBSIZ:=CYCLE:=COUNT:=Z:=0;
+   NE    :=READ;
+
+   CARDS:=NE÷7+1;
+   c̲o̲m̲m̲e̲n̲t̲ NE IS THE NO. OF EXPTS. CONCERNED,I.E. 104 OR 62. THIS THE
+     ONLY CARD THAT NEEDS TO BE CHANGED IN ORDER TO MAKE THE
+     PROGRAM WORK  FOR 'O' GRADE OR 'H' GRADE SURVEY DATA THUS THE
+     FIRST CARD OF ANY DATA MUST BE NE ;
+   ENOS:=READ;
+   c̲o̲m̲m̲e̲n̲t̲ ENOS IS THE ESTIMATED NO. OF SCHOOLS BEING READ IN;
+   b̲e̲g̲i̲n̲
+
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲DATA[1:NE,1:4],SUM[1:35],TOTEXP[1:NE,0:11],
+        LIST[1:ENOS,0:25],UNIEXP[1:NE,0:11],
+        SUMUNI[1:NE,1:5,0:11];
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲35d̲o̲
+           SUM[I]:=0;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+           f̲o̲r̲J:=0s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+            b̲e̲g̲i̲n̲
+               UNIEXP[I,J]:=TOTEXP[I,J]:=0;
+            e̲n̲d̲;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+           f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ 5d̲o̲
+              f̲o̲r̲K:=0s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+                 SUMUNI[I,J,K]:=0;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ENOSd̲o̲
+           f̲o̲r̲J:=0s̲t̲e̲p̲1u̲n̲t̲i̲l̲25d̲o̲
+              LIST[I,J]:=-2;
+
+
+      NEXTSCHOOL :
+      SCHOOL:=READ;
+      c̲o̲m̲m̲e̲n̲t̲ = NO. OR NAME OF SCHOOL;
+      i̲f̲SCHOOL=-1t̲h̲e̲n̲g̲o̲t̲o̲OUT;
+
+      c̲o̲m̲m̲e̲n̲t̲ THIS LAST STATEMENT IS TO GET OUT OF A LOOP .IT DOES NOT MEAN
+        THAT THE PROGRAM IS AN INFINITE LOOP, BUT THAT THE COMPUTER
+        WILL LOOK FOR DATA BEYOND THAT SUPPLIED, PROBABLY RESULTING
+        IN PROGRAM FAILURE. THUS THE LAST CARD IN ANY DATA SET MUST
+        BE -1;
+
+      CARD:=READ;c̲o̲m̲m̲e̲n̲t̲CARD NO. GOES FROM 1 TO 10 FOR 'H',& 1 TO 16 FOR'O'
+        GRADE FORM;
+      HOPEFULL:
+      COUNT:=COUNT+1;
+      c̲o̲m̲m̲e̲n̲t̲ = NO. OF SURVEY FORMS READ;
+      NOTES:=READ;c̲o̲m̲m̲e̲n̲t̲WHETHER PRINTED NOTES ARE USED, 1=YES,0=NO;
+      TOTPER:=READ;c̲o̲m̲m̲e̲n̲t̲NO. OF PERIODS (PER) /WEEK OF CHEMISTRY;
+      LABPER:=READ;c̲o̲m̲m̲e̲n̲t̲NO. OF LAB. PERIODS/WEEK;
+      LENPER:=READ;c̲o̲m̲m̲e̲n̲t̲LENGTH OF SCHOOL PERIOD;
+      TIMALL:=READ;c̲o̲m̲m̲e̲n̲t̲TIME ALLOWANCE ADEQUATE?,1=YES,2=NO;
+      REQPER:=READ;c̲o̲m̲m̲e̲n̲t̲REQUIRED NO. OF PERIODSELSE 0 IF TIME ALLOWED 1;
+      REQLAB:=READ;c̲o̲m̲m̲e̲n̲t̲REQUIRED LAB. PERIODS OR 0 IF TIMALL=1;
+      SIZ   :=READ;c̲o̲m̲m̲e̲n̲t̲ SIZE OF YEAR;
+      AVSIZ :=READ;c̲o̲m̲m̲e̲n̲t̲ SIZE OF SECTION;
+      A     :=READ;c̲o̲m̲m̲e̲n̲t̲METHOD A OF RECORDING PRACTICAL WORK 0,1, OR 2;
+      B:=READ;c̲o̲m̲m̲e̲n̲t̲METHOD B OF RECORDING PRACTICAL WORK, 0,1, OR 2;
+      C:=READ;c̲o̲m̲m̲e̲n̲t̲METHOD C OF RECORDING PRACTICAL WORK, 0,1, OR 2;
+      D     :=READ;c̲o̲m̲m̲e̲n̲t̲METHOD D OF RECORDING PRACTICAL WORK 0,1, OR 2;
+      E:=READ;c̲o̲m̲m̲e̲n̲t̲METHOD E OF RECORDING PRACTICAL WORK, 1,0, OR 2;
+
+      c̲o̲m̲m̲e̲n̲t̲NOTIICE THAT  NOTES,LABPER,TIMALL,REQPER,REQLAB,& E, & THE 2'S
+        OF THE RECORDING METHODS  ONLY APPLY TO THE 'H' GRADE FORM;
+
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲CARDSd̲o̲
+         b̲e̲g̲i̲n̲
+
+            c̲o̲m̲m̲e̲n̲t̲ THE FOLLOWING BLOCK READS IN THE DATA FROM THE MAIN SURVEY
+              FORM BODY, PROVIDING THAT THE FIRST NO. ON EACH DATA CARD IS
+              THE SCHOOL NO. AND THE 2ND. IS AN INCREMENT OF THE PREVIOUS
+              CARD NO.. THE LATTER CONDITION MEANS THAT, ALTHOUGH THE DATA
+              SETS FOR EACH SCHOOL CAN BE IN ANY ORDER, THE CARDS
+              WITHIN EACH SET MUST BE ORDERED, OTHERWISE THE DATA WILL BE
+              IGNORED ;
+
+            i̲f̲NE=7×(I-1)t̲h̲e̲n̲g̲o̲t̲o̲NO CARD;
+            X := READ;
+            Y := READ;
+            i̲f̲X=SCHOOL∧Y=I+1
+              t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               i̲f̲I=CARDSt̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  f̲o̲r̲J:=7×(I-1)+1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+                       f̲o̲r̲ L := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+                          DATA[J,L] := READ
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  f̲o̲r̲ J := 7×I-6 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7×I d̲o̲
+                       f̲o̲r̲ L := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+                          DATA[J,L] := READ;
+               e̲n̲d̲
+            e̲n̲d̲
+            e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲IGNORE,TOUGH;
+               WRITE TEXT(“ERROR,”);
+               SPACES(1);
+               WRITE TEXT(“SCHOOL”);
+               SPACES(1);
+               WRITE TEXT(“NUMBER”);
+               SPACES(1);
+               WRITE TEXT(“INCOMPATIBLE”);
+               SPACES(1);
+               PRINT(SCHOOL,3,0);
+               SPACES(1);
+               WRITE TEXT(“CARD”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               PRINT(Y,2,0);
+               SPACES(2);
+               SPACES(1);
+               WRITE TEXT(“COUNT”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(COUNT,4,0);
+               NEWLINES(1);
+               K:=I;
+               AGAIN:
+               i̲f̲K≠It̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  X:=READ;
+                  Y:=READ;
+               e̲n̲d̲;
+               i̲f̲X≠SCHOOL ∧ Y=1t̲h̲e̲n̲g̲o̲t̲o̲HOPEFULL;
+               f̲o̲r̲J:=7×K-6s̲t̲e̲p̲1u̲n̲t̲i̲l̲7×Kd̲o̲
+                    f̲o̲r̲L:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲4d̲o̲
+                       IGNORE:=READ;
+               K:=K+1;
+               i̲f̲NE=7×(K-1)t̲h̲e̲n̲g̲o̲t̲o̲NEXTSCHOOL
+                 e̲l̲s̲e̲
+               i̲f̲K=CARDSt̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  f̲o̲r̲J:=7×(K-1)+1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+                       f̲o̲r̲L:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲4d̲o̲
+                          IGNORE:=READ;
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲K<CARDSt̲h̲e̲n̲g̲o̲t̲o̲AGAIN;
+               TOUGH:=TOUGH+1;
+               i̲f̲TOUGH=10t̲h̲e̲n̲g̲o̲t̲o̲OUT;
+               g̲o̲t̲o̲NEXTSCHOOL;
+            e̲n̲d̲;
+         e̲n̲d̲;
+      NO CARD:
+      f̲o̲r̲I:=14s̲t̲e̲p̲1u̲n̲t̲i̲l̲24d̲o̲
+           SUM[I]:=0;
+
+      c̲o̲m̲m̲e̲n̲t̲THE NEXT THREE BLOCKS CHECKS THE RESPONSE TO EACH EXPERIMENT
+        'SUMS' THE NO. OF TICKS IN EACH COLUMN FOR EACH SCHOOL,AND
+        'TOT'ALS THE RESPONSES TO EACH  'EXP'ERIMENT FOR ALL SCHOOLS.
+        IT ALSO CHECKS FOR ERRORS IN DATA PREPARATION ( TO A LIMITED
+        EXTENT );
+
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲DATA[I,2]=1
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[14]:=SUM[14]+1;
+               TOTEXP[I,1]:=TOTEXP[I,1]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,2]=2
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[15]:=SUM[15]+1;
+               TOTEXP[I,2]:=TOTEXP[I,2]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,2]=3
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[16]:=SUM[16]+1;
+               TOTEXP[I,3]:=TOTEXP[I,3]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,2]=4
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[17]:=SUM[17]+1;
+               TOTEXP[I,4]:=TOTEXP[I,4]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,2]>4∨DATA[I,2]<0
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               WRITE TEXT(“ERROR2,WRONG”);
+               SPACES(1);
+               WRITE TEXT(“DATUM;”);
+               SPACES(1);
+               WRITE TEXT(“SCHOOL”);
+               SPACES(1);
+               WRITE TEXT(“NUMBER”);
+               SPACES(1);
+               WRITE TEXT(“IS”);
+               PRINT(SCHOOL,4,0);
+               SPACES(1);
+               WRITE TEXT(“CODE”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(DATA[I,1],3,0);
+               SPACES(1);
+               WRITE TEXT(“COUNT”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(COUNT,4,0);
+               NEWLINES(1);
+               g̲o̲t̲o̲NEXTSCHOOL;
+            e̲n̲d̲;
+            i̲f̲DATA[I,3]=1
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[18]:=SUM[18]+1;
+               TOTEXP[I,5]:=TOTEXP[I,5]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,3]=2
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[19]:=SUM[19]+1;
+               TOTEXP[I,6]:=TOTEXP[I,6]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,3]=3
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[20]:=SUM[20]+1;
+               TOTEXP[I,7]:=TOTEXP[I,7]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,3]=4
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[21]:=SUM[21]+1;
+               TOTEXP[I,8]:=TOTEXP[I,8]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,3]>4∨DATA[I,3]<0
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               WRITE TEXT(“ERROR3,WRONG”);
+               SPACES(1);
+               WRITE TEXT(“DATUM;”);
+               SPACES(1);
+               WRITE TEXT(“SCHOOL”);
+               SPACES(1);
+               WRITE TEXT(“NUMBER”);
+               SPACES(1);
+               WRITE TEXT(“IS”);
+               SPACES(1);
+               PRINT(SCHOOL,4,0);
+               SPACES(1);
+               WRITE TEXT(“CODE”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(DATA[I,1],3,0);
+               SPACES(1);
+               WRITE TEXT(“COUNT”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(COUNT,4,0);
+               NEWLINES(1);
+               g̲o̲t̲o̲NEXTSCHOOL;
+            e̲n̲d̲;
+            i̲f̲DATA[I,4]=1
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[22]:=SUM[22]+1;
+               TOTEXP[I,9]:=TOTEXP[I,9]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,4]=2
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[23]:=SUM[23]+1;
+               TOTEXP[I,10]:=TOTEXP[I,10]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,4]=3
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               SUM[24]:=SUM[24]+1;
+               TOTEXP[I,11]:=TOTEXP[I,11]+1;
+            e̲n̲d̲
+              e̲l̲s̲e̲i̲f̲DATA[I,4]>4∨DATA[I,4]<0
+              t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               WRITE TEXT(“ERROR4,WRONG”);
+               SPACES(1);
+               WRITE TEXT(“DATUM;”);
+               SPACES(1);
+               WRITE TEXT(“SCHOOL”);
+               SPACES(1);
+               WRITE TEXT(“NUMBER”);
+               SPACES(1);
+               WRITE TEXT(“IS”);
+               PRINT(SCHOOL,4,0);
+               SPACES(1);
+               WRITE TEXT(“CODE”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(DATA[I,1],3,0);
+               SPACES(1);
+               WRITE TEXT(“COUNT”);
+               SPACES(1);
+               WRITE TEXT(“=”);
+               SPACES(1);
+               PRINT(COUNT,4,0);
+               NEWLINES(1);
+               g̲o̲t̲o̲NEXTSCHOOL;
+            e̲n̲d̲
+              SEMICOLON;
+            TOTEXP[I,0]:=DATA[I,1];
+            SUMUNI[I,1,0]:=TOTEXP[I,0];
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ A>0 t̲h̲e̲n̲ SUMUNI[I,1,J]:=SUMUNI[I,1,J]+TOTEXP[I,J]-UNIEXP[I,J];
+                  i̲f̲ B>0 t̲h̲e̲n̲ SUMUNI[I,2,J]:=SUMUNI[I,2,J]+TOTEXP[I,J]-UNIEXP[I,J];
+                  i̲f̲ C>0 t̲h̲e̲n̲ SUMUNI[I,3,J]:=SUMUNI[I,3,J]+TOTEXP[I,J]-UNIEXP[I,J];
+                  i̲f̲ D>0 t̲h̲e̲n̲ SUMUNI[I,4,J]:=SUMUNI[I,4,J]+TOTEXP[I,J]-UNIEXP[I,J];
+                  i̲f̲ E>0 t̲h̲e̲n̲ SUMUNI[I,5,J]:=SUMUNI[I,5,J]+TOTEXP[I,J]-UNIEXP[I,J];
+                  UNIEXP[I,J]:=TOTEXP[I,J];
+               e̲n̲d̲;
+         e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲HAVING REACHED THIS FAR WITHOUT FINDING ANY OBVIOUS ERRORS THE
+        PROGRAM NOW GOES ON TO WORK ON THE DATA. IT THEN STORES ITS
+        FINDINGS IN A LIST, AWAITING INSTRUCTIONS AS TO FORM OF OUTPUT
+        SEMICOLON;
+
+      TIM:=TOTPER×LENPER;
+      SUM[1] := SUM[1] + TIM;
+      i̲f̲TIM=0t̲h̲e̲n̲SUBTIM:=SUBTIM+1;
+      SUM[2]:=SUM[2]+SIZ;
+      i̲f̲SIZ=0t̲h̲e̲n̲SUBSIZ:=SUBSIZ+1;
+      SUM[3]:=SUM[3]+AVSIZ;
+      i̲f̲AVSIZ=0t̲h̲e̲n̲SUBAVE:=SUBAVE+1;
+      i̲f̲A>1t̲h̲e̲n̲SUM[5]:=SUM[5]+1e̲l̲s̲e̲SUM[4]:=SUM[4]+A;
+      i̲f̲B>1t̲h̲e̲n̲SUM[7]:=SUM[7]+1e̲l̲s̲e̲SUM[6]:=SUM[6]+B;
+      i̲f̲C>1t̲h̲e̲n̲SUM[9]:=SUM[9]+1e̲l̲s̲e̲SUM[8]:=SUM[8]+C;
+      i̲f̲D>1t̲h̲e̲n̲SUM[11]:=SUM[11]+1e̲l̲s̲e̲SUM[10]:=SUM[10]+D;
+      i̲f̲E>1t̲h̲e̲n̲SUM[13]:=SUM[13]+1e̲l̲s̲e̲SUM[12]:=SUM[12]+E;
+      f̲o̲r̲I:=25s̲t̲e̲p̲1u̲n̲t̲i̲l̲35d̲o̲
+           SUM[I]:=SUM[I]+SUM[I-11];
+      Z:=0;
+      f̲o̲r̲I:=22s̲t̲e̲p̲1u̲n̲t̲i̲l̲24d̲o̲
+           Z:=Z+SUM[I];
+      CYCLE:=CYCLE+1;
+      LIST[CYCLE,0]:=SCHOOL;
+      LIST[CYCLE,1]:=TIM;
+      LIST[CYCLE,2]:=SUM[14];
+      LIST[CYCLE,3]:=AVSIZ;
+      LIST[CYCLE,4]:=A;
+      LIST[CYCLE,5]:=B;
+      LIST[CYCLE,6]:=C;
+      LIST[CYCLE,7]:=D;
+      LIST[CYCLE,8]:=E;
+      f̲o̲r̲I:=9s̲t̲e̲p̲1u̲n̲t̲i̲l̲18d̲o̲
+           LIST[CYCLE,I]:=SUM[I+6];
+      LIST[CYCLE,19]:=NOTES;
+      LIST[CYCLE,20]:=Z;
+      LIST[CYCLE,21]:=TIMALL;
+      LIST[CYCLE,22]:=REQPER;
+      LIST[CYCLE,23]:=REQLAB;
+      LIST[CYCLE,24]:=LABPER×LENPER;
+      LIST[CYCLE,25]:=i̲f̲LIST[CYCLE,24]=LIST[CYCLE,1]t̲h̲e̲n̲0e̲l̲s̲e̲1;
+      g̲o̲t̲o̲ NEXTSCHOOL;
+      OUT :
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲18d̲o̲
+           f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲18d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲I≤Jt̲h̲e̲n̲g̲o̲t̲o̲EQUALITY;
+               CORRAL(LIST,CYCLE,I,J);
+               NEWLINES(1);
+               i̲f̲I=1t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“TIME(MINS.)/WEEK”);
+                  SPACES(1);
+                  WRITE TEXT(“SPENT”);
+                  SPACES(1);
+                  WRITE TEXT(“ON”);
+                  SPACES(1);
+                  WRITE TEXT(“CHEMISTRY”)
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲I=2t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“TOTAL”);
+                  SPACES(1);
+                  WRITE TEXT(“NO.”);
+                  SPACES(1);
+                  WRITE TEXT(“OF”);
+                  SPACES(1);
+                  WRITE TEXT(“EXPTS.”);
+                  SPACES(1);
+                  WRITE TEXT(“DONE”)
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲I=3t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“AVERAGE”);
+                  SPACES(1);
+                  WRITE TEXT(“SIZE”);
+                  SPACES(1);
+                  WRITE TEXT(“OF”);
+                  SPACES(1);
+                  WRITE TEXT(“CHEMISTRY”);
+                  SPACES(1);
+                  WRITE TEXT(“SECTION”)
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲I>3∧I<9t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“RECORDING”);
+                  SPACES(1);
+                  WRITE TEXT(“METHOD”);
+                  OUTSYMBOL(99,“(”,1);
+                  OUTSYMBOL(99,“***ABCDE”,I);
+                  OUTSYMBOL(99,“)”,1);
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“COLUMN”);
+                  SPACES(1);
+                  OUTSYMBOL(99,“********3334444555”,I);
+                  OUTSYMBOL(99,“********BCDABCDABC”,I);
+               e̲n̲d̲;
+               SPACES(1);
+               WRITE TEXT(“WITH”);
+               SPACES(1);
+               i̲f̲J=1t̲h̲e̲n̲ 
+                 b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“TIME(MINS.)/WEEK”);
+                  SPACES(1);
+                  WRITE TEXT(“SPENT”);
+                  SPACES(1);
+                  WRITE TEXT(“ON”);
+                  SPACES(1);
+                  WRITE TEXT(“CHEMISTRY”)
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲J=2t̲h̲e̲n̲ 
+                 b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“TOTAL”);
+                  SPACES(1);
+                  WRITE TEXT(“NO.”);
+                  SPACES(1);
+                  WRITE TEXT(“OF”);
+                  SPACES(1);
+                  WRITE TEXT(“EXPTS.”);
+                  SPACES(1);
+                  WRITE TEXT(“DONE”);
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲J=3t̲h̲e̲n̲ 
+                 b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“AVERAGE”);
+                  SPACES(1);
+                  WRITE TEXT(“SIZE”);
+                  SPACES(1);
+                  WRITE TEXT(“OF”);
+                  SPACES(1);
+                  WRITE TEXT(“CHEMISTRY”);
+                  SPACES(1);
+                  WRITE TEXT(“SECTION”);
+                  SPACES(1);
+               e̲n̲d̲
+                 e̲l̲s̲e̲
+               i̲f̲J>3∧J<9t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“RECORDING”);
+                  SPACES(1);
+                  WRITE TEXT(“METHOD”);
+                  OUTSYMBOL(99,“(”,1);
+                  OUTSYMBOL(99,“***ABCDE”,J);
+                  OUTSYMBOL(99,“)”,1);
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“COLUMN”);
+                  SPACES(1);
+                  OUTSYMBOL(99,“********3334444555”,J);
+                  OUTSYMBOL(99,“********BCDABCDABC”,J);
+                  SPACES(1);
+                  WRITE TEXT(“CORRELATION”);
+                  SPACES(1);
+                  WRITE TEXT(“WITH”);
+                  SPACES(1);
+                  WRITE TEXT(“TIME”);
+                  SPACES(1);
+                  WRITE TEXT(“ALLOCATION”);
+               e̲n̲d̲;
+               EQUALITY:
+            e̲n̲d̲;
+      NEWPAGE;
+      SPACES(1);
+      WRITE TEXT(“TOTAL”);
+      SPACES(1);
+      WRITE TEXT(“NO9”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“SCHOOLS”);
+      SPACES(1);
+      WRITE TEXT(“DEALT”);
+      SPACES(1);
+      WRITE TEXT(“WITH”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(CYCLE,4,0);
+      NEWLINES(2);
+      SPACES(1);
+      WRITE TEXT(“AVERAGE”);
+      SPACES(1);
+      WRITE TEXT(“REQUIRED”);
+      SPACES(1);
+      WRITE TEXT(“PERIODS”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      K:=SIGMA(LIST,CYCLE,21,0,0);
+      i̲f̲CYCLE-K=0t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         SPACES(1);
+         WRITE TEXT(“0.00”)
+      e̲n̲d̲
+      e̲l̲s̲e̲
+        PRINT(SIGMA(LIST,CYCLE,22,0,0)/(CYCLE-K),4,4);
+      NEWLINES(2);
+      SPACES(1);
+      ;WRITE TEXT(“NO.”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“SCHOOLS”);
+      SPACES(1);
+      WRITE TEXT(“WITH”);
+      SPACES(1);
+      WRITE TEXT(“LAB.”);
+      SPACES(1);
+      WRITE TEXT(“PERIODS”);
+      SPACES(1);
+      WRITE TEXT(“DIFFERENT”);
+      SPACES(1);
+      WRITE TEXT(“FROM”);
+      SPACES(1);
+      WRITE TEXT(“TOTAL”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      PRINT(SIGMA(LIST,CYCLE,25,0,0),4,0);
+      NEWLINES(2);
+      SPACES(1);
+      WRITE TEXT(“NO.”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“SCHOOLS”);
+      SPACES(1);
+      WRITE TEXT(“WITH”);
+      SPACES(1);
+      WRITE TEXT(“ADEQUATE”);
+      SPACES(1);
+      WRITE TEXT(“TIME”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(K,4,0);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲18d̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲I÷2×2=It̲h̲e̲n̲NEWPAGE;
+            RPBI(LIST,CYCLE,I,19);
+            NEWLINES(1);
+            i̲f̲I=1t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“TIME(MINS.)/WEEK”);
+               SPACES(1);
+               WRITE TEXT(“SPENT”);
+               SPACES(1);
+               WRITE TEXT(“ON”);
+               SPACES(1);
+               WRITE TEXT(“CHEMISTRY”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I=2t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“TOTAL”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               WRITE TEXT(“OF”);
+               SPACES(1);
+               WRITE TEXT(“EXPTS.”);
+               SPACES(1);
+               WRITE TEXT(“DONE”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I=3t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“AVERAGE”);
+               SPACES(1);
+               WRITE TEXT(“SIZE”);
+               SPACES(1);
+               WRITE TEXT(“OF”);
+               SPACES(1);
+               WRITE TEXT(“CHEMISTRY”);
+               SPACES(1);
+               WRITE TEXT(“SECTION”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I>3∧I<9t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“RECORDING”);
+               SPACES(1);
+               WRITE TEXT(“METHOD”);
+               OUTSYMBOL(99,“(”,1);
+               OUTSYMBOL(99,“***ABCDE”,I);
+               OUTSYMBOL(99,“)”,1);
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“COLUMN”);
+               SPACES(1);
+               OUTSYMBOL(99,“********3334444555”,I);
+               OUTSYMBOL(99,“********BCDABCDABC”,I);
+            e̲n̲d̲;
+            SPACES(1);
+            WRITE TEXT(“CORRELATION”);
+            SPACES(1);
+            WRITE TEXT(“WITH”);
+            SPACES(1);
+            WRITE TEXT(“EXTENSIVE”);
+            SPACES(1);
+            WRITE TEXT(“PRINTED”);
+            SPACES(1);
+            WRITE TEXT(“NOTES”);
+            RPBI(LIST,CYCLE,I,21);
+            NEWLINES(1);
+            i̲f̲I=1t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“TIME(MINS.)/WEEK”);
+               SPACES(1);
+               WRITE TEXT(“SPENT”);
+               SPACES(1);
+               WRITE TEXT(“ON”);
+               SPACES(1);
+               WRITE TEXT(“CHEMISTRY”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I=2t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“TOTAL”);
+               SPACES(1);
+               WRITE TEXT(“NO.”);
+               SPACES(1);
+               WRITE TEXT(“OF”);
+               SPACES(1);
+               WRITE TEXT(“EXPTS.”);
+               SPACES(1);
+               WRITE TEXT(“DONE”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I=3t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“AVERAGE”);
+               SPACES(1);
+               WRITE TEXT(“SIZE”);
+               SPACES(1);
+               WRITE TEXT(“OF”);
+               SPACES(1);
+               WRITE TEXT(“CHEMISTRY”);
+               SPACES(1);
+               WRITE TEXT(“SECTION”)
+            e̲n̲d̲
+              e̲l̲s̲e̲
+            i̲f̲I>3∧I<9t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“RECORDING”);
+               SPACES(1);
+               WRITE TEXT(“METHOD”);
+               OUTSYMBOL(99,“(”,1);
+               OUTSYMBOL(99,“***ABCDE”,I);
+               OUTSYMBOL(99,“)”,1);
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               SPACES(2);
+               WRITE TEXT(“COLUMN”);
+               SPACES(1);
+               OUTSYMBOL(99,“********3334444555”,I);
+               OUTSYMBOL(99,“********BCDABCDABC”,I);
+            e̲n̲d̲;
+            SPACES(1);
+            WRITE TEXT(“CORRELATION”);
+            SPACES(1);
+            WRITE TEXT(“WITH”);
+            SPACES(1);
+            WRITE TEXT(“TIME”);
+            SPACES(1);
+            WRITE TEXT(“ALLOCATION”);
+         e̲n̲d̲;
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+         b̲e̲g̲i̲n̲
+            NEWLINES(10);
+            SPACES(1);
+            WRITE TEXT(“EXPT.”);
+            SPACES(1);
+            WRITE TEXT(“NO.”);
+            SPACES(1);
+            PRINT(SUMUNI[I,1,0],4,0);
+            NEWLINES(2);
+            SPACES(20);
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+               b̲e̲g̲i̲n̲
+                  SPACES(5);
+                  OUTSYMBOL(99,“33334444555”,J);
+                  OUTSYMBOL(99,“ABCDABCDABC”,J);
+               e̲n̲d̲;
+            f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ 5d̲o̲
+               b̲e̲g̲i̲n̲
+                  NEWLINES(1);
+                  SPACES(10);
+                  OUTSYMBOL(99,“ABCDE”,J);
+                  SPACES( 9);
+                  f̲o̲r̲K:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+                       PRINT(SUMUNI[I,J,K],7,0);
+               e̲n̲d̲;
+         e̲n̲d̲;
+      PASTIT:
+      NEWPAGE;
+      WRITE TEXT(“AVERAGE”);
+      SPACES(1);
+      WRITE TEXT(“TIME”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT( SUM[1]/(CYCLE-SUBTIM),3,2);
+      SPACES(1);
+      WRITE TEXT(“MINS.”);
+      SPACES(23);
+      WRITE TEXT(“SUBTIME”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      PRINT(SUBTIM,3,0);
+      SPACES(2);
+      WRITE TEXT(“S.D.”);
+      SPACES(1);
+      WRITE TEXT(“=”);
+      SPACES(1);
+      b̲e̲g̲i̲n̲r̲e̲a̲l̲A,B,C,D,X,Y,Z,J;
+         A:=B:=C:=D:=0·0;
+         J:=SUM[1]/(CYCLE-SUBTIM);
+         Z:=SUM[3]/(CYCLE-SUBAVE);
+         Y:=SUM[25]/CYCLE;
+         X:=SUM[29]/CYCLE;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲CYCLEd̲o̲
+            b̲e̲g̲i̲n̲
+               A:=A+(LIST[I,1]-J)⭡2;
+               B:=B+(LIST[I,3]-Z)⭡2;
+               C:=C+(LIST[I,2]-Y)⭡2;
+               D:=D+(LIST[I,12]-X)⭡2;
+            e̲n̲d̲;
+         PRINT(SQRT(A/CYCLE),4,4);
+         NEWLINES(2);
+         SPACES(1);
+         WRITE TEXT(“AVERAGE”);
+         SPACES(1);
+         WRITE TEXT(“YEAR”);
+         SPACES(1);
+         WRITE TEXT(“=”);
+         PRINT( SUM[2]/(CYCLE-SUBSIZ),4,2);
+         SPACES(23);
+         WRITE TEXT(“SUBSIZE”);
+         SPACES(1);
+         WRITE TEXT(“=”);
+         SPACES(1);
+         PRINT(SUBSIZ,3,0);
+         NEWLINES(2);
+         WRITE TEXT(“AVERAGE”);
+         SPACES(1);
+         WRITE TEXT(“SIZE”);
+         SPACES(1);
+         WRITE TEXT(“OF”);
+         SPACES(1);
+         WRITE TEXT(“CHEMISTRY”);
+         SPACES(1);
+         WRITE TEXT(“SECTION”);
+         SPACES(1);
+         WRITE TEXT(“=”);
+         SPACES(1);
+         PRINT( SUM[3]/(CYCLE-SUBAVE),4,2);
+         SPACES(23);
+         WRITE TEXT(“SUBAVE”);
+         SPACES(2);
+         WRITE TEXT(“=”);
+         PRINT(SUBAVE,3,0);
+         SPACES(1);
+         WRITE TEXT(“S.D.”);
+         SPACES(1);
+         WRITE TEXT(“=”);
+         SPACES(1);
+         PRINT(SQRT(B/CYCLE),4,4);
+         NEWLINES(2);
+         SPACES(1);
+         WRITE TEXT(“TOTALS”);
+         SPACES(1);
+         WRITE TEXT(“FOR”);
+         SPACES(1);
+         WRITE TEXT(“RECORDING”);
+         SPACES(1);
+         WRITE TEXT(“METHODS,”);
+         SPACES(1);
+         WRITE TEXT(“A”);
+         SPACES(1);
+         WRITE TEXT(“-”);
+         SPACES(1);
+         WRITE TEXT(“E”);
+         NEWLINES(1);SPACES(4);
+         SPACES(1);
+         WRITE TEXT(“NO.”);
+         SPACES(1);
+         WRITE TEXT(“TICKED”);
+         SPACES(1);
+         WRITE TEXT(“ONCE”);
+         SPACES(4);
+         WRITE TEXT(“NO.”);
+         SPACES(1);
+         WRITE TEXT(“TICKED”);
+         SPACES(1);
+         WRITE TEXT(“TWICE”);
+         SPACES(4);
+         WRITE TEXT(“TOTAL”);
+         SPACES(1);
+         WRITE TEXT(“TICKS”);
+         SPACES(2);
+         f̲o̲r̲I:=4s̲t̲e̲p̲2u̲n̲t̲i̲l̲12d̲o̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(1);
+               OUTSYMBOL(99,“SSSASBSCSDSES”,I);
+               PRINT(SUM[I],15,0);
+               PRINT(SUM[I+1],19,0);
+               PRINT(SUM[I]+2×SUM[I+1],15,0);
+            e̲n̲d̲;
+         f̲o̲r̲I:=25s̲t̲e̲p̲1u̲n̲t̲i̲l̲35d̲o̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(3);
+               SPACES(1) ;
+               CRDTXT;
+               PRINT(SUM[I],6,0);
+               i̲f̲I=25t̲h̲e̲n̲b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“MEAN”);
+                  SPACES(1);
+                  WRITE TEXT(“=”);
+                  SPACES(1);
+                  PRINT(Y,4,4);
+                  SPACES(2);
+                  WRITE TEXT(“S.D.”);
+                  SPACES(1);
+                  WRITE TEXT(“=”);
+                  PRINT(SQRT( C/CYCLE),4,4);
+               e̲n̲d̲
+                 e̲l̲s̲e̲i̲f̲I=29t̲h̲e̲n̲b̲e̲g̲i̲n̲
+                  SPACES(2);
+                  WRITE TEXT(“MEAN”);
+                  SPACES(1);
+                  WRITE TEXT(“=”);
+                  SPACES(1);
+                  PRINT(X,4,4);
+                  SPACES(2);
+                  WRITE TEXT(“S.D.”);
+                  SPACES(1);
+                  WRITE TEXT(“=”);
+                  PRINT(SQRT( D/CYCLE),4,4);
+               e̲n̲d̲;
+            e̲n̲d̲;
+      e̲n̲d̲;
+      NEWPAGE;
+      SPACES(1);
+      WRITE TEXT(“TOTEXP”);
+      SPACES(1);
+      WRITE TEXT(“FOLLOES(?)”);
+      SPACES(1);
+      NEWLINES(1);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲NEd̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲J:=0s̲t̲e̲p̲1u̲n̲t̲i̲l̲11d̲o̲
+                 PRINT(TOTEXP[I,J],4,0);
+            NEWLINES(1);
+         e̲n̲d̲;
+      MISTIT:
+      GRAPH(CYCLE,LIST,2);
+      SPACES(1);
+      WRITE TEXT(“DISTRIBUTION”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“TOTAL”);
+      SPACES(1);
+      WRITE TEXT(“NO.”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“EXPTS.”);
+      SPACES(1);
+      WRITE TEXT(“DONE”);
+      SPACES(1);
+      GRAPH(CYCLE,LIST,1);
+      SPACES(1);
+      WRITE TEXT(“DISTRIBUTION”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“TIME/WEEK(MINS.)”);
+      SPACES(1);
+      GRAFITI(LIST,1,2,CYCLE,100,0,360,104);
+      NEWPAGE;
+      NEWLINES(2);
+      SPACES(1);
+      WRITE TEXT(“DGRAPH”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“TIME”);
+      SPACES(1);
+      WRITE TEXT(“AGAINST”);
+      SPACES(1);
+      WRITE TEXT(“NO.”);
+      SPACES(1);
+      WRITE TEXT(“OF”);
+      SPACES(1);
+      WRITE TEXT(“EXPTS.”);
+      SPACES(1);
+      WRITE TEXT(“DONE”);
+      SPACES(1);
+      NEWLINES(2);
+      f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲CYCLEd̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲J:=0s̲t̲e̲p̲1u̲n̲t̲i̲l̲25d̲o̲
+                 PRINT(LIST[I,J],4,0);
+            NEWLINES(1);
+         e̲n̲d̲;
+   e̲n̲d̲
+e̲n̲d̲

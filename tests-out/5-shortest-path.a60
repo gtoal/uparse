@@ -1,0 +1,69 @@
+b̲e̲g̲i̲n̲
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ bf(N, P, S, M);
+      v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N, P, S, M;
+
+   b̲e̲g̲i̲n̲
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ src[1 : P];
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ dst[1 : P];
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ wgt[1 : P];
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ rtdst[1 : N];
+
+      i̲n̲t̲e̲g̲e̲r̲ i, j, k, l, q;
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ P d̲o̲ b̲e̲g̲i̲n̲
+            outstring(1, “Kante”);
+            outinteger(1, i);
+            ininteger(0, src[i]);
+            ininteger(0, dst[i]);
+            ininteger(0, wgt[i]);
+         e̲n̲d̲;
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲
+            rtdst[i] := M;
+         e̲n̲d̲;
+      rtdst[S] := 0;
+
+      f̲o̲r̲ j := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲
+            f̲o̲r̲ k := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ P d̲o̲ b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ u, v, w, o;
+                  u := src[k]; v := dst[k]; w := wgt[k];
+                  o := rtdst[u] + w;
+                  i̲f̲ rtdst[u] ≠ M ∧ o < rtdst[v] t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                     rtdst[v] := rtdst[u] + w;
+                  e̲n̲d̲;
+               e̲n̲d̲;
+         e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ negative weight cycle check;
+      f̲o̲r̲ l := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ P d̲o̲ b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ u, v, w, o;
+            u := src[l]; v := dst[l]; w := wgt[l];
+            o := rtdst[u] + w;
+            i̲f̲ (rtdst[u] ≠ M ∧ o < dst[v]) t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               c̲o̲m̲m̲e̲n̲t̲ outstring(1, "negative\n");
+            e̲n̲d̲;
+         e̲n̲d̲;
+
+      f̲o̲r̲ q := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ b̲e̲g̲i̲n̲
+            outinteger(1, q);
+            outinteger(1, rtdst[q]);
+            outstring(1, “\n”);
+         e̲n̲d̲;
+   e̲n̲d̲;
+
+   i̲n̲t̲e̲g̲e̲r̲ N, P, S, M;
+   outstring(1, “N:”);
+   ininteger(0, N);
+   outstring(1, “P:”);
+   ininteger(0, P);
+   outstring(1, “S:”);
+   ininteger(0, S);
+   outstring(1,“M:”);
+   ininteger(0, M);
+
+   bf(N, P, S, M);
+
+e̲n̲d̲;

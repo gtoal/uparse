@@ -1,0 +1,965 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG003   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲  DV1,DIN,DV2,MT1,I,J,NAT;
+   r̲e̲a̲l̲  PI,ANGLE,A;
+   a̲r̲r̲a̲y̲ CELL[1:6],NN,MM[1:3,1:3],TITLE[1:200],
+     INDEX[1:20];
+   b̲o̲o̲l̲e̲a̲n̲  a̲r̲r̲a̲y̲  KEY[1:20];
+
+   c̲o̲m̲m̲e̲n̲t̲ INPUT/OUTPUT PROCEDURES;
+
+   c̲o̲m̲m̲e̲n̲t̲ r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ READ;
+   c̲o̲m̲m̲e̲n̲t̲ e̲x̲t̲e̲r̲n̲a̲l̲READ1900;
+
+   c̲o̲m̲m̲e̲n̲t̲ END OF INPUT/OUTPUT PROCEDURES;
+
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INBASICSYMBOL(D);
+      v̲a̲l̲u̲e̲ D;
+      i̲n̲t̲e̲g̲e̲r̲ D;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ CHAR;
+      AGAIN:
+      INSYMBOL(98,“0123456789a̲BCDEFGHIJKLMNOPQRSTUVWXYZ()+-:.,#*;/”,
+        CHAR);
+      i̲f̲ CHAR=-10 t̲h̲e̲n̲ g̲o̲t̲o̲ AGAIN;
+      CHAR := i̲f̲ CHAR ≥ 1 ∧ CHAR < 11 t̲h̲e̲n̲ CHAR-1 e̲l̲s̲e̲
+        i̲f̲ CHAR > 11 ∧ CHAR < 38 t̲h̲e̲n̲ CHAR e̲l̲s̲e̲
+        i̲f̲ CHAR = -32 t̲h̲e̲n̲ 158 e̲l̲s̲e̲
+        i̲f̲ CHAR = 38 t̲h̲e̲n̲ 132 e̲l̲s̲e̲
+        i̲f̲ CHAR = 39 t̲h̲e̲n̲ 148 e̲l̲s̲e̲
+        i̲f̲ CHAR = 40 t̲h̲e̲n̲ 193 e̲l̲s̲e̲
+        i̲f̲ CHAR = 41 t̲h̲e̲n̲ 209 e̲l̲s̲e̲
+        i̲f̲ CHAR = 42 t̲h̲e̲n̲ 185 e̲l̲s̲e̲
+        i̲f̲ CHAR = 43 t̲h̲e̲n̲ 011 e̲l̲s̲e̲
+        i̲f̲ CHAR = 44 t̲h̲e̲n̲ 166 e̲l̲s̲e̲
+        i̲f̲ CHAR = 45 t̲h̲e̲n̲ 210 e̲l̲s̲e̲
+        i̲f̲ CHAR = 46 t̲h̲e̲n̲ 160 e̲l̲s̲e̲
+        i̲f̲ CHAR = 47 t̲h̲e̲n̲ 152 e̲l̲s̲e̲
+        i̲f̲ CHAR = 48 t̲h̲e̲n̲ 161 e̲l̲s̲e̲ 210;
+      INBASICSYMBOL := CHAR
+   e̲n̲d̲ PROCEDURE INBASICSYMBOL;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ OUTBASICSYMBOL(D,CHAR);
+      v̲a̲l̲u̲e̲ D,CHAR;
+      i̲n̲t̲e̲g̲e̲r̲ D,CHAR;
+   b̲e̲g̲i̲n̲
+      CHAR := i̲f̲ CHAR ≥ 0 ∧ CHAR < 10 t̲h̲e̲n̲ CHAR+1 e̲l̲s̲e̲
+        i̲f̲ CHAR > 11 ∧ CHAR < 38 t̲h̲e̲n̲ CHAR e̲l̲s̲e̲
+        i̲f̲ CHAR = 158 t̲h̲e̲n̲ -32 e̲l̲s̲e̲
+        i̲f̲ CHAR = 132 t̲h̲e̲n̲ 38 e̲l̲s̲e̲
+        i̲f̲ CHAR = 148 t̲h̲e̲n̲ 39 e̲l̲s̲e̲
+        i̲f̲ CHAR = 193 t̲h̲e̲n̲ 40 e̲l̲s̲e̲
+        i̲f̲ CHAR = 209 t̲h̲e̲n̲ 41 e̲l̲s̲e̲
+        i̲f̲ CHAR = 185 t̲h̲e̲n̲ 42 e̲l̲s̲e̲
+        i̲f̲ CHAR = 011 t̲h̲e̲n̲ 43 e̲l̲s̲e̲
+        i̲f̲ CHAR = 166 t̲h̲e̲n̲ 44 e̲l̲s̲e̲
+        i̲f̲ CHAR = 210 t̲h̲e̲n̲ 45 e̲l̲s̲e̲
+        i̲f̲ CHAR = 160 t̲h̲e̲n̲ 46 e̲l̲s̲e̲
+        i̲f̲ CHAR = 152 t̲h̲e̲n̲ 47 e̲l̲s̲e̲
+        i̲f̲ CHAR = 161 t̲h̲e̲n̲ 48 e̲l̲s̲e̲ 45;
+      OUTSYMBOL(99,“0123456789a̲BCDEFGHIJKLMNOPQRSTUVWXYZ()+-:.,#*;/”,
+        CHAR);
+   e̲n̲d̲ PROCEDURE OUTBASICSYMBOL;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ PACKTHREE(X);
+      r̲e̲a̲l̲  X;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲  I,J;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ SYM[-2:4];
+      SYM[-2] := SYM[-1] := SYM[0] := 158;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+         b̲e̲g̲i̲n̲
+            IN:  SYM[I] := INBASICSYMBOL (DIN);
+            i̲f̲  SYM[1] = 158∨  SYM[1] = 209  ∨
+              SYM[1] = 152  t̲h̲e̲n̲  g̲o̲t̲o̲  IN;
+            i̲f̲  SYM[I] ≠ 132  ∧  SYM[I] ≠ 158∧  SYM[I] ≠ 209  t̲h̲e̲n̲
+              g̲o̲t̲o̲  NEXT;
+            f̲o̲r̲ J := 3 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                 SYM[J] := SYM[I+J-4];
+            g̲o̲t̲o̲  FORMX;
+            NEXT:
+         e̲n̲d̲  LINE 25,  ;
+      FORMX : I := 256×(256×SYM[1]+SYM[2])+SYM[3];
+      X := I;
+   e̲n̲d̲ PROCEDURE PACKTHREE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲  FORMINTEGER(X,FAILURE);
+      r̲e̲a̲l̲  X;
+        l̲a̲b̲e̲l̲  FAILURE;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲  Y,I,SYMBOL;
+      Y := 0;
+      f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+         b̲e̲g̲i̲n̲
+            IN:  SYMBOL := INBASICSYMBOL (DIN);
+            i̲f̲  SYMBOL = 158  t̲h̲e̲n̲  g̲o̲t̲o̲  IN;
+            i̲f̲  SYMBOL = 148  t̲h̲e̲n̲  g̲o̲t̲o̲  OUT;
+            i̲f̲  SYMBOL > 9  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(2);
+               WRITETEXT(“PUNCHING ERROR IN BRACKETED INTEGER  ”);
+               OUTBASICSYMBOL(DIN,SYMBOL);
+               g̲o̲t̲o̲  FAILURE;
+            e̲n̲d̲  LINE 44,  ;
+            Y := Y×10+SYMBOL
+         e̲n̲d̲  LINE 46,  ;
+      NEWLINES(2);
+      WRITETEXT(“BRACKETED INTEGER TOO LARGE”);
+      g̲o̲t̲o̲  FAILURE;
+      OUT:  X := Y;
+   e̲n̲d̲  LINE 50,  OF FORM INTEGER;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲  ORTHG(CELL,MATRIX);
+      v̲a̲l̲u̲e̲  CELL;
+      a̲r̲r̲a̲y̲  CELL,MATRIX;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲  ONE;
+      MATRIX[1,2] := MATRIX[1,3] := MATRIX[2,3] := 0·0;
+      MATRIX[3,3] := CELL[3];
+      MATRIX[3,2] := CELL[2]×COS(CELL[4]);
+      MATRIX[3,1] := CELL[1]×COS(CELL[5]);
+      MATRIX[2,2] := CELL[2]×SIN(CELL[4]);
+      ONE := (COS(CELL[6])-COS(CELL[5])×COS(CELL[4]))/SIN(CE
+        LL[4]);
+      MATRIX[2,1] := ONE×CELL[1];
+      MATRIX[1,1] := CELL[1]×SQRT(SIN(CELL[5])⭡2-ONE⭡2);
+   e̲n̲d̲  LINE 64,  PROCEDURE ORTHOG;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲  INVERSE(MATRIX,INV);
+      v̲a̲l̲u̲e̲  MATRIX;
+      a̲r̲r̲a̲y̲  MATRIX,INV;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲  I;
+      INV[1,2] := INV[1,3] := INV[2,3] := 0·0;
+      f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲  INV[I,I] :=
+           1·0/MATRIX[I,I];
+      INV[2,1] := -MATRIX[2,1]/(MATRIX[1,1]×MATRIX[2,2]);
+      INV[3,1] := -MATRIX[3,1]/(MATRIX[1,1]×MATRIX[3,3])+M
+        ATRIX[2,1]×MATRIX[3,2]
+        /(MATRIX[1,1]×MATRIX[2,2]×MATRIX[3,3]);
+      INV[3,2] := -MATRIX[3,2]/(MATRIX[2,2]×MATRIX[3,3]);
+   e̲n̲d̲  LINE 76,  PROCEDURE INVERSE;
+
+   c̲o̲m̲m̲e̲n̲t̲ PROGRAM STARTS HERE;
+
+   DIN := 20;
+   DV1 := DV2 := 30;
+   PI := 3·141 592 6536;
+   ANGLE := 180/PI;
+   NEWPAGE;
+   CAPTION:
+   f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  200  d̲o̲
+      b̲e̲g̲i̲n̲
+         J := INBASICSYMBOL(DIN);
+         TITLE[I] := J;
+         i̲f̲  J = 152  t̲h̲e̲n̲  g̲o̲t̲o̲  UNITCELL;
+         i̲f̲  I = 200  t̲h̲e̲n̲  g̲o̲t̲o̲  FAILURE;
+      e̲n̲d̲  LINE 90,  ;
+   UNITCELL:
+   f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+        CELL[I] := READ;
+   f̲o̲r̲  I  :=  4  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  6  d̲o̲
+        CELL[I] := READ/ANGLE;
+   ORTHG(CELL,NN);
+   INVERSE(NN,MM);
+   DATA:  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  4  d̲o̲
+        INDEX[I] := READ;
+   NAT := INDEX[1];
+   f̲o̲r̲  I  :=  2  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  4  d̲o̲  KEY[I-1] := IND
+        EX[I] > 0·5;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲  CH[1:NAT,1:2],X[1:NAT,1:3],VIB[1:NAT,0:6],SIG
+        MA[1:NAT,1:3],CORR[1:NAT,1:3];
+      SFTAPE : f̲o̲r̲ I := 1,2 d̲o̲
+           J := READ;
+      f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  J  d̲o̲  A := READ;
+      KEY[20] := READ > 0·5;
+      f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+         b̲e̲g̲i̲n̲
+            PACKTHREE(CH[I,1]);
+            FORMINTEGER(CH[I,2],FAILURE);
+            f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲  X[I,J] :=
+                 READ;
+            i̲f̲  ¬  KEY[1]  t̲h̲e̲n̲  g̲o̲t̲o̲  EXIT;
+            A := READ;
+            i̲f̲  A > 0·5  ∧  A < 1·5  t̲h̲e̲n̲  g̲o̲t̲o̲  ANISO;
+            f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  6  d̲o̲  VIB[I,J]
+                 := -999;
+            VIB[I,0] := READ;
+            g̲o̲t̲o̲  EXIT;
+            ANISO:  f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  6  d̲o̲  VIB[I,J]
+                 := READ;
+            VIB[I,0] := -999;
+            i̲f̲ KEY[20] t̲h̲e̲n̲ A := READ;
+            EXIT:
+         e̲n̲d̲  LINE 119,  ;
+      i̲f̲ READ < 998 t̲h̲e̲n̲ g̲o̲t̲o̲ FAILURE;
+      SDEVS:  i̲f̲  ¬  KEY[2]  t̲h̲e̲n̲  g̲o̲t̲o̲  LOAD;
+      f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+           f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲  SIGMA[I,J]
+              := READ;
+      i̲f̲ READ < 998 t̲h̲e̲n̲ g̲o̲t̲o̲ FAILURE;
+      CORRELN:  i̲f̲  ¬  KEY[3]  t̲h̲e̲n̲  g̲o̲t̲o̲  LOAD;
+      i̲f̲  INDEX[4] > 3·5  t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+              f̲o̲r̲  J  :=  3  s̲t̲e̲p̲  -1  u̲n̲t̲i̲l̲  1  d̲o̲  CORR[I,
+                 J] := READ;
+      e̲n̲d̲  LINE 130,
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲  ROW;
+         i̲f̲  INDEX[4] < 1·5  t̲h̲e̲n̲  ROW := 3  e̲l̲s̲e̲  i̲f̲  I
+           NDEX[4] < 2·5  t̲h̲e̲n̲
+           ROW := 2  e̲l̲s̲e̲  ROW := 1;
+         f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+            b̲e̲g̲i̲n̲
+               f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲  CORR[I,
+                    J] := 0·0;
+               CORR[I,ROW] := READ;
+            e̲n̲d̲  LINE 140,  ;
+      e̲n̲d̲  LINE 141,  ;
+      i̲f̲ READ < 998 t̲h̲e̲n̲ g̲o̲t̲o̲ FAILURE;
+      LOAD:     b̲e̲g̲i̲n̲
+         b̲o̲o̲l̲e̲a̲n̲  AXESORTHOGONAL,RESTRICTIONS;
+         r̲e̲a̲l̲ DMAX,AMAX,C,B,ALPHA,BETA,GAMMA,PIBYTWO,RADIAN,T,S,D;
+         i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,M,N,CKEY,KEY1,KEY2,KEY3,FORM1,FORM2,LT,
+           CC,P,LP,SN,Z,NUM;
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  C1[1:27,1:3];
+         a̲r̲r̲a̲y̲  TEST[1:30,1:3],F,G[1:3],C2[1:27,1:3];
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  OUTEQUIVALENTPOSITIONS (DOUT,SYMNO,VECTOR);
+            v̲a̲l̲u̲e̲  DOUT,SYMNO;
+            i̲n̲t̲e̲g̲e̲r̲  DOUT,SYMNO;
+              a̲r̲r̲a̲y̲  VECTOR;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  I;
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲  OUTCOORDINATE (DOUT,A1,A2,A3,T);
+               v̲a̲l̲u̲e̲  DOUT,A1,A2,A3,T;
+               i̲n̲t̲e̲g̲e̲r̲  DOUT;
+                 r̲e̲a̲l̲  A1,A2,A3,T;
+            b̲e̲g̲i̲n̲
+               a̲r̲r̲a̲y̲ OUT[1:3];
+               r̲e̲a̲l̲  J,K,F;
+               OUT[1] := A1;
+               OUT[2] := A2;
+               OUT[3] := A3;
+               i̲f̲  T ≠ 0  t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  K := ENTIER(12×T+0·5);
+                  f̲o̲r̲  J  :=  6, 4, 3, 2, 1  d̲o̲
+                       i̲f̲  ABS(K/J-K÷J) < 0·000 000 1  t̲h̲e̲n̲
+                       g̲o̲t̲o̲  NUMBER;
+                  NUMBER : PRINT(K/J,4,0);
+                  OUTBASICSYMBOL (DOUT,161);
+                  PRINT(12/J,1,0);
+               e̲n̲d̲  LINE 175,  ;
+               f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲  OUT[J] = 0  t̲h̲e̲n̲  g̲o̲t̲o̲  EXIT;
+                     SPACES(1);
+                     i̲f̲  OUT[J] > 0  t̲h̲e̲n̲  OUTBASICSYMBOL (DOUT
+                       ,193)  e̲l̲s̲e̲
+                       OUTBASICSYMBOL (DOUT,209);
+                     SPACES(1);
+                     i̲f̲  ABS(OUT[J]) ≠ 1  t̲h̲e̲n̲
+                       PRINT(ABS(OUT[J]),1,0);
+                     OUTBASICSYMBOL(DOUT,J+34);
+                     EXIT:
+                  e̲n̲d̲  LINE 186,  ;
+            e̲n̲d̲  LINE 187,  PROCEDURE OUT COORDINATE;
+            NEWLINES(2);
+            WRITETEXT(“EQUIVALENT POSITION NUMBER”);
+            PRINT(SYMNO,3,0);
+            SPACES(5);
+            f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+               b̲e̲g̲i̲n̲
+                  OUTCOORDINATE(DOUT,VECTOR[3×I-2],VECTOR[3×I-1],
+                    VECTOR[3×I],VECTOR[9+I]);
+                  i̲f̲ I ≠ 3 t̲h̲e̲n̲ WRITETEXT(“,”);
+               e̲n̲d̲  LINE 194,  ;
+         e̲n̲d̲  LINE 196,  PROCEDURE OUT EQUIVALENT POSITIONS;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  SKIPCHAR(DIN,CHAR);
+            v̲a̲l̲u̲e̲  DIN,CHAR;
+            i̲n̲t̲e̲g̲e̲r̲  DIN,CHAR;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  SYMBOL;
+            IN:  SYMBOL := INBASICSYMBOL (DIN);
+            i̲f̲  SYMBOL ≠ CHAR  t̲h̲e̲n̲  g̲o̲t̲o̲  IN;
+         e̲n̲d̲  LINE 204,  PROCEDURE SKIP CHAR;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  ORTHOGONALISE (INVECTOR,OUTVECTOR,MATRIX,MOD
+           E);
+            v̲a̲l̲u̲e̲  INVECTOR,MATRIX,MODE;
+            b̲o̲o̲l̲e̲a̲n̲  MODE;
+              a̲r̲r̲a̲y̲  INVECTOR,OUTVECTOR,MATRIX;
+         b̲e̲g̲i̲n̲
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲  AXESONLY (INVECTOR,OUTVECTOR,MATRIX);
+               v̲a̲l̲u̲e̲  INVECTOR,MATRIX;
+               a̲r̲r̲a̲y̲  INVECTOR,OUTVECTOR,MATRIX;
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲  NUMB;
+               f̲o̲r̲  NUMB  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                    OUTVECTOR[NUMB] := INVECTOR[NUMB]×MATRIX[NUM
+                    B,NUMB];
+            e̲n̲d̲  LINE 217,  PROCEDURE AXES ONLY;
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲  FULLMATRIX (INVECTOR,OUTVECTOR,MATRIX);
+               v̲a̲l̲u̲e̲  INVECTOR,MATRIX;
+               a̲r̲r̲a̲y̲  INVECTOR,OUTVECTOR,MATRIX;
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲  NUMB;
+               f̲o̲r̲  NUMB  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                    OUTVECTOR[NUMB] := INVECTOR [1]×MATRIX[NUMB,
+                    1]+INVECTOR
+                    [2]×MATRIX[NUMB,2]+INVECTOR [3]×MATRIX[NUM
+                    B,3];
+            e̲n̲d̲  LINE 226,  PROCEDURE FULL MATRIX;
+            i̲f̲  MODE  t̲h̲e̲n̲  AXESONLY (INVECTOR,OUTVECTOR,MATRI
+              X)  e̲l̲s̲e̲
+              FULLMATRIX (INVECTOR,OUTVECTOR,MATRIX);
+         e̲n̲d̲  LINE 229,  PROCEDURE ORTHOGONALISE;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  OUTNAME(DOUT,FDEV,A,B,FAILURE);
+            v̲a̲l̲u̲e̲  A,B,DOUT,FDEV;
+            i̲n̲t̲e̲g̲e̲r̲  DOUT,FDEV;
+              r̲e̲a̲l̲  A,B;
+              l̲a̲b̲e̲l̲  FAILURE;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  Y,I,F,SPACESS;
+            i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ SYMBOL[1:3];
+            Y := A;
+            SPACESS := 0;
+            f̲o̲r̲ I := 3 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲
+                  F := Y÷256;
+                  SYMBOL[I] := Y-256×F;
+                  Y := F;
+               e̲n̲d̲  LINE 245,  ;
+            f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+               b̲e̲g̲i̲n̲ i̲f̲ SYMBOL[I] = 158 t̲h̲e̲n̲
+                    SPACESS := SPACESS+1
+                  e̲l̲s̲e̲
+                    OUTBASICSYMBOL(DOUT,SYMBOL[I])
+               e̲n̲d̲;
+            Y := B;
+            f̲o̲r̲ I := 2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ F := Y÷10;
+                  SYMBOL[I] := Y-10×F;
+                  Y := F;
+               e̲n̲d̲  LINE 254,  ;
+            i̲f̲  Y ≠ 0  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(2);
+               WRITETEXT(“INTEGER FOR OUTPUT GREATER THAN 999”);
+               g̲o̲t̲o̲  FAILURE;
+            e̲n̲d̲  LINE 259,  ;
+            OUTBASICSYMBOL(DOUT,132);
+            F := 0;
+            f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲  F = 0  ∧  SYMBOL[I] = 0  t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     SPACESS := SPACESS+1;
+                     g̲o̲t̲o̲  NEXT;
+                  e̲n̲d̲  LINE 268,  ;
+                  OUTBASICSYMBOL (DOUT,SYMBOL[I]);
+                  F := 1;
+                  NEXT:
+               e̲n̲d̲  LINE 272,  ;
+            OUTBASICSYMBOL (DOUT,148);
+            SPACES(SPACESS);
+         e̲n̲d̲  LINE 275,  PROCEDURE OUT NAME;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  OUTSYMMETRY (DOUT,SYM,CELL,NO);
+            v̲a̲l̲u̲e̲  DOUT,SYM,NO;
+            i̲n̲t̲e̲g̲e̲r̲  DOUT,SYM,NO;
+              i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  CELL;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  I;
+            PRINT(SYM,2,0);
+            SPACES(3);
+            OUTBASICSYMBOL (DOUT,132);
+            f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+               b̲e̲g̲i̲n̲
+                  PRINT(CELL[NO,I],2,0);
+                  i̲f̲  I ≠ 3  t̲h̲e̲n̲  OUTBASICSYMBOL (DOUT,166);
+               e̲n̲d̲  LINE 288,  ;
+            OUTBASICSYMBOL (DOUT,148);
+         e̲n̲d̲  LINE 290,  PROCEDURE OUT SYMMETRY;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  INEQUIVPOS(DIN,DOUT,VECTOR,FAILURE);
+            v̲a̲l̲u̲e̲  DIN,DOUT;
+            i̲n̲t̲e̲g̲e̲r̲  DIN,DOUT;
+              a̲r̲r̲a̲y̲  VECTOR;
+              l̲a̲b̲e̲l̲  FAILURE;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  I;
+            b̲o̲o̲l̲e̲a̲n̲  SEMICOLON;
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ COORDINATE(A1,A2,A3,T,TERMN);
+               r̲e̲a̲l̲  A1,A2,A3,T;
+                 b̲o̲o̲l̲e̲a̲n̲ TERMN;
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲  CHARA,CHARB,NUM,SIG;
+               r̲e̲a̲l̲  NUMBER;
+               b̲o̲o̲l̲e̲a̲n̲  FIRST;
+               A1 := A2 := A3 := T := 0·0;
+               FIRST := t̲r̲u̲e̲;
+               SETSIG:  SIG := 1;
+               NUM := 0;
+               CLEARB:  CHARB := 0;
+               NEXT:  CHARA := INBASICSYMBOL(DIN);
+               g̲o̲t̲o̲  i̲f̲  CHARA = 158  ∨  CHARA = 160  ∨
+                 CHARA = 174  t̲h̲e̲n̲
+                 NEXT  e̲l̲s̲e̲  i̲f̲  CHARA = 193  ∨  CHARA = 20
+                 9  t̲h̲e̲n̲  SIGNS  e̲l̲s̲e̲
+                 i̲f̲  CHARA ≤ 9  t̲h̲e̲n̲  DIGITS  e̲l̲s̲e̲
+                 i̲f̲ CHARA = 35 ∨ CHARA = 36 ∨ CHARA = 37 t̲h̲e̲n̲
+                 XYZ e̲l̲s̲e̲
+                 i̲f̲  CHARA = 161  t̲h̲e̲n̲  SLASH  e̲l̲s̲e̲  TERMINA
+                 TOR;
+               DIGITS:  CHARB := CHARB×10+CHARA;
+               FIRST := f̲a̲l̲s̲e̲;
+               g̲o̲t̲o̲  NEXT;
+               SLASH:  NUM := CHARB;
+               g̲o̲t̲o̲  CLEARB;
+               XYZ:  NUMBER := i̲f̲  NUM ≠ 0  t̲h̲e̲n̲  SIG×NUM/CHARB
+               e̲l̲s̲e̲
+                 i̲f̲  CHARB ≠ 0  t̲h̲e̲n̲  SIG×CHARB  e̲l̲s̲e̲  SIG;
+               i̲f̲ CHARA = 35 t̲h̲e̲n̲ A1 := NUMBER e̲l̲s̲e̲
+               i̲f̲ CHARA = 36 t̲h̲e̲n̲
+                 A2 := NUMBER  e̲l̲s̲e̲  A3 := NUMBER;
+               g̲o̲t̲o̲  SETSIG;
+               SIGNS:  i̲f̲  FIRST  t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  SIG := i̲f̲  CHARA = 193  t̲h̲e̲n̲  +1  e̲l̲s̲e̲  -1
+                    ;
+                  FIRST := f̲a̲l̲s̲e̲
+               e̲n̲d̲  LINE 331,  ;
+               i̲f̲  CHARB ≠ 0  t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  T := i̲f̲  NUM ≠ 0  t̲h̲e̲n̲  SIG×NUM/CHARB
+                  e̲l̲s̲e̲  SIG×CHARB;
+                  SIG := i̲f̲  CHARA = 193  t̲h̲e̲n̲  +1  e̲l̲s̲e̲  -1
+               e̲n̲d̲  LINE 336,  ;
+               NUM := 0;
+               g̲o̲t̲o̲  CLEARB;
+               TERMINATOR:  i̲f̲  CHARA ≠ 166  ∧  CHARA ≠ 152  t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  NEWLINES(2);
+                  WRITETEXT(“WRONG TERMINATOR”);
+               e̲n̲d̲;
+               TERMN := CHARA = 152;
+               i̲f̲  NUM ≠ 0  ∨  CHARB ≠ 0  t̲h̲e̲n̲
+                 T := i̲f̲  NUM ≠ 0  t̲h̲e̲n̲  SIG×NUM/CHARB
+               e̲l̲s̲e̲  SIG×CHARB
+            e̲n̲d̲  LINE 344,  PROCEDURE COORDINATE;
+            f̲o̲r̲  I  :=  0, 1, 2  d̲o̲
+               b̲e̲g̲i̲n̲
+                  COORDINATE(VECTOR[3×I+1],VECTOR[3×I+2],VECTOR[
+                    3×I+3],VECTOR[10+I],SEMICOLON);
+                  i̲f̲  SEMICOLON  ∧  I ≠ 2  ∨  ¬  SEMICO
+                    LON  ∧  I = 2  t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     NEWLINES(2);
+                     WRITETEXT(“EQUIVALENT POSITIONS ARE OUT OF PHASE”);
+                     g̲o̲t̲o̲  FAILURE
+                  e̲n̲d̲  LINE 352,
+               e̲n̲d̲  LINE 353,
+         e̲n̲d̲  LINE 354,  PROCEDURE IN EQUIV POS;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  SORT (N,T,P,IN);
+            v̲a̲l̲u̲e̲  N,T,P;
+            i̲n̲t̲e̲g̲e̲r̲  N,T,P;
+              r̲e̲a̲l̲  a̲r̲r̲a̲y̲  IN;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  H,I,J,FLAG;
+            r̲e̲a̲l̲  C;
+            f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  ENTIER (N/2)
+              d̲o̲
+               b̲e̲g̲i̲n̲
+                  FLAG := 0;
+                  f̲o̲r̲  I  :=  J+1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  N-J+1  d̲o̲
+                     b̲e̲g̲i̲n̲
+                        i̲f̲  IN [I,P] > IN [I-1,P]  t̲h̲e̲n̲  g̲o̲t̲o̲
+                          L1;
+                        FLAG := 1;
+                        f̲o̲r̲  H  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  T  d̲o̲
+                           b̲e̲g̲i̲n̲
+                              C := IN [I,H];
+                              IN [I,H] := IN [I-1,H];
+                              IN [I-1,H] := C;
+                           e̲n̲d̲  LINE 396,  ;
+                        L1:  i̲f̲  IN [N-I+1,P] < IN [N-I+2,P]  t̲h̲e̲n̲
+                          g̲o̲t̲o̲  L2;
+                        FLAG := 1;
+                        f̲o̲r̲  H  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  T  d̲o̲
+                           b̲e̲g̲i̲n̲
+                              C := IN[N-I+1,H];
+                              IN [N-I+1,H] := IN [N-I+2,H];
+                              IN [N-I+2,H] := C;
+                           e̲n̲d̲  LINE 404,  ;
+                        L2:
+                     e̲n̲d̲  LINE 406,  ;
+                  i̲f̲  FLAG = 0  t̲h̲e̲n̲  g̲o̲t̲o̲  FINISH;
+               e̲n̲d̲  LINE 408,  ;
+            FINISH:
+         e̲n̲d̲  LINE 410,  PROCEDURE SORT;
+         PIBYTWO := PI/2;
+         RADIAN := PI/180;
+         f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  200  d̲o̲
+            b̲e̲g̲i̲n̲
+               J := ENTIER(TITLE[I]+0·5);
+               i̲f̲  J = 152  t̲h̲e̲n̲  g̲o̲t̲o̲  UNITCELL;
+               OUTBASICSYMBOL(DV2,J);
+            e̲n̲d̲  LINE 418,  ;
+         UNITCELL:  A := CELL[1];
+         B := CELL[2];
+         C := CELL[3];
+         ALPHA := CELL[4];
+         BETA := CELL[5];
+         GAMMA := CELL[6];
+         DMAX := READ;
+         AMAX := READ;
+         SKIPCHAR (DIN,160);
+         i̲f̲  AMAX > DMAX  ∨  DMAX > 10  t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            NEWLINES(2);
+            WRITETEXT(“D MAX OR A MAX INAPPROPRIATE”);
+            g̲o̲t̲o̲  END;
+         e̲n̲d̲  LINE 432,  ;
+         DMAX := DMAX⭡2;
+         NUM := 0;
+         RESTRICTIONS := f̲a̲l̲s̲e̲;
+         ENTER:  I := INBASICSYMBOL (DIN);
+         i̲f̲ I = 158 t̲h̲e̲n̲ g̲o̲t̲o̲ ENTER;
+         i̲f̲  I = 25  t̲h̲e̲n̲  g̲o̲t̲o̲  NEXT  e̲l̲s̲e̲  i̲f̲  I = 29
+           t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            NUM := READ;
+            i̲f̲  NUM > 30  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(2);
+               WRITETEXT(“TOO MANY RESTRICTIONS”);
+               g̲o̲t̲o̲  END;
+            e̲n̲d̲  LINE 445,  ;
+            RESTRICTIONS := t̲r̲u̲e̲;
+            f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NUM  d̲o̲
+               b̲e̲g̲i̲n̲
+                  PACKTHREE(TEST[J,1]);
+                  PACKTHREE(TEST[J,2]);
+                  TEST[J,3] := READ⭡2;
+                  SKIPCHAR (DIN,160);
+               e̲n̲d̲  LINE 453,  ;
+            g̲o̲t̲o̲  ENTER;
+         e̲n̲d̲  LINE 455,
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            NEWLINES(2);
+            WRITETEXT(“NUMBER OF CELLS NOT SPECIFIED”);
+            g̲o̲t̲o̲  END;
+         e̲n̲d̲  LINE 460,  ;
+         NEXT : CKEY := READ;
+         i̲f̲  CKEY ≠ 0  ∧  CKEY ≠ 1  ∧  CKEY ≠ 27
+           t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            NEWLINES(2);
+            WRITETEXT(“WRONG NUMBER OF CELLS”);
+            g̲o̲t̲o̲  END;
+         e̲n̲d̲  LINE 466,  ;
+         i̲f̲  CKEY > 0·5  t̲h̲e̲n̲  g̲o̲t̲o̲  LATTICE;
+         LT := CC := P := Z := 1;
+         g̲o̲t̲o̲  EVALUATEMATRICES;
+         LATTICE : LT := READ;
+         CC := READ;
+         P := READ;
+         Z := P×CC;
+         EVALUATEMATRICES:
+         b̲e̲g̲i̲n̲
+            a̲r̲r̲a̲y̲ R[1:Z,1:12],AA[1:12];
+            i̲f̲  CKEY > 0·5  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  P  d̲o̲
+                  b̲e̲g̲i̲n̲
+                     INEQUIVPOS(DIN,DV1,AA,END);
+                     f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  12  d̲o̲  R
+                          [I,J] := AA[J];
+                  e̲n̲d̲  LINE 484,  ;
+            e̲n̲d̲  LINE 485,
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  12  d̲o̲  R[1
+                    ,I] := 0·0;
+               R[1,1] := R[1,5] := R[1,9] := +1;
+            e̲n̲d̲  LINE 490,  ;
+            KEY1 := KEY2 := KEY3 := 0;
+            PRNT : I := INBASICSYMBOL(DIN);
+            i̲f̲ I = 152 ∨ I = 158 ∨ I = 160 t̲h̲e̲n̲
+              g̲o̲t̲o̲ PRNT e̲l̲s̲e̲ i̲f̲ I = 16 t̲h̲e̲n̲ g̲o̲t̲o̲
+              CPRFINISHED  e̲l̲s̲e̲
+            i̲f̲  I = 27  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               KEY1 := 1;
+               SKIPCHAR (DIN,160);
+               g̲o̲t̲o̲ PRNT;
+            e̲n̲d̲  LINE 500,
+              e̲l̲s̲e̲ i̲f̲  I = 26  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               KEY2 := 1;
+               SKIPCHAR (DIN,160);
+               g̲o̲t̲o̲ PRNT;
+            e̲n̲d̲  LINE 506,
+              e̲l̲s̲e̲ i̲f̲  I = 30  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               KEY3 := 1;
+               SKIPCHAR (DIN,160);
+               g̲o̲t̲o̲ PRNT;
+            e̲n̲d̲  LINE 512,
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               NEWLINES(2);
+               WRITETEXT(“OPTIONAL OUTPUT INSTRUCTIONS NOT UNDERSTOOD”);
+               g̲o̲t̲o̲  END;
+            e̲n̲d̲  LINE 517,  ;
+            CPRFINISHED:  AXESORTHOGONAL := ABS(PIBYTWO-ALPHA) < 0·000 000 1∧  ABS(PIBYTWO-BETA) <
+              0·000 000 1  ∧  ABS(PIBYTWO-GAMMA) < 0·000 000 1
+              ;
+            i̲f̲  AXESORTHOGONAL  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               NN[1,1] := A;
+               NN[2,2] := B;
+               NN[3,3] := C;
+               NN[1,2] := NN[1,3] := NN[2,1] := NN[2,3] :=
+                 NN[3,1] := NN[3,2] := 0·0;
+            e̲n̲d̲  LINE 526,
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               NN[1,1] := A×SQRT((SIN(BETA))⭡2-((COS(GAMMA)-COS(
+                 ALPHA)×COS(BETA))
+                 /SIN(ALPHA))⭡2);
+               NN[2,1] := A×(COS(GAMMA)-COS(ALPHA)×COS(BETA))/SIN
+                 (ALPHA);
+               NN[2,2] := B×SIN(ALPHA);
+               NN[3,1] := A×COS(BETA);
+               NN[3,2] := B×COS(ALPHA);
+               NN[3,3] := C;
+            e̲n̲d̲  LINE 537,  ;
+            i̲f̲ CC > 1·5 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  P  d̲o̲
+                    f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  12  d̲o̲  R
+                       [P+I,J] := -R[I,J];
+            e̲n̲d̲  LINE 542,  ;
+            LP := (i̲f̲  LT ≤ 4  t̲h̲e̲n̲  LT-1  e̲l̲s̲e̲  1);
+            SN := Z×(LP+1);
+            b̲e̲g̲i̲n̲
+               a̲r̲r̲a̲y̲ TT[0:LP,1:3];
+               TT[0,1] := TT[0,2] := TT[0,3] := 0·0;
+               i̲f̲  LP = 0  t̲h̲e̲n̲  g̲o̲t̲o̲  GENERATE;
+               i̲f̲  LT = 2  t̲h̲e̲n̲  g̲o̲t̲o̲  ILATTICE  e̲l̲s̲e̲
+               i̲f̲  LT = 3  t̲h̲e̲n̲
+                 g̲o̲t̲o̲  RLATTICE  e̲l̲s̲e̲  i̲f̲  LT = 4  t̲h̲e̲n̲
+                 g̲o̲t̲o̲  FLATTICE  e̲l̲s̲e̲
+               i̲f̲  LT = 5  t̲h̲e̲n̲  g̲o̲t̲o̲  ALATTICE  e̲l̲s̲e̲
+               i̲f̲  LT = 6  t̲h̲e̲n̲
+                 g̲o̲t̲o̲  BLATTICE  e̲l̲s̲e̲  i̲f̲  LT = 7  t̲h̲e̲n̲
+                 g̲o̲t̲o̲  CLATTICE  e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  NEWLINES(2);
+                  WRITETEXT(“LATTICE NUMBER WRONG”);
+                  g̲o̲t̲o̲  END;
+               e̲n̲d̲  LINE 556,  ;
+               ILATTICE : TT[1,1] := TT[1,2] := TT[1,3] := 0·5;
+               g̲o̲t̲o̲  GENERATE;
+               RLATTICE : TT[1,1] := TT[2,2] := TT[2,3] := 1/3;
+               TT[1,2] := TT[1,3] := TT[2,1] := 2/3;
+               g̲o̲t̲o̲  GENERATE;
+               FLATTICE : TT[1,1] := TT[2,2] := TT[3,3] := 0·0;
+               TT[1,2] := TT[1,3] := TT[2,1] := TT[2,3] :=
+                 TT[3,1] := TT[3,2] := 0·5;
+               g̲o̲t̲o̲  GENERATE;
+               ALATTICE : TT[1,1] := 0·0;
+               TT[1,2] := TT[1,3] := 0·5;
+               g̲o̲t̲o̲  GENERATE;
+               BLATTICE : TT[1,2] := 0·0;
+               TT[1,1] := TT[1,3] := 0·5;
+               g̲o̲t̲o̲  GENERATE;
+               CLATTICE : TT[1,3] := 0·0;
+               GENERATE:     b̲e̲g̲i̲n̲
+                  a̲r̲r̲a̲y̲  Y[1:NAT,1:SN,1:3];
+                  f̲o̲r̲  I  :=  0  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  LP  d̲o̲
+                       f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  Z  d̲o̲
+                          f̲o̲r̲  K  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT
+                          d̲o̲
+                             f̲o̲r̲  L  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3
+                             d̲o̲
+                                Y[K,J+Z×I,L] := R[J,3×L-2]×X[K,1]+
+                                R[J,3×L-1]×X[K,2]+R[J,
+                                3×L]×X[K,3]+R[J,9+L]+TT[I,L];
+                  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  SN  d̲o̲
+                       f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+                        b̲e̲g̲i̲n̲
+                           f̲o̲r̲  K  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                                F[K] := Y[J,I,K];
+                           ORTHOGONALISE(F,G,NN,AXESORTHOGONAL);
+                           f̲o̲r̲  K  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                                Y[J,I,K] := G[K];
+                        e̲n̲d̲  LINE 587,  ;
+                  i̲f̲  CKEY < 1·5  t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     C1[1,1] := C1[1,2] := C1[1,3] := 0·0;
+                     CKEY := 1;
+                     g̲o̲t̲o̲  JUMP;
+                  e̲n̲d̲  LINE 593,  ;
+                  I := 1;
+                  f̲o̲r̲  J  :=  1, 2, 3, 10, 11, 12, 19, 20, 21
+                    d̲o̲  C1[J,I] := 0;
+                  f̲o̲r̲  J  :=  4, 5, 6, 13, 14, 15, 22, 23, 24
+                    d̲o̲  C1[J,I] := +1;
+                  f̲o̲r̲  J  :=  7, 8, 9, 16, 17, 18, 25, 26, 27
+                    d̲o̲  C1[J,I] := -1;
+                  I := 2;
+                  f̲o̲r̲  J  :=  1, 4, 7, 10, 13, 16, 19, 22, 25
+                    d̲o̲  C1[J,I] := 0;
+                  f̲o̲r̲  J  :=  2, 5, 8, 11, 14, 17, 20, 23, 26
+                    d̲o̲  C1[J,I] := +1;
+                  f̲o̲r̲  J  :=  3, 6, 9, 12, 15, 18, 21, 24, 27
+                    d̲o̲  C1[J,I] := -1;
+                  I := 3;
+                  f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  9  d̲o̲  C1
+                       [J,I] := 0;
+                  f̲o̲r̲  J  :=  10  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  18  d̲o̲
+                       C1[J,I] := +1;
+                  f̲o̲r̲  J  :=  19  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  27  d̲o̲
+                       C1[J,I] := -1;
+                  JUMP:  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  CKEY  d̲o̲
+                     b̲e̲g̲i̲n̲
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                             F[J] := C1[I,J];
+                        ORTHOGONALISE(F,G,NN,AXESORTHOGONAL);
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                             C2[I,J] := G[J];
+                     e̲n̲d̲  LINE 611,  ;
+                  i̲f̲  KEY1 < 0·5  t̲h̲e̲n̲  g̲o̲t̲o̲  OUTORTHOG;
+                  NEWLINES(3);
+                  SPACES(2);
+                  WRITETEXT(“A = ”);
+                  PRINT(A,2,4);
+                  SPACES(2);
+                  WRITETEXT(“ANGSTROMS”);
+                  SPACES(8);
+                  WRITETEXT(“ALPHA = ”);
+                  PRINT(ALPHA×ANGLE,3,2);
+                  SPACES(2);
+                  WRITETEXT(“DEGREES”);
+                  NEWLINES(2);
+                  SPACES(2);
+                  WRITETEXT(“B = ”);
+                  PRINT(B,2,4);
+                  SPACES(2);
+                  WRITETEXT(“ANGSTROMS”);
+                  SPACES(8);
+                  WRITETEXT(“BETA  = ”);
+                  PRINT(BETA×ANGLE,3,2);
+                  SPACES(2);
+                  WRITETEXT(“DEGREES”);
+                  NEWLINES(2);
+                  SPACES(2);
+                  WRITETEXT(“C = ”);
+                  PRINT(C,2,4);
+                  SPACES(2);
+                  WRITETEXT(“ANGSTROMS”);
+                  SPACES(8);
+                  WRITETEXT(“GAMMA = ”);
+                  PRINT(GAMMA×ANGLE,3,2);
+                  SPACES(2);
+                  WRITETEXT(“DEGREES”);
+                  NEWLINES(5);
+                  f̲o̲r̲  I  :=  0  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  LP  d̲o̲
+                       f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  Z  d̲o̲
+                        b̲e̲g̲i̲n̲
+                           f̲o̲r̲  K  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  9  d̲o̲
+                                AA[K] := R[J,K];
+                           f̲o̲r̲  K  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                                AA[9+K] := R[J,9+K] + TT[I,K];
+                           SPACES(2);
+                           OUTEQUIVALENT POSITIONS(DV2,J+Z×I,AA);
+                        e̲n̲d̲  LINE 634,  ;
+                  NEWPAGE;
+                  NEWLINES(2);
+                  SPACES(2);
+                  WRITETEXT(“FRACTIONAL COORDINATES”);
+                  NEWLINES(2);
+                  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+                     b̲e̲g̲i̲n̲
+                        SPACES(4);
+                        OUTNAME (DV2,DV1,CH[I,1],CH[I,2],END);
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                             PRINT(X[I,J],6,5);
+                        NEWLINES(1);
+                     e̲n̲d̲  LINE 643,  ;
+                  OUTORTHOG:  i̲f̲  KEY2 < 0·5  t̲h̲e̲n̲  g̲o̲t̲o̲  BEGIN;
+                  NEWPAGE;
+                  NEWLINES(2);
+                  SPACES(2);
+                  WRITETEXT(“ORTHOGONAL COORDINATES”);
+                  NEWLINES(2);
+                  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+                     b̲e̲g̲i̲n̲
+                        SPACES(4);
+                        OUTNAME (DV2,DV1,CH[I,1],CH[I,2],END);
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3  d̲o̲
+                             PRINT(X[I,J],8,4);
+                        NEWLINES(1);
+                     e̲n̲d̲  LINE 654,  ;
+                  BEGIN:  f̲o̲r̲  I  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT  d̲o̲
+                     b̲e̲g̲i̲n̲
+                        i̲n̲t̲e̲g̲e̲r̲  COUNT;
+                        a̲r̲r̲a̲y̲  RES[1:500,1:(7+KEY3)];
+                        COUNT := 0;
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  CKEY
+                          d̲o̲
+                             f̲o̲r̲  K  :=  (i̲f̲  KEY3 > 0·5  ∧  J =
+                             1  t̲h̲e̲n̲  2  e̲l̲s̲e̲  1)
+                             s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  SN  d̲o̲
+                                f̲o̲r̲  L  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NAT
+                                d̲o̲
+                                 b̲e̲g̲i̲n̲
+                                    f̲o̲r̲  M  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  3
+                                      d̲o̲
+                                         F[M] := Y[L,K,M]+C2[J,M]-Y[I,1,M
+                                         ];
+                                    S := F[1]⭡2+F[2]⭡2+F[3]⭡2;
+                                    D := DMAX;
+                                    i̲f̲  ¬  RESTRICTIONS  t̲h̲e̲n̲  g̲o̲t̲o̲
+                                      OUT;
+                                    b̲e̲g̲i̲n̲
+                                       b̲o̲o̲l̲e̲a̲n̲  CHECK1,CHECK2;
+                                       f̲o̲r̲  M  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  NU
+                                         M  d̲o̲
+                                            f̲o̲r̲  N  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲
+                                            2  d̲o̲
+                                             b̲e̲g̲i̲n̲
+                                                CHECK1 := ABS(CH[I,1]-TEST[M,N])< 0·1;
+                                                CHECK2 := ABS(CH[L,1]-TEST[M,(
+                                                  i̲f̲  N = 1  t̲h̲e̲n̲  2
+                                                e̲l̲s̲e̲  1)]) < 0·1;
+                                                i̲f̲  CHECK1  ∧  CHECK2  t̲h̲e̲n̲
+                                                  D := TEST[M,3];
+                                             e̲n̲d̲  LINE 680,  ;
+                                    e̲n̲d̲  LINE 681,  TESTING BLOCK;
+                                    OUT:  i̲f̲  S > D  ∨  S = 0  t̲h̲e̲n̲  g̲o̲t̲o̲
+                                      NOTREQUIRED;
+                                    COUNT := COUNT+1;
+                                    i̲f̲  COUNT = 500  t̲h̲e̲n̲
+                                    b̲e̲g̲i̲n̲
+                                       NEWLINES(2);
+                                       WRITETEXT(“TOO MANY BOND LENGTHS ASKED FOR”);
+                                    e̲n̲d̲;
+                                    RES[COUNT,1] := L;
+                                    RES[COUNT,2] := K;
+                                    RES[COUNT,3] := J;
+                                    f̲o̲r̲  M  :=  4  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  6
+                                      d̲o̲  RES[COUNT,M] := F[M-3];
+                                    RES[COUNT,7] := SQRT(S);
+                                    NOTREQUIRED:
+                                 e̲n̲d̲  LINE 692,  ;
+                        SORT(COUNT,(7+KEY3),7,RES);
+                        NEWPAGE;
+                        NEWLINES(2);
+                        SPACES(2);
+                        WRITETEXT(“ATOM A”);
+                        SPACES(6);
+                        WRITETEXT(“ATOM B”);
+                        SPACES(5);
+                        WRITETEXT(“EP”);
+                        SPACES(6);
+                        WRITETEXT(“CELL”);
+                        SPACES(6);
+                        WRITETEXT(“A-B ANGSTROMS”);
+                        NEWLINES(2);
+                        f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  COUNT
+                          d̲o̲
+                           b̲e̲g̲i̲n̲
+                              SPACES(2);
+                              OUTNAME (DV2,DV1,CH[I,1],CH[I,2],END);
+                              SPACES(5);
+                              OUTNAME (DV2,DV1,CH[RES[J,1],1],CH[RE
+                                S[J,1],2],END);
+                              SPACES(4);
+                              OUTSYMMETRY (DV2,RES[J,2],C1,RES[J,3])
+                                ;
+                              SPACES(2);
+                              PRINT(RES[J,7],5,4);
+                              NEWLINES(1);
+                           e̲n̲d̲  LINE 703,  ;
+                        i̲f̲  AMAX ≠ 0  ∧  COUNT > 1·5  t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲
+                           NEWLINES(2);
+                           SPACES(2);
+                           WRITETEXT(“ATOM A”);
+                           SPACES(4);
+                           WRITETEXT(“EP”);
+                           SPACES(6);
+                           WRITETEXT(“CELL”);
+                           SPACES(13);
+                           WRITETEXT(“ATOM B”);
+                           SPACES(7);
+                           WRITETEXT(“ATOM C”);
+                           SPACES(3);
+                           WRITETEXT(“EP”);
+                           SPACES(6);
+                           WRITETEXT(“CELL”);
+                           SPACES(6);
+                           WRITETEXT(“ANGLE ABC”);
+                           NEWLINES(2);
+                           f̲o̲r̲  J  :=  1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  COUNT
+                             d̲o̲
+                                f̲o̲r̲  K  :=  J+1  s̲t̲e̲p̲  1  u̲n̲t̲i̲l̲  C
+                                OUNT  d̲o̲
+                                 b̲e̲g̲i̲n̲
+                                    i̲f̲  RES[J,7] > AMAX  ∨  RES[K,7
+                                      ] > AMAX  t̲h̲e̲n̲  g̲o̲t̲o̲  ONEMORE;
+                                    T := (RES[J,4]×RES[K,4]+RES[J,5]×
+                                      RES[K,5]+RES[J,6]×RES[K,
+                                      6])/(RES[J,7]×RES[K,7]);
+                                    i̲f̲  T = 0  t̲h̲e̲n̲
+                                    b̲e̲g̲i̲n̲
+                                       T := 90·0;
+                                       g̲o̲t̲o̲  CASE;
+                                    e̲n̲d̲  LINE 718,
+                                      e̲l̲s̲e̲ i̲f̲  T ≥ +1  t̲h̲e̲n̲
+                                    b̲e̲g̲i̲n̲
+                                       T := 0·0;
+                                       g̲o̲t̲o̲  CASE;
+                                    e̲n̲d̲  LINE 723,
+                                      e̲l̲s̲e̲ i̲f̲  T ≤ -1  t̲h̲e̲n̲
+                                    b̲e̲g̲i̲n̲
+                                       T := 180·0;
+                                       g̲o̲t̲o̲  CASE;
+                                    e̲n̲d̲  LINE 728,  ;
+                                    T := ARCTAN(SQRT(1-T⭡2)/T)×ANGLE;
+                                    i̲f̲  T < 0  t̲h̲e̲n̲  T := 180·0+T;
+                                    CASE :
+                                    SPACES(2);
+                                    OUTNAME(DV2,DV1,CH[RES[J,1],1],CH[RES[J,1],2],END);
+                                    SPACES(3);
+                                    OUTSYMMETRY (DV2,RES[J,2],C1,RES[J,3
+                                      ]);
+                                    SPACES(10);
+                                    OUTNAME (DV2,DV1,CH[I,1],CH[I,2],EN
+                                      D);
+                                    SPACES(6);
+                                    OUTNAME (DV2,DV1,CH[RES[K,1],1],CH
+                                      [RES[K,1],2],END);
+                                    SPACES(2);
+                                    OUTSYMMETRY (DV2,RES[K,2],C1,RES[K,3
+                                      ]);
+                                    PRINT(T,7,2);
+                                    NEWLINES(1);
+                                    ONEMORE:
+                                 e̲n̲d̲  LINE 740,  ANGLE CALCULATION;
+                        e̲n̲d̲  LINE 741,  ANGLE SEARCHING LOOP;
+                     e̲n̲d̲  LINE 742,  LOOP THROUGH ATOM LIST;
+               e̲n̲d̲  LINE 743,  CELL COORDINATE BLOCK;
+            e̲n̲d̲  LINE 744,  BLOCK LATTICE TYPE;
+         e̲n̲d̲  LINE 745,  BLOCK EQUIVALENT POSITIONS;
+         END:  g̲o̲t̲o̲  TERMINATE;
+      e̲n̲d̲  LINE 747,  DBXA161 BLOCK
+   e̲n̲d̲  LINE 748,  ARRAY BLOCK;
+   FAILURE:
+   TERMINATE:
+e̲n̲d̲

@@ -1,0 +1,116 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG049   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ WJW1;
+      c̲o̲m̲m̲e̲n̲t̲ A0,A6;
+      i̲n̲t̲e̲g̲e̲r̲ Y,I,J,E,COUNT;
+      r̲e̲a̲l̲ A,B,C,BETAD,G,R,S,M,N,O,P,Q,GA,MA;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ H,K,L[1:6];
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ D[1:6],SEP[0:10];
+      GA:=READ;
+      MA:=READ;
+      E:=READ;
+      Y:=READ;
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ Yd̲o̲
+         b̲e̲g̲i̲n̲
+            H[I]:=READ;
+            K[I]:=READ;
+            L[I]:=READ;
+            D[I]:=READ;
+         e̲n̲d̲;
+
+      COUNT:=0;
+      A:=6·60;
+      B:=20·78;
+      C:=6·50;
+      BETAD:=1·735;
+      G:=GA+0·03;
+      M:=MA;
+      SS: I:=1;
+      J:=0;
+      i̲f̲ M<MA t̲h̲e̲n̲ g̲o̲t̲o̲ UU;
+      G:=G-0·03;
+      i̲f̲ G<(@-9) t̲h̲e̲n̲ g̲o̲t̲o̲ UU e̲l̲s̲e̲ g̲o̲t̲o̲ NN;
+      UU: M:=M-0·02;
+      i̲f̲ M<@-9 t̲h̲e̲n̲ g̲o̲t̲o̲ TT;
+      NN: N:=A; O:=B; P:=C; Q:=BETAD;
+      f̲o̲r̲ A:=N-E×M s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ N+E×M d̲o̲
+           f̲o̲r̲ B:=O-E×M s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ O+E×M d̲o̲
+              f̲o̲r̲ C:=P-E×M s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ P+E×M d̲o̲
+               b̲e̲g̲i̲n̲ J:=0;
+                  f̲o̲r̲ BETAD:=Q-E×M/4 s̲t̲e̲p̲ M/4 u̲n̲t̲i̲l̲ Q+E×M/4 d̲o̲
+                     b̲e̲g̲i̲n̲
+                        R:=H[I]⭡2/A⭡2+(K[I]×SIN(BETAD))⭡2/B⭡2+L[I]⭡2/C⭡2
+                          -2×H[I]×L[I]×COS(BETAD)/A/C;
+                        S:=SIN(BETAD)/SQRT(R);
+                        i̲f̲ ABS(S-D[I])<G t̲h̲e̲n̲ g̲o̲t̲o̲ QQ e̲l̲s̲e̲ g̲o̲t̲o̲ SKIP;
+                        g̲o̲t̲o̲ SKIP;
+                        QQ:;
+                        c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION      WRITE TEXT ('(''('8S')'D=')');
+                        c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION          PRINT(S,2,3);
+                        c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION         NEWLINES(1);
+                        J:=J+1;
+                        i̲f̲ J=1 t̲h̲e̲n̲ SEP[J]:=ABS(S-D[I]) e̲l̲s̲e̲
+                        i̲f̲ ABS(S-D[I])<SEP[J-1] t̲h̲e̲n̲ g̲o̲t̲o̲ RR e̲l̲s̲e̲
+                        i̲f̲ ABS(S-D[I]) ≥ SEP[J-1] t̲h̲e̲n̲ g̲o̲t̲o̲ PP;
+                        RR:SEP[J]:=ABS(S-D[I]);
+                        SKIP:e̲n̲d̲;
+               e̲n̲d̲;
+      i̲f̲ M<MA t̲h̲e̲n̲ g̲o̲t̲o̲ TT e̲l̲s̲e̲
+      i̲f̲ M=MA ∧ G ≥ GA t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT e̲l̲s̲e̲
+      i̲f̲ M=MA t̲h̲e̲n̲ G:=G+0·03;
+      g̲o̲t̲o̲ UU;
+      NEXT:G:=G+0·03;
+      g̲o̲t̲o̲ NN;
+
+      c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION WRITE TEXT ('(''('8S')'D=')');
+
+      c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION          PRINT(S,2,3);
+      c̲o̲m̲m̲e̲n̲t̲ PDS ADDITION         NEWLINES(1);
+      PP: I:=I+1;
+      i̲f̲ I=Y+1 t̲h̲e̲n̲ g̲o̲t̲o̲ SS;
+      R:=H[I]⭡2/A⭡2+(K[I]×SIN(BETAD))⭡2/B⭡2+L[I]⭡2/C⭡2
+        -2×H[I]×L[I]×COS(BETAD)/A/C;
+      S:=SIN(BETAD)/SQRT(R);
+      WRITE TEXT (““4S”D=”);
+      PRINT(S,2,3);
+      WRITE TEXT (““4S”G=”);
+      PRINT(G,2,3);
+      WRITE TEXT (““4S”M=”);
+      PRINT(M,2,3);
+      NEWLINES(1);
+      COUNT:=COUNT+1;
+      i̲f̲ COUNT = 100 t̲h̲e̲n̲ g̲o̲t̲o̲ TT;
+      i̲f̲ ABS(S-D[I])<G ∧ M=MA t̲h̲e̲n̲ g̲o̲t̲o̲ PP e̲l̲s̲e̲
+      i̲f̲ ABS(S-D[I])<(G-(MA-M)) t̲h̲e̲n̲ g̲o̲t̲o̲ PP e̲l̲s̲e̲
+      i̲f̲ M<MA t̲h̲e̲n̲ g̲o̲t̲o̲ TT e̲l̲s̲e̲
+      i̲f̲ J=0 t̲h̲e̲n̲ G:=G+0·3 ;
+      I:=1;
+      g̲o̲t̲o̲ NN;
+      TT:
+      WRITE TEXT (““4S”A=”);
+      PRINT(N,2,3);
+      NEWLINES(1);
+      WRITE TEXT (““4S”B=”);
+      PRINT(O,2,3);
+      NEWLINES(1);
+      WRITE TEXT (““4S”C=”);
+      PRINT(P,2,3);
+      NEWLINES(1);
+      WRITE TEXT (““4S”BETA=”);
+      PRINT(Q×180/3·142,3,3);
+      NEWLINES(1);
+      WRITE TEXT (““4S”G=”);
+      PRINT(G,2,3);
+      NEWLINES(1);
+      WRITE TEXT (““4S”M=”);
+      PRINT(M,2,3);
+      NEWLINES(1);
+   e̲n̲d̲
+e̲n̲d̲;

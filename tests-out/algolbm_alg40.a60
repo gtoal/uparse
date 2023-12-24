@@ -1,0 +1,86 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG040   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ MEP00;
+
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ A0,A6,A12;
+      i̲n̲t̲e̲g̲e̲r̲ N,M;
+
+      REPEAT:N:=READ;
+      i̲f̲ N=0 t̲h̲e̲n̲ g̲o̲t̲o̲ FINISH;
+      M:=READ;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,K,SA,SB,SC,SD;
+         r̲e̲a̲l̲ KA,KB,RMS,MEAN;
+         b̲o̲o̲l̲e̲a̲n̲ FITLOG;
+         a̲r̲r̲a̲y̲ A[1:N,0:N], B[1:N], SUM[0:N+N], X,Y[1:M];
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLVE(X,A,N);
+            v̲a̲l̲u̲e̲ A,N;
+            i̲n̲t̲e̲g̲e̲r̲ N;
+              a̲r̲r̲a̲y̲ A,X;
+         b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,R,C;
+            r̲e̲a̲l̲ Z;
+            f̲o̲r̲ I:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                 f̲o̲r̲ R:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I d̲o̲
+                  b̲e̲g̲i̲n̲ Z:=A[R,I+1]/A[I+1,I+1];
+                     f̲o̲r̲ C:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I d̲o̲
+                          A[R,C]:=A[R,C]-A[I+1,C]×Z;
+                  e̲n̲d̲;
+            f̲o̲r̲ R:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ Z:=A[R,0];
+                  f̲o̲r̲ I:=R-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ Z:=Z-X[I]×A[R,I];
+                  X[R]:=Z/A[R,R];
+               e̲n̲d̲;
+         e̲n̲d̲ OF SOLVE;
+         FITLOG:=READ≠0·0;
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ X[J]:=READ;
+               Y[J]:=i̲f̲ FITLOG t̲h̲e̲n̲ LN(READ) e̲l̲s̲e̲ READ;
+            e̲n̲d̲ OF READING CURVE;
+         f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N+N d̲o̲ SUM[J]:=0·0;
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲  N  d̲o̲ A[J,0]:=0·0;
+         SUM[0]:=M;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ KA:=X[I];
+               KB:=1·0;
+               f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N+N d̲o̲
+                  b̲e̲g̲i̲n̲ KB:=KB×KA;
+                     SUM[J]:=SUM[J]+KB;
+                  e̲n̲d̲;
+               KB:=Y[I];
+               f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ A[J,0]:=A[J,0]+KB;
+                     KB:=KB×KA;
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ A[I,J]:=SUM[I+J-2];
+         f̲o̲r̲ I:=READ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ SOLVE(B,A,I);
+               RMS:=MEAN:=0·0;
+               f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                  b̲e̲g̲i̲n̲ KA:=B[I];
+                     KB:=X[J];
+                     f̲o̲r̲ K:=I-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ KA:=KA×KB+B[K];
+                     KA:=Y[J]-KA;
+                     RMS:=RMS+KA×KA;
+                     MEAN:=MEAN+KA;
+                     PRINT(KB,0,4);   PRINT(Y[J],0,6);
+                     PRINT(KA,1,4); NEWLINES(1);
+                  e̲n̲d̲;
+               NEWLINES(1);
+               PRINT(I-1,1,0);  PRINT(MEAN/M,0,4) ;
+               PRINT(SQRT(RMS/M),0,4);
+               f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I d̲o̲ PRINT(B[J],0,6);
+               NEWLINES(1);
+               NEWPAGE;
+            e̲n̲d̲;
+      e̲n̲d̲ OF BLOCK 1;
+      g̲o̲t̲o̲ REPEAT;
+      FINISH:
+   e̲n̲d̲;
+e̲n̲d̲

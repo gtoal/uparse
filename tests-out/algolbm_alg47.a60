@@ -1,0 +1,107 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG047   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ A PROGRAM TO FIND THE STARTING VALUE OF HMIN;
+      c̲o̲m̲m̲e̲n̲t̲ A30;
+      r̲e̲a̲l̲ A,B,BE,BO,C,CR,D,DU,EL,EM,EN,EX,ESS,         FN,FN2,FN3,HO,
+        H1,H2,OMEGA,P1,P2,RT,RU1,RU2,S,VE,VEL,WY,X,DIF,BIF,INT;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,N;
+      a̲r̲r̲a̲y̲ HMIN[1:20];
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SIMP(P,Q,PX,N);
+         v̲a̲l̲u̲e̲ P,Q,N;
+         r̲e̲a̲l̲ P,Q;
+           i̲n̲t̲e̲g̲e̲r̲ N;
+           r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ PX;
+           c̲o̲m̲m̲e̲n̲t̲ (X):'VALUE' X: 'REAL' X;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ R; r̲e̲a̲l̲ Z,DX;
+         DX:=(P-Q)/N; Z:=PX(P)+PX(Q);
+         f̲o̲r̲ R:=1s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ N-1 d̲o̲ Z:=Z+4×PX(P+DX×R);
+         f̲o̲r̲ R:=2s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ N-2 d̲o̲ Z:=Z+2×PX(P+DX×R);
+         SIMP:=Z×DX/3;
+         PRINT(Z×DX/3,0,3);  NEWLINES(1);
+      e̲n̲d̲;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ BX(X);
+         v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+      b̲e̲g̲i̲n̲
+         FN:=A×X⭡2+B×X+C; FN2:=FN⭡2; FN3:=FN⭡3;
+         D:=2×A×X+B;
+         i̲f̲ S<0 t̲h̲e̲n̲ BX:=(2/RT)×ARCTAN(D/RT)
+           e̲l̲s̲e̲ i̲f̲ S=0 t̲h̲e̲n̲ BX:=-2/D
+         e̲l̲s̲e̲ BX:=(1/RT)×LN(ABS((D-RT)/(D+RT)));
+      e̲n̲d̲;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GX(X);
+         v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+      b̲e̲g̲i̲n̲
+         GX:=D/2×(-S)×FN2-3×A×D/S⭡2×FN+(6×A⭡2/S⭡2)×BX(X);
+      e̲n̲d̲;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HX(X);
+         v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ Y;
+         Y:=BX(X);
+         HX:=D/(-S)×FN +(2×A/(-S))×Y;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FX(X);
+         v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ Y;
+         Y:=HX(X);
+         FX:=(B×X+2×C)/3×(-S)×FN2-(3×B/2×(-S))×Y;
+      e̲n̲d̲;
+
+
+      HO:=READ; H1:=READ; H2:=READ; BE:=READ; P1:=READ;
+      P2:=READ; OMEGA:=READ; VEL:=READ; CR:=READ;
+      N:=READ;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲ HMIN[I]:=READ;
+
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 6 d̲o̲
+         b̲e̲g̲i̲n̲
+            A:=(H1+H2-2×HO)/2×BE⭡2;
+            B:=(H1-H2)/2×BE;
+            C:=HO+HMIN[J];
+            i̲f̲ ABS(-B/2×A)>BE t̲h̲e̲n̲ BO:=-BE e̲l̲s̲e̲ BO:=-B/2×A;
+            S:=B⭡2-4×A×C;
+            RT:=SQRT(ABS(S));
+            EL:=FX(BE)-FX(BO); EM:=GX(BE)-GX(BO); EN:=HX(BE)-HX(BO)
+              ;
+            DIF:=(BE-BO);
+            INT:=SIMP(BE,BO,GX,N);
+            BIF:=DIF×GX(BE)-INT;
+            EX:=SIMP(BE,BO,FX,N)-DIF×FX(BE)+(EL/EM)×BIF;
+            WY:=SIMP(BE,BO,HX,N)-DIF×HX(BE)+(EN/EM)×BIF;
+            VE:=(INT-DIF×GX(BO))/EM;
+            DU:=(DIF×GX(BE)-INT)/EM;
+            ESS:=VEL/OMEGA×CR;
+            RU1:=ESS×WY-P1×VE-P2×DU-P1×(BE+BO)+2×P1×BE;
+            LOOP:     N:=2×N;
+            INT:=SIMP(BE,BO,GX,N);
+            BIF:=DIF×GX(BE)-INT;
+            EX:=SIMP(BE,BO,FX,N)-DIF×FX(BE)+(EL/EM)×BIF;
+            WY:=SIMP(BE,BO,HX,N)-DIF×HX(BE)+(EN/EM)×BIF;
+            VE:=(INT-DIF×GX(BO))/EM;
+            DU:=(DIF×GX(BE)-INT)/EM;
+            RU2:=ESS×WY-P1×VE-P2×DU-P1×(BE+BO)+2×P1×BE;
+            i̲f̲ ABS((RU2-RU1)/RU2) > 1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               PRINT(RU1,0,3);
+               PRINT(RU2,0,3);
+               RU1:=RU2;
+               g̲o̲t̲o̲ LOOP
+            e̲n̲d̲;
+            WRITETEXT(““3S”HMIN”); WRITETEXT(““19S”RESIDUAL“C””);
+            PRINT(HMIN[J],0,3);
+            SPACES(15);   PRINT(RU2,0,3);   NEWLINES(1);
+         e̲n̲d̲ OF FOR STATEMENT;
+      WRITETEXT(““S”NO.OF STEPS=”);
+      PRINT(N,0,3);  NEWLINES(1);
+
+   e̲n̲d̲
+e̲n̲d̲;

@@ -1,0 +1,127 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG048   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ THIS PROGRAMME ENABLES ONE TO EXPRESS THE FREQUENCY
+        RESPONSE OF A DYNAMIC SYSTEM AS A RATIO OF TWO
+        FREQUENCY DEPENDENT POLYNOMIALS;
+      c̲o̲m̲m̲e̲n̲t̲ A0,A6,A12,A30,B3037;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,X,Y,Z,K,H,F1,F2;
+      r̲e̲a̲l̲ PIC,SUM1,SUM2,SUM3,SUM4;
+
+      X:=READ;Y:=READ;Z:=READ;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ LAMDA[0:2×X],S,T,U[0:2×Y],RR,II,AA,MAG,F[0:Z]
+           ,
+           M[1:X+Y+1,1:X+Y+1],C,N[1:X+Y+1],
+           O[1:X+1,1:X+1],P[1:Y,1:X+1],Q[1:X+1,1:Y],
+           R[1:Y,1:Y],A[0:X+1],B[0:Y];
+         c̲o̲m̲m̲e̲n̲t̲
+           THIS PART OF THE PROGRAMME EVALUATES RR AND II;
+         A[0]:=A[1]:=A[2]:=A[3]:=A[4]:=0;
+         B[0]:=B[1]:=B[2]:=B[3]:=B[4]:=0;
+         PIC:=3·14159265359/180;
+         f̲o̲r̲ K:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Z d̲o̲
+            b̲e̲g̲i̲n̲ MAG[K]:=READ;AA[K]:=READ×PIC;F[K]:=READ;
+               RR[K]:=MAG[K]×COS(AA[K]);
+               II[K]:=MAG[K]×SIN(AA[K]);
+            e̲n̲d̲;
+         f̲o̲r̲ H:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2×Y d̲o̲
+            b̲e̲g̲i̲n̲ SUM1:=SUM2:=SUM3:=SUM4:=0;
+               f̲o̲r̲ K:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Z d̲o̲
+                  b̲e̲g̲i̲n̲
+                     SUM1:=(i̲f̲ H=0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ F[K]⭡H)+SUM1;
+                     SUM2:=(i̲f̲ H=0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲(F[K]⭡H×RR[K]))+SUM2;
+                     SUM3:=(i̲f̲ H=0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲(F[K]⭡H×II[K]))+SUM3;
+                     SUM4:=(i̲f̲ H=0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲(F[K]⭡H×(RR[K]⭡2+
+                       II[K]⭡2)))+SUM4;
+                  e̲n̲d̲;
+               LAMDA[H]:=SUM1;S[H]:=SUM2;T[H]:=SUM3;U[H]:=SUM4;
+            e̲n̲d̲;
+         c̲o̲m̲m̲e̲n̲t̲
+           THIS PART OF THE PROGRAMME SETS UP THE MATRICES [M],[N]
+           AND [C] USING THE VALUES OF LAMDA,S,T AND U PREVIOUSL
+           Y
+           EVAULATED.
+           LET THE TRANFER FUNCTION BE G(JW)=A(JW)/B(JW)
+           WHERE THE POLYNOMIALS A AND B ARE OF ORDER X AND Y
+           RESPECTIVELY. ASSUME B(0)=1;
+         L1:    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+              f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+                 i̲f̲ (I+J)÷2×2≠I+Jt̲h̲e̲n̲ O[I,J]:=0 e̲l̲s̲e̲
+                 O[I,J]:=LAMDA[I+J-2];
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Y d̲o̲
+              L2:    f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+                 i̲f̲ (I+J)÷2×2=I+J t̲h̲e̲n̲ P[I,J]:=T[I+J-1] e̲l̲s̲e̲
+                 P[I,J]:=S[I+J-1];
+         L3:    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+              f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Y d̲o̲
+                 i̲f̲ (I+J)÷2×2=I+J t̲h̲e̲n̲ Q[I,J]:=T[I+J-1] e̲l̲s̲e̲
+                 Q[I,J]:=S[I+J-1];
+         L4:    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Yd̲o̲
+              f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Y d̲o̲
+                 i̲f̲ (I+J)÷2×2≠I+Jt̲h̲e̲n̲ R[I,J]:=0 e̲l̲s̲e̲
+                 R[I,J]:=U[I+J];
+         L5:    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+              i̲f̲ I÷2×2≠It̲h̲e̲n̲ C[I]:=S[I-1] e̲l̲s̲e̲ C[I]:=T[I-1];
+         L6:    f̲o̲r̲ I:=X+2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+              i̲f̲ (I-X-1)÷2×2≠I-X-1t̲h̲e̲n̲ C[I]:=0 e̲l̲s̲e̲
+              C[I]:=U[I-X-1];
+         L7:    f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲ N[I]:=A[I-1];
+         f̲o̲r̲ I:=X+2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲ N[I]:=B[I-X-1];
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+1 d̲o̲
+                 i̲f̲ I÷2×2≠It̲h̲e̲n̲
+                 L8:           b̲e̲g̲i̲n̲ f̲o̲r̲ J:=3,4 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ Y d̲o̲ Q[I,J]:=-Q[
+                       I,
+                       J];e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  f̲o̲r̲ J:=1,4 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ Y d̲o̲ Q[I,J]:=-Q[I,J];
+                  f̲o̲r̲ J:=3,4 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ X+1 d̲o̲ O[I,J]:=-O[I,J]
+                    ;
+               e̲n̲d̲;
+         e̲n̲d̲;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Y d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ I÷2×2≠It̲h̲e̲n̲
+                 L9:           b̲e̲g̲i̲n̲ f̲o̲r̲ J:=1,2 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ X+1 d̲o̲ P[I,J]:=-
+                       P[
+                       I,J]; e̲n̲d̲
+               e̲l̲s̲e̲
+                 L10:          f̲o̲r̲ J:=3,4 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ X+1 d̲o̲ P[I,J]:=-P[I,J]
+                 ;
+               f̲o̲r̲ J:=3,4 s̲t̲e̲p̲ 4 u̲n̲t̲i̲l̲ Y d̲o̲ R[I,J]:=-R[I,J];
+            e̲n̲d̲;
+         L11:   b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+                 f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+                    L12:       i̲f̲ I ≤ X+1 ∧ J ≤ X+1 t̲h̲e̲n̲
+                    M[I,J]:=O[I,J] e̲l̲s̲e̲
+                  L13:      i̲f̲ I>X+1 ∧ J ≤ X+1 t̲h̲e̲n̲
+                    M[I,J]:=P[I-X-1,J] e̲l̲s̲e̲
+                  L14:          i̲f̲ I ≤ X+1 ∧ J>X+1 t̲h̲e̲n̲
+                    M[I,J]:=Q[I,J-X-1] e̲l̲s̲e̲
+                    M[I,J]:=R[I-X-1,J-X-1];
+         e̲n̲d̲;
+
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+              f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+               b̲e̲g̲i̲n̲
+                  PRINT(M[I,J],0,4);
+                  i̲f̲ J = X+Y+1 ∨ J÷5×5= J t̲h̲e̲n̲ NEWLINES(1);
+               e̲n̲d̲;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X+Y+1 d̲o̲
+            b̲e̲g̲i̲n̲
+               PRINT(N[I],0,4);
+               i̲f̲ I ÷5×5= I t̲h̲e̲n̲ NEWLINES(1);
+               PRINT(C[I],0,4);
+               i̲f̲ I ÷5×5= I t̲h̲e̲n̲ NEWLINES(1);
+            e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+e̲n̲d̲

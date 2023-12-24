@@ -1,0 +1,89 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG046   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲
+     !***GBI1****BENGBME***************************
+     ;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ INTERPOLATION OF LOAD CAPACITY USING CARPET;
+      c̲o̲m̲m̲e̲n̲t̲ A0,A6;  a̲r̲r̲a̲y̲ SHAPE[1:7],TAPER[1:13];
+      r̲e̲a̲l̲ HI,BOL,I,J,TOLERANCE; a̲r̲r̲a̲y̲ PZ[1:7,1:13];
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCATE(VECTOR,L,U,VALUE,I,TOLERANCE,UP,ESCAPE);
+         v̲a̲l̲u̲e̲ L,U,VALUE,TOLERANCE,UP;
+         r̲e̲a̲l̲ VECTOR,VALUE,TOLERANCE; i̲n̲t̲e̲g̲e̲r̲ L,U,I;
+           b̲o̲o̲l̲e̲a̲n̲ UP; l̲a̲b̲e̲l̲ ESCAPE;
+           c̲o̲m̲m̲e̲n̲t̲ MODIFICATION OF B-LIBRARY 3012.SEARCHES A VECTOR
+           BETWEEN UPPER AND LOWER LIMITS FOR A SPECIFIED VALUE.
+           IF A VECTOR HAS THAT VALUE (WITHIN A TOLERANCE) THEN THE
+           VECTOR INDEX I IS GIVEN. OTHERWISE A JUMP IS MADE TO ESCAPE
+           WITH I GIVING THE VECTOR IMMEDIATELY BELOW THE VALUE,SO
+           THAT VECTOR I AND VECTOR (I+1) STRADDLE THE VALUE. THE
+           ENTRIES IN THE VECTOR ARE INCREASING IF UP IS TRUE.
+           LIBRARY WRITTEN BY M.WELLS,E.C.L , LEEDS UNIV,
+           MODIFICATION TO INCLUDE THE TOLERANCE BY P.H.MARKHO,
+           MECH.ENG, LEEDS UNIV;
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=L,U,(L+U)÷2 w̲h̲i̲l̲e̲ L<I,I d̲o̲
+              i̲f̲ ABS(VALUE-VECTOR)<TOLERANCE t̲h̲e̲n̲ g̲o̲t̲o̲ EXIT e̲l̲s̲e̲
+            i̲f̲ VALUE<VECTOR ≡ UP t̲h̲e̲n̲ U:=I e̲l̲s̲e̲ L:=I;
+         g̲o̲t̲o̲ ESCAPE;
+         EXIT: e̲n̲d̲ OF LOCATE;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LINEQUAD(X,Y,R,S,T,X1);
+         v̲a̲l̲u̲e̲ R,S,T,X1;
+         r̲e̲a̲l̲ X1; i̲n̲t̲e̲g̲e̲r̲ R,S,T; a̲r̲r̲a̲y̲ X,Y;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ A PROCEDURE WHICH FITS A PARABOLA
+           Y=F(X) THROUGH THE THREE POINTS
+           (X[R],Y[R]),(X[S],Y[S]),(X[T],Y[T]).LINEQUAD
+           TAKES THE VALUE OF F(X1). PROCEDURE WRITTEN
+           BY A.V.WHITTAKER, EX-MECH.ENG, LEEDS UNIV;
+         r̲e̲a̲l̲ A,B,DX;
+         A:=(Y[S]-Y[R])/(X[S]-X[R]);
+         B:=((Y[T]-Y[S])/(X[T]-X[S])-A)/(X[T]-X[R]);
+         A:=A+B×(X[S]-X[R]);
+         DX:=X1-X[S];
+         LINEQUAD:=Y[S]+DX×(B×DX+A);
+      e̲n̲d̲ OF LINEQUAD;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CARPETQUAD(HI,BOL,PARAMETER);
+         v̲a̲l̲u̲e̲ HI,BOL; r̲e̲a̲l̲ HI,BOL; a̲r̲r̲a̲y̲ PARAMETER;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ A TWO-DIMENSIONAL QUADRATIC INTERPOLATION
+           IS CARRIED OUT USING PROCEDURES LINEQUAD AND LOCATE.
+           CARPETQUAD TAKES THE INTERPOLATED VALUE OF PARAMETER
+           AT POINTS HI AND BOL. PROCEDURE WRITTEN BY MRS.M.S.BLOOR,
+           MECH.ENG ,LEEDS UNIV;
+         i̲n̲t̲e̲g̲e̲r̲ I,J,P,Q; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ G,F[1:13];
+         LOCATE(TAPER[P],1,12,HI,P,TOLERANCE,t̲r̲u̲e̲,NOTHITAB);
+         LOCATE(SHAPE[I],1,6,BOL,I,TOLERANCE,t̲r̲u̲e̲,NOTBOLTAB);
+         CARPETQUAD:=PARAMETER[I,P]; g̲o̲t̲o̲ FINI;
+         NOTHITAB: i̲f̲(ABS(TAPER[P]-HI)>ABS(TAPER[P+1]-HI)∧P<12)∨ P=1 t̲h̲e̲n̲ P:=P+1;
+         LOCATE(SHAPE[I],1,6,BOL,I,TOLERANCE,t̲r̲u̲e̲,NEITHERTAB);
+         f̲o̲r̲ Q:=P-1,P,P+1 d̲o̲ F[Q]:=PARAMETER[I,Q];
+         CARPETQUAD:=LINEQUAD(TAPER,F,P-1,P,P+1,HI); g̲o̲t̲o̲ FINI;
+         NOTBOLTAB: i̲f̲(ABS(SHAPE[I]-BOL)>ABS(SHAPE[I+1]-BOL)∧I<6)∨ I=1 t̲h̲e̲n̲ I:=I+1;
+         f̲o̲r̲ Q:=I-1,I,I+1 d̲o̲ F[Q]:=PARAMETER[Q,P];
+         CARPETQUAD:=LINEQUAD(SHAPE,F,I-1,I,I+1,BOL); g̲o̲t̲o̲ FINI;
+         NEITHERTAB:i̲f̲(ABS(SHAPE[I]-BOL)>ABS(SHAPE[I+1]-BOL)∧I<6)∨ I=1 t̲h̲e̲n̲ I:=I+1;
+         f̲o̲r̲Q:=P-1,P,P+1 d̲o̲ b̲e̲g̲i̲n̲ f̲o̲r̲ J:=I-1,I,I+1 d̲o̲
+                    G[J]:=PARAMETER[J,Q];
+               F[Q]:=LINEQUAD(SHAPE,G,I-1,I,I+1,BOL);
+            e̲n̲d̲;
+         CARPETQUAD:=LINEQUAD(TAPER,F,P-1,P,P+1,HI);
+         FINI: e̲n̲d̲ OF CARPETQUAD;
+      f̲o̲r̲I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲ SHAPE[I]:=I×0·25+0·25;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 13 d̲o̲  TAPER[I]:=I×0·25-0·25;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲
+           f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 13 d̲o̲ PZ[I,J]:=READ;
+      TOLERANCE:=READ;
+      WRITE TEXT(“INTERPOLATION%OF%LOAD%CAPACITY%BY%CARPETQUAD“4C”B/L%%HI“9S”PZ“2C””);
+      f̲o̲r̲ BOL:=0·5 s̲t̲e̲p̲ 0·1 u̲n̲t̲i̲l̲ 2·0 d̲o̲
+           f̲o̲r̲ HI:=1·0 s̲t̲e̲p̲ 0·1 u̲n̲t̲i̲l̲ 4·0 d̲o̲
+            b̲e̲g̲i̲n̲
+               PRINT(BOL,1,1);   SPACES(2);
+               PRINT(HI,1,1);  SPACES(6);
+               I:=CARPETQUAD(HI,BOL,PZ);
+               PRINT(I,1,4);  NEWLINES(1);
+            e̲n̲d̲;
+   e̲n̲d̲;
+e̲n̲d̲

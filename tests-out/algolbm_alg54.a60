@@ -1,0 +1,292 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG054   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲
+     !***BG4621B***BEN4ASUE****
+     ;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲   I,J,M,N,I2,J2,I1,J1,P,H,H1,H2,X1,B,C1,R,D,E,ALPHA,BE
+        TA,
+        GAMMA,A,SIGMA,NETA,Q,S,T,TOR,VV,W,PI;
+
+      I1:=0;J1:=0;
+
+      H1:=1;    c̲o̲m̲m̲e̲n̲t̲   FIX UP;
+      M := READ; N := READ;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ V,EE,DD[0:N],U,SS[0:M],C[0:M×N],
+           AA,F[1:2×M+N-2],BB,G,XXX[1:M-1],X,K,LL,JJ,II[1:M+N-1];
+         c̲o̲m̲m̲e̲n̲t̲ READING IN THE DATA;
+         f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+              SS[I] := READ;
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              DD[J] := READ;
+         f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M×N d̲o̲
+              C[I] := READ;
+         c̲o̲m̲m̲e̲n̲t̲ FORMING I.B.F.S.;
+         P := N; VV := N-1; W :=M+N-1;
+         TOR := E := 1;
+         A := U[E] := U[0] := 0;
+         f̲o̲r̲ TOR:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              EE[TOR]:=0;
+         L1:   NETA := (E-1)×N+1; TOR:=1; C[0]:=10000;
+         L2:   i̲f̲ C[NETA]<C[0] t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲f̲ EE[TOR]=0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ D:=TOR; C[0]:=C[NETA]
+                 ;
+            e̲n̲d̲;
+         e̲n̲d̲;
+         i̲f̲ TOR ≠ N t̲h̲e̲n̲b̲e̲g̲i̲n̲  NETA:=NETA+1;
+            TOR:=TOR+1; g̲o̲t̲o̲ L2;
+         e̲n̲d̲;
+         TOR:=D; EE[TOR]:=1;
+         V[0]:=V[D] := C[0]-U[0];
+         i̲f̲ A = 0 t̲h̲e̲n̲  b̲e̲g̲i̲n̲ A:=1;
+            R:=S:=Q:=D; T:=0;
+         e̲n̲d̲;
+         S:=R; T:=0; R:=D;
+         i̲f̲ VV=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L3;
+         i̲f̲ DD[D] ≤ SS[E] t̲h̲e̲n̲ g̲o̲t̲o̲L4;
+         L3:   K[Q]:=R; Q:=GAMMA:=D;
+         L7:   II[GAMMA]:=E; JJ[GAMMA]:=D; K[GAMMA]:=S;
+         LL[GAMMA]:=T; X[GAMMA]:=SS[E]; DD[D]:=DD[D]-SS[E]; SS[
+           E]:=0;
+         W:=W-1;
+         i̲f̲ W=0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ I2:=0; g̲o̲t̲o̲ L13; e̲n̲d̲;
+         E:=E+1; g̲o̲t̲o̲ L5;
+         L4:   GAMMA:=D;
+         L8:   II[GAMMA]:=E; JJ[GAMMA]:=D; K[GAMMA]:=S;
+         LL[GAMMA] :=T; X[GAMMA]:=DD[D]; SS[E]:=SS[E]-DD[D]; DD
+           [D]:=0;
+         W:=W-1;
+         i̲f̲ W=0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ I2:=0; g̲o̲t̲o̲ L13; e̲n̲d̲;
+         VV:=VV-1; g̲o̲t̲o̲ L1;
+         L5:   NETA:=(E-1)×N+D;
+         C[0]:=C[NETA];
+         U[0]:=U[E]:=C[0]-V[0];
+         P:=P+1;
+         i̲f̲ R>N t̲h̲e̲n̲ T:=R-N e̲l̲s̲e̲ T:=0;
+         R:=P;
+         i̲f̲ E=M t̲h̲e̲n̲ g̲o̲t̲o̲ L6;
+         i̲f̲ SS[E] ≤ DD[D] t̲h̲e̲n̲ b̲e̲g̲i̲n̲ GAMMA:=P; g̲o̲t̲o̲ L7; e̲n̲d̲;
+         L6:   LL[Q]:=P-N; GAMMA:=Q:=P; g̲o̲t̲o̲ L8;
+         c̲o̲m̲m̲e̲n̲t̲ SEARCH FOR NEXT ELEMENT TO ENTER BASIS;
+         L13: I2 := C1 := A := 0;
+         f̲o̲r̲ R := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲
+               I2 := I2+1;
+               i̲f̲ I2>M t̲h̲e̲n̲ I2 := 1
+               e̲l̲s̲e̲ E := I2;
+               f̲o̲r̲ D := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    i̲f̲ U[E]+V[D]-C[D]>C1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ C1 := U[E]+V[D]-C[D];
+                     A := 1;
+                     J2 := D;
+                  e̲n̲d̲;
+               i̲f̲ A = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ L15;
+            e̲n̲d̲;
+         NEWLINES(1);
+         WRITETEXT(“OPTIMUM SOLN IS ”);
+         c̲o̲m̲m̲e̲n̲t̲ PRINTING OF INTERMEDIATE RESULTS;
+         L15:
+         NEWLINES(1);
+         WRITETEXT(“BASIS%TABLE%IS%”);
+         f̲o̲r̲ GAMMA := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M+N-1 d̲o̲
+            b̲e̲g̲i̲n̲  NEWLINES(1);
+               PRINT(II[GAMMA],4,0);
+               PRINT(K[GAMMA],4,0);
+               PRINT(JJ[GAMMA],4,0);
+               PRINT(X[GAMMA],4,0);
+               PRINT(LL[GAMMA],4,0);
+            e̲n̲d̲;
+         i̲f̲ A =0 t̲h̲e̲n̲ g̲o̲t̲o̲ FINISH;
+         NEWLINES(1);
+         WRITETEXT(“U,S”);
+         SPACES(1); WRITETEXT(“*AND*V,S*ARE”);
+         f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲
+               PRINT(U[I],4,0);     NEWLINES(1);
+            e̲n̲d̲;
+         f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               PRINT(V[J],4,0);   NEWLINES(1);
+            e̲n̲d̲;
+         NEWLINES(1);
+         WRITETEXT(“NEW%ELEMENT%IS”);
+         NEWLINES(1);
+         PRINT(I2,4,0);
+         PRINT(J2,4,0);
+         c̲o̲m̲m̲e̲n̲t̲ FINDING LOOP INCLUDING NEW ELEMENT;
+         ALPHA := BETA := 1;
+         X1 := 10000;
+         A := 0;
+         H := GAMMA := J2;
+         L16: i̲f̲ LL[GAMMA] ≠ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ L22;
+         L17: i̲f̲ GAMMA=K[GAMMA] t̲h̲e̲n̲ g̲o̲t̲o̲ L19;
+         L18: X1 := i̲f̲ X[GAMMA]<X1 t̲h̲e̲n̲ X[GAMMA] e̲l̲s̲e̲ X1;
+         AA[ALPHA] := 0;
+         F[ALPHA] := GAMMA;
+         ALPHA := ALPHA+1;
+         i̲f̲ A=1 t̲h̲e̲n̲ g̲o̲t̲o̲ L27 e̲l̲s̲e̲ g̲o̲t̲o̲ L23;
+         L19: BETA := BETA-1;
+         i̲f̲ BETA < 1 t̲h̲e̲n̲ g̲o̲t̲o̲ L32;
+         GAMMA := G[BETA];
+         X1 := XXX[BETA];
+         AA[ALPHA] := 2;
+         F[ALPHA] := GAMMA;
+         ALPHA := ALPHA+1;
+         i̲f̲ BB[BETA]=1 t̲h̲e̲n̲ g̲o̲t̲o̲ L23;
+         L20: H := GAMMA;
+         L21: i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ GAMMA := JJ[GAMMA]
+         e̲l̲s̲e̲ GAMMA := LL[GAMMA]+N;
+         i̲f̲ II[GAMMA]=I2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ A := 1;
+            g̲o̲t̲o̲ L18;
+         e̲n̲d̲;
+         i̲f̲ H  ≤  N t̲h̲e̲n̲ g̲o̲t̲o̲ L16;
+         i̲f̲ LL[GAMMA]=H-N t̲h̲e̲n̲ g̲o̲t̲o̲ L17;
+         L22:  i̲f̲ GAMMA ≠ K[GAMMA] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ XXX[BETA] := i̲f̲ X[GAMMA]<X1 t̲h̲e̲n̲ X[GAMMA] e̲l̲s̲e̲
+              X1;
+            AA[ALPHA] := BB[BETA] := 1;
+            G[BETA] := F[ALPHA] := GAMMA;
+            BETA := BETA+1;
+            ALPHA := ALPHA+1;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ L21;
+         L23: H := GAMMA;
+         L24: GAMMA := K[GAMMA];
+         i̲f̲ H ≠ K[GAMMA] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ H>N t̲h̲e̲n̲ g̲o̲t̲o̲ L25;
+            i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L24;
+            L25:         XXX[BETA] := X1;
+            BB[BETA] := 0;
+            G[BETA] := F[ALPHA] := GAMMA;
+            AA[ALPHA] := 1;
+            BETA := BETA+1;
+            ALPHA := ALPHA+1;
+            g̲o̲t̲o̲ L24;
+         e̲n̲d̲;
+         i̲f̲ H>N t̲h̲e̲n̲ g̲o̲t̲o̲ L26;
+         i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L19;
+         L26: AA[ALPHA] := 0;
+         F[ALPHA] := GAMMA;
+         ALPHA := ALPHA+1;
+         g̲o̲t̲o̲ L20;
+         c̲o̲m̲m̲e̲n̲t̲ CHANGING VALUE OF LOOP ELEMENTS;
+         L27: A := B := 0;
+         L28: ALPHA := ALPHA-1;
+         i̲f̲ ALPHA = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ L32;
+         GAMMA := F[ALPHA];
+         i̲f̲ AA[ALPHA] ≠ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ L30;
+         L29: i̲f̲ B=0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ B := 1;
+            X[GAMMA] := X[GAMMA]-X1;
+            i̲f̲ A=1 t̲h̲e̲n̲ g̲o̲t̲o̲ L28;
+            i̲f̲ X[GAMMA]=0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ I1 := II[GAMMA];
+               J1 := JJ[GAMMA];
+               H1 := GAMMA;
+               A := 1;
+            e̲n̲d̲;
+            g̲o̲t̲o̲ L28;
+         e̲n̲d̲;
+         B := 0;
+         X[GAMMA] := X[GAMMA]+X1;
+         g̲o̲t̲o̲ L28;
+         L30: i̲f̲ AA[ALPHA] ≠ 2 t̲h̲e̲n̲ g̲o̲t̲o̲ L28;
+         L31: ALPHA := ALPHA-1;
+         i̲f̲ AA[ALPHA]=1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲f̲ F[ALPHA]=GAMMA t̲h̲e̲n̲
+              g̲o̲t̲o̲ L29;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ L31;
+         c̲o̲m̲m̲e̲n̲t̲ MODIFYING BASIS TABLE;
+         L32: H2 := SIGMA := GAMMA := H1 ;
+         i̲f̲ J1=J2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ A:= 0; g̲o̲t̲o̲ L40; e̲n̲d̲;
+         i̲f̲ H1 ≤ N t̲h̲e̲n̲ b̲e̲g̲i̲n̲ A := 1; g̲o̲t̲o̲ L40; e̲n̲d̲;
+         PI := H1;
+         L33: i̲f̲ LL[PI]=0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ PI := J1; g̲o̲t̲o̲ L33 ; e̲n̲d̲;
+         PI := LL[PI]+N;
+         i̲f̲ P ≠ H1 t̲h̲e̲n̲ g̲o̲t̲o̲ L33;
+         LL[PI] := LL[GAMMA];
+         B := 0;
+         L34: PI := J2 ;LL[SIGMA] := LL[PI]; JJ[SIGMA] := J2;
+         LL[PI] := SIGMA-N;
+         i̲f̲ B=1 t̲h̲e̲n̲ g̲o̲t̲o̲ L36;
+         i̲f̲ I1 ≠ I2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ A:=0;  g̲o̲t̲o̲ L40; e̲n̲d̲;
+         L35: X[SIGMA] := X1; g̲o̲t̲o̲ L43;
+         L36: i̲f̲ II[SIGMA]=I2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ PI := H1; g̲o̲t̲o̲ L39; e̲n̲d̲;
+         i̲f̲ I1=I2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲f̲ P=GAMMA t̲h̲e̲n̲
+              PI := H2 e̲l̲s̲e̲
+              PI :=P; g̲o̲t̲o̲ L39;
+         e̲n̲d̲;
+         L37: PI := 1;
+         L38: i̲f̲ II[PI]=I2 t̲h̲e̲n̲ g̲o̲t̲o̲ L39;
+         PI := PI+1;
+         g̲o̲t̲o̲ L38;
+         L39: II[SIGMA] := I2; K[SIGMA] := K[PI]; K[PI] := SIGMA;
+         g̲o̲t̲o̲ L35;
+         L40: PI := H1;
+         L41:  i̲f̲ K[PI] ≠ H1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            PI:=K[PI];
+            g̲o̲t̲o̲ L41;
+         e̲n̲d̲;
+         K[PI] := K[GAMMA];
+         i̲f̲ A=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L37;
+         PI := H2 :=SIGMA := LL[GAMMA]+N;
+         L42: i̲f̲ K[PI] ≠ H2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ PI:= K[PI]; g̲o̲t̲o̲ L42; e̲n̲d̲;
+         K[PI] := GAMMA;
+         P := K[GAMMA];
+         II[GAMMA] := II[SIGMA];
+         K[GAMMA] := K[SIGMA];
+         LL[GAMMA] := LL[SIGMA];
+         X[GAMMA] := X[SIGMA];
+         B := 1;
+         g̲o̲t̲o̲ L34;
+         c̲o̲m̲m̲e̲n̲t̲ COMPUTING DUAL VARIABLES;
+         L43: BETA := 1; GAMMA := H2; E := I2; U[E] := U[E]-C1;
+         i̲f̲ K[GAMMA]=GAMMA t̲h̲e̲n̲ g̲o̲t̲o̲ L13;
+         L44: H := GAMMA;
+         L45: GAMMA := K[GAMMA]; D := JJ[GAMMA];
+         V[D] := V[D]+C1;
+         i̲f̲ K[GAMMA] ≠ H t̲h̲e̲n̲ g̲o̲t̲o̲ L52;
+         i̲f̲ GAMMA ≤ N t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ LL[GAMMA] ≠ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ L51;
+         e̲n̲d̲;
+         L46: H := GAMMA;
+         L47: GAMMA := i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ LL[GAMMA]+H e̲l̲s̲e̲ JJ[GAMMA]
+           ;
+         E := II[GAMMA];
+         U[E] := U[E]-C1;
+         i̲f̲ H ≤ N t̲h̲e̲n̲ g̲o̲t̲o̲ L49;
+         i̲f̲ LL[GAMMA] ≠ H-N t̲h̲e̲n̲ g̲o̲t̲o̲ L50;
+         L48: i̲f̲ GAMMA ≠ K[GAMMA] t̲h̲e̲n̲ g̲o̲t̲o̲ L44;
+         g̲o̲t̲o̲ L51;
+         L49: i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L48;
+         L50: i̲f̲ GAMMA=K[GAMMA] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ BB[BETA] := 1;
+            G[BETA] := GAMMA;
+            BETA := BETA+1;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ L47;
+         L51: BETA := BETA-1;
+         i̲f̲ B=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L13;
+         i̲f̲ BETA < 1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            A:=0;
+            g̲o̲t̲o̲ L15
+         e̲n̲d̲;
+         GAMMA := G[BETA];
+         i̲f̲ BB[BETA]=1 t̲h̲e̲n̲ g̲o̲t̲o̲ L44;
+         g̲o̲t̲o̲ L46;
+         L52: i̲f̲ GAMMA>N t̲h̲e̲n̲ g̲o̲t̲o̲ L53;
+         i̲f̲ LL[GAMMA]=0 t̲h̲e̲n̲ g̲o̲t̲o̲ L45;
+         L53: BB[BETA] := 0;
+         G[BETA] := GAMMA;
+         BETA := BETA+1;
+         g̲o̲t̲o̲ L45;
+         FINISH: e̲n̲d̲;
+   e̲n̲d̲;
+e̲n̲d̲

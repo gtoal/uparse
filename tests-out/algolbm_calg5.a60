@@ -1,0 +1,561 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG005   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ PROGRAM FOR MASS AND ABUNDANCE
+     DATA OF POLYISOTOPIC IONS;
+
+   c̲o̲m̲m̲e̲n̲t̲ INPUT/OUTPUT PROCEDURES;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CRDTXT;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J;
+      TRY AGAIN:
+      INSYMBOL(98,“*”,I);
+      i̲f̲ I=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         NEXTSYM:
+         INSYMBOL(98,“*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789()+-.,”
+           ,J);
+         i̲f̲ J=1 t̲h̲e̲n̲ g̲o̲t̲o̲ OUT;
+         OUTSYMBOL(99,“*ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789()+-.,”,J);
+         g̲o̲t̲o̲ NEXTSYM
+      e̲n̲d̲
+      e̲l̲s̲e̲ g̲o̲t̲o̲ TRY AGAIN;
+      OUT:
+   e̲n̲d̲ PROCEDURE CRDTXT;
+
+   c̲o̲m̲m̲e̲n̲t̲ END OF INPUT/OUTPUT PROCEDURES;
+
+   i̲n̲t̲e̲g̲e̲r̲ TEMP1,TEMP2,TEMP3,TEMP4;
+   i̲n̲t̲e̲g̲e̲r̲ N,NMAX,H,J,SN,SP,SPU,SPL,ICL,FML,BFR;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ NA,NI,W[1:4];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ M,RA[1:4,1:10],FF[0:45];
+   NEWPAGE;
+   NEWLINES(2);
+   WRITETEXT(“ISOTOPE“S”ABUNDANCE“S”PATTERNS.“S””);
+   NEWLINES(2);
+   WRITETEXT(“PEAK“S”
+     PATTERNS“S”
+     IN“S”
+     MASS“S”
+     SPECTRA“S”
+     OF“S”
+     COMPOUNDS”);
+   WRITETEXT(““S”CONTAINING”);
+   NEWLINES(2);
+   CRDTXT;
+   N := READ;
+   f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ NA[H] := READ;
+         NI[H] := READ;
+      e̲n̲d̲;
+   BFR := READ;
+   i̲f̲ BFR = 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ ICL := READ;
+      FML := READ;
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ ICL := 210;
+      FML := 420
+   e̲n̲d̲;
+   f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NI[H] d̲o̲
+         b̲e̲g̲i̲n̲ M[H,J] := READ;
+            RA[H,J] := READ;
+         e̲n̲d̲;
+   SN := 0; NMAX := 0; FF[0] := 1; SPU := 0; SPL := 0;
+   f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ SN := SN + NA[H];
+         i̲f̲ NA[H] > NMAX t̲h̲e̲n̲ NMAX := NA[H];
+         SPU := SPU + M[H,NI[H]]×NA[H];
+         SPL := SPL + M[H,1]×NA[H];
+         W[H] := 0
+      e̲n̲d̲;
+   SP := SPU - SPL + 1;
+   f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ SN d̲o̲
+        FF[H] := H×FF[H-1];
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ IC[1:N,1:NMAX,1:ICL],
+        MC,AP[1:N,1:FML],FM,FAP[1:FML],I[1:10];
+      i̲n̲t̲e̲g̲e̲r̲ Y;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ST,INDEX,INTERSTORE[1:10];
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ISOSET(A,B,C,D);
+         v̲a̲l̲u̲e̲ A,B,C,D;
+         i̲n̲t̲e̲g̲e̲r̲ A,B,C,D;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ BB,ISOINTER,T,X,Z;
+         i̲n̲t̲e̲g̲e̲r̲ TEMP1,TEMP2,TEMP3,TEMP4,TEMP5;
+         r̲e̲a̲l̲ AA,F;
+         s̲w̲i̲t̲c̲h̲ SS := S1,S2,S3,S4,S5,S6,S7,S8;
+         BB := i̲f̲ B > 5 ∧ B = D t̲h̲e̲n̲ B-5 e̲l̲s̲e̲
+           i̲f̲ B > 5 t̲h̲e̲n̲ 5 e̲l̲s̲e̲ B;
+         i̲f̲ B > D t̲h̲e̲n̲ Z := 0 e̲l̲s̲e̲
+         i̲f̲ B = D ∧ B > 5 ∧ B ≠ 10 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ Z := 5;
+            ST[B+1] := 1;
+            g̲o̲t̲o̲ SS[BB];
+         e̲n̲d̲
+           e̲l̲s̲e̲
+         i̲f̲ B = D ∧ B = 10 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ Z := 5;
+            Y := 1
+         e̲n̲d̲
+           e̲l̲s̲e̲
+         i̲f̲ B = D ∧ B < 5 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ Z := 0;
+            ST[BB+1] := 1;
+            g̲o̲t̲o̲ SS[BB]
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ Z := 0;
+            Y := 1;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ S5;
+         S1 : ST[3+Z] := C;
+         S2 : ST[4+Z] := C;
+         S3 : ST[5+Z] := C;
+         S4 : Y := C;
+         S5 : f̲o̲r̲ TEMP5 := Y s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ C d̲o̲
+            b̲e̲g̲i̲n̲ST[5+Z]:=TEMP5; I[5+Z] := M[A,ST[5+Z]];
+               i̲f̲ BB = 4 t̲h̲e̲n̲ ST[5+Z] := 1;
+               f̲o̲r̲ TEMP4 := ST[5+Z] s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ C d̲o̲
+                  b̲e̲g̲i̲n̲ST[4+Z]:=TEMP4; I[4+Z] := M[A,ST[4+Z]];
+                     i̲f̲ BB = 3 t̲h̲e̲n̲ ST[4+Z] := 1;
+                     f̲o̲r̲ TEMP3 := ST[4+Z] s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ C d̲o̲
+                        b̲e̲g̲i̲n̲ST[3+Z]:=TEMP3; I[3+Z] := M[A,ST[3+Z]];
+                           i̲f̲ BB = 2 t̲h̲e̲n̲ ST[3+Z] := 1;
+                           f̲o̲r̲ TEMP2 := ST[3+Z] s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ C d̲o̲
+                              b̲e̲g̲i̲n̲ST[2+Z]:=TEMP2; I[2+Z] := M[A,ST[2+Z]];
+                                 i̲f̲ BB = 1 t̲h̲e̲n̲ ST[2+Z] := 1;
+                                 f̲o̲r̲ TEMP1 := ST[2+Z] s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ C d̲o̲
+                                    b̲e̲g̲i̲n̲ST[1+Z]:=TEMP1; I[1+Z] := M[A,ST[1+Z]];
+
+                                       c̲o̲m̲m̲e̲n̲t̲ BOTTOM OF FIRST PAGE;
+
+                                       i̲f̲ B > 5 ∧ D ≠ 1 t̲h̲e̲n̲
+                                       b̲e̲g̲i̲n̲ Y := ST[1+Z];
+                                          ISOSET(A,B,C,1);
+                                       e̲n̲d̲;
+                                       i̲f̲ D ≤ 5 t̲h̲e̲n̲
+                                       b̲e̲g̲i̲n̲ W[A] := W[A] +1;
+                                          MC[A,W[A]] := 0;
+                                          f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B d̲o̲
+                                             b̲e̲g̲i̲n̲ MC[A,W[A]] := MC[A,W[A]] + I[H];
+                                                IC[A,H,W[A]] := I[H]
+                                             e̲n̲d̲;
+                                          i̲f̲ B = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ SKIP;
+                                          INTERSTORE[1] := I[1];
+                                          X := 1;
+                                          INDEX[1] := 1;
+                                          f̲o̲r̲ H := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B d̲o̲
+                                             b̲e̲g̲i̲n̲ ISOINTER := I[H];
+                                                i̲f̲ ISOINTER = INTERSTORE[X] t̲h̲e̲n̲
+                                                  INDEX[X] := INDEX[X] + 1
+                                                e̲l̲s̲e̲
+                                                b̲e̲g̲i̲n̲ X := X+1;
+                                                   INTERSTORE[X] := I[H];
+                                                   INDEX[X] := 1
+                                                e̲n̲d̲
+                                             e̲n̲d̲;
+                                          F := 1; AA := 1;
+                                          f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ X d̲o̲
+                                               F := F×FF[INDEX[H]];
+                                          f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B d̲o̲
+                                               AA := AA×RA[A,ST[H]];
+                                          AP[A,W[A]] := AA/F;
+                                       e̲n̲d̲;
+                                       g̲o̲t̲o̲ JUMP;
+                                       SKIP : AP[A,W[A]] := RA[A,ST[1]];
+                                       JUMP :
+                                    e̲n̲d̲;      i̲f̲ BB = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ S8;
+                              e̲n̲d̲;      i̲f̲ BB = 2 t̲h̲e̲n̲ g̲o̲t̲o̲ S8;
+                        e̲n̲d̲;      i̲f̲ BB = 3 t̲h̲e̲n̲ g̲o̲t̲o̲ S8;
+                  e̲n̲d̲;      i̲f̲ BB = 4 t̲h̲e̲n̲ g̲o̲t̲o̲ S8;
+            e̲n̲d̲;      i̲f̲ BB = 5 t̲h̲e̲n̲ g̲o̲t̲o̲ S8;
+         g̲o̲t̲o̲ S7;
+         S6 : AP[A,W[A]] := RA[A,ST[1]];
+         S7 :
+         S8 : e̲n̲d̲ ISOSET;
+
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K,SF,P,QQ,R,S,T,RR,V,NN;
+         r̲e̲a̲l̲ ULSP,LLSP,AN;
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ FIC[1:SN],NM,Q[1:SP],SST[1:4],
+           IFM[1:FML];
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ AB,SUMM,SUMA,SPREAD,MEANMASS[1:SP],
+           MAINMASS[1:5];
+         NEWLINES(2);
+         SPACES(3);
+         WRITETEXT(“ISOTOPE“S”COMBINATIONS”);
+         i̲f̲ SN > 7 t̲h̲e̲n̲ SPACES(4×SN-18)
+         e̲l̲s̲e̲
+           SPACES(10);
+         WRITETEXT(“MASS”);
+         SPACES(9);
+         WRITE TEXT(“ABUNDANCE”);
+         NEWLINES(1);
+         SPACES(5);
+         WRITETEXT(“MASS“S”NUMBERS”);
+         i̲f̲ SN > 7 t̲h̲e̲n̲ SPACES(4×SN+2)
+         e̲l̲s̲e̲
+           SPACES(30);
+         WRITE TEXT(“PRODUCT”);
+         NEWLINES(2);
+         f̲o̲r̲ SF := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              ISOSET(SF,NA[SF],NI[SF],NA[SF]);
+         NN := 0;
+         i̲f̲ N < 4 t̲h̲e̲n̲
+           f̲o̲r̲ H := N+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+              W[H] := 1;
+
+         c̲o̲m̲m̲e̲n̲t̲ BOTTOM OF SECOND PAGE;
+
+         f̲o̲r̲ TEMP4 := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ W[4] d̲o̲
+            b̲e̲g̲i̲n̲ SST[4]:=TEMP4;
+               f̲o̲r̲ TEMP3 := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ W[3] d̲o̲
+                  b̲e̲g̲i̲n̲ SST[3]:=TEMP3;
+                     f̲o̲r̲ TEMP2 := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ W[2] d̲o̲
+                        b̲e̲g̲i̲n̲ SST[2]:=TEMP2;
+                           f̲o̲r̲ TEMP1 := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ W[1] d̲o̲
+                              b̲e̲g̲i̲n̲  SST[1]:=TEMP1; NN := NN+1;
+                                 S := 0;
+                                 f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                                      f̲o̲r̲ K := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NA[J] d̲o̲
+                                       b̲e̲g̲i̲n̲ S := S+1;
+                                          FIC[S] := IC[J,K,SST[J]];
+                                       e̲n̲d̲;
+                                 FM[NN] := 0;
+                                 FAP[NN] := 1;
+                                 f̲o̲r̲ T := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                                    b̲e̲g̲i̲n̲ FM[NN] := FM[NN] + MC[T,SST[T]];
+                                       FAP[NN] := FAP[NN]×AP[T,SST[T]];
+                                    e̲n̲d̲;
+                                 FAP[NN] := FAP[NN]×FF[SN];
+                                 R := i̲f̲ SN > 7 t̲h̲e̲n̲ 2 e̲l̲s̲e̲ 30-SN×4;
+                                 f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ SN d̲o̲
+                                      PRINT(FIC[H],4,0);
+                                 SPACES(R);
+                                 PRINT(FM[NN],3,6);
+                                 SPACES(4);
+                                 i̲f̲ ABS(FAP[NN]) < 100000 t̲h̲e̲n̲
+                                   PRINT(FAP[NN],6,2) e̲l̲s̲e̲
+                                   OUTREAL(1,FAP[NN]);
+                                 NEWLINES(1);
+                              e̲n̲d̲;
+                        e̲n̲d̲;
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         R := 1;
+         S := NN-2;
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ INTER;
+            b̲o̲o̲l̲e̲a̲n̲ ANYCHANGE;
+            f̲o̲r̲ QQ := 1,QQ+1 w̲h̲i̲l̲e̲ ANYCHANGE d̲o̲
+               b̲e̲g̲i̲n̲ ANYCHANGE := f̲a̲l̲s̲e̲;
+                  f̲o̲r̲ P := R s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ S d̲o̲
+                       i̲f̲ FM[P+1] < FM[P] t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ i̲f̲ ¬ ANYCHANGE t̲h̲e̲n̲ R := P-1;
+                        INTER := FM[P+1];
+                        FM[P+1] := FM[P];
+                        FM[P] := INTER;
+                        INTER := FAP[P+1];
+                        FAP[P+1] := FAP[P];
+                        FAP[P] := INTER;
+                        ANYCHANGE := t̲r̲u̲e̲;
+                     e̲n̲d̲;
+                  S := S-1;
+                  i̲f̲ R = S t̲h̲e̲n̲ g̲o̲t̲o̲ S9;
+               e̲n̲d̲
+         e̲n̲d̲;
+         S9 : f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ SP d̲o̲
+            b̲e̲g̲i̲n̲ SUMA[H] := 0;
+               SUMM[H] := 0;
+               Q[H] := 0;
+            e̲n̲d̲;
+         f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NN d̲o̲
+              IFM[H] := ENTIER(FM[H]);
+         RR := 0;
+         IFM[NN+1] := 0;
+         f̲o̲r̲ H := 1,V+1 w̲h̲i̲l̲e̲ H ≤ NN d̲o̲
+            b̲e̲g̲i̲n̲ V := H;
+               RR := RR+1;
+               i̲f̲ IFM[H+1] = IFM[H] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ LLSP := FM[H];
+
+                  c̲o̲m̲m̲e̲n̲t̲ BOTTOM OF THIRD PAGE;
+
+                  f̲o̲r̲ K := H,K+1 w̲h̲i̲l̲e̲ IFM[K] = IFM[K-1] d̲o̲
+                     b̲e̲g̲i̲n̲ V := K;
+                        Q[RR] := Q[RR]+1;
+                        SUMM[RR] := SUMM[RR] + FM[K]×FAP[K];
+                        SUMA[RR] := SUMA[RR] + FAP[K];
+                        ULSP := FM[K];
+                     e̲n̲d̲;
+                  MEANMASS[RR] := SUMM[RR]/SUMA[RR];
+                  SPREAD[RR] := ((ULSP- LLSP)/MEANMASS[RR])×10@6
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ Q[RR] := 1;
+                  MEANMASS[RR] := FM[H];
+                  SUMA[RR] := FAP[H];
+                  SPREAD[RR] := 0;
+               e̲n̲d̲
+            e̲n̲d̲;
+         AN := 0;
+         f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ RR d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ SUMA[H] > AN t̲h̲e̲n̲
+                 AN := SUMA[H];
+               NM[H] := MEANMASS[H];
+            e̲n̲d̲;
+         NM[RR+1]:=0;
+         K := 0;
+         NEWLINES(5);
+         WRITETEXT(“NUMBER“S”OF“S”COMBINATIONS“S”:-”);
+         PRINT(NN,3,0);
+         NEWPAGE;
+         NEWLINES(2);
+         WRITE TEXT(“NOMINAL”);
+         SPACES(5);
+         WRITE TEXT(“MULTIPLICITY”);
+         SPACES(9);
+         WRITE TEXT(“SPREAD”);
+         SPACES(9);
+         WRITE TEXT(“PEAK“S”MASS”);
+         SPACES(6);
+         WRITE TEXT(“RELATIVE”);
+         NEWLINES(1);
+         SPACES(1);
+         WRITE TEXT(“MASS”);
+         SPACES(28);
+         WRITE TEXT(“(PPM.)”);
+         SPACES(8);
+         WRITE TEXT(“(WTD.“S”MEAN)”);
+         SPACES(4);
+         WRITE TEXT(“ABUNDANCE”);
+         NEWLINES(1);
+         f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ RR d̲o̲
+            b̲e̲g̲i̲n̲ K := K+1;
+               NEWLINES(1);
+               SPACES(1);
+               PRINT(NM[H],4,0);
+               i̲f̲ Q[H] = 1 t̲h̲e̲n̲ WRITE TEXT(““9S”SINGLET”)
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ SPACES(10);
+                  PRINT(Q[H],3,0);
+                  SPACES(3);
+               e̲n̲d̲;
+               i̲f̲ SPREAD[H] = 0 t̲h̲e̲n̲ SPACES(26)
+               e̲l̲s̲e̲ b̲e̲g̲i̲n̲ SPACES(9);
+                  OUTREAL(1,SPREAD[H]);
+                  SPACES(2);
+               e̲n̲d̲;
+               AB[K] := (SUMA[H]/AN)×100;
+               i̲f̲ ABS(AB[K]-100) < 10@-6 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲f̲ RR-H < 2 t̲h̲e̲n̲ S := 2-RR+H e̲l̲s̲e̲
+                  i̲f̲ H < 3 t̲h̲e̲n̲ S := H-3 e̲l̲s̲e̲
+                    S := 0;
+                  f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+                       MAINMASS[J] := MEANMASS[H-(3+S)+J]
+               e̲n̲d̲;
+               PRINT(MEANMASS[H],4,6);
+               SPACES(4);
+               PRINT((SUMA[H]/AN)×100,3,4);
+               i̲f̲ H < RR ∧ NM[H+1] ≠ NM[H]+1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ K := K+1;
+                  NEWLINES(1);
+                  SPACES(1);
+                  PRINT(NM[H]+1,4,0);
+                  WRITETEXT(““5S”NO COMBINATION”);
+                  AB[K] := 0;
+               e̲n̲d̲;
+            e̲n̲d̲;
+         BFR := READ;
+         i̲f̲ BFR = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            NEWPAGE;
+            NEWLINES(2);
+            WRITETEXT(“OUTPUT“S”
+              INTENDED“S”
+              FOR“S”
+              PEAK“S”
+              PATTERN“S”
+              PROGRAM”);
+            NEWLINES(2);
+            PRINT(K,2,0);
+            NEWLINES(2);
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲ PRINT(NM[1]-1+H,3,0);
+                  SPACES(7);
+                  PRINT(AB[H],3,4);
+                  NEWLINES(1)
+               e̲n̲d̲;
+            NEWLINES(2);
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+               b̲e̲g̲i̲n̲ PRINT(MAINMASS[H],6,6);
+                  NEWLINES(1)
+               e̲n̲d̲;
+            g̲o̲t̲o̲ EXIT;
+         e̲n̲d̲;
+
+         c̲o̲m̲m̲e̲n̲t̲ PEAK PATTERN PROGRAM;
+
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ORGM,CF1,CF2,HF1,HF2,NF1,NF2,
+              OF1,OF2,OF21,CABN,NFC,MASSX,ABC1,ABC2;
+            i̲n̲t̲e̲g̲e̲r̲ SAB,CCAB,LC,LH,LN,ON,LP,CM,NOX,HEAD,NOBASE;
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲ CAB[1:52];
+            i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ELEM[1:5];
+            NOBASE := READ;
+            c̲o̲m̲m̲e̲n̲t̲ PDS REDUCING OPUT      'IF' NOBASE = 0 'THEN' 'GOTO' REPEAT;
+            g̲o̲t̲o̲ REPEAT;
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                 NM[H] := NM[1]-1+H;
+            NEWPAGE;
+            NEWLINES(2);
+            WRITETEXT(“BASIC“S”HETEROATOM“S”PATTERN”);
+            NEWLINES(2);
+            WRITE TEXT(“NOMINAL”);
+            SPACES(3);
+            WRITE TEXT(“RELATIVE”);
+            NEWLINES(1);
+            SPACES(1);
+            WRITE TEXT(“MASS”);
+            SPACES(5);
+            WRITE TEXT(“ABUNDANCE”);
+            NEWLINES(2);
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲ PRINT(NM[H],5,0);
+                  SAB := AB[H];
+                  SPACES(7);
+                  PRINT(SAB,3,0);
+                  SPACES(8);
+                  f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ SAB d̲o̲
+                       WRITE TEXT(“*”);
+                  NEWLINES(2);
+               e̲n̲d̲;
+            NEWLINES(2);
+            WRITETEXT(“MAJOR“S”PEAK“S”MASSES”);
+            NEWLINES(2);
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+               b̲e̲g̲i̲n̲ PRINT(MAINMASS[H],6,6);
+                  NEWLINES(1)
+               e̲n̲d̲;
+            REPEAT : NOX := READ;
+            i̲f̲ NOX ≠ 0 t̲h̲e̲n̲ MASSX := READ;
+            LC := READ;
+            LH := READ;
+            LN := READ;
+            ON := READ;
+            LP := READ;
+            HEAD := READ;
+            NEWPAGE;
+            NEWLINES(2);
+            WRITETEXT(“BASIC“S”PATTERN”);
+            i̲f̲ HEAD = 1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ WRITE TEXT(““S”OF“S””);
+               CRDTXT
+            e̲n̲d̲;
+            NEWLINES(2);
+            WRITETEXT(“CORRECTED“S')f̲o̲r̲('S”LIGHT“S”ELEMENTS”);
+            NEWLINES(3);
+            WRITE TEXT(“NOMINAL”);
+            SPACES(3);
+            WRITE TEXT(“RELATIVE”);
+            NEWLINES(1);
+            SPACES(1);
+            WRITE TEXT(“MASS”);
+            SPACES(5);
+            WRITE TEXT(“ABUNDANCE”);
+            NEWLINES(2);
+            CF1 := LC×1·0806@-2;        CF2 := (CF1×(LC-1)×1·0806@-2)/2;
+            HF1 := LH×1·6003@-4;        HF2 := (HF1×(H-1)×1·6003@-4)/2;
+            NF1 := LN×3·8145@-3;        NF2 := (NF1×(N-1)×3·8145@-3)/2;
+            OF1 := ON×3·9093@-4;        OF2 := ON×2·0048@-3;
+            OF21 := (OF1×(ON-1)×3·9093@-4)/2;
+            ABC1 := CF1 + HF1 + NF1 + OF1;
+            ABC2 := CF2 + HF2 + NF2 + OF2 + OF21 + CF1×NF1 +
+              CF1×OF1 + CF1×NF1 + HF1×NF1 + NF1×OF1 + HF1×OF1;
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K+2 d̲o̲
+                 CAB[H] := 0;
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲ CAB[H] := CAB[H] + AB[H];
+                  CAB[H+1] := CAB[H+1] + AB[H]×ABC1;
+                  CAB[H+2] := CAB[H+2] + AB[H]×ABC2;
+               e̲n̲d̲;
+            CABN := 0;
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K+2 d̲o̲
+               b̲e̲g̲i̲n̲ i̲f̲ CAB[H] > CABN t̲h̲e̲n̲
+                    CABN := CAB[H];
+               e̲n̲d̲;
+            CM := LC×12 + LN×14 + ON×16 + LH + LP×31 + NM[1]
+              + NOX×MASSX;
+            ORGM := LC×12 + LH×1·00782522 + LN×14·00307438 +
+              ON×15·99491415 + LP×30·9737634 + NOX×MASSX;
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K+2 d̲o̲
+               b̲e̲g̲i̲n̲
+                  PRINT(CM+H-1,5,0);
+                  CCAB := (CAB[H]/CABN)×100;
+                  SPACES(7);
+                  PRINT(CCAB,3,0);
+                  SPACES(8);
+                  f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ CCAB d̲o̲
+                       WRITE TEXT(“*”);
+                  NEWLINES(2);
+               e̲n̲d̲;
+            NEWLINES(2);
+            WRITETEXT(“MAJOR“S”
+              HETEROATOM“S”
+              PEAK“S”
+              MASSES“S”
+              FOR“S”
+              THIS“S”
+              ION“S”
+              :-”);
+            NEWLINES(2);
+            f̲o̲r̲ H := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 5 d̲o̲
+               b̲e̲g̲i̲n̲ PRINT(MAINMASS[H]+ORGM,6,6);
+                  NEWLINES(1)
+               e̲n̲d̲;
+            NEWPAGE;
+            NEWLINES(2);
+            WRITETEXT(“NUMBER“S”
+              OF“S”
+              ATOMS“S”
+              PRESENT“S”
+              :-”);
+            NEWLINES(2);
+            WRITETEXT(““3S”CARBON“4S””);
+            PRINT(LC,3,0);
+            NEWLINES(2);
+            WRITETEXT(““3S”HYDROGEN“2S””);
+            PRINT(LH,3,0);
+            NEWLINES(2);
+            WRITETEXT(““3S”NITROGEN“2S””);
+            PRINT(LN,3,0);
+            NEWLINES(2);
+            WRITETEXT(““3S”OXYGEN“4S””);
+            PRINT(ON,3,0);
+            NEWLINES(2);
+            WRITETEXT(““3S”PHOSPHORUS”);
+            PRINT(LP,3,0);
+            NEWLINES(2);
+            WRITETEXT(“NUMBER“S”
+              OF“S”
+              MONOISOTOPIC“S”
+              ELEMENTS“S”
+              PRESENT“S”
+              :-”);
+            PRINT(NOX,3,0);
+            NEWLINES(2);
+            WRITETEXT(“MASS“S”
+              OF“S”
+              ORGANIC“S”
+              RESIDUE“S”
+              :-”);
+            PRINT(ORGM,6,6);
+            BFR := READ;
+            i̲f̲ BFR = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ REPEAT;
+         e̲n̲d̲ PEAK PATTERN;
+
+      e̲n̲d̲ OF MAIN BLOCK;
+   e̲n̲d̲ OF PROCEDURE BLOCK;
+   EXIT :
+e̲n̲d̲ OF PROGRAM

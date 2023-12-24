@@ -1,0 +1,31 @@
+c̲o̲m̲m̲e̲n̲t̲
+  ***************
+  *             *
+  *   ALGG015   *
+  *             *
+  ***************
+  ;
+b̲e̲g̲i̲n̲
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CPUTIM(T);
+      r̲e̲a̲l̲ T;
+      T:=CPUTIME;
+   i̲n̲t̲e̲g̲e̲r̲ I,J,K,M,N;
+   r̲e̲a̲l̲ T;
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ A[1:2000];
+   CPUTIM(T);
+   N:=2000;
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+        A[I]:=I;
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲N-1d̲o̲
+      b̲e̲g̲i̲n̲
+         K:=I; M:=A[I];
+         f̲o̲r̲J:=I+1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+              i̲f̲ A[J] >Mt̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               K:=J; M:=A[J];
+            e̲n̲d̲;
+         A[K]:=A[I]; A[I]:=M;
+      e̲n̲d̲;
+   CPUTIM(T);
+   OUTPUT(T);
+e̲n̲d̲
