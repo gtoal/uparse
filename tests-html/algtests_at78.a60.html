@@ -1,0 +1,122 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 1;
+   <u>integer</u>
+     SUM;
+   <u>procedure</u> P1(S, R, I, B, RA, IA);
+      <u>string</u>
+        S;
+        <u>real</u>
+        R;
+        <u>integer</u>
+        I;
+        <u>boolean</u>
+        B;
+        <u>real</u> <u>array</u>
+        RA;
+        <u>integerarray</u>
+        IA;
+      SUM ≔ SUM + R + I + (<u>if</u> B <u>then</u> 1 <u>else</u> 0) + RA[1] +
+        IA[1];
+   <u>procedure</u> P2(BA, L, SW, PR, RPR, IPR, BPR);
+      <u>boolean</u> <u>array</u>
+        BA;
+        <u>label</u>
+        L;
+        <u>switch</u>
+        SW;
+        <u>procedure</u>
+        PR;
+        <u>real</u> <u>procedure</u>
+        RPR;
+        <u>integerprocedure</u>
+        IPR;
+        <u>boolean</u> <u>procedure</u>
+        BPR;
+   <u>begin</u>
+      PR;
+      SUM ≔ SUM + RPR + IPR;
+      <u>if</u> BPR <u>then</u>
+        <u>goto</u> L;
+      <u>if</u> BA[1] <u>then</u>
+        <u>goto</u> SW[2]
+   <u>end</u>;
+   <u>procedure</u> P3(R, I, B, RA, IA, BA, L);
+      <u>value</u>
+        R,
+        I,
+        B,
+        RA,
+        IA,
+        BA,
+        L;
+      <u>real</u>
+        R;
+        <u>integer</u>
+        I;
+        <u>boolean</u>
+        B;
+        <u>real</u> <u>array</u>
+        RA;
+        <u>integerarray</u>
+        IA;
+        <u>boolean</u> <u>array</u>
+        BA;
+        <u>label</u>
+        L;
+   <u>begin</u>
+      SUM ≔ SUM + R + I + RA[1] + IA[1] + (<u>if</u> B <u>then</u> 1
+      <u>else</u> 0) + (<u>if</u> BA[1] <u>then</u> 1 <u>else</u> 0);
+      <u>if</u> BA[1] <u>then</u>
+        <u>goto</u> L
+   <u>end</u>;
+   <u>real</u>
+     R;
+   <u>boolean</u>
+     B;
+   <u>real</u> <u>array</u>
+     RA[1 : 1];
+   <u>integerarray</u>
+     IA[1 : 1];
+   <u>boolean</u> <u>array</u>
+     BA[1 : 1];
+   <u>integerprocedure</u> IPR;
+      IPR ≔ 2 × SUM;
+   <u>real</u> <u>procedure</u> RPR;
+      RPR ≔ 3 × SUM;
+   <u>boolean</u> <u>procedure</u> BPR;
+      BPR ≔ ¬ B;
+   <u>procedure</u> PR;
+      SUM ≔ 5 × SUM + 1;
+   <u>switch</u> SS ≔      WORK,
+     FAIL;
+   SUM ≔ 0;
+   IA[1] ≔ - 2;
+   RA[1] ≔ 3·55;
+   BA[1] ≔ <u>false</u>;
+   B ≔ <u>true</u>;
+   R ≔ 6·4;
+   P1(RA, “AB”, “AB”, “AB”, “AB”, “AB” );
+   P1(SS, RA, RA, RA, SS, SS);
+   P1(PR, SS, SS, SS, PR, PR);
+   P1(SS[2], PR, PR, PR, SS[2], SS[2]);
+   P1(<u>true</u>, SS[2], SS[2], SS[2], <u>true</u>, <u>true</u>);
+   P1(R, <u>false</u>, <u>false</u>, R, R, R);
+   P2( “AB”, “AB”, “AB”, “AB”, “AB”, “AB”, “AB” );
+   P2(RA, RA, RA, RA, RA, RA, RA);
+   P2(SS, SS, SS[2], SS, SS, SS, SS);
+   P2(PR, PR, PR, R, PR, PR, PR);
+   P2(FAIL, SS, FAIL, FAIL, FAIL, FAIL, FAIL);
+   P2(<u>true</u>, <u>true</u>, <u>true</u>, <u>true</u>, <u>true</u>, <u>true</u>, <u>true</u>);
+   P2(R, R, R, R, R, R, R);
+   P3( “AB”, “AB”, “AB”, “AB”, “AB”, “AB”, “AB” );
+   P3(RA, RA, RA, R, R, R, RA);
+   P3(SS, SS, SS, SS, SS, SS, SS);
+   P3(PR, PR, PR, PR, PR, PR, PR);
+   P3(FAIL, FAIL, FAIL, FAIL, FAIL, FAIL, SS);
+   P3(<u>true</u>, <u>true</u>, R, <u>true</u>, <u>true</u>, <u>true</u>, <u>true</u>);
+   P3(<u>true</u>, <u>true</u>, R, R, R, R, R);
+   WORK :;
+   <u>if</u> <u>false</u> <u>then</u>
+     FAIL : OUTREAL(99, - 1);
+<u>end</u>
+</pre></body></html>

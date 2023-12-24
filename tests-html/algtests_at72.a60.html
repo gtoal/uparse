@@ -1,0 +1,66 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 3;
+   <u>integer</u>
+     I,
+     CASE;
+   <u>boolean</u>
+     B;
+   <u>real</u>
+     X;
+   <u>integerprocedure</u> P(K, Q);
+      <u>value</u>
+        K;
+      <u>integer</u>
+        K;
+        <u>integerprocedure</u>
+        Q;
+        <u>comment</u> (X1) : 'VALUE' X1 : 'INTEGER'X1 ;
+      P ≔         <u>if</u> K = 1 <u>then</u>
+        Q(I)
+      <u>else</u> <u>if</u> K = 2 <u>then</u>
+        Q
+      <u>else</u> <u>if</u> K = 3 <u>then</u>
+        Q(X)
+      <u>else</u>
+        Q(Q(20));
+   <u>integerprocedure</u> Q1(I);
+      <u>value</u>
+        I;
+      <u>integer</u>
+        I;
+      Q1 ≔ 100 + I;
+   <u>integerprocedure</u> Q2;
+      Q2 ≔ 200 + (<u>if</u> B <u>then</u> 1 <u>else</u> 0);
+   <u>integerprocedure</u> Q3(X);
+      <u>value</u>
+        X;
+      <u>real</u>
+        X;
+      Q3 ≔ 300 + X;
+   <u>procedure</u> FAIL(M, N);
+      <u>value</u>
+        M,
+        N;
+      <u>integer</u>
+        M,
+        N;
+      <u>if</u> M ≠ N <u>then</u>
+      <u>begin</u>
+         OUTREAL(99, M);
+         OUTREAL(99, N);
+         OUTREAL(99, CASE)
+      <u>end</u>
+      <u>else</u>
+        CASE ≔ CASE + 1;
+   I ≔ 1;
+   X ≔ 10·4;
+   CASE ≔ 0;
+   B ≔ <u>false</u>;
+   FAIL(P(1, Q1), 101);
+   FAIL(P(4, Q1), 220);
+   FAIL(P(2, Q2), 200);
+   FAIL(P(3, Q3), 310);
+   FAIL(P(4, Q3), 620);
+   OUTREAL(99, CASE)
+<u>end</u>
+</pre></body></html>

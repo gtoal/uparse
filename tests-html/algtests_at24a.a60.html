@@ -1,0 +1,30 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integer</u> <u>array</u>
+     A[1 : 9];
+   <u>integer</u>
+     I,
+     S;
+   <u>procedure</u> DUMMY(A);
+      <u>value</u>
+        A;
+      <u>array</u>
+        A;
+      SUM(A);
+   <u>procedure</u> SUM(A);
+      <u>array</u>
+        A;
+      <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 9 <u>do</u>
+         <u>begin</u>
+            S ≔ S + A[I];
+            A[I] ≔ 0
+         <u>end</u>;
+   S ≔ 0;
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 9 <u>do</u>
+        A[I] ≔ I;
+   DUMMY(A);
+   OUTREAL(99,S);
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 9 <u>do</u>
+        <u>if</u> A[I]≠ I <u>then</u>
+        OUTREAL(99,I)
+<u>end</u>
+</pre></body></html>

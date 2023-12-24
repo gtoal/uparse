@@ -1,0 +1,37 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integerarray</u>
+     A[1 : 3],
+     B[1 : 3, 1 : 3];
+   <u>procedure</u> SUM(DIM, A);
+      <u>value</u>
+        DIM;
+      <u>integer</u>
+        DIM;
+        <u>integerarray</u>
+        A;
+      SUM ≔         <u>if</u> DIM = 1 <u>then</u>
+        A[1]+ A[2]+ A[3]
+      <u>else</u>
+        SUM2(A);
+   <u>procedure</u> SUM2(A);
+      <u>integerarray</u>
+        A;
+      SUM2 ≔ A[1, 1]+ A[1, 2]+ A[1, 3]+ A[2, 1]+ A[2, 2]+
+        A[2, 3]+ A[3, 1]+ A[3, 2]+ A[3, 3];
+   <u>integer</u>
+     I,
+     J;
+   <u>for</u> I ≔ 1,
+     2,
+     3 <u>do</u>
+      <u>begin</u>
+         A[I] ≔ I × I;
+         <u>for</u> J ≔ 1,
+           2,
+           3 <u>do</u>
+              B[I, J] ≔ A[I]+ J
+      <u>end</u>;
+   OUTINTEGER(99,SUM(1, A));
+   OUTINTEGER(99,SUM(2, B))
+<u>end</u>
+</pre></body></html>

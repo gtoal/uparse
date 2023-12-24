@@ -1,0 +1,796 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>boolean</u> <u>procedure</u> ALGOBEY (S);
+      <u>string</u> S; <u>external</u>;
+
+   <u>boolean</u> TR5;
+
+   SELECT CAMERA (7);
+   IDENTIFICATION;
+
+   <u>begin</u>
+      <u>integer</u> XMAX,YMAX;
+      <u>integer</u> CH HEIGHT,CH WIDTH;
+      <u>integer</u> HEIGHT 2 CH,WIDTH 3 CH,CH SP;
+      <u>integer</u> DTB,DRP,DNS;
+      <u>integer</u> DELTA MLP;
+      <u>real</u> RJX,RKY;
+      <u>real</u> TOP WINDOW,LEFT WINDOW,BOTTOM WINDOW,RIGHT WINDOW;
+
+      <u>boolean</u> FIRST TIME, INTERSECT;
+      <u>integer</u> COUNT, NODE NUM;
+      <u>integer</u> <u>array</u> NODE TABLE [1:2,1:5000];
+
+      <u>integer</u> BLANK,SHRIEK,HYPHEN,BACKSLASH,HASH;
+      <u>integer</u> ENDLINE,EQUALS,QUERY,SQUOTE,SEMICOLON;
+      <u>integer</u> FULLSTOP;
+
+      BLANK ≔ CODE(“ ”);
+      SHRIEK ≔ CODE(“!”);
+      HYPHEN ≔ CODE(“-”);
+      BACKSLASH ≔ CODE(“$”);
+      HASH ≔ CODE(“#”);
+      ENDLINE ≔ CODE(“EL”);
+      EQUALS ≔ CODE(“=”);
+      QUERY ≔ CODE(“?”);
+      SQUOTE ≔ CODE(“'”);
+      SEMICOLON ≔ CODE(“;”);
+      FULLSTOP ≔ CODE(“.”);
+
+      SELECT INPUT (5);
+      XMAX ≔ YMAX ≔ READ;
+      CH HEIGHT ≔ CH WIDTH ≔ 8;
+      HEIGHT 2 CH ≔ 16;
+      WIDTH 3 CH ≔ 20;
+      CH SP ≔ 2;
+      DNS ≔ 10;        <u>comment</u> NODE SPACING;
+      <u>comment</u> DTB := 5;
+      <u>comment</u> LENGTH OF VERTICAL STATEMENT LINE;
+      DRP ≔ 40;        <u>comment</u> HORIZONTAL OFFSET FOR NEXT PARALLEL NODE;
+      DELTA MLP ≔ 100; <u>comment</u> HORIZ OFFSET FOR ML PARAS;
+
+      <u>begin</u>
+         LIMITS ( 0,0,16383,16383 );
+         REGION ( 1995,1995,14393,14393,0 );
+         LIMITS ( 0,YMAX,XMAX,0 );
+         REGION ( 0,YMAX,XMAX,0,1 );
+
+         SELECT REGION (1);
+         LIMITS ( 0,YMAX,XMAX,0 );
+
+         CHARACTER SIZE ( CH HEIGHT,CH WIDTH );
+
+         <u>begin</u>
+
+            <u>comment</u> DRAW 30 FLOWCHART;
+            <u>begin</u>
+               <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>integer</u> CH;
+               <u>integer</u> J;
+
+               <u>integer</u> <u>procedure</u> MAX (A,B);
+                  <u>value</u> A,B;
+                  <u>integer</u> A,B;
+               <u>begin</u>
+                  MAX ≔ <u>if</u> A &gt; B <u>then</u> A <u>else</u> B;
+               <u>end</u>;
+
+               <u>integer</u> <u>procedure</u> GCHAR (CHARACTER);
+                  <u>value</u> CHARACTER;
+                  <u>integer</u> CHARACTER;
+               <u>begin</u>
+                  <u>comment</u> NEWLINE (1);
+                  <u>comment</u> PRINT CH (CH);
+                  <u>comment</u> PRINT ( CHARACTER,12,0 );
+
+                  <u>if</u> CHARACTER= ENDLINE <u>then</u>
+                  <u>begin</u>
+                     WRITE TEXT (“EL ERROR”);
+                     <u>goto</u> FINI;
+                  <u>end</u>;
+
+                  <u>if</u> CHARACTER &GreaterSlantEqual; 0 ∧ CHARACTER &LessSlantEqual; 9
+                    <u>then</u> CHARACTER ≔ CHARACTER + 16
+                    <u>else</u> <u>if</u> CHARACTER &GreaterSlantEqual; 3873 ∧ CHARACTER &LessSlantEqual; 3898
+                    <u>then</u> CHARACTER ≔ CHARACTER - 3840
+                    <u>else</u> <u>if</u> CHARACTER = 29 ∨ CHARACTER = 30
+                    <u>then</u> CHARACTER ≔ CHARACTER + 1
+                    <u>else</u> <u>if</u> CHARACTER = 24 ∨ CHARACTER = 25
+                    <u>then</u> CHARACTER ≔ CHARACTER - 16
+                    <u>else</u> <u>if</u> CHARACTER = 18 ∨ CHARACTER = 31
+                    <u>then</u> CHARACTER ≔ CHARACTER - 16
+                    <u>else</u> <u>if</u> CHARACTER = 17 ∨ CHARACTER = 21
+                    <u>then</u> CHARACTER ≔ CHARACTER + 49
+                    <u>else</u> <u>if</u> CHARACTER = 16
+                    <u>then</u> CHARACTER ≔ 1
+                    <u>else</u> <u>if</u> CHARACTER = 28
+                    <u>then</u> CHARACTER ≔ 10
+                    <u>else</u> <u>if</u> CHARACTER = 26
+                    <u>then</u> CHARACTER ≔ 14
+                    <u>else</u> <u>if</u> CHARACTER = 27
+                    <u>then</u> CHARACTER ≔ 29
+                    <u>else</u> <u>if</u> CHARACTER = 10
+                    <u>then</u> CHARACTER ≔ 79
+                    <u>else</u> <u>if</u> CHARACTER = 11
+                    <u>then</u> CHARACTER ≔ 78
+                    <u>else</u> <u>if</u> CHARACTER = 12
+                    <u>then</u> CHARACTER ≔ 26
+                    <u>else</u> <u>if</u> CHARACTER = 13
+                    <u>then</u> CHARACTER ≔ 28
+                    <u>else</u> <u>if</u> CHARACTER = 14
+                    <u>then</u> CHARACTER ≔ 27
+                    <u>else</u> <u>if</u> CHARACTER = 15
+                    <u>then</u> CHARACTER ≔ 12
+                    <u>else</u> <u>if</u> CHARACTER = 19
+                    <u>then</u> CHARACTER ≔ 69
+                    <u>else</u> <u>if</u> CHARACTER = 22
+                    <u>then</u> CHARACTER ≔ 13
+                    <u>else</u> <u>if</u> CHARACTER = 23
+                    <u>then</u> CHARACTER ≔ 32
+                    <u>else</u> <u>if</u> CHARACTER = 20
+                    <u>then</u> CHARACTER ≔ 67
+                    <u>else</u> <u>if</u> CHARACTER = 3872
+                    <u>then</u> CHARACTER ≔ 96
+                    <u>else</u> <u>if</u> CHARACTER = 3899
+                    <u>then</u> CHARACTER ≔ 81
+                    <u>else</u> <u>if</u> CHARACTER = 4020
+                    <u>then</u> CHARACTER ≔ 75
+                    <u>else</u> <u>if</u> CHARACTER = 4021
+                    <u>then</u> CHARACTER ≔ 82
+                    <u>else</u> <u>if</u> CHARACTER = 4022
+                    <u>then</u> CHARACTER ≔ 68
+                    <u>else</u> <u>if</u> CHARACTER = 4023
+                    <u>then</u> CHARACTER ≔ 91
+                  <u>else</u> CHARACTER ≔ -1;
+                  <u>comment</u>   PRINT   ( CHARACTER,12,0 );
+                  GCHAR   ≔ CHARACTER;
+               <u>end</u>;
+
+               <u>procedure</u> DRAW THE FLOWCHART (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>integer</u> NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT;
+                  <u>integer</u> J;
+
+                  <u>comment</u> WRITE HEADING;
+                  <u>begin</u>
+                     NEWLINE (1);
+                     <u>comment</u> WRITE TEXT ('('FLOWCHART')');
+                     <u>comment</u> NEWLINE (1);
+                  <u>end</u>;
+
+                  <u>comment</u> PRINT NAME OF FLOWCHART;
+                  <u>begin</u>
+
+                     <u>comment</u> JUMP OVER NAME;
+                     <u>begin</u>
+                        <u>for</u> J ≔ 1 <u>step</u> 1 <u>until</u> 7 <u>do</u> CH ≔ READCH;
+                     <u>end</u>;
+
+                     MOVE TYPE TO ( LEFT,TOP );
+
+                     J ≔ 0;
+                     <u>for</u> J ≔ J + 1 <u>while</u> CH ≠ SEMICOLON ∧ J &lt; 82 <u>do</u>
+                        <u>begin</u>
+                           PRINT CH (CH);
+                           TYPE ( GCHAR(CH) );
+                           CHARACTER SPACE ( CH SP );
+                           CH ≔ READCH;
+                        <u>end</u>;
+
+                     <u>if</u> J = 82 <u>then</u>
+                     <u>begin</u>
+                        WRITE TEXT (“ERR0R IN COPY TILL ;”);
+                        <u>goto</u> FINI;
+                     <u>end</u>;
+
+                     COPYTEXT (“!”);
+
+                  <u>end</u>;
+
+                  <u>comment</u> RESET POINTERS TO DRAW NEXT LEVEL;
+                  <u>begin</u>
+                     NEW TOP ≔ NEW BOTTOM ≔ TOP + HEIGHT 2CH;
+                     NEW LEFT ≔ NEW RIGHT ≔ LEFT;
+                  <u>end</u>;
+
+                  DRAW NEXT LEVEL (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+
+                  <u>comment</u> RESET POINTERS TO TOP OF NEW RECTANGLE;
+                  <u>begin</u>
+                     NEW TOP ≔ NEW BOTTOM;
+                     NEW LEFT ≔ NEW RIGHT;
+                  <u>end</u>;
+                  PRINT OUT POINTERS (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  DRAW NODE (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  PRINT OUT POINTERS (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  J ≔ 0;
+                  <u>for</u> J ≔ J + 1 <u>while</u> CH ≠ FULLSTOP ∧ ( J &lt; 82) <u>do</u> CH ≔ READCH;
+
+                  <u>if</u> J = 82 <u>then</u>
+                  <u>begin</u>
+                     WRITE TEXT (“.ERROR”);
+                     PRINT CH (CH);
+                     LOOP ERROR (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                  <u>end</u> ;
+                  BOTTOM ≔ NEW BOTTOM;
+                  RIGHT ≔ NEW RIGHT;
+                  COPY TEXT(“;”);
+
+               <u>end</u>;
+
+               <u>procedure</u> GET NON BLANK CHAR (CH);
+                  <u>integer</u> CH;
+               <u>begin</u>
+                  <u>integer</u> J;
+
+                  SKIP CH;
+                  CH ≔ NEXTCH;
+
+                  J ≔ 0;
+                  <u>for</u> J ≔ J + 1 <u>while</u> ( CH = BLANK ∨ CH = ENDLINE) ∧ ( J &lt; 82 ) <u>do</u>
+
+                     <u>begin</u>
+                        SKIP CH;
+                        CH ≔ NEXTCH;
+                     <u>end</u>;
+
+                  <u>if</u> J = 82 <u>then</u>
+                  <u>begin</u>
+                     WRITE TEXT (“ERROR IN NON BLANK CHAR”);
+                     PRINT CH (CH);
+                     <u>goto</u> FINI;
+                  <u>end</u>;
+
+               <u>end</u>;
+
+               <u>procedure</u> DRAW NEXT LEVEL (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>integer</u> DIAGONAL;
+
+                  DIAGONAL ≔ 25;
+
+                  <u>comment</u> WRITE NEXT LEVEL;
+                  <u>begin</u>
+                     <u>comment</u> NEWLINE(1);
+                     <u>comment</u> WRITE TEXT ('('NEXT%LEVEL')');
+                     <u>comment</u> NEWLINE (1);
+                  <u>end</u>;
+
+                  <u>comment</u> DRAW DIAGONAL LINE;
+                  <u>begin</u>
+                     RIGHT ≔ ( LEFT + WIDTH 3 CH ) + DIAGONAL;
+                     BOTTOM ≔ TOP + DIAGONAL;
+
+                     VECTOR ( LEFT + WIDTH 3CH,TOP,RIGHT,BOTTOM);
+                  <u>end</u>;
+
+               <u>end</u>;
+
+               <u>procedure</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT,BOTTOM,RIGHT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  NEWLINE (1);
+                  PRINT ( TOP,6,0 );
+                  PRINT ( LEFT,6,0 );
+                  PRINT ( BOTTOM,6,0 );
+                  PRINT ( RIGHT,6,0 );
+                  NEWLINE (1);
+               <u>end</u>;
+
+               <u>procedure</u> DRAW NODE (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP, LEFT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>integer</u> NWTOP,NWLEFT,NWBOTTOM,NWRIGHT;
+                  <u>integer</u> NODE ENTRY;
+
+                  NUTOP ≔ TOP;
+                  NWLEFT ≔ LEFT;
+                  NWBOTTOM ≔ BOTTOM;
+                  NWRIGHT ≔ RIGHT;
+
+                  <u>comment</u> NODE WINDOWING MECHANISM;
+
+                  <u>if</u> NODE NUM &lt; 5000 <u>then</u> NODE NUM ≔ NODE NUM + 1
+                  <u>else</u> <u>begin</u> WRITE TEXT (“NODETABLE OVERFLOW”);
+                     <u>goto</u> FINI <u>end</u>;
+                  NODE ENTRY ≔ NODE NUM;
+
+                  <u>if</u> FIRST TIME <u>then</u>
+                  <u>begin</u>
+                     <u>comment</u> ALWAYS DRAW;
+                     INTERSECT ≔ <u>true</u>;
+                  <u>end</u>
+                  <u>else</u> <u>begin</u>
+                     NWBOTTOM ≔ NODE TABLE[1,NODENUM];
+                     NWRIGHT  ≔ NODE TABLE[2,NODENUM];
+                     INTERSECT ≔                        <u>if</u> NWRIGHT  &lt; RJX       <u>then</u> <u>false</u>
+                     <u>else</u> <u>if</u> RJX+XMAX &lt; NWLEFT    <u>then</u> <u>false</u>
+                     <u>else</u> <u>if</u> NWTOP    &gt; RKY+YMAX  <u>then</u> <u>false</u>
+                     <u>else</u> <u>if</u> RKY      &gt; NWBOTTOM  <u>then</u> <u>false</u>
+                     <u>else</u> <u>true</u>;
+                  <u>end</u>;
+                  <u>if</u> INTERSECT <u>then</u>
+                  <u>begin</u>
+                     DRAW THE NODE (NWTOP,NWLEFT,NWBOTTOM,NWRIGHT);
+                     NODE TABLE[1,NODE ENTRY] ≔ NWBOTTOM;
+                     NODE TABLE[2,NODE ENTRY] ≔ NWRIGHT;
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     <u>comment</u> SKIP TO CORRESPONDING HASH;
+                     CH ≔ READCH;
+                     COUNT ≔ 1;
+                     <u>for</u> COUNT ≔ OUNT <u>while</u> COUNT ≠ 0
+                       <u>do</u> <u>begin</u>
+                           CH ≔ READCH;
+                           <u>if</u> (CH = SHRIEK) ∨
+                             (CH = EQUALS) ∨
+                             (CH = HYPHEN)
+                             <u>then</u> <u>begin</u> COUNT ≔ COUNT + 1; NODENUM ≔ NODENUM + 1; <u>end</u>
+                             <u>else</u> <u>if</u> CH = HASH <u>then</u> COUNT ≔ COUNT + 1
+                             <u>else</u> <u>if</u> CH = SQUOTE <u>then</u> <u>begin</u>
+                              <u>for</u> CH ≔ READCH <u>while</u> CH ≠ SQUOTE <u>do</u> <u>end</u>
+                             <u>else</u> <u>if</u> CH = QUERY <u>then</u> <u>begin</u>
+                              <u>for</u> CH ≔ READCH <u>while</u> CH ≠ QUERY <u>do</u> <u>end</u>
+                           <u>else</u>
+                             ;
+                        <u>end</u>;
+
+                     <u>comment</u> SKIP OVER HASH;
+                     <u>if</u> CH = HASH <u>then</u> GET NON BLANK CHAR (CH)
+                     <u>else</u> <u>begin</u>
+                        WRITE TEXT (“NODE WINDOW ERROR”);
+                        PRINT CH (CH);
+                     <u>end</u>
+                  <u>end</u>;
+                  BOTTOM ≔ NWBOTTOM;
+                  RIGHT  ≔ NWRIGHT;
+
+                  <u>goto</u> MISS OUT PRINTING;
+
+                  NEWLINE (4);
+                  WRITE TEXT (“ NODE TABLE ”);
+                  PRINT (NODE ENTRY,10,0); PRINT (NODE NUM,10,0); NEWLINE (1);
+
+                  <u>for</u> COUNT ≔ 1 <u>step</u> 1 <u>until</u> NODE NUM
+                    <u>do</u> <u>begin</u>
+                        PRINT (COUNT,10,0);
+                        PRINT (NODETABLE[1,COUNT],10,0);
+                        PRINT (NODETABLE[2,COUNT],10,0);
+                        NEWLINE (1);
+                     <u>end</u>;
+
+                  PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  MISS OUT PRINTING:
+
+               <u>end</u> NODE WINDOWING PROC;
+
+               <u>procedure</u> DRAW THE NODE (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>integer</u> NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT;
+                  <u>integer</u> MAX NEW BOTTOM,MAX NEW RIGHT;
+
+                  <u>integer</u> TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP;
+                  <u>integer</u> MAX BOTTOM MLP, MAX RIGHT MLP;
+
+                  <u>integer</u> J;
+                  <u>comment</u> WRITE NODE;
+                  <u>begin</u>
+                     <u>comment</u> NEWLINE (1);
+                     <u>comment</u> WRITE TEXT ('('NODE')');
+                  <u>end</u>;
+
+                  <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  <u>comment</u> RESET POINTERS FOR NODE;
+                  <u>begin</u>
+                     NEW TOP ≔ TOP;
+                     NEW LEFT ≔ LEFT;
+                     NEW BOTTOM ≔ MAX NEW BOTTOM ≔ TOP + DNS;
+                     NEW RIGHT ≔ MAX NEW RIGHT ≔ LEFT;
+                  <u>end</u>;
+
+                  GET NON BLANK CHAR (CH);
+                  <u>comment</u> DRAW ONE OR MORE SERIALS;
+                  <u>begin</u>
+                     J ≔ 0;
+                     <u>for</u> J ≔ J + 1 <u>while</u> ( CH = SQUOTE ∨ CH = QUERY ) ∧ ( J &lt; 5000 ) <u>do</u>
+
+                        <u>begin</u>
+                           DRAW SERIAL (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                           MAX NEW BOTTOM ≔ MAX ( NEW BOTTOM,MAX NEW BOTTOM );
+                           MAX NEW RIGHT ≔ MAX ( NEW RIGHT,MAX NEW RIGHT );
+                        <u>end</u>;
+
+                     <u>if</u> J = 5000 <u>then</u>
+                     <u>begin</u>
+                        WRITE TEXT (“ONE OR MORE SERIALS ERROR”);
+                        PRINT CH (CH);
+                        LOOP ERROR (NEW TOP,NEW LEFT,NEW BOTTOM,NEW RIGHT);
+                     <u>end</u>;
+
+                     <u>comment</u> DRAW ZERO OR MORE MIN LENGTH PARALLEL NODES;
+
+                     <u>if</u> CH = EQUALS <u>then</u>
+                     <u>begin</u>
+
+                        <u>comment</u> SETUP MIN LEN PARALLELS;
+                        <u>begin</u>
+                           TOP MLP ≔ BOTTOM MLP ≔ MAX BOTTOM MLP ≔ TOP;
+                           LEFT MLP ≔ LEFT;
+                           RIGHT MLP ≔ MAX RIGHT MLP ≔ MAX NEW RIGHT;
+                        <u>end</u>;
+
+                        <u>comment</u> DRAW MLP S;
+                        <u>begin</u>
+                           J ≔ 0;
+                           <u>for</u> J ≔ +1 <u>while</u> ((CH = EQUALS) ∧ (J&lt;50)) <u>do</u>
+                              <u>begin</u>
+                                 <u>comment</u> NEWLINE(1);
+                                 <u>comment</u> WRITE TEXT ('('MIN%LEN%PARALLEL')');
+                                 <u>comment</u> PRINT OUT POINTERS (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+
+                                 DRAW HORIZONTAL LINE (TOP MLP, LEFT MLP,
+                                   BOTTOM MLP, RIGHT MLP+DELTA MLP);
+                                 LEFT MLP ≔ RIGHT MLP ≔ RIGHT MLP + DELTA MLP;
+                                 BOTTOM MLP ≔ TOP MLP;
+
+                                 DRAW NODE (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+
+                                 MAX BOTTOM MLP  ≔ MAX ( BOTTOM MLP, MAX BOTTOM MLP);
+                                 MAX RIGHT MLP ≔ MAX ( RIGHT MLP, MAX RIGHT MLP);
+
+                              <u>end</u> OF WHILE LOOP;
+                           <u>if</u> J &GreaterSlantEqual; 50 <u>then</u>
+                           <u>begin</u>
+                              WRITE TEXT (“MIN LEN PAR LOOP ERROR”);
+                              PRINT CH (CH);
+                              LOOP ERROR (TOP MLP, LEFT MLP, BOTTOM MLP, RIGHT MLP);
+                           <u>end</u>;
+
+                           MAX NEW BOTTOM ≔ MAX ( MAX BOTTOM MLP, MAX NEW BOTTOM);
+                           MAX NEW RIGHT ≔ MAX ( MAX RIGHT MLP, MAX NEW RIGHT);
+
+                        <u>end</u> OF DRAW MLP S;
+
+                     <u>end</u> OF MIN LEN PARALLELS;
+
+                     <u>if</u> CH ≠ HASH <u>then</u>
+                     <u>begin</u>
+                        WRITE TEXT (“#ERROR”);
+                        PRINT CH (CH);
+                        <u>goto</u> FINI;
+                     <u>end</u>;
+
+
+                     GET NON BLANK CHAR (CH);
+
+                     BOTTOM ≔ MAX ( BOTTOM, (MAX NEW BOTTOM + DNS) ) ;
+                     RIGHT ≔ MAX ( RIGHT,MAX NEW RIGHT );
+                  <u>end</u>;
+
+                  <u>comment</u> WRITE TEXT ('('END%OF%NODE')');
+                  <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+               <u>end</u>;
+
+               <u>procedure</u> DRAW SFRIAL (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>integer</u> TOP SERIAL,LEFT SERIAL,BOTTOM SERIAL,RIGHT SERIAL;
+                  <u>integer</u> NEXT TOP,NEXT LEFT,NEXT BOTTOM,NEXT RIGHT;
+                  <u>integer</u> TOP  PARA,LEFT PARA,BOTTOM PARA, RIGHT PARA;
+                  <u>integer</u> MAX BOTTOM PARA,MAX RIGHT PARA;
+                  <u>integer</u> J;
+
+                  <u>comment</u> WRITE SERIAL;
+                  <u>begin</u>
+                     <u>comment</u> NEWLINE ( 1 );
+                     <u>comment</u> WRITE TEXT ('('SERIAL')');
+                     <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>end</u>;
+
+                  DRAW VERTICAL LINE (TOP,LEFT,(BOTTOM + DTB),RIGHT);
+                  RESET SERIAL POINTERS;
+                  <u>begin</u>
+                     TOP SERIAL ≔ BOTTOM SERIAL ≔ BOTTOM + DTB;
+                     LEFT SERIAL ≔ RIGHT SERIAL ≔ LEFT;
+                  <u>end</u>;
+
+                  DRAW STATEMENT (TOP SERIAL,LEFT SERIAL, BOTTOM SERIAL,
+                    RIGHT SERIAL);
+
+                  <u>comment</u> SET PARALLEL POINTERS;
+                  <u>begin</u>
+                     TOP PARA ≔ BOTTOM PARA ≔ MAX BOTTOM PARA ≔ TOP;
+                     LEFT PARA ≔ LEFT;
+                     RIGHT PARA ≔ MAX RIGHT PARA ≔ RIGHT SERIAL;
+                  <u>end</u>;
+
+                  <u>comment</u> NEXT LEVEL;
+                  <u>begin</u>
+                     GET NON BLANK CHAR (CH);
+
+                     NEXT TOP ≔ NEXT BOTTOM ≔ 0;
+                     NEXT LEFT ≔ NEXT RIGHT ≔ 0;
+
+                     <u>if</u> CH = SHRIEK <u>then</u>
+                     <u>begin</u>
+
+                        <u>comment</u> RESET NEXT LEVEL POINTERS;
+                        <u>begin</u>
+                           NEXT TOP ≔ BOTTOM SERIAL;
+                           NEXT LEFT ≔ LEFT;
+                        <u>end</u>;
+
+                        <u>comment</u> NEWLINE (1);
+                        <u>comment</u> WRITE TEXT ('('SERIAL~NEXT%LEVEL')');
+
+                        DRAW NEXT LEVEL (NEXT TOP,NEXT LEFT,NEXT BOTTOM,
+                          NEXT RIGHT);
+
+                        NEXT TOP ≔ NEXT BOTTOM;
+                        NEXT LEFT ≔ NEXT RIGHT;
+
+                        DRAW NODE (NEXT TOP,NEXT LEFT,NEXT BOTTOM,NEXT RIGHT);
+
+                        RIGHT PARA ≔ MAX RIGHT PARA ≔ MAX ( RIGHT PARA,
+                          NEXT RIGHT);
+                     <u>end</u>;
+
+                  <u>end</u>;
+
+                  <u>comment</u> PARALLEL;
+                  <u>begin</u>
+                     J ≔ 0;
+                     <u>for</u> J ≔ J + 1 <u>while</u> CH = HYPHEN ∧ ( J &lt; 82 ) <u>do</u>
+
+                        <u>begin</u>
+
+                           <u>comment</u> NEWLINE (1);
+                           <u>comment</u> WRITE TEXT ('('SERIAL-PARALLEL')');
+
+                           <u>comment</u> PRINT OUT POINTERS (TOP PARA,LEFT PARA,BOTTOM PARA, RIGHT PARA);
+
+                           DRAW HORIZONTAL LINE (TOP PARA,LEFT PARA,BOTTOM PARA,
+                             (RIGHT PARA + DRP ));
+
+                           LEFT PARA ≔ RIGHT PARA ≔ RIGHT PARA + DRP;
+                           BOTTOM PARA ≔ TOP PARA;
+
+                           DRAW NODE (TOP PARA,LEFT PARA,BOTTOM PARA,RIGHT PARA);
+                           MAX BOTTOM PARA ≔ MAX ( BOTTOM PARA,MAX BOTTOM PARA );
+                           MAX RIGHT PARA ≔ MAX ( RIGHT PARA,MAX RIGHT PARA );
+
+                        <u>end</u>;
+
+                     <u>if</u> J = 82 <u>then</u>
+                     <u>begin</u>
+                        WRITE TEXT (“PARALLEL LOOP ERROR”);
+                        PRINT CH (CH);
+                        LOOP ERROR (TOP PARA,LEFT PARA,BOTTOM PARA,RIGHT PARA);
+                     <u>end</u>;
+
+                  <u>end</u>;
+
+                  <u>comment</u> OVERALL SIZES;
+
+                  <u>begin</u>
+                     TOP ≔ BOTTOM SERIAL;
+                     BOTTOM ≔ MAX ( BOTTOM SERIAL,MAX (NEXT BOTTOM,BOTTOM PARA) );
+                     RIGHT ≔ MAX ( RIGHT SERIAL,MAX (NEXT RIGHT,RIGHT PARA) );
+                  <u>end</u>;
+
+                  <u>comment</u> NEWLINE (1);
+                  <u>comment</u> WRITE TEXT ('('END%OF%SERIAL')');
+                  <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+               <u>end</u>;
+
+               <u>procedure</u> DRAW VERTICAL LINE (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT,BOTTOM,RIGHT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+
+               <u>begin</u>
+                  <u>comment</u> NEWLINE (1);
+                  <u>comment</u> WRITE TEXT ('('VERTICAL%LINE')');
+                  <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  VECTOR ( LEFT,TOP,LEFT,BOTTOM );
+               <u>end</u>;
+
+               <u>procedure</u> DRAW STATEMENT (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+
+               <u>begin</u>
+                  <u>integer</u> TOP TEXT, RIGHT TEXT;
+                  <u>integer</u> J;
+                  <u>boolean</u> ACTION;
+
+                  <u>if</u> CH = SQUOTE <u>then</u> ACTION ≔ <u>true</u>
+                    <u>else</u> <u>if</u> CH = QUERY <u>then</u> ACTION ≔ <u>false</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     WRITE TEXT (“? or  ERR0R”);
+                     PRINT CH (CH);
+                     <u>goto</u> FINI;
+                  <u>end</u>;
+
+                  <u>comment</u> WRITE OUT TEXT;
+                  <u>begin</u>
+
+                     <u>comment</u> SET TEXT POINTERS;
+                     <u>begin</u>
+                        TOP TEXT ≔ T OP + CH HEIGHT;
+                        RIGHT TEXT ≔ RIGHT ≔ LEFT;
+                     <u>end</u>;
+
+                     <u>comment</u> NEWLINE (1);
+                     GET NON BLANK CHAR (CH);
+                     MOVE TYPE TO ( LEFT,TOP TEXT);
+
+                     J ≔ 0;
+                     <u>for</u> J ≔ J + 1 <u>while</u> ¬ ((CH = (<u>if</u> ACTION <u>then</u> QUOTE <u>else</u> QUERY)) ∨ J &GreaterSlantEqual; 999)
+                       <u>do</u>
+                        <u>begin</u>
+                           <u>if</u> CH = ENDLINE <u>then</u>
+                           <u>begin</u>
+                              <u>comment</u> START NEW LINE OF TEXT;
+                              RIGHT ≔ MAX (RIGHT, RIGHT TEXT);
+                              TOP TEXT ≔ TOP TEXT + HEIGHT 2 CH;
+                              MOVE TYPE TO (LEFT, TOP TEXT);
+
+                              RIGHT TEXT ≔ LEFT;
+                              GET NON BLANK CHAR (CH);
+                           <u>end</u>
+                           <u>else</u>
+                           <u>begin</u>
+                              <u>comment</u> PRINT CH (CH);
+
+                              <u>comment</u> WINDOWING FRIG ;
+                              <u>if</u> ( LEFT WINDOW &lt; RIGHT TEXT) <u>then</u> <u>begin</u>
+                                 <u>if</u> (RIGHT TEXT &lt; RIGHT WINDOW) <u>then</u> <u>begin</u>
+                                    <u>if</u> (TOP WINDOW  &lt; TOP TEXT) <u>then</u> <u>begin</u>
+                                       <u>if</u> (TOP TEXT &lt; BOTTOM WINDOW)
+                                         <u>then</u> <u>begin</u>
+                                          MOVE TYPE TO (RIGHT TEXT,TOP TEXT);
+                                          TYPE ( GCHAR(CH) );
+                                          CHARACTER SPACE ( CH SP );
+                                       <u>end</u> <u>end</u> <u>end</u>
+                              <u>end</u>;
+
+                              RIGHT TEXT ≔ RIGHT TEXT+ CH WIDTH+ CH SP;
+                              SKIP CH;
+                              CH ≔ NEXTCH;
+                           <u>end</u>
+                        <u>end</u>;
+                     <u>if</u> J = 999 <u>then</u>
+                     <u>begin</u>
+                        NEWLINE (1);
+                        WRITE TEXT (“WRITE OUT TEXT ERR0R”);
+                        PRINT CH (CH);
+                        LOOP ERROR (TOP,LEFT,BOTTOM,RIGHT);
+                     <u>end</u>;
+
+                     <u>comment</u> OVERALL SIZE OF TEXT;
+                     <u>begin</u>
+                        BOTTOM ≔ TOP TEXT ≔ CH HEIGHT;
+                        RIGHT ≔ MAX(RIGHT, RIGHT TEXT);
+                     <u>end</u>
+
+                  <u>end</u>;
+                  <u>if</u> ((ACTION ≡ <u>true</u>) ∧ (CH = QUERY)) ∨ ((ACTION ≡ <u>false</u>) ∧ (CH = SQUOTE)) <u>then</u>
+                  <u>begin</u>
+                     WRITE TEXT (“ACTION OR ' OR ? ERROR”);
+                     PRINT CH (CH);
+                     <u>goto</u> FINI;
+                  <u>end</u>;
+
+                  <u>if</u> ACTION ≡ <u>true</u> <u>then</u>
+                  <u>begin</u>
+                     <u>comment</u> SPACE OVER TEXT I.E. DO NOTHING;
+                  <u>end</u>;
+
+                  <u>if</u> ACTION ≡ <u>false</u> <u>then</u>
+                  <u>begin</u>
+
+                     <u>comment</u> DRAW HALF SQUARE;
+                     <u>begin</u>
+                        <u>comment</u> NEWLINE (1);
+                        <u>comment</u> WRITE TEXT ('('HALF-SQUARE')');
+                        VECTOR ( LEFT,TOP,(LEFT - CH WIDTH),TOP);
+                        VECTOR ((LEFT - CH WIDTH),TOP,(LEFT - CH WIDTH),BOTTOM );
+                        VECTOR ((LEFT - CH WIDTH),BOTTOM,LEFT,BOTTOM );
+                     <u>end</u>
+                  <u>end</u>
+               <u>end</u>;
+
+               <u>procedure</u> DRAW HORIZONTAL LINE (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT,BOTTOM,RIGHT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  <u>comment</u> NEWLINE (1);
+                  <u>comment</u> WRITE TEXT ('('HORIZONTAL%LINE')');
+                  <u>comment</u> PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  VECTOR ( LEFT,TOP,RIGHT,TOP );
+               <u>end</u>;
+
+               <u>procedure</u> LOOP ERROR (TOP,LEFT,BOTTOM,RIGHT);
+                  <u>value</u> TOP,LEFT,BOTTOM,RIGHT;
+                  <u>integer</u> TOP,LEFT,BOTTOM,RIGHT;
+               <u>begin</u>
+                  WRITE TEXT (“A L00P ERR0R HAS 0CCURRED”);
+                  PRINT CH (CH);
+
+                  PRINT OUT POINTERS (TOP,LEFT,BOTTOM,RIGHT);
+
+                  <u>goto</u> FINI;
+               <u>end</u>;
+
+               <u>comment</u> DECIDE ON INPUT OUTPUT STREAMS;
+               <u>begin</u>
+                  SELECT INPUT (5);
+                  SELECT OUTPUT (5);
+               <u>end</u>;
+
+               <u>comment</u> SET INITIAL VALUES OF POINTERS;
+               <u>begin</u>
+                  TOP ≔ BOTTOM ≔ 100;
+                  LEFT ≔ RIGHT ≔ 100;
+               <u>end</u>;
+
+               <u>comment</u> INITIALISE NODE WINDOWING;
+               FIRST TIME ≔ <u>true</u>;
+
+               <u>comment</u> DRAW THE BIG PICTURE;
+               <u>begin</u>
+                  <u>for</u> RJX ≔ 0 <u>step</u> XMAX <u>until</u> RIGHT <u>do</u>
+                     <u>begin</u>
+                        <u>for</u> RKY ≔ 0 <u>step</u> YMAX <u>until</u> BOTTOM <u>do</u>
+                           <u>begin</u>
+                              FREE INPUT;
+                              TR5 ≔ ALGOBEY (“RL *TR5”);
+                              TR5 ≔ ALGOBEY (“AS *TR5,£E”);
+                              SELECT INPUT (5);
+
+                              TOP ≔ BOTTOM ≔ 100;
+                              LEFT ≔ RIGHT ≔ 100;
+                              XMAX ≔ YMAX ≔ READ;
+
+                              TOP  WINDOW ≔ RKY - 50;
+                              LEFT WINDOW ≔ RJX - 50;
+                              BOTTOM WINDOW ≔ RKY + YMAX - 50;
+                              RIGHT  WINDOW ≔ RJX + XMAX - 50;
+
+                              NODE NUM ≔ 0;
+
+                              LIMITS (RJX,RKY+YMAX,RJX+XMAX,RKY);
+                              DRAW THE FLOWCHART (TOP,LEFT,BOTTOM,RIGHT);
+                              VECTOR (RJX+XMAX,RKY,RJX+XMAX,RKY+YMAX);
+                              VECTOR (RJX     ,RKY,RJX     ,RKY+YMAX);
+                              ADVANCE FILM;
+                              FIRST TIME ≔ <u>false</u>;
+                           <u>end</u>;
+                        ADVANCE FILM;
+                     <u>end</u>
+               <u>end</u>;
+               FINI:
+               <u>begin</u>
+                  NEWLINE (3);
+               <u>end</u>
+            <u>end</u>
+         <u>end</u>
+      <u>end</u>
+   <u>end</u>;
+
+   ENDPLOTTING;
+
+<u>end</u>
+</pre></body></html>

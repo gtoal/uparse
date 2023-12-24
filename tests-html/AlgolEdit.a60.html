@@ -1,0 +1,135 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>procedure</u> AlgolEdit(characterset, linelimit);
+   <u>string</u> characterset;
+     <u>integer</u> linelimit;
+     <u>comment</u> If this procedure is presented an ALGOL 60 program or procedure
+     in the form of a sequence of basic symbols, it will transmit to the
+     output medium a copy of the text with indentations between each
+     begin-end pair and some rearrangement of the blank spaces within the
+     text. This procedure is an example of its own output. It is used to
+     edit ALGOL 60 text that is difficult to read because, for example, the
+     ALGOL has been transcribed from printed documents, or written by
+     inexperienced programmers, or stored in compressed form (i.e., with all
+     redundant blank spaces removed). The integer “-1” will represent the
+     nonbasic symbol “carriage return”, “-2” will represent an end-of-file
+     mark, other symbols will have the integer value corresponding to their
+     position in the parametric string “characterset”. The string must
+     contain exactly the 116 basic symbols of ALGOL 60. The parameter
+     line-limit” sets an upper bound on the number of basic symbols that
+     the user wishes to appear on a line of output. The identifiers “lsq”
+     and “rsq” will be used in place of strings of length one whose only
+     elements are “‘” and “’”, respectively;
+<u>begin</u>
+   <u>integer</u> <u>array</u> spacesbefore, spacesafter[1 : 116], buffer[1 : linelimit];
+   <u>integer</u> tabstop, symbol, i, symbolcount, level;
+   <u>Boolean</u> newline;
+   <u>integer</u> <u>procedure</u> val(s);
+      <u>string</u> s;
+   <u>begin</u>
+      <u>comment</u> The value of this procedure is the integer corresponding
+        to the position in the string “characterset” of the symbol in the
+        string “s”. The body of the procedure must be expressed in code;
+   <u>end</u> val;
+   <u>procedure</u> get(symbol);
+      <u>integer</u> symbol;
+   <u>begin</u> insymbol(2, characterset, symbol);
+      <u>if</u> symbol = -2 <u>then</u> <u>go</u> <u>to</u> eof
+   <u>end</u> get;
+   <u>procedure</u> send(symbol);
+      <u>integer</u> symbol;
+   <u>begin</u> <u>comment</u> “send” must not break identifiers across lines or
+        insert spurious characters into strings;
+      <u>integer</u> i, u, v;
+      <u>if</u> symbol = -1 ∨ symbolcount &GreaterSlantEqual; linelimit
+        <u>then</u>
+      <u>begin</u> v ≔ tabstop;
+         <u>if</u> newline <u>then</u> <u>go</u> <u>to</u> E;
+         <u>if</u> level ≠ 0 <u>then</u>
+         <u>begin</u> <u>comment</u> Inside a string;
+            <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> symbolcount <u>do</u> outsymbol(1, characterset, buffer[i]);
+            outsymbol(1, characterset, -1) ;
+            v ≔ 0
+         <u>end</u> <u>else</u>
+         <u>begin</u> u ≔ symbolcount;
+            newline ≔ true;
+            <u>if</u> symbol = -1 <u>then</u> <u>go</u> <u>to</u> D;
+            <u>comment</u> Find a convenient place to break the line;
+            <u>for</u> u ≔ symbolcount - 1 <u>step</u> -1 <u>until</u> tabstop <u>do</u>
+                 <u>if</u> buffer[u + 1] = val(“ ”) ∨ buffer[u] = val(rsq) <u>then</u> <u>go</u> <u>to</u> D;
+            u ≔ symbolcount;
+            <u>comment</u> Send the line;
+            D: <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> u <u>do</u> outsymbol(1, characterset, buffer[i]);
+            outsymbol(1, characterset, -1);
+            <u>comment</u> Find a non-blank character to start the next line;
+            <u>for</u> i ≔ u + 1 <u>step</u> 1 <u>until</u> symbolcount <u>do</u> <u>if</u> buffer[i] ≠ val(“ ”) <u>then</u> <u>go</u> <u>to</u> F;
+            <u>go</u> <u>to</u> G;
+            <u>comment</u> Move a new line to the head of the buffer area;
+            F: <u>for</u> i ≔ i <u>step</u> 1 <u>until</u> symbolcount <u>do</u>
+               <u>begin</u> v ≔ v + 1;
+                  newline ≔ false;
+                  buffer[v] ≔ buffer[i]
+               <u>end</u>;
+            <u>comment</u> Insert blanks for tab stops;
+            G: <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> tabstop <u>do</u> buffer[i] ≔ val(“ ”)
+         <u>end</u>;
+         E: symbolcount ≔ v
+      <u>end</u>;
+      <u>comment</u> Now we can put the new symbol in the buffer array;
+      <u>if</u> symbol ≠ -1 ∧ ¬ (newline ∧ symbol = val(“ ”)) <u>then</u>
+      <u>begin</u> symbolcount ≔ symbolcount + 1;
+         newline ≔ false;
+         buffer[symbolcount] ≔ symbol
+      <u>end</u>
+   <u>end</u> send;
+   <u>for</u> symbol ≔ 1 <u>step</u> 1 <u>until</u> 116 <u>do</u> spacesbefore[symbol] ≔ spacesafter[symbol] ≔ 0;
+   <u>for</u> symbol ≔ val(“+”), val(“-”), val(“¬”), val(“:”), val(“:=”),
+     val(““”), val(“&LessSlantEqual;”), val(“=”), val(“≠”), val(“&GreaterSlantEqual;”), val(“””) <u>do</u>
+        spacesbefore[symbol] ≔ spacesafter[symbol] ≔ 1;
+   <u>for</u> symbol ≔ val(“∧”), val(“∨”), val(“&sub;”), val(“≡”), val(“t̲h̲e̲n̲”),
+     val(“e̲l̲s̲e̲”), val(“s̲t̲e̲p̲”), val(“u̲n̲t̲i̲l̲”),val(“w̲h̲i̲l̲e̲”), val(“d̲o̲”) <u>do</u>
+        spacesbefore[symbol] ≔ spacesafter[symbol] ≔ 2;
+   <u>for</u> symbol ≔ val(“g̲o̲ t̲o̲”), val(“b̲e̲g̲i̲n̲”), val(“i̲f̲”), val(“f̲o̲r̲”),
+     val(“p̲r̲o̲c̲e̲d̲u̲r̲e̲”), val(“v̲a̲l̲u̲e̲”), val(“o̲w̲n̲”), val(“r̲e̲a̲l̲”),
+     val(“B̲o̲o̲l̲e̲a̲n̲”), val(“i̲n̲t̲e̲g̲e̲r̲”), val(“a̲r̲r̲a̲y̲”), val(“s̲w̲i̲t̲c̲h̲”),
+     val(“l̲a̲b̲e̲l̲”), val(“s̲t̲r̲i̲n̲g̲”), val(“,”) <u>do</u> spacesafter[symbol] ≔ 2;
+   level ≔ symbolcount ≔ tabstop ≔ 0;
+   newline ≔ true;
+   nextsymbol: deblank: get(symbol);
+   scanned: <u>if</u> symbol = val(“ ”) ∨ symbol = -1 <u>then</u> <u>go</u> <u>to</u> deblank;
+   <u>if</u>      symbol = val(“b̲e̲g̲i̲n̲”) <u>then</u> send( -1)
+     <u>else</u> <u>if</u> symbol = val(“e̲n̲d̲”)   <u>then</u>
+   <u>begin</u> tabstop ≔ tabstop - 5;
+      send( -1)
+   <u>end</u>;
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> spacesbefore[symbol] <u>do</u> send(val(“ ”));
+   send(symbol);
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> spacesafter[symbol] <u>do</u> send(val(“ ”));
+   <u>if</u> symbol = val(“c̲o̲m̲m̲e̲n̲t̲”) <u>then</u>
+   <u>begin</u> <u>comment</u> Pass comments on unchanged;
+      <u>for</u> i ≔ 1 <u>while</u> symbol ≠ val(“;”) <u>do</u>
+         <u>begin</u> get(symbol);
+            send(symbol)
+         <u>end</u>
+   <u>end</u> <u>else</u> <u>if</u> symbol = val(“e̲n̲d̲”) <u>then</u>
+   <u>begin</u> <u>comment</u> ‘end’ comments;
+      <u>for</u> i ≔ 1 <u>while</u> symbol ≠ val(“;”) <u>do</u>
+         <u>begin</u> get(symbol);
+            <u>if</u> symbol = val(“e̲l̲s̲e̲”) ∨ symbol = val(“e̲n̲d̲”) <u>then</u> <u>go</u> <u>to</u> scanned;
+            send(symbol)
+         <u>end</u>
+   <u>end</u> <u>else</u> <u>if</u> symbol = val(lsq) <u>then</u>
+   <u>begin</u> <u>comment</u> Pass strings on unchanged;
+      level ≔ 1;
+      <u>for</u> i ≔ 1 <u>while</u> level ≠ 0 <u>do</u>
+         <u>begin</u> get(symbol);
+            send(symbol);
+            <u>if</u>      symbol = val(lsq) <u>then</u> level ≔ level + 1
+              <u>else</u> <u>if</u> symbol = val(rsq) <u>then</u> level ≔ level - 1
+         <u>end</u>
+   <u>end</u>;
+   <u>if</u>      symbol = val(“b̲e̲g̲i̲n̲”) <u>then</u> tabstop ≔ tabstop + 5
+     <u>else</u> <u>if</u> symbol = val(“;”)     <u>then</u> send(-1);
+   <u>go</u> <u>to</u> nextsymbol;
+   eof: send( -1);
+   outsymbol (1, characterset, -2)
+<u>end</u> Algoledit;
+</pre></body></html>

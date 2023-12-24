@@ -1,0 +1,21 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 1;
+   <u>array</u>
+     V,
+     A,
+     C[1 : 1];
+   <u>integer</u>
+     K;
+   <u>integerprocedure</u> I;
+   <u>begin</u>
+      I ≔ 1;
+      K ≔ K + 1
+   <u>end</u>;
+   K ≔ 0;
+   A[I] ≔ 1;
+   C[I] ≔ 3;
+   <u>for</u> V[I] ≔ A[I] <u>step</u> A[I] <u>until</u> C[I] <u>do</u>
+     ;
+   OUTREAL(99, K)
+<u>end</u>
+</pre></body></html>

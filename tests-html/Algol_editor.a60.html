@@ -1,0 +1,514 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u> <u>comment</u> ALGOL editor. The data tape must contain the
+     following control numbers: 1. numofpr: the number of programs to
+     be edited, 2, width: the maximal number of positions on a line,
+     3. page: the number of lines per type area, 4. rest: the number
+     of blank lines between two pages, 5. n: the upper index of the
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ pos (see 6.), 6. pos[1:n]: n numbers which
+     regulate the indentations;
+   <u>integer</u> symbol, i, s, ih, sh, breaki, breaks, tabstop, level,
+     arlevel, stringlevel, line, comm, decl, lab, proc, pointer, a, b,
+     c, h, k, w, zz, nop, numofpr, width, page, rest, n;
+   <u>boolean</u> booll, boolb, boolc;
+   <u>integer</u> <u>array</u> buffer[1:2000], stock[1:40], proclevel[0:10];
+   numofpr ≔ read; width ≔ read; page ≔ read; rest ≔ read; n ≔ read;
+   <u>begin</u> <u>integer</u> <u>array</u> pos[0:n];
+
+      <u>procedure</u> sym(n); <u>value</u> n; <u>integer</u> n;
+      <u>begin</u> PUSYM(n); PRSYM(n) <u>end</u>;
+
+
+      <u>procedure</u> space(n); <u>value</u> n; <u>integer</u> n;
+      <u>begin</u> <u>integer</u> i;
+         <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u> sym(93)
+      <u>end</u>;
+
+
+      <u>procedure</u> tabspace(n); <u>value</u> n; <u>integer</u> n;
+      <u>begin</u> <u>integer</u> p, q;
+         p ≔ n ÷ 8; q ≔ n - p × 8;
+         <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> p <u>do</u> sym(118); space(q)
+      <u>end</u>;
+
+
+      <u>procedure</u> punchline(border); <u>value</u> border; <u>integer</u> border;
+      <u>begin</u> tabspace(tabstop - (<u>if</u> boolb ∧ booll <u>then</u> (pos[b] + (<u>if</u>
+           level &LessSlantEqual; n <u>then</u> pos[b - 1] <u>else</u> pos[n])) <u>else</u> <u>if</u> booll ∨
+           boolb <u>then</u> pos[b] <u>else</u> 0)); booll ≔ boolb ≔ <u>false</u>;
+         <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> border <u>do</u> sym(buffer[a]); newline
+      <u>end</u>;
+
+
+      <u>procedure</u> newline;
+      <u>begin</u> sym(119); line ≔ line + 1; <u>if</u> line &GreaterSlantEqual; page <u>then</u>
+         <u>begin</u> RUNOUT;
+            <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> rest <u>do</u> sym(119); line ≔ 0
+         <u>end</u>
+      <u>end</u>;
+
+      <u>procedure</u> punchbuffer;
+      <u>begin</u> punchline(i - 1); i ≔ 1; s ≔ tabstop; breaki ≔ breaks ≔ 0
+      <u>end</u>;
+
+
+      <u>procedure</u> restbuffer(n); <u>value</u> n; <u>integer</u> n;
+      <u>begin</u> i ≔ i - n - 1;
+         <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> i <u>do</u> buffer[a] ≔ buffer[n + a];
+         i ≔ i + 1
+      <u>end</u>;
+
+
+      <u>procedure</u> label;
+      <u>begin</u> <u>if</u> i &lt; pos[b] <u>then</u>
+         <u>begin</u> <u>for</u> a ≔ i <u>step</u> 1 <u>until</u> pos[b] <u>do</u> buffer[a] ≔ 93;
+            i ≔ pos[b] + 1
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u> buffer[i] ≔ 93; i ≔ i + 1 <u>end</u>;
+         lab ≔ 0
+      <u>end</u>;
+
+
+      <u>procedure</u> breakbuffer;
+      <u>begin</u> <u>integer</u> n;
+         <u>if</u> breaki &gt; 0 ∧ zz = 0 <u>then</u>
+         <u>begin</u> punchline(breaki); restbuffer(breaki);
+            s ≔ s - breaks + tabstop; <u>if</u> lab = 1 <u>then</u>
+            <u>begin</u> label; s ≔ i + tabstop <u>end</u>
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u> <u>for</u> a ≔ i - 2 <u>step</u> - 1 <u>until</u> 1 <u>do</u> <u>if</u> buffer[a] = 93
+                 <u>then</u>
+               <u>begin</u> n ≔ a; <u>goto</u> break1 <u>end</u>;
+            <u>goto</u> break2;
+            break1: punchline(n); restbuffer(n);
+            break2: <u>if</u> lab = 1 <u>then</u> label; s ≔ i + tabstop;
+            <u>if</u> s &GreaterSlantEqual; width <u>then</u> emergency
+         <u>end</u>;
+         breaki ≔ breaks ≔ 0
+      <u>end</u>;
+
+
+      <u>procedure</u> stockbuffer(spacesbefore, spacesafter, c);
+         <u>value</u> spacesbefore, spacesafter, c;
+         <u>integer</u> spacesbefore, spacesafter, c;
+      <u>begin</u> <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> spacesbefore <u>do</u> buffer[i + a -
+              1] ≔ 3; i ≔ i + spacesbefore; s ≔ s + spacesbefore;
+         <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> c <u>do</u> buffer[i + a - 1] ≔ stock[a];
+         i ≔ i + c; s ≔ s + c ÷ 2;
+         <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> spacesafter <u>do</u> buffer[i + a - 1] ≔ 93;
+         i ≔ i + spacesafter; s ≔ s + spacesafter;
+         <u>if</u> comm = 0 <u>then</u> <u>goto</u> start1
+      <u>end</u>;
+
+
+      <u>procedure</u> semicolon;
+      <u>begin</u> buffer[i] ≔ 91; i ≔ i + 1; zz ≔ 0; punchbuffer;
+         <u>if</u> level = proclevel[pointer] <u>then</u>
+         <u>begin</u> RUNOUT; newline; pointer ≔ pointer - 1;
+            proc ≔ <u>if</u> pointer = 0 <u>then</u> - 1 <u>else</u> 1
+         <u>end</u>;
+         <u>goto</u> start
+      <u>end</u>;
+
+      <u>integer</u> <u>procedure</u> undsym;
+      <u>begin</u>
+         undl: symbol ≔ RESYM; <u>if</u> symbol = 126 <u>then</u> <u>goto</u> undl;
+         undsym ≔ symbol
+      <u>end</u>;
+
+      <u>procedure</u> emergency;
+      <u>begin</u> ih ≔ i; sh ≔ s;
+         <u>for</u> a ≔ ih <u>step</u> - 1 <u>until</u> 1 <u>do</u>
+            <u>begin</u> ih ≔ ih - 1; sh ≔ sh - 1;
+               <u>if</u> buffer[a] = 87 ∧ sh &lt; width <u>then</u>
+               <u>begin</u> punchline(ih + 1); restbuffer(ih + 1);
+                  s ≔ i + tabstop; breaki ≔ breaks ≔ 0; <u>goto</u> endem
+               <u>end</u>;
+               k ≔ a
+            <u>end</u>;
+         <u>if</u> k = 1 <u>then</u>
+         <u>begin</u> sym(119); PRINTTEXT(“
+              the chosen indentations are too large with respect to
+              the maximal number of positions on the line:”
+              ); EXIT
+         <u>end</u>;
+         endem:
+      <u>end</u>;
+
+      begin of program: <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u> pos[a] ≔ read;
+      nop ≔ 0;
+      repeat: i ≔ s ≔ line ≔ 1; booll ≔ boolb ≔ boolc ≔ <u>false</u>;
+      breaki ≔ breaks ≔ tabstop ≔ level ≔ arlevel ≔ stringlevel ≔         comm ≔ decl ≔ lab ≔ b ≔ pointer ≔ zz ≔ proclevel[0] ≔         pos[0] ≔ 0; proc ≔ - 1; RUNOUT; sym(119);
+      start: symbol ≔ RESYM;
+      <u>if</u> i &gt; 1 ∧ (symbol = 93 ∨ symbol = 119) <u>then</u>
+      <u>begin</u> <u>if</u> buffer[i - 1] &gt; 63 <u>then</u> goto start <u>else</u>
+         <u>begin</u> <u>for</u> symbol ≔ RESYM <u>while</u> symbol = 93 ∨ symbol = 119
+              <u>do</u> ; <u>if</u> symbol &lt; 63 <u>then</u>
+            <u>begin</u> buffer[i] ≔ 93; buffer[i + 1] ≔ symbol; i ≔ i + 2;
+               s ≔ s + 2; <u>goto</u> start
+            <u>end</u>
+         <u>end</u>
+      <u>end</u>;
+      start1: <u>if</u> symbol = 93 ∨ symbol = 118 ∨ symbol = 119 <u>then</u> <u>goto</u>
+        start; <u>if</u> s &GreaterSlantEqual; width <u>then</u>
+      <u>begin</u> breakbuffer; <u>goto</u> start1 <u>end</u>;
+      <u>if</u> symbol &lt; 64 ∨ symbol = 76 ∨ symbol = 88 ∨ symbol = 89 ∨
+        symbol= 98 ∨ symbol = 99 <u>then</u>
+      <u>begin</u> <u>comment</u> digits, letters, ¬, ., ⏨, (, );
+         buffer[i] ≔ symbol; i ≔ i + 1; s ≔ s + 1; <u>goto</u> start
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 64 ∨ symbol = 65 ∨ symbol = 66 ∨ symbol = 67∨ symbol = 70 ∨ symbol = 72 ∨ symbol = 74 ∨ symbol = 79 ∨
+        symbol = 80 <u>then</u>
+      <u>begin</u> <u>comment</u> +, -, ×, /, =, &lt;, &gt;, ∧, ∨;
+         <u>if</u> buffer[i - 1] ≠ 93 <u>then</u>
+         <u>begin</u> buffer[i] ≔ 93; i ≔ i + 1; s ≔ s + 1 <u>end</u>;
+         buffer[i] ≔ symbol; buffer[i + 1] ≔ 93; i ≔ i + 2; s ≔ s + 2;
+         <u>goto</u> start
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 100 ∨ symbol = 101 <u>then</u>
+      <u>begin</u> <u>comment</u> [, ];
+         buffer[i] ≔ symbol; i ≔ i + 1; s ≔ s + 1;
+         arlevel ≔ (<u>if</u> symbol = 100 <u>then</u> 1 <u>else</u> - 1) + arlevel;
+         <u>goto</u> start
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 87 <u>then</u>
+      <u>begin</u> <u>comment</u> ,;
+         buffer[i] ≔ symbol; <u>if</u> arlevel = 0 <u>then</u>
+         <u>begin</u> buffer[i + 1] ≔ 93; i ≔ i + 2; s ≔ s + 2 <u>end</u>
+         <u>else</u>
+         <u>begin</u> i ≔ i + 1; s ≔ s + 1 <u>end</u>;
+         <u>goto</u> start
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 91 <u>then</u>
+      <u>begin</u> <u>comment</u> semicolon;
+         buffer[i] ≔ symbol; buffer[i + 1] ≔ 93; <u>if</u> s &lt; width <u>then</u>
+         <u>begin</u> breaki ≔ i + 1; breaks ≔ s + 1 <u>end</u>;
+         i ≔ i + 2; s ≔ s + 2; <u>if</u> decl = 1 <u>then</u>
+         <u>begin</u> <u>if</u> proc ≠ 0 <u>then</u> punchbuffer; decl ≔ 0; <u>goto</u> start
+         <u>end</u>;
+         <u>if</u> proc = 0 <u>then</u>
+         <u>begin</u> punchbuffer; RUNOUT; newline;
+            proc ≔ <u>if</u> pointer = 0 <u>then</u> - 1 <u>else</u> 1
+         <u>end</u>;
+         <u>goto</u> start
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 90 <u>then</u>
+      <u>begin</u> <u>comment</u> colon;
+         <u>if</u> arlevel ≠ 0 <u>then</u>
+         <u>begin</u> buffer[i] ≔ 90; i ≔ i + 1; s ≔ s + 1; <u>goto</u> start <u>end</u>
+         <u>else</u>
+         <u>begin</u> symbol ≔ RESYM; <u>if</u> symbol = 70 <u>then</u>
+            <u>begin</u> buffer[i] ≔ 90; buffer[i + 1] ≔ 70;
+               buffer[i + 2] ≔ 93; i ≔ i + 3; s ≔ s + 3; <u>goto</u> start
+            <u>end</u>
+              <u>else</u>
+            pardel: <u>if</u> symbol = 93 <u>then</u>
+            <u>begin</u> symbol ≔ RESYM; <u>goto</u> pardel <u>end</u>;
+            <u>if</u> symbol = 98 <u>then</u>
+            <u>begin</u> buffer[i] ≔ 90; buffer[i + 1] ≔ 93;
+               buffer[i + 2] ≔ 98; i ≔ i + 3; s ≔ s + 3; <u>goto</u> start
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u> buffer[i] ≔ 90; i ≔ i + 1; <u>if</u> level = 0 <u>then</u>
+               <u>begin</u> punchbuffer; <u>goto</u> start1 <u>end</u>;
+               lab ≔ 1;
+               <u>for</u> a ≔ i - 2 <u>step</u> - 1 <u>until</u> 1 <u>do</u> <u>if</u> buffer[a] = 126∨ buffer[a] = 91 ∨ buffer[a] = 90 <u>then</u> <u>goto</u> labinst;
+               label; booll ≔ <u>true</u>; <u>goto</u> start1;
+               labinst: <u>if</u> buffer[a] = 126 <u>then</u> breaki ≔ a + 2 <u>else</u>
+               <u>if</u> buffer[a] = 90 <u>then</u>
+               <u>begin</u> <u>if</u> a &lt; pos[b] <u>then</u> breaki ≔ pos[b] <u>else</u>
+                    breaki ≔ a + 1
+               <u>end</u>;
+               breakbuffer; booll ≔ <u>true</u>; <u>goto</u> start1
+            <u>end</u>
+         <u>end</u>
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 127 <u>then</u>
+      <u>begin</u> <u>comment</u> |;
+         bar: symbol ≔ RESYM; <u>if</u> symbol = 127 <u>then</u> <u>goto</u> bar;
+         <u>if</u> symbol = 80 ∨ symbol = 70 <u>then</u>
+         <u>begin</u> <u>comment</u> ⭡ ≠ ;
+            buffer[i] ≔ 93; buffer[i + 1] ≔ 127;
+            buffer[i + 2] ≔ symbol; buffer[i + 3] ≔ 93; i ≔ i + 4;
+            s ≔ s + 3; <u>goto</u> start
+         <u>end</u>
+           <u>else</u> <u>if</u> symbol = 72 <u>then</u>
+         <u>begin</u> <u>comment</u> {;
+            buffer[i] ≔ 127; buffer[i + 1] ≔ 72; breaki ≔ i - 1;
+            breaks ≔ s - 1; i ≔ i + 2; s ≔ s + 1;
+            string: symbol ≔ RESYM; buffer[i] ≔ symbol;
+            <u>if</u> symbol ≠ 127 <u>then</u>
+            <u>begin</u> i ≔ i + 1; <u>if</u> symbol ≠ 126 <u>then</u>
+               <u>begin</u> <u>if</u> symbol = 118 <u>then</u> s ≔ s + 8 <u>else</u> s ≔ s + 1;
+                  <u>if</u> symbol = 119 <u>then</u> line ≔ line+ 1
+               <u>end</u>;
+               <u>if</u> s &gt; width - 4 ∧ breaks &gt; 0 <u>then</u> breakbuffer;
+               <u>goto</u> string
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               bar1: symbol ≔ RESYM; <u>if</u> symbol = 127 <u>then</u> <u>goto</u> bar1;
+               <u>if</u> symbol = 74 <u>then</u>
+               <u>begin</u> <u>comment</u> };
+                  buffer[i + 1] ≔ symbol; i ≔ i + 2; s ≔ s + 1;
+                  <u>if</u> stringlevel ≠ 0 <u>then</u>
+                  <u>begin</u> stringlevel ≔ stringlevel - 1; <u>goto</u> string
+                  <u>end</u>
+                    <u>else</u> <u>if</u> s &gt; width - 3 <u>then</u>
+                  <u>begin</u> <u>for</u> a ≔ 1 <u>step</u> 1 <u>until</u> i - 1 <u>do</u>
+                          sym(buffer[a]); newline; i ≔ 1; s ≔ tabstop
+                  <u>end</u>;
+                  <u>goto</u> start
+               <u>end</u>
+                 <u>else</u> <u>if</u> symbol = 72 <u>then</u>
+               <u>begin</u> <u>comment</u> nested stringquotes;
+                  stringlevel ≔ stringlevel + 1;
+                  buffer[i + 1] ≔ symbol; i ≔ i + 2; s ≔ s + 1;
+                  <u>goto</u> string
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u> buffer[i + 1] ≔ symbol; i ≔ i + 2; s ≔ s + 1;
+                  <u>goto</u> string
+               <u>end</u>
+            <u>end</u>
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u> buffer[i] ≔ 127; i ≔ i + 1; <u>goto</u> start1 <u>end</u>
+      <u>end</u>
+        <u>else</u> <u>if</u> symbol = 126 <u>then</u>
+      <u>begin</u> <u>comment</u> _; 
+           symbol ≔ undsym;
+         <u>if</u> symbol = 70 ∨ symbol = 72 ∨ symbol = 74 ∨ symbol= 76 ∨
+           symbol = 90 <u>then</u>
+         <u>begin</u> <u>comment</u> ≡, &LessSlantEqual;, &GreaterSlantEqual;, &sub;, ÷ ;
+            buffer[i] ≔ 93; buffer[i + 1] ≔ 126;
+            buffer[i + 2] ≔ symbol; buffer[i + 3] ≔ 93; i ≔ i + 4;
+            s ≔ s + 3; <u>goto</u> start
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u> stock[1] ≔ 126; stock[2] ≔ symbol; stock[3] ≔ RESYM;
+            <u>for</u> a ≔ 4 <u>step</u> 2 <u>until</u> 18 <u>do</u>
+               <u>begin</u> stock[a] ≔ undsym; symbol ≔ stock[a + 1] ≔ RESYM;
+                  <u>if</u> symbol ≠ 126 <u>then</u>
+                  <u>begin</u> k ≔ a; <u>goto</u> again <u>end</u>
+               <u>end</u>;
+            again: <u>if</u> (stock[2] = 15 ∧ stock[4] = 10) ∨ (stock[2] = 29∧ stock[4] = 27) <u>then</u>
+            <u>begin</u> <u>comment</u> f̲a̲l̲s̲e̲, t̲r̲u̲e̲;
+               stockbuffer(0, 0, k)
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 11 ∧ stock[4] = 14 <u>then</u>
+            <u>begin</u> <u>comment</u> begin;
+               <u>if</u> i &gt; pos[b] <u>then</u>
+               <u>begin</u> <u>for</u> a ≔ i - 1 <u>step</u> - 1 <u>until</u> i - pos[b] <u>do</u> <u>if</u>
+                       buffer[a] ≠ 93 <u>then</u>
+                     <u>begin</u> c ≔ a;
+                        <u>if</u> buffer[c] = 90 ∧ c &lt; pos[b] <u>then</u> <u>goto</u> labeg
+                        <u>else</u> <u>goto</u> pun
+                     <u>end</u>
+               <u>end</u>;
+               pun: <u>if</u> i ≠ 1 <u>then</u> punchbuffer;
+               labeg: comm ≔ 1; stockbuffer(0, 1, k); comm ≔ 0;
+               <u>if</u> proc = 0 <u>then</u>
+               <u>begin</u> pointer ≔ pointer + 1;
+                  proclevel[pointer] ≔ level; proc ≔ 1
+               <u>end</u>;
+               level ≔ level + 1; b ≔ <u>if</u> level &lt; n <u>then</u> level <u>else</u> n;
+               boolb ≔ <u>true</u>; tabstop ≔ abstop + pos[b];
+               w ≔ pos[b] - 6; <u>if</u> w &gt; 0 <u>then</u>
+               <u>begin</u> <u>for</u> a ≔ 0 <u>step</u> 1 <u>until</u> w - 1 <u>do</u> buffer[i + a] ≔                        93; i ≔ i + w; s ≔ s + w
+               <u>end</u>;
+               <u>goto</u> start1
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 13 ∨ (stock[2] = 28 ∧ stock[4] = 29 ∧
+              stock[6] = 14) ∨ stock[2] = 32 ∨ stock[2] = 29 ∨
+              stock[2] = 30 <u>then</u>
+            <u>begin</u> <u>comment</u> do, step, while, then, until;
+               stockbuffer(1, 1, k)
+            <u>end</u>
+              <u>else</u>
+            e: <u>if</u> stock[2] = 14 ∧ stock[4] = 21 <u>then</u>
+            <u>begin</u> <u>comment</u> else;
+               <u>if</u> zz = 0 <u>then</u> stockbuffer(1, 1, k) <u>else</u>
+               <u>begin</u> zz ≔ 0; stockbuffer(0, 1, k) <u>end</u>
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 14 <u>then</u>
+            <u>begin</u> <u>comment</u> end;
+               <u>if</u> buffer[1] = 126 ∧ buffer[2] = 11 ∧ buffer[4] = 14∧ s &lt; width - 5 ∧ zz = 0 <u>then</u> zz ≔ 1 <u>else</u> zz ≔ 0;
+               <u>if</u> zz = 1 <u>then</u>
+               <u>begin</u> boolb ≔ <u>false</u>; <u>goto</u> goon <u>end</u>;
+               <u>if</u> i ≠ 1 <u>then</u> punchbuffer;
+               goon: comm ≔ 1;
+               <u>if</u> zz = 0 <u>then</u> stockbuffer(0, 0, k) <u>else</u>
+                 stockbuffer(1, 0, k); comm ≔ 0;
+               tabstop ≔ tabstop - pos[b]; level ≔ level - 1;
+               <u>if</u> level = 0 <u>then</u>
+               <u>begin</u> punchbuffer; sym(119); RUNOUT; nop ≔ nop + 1;
+                  <u>if</u> nop = numofpr <u>then</u> <u>goto</u> end <u>else</u>
+                  <u>begin</u> k ≔ page + rest - 1;
+                     <u>for</u> a ≔ line <u>step</u> 1 <u>until</u> k <u>do</u> sym(119);
+                     <u>goto</u> repeat
+                  <u>end</u>
+               <u>end</u>
+               <u>else</u> b ≔ <u>if</u> level &lt; n <u>then</u> level <u>else</u> n;
+               <u>if</u> symbol = 93 ∨ symbol = 118 ∨ symbol = 119 <u>then</u>
+               <u>begin</u>
+                  reject: symbol ≔ RESYM;
+                  <u>if</u> symbol = 93 ∨ symbol = 118 ∨ symbol = 119 <u>then</u>
+                    <u>goto</u> reject <u>else</u> <u>if</u> symbol = 126 <u>then</u>
+                  <u>begin</u> stock[1] ≔ 126;
+                     <u>for</u> a ≔ 2 <u>step</u> 2 <u>until</u> 18 <u>do</u>
+                        <u>begin</u> stock[a] ≔ undsym;
+                           symbol ≔ stock[a + 1] ≔ RESYM;
+                           <u>if</u> symbol ≠ 126 <u>then</u>
+                           <u>begin</u> k ≔ a; <u>goto</u> nextund <u>end</u>
+                        <u>end</u>;
+                     nextund: <u>if</u> stock[2] = 14 <u>then</u>
+                     <u>begin</u> <u>if</u> i ≠ 1 <u>then</u> punchbuffer; zz ≔ 1; <u>goto</u> e
+                     <u>end</u>
+                     <u>else</u>
+                     <u>begin</u> <u>if</u> zz = 1 <u>then</u>
+                        <u>begin</u> breakbuffer; zz ≔ 0 <u>end</u>;
+                        buffer[i] ≔ 93; i ≔ i + 1; s ≔ s + 1;
+                        boolc ≔ <u>true</u>; <u>goto</u> comm1
+                     <u>end</u>
+                  <u>end</u>
+                    <u>else</u> <u>if</u> symbol = 91 <u>then</u> semicolon <u>else</u>
+                  <u>begin</u> <u>if</u> zz = 1 <u>then</u>
+                     <u>begin</u> breakbuffer; zz ≔ 0 <u>end</u>;
+                     buffer[i] ≔ 93; buffer[i + 1] ≔ symbol;
+                     i ≔ i + 2; s ≔ s + 2; boolc ≔ <u>true</u>; <u>goto</u> comm2
+                  <u>end</u>
+               <u>end</u>
+                 <u>else</u> <u>if</u> symbol = 91 <u>then</u> semicolon <u>else</u>
+               <u>begin</u> <u>if</u> zz = 1 <u>then</u>
+                  <u>begin</u> breakbuffer; zz ≔ 0 <u>end</u>;
+                  buffer[i] ≔ symbol; i ≔ i + 1; s ≔ s + 1;
+                  <u>goto</u> comm2
+               <u>end</u>
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 12 <u>then</u>
+            <u>begin</u> <u>comment</u> comment;
+               comm1: comm ≔ 1; stockbuffer(0, 1, k); comm ≔ 0;
+               nospace: <u>if</u> symbol = 93 <u>then</u>
+               <u>begin</u> symbol ≔ RESYM; <u>goto</u> nospace <u>end</u>;
+               buffer[i] ≔ symbol; i ≔ i + 1; s ≔ s + 1;
+               comm2: symbol ≔ RESYM;
+               <u>if</u> symbol ≠ 118 ∧ symbol ≠ 119 ∧ symbol ≠ 93 <u>then</u>
+                 buffer[i] ≔ symbol <u>else</u> <u>if</u> buffer[i - 1] ≠ 93 <u>then</u>
+                 buffer[i] ≔ 93 <u>else</u> <u>goto</u> comm2; <u>if</u> symbol ≠ 91 <u>then</u>
+               <u>begin</u> i ≔ i + 1;
+                  <u>if</u> symbol ≠ 126 <u>then</u> s ≔ s + 1 <u>else</u> <u>if</u> boolc <u>then</u>
+                  <u>begin</u> buffer[i] ≔ symbol ≔ undsym; i ≔ i + 1;
+                     s ≔ s + 1; <u>if</u> symbol ≠ 14 <u>then</u> <u>goto</u> comm2 <u>else</u>
+                     <u>begin</u> stock[1] ≔ 126; stock[2] ≔ 14;
+                        symbol ≔ stock[3] ≔ RESYM;
+                        <u>if</u> symbol = 126 <u>then</u>
+                        <u>begin</u> <u>for</u> a ≔ 4 <u>step</u> 2 <u>until</u> 10 <u>do</u>
+                              <u>begin</u> stock[a] ≔ undsym;
+                                 symbol ≔ stock[a + 1] ≔ RESYM;
+                                 <u>if</u> symbol ≠ 126 <u>then</u>
+                                 <u>begin</u> k ≔ a; i ≔ i - 3; s ≔ s - 2;
+                                    <u>if</u> stock[4] = 21 ∨ stock[4] = 23
+                                      <u>then</u>
+                                    <u>begin</u> i ≔ i + 1; punchbuffer;
+                                       boolc ≔ <u>false</u>;
+                                       <u>if</u> stock[4] = 21 <u>then</u> zz ≔ 1;
+                                       <u>goto</u> e
+                                    <u>end</u>
+                                    <u>else</u>
+                                    <u>begin</u> comm ≔ 1; stockbuffer(0, 0, k);
+                                       comm ≔ 0; <u>goto</u> comm2
+                                    <u>end</u>
+                                 <u>end</u>
+                              <u>end</u>
+                        <u>end</u>
+                        <u>else</u>
+                        <u>begin</u> comm ≔ 1; stockbuffer(0, 0,2);
+                           comm ≔ 0; buffer[i] ≔ symbol; <u>goto</u> comm2
+                        <u>end</u>
+                     <u>end</u>
+                  <u>end</u>;
+                  <u>if</u> s &gt; width <u>then</u> breakbuffer; <u>goto</u> comm2
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u> i ≔ i + 1; punchbuffer;
+                  <u>if</u> level = proclevel[pointer] <u>then</u>
+                  <u>begin</u> RUNOUT; newline; pointer ≔ pointer - 1;
+                     proc ≔ <u>if</u> pointer = 0 <u>then</u> - 1 <u>else</u> 1
+                  <u>end</u>;
+                  boolc ≔ <u>false</u>; <u>goto</u> start
+               <u>end</u>
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 27 ∨ (stock[2] = 18 ∧ stock[4] = 23)∨ stock[2] = 11 ∨ stock[2] = 38 <u>then</u>
+            <u>begin</u> <u>comment</u> real, integer, boolean, Boolean;
+               <u>if</u> stock[k +1] = 93 <u>then</u>
+               <u>begin</u> <u>for</u> a ≔ k + 2 <u>step</u> 1 <u>until</u> 100 <u>do</u>
+                     <u>begin</u> symbol ≔ RESYM; <u>if</u> symbol ≠ 93 <u>then</u> <u>goto</u> dec
+                     <u>end</u>;
+                  dec: <u>if</u> symbol = 126 <u>then</u>
+                  <u>begin</u> stock[k + 2] ≔ 126;
+                     <u>for</u> a ≔ k + 4 <u>step</u> 2 <u>until</u> k + 20 <u>do</u>
+                        <u>begin</u> stock[a - 1] ≔ undsym;
+                           symbol ≔ stock[a] ≔ RESYM;
+                           <u>if</u> symbol ≠ 126 <u>then</u>
+                           <u>begin</u> h ≔ a; <u>goto</u> arproc <u>end</u>
+                        <u>end</u>;
+                     arproc: <u>if</u> stock[k + 3] = 10 <u>then</u>
+                     <u>begin</u> <u>comment</u> &lt;type&gt; array;
+                        decl ≔ 1; stock[h] ≔ 93; stockbuffer(0, 0, h)
+                     <u>end</u>
+                     <u>else</u>
+                     <u>begin</u> <u>comment</u> &lt;type&gt; procedure;
+                        <u>if</u> i ≠ 1 <u>then</u> punchbuffer; <u>if</u> proc ≠ 0 <u>then</u>
+                        <u>begin</u> RUNOUT; newline; proc ≔ 0 <u>end</u>;
+                        decl ≔ 1; stock[h] ≔ 93; stockbuffer(0, 0, h)
+                     <u>end</u>
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u> stock[k + 2] ≔ symbol;
+                     symbol ≔ stock[k + 3] ≔ RESYM; decl ≔ 1;
+                     stockbuffer(0, 0, k + 2)
+                  <u>end</u>
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u> decl ≔ 1; stockbuffer(0, 1, k) <u>end</u>
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 25 <u>then</u>
+            <u>begin</u> <u>comment</u> procedure;
+               <u>if</u> proc ≠ 0 <u>then</u>
+               <u>begin</u> <u>if</u> i ≠ 1 <u>then</u> punchbuffer; RUNOUT; newline;
+                  proc ≔ 0
+               <u>end</u>;
+               decl ≔ 1; stockbuffer(0, 1, k)
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 15 <u>then</u>
+            <u>begin</u> <u>comment</u> for;
+               <u>if</u> i &gt; pos[b] <u>then</u>
+               <u>begin</u> <u>for</u> a ≔ i - 1 <u>step</u> - 1 <u>until</u> i - pos[b] <u>do</u> <u>if</u>
+                       buffer[a] ≠ 93 <u>then</u>
+                     <u>begin</u> c ≔ a; <u>goto</u> non12 <u>end</u>;
+                  non12: <u>if</u> c &GreaterSlantEqual; 10 <u>then</u>
+                  <u>begin</u> <u>if</u> (buffer[c] = 23 ∧ buffer[c - 1] = 126 ∧
+                       buffer[c - 2] = 18) ∨ buffer[c] = 90 <u>then</u> <u>goto</u>
+                       lafor
+                  <u>end</u>;
+                  <u>if</u> buffer[c] = 90 <u>then</u> <u>goto</u> lafor
+               <u>end</u>;
+               <u>if</u> i ≠ 1 <u>then</u> punchbuffer;
+               lafor: stockbuffer(0, 1, k)
+            <u>end</u>
+              <u>else</u> <u>if</u> stock[2] = 24 ∨ (stock[2] = 28 ∧ stock[4] = 29)∨ stock[2] = 10 ∨ stock[2] = 28 ∨ stock[2] = 21 ∨
+              stock[2] = 31 <u>then</u>
+            <u>begin</u> <u>comment</u> own, string, array, switch, label, value;
+               decl ≔ 1; stockbuffer(0, 1, k)
+            <u>end</u>
+            <u>else</u> stockbuffer(0, 1, k)
+         <u>end</u>
+      <u>end</u>
+      <u>else</u>
+      <u>begin</u> buffer[i] ≔ symbol; i ≔ i + 1; s ≔ s + 1; <u>goto</u> start <u>end</u>;
+      end: STOPCODE
+   <u>end</u>
+<u>end</u>
+
+</pre></body></html>
