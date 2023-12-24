@@ -1,0 +1,19 @@
+b̲e̲g̲i̲n̲
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RECURSIVE(LEVEL, L);
+      v̲a̲l̲u̲e̲
+        LEVEL;
+      i̲n̲t̲e̲g̲e̲r̲
+        LEVEL;
+        l̲a̲b̲e̲l̲
+        L;
+   b̲e̲g̲i̲n̲
+      i̲f̲ LEVEL ≠ 0 t̲h̲e̲n̲
+        RECURSIVE(LEVEL - 1, EXIT)
+      e̲l̲s̲e̲
+        g̲o̲t̲o̲ L;
+      EXIT :;
+      OUTREAL(99,LEVEL)
+   e̲n̲d̲;
+   RECURSIVE(10, EXIT);
+   EXIT :;
+e̲n̲d̲

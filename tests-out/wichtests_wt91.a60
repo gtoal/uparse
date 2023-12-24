@@ -1,0 +1,60 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲   ET COMMENT;
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   r̲e̲a̲l̲
+     C;
+   a̲r̲r̲a̲y̲
+     D[ - 0 : + 1, 0@0 : 1·0];
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ R(C);
+      r̲e̲a̲l̲
+        C;
+      R :=
+        i̲f̲ t̲r̲u̲e̲ t̲h̲e̲n̲
+        C
+      e̲l̲s̲e̲
+        R(0);
+   D[0, 0] := C := C := 1;
+   c̲o̲m̲m̲e̲n̲t̲ PROGRAM MODIFIED TO AVOID USE BEFORE DECLARATION;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲
+        H,
+        A[1 : C+D[0,1-(R(+1))]],
+        J[0 :1];
+      s̲w̲i̲t̲c̲h̲ B :=
+        (B[2]),
+        L,
+        i̲f̲ i̲f̲ A[1] = 0 ∧ ¬ f̲a̲l̲s̲e̲ t̲h̲e̲n̲ t̲r̲u̲e̲
+      e̲l̲s̲e̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲ B[A[1] + 1] e̲l̲s̲e̲ L;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P;
+      b̲e̲g̲i̲n̲
+         Q(A, B, C, A[1])ENCORE : (B[1], (1));
+         f̲o̲r̲ C := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i̲f̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲ P
+         e̲l̲s̲e̲ 1 d̲o̲
+              f̲o̲r̲ C := 1,
+              2 d̲o̲
+           ;
+         P := (0)
+      e̲n̲d̲ :P;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q(A, B, C, D)E : (E, F);
+         i̲n̲t̲e̲g̲e̲r̲
+           F;
+           s̲w̲i̲t̲c̲h̲
+           B;
+           i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲
+           A;
+           r̲e̲a̲l̲
+           C;
+           r̲e̲a̲l̲
+           D;
+           l̲a̲b̲e̲l̲
+           E;
+      ;
+      c̲o̲m̲m̲e̲n̲t̲   'BEGIN' 'COMMENT' 'END';
+      A[1] := 0;
+      L :;
+      OUTREAL(99, P);
+      C := C + 1 × 1⭡1;
+      i̲f̲ C = 2 t̲h̲e̲n̲
+        g̲o̲t̲o̲ B[P + 3]
+   e̲n̲d̲
+e̲n̲d̲

@@ -1,0 +1,24 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ vector generation;
+
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[1:100];
+   i̲n̲t̲e̲g̲e̲r̲ i, dim;
+   r̲e̲a̲l̲ b, c;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ vectGen( v, ndim, start, stp);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ ndim; r̲e̲a̲l̲ start, stp;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ndim d̲o̲ v[i] := start + stp×i
+   e̲n̲d̲;
+
+   dim := 6;
+   b :=0; c := 0·1;
+
+   vectGen(a,dim,b,c);
+
+   outstring(1,“result = \n”);
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ outreal (1, a[i]);
+   outstring(1,“\n”)
+
+e̲n̲d̲

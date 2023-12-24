@@ -1,0 +1,74 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ IABS(I);
+      v̲a̲l̲u̲e̲
+        I;
+      i̲n̲t̲e̲g̲e̲r̲
+        I;
+      IABS :=
+        i̲f̲ I < 0 t̲h̲e̲n̲
+        - I
+      e̲l̲s̲e̲
+        I;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J,
+     K;
+   I := J := K := 1;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲
+        A[(i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) :
+        (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)× 3·0 - 1·6 + 10·2],
+        A2[(i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)× 3·0 - 1·6 - 4 : (i̲f̲ IABS(J × K ÷ I) > 3 × I - K
+        t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1), (i̲f̲ IABS(J × K ÷ I) > 3 × I - K
+        t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) × 3·0 - 1·6 - 4 : (i̲f̲ IABS(J × K÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)];
+      b̲o̲o̲l̲e̲a̲n̲
+        B;
+      s̲w̲i̲t̲c̲h̲ S :=
+        L1,
+        i̲f̲ (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)> 6 t̲h̲e̲n̲L1 e̲l̲s̲e̲ L2,
+        L2;
+      A[(i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)]:=
+        A2[(i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1),
+        (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)]
+        := (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)× 3·0 - 1·6;
+      B := (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) >
+        6;
+      L1 :;
+      g̲o̲t̲o̲
+        i̲f̲ (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1)> 6 t̲h̲e̲n̲
+        L1
+      e̲l̲s̲e̲
+        L2;
+      L2 :;
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲-
+        60 e̲l̲s̲e̲ 1) u̲n̲t̲i̲l̲ (i̲f̲ IABS(J × K ÷ I) > 3 × I - K
+        t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) d̲o̲
+           A[I]:= (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60
+         e̲l̲s̲e̲ 1) × 3·0 - 1·6;
+      f̲o̲r̲ I := (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲
+        1),
+        (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) +
+        1,
+        (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) + 10
+        d̲o̲
+           A[I]:= (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60
+         e̲l̲s̲e̲ 1);
+      i̲f̲ (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) > 6
+        t̲h̲e̲n̲
+        g̲o̲t̲o̲ S[(i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60
+      e̲l̲s̲e̲ 1) × 3·0 - 1·6]
+      e̲l̲s̲e̲
+        f̲o̲r̲ I := (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60
+      e̲l̲s̲e̲ 1) s̲t̲e̲p̲ 10 u̲n̲t̲i̲l̲ (i̲f̲ IABS(J × K ÷ I) > 3× I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) - 1 d̲o̲
+           f̲o̲r̲ J := (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲-
+           60 e̲l̲s̲e̲ 1) w̲h̲i̲l̲e̲ (i̲f̲ IABS(J × K ÷ I) > 3× I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) > 6 d̲o̲
+        ;
+      I := IABS((i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲
+        1));
+      J := IABS((i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲- 60 e̲l̲s̲e̲
+        1) × 3·0 - 1·6);
+      OUTREAL(99, I + J + (i̲f̲ IABS(J × K ÷ I) > 3 × I - K t̲h̲e̲n̲-
+        60 e̲l̲s̲e̲ 1) × 3·0 - 1·6 + (i̲f̲ IABS(J × K ÷ I) > 3 × I -
+        K t̲h̲e̲n̲- 60 e̲l̲s̲e̲ 1) + A[1]+ A2[1, 1]);
+   e̲n̲d̲
+e̲n̲d̲

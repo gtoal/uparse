@@ -1,0 +1,27 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ LIBRARY 1;
+   i̲n̲t̲e̲g̲e̲r̲
+     X,
+     N,
+     K;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SIGMA(I, K, L, T);
+      v̲a̲l̲u̲e̲
+        L;
+      i̲n̲t̲e̲g̲e̲r̲
+        I,
+        K,
+        L;
+        r̲e̲a̲l̲
+        T;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲
+        X;
+      X := 0;
+      f̲o̲r̲ I := K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+           X := T + X;
+      SIGMA := X
+   e̲n̲d̲ SIGMA;
+   X := SIGMA(N, 1, 4, SIGMA(K, 1, N, 2) - 1);
+   c̲o̲m̲m̲e̲n̲t̲   WORKING IN AUGUST 1960 AT AMSTERDAM;
+   OUTREAL(99, X)
+e̲n̲d̲

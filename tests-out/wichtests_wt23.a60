@@ -1,0 +1,37 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲
+     I;
+   b̲o̲o̲l̲e̲a̲n̲
+     B;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LABELBYVALUE(L);
+      v̲a̲l̲u̲e̲
+        L;
+      l̲a̲b̲e̲l̲
+        L;
+   ;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LABELBYNAME(L);
+      l̲a̲b̲e̲l̲
+        L;
+   b̲e̲g̲i̲n̲
+      I := 1;
+      i̲f̲ B t̲h̲e̲n̲
+        g̲o̲t̲o̲ L
+   e̲n̲d̲;
+   s̲w̲i̲t̲c̲h̲ S :=
+     L1,
+     L2;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NOTTOUSE;
+      NOTTOUSE := SQRT( - 1);
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ONE;
+      ONE := 1;
+   B := f̲a̲l̲s̲e̲;
+   LABELBYNAME(S[NOTTOUSE]);
+   B := t̲r̲u̲e̲;
+   I := 2;
+   LABELBYNAME(S[I]);
+   L1 :;
+   OUTREAL(99,1);
+   L2 :;
+   OUTREAL(99,2);
+   LABELBYVALUE(S[ONE]);
+e̲n̲d̲

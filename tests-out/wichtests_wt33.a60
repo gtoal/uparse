@@ -1,0 +1,21 @@
+b̲e̲g̲i̲n̲
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ A0;
+   b̲e̲g̲i̲n̲
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ A1;
+      b̲e̲g̲i̲n̲
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ A2;
+         b̲e̲g̲i̲n̲
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ A3;
+            b̲e̲g̲i̲n̲
+               p̲r̲o̲c̲e̲d̲u̲r̲e̲ A4;
+               b̲e̲g̲i̲n̲
+                  p̲r̲o̲c̲e̲d̲u̲r̲e̲ A5;
+                  b̲e̲g̲i̲n̲
+                  e̲n̲d̲;
+                  ;
+               e̲n̲d̲;
+               ;e̲n̲d̲;
+            ;e̲n̲d̲;
+         ;e̲n̲d̲;
+      ;e̲n̲d̲;
+   ;e̲n̲d̲

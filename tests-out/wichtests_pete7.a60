@@ -1,0 +1,24 @@
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A,B[1:10];
+   a̲r̲r̲a̲y̲ C,D[1:10];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ TEST(P,Q,R,S); v̲a̲l̲u̲e̲ P,Q,R,S; a̲r̲r̲a̲y̲ R,S;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P,Q; b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+      f̲o̲r̲ I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲ 10 d̲o̲ b̲e̲g̲i̲n̲
+            i̲f̲ I≠P[I]∨ I≠Q[I]∨ I≠R[I]∨ I≠S[I] t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               PRINT(I,2,0); PRINT(P[I],2,0); PRINT(Q[I],2,0);
+               PRINT(R[I],2,1); PRINT(S[I],2,1); NEWLINE
+            e̲n̲d̲;
+            P[I]:=Q[I]:=0; R[I]:=S[I]:=0
+         e̲n̲d̲ FOR;
+      PRINTSTRING(“ARRAY  ̲PASSED”)
+   e̲n̲d̲ TEST;
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ b̲e̲g̲i̲n̲
+         A[I]:=B[I]:=I; C[I]:=D[I]:=I
+      e̲n̲d̲;
+   TEST(A,C,D,B);
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ b̲e̲g̲i̲n̲
+         i̲f̲ A[I]≠I ∨ B[I]≠I ∨ C[I]≠I ∨ D[I]≠I  t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+            PRINTSTRING(“ERROR”); PRINT(I,2,0)
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲

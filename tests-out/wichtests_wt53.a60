@@ -1,0 +1,17 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     J;
+   f̲o̲r̲ I := - 2,
+     - 1,
+     1,
+     2 d̲o̲
+        f̲o̲r̲ J := - 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+           i̲f̲ J ÷ I ≠ SIGN(J / I) × ENTIER(ABS(J / I))
+           t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            OUTREAL(99, J);
+            OUTREAL(99, I);
+            OUTREAL(99, J ÷ I)
+         e̲n̲d̲;
+e̲n̲d̲
