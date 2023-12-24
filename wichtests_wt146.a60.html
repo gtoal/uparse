@@ -1,0 +1,16 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> 'LIBRARY' 1;
+   <u>real</u>
+     X;
+   <u>integer</u>
+     I;
+   X ≔ 3·84;
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> 200 <u>do</u>
+      <u>begin</u>
+         <u>if</u> - 1 / X ≠ - (1 / X) <u>then</u>
+           OUTREAL(99, I);
+         X ≔ X × 1·01;
+      <u>end</u>;
+   OUTREAL(99, 0);
+<u>end</u>
+</pre></body></html>
