@@ -1,0 +1,4575 @@
+b̲e̲g̲i̲n̲
+
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ The original file erroneously used ± (plus or minus) - we have replaced
+              that with the correct ≠ (not equals).
+              × and ÷ are used as-is, unchanged.
+              º for subscript 10 as in:  epsq:= 3.25º-24×norm^2
+              was replaced by the non-canonical '@'.
+              ≤ and ≥ already handled.
+              Some instances of u̲p̲ have been replaced by '^'.
+              There was one e̲q̲v̲ that was replaced by '≡'.
+              KDF9 code blocks have been converted to comments.  In order not to
+              terminate the comments too early, semi-colons in the KDF9 block have
+              been converted to the equivalent sequence ".," which the current parser
+              will ignore.
+              A few assignments used ": =" which my parser temporarily rejects - these
+              have been changed to ":=" until the parser is updated.
+              Several coding errors were corrected.
+              To make this collection of multiple files parsable as a single file,
+              the entire collection is wrapped in a single b̲e̲g̲i̲n̲ e̲n̲d̲ block.
+        ;
+
+      r̲e̲a̲l̲ begins, ends;
+      i̲n̲t̲e̲g̲e̲r̲ i, jj, kk, n1, n2, n3, n4, n5;
+      i̲n̲t̲e̲g̲e̲r̲ n6, n7, n8, n9, n10, n11, ij, ik, i1;
+      r̲e̲a̲l̲ x, y, z, norm, t3, estimate;
+      r̲e̲a̲l̲ one, two, three, four;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲  e[1 : 4];
+      B̲o̲o̲l̲e̲a̲n̲ fail;
+   e̲n̲d̲;
+
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ David Huxtable's prog which fails to compile on optimising;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A6;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A[1:9];
+      i̲n̲t̲e̲g̲e̲r̲ i;
+
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ get(A); i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ A;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i;
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+              A[i] := read(20);
+      e̲n̲d̲;
+
+      open(20);
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 1 d̲o̲ get (A);
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+           write(30, format (“ndd”),A[i]);
+
+      close(30);
+
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ 1,2,3,4,5,6,7,8,9, ;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ readx(device);  i̲n̲t̲e̲g̲e̲r̲ device;
+        c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+        {device}.,JSP294.,E̲X̲I̲T̲.,
+        A̲L̲G̲O̲L̲;
+
+        c̲o̲m̲m̲e̲n̲t̲ 1,2,3,4,5,6,7,8,9,;
+
+
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A1, A5, A15;
+
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[17:107], b[17:107], c[17:107];
+      i̲n̲t̲e̲g̲e̲r̲ form;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ silly(x);
+         r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ z[1:17];
+         x := x + 1·0;
+      e̲n̲d̲;
+
+      form := format(“ndddddddds”);
+
+      open(30);
+      f̲o̲r̲ i := 17 s̲t̲e̲p̲ 3 u̲n̲t̲i̲l̲ 23 d̲o̲
+         b̲e̲g̲i̲n̲
+            a[i] := sqrt(b[i] × c[i]);
+            write(30, form, a[i]);
+            silly(a[i]);
+         e̲n̲d̲;
+      close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ pentomino, 130968;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A12, A6;   c̲o̲m̲m̲e̲n̲t̲ A1, A4, A5, A12, A15;
+
+      i̲n̲t̲e̲g̲e̲r̲  solution count, max solution count;
+      i̲n̲t̲e̲g̲e̲r̲  piece number, piece count, place count;
+      i̲n̲t̲e̲g̲e̲r̲  board length, board width, board area;
+      i̲n̲t̲e̲g̲e̲r̲  i, j, k, position;
+      i̲n̲t̲e̲g̲e̲r̲  printer, reader;
+
+      i̲n̲t̲e̲g̲e̲r̲  form1p12e;
+      i̲n̲t̲e̲g̲e̲r̲  form1p1e;
+      i̲n̲t̲e̲g̲e̲r̲  form6p2;
+      i̲n̲t̲e̲g̲e̲r̲  form2p9;
+      i̲n̲t̲e̲g̲e̲r̲  form2id;
+      i̲n̲t̲e̲g̲e̲r̲  form3id;
+
+      form1p12e := format(“s+d.ddddddddddd@+nd”);
+      form1p1e  := format(“+d.d@+nd”);
+      form6p2   := format(“snnnnnd.dd”);
+      form2p9   := format(“+nd.ddddddddds”);
+      form2id   := format(“nd”);
+      form3id   := format(“ndd”);
+
+      printer := 30;
+      open(printer);
+
+      reader := 20;
+      open(reader);
+      max solution count := read(reader);
+
+      newline(printer,1);
+      writetext(printer,“The first ”);
+      write(printer, form2id, max solution count);
+      writetext(printer,“ solutions:”);
+      newline(printer,3);
+
+      board length := read(reader); board width := read(reader);
+      piece count := read(reader); place count := read(reader);
+      board area := board length × (board width - 1);
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  board [-39 : 100];
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  place, index [1 : piece count];
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  information [1 : 8 × place count];
+         b̲o̲o̲l̲e̲a̲n̲  a̲r̲r̲a̲y̲  unused [1 : piece count];
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  print solution;
+         b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  i, j;
+
+            writetext(printer,“\nprint solution:\n”);
+            writetext(printer,“\nboard length=”);
+            write(printer, form3id, board length);
+            newline(printer,1);
+            writetext(printer,“\nboard width=”);
+            write(printer, form3id, board width);
+            newline(printer,1);
+            writetext(printer,“\npiece count=”);
+            write(printer, form3id, piece count);
+            newline(printer,1);
+            writetext(printer,“\nplace count=”);
+            write(printer, form3id, place count);
+            newline(printer,1);
+
+            solution count := solution count + 1;
+            i̲f̲  solution count > max solution count t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               writetext(printer,“\nsolution count=”);
+               write(printer, form3id, solution count);
+               newline(printer,3);
+               g̲o̲t̲o̲  END OF RUN;
+            e̲n̲d̲;
+            writetext(printer,“ ”);
+            f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+               b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+            c̲o̲m̲m̲e̲n̲t̲  write(printer,form6p2,time); newline(printer,1);
+            f̲o̲r̲  i := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+               b̲e̲g̲i̲n̲  writetext(printer,“I”);
+                  f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length - 1 d̲o̲
+                     b̲e̲g̲i̲n̲  writetext(printer,“   ”);
+                        i̲f̲  board[i + j] ≠ board[i + j + 1]
+                          t̲h̲e̲n̲  writetext(printer,“I”)
+                        e̲l̲s̲e̲  writetext(printer,“ ”)
+                     e̲n̲d̲;
+                  writetext(printer,“   ”);
+                  writetext(printer,“I”);
+                  newline(printer,1);
+                  writetext(printer,“ ”);
+                  i̲f̲  i < board area t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲  board[i + j] ≠ board[i + j + board length] t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”);
+                              writetext(printer,“-”);writetext(printer,“ ”)
+                           e̲n̲d̲
+                           e̲l̲s̲e̲  writetext(printer,“    ”)
+                        e̲n̲d̲
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                    f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+                     b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+                  newline(printer,1)
+               e̲n̲d̲;
+            newline(printer,2);
+         e̲n̲d̲  print solution;
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  up (field, column); v̲a̲l̲u̲e̲ field, column; i̲n̲t̲e̲g̲e̲r̲ field, column;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i, j, k, r, w, piece, count;
+            piece number := piece number + 1;
+            c̲o̲m̲m̲e̲n̲t̲
+              writetext(printer,“piece number”);
+            c̲o̲m̲m̲e̲n̲t̲
+              write(printer, format(“nddddc”),piecenumber);
+            f̲o̲r̲  piece := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+                 i̲f̲  unused[piece] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  unused[piece] := f̲a̲l̲s̲e̲;
+                  board[field] := piece;
+                  count := place[piece] - 1;
+                  f̲o̲r̲  i := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  count d̲o̲
+                     b̲e̲g̲i̲n̲  w := index[piece] + 4 × i;
+                        i̲f̲  board[information[w] + field] = 0 t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲  board[information[w + 1] + field] = 0 t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲
+                              i̲f̲  board[information[w + 2] + field] = 0 t̲h̲e̲n̲
+                              b̲e̲g̲i̲n̲
+                                 i̲f̲  board[information[w + 3] + field] = 0 t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                    f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                         board[information[w + j] + field] := piece;
+
+                                    i̲f̲  piece number = piece count
+                                      t̲h̲e̲n̲  print solution
+                                    e̲l̲s̲e̲
+                                    b̲e̲g̲i̲n̲
+                                       f̲o̲r̲  k := column s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                                            f̲o̲r̲  r := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+                                               i̲f̲  board[r + k] = 0 t̲h̲e̲n̲  g̲o̲t̲o̲  NEXT;
+                                       NEXT: up (r + k, k)
+                                    e̲n̲d̲;
+                                    f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                         board[information[w + j] + field] := 0
+                                 e̲n̲d̲
+                              e̲n̲d̲
+                           e̲n̲d̲
+                        e̲n̲d̲
+                     e̲n̲d̲;
+                  unused[piece] := t̲r̲u̲e̲
+               e̲n̲d̲;
+            board[field] := 0;
+            DOWN:
+            piece number := piece number - 1
+         e̲n̲d̲  up;
+
+         position := 1;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+            b̲e̲g̲i̲n̲  j := read(reader); c̲o̲m̲m̲e̲n̲t̲  stone piece number, is not used;
+               index[i] := position; place[i] := read(reader);
+               f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  place[i] d̲o̲
+                  b̲e̲g̲i̲n̲  f̲o̲r̲  k := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  3 d̲o̲
+                          information[position + k] := read(reader);
+                     position := position + 4
+                  e̲n̲d̲
+            e̲n̲d̲;
+         f̲o̲r̲  i := - 39 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  0,
+           + 61 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  100 d̲o̲
+              board[i] := - 1;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  60 d̲o̲
+              board[i] := 0;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+              unused[i] := t̲r̲u̲e̲;
+
+         solution count := piece number := 0;
+
+         up (1, 1);
+
+         END OF RUN:
+
+      e̲n̲d̲ ;
+
+      close(reader);
+      close(printer);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+      c̲o̲m̲m̲e̲n̲t̲ extra parameter to intint makes it work;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ adding extra parameter makes it work;
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb, d);
+            v̲a̲l̲u̲e̲ a, b, fa, fb, d;  r̲e̲a̲l̲ a, b, fa, fb;
+              i̲n̲t̲e̲g̲e̲r̲ d;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) × 0·5;
+            fc := f(c);
+            ff := (fa + 4·0×fc + fb);
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)×3·0 - ff ) < 0·001
+              t̲h̲e̲n̲
+              intint := ff × (b - a)  × 0·16666666667
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc, d-1) + intint(c, b, fc, fb, d-1);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b), 5);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intfy(x);
+         c̲o̲m̲m̲e̲n̲t̲ integral 0 to x of ff(x,y) dy;
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fx(y);
+            v̲a̲l̲u̲e̲ y;  r̲e̲a̲l̲ y;
+            fx := f(x,y);
+         intfy := int(0, x, fx);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ minitest(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         minitest := x×x×x;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer, pi;
+      i̲n̲t̲e̲g̲e̲r̲ ii;
+
+      writetext(30, “minitest 0 to 2 x^3 = ”);
+      answer := int(0, 2, minitest);
+      output(30, answer);
+
+      writetext(30, “Now for the square root ”);
+      output(30, sqrt(answer));
+      pi := answer×arctan(1·0);
+      writetext(30, “This is the value of pi calculated using arctan ”);
+      output(30, pi);
+      answer := sin(pi/6·0);
+      writetext(30, “sin pi/6 which should be a half ”);
+      output(30, answer);
+      answer := cos(pi/6·0);
+      writetext(30, “cos pi/6 which should be a the same as the next result ”);
+      output(30, answer);
+      writetext(30, “should be same as the previous ”);
+      answer := sqrt(3·0)/2·0;
+      output(30, answer);
+
+      writetext(30, “Now square it to get 3/4 ”);
+      output(30, answer⭡2);
+
+      ii := 3;
+      writetext(30, “3^3 = ”);
+      output(30, ii⭡ii);
+      writetext(30, “Integer divide 3 squared by 2 ”);
+      output(30, ii⭡2 ÷ 2);
+
+      writetext(30, “Calculate e using exp ”);
+      answer := exp(1·0);
+      output(30, answer);
+      writetext(30, “... and take its log ”);
+      output(30, ln(answer));
+
+      writetext(30, “\nfulltest 0 to 1 triangle = ”);
+      answer := int(0, 1, intfy);
+      output(30, answer);
+
+      writetext(30, “Testing exponentiation: 2^4 = ”);
+      answer := 4·0;
+      output(30, 2⭡answer);
+      writetext(30, “Testing exponentiation: 2^4.0 = ”);
+      output(30, 2·0⭡answer);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ Hello World + a bit;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5,A12, A13, A14, A15;
+      c̲o̲m̲m̲e̲n̲t̲ Replace A6 by A1, A5, A15 for the genuine output routine;
+      c̲o̲m̲m̲e̲n̲t̲ The read(20) facility is in A4;
+
+      r̲e̲a̲l̲ x;
+      open(30);
+      writetext(30, “Hello World\n”);
+      x := 1·23;
+      output(30, x);
+      writetext(30, “What a r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ this is\n”);
+
+      open(20);
+      f̲o̲r̲ x := read(20)  w̲h̲i̲l̲e̲  x < 9998·0 d̲o̲
+           output(30, x);
+      close(20);
+      close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲    c̲o̲m̲m̲e̲n̲t̲   JAZ164, R743, Outer Planets;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+
+      i̲n̲t̲e̲g̲e̲r̲  form1p12e;
+      i̲n̲t̲e̲g̲e̲r̲  form1p1e;
+      i̲n̲t̲e̲g̲e̲r̲  form7p1;
+      i̲n̲t̲e̲g̲e̲r̲  form2p9;
+
+      i̲n̲t̲e̲g̲e̲r̲  k,t; r̲e̲a̲l̲  a,k2,x; b̲o̲o̲l̲e̲a̲n̲      fi;
+      a̲r̲r̲a̲y̲  y,ya,z,za[1:15],m[0:5],e[1:60],d[1:33];
+
+      a̲r̲r̲a̲y̲    ownd[1:5,1:5],ownr[1:5];
+
+      r̲e̲a̲l̲  p̲r̲o̲c̲e̲d̲u̲r̲e̲  f(k); i̲n̲t̲e̲g̲e̲r̲  k;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  i,j,i3,j3; r̲e̲a̲l̲  p;
+         i̲f̲  k ≠ 1 t̲h̲e̲n̲  g̲o̲t̲o̲  A;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  4 d̲o̲
+            b̲e̲g̲i̲n̲  i3:= 3×i;
+               f̲o̲r̲  j:= i+1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+                  b̲e̲g̲i̲n̲  j3:= 3×j;
+                     p:= (y[i3-2] - y[j3-2]) ⭡ 2 + (y[i3-1] - y[j3-1]) ⭡ 2 +
+                       (y[i3] - y[j3]) ⭡ 2;
+                     ownd[i,j]:= ownd[j,i]:= 1/p/sqrt(p)
+                  e̲n̲d̲
+            e̲n̲d̲;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+            b̲e̲g̲i̲n̲  i3:= 3×i; ownd[i,i]:= 0;
+               p:= y[i3-2] ⭡ 2 + y[i3-1] ⭡ 2 + y[i3] ⭡ 2;
+               ownr[i]:= 1/p/sqrt(p)
+            e̲n̲d̲;
+         A: i:= (k - 1) ÷ 3 + 1;
+         f:= k2 × (- m[0] × y[k] × ownr[i] +
+           SUM(j,1,5,m[j]×((y[3×(j-i)+k]-y[k])×ownd[i,j]-y[3×(j-i)+k]×ownr[j])))
+      e̲n̲d̲ f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲  RK3n(x,a,b,y,ya,z,za,fxyj,j,e,d,fi,n);
+         v̲a̲l̲u̲e̲  b,fi,n; i̲n̲t̲e̲g̲e̲r̲  j,n; r̲e̲a̲l̲  x,a,b,fxyj;
+           b̲o̲o̲l̲e̲a̲n̲  fi; a̲r̲r̲a̲y̲  y,ya,z,za,e,d;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  jj;
+         r̲e̲a̲l̲  xl,h,hmin,int,hl,absh,fhm,discry,discrz,toly,tolz,mu,mu1,fhy,fhz;
+         b̲o̲o̲l̲e̲a̲n̲  last,first,reject;
+         a̲r̲r̲a̲y̲  yl,zl,k0,k1,k2,k3,k4,k5[1:n],ee[1:4×n];
+         i̲f̲  fi
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[3]:= a;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+               b̲e̲g̲i̲n̲  d[jj+3]:= ya[jj]; d[n+jj+3]:= za[jj] e̲n̲d̲
+         e̲n̲d̲;
+         d[1]:= 0; xl:= d[3];
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲  yl[jj]:= d[jj+3]; zl[jj]:= d[n+jj+3] e̲n̲d̲;
+         i̲f̲  fi t̲h̲e̲n̲  d[2]:= b - d[3];
+         absh:= h:= abs(d[2]);
+         i̲f̲  b - xl < 0 t̲h̲e̲n̲  h:= - h;
+         int:= abs(b - xl); hmin:= int × e[1] + e[2];
+         f̲o̲r̲  jj:= 2 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2×n d̲o̲
+            b̲e̲g̲i̲n̲  hl:= int × e[2×jj-1] + e[2×jj];
+               i̲f̲  hl < hmin t̲h̲e̲n̲  hmin:= hl
+            e̲n̲d̲;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  4×n d̲o̲  ee[jj]:= e[jj]/int;
+         first:= reject:= t̲r̲u̲e̲  ;
+         i̲f̲  fi
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  last:= t̲r̲u̲e̲  ; g̲o̲t̲o̲  nstep e̲n̲d̲;
+         test: absh:= abs(h);
+         i̲f̲  absh < hmin
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  h:= i̲f̲  h > 0 t̲h̲e̲n̲  hmin e̲l̲s̲e̲  - hmin;
+            absh:= hmin
+         e̲n̲d̲;
+         i̲f̲  h  ≥  b - xl ≡ h  ≥  0
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[2]:= h; last:= t̲r̲u̲e̲  ;
+            h:= b - xl; absh:= abs(h)
+         e̲n̲d̲
+         e̲l̲s̲e̲  last:= f̲a̲l̲s̲e̲;
+         nstep: i̲f̲  reject
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  x:= xl;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 y[jj]:= yl[jj];
+            f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 k0[j]:= fxyj × h
+         e̲n̲d̲
+         e̲l̲s̲e̲  b̲e̲g̲i̲n̲  fhy:= h/hl;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 k0[jj]:= k5[jj] × fhy
+         e̲n̲d̲  ;
+         x:= xl + ·27639 32022 50021 × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·27639 32022 50021 +
+              k0[jj] × ·03819 66011 25011) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k1[j]:= fxyj × h;
+         x:= xl + ·72360 67977 49979 × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·72360 67977 49979 +
+              k1[jj] × ·26180 33988 74989) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k2[j]:= fxyj × h;
+         x:= xl + h × ·5;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·5 +
+              k0[jj] × ·04687 5 +
+              k1[jj] × ·07982 41558 39840 -
+              k2[jj] × ·00169 91558 39840) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k4[j]:= fxyj × h;
+         x:= i̲f̲  last t̲h̲e̲n̲  b e̲l̲s̲e̲  xl + h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] +
+              k0[jj] × ·30901 69943 74947 +
+              k2[jj] × ·19098 30056 25053) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k3[j]:= fxyj × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] +
+              k0[jj] × ·08333 33333 33333 +
+              k1[jj] × ·30150 28323 95825 +
+              k2[jj] × ·11516 38342 70842) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k5[j]:= fxyj × h;
+         reject:= f̲a̲l̲s̲e̲  ; fhm:= 0;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲
+               discry:= abs((- k0[jj] × ·5 + k1[jj] × 1·80901 69943 74947 +
+                 k2[jj] × ·69098 30056 25053 - k4[jj] × 2) × h);
+               discrz:= abs((k0[jj] - k3[jj]) × 2 - (k1[jj] + k2[jj]) × 10 +
+                 k4[jj] × 16 + k5[jj] × 4);
+               toly:= absh × (abs(zl[jj]) × ee[2×jj-1] + ee[2×jj]);
+               tolz:= abs(k0[jj]) × ee[2×(jj+n)-1] + absh × ee[2×(jj+n)];
+               reject:= discry > toly ∨ discrz > tolz ∨ reject;
+               fhy:= discry/toly; fhz:= discrz/tolz;
+               i̲f̲  fhz > fhy t̲h̲e̲n̲  fhy:= fhz;
+               i̲f̲  fhy > fhm t̲h̲e̲n̲  fhm:= fhy
+            e̲n̲d̲  ;
+         mu:= 1/(1 + fhm) + ·45;
+         i̲f̲  reject
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  i̲f̲  absh  ≤  hmin
+              t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[1]:= d[1] + 1;
+               f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n  d̲o̲
+                  b̲e̲g̲i̲n̲  y[jj]:= yl[jj];
+                     z[jj]:= zl[jj]
+                  e̲n̲d̲  ;
+               first:= t̲r̲u̲e̲  ; g̲o̲t̲o̲  next
+            e̲n̲d̲  ;
+            h:= mu × h; g̲o̲t̲o̲  test
+         e̲n̲d̲  rej;
+         i̲f̲  first
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  first:= f̲a̲l̲s̲e̲  ; hl:= h; h:= mu × h;
+            g̲o̲t̲o̲  acc
+         e̲n̲d̲  ;
+         fhy:= mu × h/hl + mu - mu1; hl:= h; h:= fhy × h;
+         acc: mu1:= mu;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              z[jj]:= zl[jj] + (k0[jj] + k3[jj]) × ·08333 33333 33333 +
+              (k1[jj] + k2[jj])×  ·41666 66666 66667;
+         next: i̲f̲  b ≠ x
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  xl:= x;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+               b̲e̲g̲i̲n̲  yl[jj]:= y[jj]; zl[jj]:= z[jj] e̲n̲d̲  ;
+            g̲o̲t̲o̲  test
+         e̲n̲d̲  ;
+         i̲f̲  ¬  last t̲h̲e̲n̲  d[2]:= h;
+         d[3]:= x;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲  d[jj+3]:= y[jj]; d[n+jj+3]:= z[jj] e̲n̲d̲
+      e̲n̲d̲  RK3n;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲  TYP(x); a̲r̲r̲a̲y̲  x;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  k;
+         writetext(10, “\n”);writetext(10,“T = ”);c̲o̲m̲m̲e̲n̲t̲ ABSFIXT; write(10,form7p1,t+a);writetext(10,““cc””);
+         f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲  k=1 t̲h̲e̲n̲  writetext(10,“J   ”)e̲l̲s̲e̲
+               i̲f̲  k=2 t̲h̲e̲n̲  writetext(10,“S   ”)e̲l̲s̲e̲
+               i̲f̲  k=3 t̲h̲e̲n̲  writetext(10,“U   ”)e̲l̲s̲e̲
+               i̲f̲  k=4 t̲h̲e̲n̲  writetext(10,“N   ”)e̲l̲s̲e̲
+                 writetext(10,“P   ”);
+               write(10,form2p9,x[3×k-2]); write(10,form2p9,x[3×k-1]); write(10,form2p9,x[3×k]);
+               writetext(10, “\n”)
+            e̲n̲d̲
+      e̲n̲d̲  TYP;
+
+      r̲e̲a̲l̲  p̲r̲o̲c̲e̲d̲u̲r̲e̲  SUM(i,a,b,xi);
+         v̲a̲l̲u̲e̲  b; i̲n̲t̲e̲g̲e̲r̲  i,a,b; r̲e̲a̲l̲  xi;
+      b̲e̲g̲i̲n̲  r̲e̲a̲l̲  s;
+         s:= 0;
+         f̲o̲r̲  i:= a s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  b d̲o̲  s:= s + xi;
+         SUM:= s
+      e̲n̲d̲  SUM;
+
+      form1p12e := format(“s+d.ddddddddddd@+nd”);
+      form1p1e  := format(“+d.d@+nd”);
+      form7p1   := format(“snnnnnnd.d”);
+      form2p9   := format(“+nd.ddddddddds”);
+      open(10);
+      open(20);
+
+      a:= read(20);
+      f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲        15 d̲o̲
+         b̲e̲g̲i̲n̲
+            ya[k]:= read(20);  za[k]:= read(20);
+         e̲n̲d̲  ;
+      f̲o̲r̲  k:= 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲        5 d̲o̲  m[k]:= read(20);
+      k2:= read(20); e[1]:= read(20);
+      f̲o̲r̲  k:= 2 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  60 d̲o̲  e[k]:= e[1];
+      writetext(10,“JAZ164, R743, Outer Planets”);writetext(10,““cc””);
+      f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  15 d̲o̲
+         b̲e̲g̲i̲n̲  write(10,form1p12e,ya[k]); write(10,form1p12e,za[k]); writetext(10, “\n”)e̲n̲d̲;
+      f̲o̲r̲  k:= 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+         b̲e̲g̲i̲n̲  writetext(10, “\n”);write(10,form1p12e,m[k])e̲n̲d̲;
+      writetext(10, ““cc””);write(10,form1p12e,k2);
+      writetext(10, ““cc””);writetext(10,“eps = ”);write(10,form1p1e,e[1]);writetext(10,“\n”);
+      t:= 0; TYP(ya); fi:= t̲r̲u̲e̲  ;
+      f̲o̲r̲  t:= 500,1000 d̲o̲
+         b̲e̲g̲i̲n̲  RK3n(x,0,t,y,ya,z,za,f(k),k,e,d,fi,15);
+            fi:= f̲a̲l̲s̲e̲  ; TYP(y)
+         e̲n̲d̲ ;
+
+      close(20);
+      close(10);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ********
+     99,
+     10, 6, 12, 63,
+     1, 1, -9, 1, 11, 2,
+     2, 2, 1, 2, 3, 4, 10, 20, 30, 40,
+     3, 4, 1, 10, 20, 21, 1, 11, 20, 21, -10, -9, -8, 2, 10, 11, 12, 2,
+     4, 4, 1, 11, 21, 22, 1, -9, -19, -18, 10, 11, 12, 22, -10, -9, -8, -18,
+     5, 4, 1, 11, 21, 2, 1, -9, -19, 2, 1, 2, -8, 12, 10, -10, 1, 2,
+     6, 4, 1, 2, 12, 22, 1, 2, -8, -18, 1, 2, 10, 20, 1, 2, -10, -20,
+     7, 4, 1, 11, 12, 22, 1, -9, -8, -18, 10, 11, 21, 22, -10, -9, -19, -18,
+     8, 8, 1, 11, 12, 13, 1, -9, -8, -7, 1, 2, 12, 13, 1, 2, -8, -7, 10, 20, 21, 31, 10, 20, 19,
+     29, 10, 11, 21, 31, 10, 9, 19, 29, 9, 8, 1, -9, 2, 12, 1, 11, 2, -8, 10, 11, 21, 12, -10, -9,
+     -19, -8, 1, 11, 21, 12, 1, -9, -19, -8, 1, 11, -9, 12, 1, 11, -9, -8, 10, 8, 1, 2, 3, 12, 1,
+     2, 3, -8, 10, 20, 30, 11, -10, -20, -30, -9, 1, 11, 21, -9, 1, -9, -19, 11, 11, 1, 2, 3, -9,
+     1, 2, 3, 11, 8, 1, 2, 3, 13, 1, 2, 3, -7, 10, 20, 30, 1, -10, -20, -30, 1, 1, 11, 21, 31, 1,
+     -9, -19, -29, 10, 1, 2, 3, -10, 1, 2, 3, 12, 8, 1, 2, 11, 12, 1, 2, -9, -8, 1, 2, 10, 11, 1,
+     2, -10, -9, 1, 10, 11, 20, 1, 10, 11, 21, 1, -10, -9, -20, 1, -10, -9, -19,
+     *******;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A1, A4, A5, A15;
+      c̲o̲m̲m̲e̲n̲t̲ this is program 1;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ chk(v, s);
+         v̲a̲l̲u̲e̲ v;  r̲e̲a̲l̲ v;  s̲t̲r̲i̲n̲g̲ s;
+      b̲e̲g̲i̲n̲
+         writetext(30, s);
+         output(30, v);
+      e̲n̲d̲;
+      chk(2430000·5, “2430000.5 = ”);
+      chk(+0·342947415189@+1, “+0.342947415189@+1 = ”);
+      chk(-0·557160570446@-2, “-0.557160570446@-2 = ”);
+      chk(+0·335386959711@+1, “+0.335386959711@+1 = ”);
+      chk(+0·505696783289@-2, “+0.505696783289@-2 = ”);
+      chk(+0·135494901715@+1, “+0.135494901715@+1 = ”);
+      chk(+0·230578543901@-2, “+0.230578543901@-2 = ”);
+      chk(+0·664145542550@+1, “+0.664145542550@+1 = ”);
+      chk(-0·415570776342@-2, “-0.415570776342@-2 = ”);
+      chk(+0·597156957878@+1, “+0.597156957878@+1 = ”);
+      chk(+0·365682722812@-2, “+0.365682722812@-2 = ”);
+      chk(+0·218231499728@+1, “+0.218231499728@+1 = ”);
+      chk(+0·169143213293@-2, “+0.169143213293@-2 = ”);
+      chk(+0·112630437207@+2, “+0.112630437207@+2 = ”);
+      chk(-0·325325669158@-2, “-0.325325669158@-2 = ”);
+      chk(+0·146952576794@+2, “+0.146952576794@+2 = ”);
+      chk(+0·189706021964@-2, “+0.189706021964@-2 = ”);
+      chk(+0·627960525067@+1, “+0.627960525067@+1 = ”);
+      chk(+0·877265322780@-3, “+0.877265322780@-3 = ”);
+      chk(-0·301552268759@+2, “-0.301552268759@+2 = ”);
+      chk(-0·240476254170@-3, “-0.240476254170@-3 = ”);
+      chk(+0·165699966404@+1, “+0.165699966404@+1 = ”);
+      chk(-0·287659532608@-2, “-0.287659532608@-2 = ”);
+      chk(+0·143785752721@+1, “+0.143785752721@+1 = ”);
+      chk(-0·117219543175@-2, “-0.117219543175@-2 = ”);
+      chk(-0·211238353380@+2, “-0.211238353380@+2 = ”);
+      chk(-0·176860753121@-2, “-0.176860753121@-2 = ”);
+      chk(+0·284465098142@+2, “+0.284465098142@+2 = ”);
+      chk(-0·216393453025@-2, “-0.216393453025@-2 = ”);
+      chk(+0·153882659679@+2, “+0.153882659679@+2 = ”);
+      chk(-0·148647893090@-3, “-0.148647893090@-3 = ”);
+      chk(+0·100000597682@+1, “+0.100000597682@+1 = ”);
+      chk(+0·954786104043@-3, “+0.954786104043@-3 = ”);
+      chk(+0·285583733151@-3, “+0.285583733151@-3 = ”);
+      chk(+0·437273164546@-4, “+0.437273164546@-4 = ”);
+      chk(+0·517759138449@-4, “+0.517759138449@-4 = ”);
+      chk(+0·277777777778@-5, “+0.277777777778@-5 = ”);
+      chk(+0·295912208286@-3, “+0.295912208286@-3 = ”);
+      chk(+0·10@-3, “+0.10@-3 = ”);
+      close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ *************;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ pentomino, temporary dud;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ newline (device, number); v̲a̲l̲u̲e̲ device, number;
+         i̲n̲t̲e̲g̲e̲r̲ device, number;
+         f̲o̲r̲ number := number s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              writetext(device, “\n”);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ main;
+      b̲e̲g̲i̲n̲
+
+         i̲n̲t̲e̲g̲e̲r̲  solution count, max solution count;
+         i̲n̲t̲e̲g̲e̲r̲  piece number, piece count, place count;
+         i̲n̲t̲e̲g̲e̲r̲  board length, board width, board area;
+         i̲n̲t̲e̲g̲e̲r̲  i, j, k, position;
+         i̲n̲t̲e̲g̲e̲r̲  printer, reader;
+
+         i̲n̲t̲e̲g̲e̲r̲  form1p12e;
+         i̲n̲t̲e̲g̲e̲r̲  form1p1e;
+         i̲n̲t̲e̲g̲e̲r̲  form6p2;
+         i̲n̲t̲e̲g̲e̲r̲  form2p9;
+         i̲n̲t̲e̲g̲e̲r̲  form2id;
+         i̲n̲t̲e̲g̲e̲r̲  form3id;
+
+         form1p12e := format(“s+d.ddddddddddd@+nd”);
+         form1p1e  := format(“+d.d@+nd”);
+         form6p2   := format(“snnnnnd.dd”);
+         form2p9   := format(“+nd.ddddddddds”);
+         form2id   := format(“nd”);
+         form3id   := format(“ndd”);
+
+         printer := 30;
+         open(printer);
+
+         reader := 20;
+         open(reader);
+         max solution count := read(reader);
+
+         newline(printer,1);
+         writetext(printer,“The first ”);
+         write(printer, form2id, max solution count);
+         writetext(printer,“ solutions:”);
+         newline(printer,3);
+
+         board length := read(reader); board width := read(reader);
+         piece count := read(reader); place count := read(reader);
+         board area := board length × (board width - 1);
+
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  board [-39 : 100];
+            i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  place, index [1 : piece count];
+            i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  information [1 : 8 × place count];
+            b̲o̲o̲l̲e̲a̲n̲  a̲r̲r̲a̲y̲  unused [1 : piece count];
+
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲  print solution;
+            b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  i, j;
+
+               writetext(printer,“\nprint solution:\n”);
+               writetext(printer,“\nboard length=”);
+               write(printer, form3id, board length);
+               newline(printer,1);
+               writetext(printer,“\nboard width=”);
+               write(printer, form3id, board width);
+               newline(printer,1);
+               writetext(printer,“\npiece count=”);
+               write(printer, form3id, piece count);
+               newline(printer,1);
+               writetext(printer,“\nplace count=”);
+               write(printer, form3id, place count);
+               newline(printer,1);
+
+               solution count := solution count + 1;
+               i̲f̲  solution count > max solution count t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  writetext(printer,“\nsolution count=”);
+                  write(printer, form3id, solution count);
+                  newline(printer,3);
+                  g̲o̲ t̲o̲  END OF RUN;
+               e̲n̲d̲;
+               writetext(printer,“ ”);
+               f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+                  b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+               c̲o̲m̲m̲e̲n̲t̲  write(printer,form6p2,time); newline(printer,1);
+               f̲o̲r̲  i := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+                  b̲e̲g̲i̲n̲  writetext(printer,“I”);
+                     f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length - 1 d̲o̲
+                        b̲e̲g̲i̲n̲  writetext(printer,“   ”);
+                           i̲f̲  board[i + j] ≠ board[i + j + 1]
+                             t̲h̲e̲n̲  writetext(printer,“I”)
+                           e̲l̲s̲e̲  writetext(printer,“ ”)
+                        e̲n̲d̲;
+                     writetext(printer,“   ”);
+                     writetext(printer,“I”);
+                     newline(printer,1);
+                     writetext(printer,“ ”);
+                     i̲f̲  i < board area t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                           b̲e̲g̲i̲n̲
+                              i̲f̲  board[i + j] ≠ board[i + j + board length] t̲h̲e̲n̲
+                              b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”);
+                                 writetext(printer,“-”);writetext(printer,“ ”)
+                              e̲n̲d̲
+                              e̲l̲s̲e̲  writetext(printer,“    ”)
+                           e̲n̲d̲
+                     e̲n̲d̲
+                     e̲l̲s̲e̲
+                       f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+                        b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+                     newline(printer,1)
+                  e̲n̲d̲;
+               newline(printer,2);
+            e̲n̲d̲  print solution;
+
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲  up (field, column); v̲a̲l̲u̲e̲ field, column; i̲n̲t̲e̲g̲e̲r̲ field, column;
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲ i, j, k, r, w, piece, count;
+               piece number := piece number + 1;
+               writetext(printer,“piece number”);write(printer,format(“nddddc”),piecenumber);
+               f̲o̲r̲  piece := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+                    i̲f̲  unused[piece] t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     unused[piece] := f̲a̲l̲s̲e̲;
+                     board[field] := piece;
+                     count := place[piece] - 1;
+                     f̲o̲r̲  i := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  count d̲o̲
+                        b̲e̲g̲i̲n̲  w := index[piece] + 4 × i;
+                           i̲f̲  board[information[w] + field] = 0 t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲
+                              i̲f̲  board[information[w + 1] + field] = 0 t̲h̲e̲n̲
+                              b̲e̲g̲i̲n̲
+                                 i̲f̲  board[information[w + 2] + field] = 0 t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                    i̲f̲  board[information[w + 3] + field] = 0 t̲h̲e̲n̲
+                                    b̲e̲g̲i̲n̲
+                                       f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                            board[information[w + j] + field] := piece;
+
+                                       i̲f̲  piece number = piece count
+                                         t̲h̲e̲n̲  print solution
+                                       e̲l̲s̲e̲
+                                       b̲e̲g̲i̲n̲
+                                          f̲o̲r̲  k := column s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                                               f̲o̲r̲  r := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+                                                  i̲f̲  board[r + k] = 0 t̲h̲e̲n̲  g̲o̲ t̲o̲  NEXT;
+                                          NEXT: up (r + k, k)
+                                       e̲n̲d̲;
+                                       f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                            board[information[w + j] + field] := 0
+                                    e̲n̲d̲
+                                 e̲n̲d̲
+                              e̲n̲d̲
+                           e̲n̲d̲
+                        e̲n̲d̲;
+                     unused[piece] := t̲r̲u̲e̲
+                  e̲n̲d̲;
+               board[field] := 0;
+               DOWN:
+               piece number := piece number - 1
+            e̲n̲d̲  up;
+
+            position := 1;
+            f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+               b̲e̲g̲i̲n̲  j := read(reader); c̲o̲m̲m̲e̲n̲t̲  stone piece number, is not used;
+                  index[i] := position; place[i] := read(reader);
+                  f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  place[i] d̲o̲
+                     b̲e̲g̲i̲n̲  f̲o̲r̲  k := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  3 d̲o̲
+                             information[position + k] := read(reader);
+                        position := position + 4
+                     e̲n̲d̲
+               e̲n̲d̲;
+            f̲o̲r̲  i := - 39 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  0,
+              + 61 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  100 d̲o̲
+                 board[i] := - 1;
+            f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  60 d̲o̲
+                 board[i] := 0;
+            f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+                 unused[i] := t̲r̲u̲e̲;
+
+            solution count := piece number := 0;
+
+            up (1, 1);
+
+            END OF RUN:
+
+         e̲n̲d̲ ;
+
+         close(reader);
+         close(printer);
+
+      e̲n̲d̲ ;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRACE(i);  v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+           c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           “i”.,=V0P244.,JSP287.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+
+           main;
+
+         TRACE(77);
+
+   e̲n̲d̲;
+
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ TRACE test;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A15;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRACE(i);  v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           “i”.,=V0P244.,JSP987.,DUD.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ newline (device, number); v̲a̲l̲u̲e̲ device, number;
+         i̲n̲t̲e̲g̲e̲r̲ device, number;
+         f̲o̲r̲ number := number s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              writetext(device, “\n”);
+
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+
+      TRACE(123);
+      newline(30,3);
+
+      i := 99;   j := i;  k := i+j;
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ pentomino, 130968;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ newline (device, number); v̲a̲l̲u̲e̲ device, number;
+         i̲n̲t̲e̲g̲e̲r̲ device, number;
+         f̲o̲r̲ number := number s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              writetext(device, “\n”);
+
+      i̲n̲t̲e̲g̲e̲r̲  solution count, max solution count;
+      i̲n̲t̲e̲g̲e̲r̲  piece number, piece count, place count;
+      i̲n̲t̲e̲g̲e̲r̲  board length, board width, board area;
+      i̲n̲t̲e̲g̲e̲r̲  i, j, k, position;
+      i̲n̲t̲e̲g̲e̲r̲  printer, reader;
+
+      i̲n̲t̲e̲g̲e̲r̲  form1p12e;
+      i̲n̲t̲e̲g̲e̲r̲  form1p1e;
+      i̲n̲t̲e̲g̲e̲r̲  form6p2;
+      i̲n̲t̲e̲g̲e̲r̲  form2p9;
+      i̲n̲t̲e̲g̲e̲r̲  form2id;
+      i̲n̲t̲e̲g̲e̲r̲  form3id;
+
+      form1p12e := format(“s+d.ddddddddddd@+nd”);
+      form1p1e  := format(“+d.d@+nd”);
+      form6p2   := format(“snnnnnd.dd”);
+      form2p9   := format(“+nd.ddddddddds”);
+      form2id   := format(“nd”);
+      form3id   := format(“ndd”);
+
+      printer := 30;
+      open(printer);
+
+      reader := 20;
+      open(reader);
+      max solution count := read(reader);
+
+      newline(printer,1);
+      writetext(printer,“The first ”);
+      write(printer, form2id, max solution count);
+      writetext(printer,“ solutions:”);
+      newline(printer,3);
+
+      board length := read(reader); board width := read(reader);
+      piece count := read(reader); place count := read(reader);
+      board area := board length × (board width - 1);
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  board [-39 : 100];
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  place, index [1 : piece count];
+         i̲n̲t̲e̲g̲e̲r̲  a̲r̲r̲a̲y̲  information [1 : 8 × place count];
+         b̲o̲o̲l̲e̲a̲n̲  a̲r̲r̲a̲y̲  unused [1 : piece count];
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  print solution;
+         b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  i, j;
+
+            writetext(printer,“\nprint solution:\n”);
+            writetext(printer,“\nboard length=”);
+            write(printer, form3id, board length);
+            newline(printer,1);
+            writetext(printer,“\nboard width=”);
+            write(printer, form3id, board width);
+            newline(printer,1);
+            writetext(printer,“\npiece count=”);
+            write(printer, form3id, piece count);
+            newline(printer,1);
+            writetext(printer,“\nplace count=”);
+            write(printer, form3id, place count);
+            newline(printer,1);
+
+            solution count := solution count + 1;
+            i̲f̲  solution count > max solution count t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               writetext(printer,“\nsolution count=”);
+               write(printer, form3id, solution count);
+               newline(printer,3);
+               g̲o̲t̲o̲  END OF RUN;
+            e̲n̲d̲;
+            writetext(printer,“ ”);
+            f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+               b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+            c̲o̲m̲m̲e̲n̲t̲  write(printer,form6p2,time); newline(printer,1);
+            f̲o̲r̲  i := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+               b̲e̲g̲i̲n̲  writetext(printer,“I”);
+                  f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length - 1 d̲o̲
+                     b̲e̲g̲i̲n̲  writetext(printer,“   ”);
+                        i̲f̲  board[i + j] ≠ board[i + j + 1]
+                          t̲h̲e̲n̲  writetext(printer,“I”)
+                        e̲l̲s̲e̲  writetext(printer,“ ”)
+                     e̲n̲d̲;
+                  writetext(printer,“   ”);
+                  writetext(printer,“I”);
+                  newline(printer,1);
+                  writetext(printer,“ ”);
+                  i̲f̲  i < board area t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲  board[i + j] ≠ board[i + j + board length] t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”);
+                              writetext(printer,“-”);writetext(printer,“ ”)
+                           e̲n̲d̲
+                           e̲l̲s̲e̲  writetext(printer,“    ”)
+                        e̲n̲d̲
+                  e̲n̲d̲
+                  e̲l̲s̲e̲
+                    f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2 × board length d̲o̲
+                     b̲e̲g̲i̲n̲  writetext(printer,“-”);writetext(printer,“ ”)e̲n̲d̲;
+                  newline(printer,1)
+               e̲n̲d̲;
+            newline(printer,2);
+         e̲n̲d̲  print solution;
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲  up (field, column); v̲a̲l̲u̲e̲ field, column; i̲n̲t̲e̲g̲e̲r̲ field, column;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i, j, k, r, w, piece, count;
+            piece number := piece number + 1;
+            writetext(printer,“piece number”);write(printer,format(“nddddc”),piecenumber);
+            f̲o̲r̲  piece := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+                 i̲f̲  unused[piece] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  unused[piece] := f̲a̲l̲s̲e̲;
+                  board[field] := piece;
+                  count := place[piece] - 1;
+                  f̲o̲r̲  i := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  count d̲o̲
+                     b̲e̲g̲i̲n̲  w := index[piece] + 4 × i;
+                        i̲f̲  board[information[w] + field] = 0 t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲
+                           i̲f̲  board[information[w + 1] + field] = 0 t̲h̲e̲n̲
+                           b̲e̲g̲i̲n̲
+                              i̲f̲  board[information[w + 2] + field] = 0 t̲h̲e̲n̲
+                              b̲e̲g̲i̲n̲
+                                 i̲f̲  board[information[w + 3] + field] = 0 t̲h̲e̲n̲
+                                 b̲e̲g̲i̲n̲
+                                    f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                         board[information[w + j] + field] := piece;
+
+                                    i̲f̲  piece number = piece count
+                                      t̲h̲e̲n̲  print solution
+                                    e̲l̲s̲e̲
+                                    b̲e̲g̲i̲n̲
+                                       f̲o̲r̲  k := column s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  board length d̲o̲
+                                            f̲o̲r̲  r := 0 s̲t̲e̲p̲  board length u̲n̲t̲i̲l̲  board area d̲o̲
+                                               i̲f̲  board[r + k] = 0 t̲h̲e̲n̲  g̲o̲t̲o̲  NEXT;
+                                       NEXT: up (r + k, k)
+                                    e̲n̲d̲;
+                                    f̲o̲r̲  j := 0, 1, 2, 3 d̲o̲
+                                         board[information[w + j] + field] := 0
+                                 e̲n̲d̲
+                              e̲n̲d̲
+                           e̲n̲d̲
+                        e̲n̲d̲
+                     e̲n̲d̲;
+                  unused[piece] := t̲r̲u̲e̲
+               e̲n̲d̲;
+            board[field] := 0;
+            DOWN:
+            piece number := piece number - 1
+         e̲n̲d̲  up;
+
+         position := 1;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+            b̲e̲g̲i̲n̲  j := read(reader); c̲o̲m̲m̲e̲n̲t̲  stone piece number, is not used;
+               index[i] := position; place[i] := read(reader);
+               f̲o̲r̲  j := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  place[i] d̲o̲
+                  b̲e̲g̲i̲n̲  f̲o̲r̲  k := 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  3 d̲o̲
+                          information[position + k] := read(reader);
+                     position := position + 4
+                  e̲n̲d̲
+            e̲n̲d̲;
+         f̲o̲r̲  i := - 39 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  0,
+           + 61 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  100 d̲o̲
+              board[i] := - 1;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  60 d̲o̲
+              board[i] := 0;
+         f̲o̲r̲  i := 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  piece count d̲o̲
+              unused[i] := t̲r̲u̲e̲;
+
+         solution count := piece number := 0;
+
+         up (1, 1);
+
+         END OF RUN:
+
+      e̲n̲d̲ ;
+
+      close(reader);
+      close(printer);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲    c̲o̲m̲m̲e̲n̲t̲   JAZ164, extract;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ num;
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/1.,
+           V0 = B22645050 30200000.,
+           V0., E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fmt;
+           c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/1.,
+           V0 = B00000777 04170140.,
+           V0., E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+
+         open(30);
+      write(30, fmt, num);
+      writetext(30, “\n”);
+      close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ********;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0,  A6; c̲o̲m̲m̲e̲n̲t̲ A1, A4, A5, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k; r̲e̲a̲l̲ x,y,z;
+      a̲r̲r̲a̲y̲ A[1:10];
+
+
+      open(20);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           A[i]:=read(20);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           output(30,A[i]);
+
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A6;   c̲o̲m̲m̲e̲n̲t̲ A0, A1, A4, A5, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k; r̲e̲a̲l̲ x,y,z;
+      a̲r̲r̲a̲y̲ A[1:10];
+
+      x := y ⭡10·0;
+      open(20);
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ b̲e̲g̲i̲n̲
+            x:=read(20);
+            output(30,x);
+         e̲n̲d̲;
+
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ @
+     data possibly
+     ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A1, A4, A5, A14, A15;
+      c̲o̲m̲m̲e̲n̲t̲ this is program 2;
+      r̲e̲a̲l̲ x;
+      open(20);  open(30);
+      f̲o̲r̲ x := read(20)  w̲h̲i̲l̲e̲  x = 0  d̲o̲
+         b̲e̲g̲i̲n̲
+            copytext(20, 30, “ab”);writetext(30,“ = ”);
+            output(30, x);
+         e̲n̲d̲;
+      close(30);
+      close(20);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ***********;
+   b̲e̲g̲i̲n̲    c̲o̲m̲m̲e̲n̲t̲   JAZ164, R743, Outer Planets -- only ASCII chars and newline;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A12, A15;
+
+      i̲n̲t̲e̲g̲e̲r̲  form1p12e;
+      i̲n̲t̲e̲g̲e̲r̲  form1p1e;
+      i̲n̲t̲e̲g̲e̲r̲  form7p1;
+      i̲n̲t̲e̲g̲e̲r̲  form2p9;
+
+      i̲n̲t̲e̲g̲e̲r̲  k,t; r̲e̲a̲l̲  a,k2,x; b̲o̲o̲l̲e̲a̲n̲      fi;
+      a̲r̲r̲a̲y̲  y,ya,z,za[1:15],m[0:5],e[1:60],d[1:33];
+
+      a̲r̲r̲a̲y̲    ownd[1:5,1:5],ownr[1:5];
+
+      r̲e̲a̲l̲  p̲r̲o̲c̲e̲d̲u̲r̲e̲  f(k); i̲n̲t̲e̲g̲e̲r̲  k;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  i,j,i3,j3; r̲e̲a̲l̲  p;
+         i̲f̲  k ≠ 1 t̲h̲e̲n̲  g̲o̲t̲o̲  A;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  4 d̲o̲
+            b̲e̲g̲i̲n̲  i3:= 3×i;
+               f̲o̲r̲  j:= i+1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+                  b̲e̲g̲i̲n̲  j3:= 3×j;
+                     p:= (y[i3-2] - y[j3-2]) ⭡ 2 + (y[i3-1] - y[j3-1]) ⭡ 2 +
+                       (y[i3] - y[j3]) ⭡ 2;
+                     ownd[i,j]:= ownd[j,i]:= 1/p/sqrt(p)
+                  e̲n̲d̲
+            e̲n̲d̲  ;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+            b̲e̲g̲i̲n̲  i3:= 3×i; ownd[i,i]:= 0;
+               p:= y[i3-2] ⭡ 2 + y[i3-1] ⭡ 2 + y[i3] ⭡ 2;
+               ownr[i]:= 1/p/sqrt(p)
+            e̲n̲d̲  ;
+         A: i:= (k - 1) ÷ 3 + 1;
+         f:= k2 × (- m[0] × y[k] × ownr[i] +
+           SUM(j,1,5,m[j]×((y[3×(j-i)+k]-y[k])×ownd[i,j]-y[3×(j-i)+k]×ownr[j])))
+      e̲n̲d̲  f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲  RK3n(x,a,b,y,ya,z,za,fxyj,j,e,d,fi,n);
+         v̲a̲l̲u̲e̲  b,fi,n; i̲n̲t̲e̲g̲e̲r̲  j,n; r̲e̲a̲l̲  x,a,b,fxyj;
+           b̲o̲o̲l̲e̲a̲n̲  fi; a̲r̲r̲a̲y̲  y,ya,z,za,e,d;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  jj;
+         r̲e̲a̲l̲  xl,h,hmin,int,hl,absh,fhm,discry,discrz,toly,tolz,mu,mu1,fhy,fhz;
+         b̲o̲o̲l̲e̲a̲n̲  last,first,reject;
+         a̲r̲r̲a̲y̲  yl,zl,k0,k1,k2,k3,k4,k5[1:n],ee[1:4×n];
+         i̲f̲  fi
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[3]:= a;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+               b̲e̲g̲i̲n̲  d[jj+3]:= ya[jj]; d[n+jj+3]:= za[jj] e̲n̲d̲
+         e̲n̲d̲  ;
+         d[1]:= 0; xl:= d[3];
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲  yl[jj]:= d[jj+3]; zl[jj]:= d[n+jj+3] e̲n̲d̲  ;
+         i̲f̲  fi t̲h̲e̲n̲  d[2]:= b - d[3];
+         absh:= h:= abs(d[2]);
+         i̲f̲  b - xl < 0 t̲h̲e̲n̲  h:= - h;
+         int:= abs(b - xl); hmin:= int × e[1] + e[2];
+         f̲o̲r̲  jj:= 2 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  2×n d̲o̲
+            b̲e̲g̲i̲n̲  hl:= int × e[2×jj-1] + e[2×jj];
+               i̲f̲  hl < hmin t̲h̲e̲n̲  hmin:= hl
+            e̲n̲d̲  ;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  4×n d̲o̲  ee[jj]:= e[jj]/int;
+         first:= reject:= t̲r̲u̲e̲  ;
+         i̲f̲  fi
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  last:= t̲r̲u̲e̲  ; g̲o̲t̲o̲  nstep e̲n̲d̲  ;
+         test: absh:= abs(h);
+         i̲f̲  absh < hmin
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  h:= i̲f̲  h > 0 t̲h̲e̲n̲  hmin e̲l̲s̲e̲  - hmin;
+            absh:= hmin
+         e̲n̲d̲  ;
+         i̲f̲  h  ≥  b - xl ≡ h  ≥  0
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[2]:= h; last:= t̲r̲u̲e̲  ;
+            h:= b - xl; absh:= abs(h)
+         e̲n̲d̲
+         e̲l̲s̲e̲  last:= f̲a̲l̲s̲e̲  ;
+         nstep: i̲f̲  reject
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  x:= xl;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 y[jj]:= yl[jj];
+            f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 k0[j]:= fxyj × h
+         e̲n̲d̲
+         e̲l̲s̲e̲  b̲e̲g̲i̲n̲  fhy:= h/hl;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+                 k0[jj]:= k5[jj] × fhy
+         e̲n̲d̲  ;
+         x:= xl + ·27639 32022 50021 × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·27639 32022 50021 +
+              k0[jj] × ·03819 66011 25011) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k1[j]:= fxyj × h;
+         x:= xl + ·72360 67977 49979 × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·72360 67977 49979 +
+              k1[jj] × ·26180 33988 74989) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k2[j]:= fxyj × h;
+         x:= xl + h × ·5;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] × ·5 +
+              k0[jj] × ·04687 5 +
+              k1[jj] × ·07982 41558 39840 -
+              k2[jj] × ·00169 91558 39840) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k4[j]:= fxyj × h;
+         x:= i̲f̲  last t̲h̲e̲n̲  b e̲l̲s̲e̲  xl + h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] +
+              k0[jj] × ·30901 69943 74947 +
+              k2[jj] × ·19098 30056 25053) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k3[j]:= fxyj × h;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              y[jj]:= yl[jj] + (zl[jj] +
+              k0[jj] × ·08333 33333 33333 +
+              k1[jj] × ·30150 28323 95825 +
+              k2[jj] × ·11516 38342 70842) × h;
+         f̲o̲r̲  j:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲  k5[j]:= fxyj × h;
+         reject:= f̲a̲l̲s̲e̲  ; fhm:= 0;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲
+               discry:= abs((- k0[jj] × ·5 + k1[jj] × 1·80901 69943 74947 +
+                 k2[jj] × ·69098 30056 25053 - k4[jj] × 2) × h);
+               discrz:= abs((k0[jj] - k3[jj]) × 2 - (k1[jj] + k2[jj]) × 10 +
+                 k4[jj] × 16 + k5[jj] × 4);
+               toly:= absh × (abs(zl[jj]) × ee[2×jj-1] + ee[2×jj]);
+               tolz:= abs(k0[jj]) × ee[2×(jj+n)-1] + absh × ee[2×(jj+n)];
+               reject:= discry > toly ∨ discrz > tolz ∨ reject;
+               fhy:= discry/toly; fhz:= discrz/tolz;
+               i̲f̲  fhz > fhy t̲h̲e̲n̲  fhy:= fhz;
+               i̲f̲  fhy > fhm t̲h̲e̲n̲  fhm:= fhy
+            e̲n̲d̲  ;
+         mu:= 1/(1 + fhm) + ·45;
+         i̲f̲  reject
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  i̲f̲  absh  ≤  hmin
+              t̲h̲e̲n̲  b̲e̲g̲i̲n̲  d[1]:= d[1] + 1;
+               f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n  d̲o̲
+                  b̲e̲g̲i̲n̲  y[jj]:= yl[jj];
+                     z[jj]:= zl[jj]
+                  e̲n̲d̲  ;
+               first:= t̲r̲u̲e̲  ; g̲o̲t̲o̲  next
+            e̲n̲d̲  ;
+            h:= mu × h; g̲o̲t̲o̲  test
+         e̲n̲d̲  rej;
+         i̲f̲  first
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  first:= f̲a̲l̲s̲e̲  ; hl:= h; h:= mu × h;
+            g̲o̲t̲o̲  acc
+         e̲n̲d̲  ;
+         fhy:= mu × h/hl + mu - mu1; hl:= h; h:= fhy × h;
+         acc: mu1:= mu;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+              z[jj]:= zl[jj] + (k0[jj] + k3[jj]) × ·08333 33333 33333 +
+              (k1[jj] + k2[jj]) × ·41666 66666 66667;
+         next: i̲f̲  b ≠ x
+           t̲h̲e̲n̲  b̲e̲g̲i̲n̲  xl:= x;
+            f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+               b̲e̲g̲i̲n̲  yl[jj]:= y[jj]; zl[jj]:= z[jj] e̲n̲d̲  ;
+            g̲o̲t̲o̲  test
+         e̲n̲d̲  ;
+         i̲f̲  ¬  last t̲h̲e̲n̲  d[2]:= h;
+         d[3]:= x;
+         f̲o̲r̲  jj:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  n d̲o̲
+            b̲e̲g̲i̲n̲  d[jj+3]:= y[jj]; d[n+jj+3]:= z[jj] e̲n̲d̲
+      e̲n̲d̲  RK3n;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲  TYP(x); a̲r̲r̲a̲y̲  x;
+      b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲  k;
+         newline(30, 1); writetext(30,“T = ”);c̲o̲m̲m̲e̲n̲t̲ABSFIXT;write(30,form7p1,t+a);newline(30,2);
+         f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+            b̲e̲g̲i̲n̲
+               i̲f̲  k=1 t̲h̲e̲n̲  writetext(30,“J   ”)e̲l̲s̲e̲
+               i̲f̲  k=2 t̲h̲e̲n̲  writetext(30,“S   ”)e̲l̲s̲e̲
+               i̲f̲  k=3 t̲h̲e̲n̲  writetext(30,“U   ”)e̲l̲s̲e̲
+               i̲f̲  k=4 t̲h̲e̲n̲  writetext(30,“N   ”)e̲l̲s̲e̲
+                 writetext(30,“P   ”);
+               write(30,form2p9,x[3×k-2]); write(30,form2p9,x[3×k-1]); write(30,form2p9,x[3×k]);
+               newline(30, 1)
+            e̲n̲d̲
+      e̲n̲d̲  TYP;
+
+      r̲e̲a̲l̲  p̲r̲o̲c̲e̲d̲u̲r̲e̲  SUM(i,a,b,xi);
+         v̲a̲l̲u̲e̲  b; i̲n̲t̲e̲g̲e̲r̲  i,a,b; r̲e̲a̲l̲  xi;
+      b̲e̲g̲i̲n̲  r̲e̲a̲l̲  s;
+         s:= 0;
+         f̲o̲r̲  i:= a s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  b d̲o̲  s:= s + xi;
+         SUM:= s
+      e̲n̲d̲  SUM;
+
+      form1p12e := format(“s+d.ddddddddddd@+nd”);
+      form1p1e  := format(“+d.d@+nd”);
+      form7p1   := format(“snnnnnnd.d”);
+      form2p9   := format(“+nd.ddddddddds”);
+      open(30);
+      open(20);
+
+      a:= read(20);
+      f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲        15 d̲o̲
+         b̲e̲g̲i̲n̲
+            ya[k]:= read(20);  za[k]:= read(20);
+         e̲n̲d̲  ;
+      f̲o̲r̲  k:= 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲        5 d̲o̲  m[k]:= read(20);
+      k2:= read(20); e[1]:= read(20);
+      f̲o̲r̲  k:= 2 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  60 d̲o̲  e[k]:= e[1];
+      writetext(30,“JAZ164, R743, Outer Planets”);newline(30,2);
+      f̲o̲r̲  k:= 1 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  15 d̲o̲
+         b̲e̲g̲i̲n̲  write(30,form1p12e,ya[k]); write(30,form1p12e,za[k]); newline(30, 1) e̲n̲d̲  ;
+      f̲o̲r̲  k:= 0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲  5 d̲o̲
+         b̲e̲g̲i̲n̲  newline(30, 1); write(30,form1p12e,m[k]) e̲n̲d̲  ;
+      newline(30, 2); write(30,form1p12e,k2);
+      newline(30, 2); writetext(30,“eps = ”);write(30,form1p1e,e[1]);newline(30,1);
+      t:= 0; TYP(ya); fi:= t̲r̲u̲e̲  ;
+      f̲o̲r̲  t:= 500,1000 d̲o̲
+         b̲e̲g̲i̲n̲  RK3n(x,0,t,y,ya,z,za,f(k),k,e,d,fi,15);
+            fi:= f̲a̲l̲s̲e̲  ; TYP(y)
+         e̲n̲d̲ ;
+
+      close(20);
+      close(30);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5,A12, A13, A14, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      writetext(30, “Hello World\n”);
+      open(20);
+      i := read(20);
+      write(30, format(“+ndddc”),i);
+      newline(30,1);
+      writetext(30, “
+        First line of output\nincomplete line”);
+      writetext(30, “
+        This should be a very long line.”);
+      writetext(30, “
+        This should be a very, very long line.”);
+      writetext(30, “
+        This should be a very, very, very long line.”);
+      writetext(30, “
+        This should be a very, very, very, very, very long line.\n”);
+      close(20);  close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5,A12, A13, A14, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      writetext(30, “Hello World\n̲”);
+      open(20);
+      i := read(20);
+      write(30, format(“+ndddc”),i);
+      copytext(20, 30, “;;”);
+      newline(30,1);
+      writetext(30, “
+        ;First line of output\nincomplete line
+        This should be a very long line.
+        This should be a very, very long line.
+        This should be a very, very, very long line.
+        This should be a very, very, very, very, very long line.\n”);
+      close(20);  close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+
+      c̲o̲m̲m̲e̲n̲t̲
+        eigenvalues of a real symmetric matrix by the QR method.
+        Algorithm 253, P.A. Businger, CACM 8 (1965) 217.
+        ;
+
+      i̲n̲t̲e̲g̲e̲r̲ n;
+
+      open(20);
+      open(30);
+
+      n := read(20);
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i,j;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[1:n,1:n], b[1:n,1:n];
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ symmetric QR1(n,g);
+            v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+              a̲r̲r̲a̲y̲ g;
+
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲
+              uses Householders' method and the QR algorithm to
+              find all n eigenvalues of the real symmetric matrix whose lower
+              triangular part is given in the array g[1:n,1:n].
+              The computed eigenvalues are stored as the diagonal elements g[i,i].
+              The original contents of the lower triangular part of g are lost
+              during the computation whereas the strictly upper triangular part
+              of g is left untouched.
+              ;
+
+            r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ sum(i,m,n,a);
+               v̲a̲l̲u̲e̲ m,n; i̲n̲t̲e̲g̲e̲r̲ i,m,n;
+                 r̲e̲a̲l̲ a;
+            b̲e̲g̲i̲n̲
+               r̲e̲a̲l̲ s;
+               s:= 0;
+               f̲o̲r̲ i:= m s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ s:= s + a;
+               sum:= s
+            e̲n̲d̲ sum;
+
+            r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ max (a,b);
+               v̲a̲l̲u̲e̲ a,b; r̲e̲a̲l̲ a,b;
+               max:= i̲f̲ a > b t̲h̲e̲n̲ a e̲l̲s̲e̲ b;
+
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ Housholder tridiagonalization 1(n,g,a,bq,norm);
+               v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+                 a̲r̲r̲a̲y̲ g,a,bq;
+                 r̲e̲a̲l̲ norm;
+                 c̲o̲m̲m̲e̲n̲t̲ nonlocal real procedure sum, max;
+                 c̲o̲m̲m̲e̲n̲t̲
+                 reduces the given real symmetric n by n matrix g to tridiagonal form using
+                 n - 2 elementary orthogonal trans-formations (I-2ww) = (I̲-g̲a̲m̲m̲a̲ u̲u̲).
+                 Only the lower triangular part of g need be given.
+                 The diagonal elements and the squares of the subdiagonal elements
+                 of the reduced matrix are stored in a[1:n] and bq[1:n-1] respectively.
+                 norm is set equal to the infinity norm of the reduced matrix.
+                 The columns of the strictly lower triagular part of g are replaced
+                 by the nonzero portions of the vectors u.
+                 ;
+
+            b̲e̲g̲i̲n̲
+               i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+               r̲e̲a̲l̲ t,absb,alpha,beta,gamma,sigma;
+               a̲r̲r̲a̲y̲ p[2:n];
+
+               norm:= absb:= 0;
+               f̲o̲r̲ k:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n - 2 d̲o̲
+                  b̲e̲g̲i̲n̲
+                     a[k]:= g[k,k];
+                     sigma:= bq[k]:= sum(i,k+1,n,g[i,k]⭡2);
+                     t:= absb + abs(a[k]); absb:= sqrt(sigma);
+                     norm:= max(norm,t+absb);
+                     i̲f̲ sigma ≠ 0 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲
+                        alpha:= g[k+1,k];
+                        beta:= i̲f̲ alpha < 0 t̲h̲e̲n̲ absb e̲l̲s̲e̲ - absb;
+                        gamma:= 1 / (sigma-alpha×beta); g[k+1,k]:= alpha - beta;
+                        f̲o̲r̲ i:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+                             p[i]:= gamma ×
+                             (sum(j,k+1,i,g[i,j]×g[j,k]) + sum(j,i+1,n,g[j,i]×g[j,k]));
+                        t:= 0·5 × gamma × sum(i,k+1,n,g[i,k]×p[i]);
+                        f̲o̲r̲ i:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+                             p[i]:= p[i] - t×g[i,k];
+                        f̲o̲r̲ i:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+                             f̲o̲r̲ j:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+                                g[i,j]:= g[i,j] - g[i,k]×p[j] - p[i]×g[j,k]
+                     e̲n̲d̲
+                  e̲n̲d̲ k;
+
+               a[n-1]:= g[n-1,n-1]; bq[n-1]:= g[n,n-1]⭡2;
+               a[n]:= g[n,n]; t:= abs(g[n,n-1]);
+               norm:= max(norm,absb+abs(a[n-1])+t);
+               norm:= max(norm,t+abs(a[n]))
+
+            e̲n̲d̲ Housholder tridiagonalization 1;
+
+            i̲n̲t̲e̲g̲e̲r̲ i,k,m,m1;
+            r̲e̲a̲l̲ norm,epsq,lambda,mu,sq1,sq2,u,pq,gamma,t;
+            a̲r̲r̲a̲y̲ a[1:n],bq[0:n-1];
+
+            Housholder tridiagonalization 1(n,g,a,bq,norm);
+
+            epsq:= 3·25@-24×norm⭡2;
+            c̲o̲m̲m̲e̲n̲t̲
+              The tolerance used in the QR iteration depends on the square of the
+              relative machine precision. Here 3.25@-24 is used, which is
+              appropriate for a machine with a 39-bit mantissa, like KDF9.
+              ;
+
+            mu:= 0; m:= n;
+
+            inspect:
+
+            i̲f̲ m = 0 t̲h̲e̲n̲
+              g̲o̲t̲o̲ return
+            e̲l̲s̲e̲
+              i:= k:= m1:= m - 1;
+
+            bq[0]:= 0;
+            i̲f̲ bq[k] ≤ epsq t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               g[m,m]:= a[m]; mu:= 0; m:= k;
+               g̲o̲t̲o̲ inspect
+            e̲n̲d̲ ;
+
+            f̲o̲r̲ i:= i - 1 w̲h̲i̲l̲e̲ bq[i] > epsq d̲o̲ k:= i;
+
+            i̲f̲ k = m1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ treat 2 × 2 block separately;
+               mu:= a[m1]×a[m] - bq[m1]; sq1:= a[m1] + a[m];
+               sq2:= sqrt((a[m1]-a[m])⭡2+4×bq[m1]);
+               lambda:= 0·5×(i̲f̲ sq1≥0 t̲h̲e̲n̲ sq1+sq2 e̲l̲s̲e̲ sq1-sq2);
+               g[m1,m1]:= lambda; g[m,m]:= mu / lambda;
+               mu:= 0; m:= m - 2;
+               g̲o̲t̲o̲ inspect
+            e̲n̲d̲ ;
+
+            lambda:=
+              i̲f̲ abs(a[m]-mu) < 0·5×abs(a[m]) t̲h̲e̲n̲ a[m] + 0·5×sqrt(bq[m1]) e̲l̲s̲e̲ 0·0;
+            mu:= a[m]; sq1:= sq2:= u:= 0;
+
+            f̲o̲r̲ i:= k s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m1 d̲o̲
+               b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ shortcut single QR iteration;
+                  gamma:= a[i] - lambda - u;
+                  pq:= i̲f̲ sq1 ≠ 1 t̲h̲e̲n̲ gamma⭡2/(1-sq1) e̲l̲s̲e̲ (1-sq2)×bq[i-1];
+                  t:= pq + bq[i]; bq[i-1]:= sq1 × t; sq2:= sq1;
+                  sq1:= bq[i] / t; u:= sq1 × (gamma+a[i+1]-lambda);
+                  a[i]:= gamma + u + lambda
+               e̲n̲d̲ i;
+
+            gamma:= a[m] - lambda - u;
+            bq[m1]:= sq1 × (i̲f̲ sq1≠1 t̲h̲e̲n̲ gamma⭡2/(1-sq1) e̲l̲s̲e̲ (1-sq2)×bq[m1]);
+            a[m]:= gamma + lambda;
+            g̲o̲t̲o̲ inspect;
+
+            return:
+
+         e̲n̲d̲ symmetric QR 1;
+
+         f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+              f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+                 b[i,j] := read(20);
+         f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+              f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+                 a[i,j] := b[i,j];
+
+         symmetric QR 1(n,a);
+
+         f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+            b̲e̲g̲i̲n̲
+               write(30, format(“nds”),i);write(30,format(“+d.ddddddddd@+ddc”),a[i,i])
+            e̲n̲d̲ ;
+         write(30, format(“+d.ddddddddd@+dd”),a[1,1]+a[2,2]);
+         writetext(30, “ should equal ”);
+         write(30, format(“+d.ddddddddd@+dd”),b[1,1]+b[n,n]);
+         writetext(30, “ and ”);
+         write(30, format(“+d.ddddddddd@+ddc”),a[n-1,n-1]+a[n,n]);
+      e̲n̲d̲ ;
+
+      close(20);
+      close(30);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5,A12, A13, A14, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      writetext(30, “Hello World\n”);
+      writetext(30, “More of Bill's Latin-1\n”);
+      writetext(30, “@ for subscript 10\n”);
+      writetext(30, “≤ for le\n”);
+      writetext(30, “≥ for ge\n”);
+      writetext(30, “× for multiplication\n”);
+      writetext(30, “≠ for #\n”);
+      writetext(30, “÷ for integer division\n”);
+      writetext(30, “This line ends with a star *.\n”);
+   e̲n̲d̲
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ T89;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+
+      r̲e̲a̲l̲
+        i,
+        j;
+      a̲r̲r̲a̲y̲
+        a[1 : 2, 1 : 3];
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ gps(i, n, z, v);
+         r̲e̲a̲l̲
+           i,
+           n,
+           z,
+           v;
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+              z := v;
+         gps := 1
+      e̲n̲d̲;
+
+      output(30, gps(j, 3·0, i, gps(i, 2·0, a[i, j], i + j)));
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+           f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+              i̲f̲ a[i, j] = i + j t̲h̲e̲n̲
+              output(30, 11 × i + j)
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1,A5,A15;
+
+      r̲e̲a̲l̲  w, x, y, epsilon, delta;
+
+      epsilon := (1·0 / (2·0  ⭡  39)) / 2·0;
+      delta := 1·0 / 1·01037 / 10·0;
+
+      writetext(30, “ delta = ”);output(30,delta);
+      writetext(30, “\n”);
+      writetext(30, “ epsilon = 1/2^40 = ”);output(30,epsilon);
+      writetext(30, “\n”);
+
+      x := 3·14159265359 / 4·0;
+      w := x - epsilon;
+      y := x + epsilon;
+
+      output(30, w); writetext(30, ““ss””);
+      output(30, sin(w)); writetext(30, ““ss””);
+      output(30, cos(w)); writetext(30, ““ss””);
+      output(30, sin(w)/cos(w)); writetext(30, ““ss””);
+      output(30, arctan(sin(w)/cos(w))); writetext(30, ““ss””);
+      output(30, (arctan(sin(w)/cos(w)) - w) / epsilon);
+      writetext(30, “\n”);
+
+      output(30, x); writetext(30, ““ss””);
+      output(30, sin(x)); writetext(30, ““ss””);
+      output(30, cos(x)); writetext(30, ““ss””);
+      output(30, sin(x)/cos(x)); writetext(30, ““ss””);
+      output(30, arctan(sin(x)/cos(x))); writetext(30, ““ss””);
+      output(30, (arctan(sin(x)/cos(x)) - x) / epsilon);
+      writetext(30, “\n”);
+
+      output(30, y); writetext(30, ““ss””);
+      output(30, sin(y)); writetext(30, ““ss””);
+      output(30, cos(y)); writetext(30, ““ss””);
+      output(30, sin(y)/cos(y)); writetext(30, ““ss””);
+      output(30, arctan(sin(y)/cos(y))); writetext(30, ““ss””);
+      output(30, (arctan(sin(y)/cos(y)) - y) / epsilon);
+      writetext(30, “\n”);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ********************************;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A4, A5, A15;
+      i̲n̲t̲e̲g̲e̲r̲ i, j;   c̲o̲m̲m̲e̲n̲t̲ program from Bill;
+      r̲e̲a̲l̲ x;
+
+      open(10);
+      writetext(10, “Hello World.\n”);
+
+      open(20);
+
+      L:   i := read(20);
+      write(10, format(“-ndddddddddds”),i);
+
+      x := read(20);
+      write(10, format(“-d.dddsdddsddd@+ndc”),x);
+
+      i̲f̲  i = 0
+        t̲h̲e̲n̲
+        writetext(10, “Farewell, Cruel World.\n”)
+      e̲l̲s̲e̲
+        g̲o̲t̲o̲ L;
+
+      close(20);   close(10);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A5, A4;
+      c̲o̲m̲m̲e̲n̲t̲ just output;
+      r̲e̲a̲l̲ res;
+      i̲n̲t̲e̲g̲e̲r̲ f;
+      f := format(“#d.ddd@+ddc”);
+
+      open(20); res := read(20); close(20);
+      write(30, f, res);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A5, A14;
+      c̲o̲m̲m̲e̲n̲t̲ just output;
+      r̲e̲a̲l̲ res;
+      i̲n̲t̲e̲g̲e̲r̲ f;
+      f := format(“d.ddd@+ddc”);
+
+      res := 12·345;
+      write(30, f, res);
+      open(20); copytext(20, 30, “;;”);close(20);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ T55;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A5, A4;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲
+        eq[1 : 9];
+      i̲n̲t̲e̲g̲e̲r̲
+        i;
+      r̲e̲a̲l̲
+        x,
+        y;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ print eq;
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+              output(30, eq[i]);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ test(a, b, c);
+         v̲a̲l̲u̲e̲
+           a,
+           b,
+           c;
+         r̲e̲a̲l̲
+           a,
+           b,
+           c;
+      b̲e̲g̲i̲n̲
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ inc(a, b, i);
+            v̲a̲l̲u̲e̲
+              a,
+              b,
+              i;
+            r̲e̲a̲l̲
+              a,
+              b;
+              i̲n̲t̲e̲g̲e̲r̲
+              i;
+            i̲f̲ a < b t̲h̲e̲n̲
+              eq[i] := eq[i] + 1
+              e̲l̲s̲e̲ i̲f̲ a = b t̲h̲e̲n̲
+              eq[i + 1] := eq[i + 1] + 1
+            e̲l̲s̲e̲
+              eq[i + 2] := eq[i + 2] + 1;
+
+         inc(a, b, 1);
+         inc(b, c, 4);
+         inc(c, a, 7)
+      e̲n̲d̲;
+
+      open(20);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+           eq[i] := 0;
+      i := 1;
+      f̲o̲r̲ x :=
+        0·01,    0·02,    0·03,    0·04,    0·05,
+        0·06,    0·07,    0·08,    0·09,    0·10,
+        0·11,    0·12,    0·13,    0·14,    0·15,
+        0·16,    0·17,    0·18,    0·19,    0·20,
+        0·21,    0·22,    0·23,    0·24,    0·25,
+        0·26,    0·27,    0·28,    0·29,    0·30,
+        0·31,    0·32,    0·33,    0·34,    0·35,
+        0·36,    0·37,    0·38,    0·39,    0·40,
+        0·41,    0·42,    0·43,    0·44,    0·45,
+        0·46,    0·47,    0·48,    0·49,    0·50,
+        0·51,    0·52,    0·53,    0·54,    0·55,
+        0·56,    0·57,    0·58,    0·59,    0·60,
+        0·61,    0·62,    0·63,    0·64,    0·65,
+        0·66,    0·67,    0·68,    0·69,    0·70,
+        0·71,    0·72,    0·73,    0·74,    0·75,
+        0·76,    0·77,    0·78,    0·79,    0·80,
+        0·81,    0·82,    0·83,    0·84,    0·85,
+        0·86,    0·87,    0·88,    0·89,    0·90,
+        0·91,    0·92,    0·93,    0·94,    0·95,
+        0·96,    0·97,    0·98,    0·99,    1·00
+        d̲o̲
+         b̲e̲g̲i̲n̲
+            y := read(20);
+            test(x, y, i / 100);
+            i := i + 1
+         e̲n̲d̲;
+      printeq;
+      i := 1;
+      f̲o̲r̲ x :=
+        100·01,  100·02,  100·03,  100·04,  100·05,
+        100·06,  100·07,  100·08,  100·09,  100·10,
+        100·11,  100·12,  100·13,  100·14,  100·15,
+        100·16,  100·17,  100·18,  100·19,  100·20,
+        100·21,  100·22,  100·23,  100·24,  100·25,
+        100·26,  100·27,  100·28,  100·29,  100·30,
+        100·31,  100·32,  100·33,  100·34,  100·35,
+        100·36,  100·37,  100·38,  100·39,  100·40,
+        100·41,  100·42,  100·43,  100·44,  100·45,
+        100·46,  100·47,  100·48,  100·49,  100·50,
+        100·51,  100·52,  100·53,  100·54,  100·55,
+        100·56,  100·57,  100·58,  100·59,  100·60,
+        100·61,  100·62,  100·63,  100·64,  100·65,
+        100·66,  100·67,  100·68,  100·69,  100·70,
+        100·71,  100·72,  100·73,  100·74,  100·75,
+        100·76,  100·77,  100·78,  100·79,  100·80,
+        100·81,  100·82,  100·83,  100·84,  100·85,
+        100·86,  100·87,  100·88,  100·89,  100·90,
+        100·91,  100·92,  100·93,  100·94,  100·95,
+        100·96,  100·97,  100·98,  100·99,  101·00
+        d̲o̲
+         b̲e̲g̲i̲n̲
+            y := read(20);
+            test(x, y, 100 + i / 100);
+            i := i + 1
+         e̲n̲d̲;
+      printeq;
+      i := 1;
+      f̲o̲r̲ x :=
+        10000·01,10000·02,10000·03,10000·04,10000·05,
+        10000·06,10000·07,10000·08,10000·09,10000·10,
+        10000·11,10000·12,10000·13,10000·14,10000·15,
+        10000·16,10000·17,10000·18,10000·19,10000·20,
+        10000·21,10000·22,10000·23,10000·24,10000·25,
+        10000·26,10000·27,10000·28,10000·29,10000·30,
+        10000·31,10000·32,10000·33,10000·34,10000·35,
+        10000·36,10000·37,10000·38,10000·39,10000·40,
+        10000·41,10000·42,10000·43,10000·44,10000·45,
+        10000·46,10000·47,10000·48,10000·49,10000·50,
+        10000·51,10000·52,10000·53,10000·54,10000·55,
+        10000·56,10000·57,10000·58,10000·59,10000·60,
+        10000·61,10000·62,10000·63,10000·64,10000·65,
+        10000·66,10000·67,10000·68,10000·69,10000·70,
+        10000·71,10000·72,10000·73,10000·74,10000·75,
+        10000·76,10000·77,10000·78,10000·79,10000·80,
+        10000·81,10000·82,10000·83,10000·84,10000·85,
+        10000·86,10000·87,10000·88,10000·89,10000·90,
+        10000·91,10000·92,10000·93,10000·94,10000·95,
+        10000·96,10000·97,10000·98,10000·99,10001·00
+        d̲o̲
+         b̲e̲g̲i̲n̲
+            y := read(20);
+            test(x, y, 10000 + i / 100);
+            i := i + 1
+         e̲n̲d̲;
+      printeq;
+      i := 2;
+      f̲o̲r̲ x :=
+        0·33333333333333333333,
+        0·12500000000000000000,
+        0·06666666666666666667,
+        0·04166666666666666667,
+        0·02857142857142857143,
+        0·02083333333333333333,
+        0·01587301587301587302,
+        0·01250000000000000000,
+        0·01010101010101010101,
+        0·00833333333333333333,
+        0·00699300699300699301,
+        0·00595238095238095238,
+        0·00512820512820512821,
+        0·00446428571428571429,
+        0·00392156862745098039,
+        0·00347222222222222222,
+        0·00309597523219814241,
+        0·00277777777777777778,
+        0·00250626566416040100,
+        0·00227272727272727273,
+        0·00207039337474120083,
+        0·00189393939393939394,
+        0·00173913043478260870,
+        0·00160256410256410256,
+        0·00148148148148148148,
+        0·00137362637362637363,
+        0·00127713920817369093,
+        0·00119047619047619048,
+        0·00111234705228031146,
+        0·00104166666666666667,
+        0·00097751710654936461,
+        0·00091911764705882353,
+        0·00086580086580086580,
+        0·00081699346405228758,
+        0·00077220077220077220,
+        0·00073099415204678363,
+        0·00069300069300069300,
+        0·00065789473684210526,
+        0·00062539086929330832,
+        0·00059523809523809524,
+        0·00056721497447532615,
+        0·00054112554112554113,
+        0·00051679586563307494,
+        0·00049407114624505929,
+        0·00047281323877068558,
+        0·00045289855072463768,
+        0·00043421623968736431,
+        0·00041666666666666667,
+        0·00040016006402561024,
+        0·00038461538461538462,
+        0·00036995930447650758,
+        0·00035612535612535613,
+        0·00034305317324185249,
+        0·00033068783068783069,
+        0·00031897926634768740,
+        0·00030788177339901478,
+        0·00029735355337496283,
+        0·00028735632183908046,
+        0·00027785495971103084,
+        0·00026881720430107527,
+        0·00026021337496747333,
+        0·00025201612903225806,
+        0·00024420024420024420,
+        0·00023674242424242424,
+        0·00022962112514351320,
+        0·00022281639928698752,
+        0·00021630975556997621,
+        0·00021008403361344538,
+        0·00020412329046744234,
+        0·00019841269841269841,
+        0·00019293845263360988,
+        0·00018768768768768769,
+        0·00018264840182648402,
+        0·00017780938833570413,
+        0·00017316017316017316,
+        0·00016869095816464238,
+        0·00016439256945586060,
+        0·00016025641025641026,
+        0·00015627441787779341,
+        0·00015243902439024390,
+        0·00014874312063067083,
+        0·00014518002322880372,
+        0·00014174344436569809,
+        0·00013842746400885936,
+        0·00013522650439486139,
+        0·00013213530655391121,
+        0·00012914890869172155,
+        0·00012626262626262626,
+        0·00012347203358439313,
+        0·00012077294685990338,
+        0·00011816140848398913,
+        0·00011563367252543941,
+        0·00011318619128466327,
+        0·00011081560283687943,
+        0·00010851871947911015,
+        0·00010629251700680272,
+        0·00010413412475268145,
+        0·00010204081632653061,
+        0·00010001000100010001
+        d̲o̲
+         b̲e̲g̲i̲n̲
+            y := read(20);
+            test(x, y, 1 / ( i × i - 1 ) );
+            i := i + 1
+         e̲n̲d̲;
+      printeq;
+      close(20);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A1, A5, A15;
+      c̲o̲m̲m̲e̲n̲t̲ DavidHu/manorboy - modified to do Hello World first;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k, x1, x2,x3,x4,x5;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲
+            k := k - 1 ;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ res;
+
+      writetext(30, “Hello World\n\n”);
+
+      writetext(30, “Here goes with Man or Boy\n”);
+      res := A(10, 1, -1,  -1, 1, 0);
+      output(30, res);
+      res := res × res;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ T75;
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0;
+
+      c̲o̲m̲m̲e̲n̲t̲ A15;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ writetext(dv, s);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;  s̲t̲r̲i̲n̲g̲ s;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “s”.,“dv”.,JSP288.,e̲x̲i̲t̲.,
+
+           P288.,       ( write text ).,
+           ERASE.,        (+ ignore device number for new ).,
+           2.,    SETB30., =Y0M2.,  (+ always output on stream 30 for now ).,
+           SETAY0., M2., +., DUP., PERM., NOT., NEG.,
+           JSP700.,
+           =I15.,
+           C0TOQ15., Q15., SET8., OUT., EXIT1.,
+
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ A1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ open(dv);  v̲a̲l̲u̲e̲ dv;  i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 2/0/0/0.,
+           “dv”.,JSP293.,E̲X̲I̲T̲.,
+
+           P293V40., ( Open ).,
+           V0 = Q 0/AV1/AV40.,
+           SET20., NEV., J1=Z., EXIT1.,   (+ interim version only devs 20 and 30 allowed ).,
+           1., V0., =Q15., SET2., SET5., OUT., =C15.,   (+ Max amount of data is 320 chars ).,
+           PREQ15., PARQ15., C15., SET6., OUT.,
+           I15., =RM15., M-I15., Q15., =V0P295.,
+           EXIT1.,
+
+           P295V2., ( General Character and Basic Symbol Handling ).,
+           4.,          (+ initialise basic symbol fetch ).,
+           ERASE., EXIT1.,       (+ assume dv = 20 ).,
+           6.,  ZERO., SET6., SET5., J109P299., (+ fetch basic symbol ).,
+           8.,  ZERO., SET8., SET5., J109P299., (+ freeze basic symbol fetch ).,
+           10., SET10., SET5., J109P299., (+ retain basic symbol ).,
+
+           3.,          (+ initialise character fetch ).,
+           ERASE.,  (+ assume dv = 20 ).,
+           V0., DUP., JP299=Z.,
+           =Q15., EXIT1.,
+
+           5.,  J52C15NZ., (+ fetch character ).,
+           M+I15., SET-48., =C15.,
+           52., SET6., =+C15., M0M15., SHLC15., SETB77., AND.,
+           EXIT1.,
+
+           7.,          (+ freeze character fetch ).,
+           Q15., =V0., EXIT1.,
+
+           (+++ previous
+           12., SET12., SET5., J108P299., (+ initialise basic symbol output ).,
+           14., ZERO., SET14., SET5., J108P299., (+ output basic symbol ).,
+           16., SET16., SET5., J108P299., (+ freeze basic symbol output ).,
+           18., SET18., SET5., J108P299., (+ output editing symbol ).,
+           +++).,
+
+           12., ERASE.,                 (+ initialise basic symbol output - ignore device number ).,
+           SETB177615., =V1.,       (+ opening string quote ).,
+           M2TOQ8.,                (+ keep stack pointer ).,
+           EXIT1.,
+
+           V2 = Q B256/B120240/0., (+ space, tab, page?? newline?? ).,
+           18., SHL+8., =C8.,            (+ output editing symbol ).,
+           V2., SHLC8., SHL-40.,     (+ drop through to output basic symbol ).,
+
+           14., V1., DUP.,               (+ output basic symbol ).,
+           NOT., SHL-40., J141=Z.,   (+ J if word not full ).,
+           =Y0M2Q., ZERO., NOT.,
+           141.,SHL+8., OR., =V1.,
+           C0TOQ8.,                (+ mystery use of J116C8Z in P291 ).,
+           EXIT1.,
+
+           16., SETB235., JS14.,         (+ freeze basic symbol output ).,
+           V1., NOT., ZERO.,
+           161.,ERASE., ZERO., SHLD+8.,
+           DUP., J161=Z.,           (+ remove dummies at start of word ).,
+           SHLD-8., ERASE., NOT.,
+           =Y0M2Q.,                (+ partial word to buffer ).,
+           M8., SETAY0., +.,         (+ closing string quote to use writetext ).,
+           JS2P288.,
+           M8TOQ2.,                (+ put the stack pointer back ).,
+           EXIT1.,
+
+           (+ stolen from KQX ).,
+           20.,     ERASE.,
+           1.,      (Fetch BS from string address in M14).,
+           J189C13NZ.,
+           M0M14Q., =V8., SET6., =C13.,
+           189.,    V8., ZERO., SHLD+8., REV., =V8.,
+           DC13., SETB236., J20=.,
+           SETB240., J20=.,
+           SETB256., J20=.,
+           EXIT1.,
+
+           (+ unimplemented ).,
+           9.,  SET9., SET5., J108P299., (+ retain character ).,
+           11., SET11., SET5., J108P299., (+ initialise character output ).,
+           13., SET13., SET5., J108P299., (+ output character ).,
+           15., ZERO., SET15., SET5., J108P299., (+ freeze character output ).,
+           116.,SET116., SET5., J108P299., (+ output characters with automatic case management ).,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ close(dv);  v̲a̲l̲u̲e̲ dv;  i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 2/0/0/0.,
+           “dv”., JSP292., E̲X̲I̲T̲.,   (+ P292 is missing from KQX9101, so it is in runtime2.txt ).,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ A4;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ read(dv);  v̲a̲l̲u̲e̲ dv;  i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “dv”.,JSP294.,E̲X̲I̲T̲.,
+
+           P294V1., ( Read Number ).,
+           V1=F0.1.,
+           JS3P295.,    (+ initialise character fetch ).,
+           SETB2014., =V0., ZERO.,
+           1., ERASE., JS5P295., SETB35., J2=., SETB36., J3=., SETB37., J4=.,
+           SETB20., -., DUP., J1<Z.,     (+ skip space etc ).,
+           DUP., SET10., -., J1≥Z.,     (+ skip non-digits ).,
+           ZERO.,
+           5., ERASE.,
+           51., JS5P295., SETB20., -., DUP., J5<Z.,  (+ skip spaces etc ).,
+           DUP., SET10., -., J6≥Z.,     (+ non-digits terminate ).,
+           REV., SET10., ×D., CONT., +., J51.,
+
+           3., SETB6000., = V0.,
+           2., ERASE., ZERO., J51.,
+
+           6., SETB17., NEV., J7=Z.,        (+ decimal point ).,
+           SET47., FLOAT.,
+           8., V0., SHC-12., ×F.,       .,   (+ incorporate sign ).,
+           J7P295.,                   (+ freeze character fetch and exit ).,
+
+           4., ERASE., ZERO.,              (+ starts with decimal point ).,
+           7., SET47., FLOAT.,
+           SETB2014., SHC-12., ZERO., ZERO.,   (+ N1/2 rubbish,  N3 multiplier of previous digit, N4 accumulated number ).,
+           9., ERASE., ERASE.,
+           10., V1., ×F., DUP., PERM., JS5P295.,
+           SETB20., -., DUP., J9<Z.,     (+ skip space etc ).,
+           DUP., SET10., -., J11≥Z.,    (+ terminator ).,
+           SET47., FLOAT., ×F., +F.,
+           REV., J10.,
+           11., ERASE., ERASE., REV., ERASE., J8.,
+
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ read boolean(dv);  v̲a̲l̲u̲e̲ dv;  i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “dv”.,SET4.,SET99.,JP299.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ A5 -- Genuine library A5;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ write(device,form,value); v̲a̲l̲u̲e̲ device,form,value;
+         r̲e̲a̲l̲ value; i̲n̲t̲e̲g̲e̲r̲ device,form;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “value”.,“form”.,“device”.,JSP291.,E̲X̲I̲T̲.,
+
+           P291V28.,      (PROCEDURE WRITE).,
+           V1=B1212121212121212.,
+           V2=B2020202020202020.,
+           V3=B2030446722743250., (1.024 TO 1I.P.).,
+           V4=B175/8., (1000/1024 TO 1I.P.).,
+           V5=B1463 1463 1463 1463., (.8 TO 1I.P.).,
+           V6=B2400 0000 0000 0000., (10/8 TO 1I.P.).,
+           V7=Q0/3/3., (INITIAL SPACES/SIGN/EXP SIGN).,
+           V8=B0013573716200001., (FORMAT/DS/ZS/DPM/APM/.,/C/NDP).,
+           V9=B0314631463146315., (.1).,
+           V10=B0024365605075341., (.01).,
+           V11=B0000150667056544., (.0001).,
+           V12=B0000000005274617., (.00000001).,
+           V13=B12., (10).,
+           V14=B144., (100).,
+
+           V15=B23420., (10000).,
+           V16=B575360400., (100000000).,
+           V20=Q12/11/1., (S/F/E).,
+           V25=B0000 0003 7777 7775.,
+           V26=B0000 0001 7777 7777.,
+           101.,  PERM.,
+           102.,  =V21.,
+           103.,  =V22., JS12P295., ZERO., =V28.,
+           V21., ZERO., SHLD+24.,
+           REV., ZERO., SHLD+4., =C10., ZERO.,
+           SHLD+2., =I10., ZERO., SHLD+5., NEG.,
+           =C7., ZERO., SHLD+4., =C11., ZERO.,
+           SHLD+2., =M10., ZERO., SHLD+4., =M7.,
+           SHC+3., =I7., DUP., ZERO., REV.,
+           SHLDC7., BITS., NEG., NOT., =I11.,
+           BITS., =M11., V22.,
+           I13=+1., DUP., J5≥Z.,
+           NEGF., I13=-1., I10., J5=Z̲.,
+           SET135., JS100.,
+           1.,    JS80.,
+           70.,   M7., SHC-2., J95<Z.,
+           I7., ZERO., =V27., J4=Z̲.,
+           C10., I10., J2=Z.,
+           NOT., NEG.,
+           2.,    M10., J3=Z.,
+           SET4., +.,
+           3.,    M7., SHC-1., SHL-47., +.,
+           M7., SETB4., AND., SHL-2., +.,
+           CAB., DUP., SHL+23., SET23., FLOAT.,
+           FIX., REV., ERASE., CAB.,
+           +., V31P295., SHL-24., C9., -., +.,
+           =V27., REV.,
+           4.,    I7., NOT., =C13., V31P295., SHL-24., C9.,
+           -., J167=Z.,
+           SET2., JS18P295.,
+           167.,  V20., =Q11., V7., =Q10., REV.,
+           ERASE., V8., ZERO., SHLD+24., PERM.,
+           ZERO., SHLD+5., =M7., ZERO., SHLD+3.,
+           =I7., SHL-32., =C7., SET11., =M13.,
+           J7.,
+           5.,    NC7., JS80.,
+           C11., NEG., NOT., =M13., M10.,
+           J7=Z̲.,
+           M14., M11., -., J69≥Z.,
+           117.,  M14., I11., +., DUP., =M15.,
+           M13., REV., -., J7<Z.,
+           M15TOQ13., M13., J7≥Z.,
+           M13., NOT., J6=Z̲.,
+           SET5., SHA+43., M13., NOT., NEG., =M13., ZERO.,
+           NOT., =TR., J10.,
+           6.,    ERASE., ZERO., J12.,
+           7.,    SET4., =RC15., ZERO., NOT., NEG.,
+           SHC-2., M13.,
+           8.,    SHC-1., DUP., J9≥Z.,
+           REV., V9M15., x., REV.,
+           9.,    M+I15., DC15., J8C15NZ.,
+           ERASE., SHA-4.,
+           10.,   +.,
+           11.,   DUP., SHL-43., SET10., -., J113LTZ.,
+           STR., SET10., %D., M+I14., M10.,
+           J12NEZ.,
+           M13., NOT., NEG., C11., NEV.,
+           J110=Z.,
+           J110TR.,
+           SET1., =+M13.,
+           110.,  M14., M11., -., J71GEZ.,
+           12.,   ZERO., DUP., =TR., NOT., NEG., M13.,
+           SET4., =RC15.,
+           13.,   SHC-1., DUP., J14GEZ.,
+           REV., V13M15., xD., CONT., REV.,
+           14.,   M+I15., DC15., J13C15NZ.,
+           ERASE., xD., SHAD+4., REV., ERASE.,
+           DUP., =V0., JS90.,
+           =V23., =V24., I10., NEG., NOT.,
+           SHL-1., J15NEZ.,
+           SETB20., M7., OR., =M7.,
+           15.,   I11., M11., +., C11., -.,
+           ZERO., =RM15., I11., NOT., NEG.,
+           NOT., NEG., =M13., J18LEZ.,
+           M14., C11., -., NOT., NEG.,
+           DUP., J32LTZ.,
+           I11., +.,
+           72.,   =C15.,
+           18.,   SET8., =RC11., M+I11., SET24., =C13.,
+           SHL+24.,
+           $16.,  DUP., J17LTZ.,
+           SHL+1., DC13., J16C13NZS.,
+           ERASE., SET136., J74.,
+           113.,  J12NTR.,
+           J6.,
+           32.,   I11., +., DUP., J72≥Z.,
+           ERASE., ZERO., J72.,
+           17.,   DC13., SHL+1., J73C13Z.,
+           C0TOQ14., SET8., =RC12.,
+           19.,   DUP., J21<Z.,
+           98.,   SETB76., SHC-6., J26.,
+           22.,   SETB77., SHC-6.,
+           26.,   V17M12., SHLD+6., DC12., =V17M12., ERASE.,
+           J24C12NZ.,
+           M+I12., SET8., =C12.,
+           24.,   DC14.,
+           29.,   DC13., SHL+1., J19C13NZ.,
+           20.,   M11., J28=Z.,
+           V23M11., M-I11., NOT., J20=Z.,
+           ERASE., SET137., J74.,
+           21.,   M13., J107=Z.,
+           M13., NEG., NOT., =M13.,
+           107.,  J31C15Z.,
+           DC15., M13., SET2., -., J98≥Z.,
+           ZERO., J26.,
+           31.,   ZERO., V23M11., DC11., SHAD-6., =V23M11.,
+           J25C11NZ.,
+           M-I11., SET8., =C11.,
+           25.,   SHL+1., M7., SETB10., AND., J27=Z̲.,
+           SETB77., SHL+42., J26=.,
+           ERASE., ZERO., J26.,
+           27.,   SETB77., SHL+42., J30=.,
+           M13., J96=Z.,
+           ERASE., ZERO., J26.,
+           96.,   ERASE., M7., SHL-4., J98=Z.,
+           M+I15., J29.,
+           30.,   M7., SHL-4., J26=Z.,
+           M15., J26=Z.,
+           ERASE., ERASE., SET138., J74.,
+           28.,   ERASE., M15., DUP., =+C10., NEG.,
+           =+C7., I10., J35=Z.,
+           I13., J34<Z.,
+           I10., SHC-1., J33<Z.,
+           SETB236., J36.,
+           33.,   SETB301., J36.,
+           34.,   SETB321., J36.,
+           35.,   ZERO., NOT.,
+           36.,   =I10., NC14., C14., C7., -., M7.,
+           SHC-3., J67≥Z.,
+           SETB13., =M13., J77LEZ.,
+           68.,   M10., J75=Z.,
+           V0., J64=Z.,
+           C0TOQ13., M14., DUP., J37≥Z.,
+           NEG., DC13.,
+           37.,   JS90.,
+           NOT., J78=Z̲.,
+           ZERO., REV., SHAD-12., NOT., J79=Z̲.,
+           ZERO., SHLD+7., JS40.,
+           SETB12., JS14P295.,
+           SETB77., J51=.,
+           C13., J38<Z.,
+           M10., NEG., NOT., NEG., NOT., J50=Z̲.,
+           ZERO., JS18P295.,
+           J39.,
+           38.,   SETB321., JS14P295.,
+           J39.,
+           50.,   SETB301., JS14P295.,
+           J39.,
+           51.,   M10., SET3., J52=.,
+           ZERO., JS18P295.,
+           C13., J55<Z.,
+           NEG., NOT., J56=Z.,
+           53.,   ERASE., ZERO., JS18P295.,
+           J58.,
+           52.,   ERASE., C13., J54<Z.,
+           SETB301., JS14P295.,
+           J53.,
+           54.,   SETB321., JS14P295.,
+           J53.,
+           55.,   ERASE., ERASE., SETB321., J39.,
+           56.,   ERASE., SETB301.,
+           39.,   JS14P295.,
+           58.,   SHC+6., JS14P295.,
+           66.,   M7., SHC-1., J57≥Z.,
+           SETB230., JS14P295.,
+           57.,   I7., SHL-2., J63=Z̲.,
+           I7., =C7., J60C7Z.,
+           59.,   SET2., JS18P295.,
+           DC7., J59C7NZ.,
+           60.,   M7., SHC-2., J62≥Z.,
+           V27., DUP., =C14., J62<Z.,
+           J62C14Z.,
+           61.,   DC14., ZERO., JS18P295.,
+           J61C14NZ.,
+           62.,   JS16P295.,
+           V28., J111=Z.,
+           V28., MRWDQ0.,
+           111.,  EXIT 1.,
+           63.,   SET3., JS18P295.,
+           J60.,
+           64.,   JS40.,
+           SET4., =C14.,
+           65.,   ZERO., JS18P295.,
+           DC14., J65C14NZ.,
+           J66.,
+           67.,   M0TOQ13., J68=Z.,
+           SET139., J74.,
+           69.,   DUP., J116=Z., SET140., JS100.,
+           J70.,
+           116.,  ZERO., NOT., =M14., J117.,
+           71.,   ERASE., ZERO., =TR., SET141., JS100.,
+           V22., J1.,
+           73.,   ERASE., SET142.,
+           74.,   JS100.,
+           V21., SHL-24., V22., J1.,
+           75.,   JS40., J66.,
+           77.,   SET143., J74.,
+           78.,   ERASE., SET144., J74.,
+           79.,   ERASE., SET145., J74.,
+           95.,   SET146., JP299.,
+           40.,   J42C10Z.,
+           41.,   DC10., ZERO., JS18P295.,
+           J41C10NZ.,
+           42.,   M7., SHC-2., J43≥Z.,
+           SETB216., JS14P295.,
+           43.,   I10., J44<Z.,
+           I10., JS14P295.,
+           44.,   SET8., C12., -., =C12.,
+           M13., J88=Z.,
+           J112C7Z.,
+           46.,   J45C12NZ.,
+           M-I12., SET8., =C12.,
+           45.,    ZERO., V17M12., SHLD-6., =V17M12., SHC+6.,
+           M13., J93=Z.,
+           C7., NEG., NOT., J93=Z.,
+           SETB77., J47=.,
+           94.,   SETB76., J47=.,
+           97.,   JS14P295.,
+           48.,   DC14., DC12., DC7., J46C7NZ.,
+           M13., J49=Z.,
+           112.,  M13., JS14P295.,
+           M0TOQ13., C14TOQ7., J46.,
+           47.,   ERASE., ZERO., JS18P295.,
+           J48.,
+           93.,   SETB77., J94=.,
+           ERASE., ZERO., J97.,
+           49.,   EXIT1.,
+           88.,   J89C12NZ.,
+           M-I12., SET8., =C12.,
+           89.,   ZERO., V17M12., SHLD-6., =V17M12., SHC+6.,
+           SETB76., J99=.,
+           SETB77., J104=.,
+           105.,  JS14P295.,
+
+           106.,  DC14., DC12., DC7., J88C7NZ.,
+           EXIT1.,
+           99.,   ERASE., ZERO., JS18P295., J106.,
+           104.,  ERASE., ZERO., J105.,
+           80.,   DUP., =TR., ABSF., FIX., DUP.,
+           SHL-47., =M14., ABS., =C14., SETAV25.,
+           =RM15., SHA-1., DUP., J109=Z.,
+           SET-10.,
+           81.,   =I14., M15M14H., SHA-24., =I15.,
+           82.,   C14., I14., DUP., PERM., +.,
+           J83<Z.,
+           =+C14., I15., =+C15., V3M14., XD.,
+           SHAD+1., ROUND., J82.,
+           83.,   SHA-3., J84=Z.,
+           SET2., =+M14., SET-3., J81.,
+           84.,   M14., SHC-1., J85<Z.,
+           NC14.,
+           85.,   DC14., NC14., STR., SHADC14., J87.,
+           86.,   ERASE., SET10., XD., DC15.,
+           87.,   DUP., J86=Z.,
+           SHAD-4., ERASE.,
+           109.,  C15., =M14., I14=+1., J108NTR.,
+           108.,  EXIT1.,
+           90.,    DUP., J76=Z̲.,
+           NOT., DUP., SHL+6., J92.,
+           76.,   V16., NEG., DUPD., +., J91<Z.,
+           NEG., /I., V1., REV., FRB.,
+           91.,   REV., V1., REV., FRB., V2.,
+           DUPD., REV., -., AND., V2.,
+           NEV., ZERO., FLOAT., FIX., NOT.,
+           NEG., =C15., ERASE., ZERO., NOT.,
+           STR., NEV., SHAC15., OR., REV.,
+           DUP., J92≥Z.,
+           SHA-27., REV.,
+           92.,   REV., EXIT1.,
+           100.,  =V28., EXIT1.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ format(lay out);
+         s̲t̲r̲i̲n̲g̲ lay out;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/6.,
+           (FORMAT).,
+           V2=B0013573703034671.,
+           V5=B4321221604215035.,
+           V6=B4720000000000000.,
+           “layout”.,
+           DUP., =V1., =RM14., SET2., SHC-8.,
+           =V0., Q0TOQ15., SET24., DUP., =C12.,
+           SHA-1., =C11., Q0TOQ13., IM0TOQ12., IM0TOQ11.,
+           Q12TOQ10., Q0TOQ9., ZERO., JS27.,
+           SETB215., J32#.,
+           ERASE., J2.,
+           1.,      REV., DUP., SHA+2., +., SHA+1.,
+           +.,
+           2.,      JS27.,
+           DUP., SET10., -., J1<Z.,
+           SETB70., (s)., J26#.,
+           ERASE., DUP., SHL-4., J33#Z.,
+           DUP., J23=Z.,
+           =V3., DC15.,
+           3.,      ZERO., DUP., NOT., NEG.,
+           4.,      JS27.,
+           J22C15Z.,
+           SETB70., (s)., J13=.,
+           5.,      SETB51., (d)., J11=.,
+           SETB301., (+)., J14=.,
+           SETB321., (-)., J14=.,
+           SETB322., (#)., J14=.,
+           SETB13., (.)., J16=.,
+           DUP., (zero)., J17=Z.,
+           SETB63., (n)., J10=.,
+           SETB12., (.)., J16=.,
+           SETB230., (.,)., J19=.,
+           SETB50., (c)., J20=.,
+           SETB65., (p)., J21=.,
+           SETB235., J31#.,
+           6.,      I12., J7#Z.,
+           SET24., C12., -., J31=Z.,
+           ERASE., OR., =V4., J8.,
+
+           7.,      C12., NEG., NOT., J31#Z.,
+
+           M11., J31=Z.,
+           ERASE., ERASE., SETB3., DUP., PERM.,
+           AND., NEV., J34#Z.,
+           8.,      ZERO., M10., SHLD-3., ERASE., I9.,
+           SHLD-1., ERASE., SHL-1.,
+           I10., SHLD-1., ERASE.,
+           I13., SHLD-1., ERASE.,
+           M11., SHLD-2., ERASE.,
+           SET12., C11., -., SHLD-4., ERASE.,
+           SET24., C10., -., SHLD-5., ERASE.,
+           I11., SHLD-2., ERASE.,
+           V3., SHLD-4., ERASE.,
+           V4., SHLD-24., ERASE.,
+           9.,      E̲X̲I̲T̲.,
+           10.,     (n)., C11., SET12., -., J11#Z.,
+           I13=+1.,
+           11.,     J31C9NZ., (d, /er0 0r terminator).,
+           I12., J12#Z., (EXM).,
+           J31C11Z., (SFC>12).,
+           DC11.,
+           12.,     PERM., DUP., PERM., OR., REV.,
+           CAB., (1nsert 01git in .1eld lay 0ut).,
+           13.,     ERASE., SHL+1., DC12., J32C12Z., (EFC>24).,
+           I10., J4#Z., (DPM).,
+           DC10., J4C10NZ., (NOP).,
+           J32.,
+           14.,     (+-#)., SHC-4., DUP., SHL+46., REV.,
+           SHL-44., ROUND., (1=+, /=-, 3=#).,
+           I12., J15#Z., (EXH).,
+           C12., SET24., -., J31#Z., (SFC=0).,
+           I11., J31#Z., (fi-st sign).,
+           =I11., J4.,
+           15.,     (EXP SIGN)., SET3., C12., -., J31#Z.,
+           M11., J31#Z.,
+           = M11., J4.,
+           16.,     I10., J31#Z., (DPH).,
+           ERASE., I10=+1., J4.,
+           17.,     (zero)., J12C9NZ.,
+           C11., SET12., -., J31=Z.,
+           DC9., J12.,
+           18.,     (subten)., I12., J31#Z.,
+           I10., J31=Z.,
+           I12=+1., ERASE., OR., DUP., =V4.,
+           SHLC10., SHL+24., BITS., NEG., NOT., J34#Z.,
+           SET3., =C12., J3.,
+           19.,     (.,)., I9., J31#Z.,
+           I9=+1., DC9., ERASE., J4.,
+           20.,     (c)., M10., SHL-2., J31#Z.,
+           DC9., ZERO., NOT., NEG., =+M10.,
+           ERASE., J4.,
+           21.,     (p)., M10., J31#Z.,
+           DC9., SET4., =M10., ERASE., J4.,
+           22.,     SETB70., (s)., J24#.,
+           ERASE., ERASE.,
+           23.,     NOT., NEG., DUP., DUP., SHL-4.,
+           J4=Z.,
+           NEG., NOT., =V3., DC15., ZERO.,
+           DUP., NOT., NEG., CAB., J13.,
+           24.,     PERM., ERASE.,
+           25.,     =V3., DC15., ZERO., DUP., NOT.,
+           NEG., CAB., J5.,
+           26.,     REV., DUP., J25=Z.,
+           J32.,
+           39.,     ERASE.,
+           27.,     ZERO., V0.,
+           28.,     ZERO., SHLD+8., PERM., OR., DUP.,
+           J29=Z.,
+           =V0., SETB236., J39=.,
+           SETB240., J39=.,
+           SETB256., J39=.,
+           EXIT1.,
+           29.,     ERASE., M0M14Q., J28.,
+           30.,     ERASE.,
+           31.,     ERASE.,
+           32.,     ERASE.,
+           33.,     ERASE.,
+           34.,     V0P299., JS12P295.,
+           SETAV5., =RM14.,
+           35.,     JS1P295., SETB235., J36=.,
+           JS14P295., J35.,
+           36.,     ERASE., V1., =RM14.,
+           37.,     JS1P295., SETB235., J38=.,
+           JS14P295., J37.,
+           38.,     JS16P295.,
+           V2., J9.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ output(device,value); v̲a̲l̲u̲e̲ device,value;
+         r̲e̲a̲l̲ value; i̲n̲t̲e̲g̲e̲r̲ device;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “value”.,V0.,“device”.,JSP291.,E̲X̲I̲T̲.,
+           V0=B0013573703034651.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ write boolean(device,boolean);
+         v̲a̲l̲u̲e̲ device,boolean; i̲n̲t̲e̲g̲e̲r̲ device;
+           b̲o̲o̲l̲e̲a̲n̲ boolean;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 12/9/14/0.,
+           “boolean”.,“device”.,
+           (write boolean).,
+           JS12P295.,
+           J2<Z.,
+           SETB315.,
+           1.,      JS14P295.,
+           JS16P295.,
+           E̲X̲I̲T̲.,
+           2.,      SETB335., J1.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ -----------------------;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) × 0·5;
+            fc := f(c);
+            ff := (fa + 4·0×fc + fb);
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)×3·0 - ff ) < 0·1
+              t̲h̲e̲n̲
+              intint := ff × (b - a) × 0·16666666667
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b));
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intfy(x);
+         c̲o̲m̲m̲e̲n̲t̲ integral 0 to x of ff(x,y) dy;
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fx(y);
+            v̲a̲l̲u̲e̲ y;  r̲e̲a̲l̲ y;
+            fx := f(x,y);
+         intfy := int(0, x, fx);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ minitest(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         minitest := x×x×x;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      writetext(30, “minitest 0 to 2 x^3\n”);
+      answer := int(0, 2, minitest);
+      output(30, answer);
+
+      writetext(30, “\nfulltest 0 to 1 triangle = ”);
+      answer := int(0, 1, intfy);
+      output(30, answer);
+      writetext(30, “\n”);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****************;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲
+        eq[1 : 3];
+      i̲n̲t̲e̲g̲e̲r̲
+        i;
+      r̲e̲a̲l̲
+        x,
+        y;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ inc(a, b);
+         v̲a̲l̲u̲e̲
+           a,
+           b;
+         r̲e̲a̲l̲
+           a,
+           b;
+         i̲f̲ a < b t̲h̲e̲n̲
+           eq[1] := eq[1] + 1
+           e̲l̲s̲e̲ i̲f̲ a = b t̲h̲e̲n̲
+           eq[2] := eq[2] + 1
+         e̲l̲s̲e̲
+           eq[3] := eq[3] + 1;
+
+
+
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+           eq[i] := 0;
+      open(20);
+      f̲o̲r̲ i := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 100 d̲o̲
+         b̲e̲g̲i̲n̲
+            x := read(20);
+            y := 1 / (i × i - 1);
+            output(30, y);
+            inc(x, y)
+         e̲n̲d̲;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+           output(30, eq[i]);
+      close(20);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****************;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) × 0·5;
+            fc := f(c);
+            ff := (fa + 4·0×fc + fb);
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)×3·0 - ff ) < 0·1
+              t̲h̲e̲n̲
+              intint := ff × (b - a) × 0·16666666667
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b));
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intfy(x);
+         c̲o̲m̲m̲e̲n̲t̲ integral 0 to x of ff(x,y) dy;
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fx(y);
+            v̲a̲l̲u̲e̲ y;  r̲e̲a̲l̲ y;
+            fx := f(x,y);
+         intfy := int(0, x, fx);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ minitest(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         minitest := x×x×x;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      writetext(30, “minitest 0 to 2 x^3\n”);
+      answer := int(0, 2, minitest);
+      output(30, answer);
+      output(30, answer×100);
+
+      writetext(30, “fulltest 0 to 1 triangle = ”);
+      answer := int(0, 1, intfy);
+      output(30, answer×100);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ program to check standard functions;
+
+      r̲e̲a̲l̲ answer, pi;
+      i̲n̲t̲e̲g̲e̲r̲ ii;
+
+      pi := 4·0×arctan(1·0);
+      writetext(30, “This is the value of pi calculated using arctan ”);
+      output(30, pi);
+      answer := sin(pi/6·0);
+      writetext(30, “sin pi/6 which should be a half ”);
+      output(30, answer);
+      answer := cos(pi/6·0);
+      writetext(30, “cos pi/6 which should be a the same as the next result ”);
+      output(30, answer);
+      writetext(30, “should be same as the previous ”);
+      answer := sqrt(3·0)/2·0;
+      output(30, answer);
+
+      writetext(30, “Now square it to get 3/4 ”);
+      output(30, answer⭡2);
+
+      ii := 3;
+      writetext(30, “3^3 = ”);
+      output(30, ii⭡ii);
+      writetext(30, “Integer divide 3 squared by 2 ”);
+      output(30, ii⭡2 ÷ 2);
+
+      writetext(30, “Calculate e using exp ”);
+      answer := exp(1·0);
+      output(30, answer);
+      writetext(30, “... and take its log ”);
+      output(30, ln(answer));
+
+      writetext(30, “Testing exponentiation: 2^4 = ”);
+      answer := 4·0;
+      output(30, 2⭡answer);
+      writetext(30, “Testing exponentiation: 2^4.0 = ”);
+      output(30, 2·0⭡answer);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) / 2;
+            fc := f(c);
+            ff := (fa + 4×fc + fb)/6;
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)/2 - ff ) < 0·01
+              t̲h̲e̲n̲
+              intint := ff + (b - a)
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b));
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intfy(x);
+         c̲o̲m̲m̲e̲n̲t̲ integral 0 to x of ff(x,y) dy;
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fx(y);
+            v̲a̲l̲u̲e̲ y;  r̲e̲a̲l̲ y;
+            fx := f(x,y);
+         intfy := int(0, x, fx);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      answer := int(0, 1, intfy);
+
+      output(30, answer);
+      output(30, answer×100);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ progam to investigate formal procedure calls;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iz;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           ZERO.,  E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ call2f(i, p1, ip2);
+         v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+           p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1;
+           i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip2;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ inner(ii);
+            v̲a̲l̲u̲e̲ ii;  i̲n̲t̲e̲g̲e̲r̲ ii;
+            inner := ii + ip2;
+         c̲o̲m̲m̲e̲n̲t̲ inner := ii + ip2(ii);
+         i̲n̲t̲e̲g̲e̲r̲ loc;
+         loc := ip2(4);
+         p1(5, iz);
+      e̲n̲d̲ call2f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ act2(i, j);
+         v̲a̲l̲u̲e̲ i, j; i̲n̲t̲e̲g̲e̲r̲ i, j;
+      b̲e̲g̲i̲n̲
+         i := 1;
+      e̲n̲d̲ act2;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iact1(j);
+         v̲a̲l̲u̲e̲ j; i̲n̲t̲e̲g̲e̲r̲ j;
+      b̲e̲g̲i̲n̲
+         iact1 := 2;
+      e̲n̲d̲ iact1;
+
+      call2f(22, act2, iact1);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ **** FAIL 17/20;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ DavidHu/formalproc;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(formal);
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ formal;
+      b̲e̲g̲i̲n̲;
+         onetwothree := formal(+345678);
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ actual(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         actual := i;
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ result;
+      result := onetwothree(actual);
+
+      output(30, result);
+      output(30, -result);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ **** OK;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ DavidHu/manorboy - modified to do Hello World first;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k, x1, x2,x3,x4,x5;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲
+            k := k - 1 ;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ res;
+
+      writetext(30, “Hello World“cc””);
+
+      writetext(30, “Here goes with Man or Boy\n”);
+      res := A(10, 1, -1,  -1, 1, 0);
+      output(30, res);
+      res := res × res;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ Hello World + a bit;
+      r̲e̲a̲l̲ x;
+      writetext(30, “Hello World\n”);
+      x := 123;
+      output(30, x);
+      writetext(30, “What a r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ this is\n”);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ DavidHu/manorboy - modified to do Hello World first;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k, x1, x2,x3,x4,x5;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲
+            k := k - 1 ;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ res;
+
+      writetext(30, “Hello World“cc””);
+
+      writetext(30, “Here goes with Man or Boy\n”);
+      res := A(10, 1, -1,  -1, 1, 0);
+      output(30, res);
+      res := res × res;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ DavidHu/procsPlusCode;
+      r̲e̲a̲l̲ x;
+      x := 123;
+      b̲e̲g̲i̲n̲
+      
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ P1( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+         e̲n̲d̲;
+
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P2( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P2 := x;
+         e̲n̲d̲;
+
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P3( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P3 := x;
+         e̲n̲d̲;
+         
+         b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P4( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P4 := x> 0;
+         e̲n̲d̲;
+         
+      e̲n̲d̲;
+      writetext(30, “Hello World\n”);
+      x := 123;
+      output(30, x);
+      writetext(30, “What a r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ this is\n”);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ progam to investigate formal procedure calls;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ call2f(i, p1, ip2);
+         v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+           p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1;
+           i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip2;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ loc;
+         loc := ip2(4);
+         p1(5, loc);
+      e̲n̲d̲ call2f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ act1(i, j);
+         v̲a̲l̲u̲e̲ i, j; i̲n̲t̲e̲g̲e̲r̲ i, j;
+      b̲e̲g̲i̲n̲
+         i := 1;
+      e̲n̲d̲ act1;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ act2(j);
+         v̲a̲l̲u̲e̲ j; i̲n̲t̲e̲g̲e̲r̲ j;
+      b̲e̲g̲i̲n̲
+         j := 2;
+      e̲n̲d̲ act2;
+
+      call2f(22, act1, act2);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/firstOpt;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ a[1:10]; i̲n̲t̲e̲g̲e̲r̲ index;
+         f̲o̲r̲ index := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+              a[index] := 0;
+         a[5]:= a[10] + 2·0;
+      e̲n̲d̲;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ four(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ a[1:10]; i̲n̲t̲e̲g̲e̲r̲ index;
+         f̲o̲r̲ index := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+              a[index] := 0;
+         a[5]:= a[10] + 2·0;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ j, index;
+      a̲r̲r̲a̲y̲ aa[1:10];
+      index := 1000;
+      f̲o̲r̲ index := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲      'for' j := 0 'step' 1 'until' 10 'do' 'begin'
+              c̲o̲m̲m̲e̲n̲t̲         aa[index] := 0;
+            c̲o̲m̲m̲e̲n̲t̲         aa[j] := 10;
+            c̲o̲m̲m̲e̲n̲t̲      'end';
+         e̲n̲d̲;
+      aa[5]:= aa[10] + 2·0;
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/first;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲;
+         j := i;
+      e̲n̲d̲;
+      b̲o̲o̲l̲e̲a̲n̲ a12345678;
+      i̲n̲t̲e̲g̲e̲r̲ j;
+
+      onetwothree(j);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ DavidHu/namechain;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p(i);
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         p := f(i);
+         p := f(i);
+         p := f(i);
+         p := f(i);
+         p := f(i);
+         p := f(i);
+         p := f(i);
+      e̲n̲d̲ p;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f (n);
+         i̲n̲t̲e̲g̲e̲r̲ n;
+      b̲e̲g̲i̲n̲
+         f := n;
+      e̲n̲d̲ p;
+      i̲n̲t̲e̲g̲e̲r̲ j;
+      j:= f( j + p(10));
+      j:= f( j + p(10));
+      j:= f( j + p(10));
+      j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲  signs that we have floater if we do any more;
+      j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲      j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲       j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲   j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲   j:= f( j + p(10));
+      c̲o̲m̲m̲e̲n̲t̲   j:= f( j + p(10));
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/firstfor;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲;
+         j := i;
+      e̲n̲d̲;
+      b̲o̲o̲l̲e̲a̲n̲ a12345678;
+      i̲n̲t̲e̲g̲e̲r̲ j, k;
+      c̲o̲m̲m̲e̲n̲t̲ f̲o̲r̲ k:=0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲ k < 4 d̲o̲ b̲e̲g̲i̲n̲   i̲n̲t̲e̲g̲e̲r̲ loop., onetwothree(k)., e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ Should it be a w̲h̲i̲l̲e̲ clause?; 
+      f̲o̲r̲ k:=0 s̲t̲e̲p̲  1 u̲n̲t̲i̲l̲ 4 d̲o̲
+         b̲e̲g̲i̲n̲   i̲n̲t̲e̲g̲e̲r̲ loop; onetwothree(k); e̲n̲d̲;
+
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/HoGrammar;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ jim( p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ jinx;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ james ( nI, vR);
+         v̲a̲l̲u̲e̲ vR;
+         i̲n̲t̲e̲g̲e̲r̲ nI;
+           r̲e̲a̲l̲ vR;
+      b̲e̲g̲i̲n̲
+         nI := vR;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ x; r̲e̲a̲l̲ y; r̲e̲a̲l̲ z;
+      i̲n̲t̲e̲g̲e̲r̲ i; i̲n̲t̲e̲g̲e̲r̲ j; i̲n̲t̲e̲g̲e̲r̲ k;
+      b̲o̲o̲l̲e̲a̲n̲ a; b̲o̲o̲l̲e̲a̲n̲ b; b̲o̲o̲l̲e̲a̲n̲ c;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x; r̲e̲a̲l̲ y; r̲e̲a̲l̲ z;
+         i̲n̲t̲e̲g̲e̲r̲ i; i̲n̲t̲e̲g̲e̲r̲ j; i̲n̲t̲e̲g̲e̲r̲ k;
+         b̲o̲o̲l̲e̲a̲n̲ a; b̲o̲o̲l̲e̲a̲n̲ b; b̲o̲o̲l̲e̲a̲n̲ c;
+         b̲e̲g̲i̲n̲
+            s̲w̲i̲t̲c̲h̲ Sw := label1; c̲o̲m̲m̲e̲n̲t̲ ,label2;
+            label1:            i:=10; j:=100; c := (-0·1 < 0);
+            label2:         g̲o̲t̲o̲  Sw[1];
+         e̲n̲d̲;
+      e̲n̲d̲;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x; r̲e̲a̲l̲ y; r̲e̲a̲l̲ z;
+         i̲n̲t̲e̲g̲e̲r̲ i; i̲n̲t̲e̲g̲e̲r̲ j; i̲n̲t̲e̲g̲e̲r̲ k;
+         b̲o̲o̲l̲e̲a̲n̲ a; b̲o̲o̲l̲e̲a̲n̲ b; b̲o̲o̲l̲e̲a̲n̲ c;
+         b̲e̲g̲i̲n̲
+            i:=10; j:=100; z := -0·1;
+            b̲e̲g̲i̲n̲
+               a̲r̲r̲a̲y̲ p[1:i,0:j]; a̲r̲r̲a̲y̲ q[1:i,0:j]; a̲r̲r̲a̲y̲ r[1:i,0:j];
+               c̲o̲m̲m̲e̲n̲t̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[0:i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               y := fred[i];
+               z := p[2,3];
+            e̲n̲d̲;
+         e̲n̲d̲;
+
+         james(  x, 1000);
+         b := (i+j+k - x) < (x+y+z );
+         x := x- y - z;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/grammarTest;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ jim( p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ jinx;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ james ( nI, vR);
+         v̲a̲l̲u̲e̲ vR;
+         i̲n̲t̲e̲g̲e̲r̲ nI;
+           r̲e̲a̲l̲ vR;
+      b̲e̲g̲i̲n̲
+         nI := vR;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ x,y,z;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+      b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x,y,z;
+         i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+         b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+         b̲e̲g̲i̲n̲
+            s̲w̲i̲t̲c̲h̲ Sw := i,j;
+            i:=10; j:=100; c := (-0·1 < 0);
+            k := Sw[0];
+         e̲n̲d̲;
+      e̲n̲d̲;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x,y,z;
+         i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+         b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+         b̲e̲g̲i̲n̲
+            i:=10; j:=100; z := -0·1;
+            b̲e̲g̲i̲n̲
+               a̲r̲r̲a̲y̲ p,q,r[1:i,0:j];
+               c̲o̲m̲m̲e̲n̲t̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[0:i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               y := fred[i];
+               z := p[2,3];
+            e̲n̲d̲;
+         e̲n̲d̲;
+
+         james(  b, 1000);
+         b := (i+j+k - x) < (x+y+z );
+         x := x- y - z;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/procsPlusCode;
+      r̲e̲a̲l̲ x;
+      x := 0;
+      b̲e̲g̲i̲n̲
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ P1( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+         e̲n̲d̲;
+
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P2( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P2 := x;
+         e̲n̲d̲;
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P3( x);
+            r̲e̲a̲l̲ x;
+
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P3 := x;
+         e̲n̲d̲;
+         b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P4( x);
+            r̲e̲a̲l̲ x;
+
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P4 := x> 0;
+         e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ progam to investigate formal procedure calls;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iz;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           ZERO.,  E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ call2f(i, p1, ip2);
+         v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+           p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1;
+           i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip2;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ inner(ii);
+            v̲a̲l̲u̲e̲ ii;  i̲n̲t̲e̲g̲e̲r̲ ii;
+            inner := ii + ip2(ii);
+         i̲n̲t̲e̲g̲e̲r̲ loc;
+         loc := ip2(4);
+         p1(5, iz);
+      e̲n̲d̲ call2f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ act2(i, j);
+         v̲a̲l̲u̲e̲ i, j; i̲n̲t̲e̲g̲e̲r̲ i, j;
+      b̲e̲g̲i̲n̲
+         i := 1;
+      e̲n̲d̲ act2;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iact1(j);
+         v̲a̲l̲u̲e̲ j; i̲n̲t̲e̲g̲e̲r̲ j;
+      b̲e̲g̲i̲n̲
+         iact1 := 2;
+      e̲n̲d̲ iact1;
+
+      call2f(22, act2, iact1);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/arraytest;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ 'real' xyz;
+         c̲o̲m̲m̲e̲n̲t̲ 'array' peter[6:7];
+         c̲o̲m̲m̲e̲n̲t̲ s̲w̲i̲t̲c̲h̲ S := 20, 30, 40;
+         c̲o̲m̲m̲e̲n̲t̲ all-numeric labels were removed from Algol60 quite early on;
+         s̲w̲i̲t̲c̲h̲ S := L20, L30, L40;
+
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ jimmy(a);
+            s̲t̲r̲i̲n̲g̲ a;
+         b̲e̲g̲i̲n̲
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ nest(i);
+               i̲n̲t̲e̲g̲e̲r̲ i;
+            b̲e̲g̲i̲n̲
+               i := 0;
+            e̲n̲d̲;
+
+            nest(100);
+         e̲n̲d̲;
+         i̲n̲t̲e̲g̲e̲r̲ anne;
+         a̲r̲r̲a̲y̲ fred[1:3,2:4];
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ jim(x,i,b,a, p, l )switch:(sw);
+            v̲a̲l̲u̲e̲ x, i, b,a;
+            r̲e̲a̲l̲ x; i̲n̲t̲e̲g̲e̲r̲ i; b̲o̲o̲l̲e̲a̲n̲ b;
+              i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ a;
+              i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p;
+              l̲a̲b̲e̲l̲ l;
+              s̲w̲i̲t̲c̲h̲ sw;
+         b̲e̲g̲i̲n̲
+            b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ nested( x);
+               r̲e̲a̲l̲ x;
+            b̲e̲g̲i̲n̲
+               x := 100;
+            e̲n̲d̲;
+            nested(x);
+            x := S[1];
+         e̲n̲d̲;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ken[0:100];
+            b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ boo[1:99];
+            r̲e̲a̲l̲ x;
+            next: jim(x, x,x);
+            jimmy(“string”);g̲o̲t̲o̲next;
+
+         e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ DavidHu/etcparam;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k, x2, x3; i̲n̲t̲e̲g̲e̲r̲ k;
+           l̲a̲b̲e̲l̲  x1; s̲w̲i̲t̲c̲h̲ x2; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ x3; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ x4; i̲n̲t̲e̲g̲e̲r̲ x5;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲
+            k := k - 1 ;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ x1; g̲o̲t̲o̲ x2[1]; x3[1] := x4[1];
+         B;
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k1; r̲e̲a̲l̲ z;
+      b̲e̲g̲i̲n̲
+         s̲w̲i̲t̲c̲h̲ Town := Bath, Exeter, i̲f̲ i >0 t̲h̲e̲n̲ Exeter e̲l̲s̲e̲ Bath;
+         c̲o̲m̲m̲e̲n̲t̲;      s̲w̲i̲t̲c̲h̲ Village := Exeter, Bath;
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[1:i];
+         Exeter:   A(10, Town[1], Town,  fred, fred, 0);
+         Bath: g̲o̲t̲o̲ Town[fred[i̲f̲ i ≥ 0 t̲h̲e̲n̲ i e̲l̲s̲e̲ i+1 ]];
+         c̲o̲m̲m̲e̲n̲t̲;      i := fred[ i̲f̲ i = 0 t̲h̲e̲n̲ 10 e̲l̲s̲e̲ 150];
+         c̲o̲m̲m̲e̲n̲t̲;      i := (i+j) + 2 - (i+j);
+         z := -118·7 +260 / z -130 / z⭡2;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ open(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         dv := 0;
+      e̲n̲d̲ open;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ read(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         read := 0;
+      e̲n̲d̲ open;
+
+      open(20);
+      i := read(20);
+      f̲o̲r̲  j:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+           output(30, j);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****  FAIL 00/02  after "undeclared identifier outpu t";
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ David's formalproc;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(formal);
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ formal;
+      b̲e̲g̲i̲n̲;
+         onetwothree := formal(10);
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ actual(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         actual := i;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ result;
+      result := onetwothree(actual);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ Knuth's manorboy all integer;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k;  i̲n̲t̲e̲g̲e̲r̲ x1, x2,x3,x4,x5;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲; k := k - 1 ;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+      A(10, 1, -1,  -1, 1, 0);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ progam to investigate formal procedure calls;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iabs(x);
+         v̲a̲l̲u̲e̲ x;  i̲n̲t̲e̲g̲e̲r̲ x; c̲o̲m̲m̲e̲n̲t̲ 2;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”.,ABS.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ call2f(i, p1, ip2);
+         v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;   c̲o̲m̲m̲e̲n̲t̲ 3;
+           p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1;           c̲o̲m̲m̲e̲n̲t̲ 97;
+           i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip2; c̲o̲m̲m̲e̲n̲t̲ 98;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ inner(ii);
+            v̲a̲l̲u̲e̲ ii;  i̲n̲t̲e̲g̲e̲r̲ ii; c̲o̲m̲m̲e̲n̲t̲ 4;
+            inner := ii + ip2(ii); c̲o̲m̲m̲e̲n̲t̲ this is a bit hard;
+         i̲n̲t̲e̲g̲e̲r̲ loc;
+         loc := ip2(4) + inner(7);;
+         p1(5, iabs(loc));
+      e̲n̲d̲ call2f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ act2(i, j);
+         v̲a̲l̲u̲e̲ i, j; i̲n̲t̲e̲g̲e̲r̲ i, j; c̲o̲m̲m̲e̲n̲t̲ 5;
+      b̲e̲g̲i̲n̲
+         i := 1;
+      e̲n̲d̲ act2;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iact1(j);
+         v̲a̲l̲u̲e̲ j; i̲n̲t̲e̲g̲e̲r̲ j; c̲o̲m̲m̲e̲n̲t̲ 6;
+      b̲e̲g̲i̲n̲
+         iact1 := 2;
+      e̲n̲d̲ iact1;
+
+      call2f(22, act2, iact1);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ David's test for the Les Hodges version of KAB20;
+      i̲n̲t̲e̲g̲e̲r̲ iabc; i̲n̲t̲e̲g̲e̲r̲ j; c̲o̲m̲m̲e̲n̲t̲ was a comma seperated list;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ open(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x;
+         x := 3·14159;
+         dv := 1234567;
+      e̲n̲d̲ open;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ read(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+           c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           ZERO., =“dv”.,ZERO.,
+           A̲L̲G̲O̲L̲;
+
+         open(20);
+      iabc := read(20);
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ j;  i̲n̲t̲e̲g̲e̲r̲ jim;
+         f̲o̲r̲  j:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ iabc d̲o̲
+            b̲e̲g̲i̲n̲ jim := read(1); e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc1(a);
+         v̲a̲l̲u̲e̲ a;  r̲e̲a̲l̲ a;
+      b̲e̲g̲i̲n̲
+         proc1 := proc2(0·0);
+      e̲n̲d̲ proc1;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc2(a);
+         v̲a̲l̲u̲e̲ a;  r̲e̲a̲l̲ a;
+      b̲e̲g̲i̲n̲
+         proc2 := proc3(0·0);
+      e̲n̲d̲ proc2;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc3(a);
+         v̲a̲l̲u̲e̲ a;  r̲e̲a̲l̲ a;
+      b̲e̲g̲i̲n̲
+         proc3 := proc1(0·0);
+      e̲n̲d̲ proc3;
+
+      proc1(0);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ second attempt at first;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲;
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ abc;
+            o̲w̲n̲ r̲e̲a̲l̲ a̲r̲r̲a̲y̲ ken[1:100];
+            i := (i + i) + ( i + i);
+            i := ken[50];
+         e̲n̲d̲;
+      e̲n̲d̲;
+      b̲o̲o̲l̲e̲a̲n̲ a12345678;
+      i̲n̲t̲e̲g̲e̲r̲ j;
+      s̲w̲i̲t̲c̲h̲ sw := i̲f̲ j = 0 t̲h̲e̲n̲ L1 e̲l̲s̲e̲ L2, L1;
+      c̲o̲m̲m̲e̲n̲t̲;  a̲r̲r̲a̲y̲ ar[1:10,1:10];
+      L1: ;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ fred[1:j];
+         j := ar[j,j];
+         b̲e̲g̲i̲n̲ r̲e̲a̲l̲ c,b,a;
+            r̲e̲a̲l̲ a̲r̲r̲a̲y̲ fred[10:j];
+            g̲o̲t̲o̲ sw[2];
+            j := fred[j];
+            onetwothree(j);
+            c  :=  c  +  (a-b)⭡4 - c / (a-b) + a/b;
+         e̲n̲d̲;
+         ar[1,2] := ar[3,4];
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ L2: c̲o̲m̲m̲e̲n̲t̲., j := ar[1,j];
+      c̲o̲m̲m̲e̲n̲t̲; L2: j := ar[1,j];
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc1(a);
+         v̲a̲l̲u̲e̲ a;  r̲e̲a̲l̲ a;
+      b̲e̲g̲i̲n̲
+         proc1 := proc2(0·0);
+      e̲n̲d̲ proc1;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ proc2(a);
+         v̲a̲l̲u̲e̲ a;  r̲e̲a̲l̲ a;
+      b̲e̲g̲i̲n̲
+         proc2 := proc1(0·0);
+      e̲n̲d̲ proc2;
+
+      proc1(0);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ all sorts of proc calls;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(formal);
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ formal;
+      b̲e̲g̲i̲n̲;
+         onetwothree := formal(10);
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ actual(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         actual := i;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ result;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ threepars(i,j,x);
+         v̲a̲l̲u̲e̲ i, j, x;
+         i̲n̲t̲e̲g̲e̲r̲ i,j;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         threepars := i + j + actual(123);
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ test;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ k;
+         k := abs(threepars(1, 2, 11·11));
+      e̲n̲d̲;
+
+      test;
+
+      result := onetwothree(actual);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ formalproc;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(formal);
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ formal;
+      b̲e̲g̲i̲n̲;
+         onetwothree := formal(10);
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ nopars;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x;
+         x := 13;
+      e̲n̲d̲;
+
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ actual(i);
+         v̲a̲l̲u̲e̲ i;
+         r̲e̲a̲l̲ i;
+      b̲e̲g̲i̲n̲
+         actual := i;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ result;
+      result := onetwothree(actual);
+      nopars;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ formalproc;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(formal);
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ formal;
+      b̲e̲g̲i̲n̲;
+         onetwothree := formal(10);
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ actual(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         actual := i;
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ result;
+      result := onetwothree(actual);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ etcparams;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k, x2, x3; i̲n̲t̲e̲g̲e̲r̲ k;
+           l̲a̲b̲e̲l̲  x1; s̲w̲i̲t̲c̲h̲ x2; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ x3; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ x4; i̲n̲t̲e̲g̲e̲r̲ x5;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲
+            k := k - 1 ;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ x1; g̲o̲t̲o̲ x2[1]; x3[1] := x4[1];  g̲o̲t̲o̲ stop;  g̲o̲t̲o̲ veryend;
+         B;
+         stop:
+      e̲n̲d̲;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k1; r̲e̲a̲l̲ z;
+      b̲e̲g̲i̲n̲
+         s̲w̲i̲t̲c̲h̲ Town := Bath, Exeter, i̲f̲ i >0 t̲h̲e̲n̲ Exeter e̲l̲s̲e̲ Bath;
+         c̲o̲m̲m̲e̲n̲t̲;      s̲w̲i̲t̲c̲h̲ Village := Exeter, Bath;
+         i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[1:i];
+         Exeter:   A(10, Town[1], Town,  fred, fred, 0);
+         Bath: g̲o̲t̲o̲ Town[fred[i̲f̲ i ≥ 0 t̲h̲e̲n̲ i e̲l̲s̲e̲ i+1 ]];
+         c̲o̲m̲m̲e̲n̲t̲;      i := fred[ i̲f̲ i = 0 t̲h̲e̲n̲ 10 e̲l̲s̲e̲ 150];
+         c̲o̲m̲m̲e̲n̲t̲;      i := (i+j) + 2 - (i+j);
+         z := -118·7 +260 / z -130 / z⭡(+2);
+      e̲n̲d̲;
+      veryend:
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ DHu's second test;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ onetwothree(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         i := 0;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ x,y;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      e̲n̲d̲;
+      i̲f̲ y = 0 t̲h̲e̲n̲  x := (x+2) + (x+2) e̲l̲s̲e̲
+        y := x:= 23·0 + 1·0;
+      y := 0·0;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ veryveryveryslowabs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         veryveryveryslowabs := i̲f̲ x<0 t̲h̲e̲n̲ -x e̲l̲s̲e̲ x;
+      e̲n̲d̲;
+
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, j, k123456789;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 99 d̲o̲
+              j := i + 1;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(x1);
+         v̲a̲l̲u̲e̲ x1;  r̲e̲a̲l̲ x1;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x1”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ veryveryveryslowabs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         veryveryveryslowabs := i̲f̲ x<0 t̲h̲e̲n̲ -x e̲l̲s̲e̲ x;
+      e̲n̲d̲;
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, j, k123456789;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 99 d̲o̲
+              j := i + 1;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ David Hu's "first";
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ one(i);
+         v̲a̲l̲u̲e̲ i;
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲;
+         j := i;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ j;
+
+      one(j);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ David Hus procsPlusCode;
+      r̲e̲a̲l̲ x;
+      x := 0;
+      b̲e̲g̲i̲n̲
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ P1( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+         e̲n̲d̲;
+
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P2( x);
+            r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P2 := x;
+         e̲n̲d̲;
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P3( x);
+            r̲e̲a̲l̲ x;
+
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P3 := x;
+         e̲n̲d̲;
+         b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P4( x);
+            r̲e̲a̲l̲ x;
+
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ i;
+            x :=0;
+            P4 := x> 0;
+         e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ David Hus grammarTest;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ jim( p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ jinx;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ james ( nI, vR);
+         v̲a̲l̲u̲e̲ vR;
+         i̲n̲t̲e̲g̲e̲r̲ nI;
+           r̲e̲a̲l̲ vR;
+      b̲e̲g̲i̲n̲
+         nI := vR;
+      e̲n̲d̲;
+      r̲e̲a̲l̲ x,y,z;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+      b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x,y,z;
+         i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+         b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+         b̲e̲g̲i̲n̲
+            s̲w̲i̲t̲c̲h̲ Sw := i,j;
+            i:=10; j:=100; c := (-0·1 < 0);
+            k := Sw[0];
+         e̲n̲d̲;
+      e̲n̲d̲;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x,y,z;
+         i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+         b̲o̲o̲l̲e̲a̲n̲ a,b,c;
+         b̲e̲g̲i̲n̲
+            i:=10; j:=100; z := -0·1;
+            b̲e̲g̲i̲n̲
+               a̲r̲r̲a̲y̲ p,q,r[1:i,0:j];
+               c̲o̲m̲m̲e̲n̲t̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[0:i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ fred[i̲f̲ z < 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 4:20];
+               y := fred[i];
+               z := p[2,3];
+            e̲n̲d̲;
+         e̲n̲d̲;
+
+         james(  b, 1000);
+         b := (i+j+k - x) < (x+y+z );
+         x := x- y - z;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+      i:= 0;
+      c̲o̲m̲m̲e̲n̲t̲ 'for' j := 1 'step' 1 'until' 7 'do' ;
+      i̲f̲  i = 0
+        t̲h̲e̲n̲
+        k := i × j;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+           c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+         f̲o̲r̲  i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 99 d̲o̲
+              j := i + 1;
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x×x + y×y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) / 2;
+            fc := f(c);
+            ff := (fa + 4×fc + fb)/6;
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)/2 - ff ) < 0·001
+              t̲h̲e̲n̲
+              intint := ff × (b - a)
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b));
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intfy(x);
+         c̲o̲m̲m̲e̲n̲t̲ integral 0 to x of f(x,y) dy;
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ fx(y);
+            v̲a̲l̲u̲e̲ y;  r̲e̲a̲l̲ y;
+            fx := f(x,y);
+         intfy := int(0, x, fx);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      answer := int(0, 1, intfy);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ open(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         dv := 0;
+      e̲n̲d̲ open;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ read(dv);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           ZERO., =“dv”.,ZERO.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ output(dv, i);
+         v̲a̲l̲u̲e̲ dv, i;
+         i̲n̲t̲e̲g̲e̲r̲ dv, i;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           “dv”.,“i”.,JS789P295.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      open(20);
+      i := read(20);
+      f̲o̲r̲  j:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+           output(30, j);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+      c̲o̲m̲m̲e̲n̲t̲  no longer FAILS Tape format error;
+      c̲o̲m̲m̲e̲n̲t̲  now fails 18/22;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ nopars;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           ZERO., =Q15., ZERO., E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      i:= 0;
+      f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i d̲o̲
+           i̲f̲  i = 0
+           t̲h̲e̲n̲
+           k := i + j;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+      c̲o̲m̲m̲e̲n̲t̲  no longer FAILS Tape format error;
+      c̲o̲m̲m̲e̲n̲t̲  now fails 18/22;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ nopars;
+      b̲e̲g̲i̲n̲
+      e̲n̲d̲ nopars;
+
+      i:= 0;
+      f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲
+           i̲f̲  i = 0
+           t̲h̲e̲n̲
+           k := i + j;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      b̲e̲g̲i̲n̲
+      e̲n̲d̲
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      i := j;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ b;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ x;
+         b̲e̲g̲i̲n̲
+            b̲o̲o̲l̲e̲a̲n̲ b;
+         e̲n̲d̲;
+         b̲e̲g̲i̲n̲
+            b̲e̲g̲i̲n̲
+               r̲e̲a̲l̲ y;
+               b̲e̲g̲i̲n̲
+                  i̲n̲t̲e̲g̲e̲r̲ i;
+                  i:= i +1; e̲n̲d̲;e̲n̲d̲;e̲n̲d̲;e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ Knuth's Man or Boy program;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ output(dv, i);
+         v̲a̲l̲u̲e̲ dv, i;
+         i̲n̲t̲e̲g̲e̲r̲ dv, i;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/0/0/0.,
+           “dv”.,“i”.,MRWDQ0.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k, x1, x2, x3, x4, x5;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲ k := k - 1;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+      output(30, A(10, 1, -1, -1, 1, 0));
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ writetext(dv, s);
+         v̲a̲l̲u̲e̲ dv;
+         i̲n̲t̲e̲g̲e̲r̲ dv;  s̲t̲r̲i̲n̲g̲ s;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 1/1/1/1.,  “dv”., “s”.,  JS22P295.,  MRWDQ0.,
+           E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      s̲w̲i̲t̲c̲h̲ S := l1, l2;
+      s̲w̲i̲t̲c̲h̲ S2 := S[p(1)], S[p(p(1))];
+
+      i̲n̲t̲e̲g̲e̲r̲ i;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p(i);
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         p := i;
+      e̲n̲d̲;
+
+      g̲o̲t̲o̲ l2;
+      i := 0;
+      l1: l2:  writetext(30, “Labels were a bad idea\n”);
+      i := i+1;  g̲o̲t̲o̲ S2[i];
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   l0:b̲e̲g̲i̲n̲
+      s̲w̲i̲t̲c̲h̲ S := l1, l2, l0;
+      s̲w̲i̲t̲c̲h̲ S2 := S[p(2)], S[p(p(2))];
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p(i);
+         i̲n̲t̲e̲g̲e̲r̲ i;
+      b̲e̲g̲i̲n̲
+         p := i + i;
+      e̲n̲d̲;
+
+      g̲o̲t̲o̲ l2;
+
+      l1: l2:  writetext(30, “Labels were a bad idea\n”);g̲o̲t̲o̲S2[1];
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲   c̲o̲m̲m̲e̲n̲t̲ Knuth's monorboy;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ A(k, x1, x2, x3, x4, x5);
+         v̲a̲l̲u̲e̲ k; i̲n̲t̲e̲g̲e̲r̲ k, x1, x2, x3, x4, x5;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ B;
+         b̲e̲g̲i̲n̲ k := k - 1;
+            B := A := A(k, B, x1, x2, x3, x4);
+         e̲n̲d̲;
+         i̲f̲ k ≤ 0 t̲h̲e̲n̲ A := x4 + x5 e̲l̲s̲e̲ B;
+      e̲n̲d̲;
+      A(10, 1, -1, -1, 1, 0);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ test to explore level parameters;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ abs(z);
+         v̲a̲l̲u̲e̲ z;  r̲e̲a̲l̲ z;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “z”.,ABSF.,E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p0(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1(x, y);
+            v̲a̲l̲u̲e̲ x, y;  r̲e̲a̲l̲ x, y;
+            p1 := x + y;
+         p0 := x + p1(x, x)
+      e̲n̲d̲;
+
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, j;  r̲e̲a̲l̲ qqqqq;
+         f̲o̲r̲  i:= -3 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ +3 d̲o̲
+              qqqqq := p0(abs(i));
+      e̲n̲d̲;
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ T(x);
+         v̲a̲l̲u̲e̲ x;
+         i̲n̲t̲e̲g̲e̲r̲ x;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 7/5/0/2.,
+           ZERO., DUP., DUP., =V1., =V2.,
+           SET1., +., =“x”.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+
+      T(100);
+
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ invalid progam to investigate FAILS 00N in KAB01;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iabs(x);
+         v̲a̲l̲u̲e̲ x;  i̲n̲t̲e̲g̲e̲r̲ x;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           “x”., ABS.,  E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ res;
+      res := iabs(-9);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ progam to investigate formal procedure calls;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iz;
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ K̲D̲F̲9 0/0/0/0.,
+           ZERO.,  E̲X̲I̲T̲.,
+           A̲L̲G̲O̲L̲;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ call2f(i, p1, ip2);
+         v̲a̲l̲u̲e̲ i;  i̲n̲t̲e̲g̲e̲r̲ i;
+           p̲r̲o̲c̲e̲d̲u̲r̲e̲ p1;
+           i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip2;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ inner(ii);
+            v̲a̲l̲u̲e̲ ii;  i̲n̲t̲e̲g̲e̲r̲ ii;
+            inner := ii + ip2(ii);
+         i̲n̲t̲e̲g̲e̲r̲ loc;
+         loc := ip2(4);
+         p1(5, iz);
+      e̲n̲d̲ call2f;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ act2(i, j);
+         v̲a̲l̲u̲e̲ i, j; i̲n̲t̲e̲g̲e̲r̲ i, j;
+      b̲e̲g̲i̲n̲
+         i := 1;
+      e̲n̲d̲ act2;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iact1(j);
+         v̲a̲l̲u̲e̲ j; i̲n̲t̲e̲g̲e̲r̲ j;
+      b̲e̲g̲i̲n̲
+         iact1 := 2;
+      e̲n̲d̲ iact1;
+
+      call2f(22, act2, iact1);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b;  r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            c := (a + b) × 0·5;
+            fc := f(c);
+            ff := (fa + 4·0×fc + fb);
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)×3·0 - ff ) < 0·1
+              t̲h̲e̲n̲
+              intint := ff × (b - a) × 0·16666666667
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         int := intint(a, b, f(a), f(b));
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ minitest(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         minitest := x×x×x;
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      writetext(30, “minitest 0 to 2 x^3\n”);
+      answer := int(0, 2, minitest);
+      output(30, answer);
+      output(30, answer×100);
+
+   e̲n̲d̲;
+
+c̲o̲m̲m̲e̲n̲t̲ ****
+     Output from Whetstone Algol
+
+     MINITEST 0 TO 2 X**3
+     0.0000 -  2.0000
+     0.0000 -  1.0000
+     0.0000 -  0.5000
+     0.0000 -  0.2500
+     0.2500 -  0.5000
+     0.5000 -  1.0000
+     0.5000 -  0.7500
+     0.5000 -  0.6250
+     0.6250 -  0.7500
+     0.7500 -  1.0000
+     0.7500 -  0.8750
+     0.8750 -  1.0000
+     1.0000 -  2.0000
+     1.0000 -  1.5000
+     1.0000 -  1.2500
+     1.0000 -  1.1250
+     1.1250 -  1.2500
+     1.2500 -  1.5000
+     1.2500 -  1.3750
+     1.3750 -  1.5000
+     1.5000 -  2.0000
+     1.5000 -  1.7500
+     1.5000 -  1.6250
+     1.6250 -  1.7500
+     1.7500 -  2.0000
+     1.7500 -  1.8750
+     1.8750 -  2.0000
+     +4.0000 0000 009 @+ 0
+     +4.0000 0000 008 @+ 2
+
+     RAN/EL/000M02S/000M02S
+
+
+     ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+      c̲o̲m̲m̲e̲n̲t̲ testing I/O;
+      r̲e̲a̲l̲ x;
+      open(20); open(30);
+      f̲o̲r̲ x := read(20) w̲h̲i̲l̲e̲ x < 1000000  d̲o̲
+           output(30, x);
+      close(20); close(30);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ 'library' A0;
+      c̲o̲m̲m̲e̲n̲t̲ program to integrate f(x,y) over triangle (0,0), (1,0), (1,1);
+      c̲o̲m̲m̲e̲n̲t̲ using Jensen's device -- David Ho;
+
+      r̲e̲a̲l̲ x, y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(x, y);
+         v̲a̲l̲u̲e̲ x,y;  r̲e̲a̲l̲ x,y;
+         f:= x + x + y + y;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ int(a, b, x, f);
+         c̲o̲m̲m̲e̲n̲t̲ integrates f(x) over range a to b;
+         v̲a̲l̲u̲e̲ a, b; r̲e̲a̲l̲ a, b, x, f;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ intint(a, b, fa, fb);
+            v̲a̲l̲u̲e̲ a, b, fa, fb;  r̲e̲a̲l̲ a, b, fa, fb;
+         b̲e̲g̲i̲n̲
+            r̲e̲a̲l̲ c, fc, ff;
+            x := c := (a + b) / 2;
+            fc := f;
+            ff := (fa + 4×fc + fb)/6;
+            c̲o̲m̲m̲e̲n̲t̲ answer is good enough if simrule no better than trapezoidal;
+            i̲f̲  abs( (fa + fb)/2 - ff ) < 0·001
+              t̲h̲e̲n̲
+              intint := ff × (b - a)
+            e̲l̲s̲e̲
+              intint := intint(a, c, fa, fc) + intint(c, b, fc, fb);
+         e̲n̲d̲;
+         r̲e̲a̲l̲ fa;
+         x := a;   fa := f;  x := b;
+         int := intint(a, b, fa, f);
+      e̲n̲d̲;
+
+      r̲e̲a̲l̲ answer;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ minitest(x);
+         v̲a̲l̲u̲e̲ x;  r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         minitest := x×x×x;
+      e̲n̲d̲;
+
+      writetext(30, “minitest 0 to 2 x^3\n”);
+      answer := int(0, 2, x, minitest(x));
+      output(30, answer);
+      output(30, answer×100);
+
+      c̲o̲m̲m̲e̲n̲t̲   writetext(30, “fulltest 0 to 1 triangle = ”);
+      c̲o̲m̲m̲e̲n̲t̲   answer := int(0, 1, x, int(0, x, y, f(x,y)));
+      c̲o̲m̲m̲e̲n̲t̲   output(30, answer*100);
+
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****;
+   b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ T54;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ tsign(x);
+         v̲a̲l̲u̲e̲
+           x;
+         r̲e̲a̲l̲
+           x;
+         tsign :=
+           i̲f̲ x > 0 t̲h̲e̲n̲
+           1
+         e̲l̲s̲e̲ i̲f̲ x < 0 t̲h̲e̲n̲
+           - 1
+         e̲l̲s̲e̲
+           0;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ tentier(x);
+         v̲a̲l̲u̲e̲
+           x;
+         r̲e̲a̲l̲
+           x;
+         tentier := x - ·5;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ tabs(x);
+         v̲a̲l̲u̲e̲
+           x;
+         r̲e̲a̲l̲
+           x;
+         tabs :=
+           i̲f̲ x < 0 t̲h̲e̲n̲
+           - x
+         e̲l̲s̲e̲
+           x;
+
+      r̲e̲a̲l̲
+        x;
+      f̲o̲r̲ x := - 100,
+        - 100·1,
+        - 99·4,
+        - ·4,
+        - ·1,
+        0,·1,·4,·6,
+        300 d̲o̲
+           i̲f̲ tsign(x) = sign(x) ∨ tentier(x) = entier(x) ∨
+           tabs(x) = abs(x) t̲h̲e̲n̲
+           output(30, x)
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****
+     Results: Walgol
+     RAN/EL/000M01S/000M09S  SIZE     73
+
+     RAN/EL/000M01S/000M01S
+     Kalgol
+     -100.10
+     -099.40
+     -0.4000
+     -0.1000
+     FINISHED ENDS 0
+     Conclusion:
+     Simple execution test, Walgol passes
+     Kalgol execution fails on real equality
+     Poor test, but worked in 1970
+     ******************;
+
+   b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲ T51;
+
+      c̲o̲m̲m̲e̲n̲t̲ l̲i̲b̲r̲a̲r̲y̲ A0, A6;
+
+      a̲r̲r̲a̲y̲
+        a0[1 : 10],
+        a1[1 : 10],
+        a2[1 : 10],
+        a3[1 : 10],
+        a4[1 : 10],
+        a5[1 : 10],
+        a6[1 : 10],
+        a7[1 : 10],
+        a8[1 : 10],
+        a9[1 : 10],
+        a10[1 : 10],
+        a11[1 : 10],
+        a12[1 : 10],
+        a13[1 : 10],
+        a14[1 : 10],
+        a15[1 : 10],
+        a16[1 : 10],
+        a17[1 : 10],
+        a18[1 : 10],
+        a19[1 : 10],
+        a20[1 : 10],
+        a21[1 : 10],
+        a22[1 : 10],
+        a23[1 : 10],
+        a24[1 : 10],
+        a25[1 : 10],
+        a26[1 : 10],
+        a27[1 : 10],
+        a28[1 : 10],
+        a29[1 : 10],
+        a30[1 : 10],
+        a31[1 : 10],
+        a32[1 : 10],
+        a33[1 : 10],
+        a34[1 : 10],
+        a35[1 : 10],
+        a36[1 : 10],
+        a37[1 : 10],
+        a38[1 : 10],
+        a39[1 : 10],
+        a40[1 : 10],
+        a41[1 : 10],
+        a42[1 : 10],
+        a43[1 : 10],
+        a44[1 : 10],
+        a45[1 : 10],
+        a46[1 : 10],
+        a47[1 : 10],
+        a48[1 : 10],
+        a49[1 : 10],
+        a50[1 : 10],
+        a51[1 : 10],
+        a52[1 : 10],
+        a53[1 : 10],
+        a54[1 : 10],
+        a55[1 : 10],
+        a56[1 : 10],
+        a57[1 : 10],
+        a58[1 : 10],
+        a59[1 : 10];
+      a0[1] := 1·0;
+      a1[1] := 1·0;
+      a2[1] := 1·0;
+      a3[1] := 1·0;
+      a4[1] := 1·0;
+      a5[1] := 1·0;
+      a6[1] := 1·0;
+      a7[1] := 1·0;
+      a8[1] := 1·0;
+      a9[1] := 1·0;
+      a10[1] := 1·0;
+      a11[1] := 1·0;
+      a12[1] := 1·0;
+      a13[1] := 1·0;
+      a14[1] := 1·0;
+      a15[1] := 1·0;
+      a16[1] := 1·0;
+      a17[1] := 1·0;
+      a18[1] := 1·0;
+      a19[1] := 1·0;
+      a20[1] := 1·0;
+      a21[1] := 1·0;
+      a22[1] := 1·0;
+      a23[1] := 1·0;
+      a24[1] := 1·0;
+      a25[1] := 1·0;
+      a26[1] := 1·0;
+      a27[1] := 1·0;
+      a28[1] := 1·0;
+      a29[1] := 1·0;
+      a30[1] := 1·0;
+      a31[1] := 1·0;
+      a32[1] := 1·0;
+      a33[1] := 1·0;
+      a34[1] := 1·0;
+      a35[1] := 1·0;
+      a36[1] := 1·0;
+      a37[1] := 1·0;
+      a38[1] := 1·0;
+      a39[1] := 1·0;
+      a40[1] := 1·0;
+      a41[1] := 1·0;
+      a42[1] := 1·0;
+      a43[1] := 1·0;
+      a44[1] := 1·0;
+      a45[1] := 1·0;
+      a46[1] := 1·0;
+      a47[1] := 1·0;
+      a48[1] := 1·0;
+      a49[1] := 1·0;
+      a50[1] := 1·0;
+      a51[1] := 1·0;
+      a52[1] := 1·0;
+      a53[1] := 1·0;
+      a54[1] := 1·0;
+      a55[1] := 1·0;
+      a56[1] := 1·0;
+      a57[1] := 1·0;
+      a58[1] := 1·0;
+      a59[1] := 1·0;
+      output(30, a0[1] + a1[1] + a2[1] + a3[1] + a4[1] + a5[1] + a6[1]
+        + a7[1] + a8[1] + a9[1] + a10[1] + a11[1] + a12[1] +
+        a13[1] + a14[1] + a15[1] + a16[1] + a17[1] + a18[1] +
+        a19[1] + a20[1] + a21[1] + a22[1] + a23[1] + a24[1] +
+        a25[1] + a26[1] + a27[1] + a28[1] + a29[1] + a30[1] +
+        a31[1] + a32[1] + a33[1] + a34[1] + a35[1] + a36[1] +
+        a37[1] + a38[1] + a39[1] + a40[1] + a41[1] + a42[1] +
+        a43[1] + a44[1] + a45[1] + a46[1] + a47[1] + a48[1] +
+        a49[1] + a50[1] + a51[1] + a52[1] + a53[1] + a54[1] +
+        a55[1] + a56[1] + a57[1] + a58[1] + a59[1]);
+   e̲n̲d̲;
+c̲o̲m̲m̲e̲n̲t̲ ****************************
+     @
+     Results: Walgol
+     RAN/EL/000M04S/000M36S  SIZE    341
+
+     +5.9999 9999 956 <+ 1
+
+     RAN/EL/000M01S/000M01S
+
+     Kalgol
+     FAIL 00320 LINE 00148 IDEN OUTPUTP 0ALGOLS(
+     Conclusion:
+     Walgol passes but 1970 result produced rounded result
+     Kalgol fails, unclear why Worked in 1970, and earlier this year
+
+     **********;
+e̲n̲d̲;
