@@ -1,0 +1,4707 @@
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ x8 simulator:  17-12-71;
+
+   i̲n̲t̲e̲g̲e̲r̲ aantal kasten, max addr, bufs, max master;
+   aantal kasten := 4;
+   bufs := 3000;
+   max master := 512;
+   max addr := aantal kasten × 2 ⭡ 14 - 1;
+
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ fh, ft, a, s, b, ot, c, iv, lt, of, last par word,
+        nint, ov, bt, or, m, addr, cg, itv, ingreep type, dyst stat;
+
+      c̲o̲m̲m̲e̲n̲t̲ ingreep type   betekenis:
+        0              geen ingreep
+        1              charon/sleutelingreep
+        2              foutingreep
+        3              foutingreep tijdens charon/sleutelingreep ;
+
+      r̲e̲a̲l̲ val, valh, valt, ah, at, sh, st, hulp1, hulp2, hulp3;
+      B̲o̲o̲l̲e̲a̲n̲ addrop, regop, memop, mcaddr, flag, nega, negs, subcd, gate,
+        prot;
+
+      s̲w̲i̲t̲c̲h̲ dsw := basis cyclus 1;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ randbit;
+         randbit := random;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ randint;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ x;
+         x := entier((entier(random × tp13) + random) × tp14);
+         randint := i̲f̲ x ≥ tp26 t̲h̲e̲n̲ x - tp27m1 e̲l̲s̲e̲ x
+      e̲n̲d̲ randint;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init x8;
+      b̲e̲g̲i̲n̲
+         fh := randint;
+         ft := randint;
+         a := randint;
+         s := randint;
+         b := randint;
+         ot := and(randint, tp18m1);
+         or := randint;
+         c := randbit;
+         iv := randbit;
+         lt := randbit;
+         of := randbit;
+         last par word := randint;
+         nint := randbit;
+         ov := randbit;
+         bt := randbit;
+         m := addr := cg := itv := ingreep type := dyst stat := 0;
+         prot := bt = 0
+      e̲n̲d̲ init x8;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ memreg;
+         i̲f̲ mem op t̲h̲e̲n̲
+           mem1
+         e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+            m := i̲f̲ addr < 59 t̲h̲e̲n̲
+              (i̲f̲ addr = 57 t̲h̲e̲n̲ fh e̲l̲s̲e̲ ft)
+            e̲l̲s̲e̲ i̲f̲ addr < 61 t̲h̲e̲n̲
+              (i̲f̲ addr = 59 t̲h̲e̲n̲ a e̲l̲s̲e̲ s)
+            e̲l̲s̲e̲ i̲f̲ addr = 61 t̲h̲e̲n̲
+              b
+            e̲l̲s̲e̲
+              tlink + (i̲f̲ c = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ -tp26m1)
+         e̲n̲d̲ memreg;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ compf(h,t);
+         v̲a̲l̲u̲e̲ h,t;
+         r̲e̲a̲l̲ h,t;
+         compf := compose(h,set(bit(14, h), 26, 26, t));
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ signinc;
+         signinc := bit(14, valh) ≠ (i̲f̲ 1/valt > 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ b up1;
+      b̲e̲g̲i̲n̲
+         i̲f̲ 1/b < 0 t̲h̲e̲n̲ undef(335);
+         b := b + 1
+      e̲n̲d̲ b up1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ bdown1;
+      b̲e̲g̲i̲n̲ b := -(1 - b);
+         i̲f̲ b < 0 t̲h̲e̲n̲ undef(330) e̲n̲d̲ bdown1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ b up2;
+      b̲e̲g̲i̲n̲
+         i̲f̲ 1/b < 0 t̲h̲e̲n̲ undef(336);
+         b := b + 2
+      e̲n̲d̲ b up2;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ bdown2;
+      b̲e̲g̲i̲n̲ b := -(2 - b);
+         i̲f̲ b < 0 t̲h̲e̲n̲ undef(331) e̲n̲d̲ bdown2;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ star(x);
+         v̲a̲l̲u̲e̲ x;
+         r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ only for abs(x) > tp18m1;
+         y := x - x ÷ tp18 × tp18;
+         star := i̲f̲ y = 0 ∧ x > 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ y
+      e̲n̲d̲ star;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ tlink;
+         tlink := ot +
+           (i̲f̲ c  = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp18) +
+           (i̲f̲ iv = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp19) +
+           (i̲f̲ lt = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp20) +
+           (i̲f̲ of = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp21) +
+           (i̲f̲ parbit(last par word) = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp22) +
+           (i̲f̲ nint = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp23) +
+           (i̲f̲ ov = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp24) +
+           (i̲f̲ bt ≠ 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp25);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ calc addr;
+      b̲e̲g̲i̲n̲
+         mcaddr := f̲a̲l̲s̲e̲;
+         i̲f̲ b20c19 < 3 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲ stat, : stat, statb;
+            i̲f̲ b20c19 < 2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               addr := b14t0;
+               addrop := b20c19 = 1
+            e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+               addrop := f̲a̲l̲s̲e̲;
+               addr := (i̲f̲ abs(b) > tp18m1
+                 t̲h̲e̲n̲ b - b ÷ tp18 × tp18
+               e̲l̲s̲e̲ b) + b14t0 - tp14
+            e̲n̲d̲;
+            reg op := ¬addrop ∧ addr > 56 ∧ addr < 63
+         e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+            b14t9 := b14t0 ÷ tp9;
+            b8t0 := b14t0 - b14t9 × tp9;
+            i̲f̲ b14t9 > 57 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ mr;
+               i̲f̲ b14t9 = 63 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ ¬filled[63] t̲h̲e̲n̲ undef(25401);
+                  x := m0[63];
+                  ccs := ccs + 2;
+                  i̲f̲ trace t̲h̲e̲n̲ report reading(63, x);
+               e̲n̲d̲ e̲l̲s̲e̲
+                 x := i̲f̲ b14t9 < 61 t̲h̲e̲n̲
+                 (i̲f̲  b14t9 = 58 t̲h̲e̲n̲ ft e̲l̲s̲e̲
+                 i̲f̲  b14t9 = 59 t̲h̲e̲n̲  a e̲l̲s̲e̲ s) e̲l̲s̲e̲
+                 i̲f̲  b14t9 = 61 t̲h̲e̲n̲  b e̲l̲s̲e̲ ot
+            e̲n̲d̲ mr e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ mpq;
+               i̲f̲ ¬filled[63] t̲h̲e̲n̲ undef(25402);
+               y := m0[63];
+               ccs := ccs + 2;
+               i̲f̲ trace t̲h̲e̲n̲ report reading(63, y);
+               i̲f̲ abs(y) > tp18m1 t̲h̲e̲n̲ y := y - y ÷ tp18 × tp18;
+               i̲f̲ y < 64 t̲h̲e̲n̲ undef(332);
+               cg := 0;
+               addr := y + b14t9;
+               mem1;
+               x := m;
+            e̲n̲d̲ mpq;
+            addr := (i̲f̲ abs(x) > tp18m1 t̲h̲e̲n̲ x - x ÷ tp18 × tp18
+            e̲l̲s̲e̲ x) + b8t0 - tp8;
+            i̲f̲ addr > 56 ∧ addr < 63 t̲h̲e̲n̲ undef(333);
+            reg op := f̲a̲l̲s̲e̲;
+            addrop := b20c19 = 4;
+            mcaddr := b14t9 = 61 ∧ ¬addrop
+         e̲n̲d̲ dyn, : dyn;
+         i̲f̲ addr < 0 t̲h̲e̲n̲ undef(26320) e̲l̲s̲e̲
+         i̲f̲ addr = 0 t̲h̲e̲n̲ addr := 0 e̲l̲s̲e̲
+         i̲f̲ addr > tp18m1 t̲h̲e̲n̲ undef(26321);
+         mem op := ¬ (addrop ∨ reg op)
+      e̲n̲d̲ calc addr;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ condf;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ conditiezetting op floating point getal
+           in valh en valt;
+         x := bit(14, valh);
+         c :=
+           i̲f̲ b18c17 = 1 t̲h̲e̲n̲ x e̲l̲s̲e̲
+           i̲f̲ b18c17 = 2 t̲h̲e̲n̲
+           (i̲f̲ valt ≠ 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+           i̲f̲ and(valh, tp14m1)=(i̲f̲ 1/valt > 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ tp14m1)
+           t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1) e̲l̲s̲e̲
+           i̲f̲ lt = x t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+         lt := x
+      e̲n̲d̲ condf;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ cond;
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ conditiezetting op 27-bits woord in val;
+         x := i̲f̲ (i̲f̲ val = 0 t̲h̲e̲n̲ 1/val e̲l̲s̲e̲ val) > 0
+           t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+         c := i̲f̲ b18c17 = 1 t̲h̲e̲n̲ x e̲l̲s̲e̲
+           i̲f̲ b18c17 = 2 t̲h̲e̲n̲ (i̲f̲ val = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1) e̲l̲s̲e̲
+           i̲f̲ lt = x t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+         lt := x
+      e̲n̲d̲ cond;
+
+      c̲o̲m̲m̲e̲n̲t̲ begin pariteitsberekening;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ parlist[0: 511];
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ parbit(bin);
+         v̲a̲l̲u̲e̲ bin;
+         r̲e̲a̲l̲ bin;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ x, y;
+         i̲f̲ (i̲f̲ bin = 0 t̲h̲e̲n̲ 1/bin e̲l̲s̲e̲ bin) < 0 t̲h̲e̲n̲
+           bin := bin + tp27m1;
+         x := bin ÷ 512;
+         y := x ÷ 512;
+         x := parlist[bin - x × 512] + parlist[x - y × 512] + parlist[y] + 1;
+         rep:
+         i̲f̲ x > 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ x := x - 2;
+            g̲o̲t̲o̲ rep e̲n̲d̲ _m_o_d 2;
+         parbit := x
+      e̲n̲d̲ parbit;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init parlist;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i,j;
+         parlist[0] := 0;
+         f̲o̲r̲ i := 1, i + i w̲h̲i̲l̲e̲ i ≤ 256 d̲o̲
+              f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ i - 1 d̲o̲
+                 parlist[i+j] := 1 - parlist[j]
+      e̲n̲d̲ init parlist;
+
+      c̲o̲m̲m̲e̲n̲t̲ einde pariteitsberekening;
+
+      c̲o̲m̲m̲e̲n̲t̲ begin memory simulation;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ bring in(region);
+         r̲e̲a̲l̲ region;
+         i̲f̲ m3p = 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+            i̲f̲ m2p = 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               i̲f̲ m1p = 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                  m1p := region;
+                  m1l := m cnt
+               e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+                  m2p := region;
+                  m2l := m cnt
+               e̲n̲d̲
+            e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+               m3p := region;
+               m3l := m cnt
+            e̲n̲d̲
+         e̲n̲d̲ unused regions e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+
+            p̲r̲o̲c̲e̲d̲u̲r̲e̲ transp(m, mp);
+               i̲n̲t̲e̲g̲e̲r̲ mp;
+                 i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ m;
+            b̲e̲g̲i̲n̲
+               to drum(m, mp × bufs);
+               mp := region;
+               drum cnt := drum cnt + 1;
+               from drum(m, mp × bufs)
+            e̲n̲d̲ transp;
+
+            i̲f̲ m1l > m2l t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               i̲f̲ m2l > m3l t̲h̲e̲n̲ transp(m3, m3p) e̲l̲s̲e̲ transp(m2, m2p)
+            e̲n̲d̲ m2 of m3
+              e̲l̲s̲e̲
+            i̲f̲ m1l > m3l t̲h̲e̲n̲ transp(m3, m3p) e̲l̲s̲e̲ transp(m1, m1p)
+         e̲n̲d̲ bring in;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ stm;
+         i̲f̲ addr > 56 ∧ addr < 63 t̲h̲e̲n̲ undef(305) e̲l̲s̲e̲ stm1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ stm1;
+         i̲f̲ addr > max addr t̲h̲e̲n̲ undef(26322) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ region;
+            i̲f̲ in monitor t̲h̲e̲n̲ g̲o̲t̲o̲ skip adm;
+            i̲f̲ prot t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ dgp[addr ÷ 512] ≥ 0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ ¬ (addr < 16 ∨ addr = 63) t̲h̲e̲n̲ undef(27500)
+               e̲n̲d̲
+            e̲n̲d̲;
+            i̲f̲ nowrite[addr] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ r̲e̲a̲l̲ m1, addr1, cg1;
+               m1 := m;
+               addr1 := addr;
+               cg1 := cg;
+               undef(5);
+               m := m1;
+               addr := addr1;
+               cg := cg1
+            e̲n̲d̲ nowrite;
+            m cnt := m cnt + 1;
+            skip adm:
+            filled[addr] := cg = 0;
+            region := addr ÷ bufs;
+            x := addr - region × bufs;
+            rep:
+            i̲f̲ region =  0  t̲h̲e̲n̲ m0[x] := m e̲l̲s̲e̲
+            i̲f̲ region = m1p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m1[x] := m; m1l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            i̲f̲ region = m2p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m2[x] := m; m2l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            i̲f̲ region = m3p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m3[x] := m; m3l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               bring in(region);
+               g̲o̲t̲o̲ rep
+            e̲n̲d̲;
+            i̲f̲ trace t̲h̲e̲n̲ report writing(addr, m)
+         e̲n̲d̲ stm 1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ mem;
+         i̲f̲ addr > 56 ∧ addr < 63 t̲h̲e̲n̲ undef(304) e̲l̲s̲e̲ mem1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ mem1;
+         i̲f̲ addr > max addr t̲h̲e̲n̲ undef(26323) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ region;
+            B̲o̲o̲l̲e̲a̲n̲ fa;
+            i̲f̲ in monitor t̲h̲e̲n̲ g̲o̲t̲o̲ skip adm1;
+            i̲f̲ prot t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ dgp[addr ÷ 512]  >   0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ ¬ (addr < 16 ∨ addr = 63) t̲h̲e̲n̲ undef(27501)
+               e̲n̲d̲
+            e̲n̲d̲;
+            ccs := ccs + 2;
+            m cnt := mcnt + 1;
+            fa := filled[addr];
+            i̲f̲ cg < 2  ∧  ¬fa t̲h̲e̲n̲ undef(25400);
+            skip adm1:
+            region := addr ÷ bufs;
+            x := addr - region × bufs;
+            rep:
+            i̲f̲ region =  0  t̲h̲e̲n̲ m := m0[x] e̲l̲s̲e̲
+            i̲f̲ region = m1p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m := m1[x]; m1l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            i̲f̲ region = m2p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m := m2[x]; m2l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            i̲f̲ region = m3p t̲h̲e̲n̲ b̲e̲g̲i̲n̲ m := m3[x]; m3l := m cnt e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               bring in (region);
+               g̲o̲t̲o̲ rep
+            e̲n̲d̲;
+            i̲f̲ trace t̲h̲e̲n̲ report reading(addr, m);
+            i̲f̲ in monitor t̲h̲e̲n̲ g̲o̲t̲o̲ skip adm2;
+            i̲f̲ cg = 0 t̲h̲e̲n̲
+              e̲l̲s̲e̲ i̲f̲ cg = 1 t̲h̲e̲n̲ last par word := m
+            e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+               last par word := i̲f̲ fa t̲h̲e̲n̲ m e̲l̲s̲e̲ -m;
+               i̲f̲ cg = 3 t̲h̲e̲n̲ c := i̲f̲ fa t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1
+            e̲n̲d̲;
+            skip adm2:
+         e̲n̲d̲ mem1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init memory;
+      b̲e̲g̲i̲n̲
+         y := max addr ÷ tp9;
+         f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲  y  d̲o̲ dgp[x] := 2;
+         c̲o̲m̲m̲e̲n̲t̲  dp := t̲r̲u̲e̲, gp := t̲r̲u̲e̲;
+         m cnt := m1p := m1l := m2p := m2l := m3p := m3l := drum cnt := 0;
+         x := 0;
+         rep:
+         filled[x] := nowrite[x] := noexec[x] := f̲a̲l̲s̲e̲;
+         x := x + 1;
+         i̲f̲ x ≤ max addr t̲h̲e̲n̲ g̲o̲t̲o̲ rep
+      e̲n̲d̲ init memory;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ m0, m1, m2, m3[0: bufs - 1];
+      B̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ filled, nowrite, noexec[0 :  max addr];
+      r̲e̲a̲l̲ m1p, m1l, m2p, m2l, m3p, m3l;
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ dgp[0 :  max addr ÷ 512];
+      r̲e̲a̲l̲ m cnt, drum cnt;
+
+      c̲o̲m̲m̲e̲n̲t̲ end memory simulation;
+
+      c̲o̲m̲m̲e̲n̲t̲ simulatie charon;
+
+      r̲e̲a̲l̲ charon teller, ie0, ie1;
+      i̲n̲t̲e̲g̲e̲r̲ af0, af1, if0, if1, lvif0, lvif1;
+      i̲n̲t̲e̲g̲e̲r̲ afv0, afv1, ifv0, ifv1, lvifv0, lvifv1;
+      i̲n̲t̲e̲g̲e̲r̲ ip lezer;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ setq(l, q0, q1, v);
+         v̲a̲l̲u̲e̲ l;
+         i̲n̲t̲e̲g̲e̲r̲ l, q0, q1, v;
+         i̲f̲ l > 31 t̲h̲e̲n̲ q0 := set(v, l  - 14, l  - 14, q0)
+           e̲l̲s̲e̲ i̲f̲ l > 17 t̲h̲e̲n̲ q1 := set(v, 43 -  l, 43 -  l, q1)
+         e̲l̲s̲e̲
+           q0 := set(v, 17 -  l, 17 -  l, q0);
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ readq(l, q0, q1);
+         v̲a̲l̲u̲e̲ l;
+         i̲n̲t̲e̲g̲e̲r̲ l, q0, q1;
+         readq :=
+           i̲f̲ l > 31 t̲h̲e̲n̲ bit(l - 14, q0)
+         e̲l̲s̲e̲ i̲f̲ l > 17 t̲h̲e̲n̲ bit(43 - l, q1)
+         e̲l̲s̲e̲
+           bit(17 - l, q0);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init q(q0, q1, qlist);
+         i̲n̲t̲e̲g̲e̲r̲ q0, q1;
+           s̲t̲r̲i̲n̲g̲ qlist;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i;
+         q0 := q1 := 0;
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 39 d̲o̲
+              set q(i, q0, q1, stringsymbol(i, qlist))
+      e̲n̲d̲ init q;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ wek charon;
+      ;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ attendeer charon af(n);
+         undef(600 + n);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init charon;
+      b̲e̲g̲i̲n̲
+         charon teller := 0;
+         ip lezer := 5;
+         init q(afv0, afv1,“0000000000000000000000000000000000000000”);
+         init q(ifv0, ifv1,“1111111111111111111111001111110000111111”);
+         init q(lvifv0, lvifv1,“1111111111111100111111001111110000001111”);
+         ls
+      e̲n̲d̲ init charon;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ bva;
+         g̲o̲t̲o̲ bva1;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ls;
+      b̲e̲g̲i̲n̲
+         iv := bt := 1;
+         ov := ie0 := ie1 := dyst stat := 0;
+         af0 := af1 := if0 := if1 := 0;
+         lvif0 := tp26m1;
+         lvif1 := tp26m1 - tp12 + 1;
+      e̲n̲d̲ ls;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ lsip;
+      b̲e̲g̲i̲n̲
+         ls;
+         ip;
+         ot := tp18m1;
+         setq(ip lezer, if0,if1,1);
+         i̲f̲ ¬ sva t̲h̲e̲n̲ bva
+      e̲n̲d̲ lsip;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ lsbi;
+      b̲e̲g̲i̲n̲
+         ls;
+         bi;
+         ot := tp18m1;
+         setq(ip lezer, if0,if1,1);
+         i̲f̲ ¬ sva t̲h̲e̲n̲ bva
+      e̲n̲d̲ lsbi;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ lsnb;
+      b̲e̲g̲i̲n̲
+         ls;
+         ot := tp18m1;
+         setq(38,if0,if1,1);
+         i̲f̲ ¬ sva t̲h̲e̲n̲ bva
+      e̲n̲d̲ lsnb;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ip;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ n, amount;
+
+         r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ word;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ n;
+
+            r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ rehep1;
+            b̲e̲g̲i̲n̲ r̲e̲a̲l̲ n;
+               n := rehep1 := rehep;
+               i̲f̲ n > 127 t̲h̲e̲n̲ undef(160)
+            e̲n̲d̲ rehep1;
+
+            skip:
+            n := -(64 - rehep1);
+            i̲f̲ n < 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip;
+            word := ((n × 128 + rehep1) × 128 + rehep1) × 128 + rehep1
+         e̲n̲d̲ word;
+
+         block:
+         n := word;
+         amount := n ÷ tp18;
+         addr := n - amount × tp18;
+         i̲f̲ addr = tp18m1 t̲h̲e̲n̲ addr := -1;
+         i̲f̲ amount ≠ 0  ∨  addr ≠ 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            loop:
+            addr := addr + 1;
+            amount := amount - 1;
+            m := word;
+            i̲f̲ m > tp26m1 t̲h̲e̲n̲ m := m - tp27m1;
+            stm;
+            g̲o̲t̲o̲ i̲f̲ amount = 0  ∨  amount = -512 t̲h̲e̲n̲ block e̲l̲s̲e̲ loop
+         e̲n̲d̲ block
+
+      e̲n̲d̲ ip;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ bi;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ a, s;
+         i̲n̲t̲e̲g̲e̲r̲ adr, cnt;
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ rehep inf;
+         b̲e̲g̲i̲n̲
+            rep:
+            s := rehep;
+            i̲f̲ s > 63 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ s ≠ 127 t̲h̲e̲n̲ undef(172);
+               f̲o̲r̲ s := rehep w̲h̲i̲l̲e̲ s ≠ 127 d̲o̲;
+               g̲o̲t̲o̲ rep
+            e̲n̲d̲
+         e̲n̲d̲ rehep inf;
+
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ re biword;
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ n;
+            r̲e̲a̲l̲ res;
+            B̲o̲o̲l̲e̲a̲n̲ par;
+            res := s;
+            par := parlist[s] = 0;
+            f̲o̲r̲ n := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+               b̲e̲g̲i̲n̲
+                  rehep inf;
+                  res := res × 64 + s;
+                  par := par ≡ parlist[s] = 0
+               e̲n̲d̲;
+            i̲f̲ par t̲h̲e̲n̲ undef(173);
+            a := res ÷ tp27;
+            s := -(a × tp27 - x);
+            i̲f̲ s > tp26m1 t̲h̲e̲n̲ s := s - tp27m1
+         e̲n̲d̲ re biword;
+
+         read biblock:
+         rehep inf;
+         i̲f̲ s = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ read biblock;
+         re biword;
+         i̲f̲ a ≠ 3 t̲h̲e̲n̲ undef(174);
+         adr := and(s, tp18m1);
+         cnt := and(s ÷ tp18, 511);
+         i̲f̲ cnt = 0 t̲h̲e̲n̲ cnt := 512;
+         i̲f̲ adr > 0 ∨ cnt > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ cnt := cnt s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ rehep inf;
+                  re biword;
+                  i̲f̲ a ≠ 0 t̲h̲e̲n̲ undef(175);
+                  adr := adr + 1;
+                  i̲f̲ adr < 24 ∨ adr > 56 ∧ adr < 63 t̲h̲e̲n̲ undef(176);
+                  addr := adr;
+                  m := s;
+                  stm1;
+               e̲n̲d̲ cnt;
+            g̲o̲t̲o̲ read biblock
+         e̲n̲d̲ biblock;
+      e̲n̲d̲ bi;
+
+      c̲o̲m̲m̲e̲n̲t̲ einde simulatie charon;
+
+      c̲o̲m̲m̲e̲n̲t̲ begin monitor procedures;
+
+      c̲o̲m̲m̲e̲n̲t̲ master program for x8s,61271;
+
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ lwork[1: maxmaster];
+      i̲n̲t̲e̲g̲e̲r̲ symb,char,plab,pvar,ptmp,ploc,pin,pwork,valuedenoted,level;
+      B̲o̲o̲l̲e̲a̲n̲ errorfree;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ insert2(p,x1,x2);
+         i̲n̲t̲e̲g̲e̲r̲ x2,x1,p;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q;
+         q := p;
+         p := pwork;
+         pwork := pwork-3;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(pwork<pin) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            error(“workspace exhausted”,pwork);
+            g̲o̲t̲o̲ l999;
+            l2:
+            lwork[p-0] := x1;
+            lwork[p-1] := x2;
+            lwork[p-2] := q;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ find2(p,x1,x2);
+         i̲n̲t̲e̲g̲e̲r̲ x2,x1,p;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q,y;
+         find2 := t̲r̲u̲e̲;
+         q := p;
+         lfnd:
+         i̲f̲ ¬(0<q) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         y := lwork[q-0];
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(y=x1) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            x2 := lwork[q-1];
+            g̲o̲t̲o̲ l999;
+            l2:
+            q := lwork[q-2];
+            g̲o̲t̲o̲ lfnd;
+         e̲n̲d̲;
+         l1:
+         find2 := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ still2(p,x1,x2);
+         i̲n̲t̲e̲g̲e̲r̲ x2,x1,p;
+      b̲e̲g̲i̲n̲
+         still2 := t̲r̲u̲e̲;
+         i̲f̲ ¬(0<p) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         x1 := lwork[p-0];
+         x2 := lwork[p-1];
+         p  := lwork[p-2];
+         g̲o̲t̲o̲ l999;
+         l1:
+         still2 := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ insert5(p,x1,x2,x3,x4,x5);
+         i̲n̲t̲e̲g̲e̲r̲ x5,x4,x3,x2,x1,p;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q;
+         q := p;
+         p := pwork;
+         pwork := pwork-6;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(pwork<pin) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            error(“workspace exhausted”,pwork);
+            g̲o̲t̲o̲ l999;
+            l2:
+            lwork[p-0] := x1;
+            lwork[p-1] := x2;
+            lwork[p-2] := x3;
+            lwork[p-3] := x4;
+            lwork[p-4] := x5;
+            lwork[p-5] := q;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ prescan;
+      b̲e̲g̲i̲n̲
+         pwork := maxmaster;
+         errorfree := t̲r̲u̲e̲;
+         ploc := maxmaster;
+         pin := 1;
+         plab := 0;
+         pvar := 0;
+         ptmp := 0;
+         char := 93;
+         level := 1;
+         nextsymbol;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬xp(1207) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            text;
+            connectlabels;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬errorfree t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+               g̲o̲t̲o̲ l999;
+               l3:
+               nlcr;
+               printtext(“incorrect program”);
+               g̲o̲t̲o̲ terminate;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l2:
+            error(“no program”,symb);
+            g̲o̲t̲o̲ terminate;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ text;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y,loc;
+         ltxt:
+         i̲f̲ ¬xp(1115) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬xp(1117) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            y := valuedenoted;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬xp(1202) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+               definelabel(y);
+               g̲o̲t̲o̲ ltxt;
+               l3:
+               gv(1115);
+               applylabel(y,loc);
+               gv(loc);
+               g̲o̲t̲o̲ ltxt;
+            e̲n̲d̲;
+            l2:
+            error(“bad label”,symb);
+            g̲o̲t̲o̲ ltxt;
+         e̲n̲d̲;
+         l1:
+         i̲f̲ ¬xp(1005) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         gv(1005);
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬xp(1117) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+            y := valuedenoted;
+            notevariable(y,loc);
+            gv(loc);
+            g̲o̲t̲o̲ ltxt;
+            l7:
+            error(“bad variable”,symb);
+            g̲o̲t̲o̲ ltxt;
+         e̲n̲d̲;
+         l6:
+         i̲f̲ ¬xp(1117) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         gv(1117);
+         gv(valuedenoted);
+         g̲o̲t̲o̲ ltxt;
+         l9:
+         i̲f̲ ¬(symb=1207) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         gv(1207);
+         shiftline;
+         nextsymbol;
+         level := level+1;
+         g̲o̲t̲o̲ ltxt;
+         l10:
+         i̲f̲ ¬(symb=1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(level=1) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+            g̲o̲t̲o̲ l999;
+            l12:
+            level := level-1;
+            i̲f̲ ¬xp(1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+            gv(1218);
+            g̲o̲t̲o̲ ltxt;
+            l13:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l11:
+         i̲f̲ ¬(symb=1038) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+         gv(1038);
+         string;
+         gv(1038);
+         g̲o̲t̲o̲ ltxt;
+         l15:
+         i̲f̲ ¬(symb=1219) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+         gv(1219);
+         shiftline;
+         nextsymbol;
+         g̲o̲t̲o̲ ltxt;
+         l16:
+         gv(symb);
+         nextsymbol;
+         g̲o̲t̲o̲ ltxt;
+         l0:
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ xp(x);
+         i̲n̲t̲e̲g̲e̲r̲ x;
+      b̲e̲g̲i̲n̲ xp := t̲r̲u̲e̲;
+         i̲f̲ ¬(symb=x) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         nextsymbol;
+         g̲o̲t̲o̲ l999;
+         l1:
+         xp := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ gv(x);
+         i̲n̲t̲e̲g̲e̲r̲ x;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(pwork<pin) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         error(“workspace exhausted”,pwork);
+         g̲o̲t̲o̲ l999;
+         l1:
+         lwork[pin-0] := x;
+         pin := pin+1;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ definelabel(lab);
+         i̲n̲t̲e̲g̲e̲r̲ lab;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ dummy;
+         i̲f̲ ¬find2(plab,lab,dummy) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         error(“label defined twice”,lab);
+         g̲o̲t̲o̲ l999;
+         l1:
+         insert2(plab,lab,pin);
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ applylabel(lab,loc);
+         i̲n̲t̲e̲g̲e̲r̲ loc,lab;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬find2(plab,lab,loc) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         insert2(ptmp,lab,pin);
+         loc := 0;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ notevariable(var,loc);
+         i̲n̲t̲e̲g̲e̲r̲ loc,var;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬find2(pvar,var,loc) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         loc := ploc;
+         insert2(pvar,var,loc);
+         ploc := ploc-1;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ connectlabels;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ lab,pl,loc;
+         lrst:
+         i̲f̲ ¬still2(ptmp,lab,pl) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬find2(plab,lab,loc) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            lwork[pl-0] := loc;
+            g̲o̲t̲o̲ lrst;
+            l2:
+            error(“label defined nonce”,lab);
+            g̲o̲t̲o̲ lrst;
+         e̲n̲d̲;
+         l1:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ error(x,y);
+         i̲n̲t̲e̲g̲e̲r̲ y;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ pos;
+         pos := printpos-1;
+         newline;
+         printtext(x);
+         print(y);
+         nlcr;
+         space(pos);
+         errorfree := f̲a̲l̲s̲e̲;
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ string;
+      b̲e̲g̲i̲n̲
+         lstr:
+         i̲f̲ ¬ask(121) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         nextsymbol;
+         g̲o̲t̲o̲ l999;
+         l1:
+         gv(char);
+         xok;
+         g̲o̲t̲o̲ lstr;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ask(c1);
+         i̲n̲t̲e̲g̲e̲r̲ c1;
+      b̲e̲g̲i̲n̲ ask := t̲r̲u̲e̲;
+         i̲f̲ ¬(char=c1) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         xok;
+         g̲o̲t̲o̲ l999;
+         l1:
+         ask := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ xok;
+      b̲e̲g̲i̲n̲ prsym(126);
+         nextchar;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ nextchar;
+      b̲e̲g̲i̲n̲ prsym(char);
+         char := resym;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ newline;
+      b̲e̲g̲i̲n̲ prsym(119);
+         print(pin);
+         prsym(118);
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ shiftline;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ pos;
+         pos := printpos-24;
+         newline;
+         space(pos);
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ nextsymbol;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬trysymbol t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         error(“unkown char”,char);
+         nextchar;
+         nextsymbol;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ trysymbol;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ val;
+         trysymbol := t̲r̲u̲e̲;
+         lnxt:
+         i̲f̲ ¬(char=93) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         nextchar;
+         g̲o̲t̲o̲ lnxt;
+         l1:
+         i̲f̲ ¬(char=119) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         newline;
+         char := resym;
+         g̲o̲t̲o̲ lnxt;
+         l2:
+         i̲f̲ ¬(char=118) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         nextchar;
+         g̲o̲t̲o̲ lnxt;
+         l3:
+         i̲f̲ ¬(char<10) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         val := char;
+         ldec:
+         xok;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(char<10) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+            val := val×10+char;
+            g̲o̲t̲o̲ ldec;
+            l5:
+            symb := 1117;
+            valuedenoted := val;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l4:
+         i̲f̲ ¬(char≤16) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         i̲f̲ ¬atogsymbol t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         g̲o̲t̲o̲ l999;
+         l7:
+         i̲f̲ ¬(char≤25) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         i̲f̲ ¬htopsymbol t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         g̲o̲t̲o̲ l999;
+         l8:
+         i̲f̲ ¬(char≤35) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         i̲f̲ ¬qtozsymbol t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         g̲o̲t̲o̲ l999;
+         l9:
+         i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(64) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+            i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            symb := 1203;
+            g̲o̲t̲o̲ l999;
+            l11:
+            i̲f̲ ¬ask(66) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+            i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            symb := 1204;
+            g̲o̲t̲o̲ l999;
+            l12:
+            i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+            i̲f̲ ¬ask(26) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            symb := 1213;
+            g̲o̲t̲o̲ l999;
+            l13:
+            i̲f̲ ¬ask(16) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+               i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+               symb := 1216;
+               g̲o̲t̲o̲ l999;
+               l15:
+               i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+               i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+               symb := 1215;
+               g̲o̲t̲o̲ l999;
+               l16:
+               g̲o̲t̲o̲ l0;
+            e̲n̲d̲;
+            l14:
+            i̲f̲ ¬ask(21) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+               i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+               symb := 1212;
+               g̲o̲t̲o̲ l999;
+               l19:
+               i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l20;
+               i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+               symb := 1211;
+               g̲o̲t̲o̲ l999;
+               l20:
+               g̲o̲t̲o̲ l0;
+            e̲n̲d̲;
+            l18:
+            i̲f̲ ¬ask(23) t̲h̲e̲n̲ g̲o̲t̲o̲ l22;
+            i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            symb := 1214;
+            g̲o̲t̲o̲ l999;
+            l22:
+            val := 0;
+            loct:
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(120) t̲h̲e̲n̲ g̲o̲t̲o̲ l24;
+               symb := 1117;
+               valuedenoted := val;
+               g̲o̲t̲o̲ l999;
+               l24:
+               i̲f̲ ¬ask(93) t̲h̲e̲n̲ g̲o̲t̲o̲ l25;
+               g̲o̲t̲o̲ loct;
+               l25:
+               i̲f̲ ¬(char<8) t̲h̲e̲n̲ g̲o̲t̲o̲ l26;
+               adjust(val);
+               val := val×8+char;
+               xok;
+               g̲o̲t̲o̲ loct;
+               l26:
+               error(“unknown char”,char);
+               nextchar;
+               g̲o̲t̲o̲ loct;
+            e̲n̲d̲;
+         e̲n̲d̲;
+         l10:
+         i̲f̲ ¬ask(80) t̲h̲e̲n̲ g̲o̲t̲o̲ l28;
+         symb := 1201;
+         g̲o̲t̲o̲ l999;
+         l28:
+         i̲f̲ ¬ask(99) t̲h̲e̲n̲ g̲o̲t̲o̲ l29;
+         symb := 1218;
+         g̲o̲t̲o̲ l999;
+         l29:
+         i̲f̲ ¬ask(90) t̲h̲e̲n̲ g̲o̲t̲o̲ l30;
+         symb := 1202;
+         g̲o̲t̲o̲ l999;
+         l30:
+         i̲f̲ ¬ask(87) t̲h̲e̲n̲ g̲o̲t̲o̲ l31;
+         symb := 1210;
+         g̲o̲t̲o̲ l999;
+         l31:
+         i̲f̲ ¬ask(70) t̲h̲e̲n̲ g̲o̲t̲o̲ l32;
+         symb := 1213;
+         g̲o̲t̲o̲ l999;
+         l32:
+         i̲f̲ ¬ask(74) t̲h̲e̲n̲ g̲o̲t̲o̲ l33;
+         symb := 1215;
+         g̲o̲t̲o̲ l999;
+         l33:
+         i̲f̲ ¬ask(72) t̲h̲e̲n̲ g̲o̲t̲o̲ l34;
+         symb := 1211;
+         g̲o̲t̲o̲ l999;
+         l34:
+         i̲f̲ ¬ask(65) t̲h̲e̲n̲ g̲o̲t̲o̲ l35;
+         symb := 1205;
+         g̲o̲t̲o̲ l999;
+         l35:
+         i̲f̲ ¬ask(76) t̲h̲e̲n̲ g̲o̲t̲o̲ l36;
+         symb := 1206;
+         g̲o̲t̲o̲ l999;
+         l36:
+         i̲f̲ ¬ask(98) t̲h̲e̲n̲ g̲o̲t̲o̲ l37;
+         symb := 1207;
+         g̲o̲t̲o̲ l999;
+         l37:
+         i̲f̲ ¬ask(79) t̲h̲e̲n̲ g̲o̲t̲o̲ l38;
+         symb := 1208;
+         g̲o̲t̲o̲ l999;
+         l38:
+         i̲f̲ ¬ask(64) t̲h̲e̲n̲ g̲o̲t̲o̲ l39;
+         symb := 1209;
+         g̲o̲t̲o̲ l999;
+         l39:
+         i̲f̲ ¬ask(121) t̲h̲e̲n̲ g̲o̲t̲o̲ l40;
+         symb := 1038;
+         g̲o̲t̲o̲ l999;
+         l40:
+         i̲f̲ ¬ask(91) t̲h̲e̲n̲ g̲o̲t̲o̲ l41;
+         symb := 1219;
+         g̲o̲t̲o̲ l999;
+         l41:
+         i̲f̲ ¬ask(127) t̲h̲e̲n̲ g̲o̲t̲o̲ l42;
+         i̲f̲ ¬ask(70) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         symb := 1214;
+         g̲o̲t̲o̲ l999;
+         l42:
+         i̲f̲ ¬ask(66) t̲h̲e̲n̲ g̲o̲t̲o̲ l43;
+         symb := 1217;
+         g̲o̲t̲o̲ l999;
+         l43:
+         i̲f̲ ¬ask(126) t̲h̲e̲n̲ g̲o̲t̲o̲ l44;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(72) t̲h̲e̲n̲ g̲o̲t̲o̲ l45;
+            symb := 1212;
+            g̲o̲t̲o̲ l999;
+            l45:
+            i̲f̲ ¬ask(74) t̲h̲e̲n̲ g̲o̲t̲o̲ l46;
+            symb := 1216;
+            g̲o̲t̲o̲ l999;
+            l46:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l44:
+         l0: trysymbol := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ adjust(y);
+         i̲n̲t̲e̲g̲e̲r̲ y;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(tp23≤y) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         y := y-tp24;
+         g̲o̲t̲o̲ l999;
+         l1:
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ atogsymbol;
+      b̲e̲g̲i̲n̲ atogsymbol := t̲r̲u̲e̲;
+         i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(11) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            result(1103);
+            g̲o̲t̲o̲ l999;
+            l2:
+            i̲f̲ ¬ask(13) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            result(1102);
+            g̲o̲t̲o̲ l999;
+            l3:
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+            result(1101);
+            g̲o̲t̲o̲ l999;
+            l4:
+            result(101);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         i̲f̲ ¬ask(11) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+            result(112);
+            g̲o̲t̲o̲ l999;
+            l7:
+            i̲f̲ ¬ask(31) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+            result(1020);
+            g̲o̲t̲o̲ l999;
+            l8:
+            result(103);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l6:
+         i̲f̲ ¬ask(12) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         result(104);
+         g̲o̲t̲o̲ l999;
+         l10:
+         i̲f̲ ¬ask(13) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+            result(1105);
+            g̲o̲t̲o̲ l999;
+            l12:
+            i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+            result(1033);
+            g̲o̲t̲o̲ l999;
+            l13:
+            i̲f̲ ¬ask(30) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+            result(1031);
+            g̲o̲t̲o̲ l999;
+            l14:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l11:
+         i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+         result(1106);
+         g̲o̲t̲o̲ l999;
+         l16:
+         i̲f̲ ¬ask(15) t̲h̲e̲n̲ g̲o̲t̲o̲ l17;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+            result(1107);
+            g̲o̲t̲o̲ l999;
+            l18:
+            i̲f̲ ¬ask(20) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+            result(106);
+            g̲o̲t̲o̲ l999;
+            l19:
+            result(105);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l17:
+         i̲f̲ ¬ask(16) t̲h̲e̲n̲ g̲o̲t̲o̲ l21;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(24) t̲h̲e̲n̲ g̲o̲t̲o̲ l22;
+            result(1003);
+            g̲o̲t̲o̲ l999;
+            l22:
+            result(107);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l21:
+         l0: atogsymbol := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ htopsymbol;
+      b̲e̲g̲i̲n̲ htopsymbol := t̲r̲u̲e̲;
+         i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(15) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            result(1004);
+            g̲o̲t̲o̲ l999;
+            l2:
+            i̲f̲ ¬ask(23) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(28) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+               result(1109);
+               g̲o̲t̲o̲ l999;
+               l4:
+               result(1108);
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l3:
+            i̲f̲ ¬ask(25) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+            result(1011);
+            g̲o̲t̲o̲ l999;
+            l6:
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+            result(109);
+            g̲o̲t̲o̲ l999;
+            l7:
+            i̲f̲ ¬ask(31) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+            result(108);
+            g̲o̲t̲o̲ l999;
+            l8:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l1:
+         i̲f̲ ¬ask(21) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(28) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(11) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+               result(1012);
+               g̲o̲t̲o̲ l999;
+               l12:
+               i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+               result(1018);
+               g̲o̲t̲o̲ l999;
+               l13:
+               i̲f̲ ¬ask(23) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+               result(1019);
+               g̲o̲t̲o̲ l999;
+               l14:
+               result(1017);
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l11:
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+            result(110);
+            g̲o̲t̲o̲ l999;
+            l16:
+            result(1115);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l10:
+         i̲f̲ ¬ask(22) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+         result(1116);
+         g̲o̲t̲o̲ l999;
+         l18:
+         i̲f̲ ¬ask(23) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(14) t̲h̲e̲n̲ g̲o̲t̲o̲ l20;
+            result(1035);
+            g̲o̲t̲o̲ l999;
+            l20:
+            i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l21;
+            result(113);
+            g̲o̲t̲o̲ l999;
+            l21:
+            i̲f̲ ¬ask(21) t̲h̲e̲n̲ g̲o̲t̲o̲ l22;
+            result(1034);
+            g̲o̲t̲o̲ l999;
+            l22:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l19:
+         i̲f̲ ¬ask(24) t̲h̲e̲n̲ g̲o̲t̲o̲ l24;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(15) t̲h̲e̲n̲ g̲o̲t̲o̲ l25;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(15) t̲h̲e̲n̲ g̲o̲t̲o̲ l26;
+               result(1006);
+               g̲o̲t̲o̲ l999;
+               l26:
+               result(115);
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l25:
+            i̲f̲ ¬ask(23) t̲h̲e̲n̲ g̲o̲t̲o̲ l28;
+            result(1001);
+            g̲o̲t̲o̲ l999;
+            l28:
+            i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l29;
+            result(111);
+            g̲o̲t̲o̲ l999;
+            l29:
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l30;
+            result(114);
+            g̲o̲t̲o̲ l999;
+            l30:
+            i̲f̲ ¬ask(31) t̲h̲e̲n̲ g̲o̲t̲o̲ l31;
+            result(116);
+            g̲o̲t̲o̲ l999;
+            l31:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l24:
+         i̲f̲ ¬ask(25) t̲h̲e̲n̲ g̲o̲t̲o̲ l33;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l34;
+            result(1110);
+            g̲o̲t̲o̲ l999;
+            l34:
+            i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l35;
+            result(1104);
+            g̲o̲t̲o̲ l999;
+            l35:
+            i̲f̲ ¬ask(30) t̲h̲e̲n̲ g̲o̲t̲o̲ l36;
+            result(1014);
+            g̲o̲t̲o̲ l999;
+            l36:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l33:
+         l0: htopsymbol := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ qtozsymbol;
+      b̲e̲g̲i̲n̲ qtozsymbol := t̲r̲u̲e̲;
+         i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         result(1111);
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬ask(28) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            result(1016);
+            g̲o̲t̲o̲ l999;
+            l3:
+            i̲f̲ ¬ask(25) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+            result(1037);
+            g̲o̲t̲o̲ l999;
+            l4:
+            i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+               b̲e̲g̲i̲n̲
+                  i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+                  result(1013);
+                  g̲o̲t̲o̲ l999;
+                  l7:
+                  i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+                  result(1032);
+                  g̲o̲t̲o̲ l999;
+                  l8:
+                  g̲o̲t̲o̲ l0;
+               e̲n̲d̲;
+               l6:
+               i̲f̲ ¬ask(24) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+               result(1002);
+               g̲o̲t̲o̲ l999;
+               l10:
+               g̲o̲t̲o̲ l0;
+            e̲n̲d̲;
+            l5:
+            i̲f̲ ¬ask(31) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+            result(1015);
+            g̲o̲t̲o̲ l999;
+            l12:
+            result(117);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l2:
+         i̲f̲ ¬ask(29) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(10) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+            result(1036);
+            g̲o̲t̲o̲ l999;
+            l15:
+            i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+            result(1112);
+            g̲o̲t̲o̲ l999;
+            l16:
+            result(102);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l14:
+         i̲f̲ ¬ask(31) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+         result(1005);
+         g̲o̲t̲o̲ l999;
+         l18:
+         i̲f̲ ¬ask(32) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+         i̲f̲ ¬ask(27) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬ask(18) t̲h̲e̲n̲ g̲o̲t̲o̲ l20;
+            result(1113);
+            g̲o̲t̲o̲ l999;
+            l20:
+            i̲f̲ ¬ask(24) t̲h̲e̲n̲ g̲o̲t̲o̲ l21;
+            result(1114);
+            g̲o̲t̲o̲ l999;
+            l21:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l19:
+         l0: qtozsymbol := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ result(res);
+         i̲n̲t̲e̲g̲e̲r̲ res;
+      b̲e̲g̲i̲n̲ symb := res;
+         lskp:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(10≤char) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬(char≤35) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            nextchar;
+            g̲o̲t̲o̲ lskp;
+            l2:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+      i̲n̲t̲e̲g̲e̲r̲ pwrte,pexec,interdata,interaddr,interpari,interinst,interprot;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ program;
+      b̲e̲g̲i̲n̲ level := 1;
+         pwork := ploc;
+         pwrte := 0;
+         pexec := 0;
+         prefillonconditions;
+         jumpto(1);
+         instructionlist;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ prefillonconditions;
+      b̲e̲g̲i̲n̲ insert5(pwrte,0,maxaddr,1,1,pin);
+         insert5(pexec,0,maxaddr,1,1,pin);
+         interdata := pin;
+         interaddr := pin;
+         interpari := pin;
+         interinst := pin;
+         interprot := pin;
+         gv(1002);
+         gv(1219);
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ instructionlist;
+      b̲e̲g̲i̲n̲
+         lrst:
+         instruction;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1219) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ lrst;
+            l2:
+            i̲f̲ ¬(symb=1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            g̲o̲t̲o̲ l999;
+            l3:
+            error(“skipped from”,symb);
+            skipinstruction;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1219) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+               g̲o̲t̲o̲ lrst;
+               l5:
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ instruction;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬is(1207) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         level := level+1;
+         instructionlist;
+         i̲f̲ ¬is(1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         level := level-1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬(symb≤1005) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         i̲f̲ ¬iscontrolinstruction t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         g̲o̲t̲o̲ l999;
+         l2:
+         i̲f̲ ¬(symb≤1020) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         i̲f̲ ¬isconsoleinstruction t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         g̲o̲t̲o̲ l999;
+         l3:
+         i̲f̲ ¬(symb≤1038) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         i̲f̲ ¬iscommentinstruction t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         g̲o̲t̲o̲ l999;
+         l4:
+         error(“incorrect master instruction”,symb);
+         skipinstruction;
+         g̲o̲t̲o̲ l999;
+         l0:
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iscontrolinstruction;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p,val;
+         iscontrolinstruction := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1001) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬iscountoption(p) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         i̲f̲ ¬isoncondition(p) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         skipinstruction;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬is(1006) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         i̲f̲ ¬isoffcondition t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         g̲o̲t̲o̲ l999;
+         l2:
+         i̲f̲ ¬is(1003) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         i̲f̲ ¬is(1115) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         next(p);
+         jumpto(p);
+         g̲o̲t̲o̲ l999;
+         l3:
+         i̲f̲ ¬is(1004) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         i̲f̲ ¬isexpr(p) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(p=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+            skipinstruction;
+            g̲o̲t̲o̲ l999;
+            l5:
+            instruction;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l4:
+         i̲f̲ ¬is(1005) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         next(p);
+         i̲f̲ ¬is(1213) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         i̲f̲ ¬isexpr(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         lwork[p-0] := val;
+         g̲o̲t̲o̲ l999;
+         l7:
+         i̲f̲ ¬is(1002) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l8:
+         l0: iscontrolinstruction := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ next(p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲ p := symb;
+         pin := pin+1;
+         symb := lwork[pin-0];
+      e̲n̲d̲;
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ is(p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲ is := t̲r̲u̲e̲;
+         i̲f̲ ¬(p=symb) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         next(symb);
+         g̲o̲t̲o̲ l999;
+         l1:
+         is := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iscountoption(n);
+         i̲n̲t̲e̲g̲e̲r̲ n;
+      b̲e̲g̲i̲n̲ iscountoption := t̲r̲u̲e̲;
+         i̲f̲ ¬isprimary(n) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬is(1217) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         g̲o̲t̲o̲ l999;
+         l1:
+         n := 1;
+         g̲o̲t̲o̲ l999;
+         l0: iscountoption := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isoncondition(count);
+         i̲n̲t̲e̲g̲e̲r̲ count;
+      b̲e̲g̲i̲n̲ isoncondition := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1113) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬is(1101) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         chain(count,pwrte);
+         g̲o̲t̲o̲ l999;
+         l1: i̲f̲ ¬is(1106) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         i̲f̲ ¬is(1101) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         chain(count,pexec);
+         g̲o̲t̲o̲ l999;
+         l2: i̲f̲ ¬is(1114) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         g̲o̲t̲o̲ lact;
+         l3: lact:i̲f̲ ¬is(1109) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         interdata := pin;
+         g̲o̲t̲o̲ l999;
+         l4: i̲f̲ ¬is(1102) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         interaddr := pin;
+         g̲o̲t̲o̲ l999;
+         l5: i̲f̲ ¬is(1110) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         interpari := pin;
+         g̲o̲t̲o̲ l999;
+         l6: i̲f̲ ¬is(1104) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         interprot := pin;
+         g̲o̲t̲o̲ l999;
+         l7: i̲f̲ ¬is(1105) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         interdata := pin;
+         g̲o̲t̲o̲ l999;
+         l8:
+         l0: isoncondition := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ chain(count,p);
+         i̲n̲t̲e̲g̲e̲r̲ p,count;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ from,to;
+         i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            chain(count,p);
+            g̲o̲t̲o̲ lins;
+            l2:
+            lins:
+            insert5(p,from,to,count,count,pin);
+            catch(p,from,to);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ catch(p,from,to);
+         i̲n̲t̲e̲g̲e̲r̲ to,from,p;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q;
+         q := from;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(p=pwrte) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            lwrt:
+            nowrite[q] := t̲r̲u̲e̲;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(to≤q) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+               g̲o̲t̲o̲ l999;
+               l3:
+               q := q+1;
+               g̲o̲t̲o̲ lwrt;
+            e̲n̲d̲;
+            l2:
+            lxec:
+            noexec[q] := t̲r̲u̲e̲;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(to≤q) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+               g̲o̲t̲o̲ l999;
+               l6:
+               q := q+1;
+               g̲o̲t̲o̲ lxec;
+            e̲n̲d̲;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isoffcondition;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ from,to;
+         isoffcondition := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1113) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬is(1101) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         lwrt:
+         i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         releasewrite(from,to);
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ lwrt;
+            l2:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         i̲f̲ ¬is(1106) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         i̲f̲ ¬is(1101) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         lxec:
+         i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         releaseexec(from,to);
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+            g̲o̲t̲o̲ lxec;
+            l5:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l4:
+         l0: isoffcondition := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ releasewrite(from,to);
+         i̲n̲t̲e̲g̲e̲r̲ to,from;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q;
+         q := from;
+         lwrt:
+         nowrite[q] := f̲a̲l̲s̲e̲;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(to≤q) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ l999;
+            l2:
+            q := q+1;
+            g̲o̲t̲o̲ lwrt;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ releaseexec(from,to);
+         i̲n̲t̲e̲g̲e̲r̲ to,from;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ q;
+         q := from;
+         lxec:
+         noexec[q] := f̲a̲l̲s̲e̲;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(to≤q) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ l999;
+            l2:
+            q := q+1;
+            g̲o̲t̲o̲ lxec;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ islocitem(from,to);
+         i̲n̲t̲e̲g̲e̲r̲ to,from;
+      b̲e̲g̲i̲n̲ islocitem := t̲r̲u̲e̲;
+         i̲f̲ ¬isaddress(from) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1202) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isprimary(to) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            g̲o̲t̲o̲ l999;
+            l2:
+            to := from;
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: islocitem := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isaddress(y);
+         i̲n̲t̲e̲g̲e̲r̲ y;
+      b̲e̲g̲i̲n̲ isaddress := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1116) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬isprimary(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         checkaddr(y);
+         g̲o̲t̲o̲ l999;
+         l1:
+         l0: isaddress := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ checkaddr(y);
+         i̲n̲t̲e̲g̲e̲r̲ y;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(y=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         y := 0;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬(0≤y) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         i̲f̲ ¬(y≤tp18m1) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         g̲o̲t̲o̲ l999;
+         l2:
+         errornumber := 0;
+         error(“bad address”,y);
+         g̲o̲t̲o̲ terminate;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ skipinstruction;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ lev,i;
+         lev := level;
+         lskp:
+         i̲f̲ ¬(symb=1219) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬(lev=level) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬is(1207) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         level := level+1;
+         g̲o̲t̲o̲ lskp;
+         l2:
+         i̲f̲ ¬(symb=1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         i̲f̲ ¬(lev=level) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         g̲o̲t̲o̲ l999;
+         l3:
+         i̲f̲ ¬is(1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         level := level-1;
+         g̲o̲t̲o̲ lskp;
+         l4:
+         next(i);
+         g̲o̲t̲o̲ lskp;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ jumpto(p);
+         i̲n̲t̲e̲g̲e̲r̲ p;
+      b̲e̲g̲i̲n̲ pin := p;
+         symb := lwork[pin-0];
+      e̲n̲d̲;
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isconsoleinstruction;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ ad,exp,from,to;
+         isconsoleinstruction := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1011) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         ip;
+         g̲o̲t̲o̲ l999;
+         l1: i̲f̲ ¬is(1017) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         ls;
+         g̲o̲t̲o̲ l999;
+         l2: i̲f̲ ¬is(1018) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         lsip;
+         g̲o̲t̲o̲ l999;
+         l3: i̲f̲ ¬is(1012) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         lsbi;
+         g̲o̲t̲o̲ l999;
+         l4: i̲f̲ ¬is(1019) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         lsnb;
+         g̲o̲t̲o̲ l999;
+         l5: i̲f̲ ¬is(1013) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         i̲f̲ ¬isaddress(ad) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         ot := ad;
+         bva;
+         g̲o̲t̲o̲ l999;
+         l6: i̲f̲ ¬is(1014) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         i̲f̲ ¬isexpr(exp) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         i̲f̲ ¬is(1108) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         llcs: b̲e̲g̲i̲n̲
+            i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+            fill(from,to,exp);
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+               g̲o̲t̲o̲ llcs;
+               l9: g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l8: i̲f̲ ¬isputreg(exp) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+               g̲o̲t̲o̲ llcs;
+               l12: g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l11: g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l7: i̲f̲ ¬is(1020) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+         bva;
+         g̲o̲t̲o̲ l999;
+         l15: i̲f̲ ¬is(1016) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+         sva := t̲r̲u̲e̲;
+         bva;
+         g̲o̲t̲o̲ l999;
+         l16: i̲f̲ ¬is(1015) t̲h̲e̲n̲ g̲o̲t̲o̲ l17;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1001) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+            sva := t̲r̲u̲e̲;
+            g̲o̲t̲o̲ l999;
+            l18: i̲f̲ ¬is(1006) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+            sva := f̲a̲l̲s̲e̲;
+            g̲o̲t̲o̲ l999;
+            l19: g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l17:
+         l0: isconsoleinstruction := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ fill(from,to,exp);
+         i̲n̲t̲e̲g̲e̲r̲ exp,to,from;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p;
+         p := from;
+         lstr:
+         addr := p;
+         m := exp;
+         stm;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(p=to) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ l999;
+            l2:
+            p := p+1;
+            g̲o̲t̲o̲ lstr;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isputreg(exp);
+         i̲n̲t̲e̲g̲e̲r̲ exp;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ bit;
+         isputreg := t̲r̲u̲e̲;
+         i̲f̲ ¬is(101) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         a := exp;
+         g̲o̲t̲o̲ l999;
+         l1:i̲f̲ ¬is(103) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         b := exp;
+         g̲o̲t̲o̲ l999;
+         l2:i̲f̲ ¬is(106) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         fh := exp;
+         g̲o̲t̲o̲ l999;
+         l3:i̲f̲ ¬is(107) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         ft := exp;
+         g̲o̲t̲o̲ l999;
+         l4:i̲f̲ ¬is(114) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         ot := exp;
+         checkaddr(ot);
+         g̲o̲t̲o̲ l999;
+         l5:i̲f̲ ¬is(111) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         or := exp;
+         g̲o̲t̲o̲ l999;
+         l6:i̲f̲ ¬is(117) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         s := exp;
+         g̲o̲t̲o̲ l999;
+         l7:reducetobit(exp,bit);
+         i̲f̲ ¬is(104) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         c := bit;
+         negate(c);
+         g̲o̲t̲o̲ l999;
+         l8:i̲f̲ ¬is(115) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         of := bit;
+         g̲o̲t̲o̲ l999;
+         l9:i̲f̲ ¬is(108) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         iv := bit;
+         g̲o̲t̲o̲ l999;
+         l10:i̲f̲ ¬is(116) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+         ov := bit;
+         g̲o̲t̲o̲ l999;
+         l11:i̲f̲ ¬is(109) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+         itv := bit;
+         g̲o̲t̲o̲ l999;
+         l12:i̲f̲ ¬is(110) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+         lt := bit;
+         g̲o̲t̲o̲ l999;
+         l13:i̲f̲ ¬is(112) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+         bt := bit;
+         g̲o̲t̲o̲ l999;
+         l14:i̲f̲ ¬is(113) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+         nint := bit;
+         g̲o̲t̲o̲ l999;
+         l15:isputreg := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ reducetobit(exp,bit);
+         i̲n̲t̲e̲g̲e̲r̲ bit,exp;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(exp=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         bit := 0;
+         g̲o̲t̲o̲ l999;
+         l1: bit := 1;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ iscommentinstruction;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ from,to;
+         iscommentinstruction := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1032) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         displaystatus;
+         print(pin);
+         printregs;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬is(1031) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         ldmp:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            dump(from,to);
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+               g̲o̲t̲o̲ ldmp;
+               l4:
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l3:
+            dump(0,maxaddr);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l2:
+         i̲f̲ ¬is(1033) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         ldsp:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬islocitem(from,to) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+            givedisplay(from,to);
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+               g̲o̲t̲o̲ ldsp;
+               l9:
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l8:
+            i̲f̲ ¬isdisplayreg t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+               g̲o̲t̲o̲ ldsp;
+               l12:
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l11:
+            i̲f̲ ¬isexpr(to) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+            nlcr;
+            proct(to,9);
+            print(to);
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬is(1210) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+               g̲o̲t̲o̲ ldsp;
+               l15:
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l14:
+            g̲o̲t̲o̲ l0;
+         e̲n̲d̲;
+         l7:
+         i̲f̲ ¬is(1034) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+         nlcr;
+         g̲o̲t̲o̲ l999;
+         l18:
+         i̲f̲ ¬is(1035) t̲h̲e̲n̲ g̲o̲t̲o̲ l19;
+         newpage;
+         g̲o̲t̲o̲ l999;
+         l19:
+         i̲f̲ ¬is(1036) t̲h̲e̲n̲ g̲o̲t̲o̲ l20;
+         prsym(118);
+         g̲o̲t̲o̲ l999;
+         l20:
+         i̲f̲ ¬is(1037) t̲h̲e̲n̲ g̲o̲t̲o̲ l21;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬isexpr(to) t̲h̲e̲n̲ g̲o̲t̲o̲ l22;
+            space(to);
+            g̲o̲t̲o̲ l999;
+            l22:
+            space(1);
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l21:
+         i̲f̲ ¬is(1038) t̲h̲e̲n̲ g̲o̲t̲o̲ l24;
+         printstring;
+         g̲o̲t̲o̲ l999;
+         l24:
+         l0: iscommentinstruction := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ givedisplay(from,to);
+         i̲n̲t̲e̲g̲e̲r̲ to,from;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ p,y;
+         p := from;
+         ldsp:
+         addr := p;
+         mem;
+         y := m;
+         nlcr;
+         printtext(“m[”);
+         proct(p,9);
+         printtext(“]: ”);
+         proct(y,9);
+         print(y);
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(p=to) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ l999;
+            l2:
+            p := p+1;
+            g̲o̲t̲o̲ ldsp;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isdisplayreg;
+      b̲e̲g̲i̲n̲ isdisplayreg := t̲r̲u̲e̲;
+         nlcr;
+         i̲f̲ ¬is(101) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         printtext(“a   ”);
+         proct(a,9);
+         print(a);
+         g̲o̲t̲o̲ l999;
+         l1:i̲f̲ ¬is(103) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         printtext(“b”);
+         proct(b,9);
+         print(b);
+         g̲o̲t̲o̲ l999;
+         l2:i̲f̲ ¬is(106) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         printtext(“fk  ”);
+         proct(fh,9);
+         print(fh);
+         g̲o̲t̲o̲ l999;
+         l3:i̲f̲ ¬is(107) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         printtext(“g   ”);
+         proct(ft,9);
+         print(ft);
+         g̲o̲t̲o̲ l999;
+         l4:i̲f̲ ¬is(114) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         printtext(“ot  ”);
+         proct(ot,9);
+         print(ot);
+         g̲o̲t̲o̲ l999;
+         l5:i̲f̲ ¬is(111) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         printtext(“or  ”);
+         proct(or,9);
+         print(or);
+         g̲o̲t̲o̲ l999;
+         l6:i̲f̲ ¬is(117) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         printtext(“s   ”);
+         proct(s,9);
+         print(s);
+         g̲o̲t̲o̲ l999;
+         l7:i̲f̲ ¬is(102) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         printtext(“t   ”);
+         proct(tlink,9);
+         print(tlink);
+         g̲o̲t̲o̲ l999;
+         l8:i̲f̲ ¬is(104) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         printtext(“c   ”);
+         prsym(c);
+         g̲o̲t̲o̲ l999;
+         l9:i̲f̲ ¬is(115) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         printtext(“of  ”);
+         prsym(of);
+         g̲o̲t̲o̲ l999;
+         l10:i̲f̲ ¬is(116) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+         printtext(“ov  ”);
+         prsym(ov);
+         g̲o̲t̲o̲ l999;
+         l11:i̲f̲ ¬is(108) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+         printtext(“iv  ”);
+         prsym(iv);
+         g̲o̲t̲o̲ l999;
+         l12:i̲f̲ ¬is(109) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+         printtext(“itv”);
+         prsym(itv);
+         g̲o̲t̲o̲ l999;
+         l13:i̲f̲ ¬is(112) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+         printtext(“bt  ”);
+         prsym(bt);
+         g̲o̲t̲o̲ l999;
+         l14:i̲f̲ ¬is(113) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+         printtext(“nint”);
+         prsym(nint);
+         g̲o̲t̲o̲ l999;
+         l15:i̲f̲ ¬is(105) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+         printtext(“f   ”);
+         print(compf(fh,ft));
+         g̲o̲t̲o̲ l999;
+         l16:isdisplayreg := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ displaystatus;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(errornumber≥100 ∧ errornumber<200) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         nlcr;
+         printtext(“wrong data”);
+         g̲o̲t̲o̲ l999;
+         l1:i̲f̲ ¬(errornumber≥300 ∧ errornumber<400) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         nlcr;
+         printtext(“wrong addr”);
+         g̲o̲t̲o̲ l999;
+         l2:i̲f̲ ¬(errornumber≥400 ∧ errornumber<500) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         nlcr;
+         printtext(“wrong pari”);
+         g̲o̲t̲o̲ l999;
+         l3:i̲f̲ ¬(errornumber≥200 ∧ errornumber<300) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         nlcr;
+         printtext(“wrong inst”);
+         g̲o̲t̲o̲ l999;
+         l4:i̲f̲ ¬(errornumber=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         nlcr;
+         printtext(“in dyst   ”);
+         g̲o̲t̲o̲ l999;
+         l5:i̲f̲ ¬(errornumber=1) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         nlcr;
+         printtext(“tijd op   ”);
+         g̲o̲t̲o̲ l999;
+         l6:i̲f̲ ¬(errornumber=2) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         nlcr;
+         printtext(“gestopt   ”);
+         g̲o̲t̲o̲ l999;
+         l7:i̲f̲ ¬(errornumber=3) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         nlcr;
+         printtext(“exec”);
+         g̲o̲t̲o̲ l999;
+         l8:i̲f̲ ¬(errornumber=4) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         nlcr;
+         printtext(“write     ”);
+         g̲o̲t̲o̲ l999;
+         l9:i̲f̲ ¬(errornumber≥500 ∧ errornumber<600) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         nlcr;
+         printtext(“protection”);
+         g̲o̲t̲o̲ l999;
+         l10:nlcr;
+         printtext(“status  ok”);
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ printstring;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         lstr:
+         next(y);
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(y=1038) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            g̲o̲t̲o̲ l999;
+            l2:
+            prsym(y);
+            g̲o̲t̲o̲ lstr;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isexpr(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         isexpr := t̲r̲u̲e̲;
+         i̲f̲ ¬isconj(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         lrst:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1208) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isconj(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            takeor(val,y,val);
+            g̲o̲t̲o̲ lrst;
+            l2:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: isexpr := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isconj(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         isconj := t̲r̲u̲e̲;
+         i̲f̲ ¬isnegatable(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         lrst:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1201) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isnegatable(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            takeand(val,y,val);
+            g̲o̲t̲o̲ lrst;
+            l2:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: isconj := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isnegatable(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲ isnegatable := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1206) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬isnegatable(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         negate(val);
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬issimple(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         g̲o̲t̲o̲ l999;
+         l2:
+         l0: isnegatable := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ issimple(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         issimple := t̲r̲u̲e̲;
+         i̲f̲ ¬isarithmeticexpr(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1211) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(val<y) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+               val := 1;
+               g̲o̲t̲o̲ l999;
+               l3:
+               val := 0;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l2:
+            i̲f̲ ¬is(1212) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(val≤y) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+               val := 1;
+               g̲o̲t̲o̲ l999;
+               l6:
+               val := 0;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l5:
+            i̲f̲ ¬is(1213) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(val=y) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+               val := 1;
+               g̲o̲t̲o̲ l999;
+               l9:
+               val := 0;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l8:
+            i̲f̲ ¬is(1214) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(val=y) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+               val := 0;
+               g̲o̲t̲o̲ l999;
+               l12:
+               val := 1;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l11:
+            i̲f̲ ¬is(1216) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(y≤val) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+               val := 1;
+               g̲o̲t̲o̲ l999;
+               l15:
+               val := 0;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l14:
+            i̲f̲ ¬is(1215) t̲h̲e̲n̲ g̲o̲t̲o̲ l17;
+            i̲f̲ ¬isarithmeticexpr(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            b̲e̲g̲i̲n̲
+               i̲f̲ ¬(y<val) t̲h̲e̲n̲ g̲o̲t̲o̲ l18;
+               val := 1;
+               g̲o̲t̲o̲ l999;
+               l18:
+               val := 0;
+               g̲o̲t̲o̲ l999;
+            e̲n̲d̲;
+            l17:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: issimple := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ takeor(x1,x2,x3);
+         i̲n̲t̲e̲g̲e̲r̲ x3,x2,x1;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(0=x1) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         i̲f̲ ¬(0=x2) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         x3 := 0;
+         g̲o̲t̲o̲ l999;
+         l1:
+         x3 := 1;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ takeand(x1,x2,x3);
+         i̲n̲t̲e̲g̲e̲r̲ x3,x2,x1;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(0=x1) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         x3 := 0;
+         g̲o̲t̲o̲ l999;
+         l1:
+         i̲f̲ ¬(0=x2) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         x3 := 0;
+         g̲o̲t̲o̲ l999;
+         l2:
+         x3 := 1;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ negate(x1);
+         i̲n̲t̲e̲g̲e̲r̲ x1;
+      b̲e̲g̲i̲n̲
+         i̲f̲ ¬(x1=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         x1 := 1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         x1 := 0;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isarithmeticexpr(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         isarithmeticexpr := t̲r̲u̲e̲;
+         i̲f̲ ¬isterm(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         lrst:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1209) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isterm(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            val := val+y;
+            g̲o̲t̲o̲ lrst;
+            l2:
+            i̲f̲ ¬is(1205) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            i̲f̲ ¬isterm(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            val := val-y;
+            g̲o̲t̲o̲ lrst;
+            l3:
+            i̲f̲ ¬is(1203) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+            i̲f̲ ¬isterm(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            val := xor(val,y);
+            g̲o̲t̲o̲ lrst;
+            l4:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: isarithmeticexpr := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isterm(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         isterm := t̲r̲u̲e̲;
+         i̲f̲ ¬isfactor(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         lrst:
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬is(1217) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+            i̲f̲ ¬isfactor(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            val := val×y;
+            g̲o̲t̲o̲ lrst;
+            l2:
+            i̲f̲ ¬is(1204) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            i̲f̲ ¬isfactor(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+            val := and(val,y);
+            g̲o̲t̲o̲ lrst;
+            l3:
+            g̲o̲t̲o̲ l999;
+         e̲n̲d̲;
+         l1:
+         l0: isterm := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isfactor(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲ isfactor := t̲r̲u̲e̲;
+         lrst:
+         i̲f̲ ¬is(1209) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ lrst;
+         l1:
+         i̲f̲ ¬is(1205) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         i̲f̲ ¬isfactor(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         val := -val;
+         g̲o̲t̲o̲ l999;
+         l2:
+         i̲f̲ ¬is(1103) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         i̲f̲ ¬isfactor(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         val := abs(val);
+         g̲o̲t̲o̲ l999;
+         l3:
+         i̲f̲ ¬isprimary(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         g̲o̲t̲o̲ l999;
+         l4:
+         l0: isfactor := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ isprimary(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ y;
+         isprimary := t̲r̲u̲e̲;
+         i̲f̲ ¬is(1117) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         next(val);
+         g̲o̲t̲o̲ l999;
+         l1:i̲f̲ ¬is(1005) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         next(y);
+         val := lwork[y-0];
+         g̲o̲t̲o̲ l999;
+         l2:i̲f̲ ¬is(1111) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         val := read;
+         g̲o̲t̲o̲ l999;
+         l3:i̲f̲ ¬isaddress(y) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         addr := y;
+         mem;
+         val := m;
+         g̲o̲t̲o̲ l999;
+         l4:i̲f̲ ¬issingleregister(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         g̲o̲t̲o̲ l999;
+         l5:i̲f̲ ¬is(1112) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         val := 1;
+         g̲o̲t̲o̲ l999;
+         l6:i̲f̲ ¬is(1107) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         val := 0;
+         g̲o̲t̲o̲ l999;
+         l7:i̲f̲ ¬is(1207) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         i̲f̲ ¬isexpr(val) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         i̲f̲ ¬is(1218) t̲h̲e̲n̲ g̲o̲t̲o̲ l0;
+         g̲o̲t̲o̲ l999;
+         l8:
+         l0: isprimary := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      B̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ issingleregister(val);
+         i̲n̲t̲e̲g̲e̲r̲ val;
+      b̲e̲g̲i̲n̲ issingleregister := t̲r̲u̲e̲;
+         i̲f̲ ¬is(101) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         val := a;
+         g̲o̲t̲o̲ l999;
+         l1:i̲f̲ ¬is(103) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         val := b;
+         g̲o̲t̲o̲ l999;
+         l2:i̲f̲ ¬is(106) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         val := fh;
+         g̲o̲t̲o̲ l999;
+         l3:i̲f̲ ¬is(107) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         val := ft;
+         g̲o̲t̲o̲ l999;
+         l4:i̲f̲ ¬is(114) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         val := ot;
+         g̲o̲t̲o̲ l999;
+         l5:i̲f̲ ¬is(111) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         val := or;
+         g̲o̲t̲o̲ l999;
+         l6:i̲f̲ ¬is(117) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         val := s;
+         g̲o̲t̲o̲ l999;
+         l7:i̲f̲ ¬is(102) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         val := tlink;
+         g̲o̲t̲o̲ l999;
+         l8:i̲f̲ ¬is(104) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         val := c;
+         negate(val);
+         g̲o̲t̲o̲ l999;
+         l9:i̲f̲ ¬is(115) t̲h̲e̲n̲ g̲o̲t̲o̲ l10;
+         val := of;
+         g̲o̲t̲o̲ l999;
+         l10:i̲f̲ ¬is(108) t̲h̲e̲n̲ g̲o̲t̲o̲ l11;
+         val := iv;
+         g̲o̲t̲o̲ l999;
+         l11:i̲f̲ ¬is(116) t̲h̲e̲n̲ g̲o̲t̲o̲ l12;
+         val := ov;
+         g̲o̲t̲o̲ l999;
+         l12:i̲f̲ ¬is(109) t̲h̲e̲n̲ g̲o̲t̲o̲ l13;
+         val := itv;
+         g̲o̲t̲o̲ l999;
+         l13:i̲f̲ ¬is(110) t̲h̲e̲n̲ g̲o̲t̲o̲ l14;
+         val := lt;
+         g̲o̲t̲o̲ l999;
+         l14:i̲f̲ ¬is(112) t̲h̲e̲n̲ g̲o̲t̲o̲ l15;
+         val := bt;
+         g̲o̲t̲o̲ l999;
+         l15:i̲f̲ ¬is(113) t̲h̲e̲n̲ g̲o̲t̲o̲ l16;
+         val := nint;
+         g̲o̲t̲o̲ l999;
+         l16: issingleregister := f̲a̲l̲s̲e̲;
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ startmonitor;
+      b̲e̲g̲i̲n̲ prescan;
+         newpage;
+         program;
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ master;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ pold;
+         sva := f̲a̲l̲s̲e̲;
+         pold := pin;
+         i̲f̲ ¬(errornumber≥100 ∧ errornumber<200) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         jumpto(interdata);
+         instruction;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l1: i̲f̲ ¬(errornumber≥300 ∧ errornumber<400) t̲h̲e̲n̲ g̲o̲t̲o̲ l2;
+         jumpto(interaddr);
+         instruction;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l2: i̲f̲ ¬(errornumber≥400 ∧ errornumber<500) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+         jumpto(interpari);
+         instruction;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l3: i̲f̲ ¬(errornumber≥200 ∧ errornumber<300) t̲h̲e̲n̲ g̲o̲t̲o̲ l4;
+         jumpto(interinst);
+         instruction;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l4: i̲f̲ ¬(errornumber≥500 ∧ errornumber<600) t̲h̲e̲n̲ g̲o̲t̲o̲ l5;
+         jumpto(interprot);
+         instruction;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l5: i̲f̲ ¬(errornumber=1) t̲h̲e̲n̲ g̲o̲t̲o̲ l6;
+         displaystatus;
+         g̲o̲t̲o̲ terminate;
+         g̲o̲t̲o̲ l999;
+         l6: i̲f̲ ¬(errornumber=2) t̲h̲e̲n̲ g̲o̲t̲o̲ l7;
+         instructionlist;
+         g̲o̲t̲o̲ l999;
+         l7: i̲f̲ ¬(errornumber=3) t̲h̲e̲n̲ g̲o̲t̲o̲ l8;
+         interrupt(pexec,ot);
+         pin := pold;
+         g̲o̲t̲o̲ l999;
+         l8: i̲f̲ ¬(errornumber=4) t̲h̲e̲n̲ g̲o̲t̲o̲ l9;
+         interrupt(pwrte,addr);
+         pin := pold;
+         g̲o̲t̲o̲ l999;
+         l9:
+         l999:
+      e̲n̲d̲;
+
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ interrupt(p,pl);
+         i̲n̲t̲e̲g̲e̲r̲ pl,p;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ from,to,count,q;
+         q := p;
+         lnxq:
+         i̲f̲ ¬(q=0) t̲h̲e̲n̲ g̲o̲t̲o̲ l1;
+         g̲o̲t̲o̲ l999;
+         l1:
+         from := lwork[q-0];
+         to := lwork[q-1];
+         count := lwork[q-2];
+         b̲e̲g̲i̲n̲
+            i̲f̲ ¬(from≤pl) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            i̲f̲ ¬(pl≤to) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            count := count-1;
+            lwork[q-2] := count;
+            i̲f̲ ¬(count≤0) t̲h̲e̲n̲ g̲o̲t̲o̲ l3;
+            count := lwork[q-3];
+            lwork[q-2] := count;
+            pin := lwork[q-4];
+            jumpto(pin);
+            instruction;
+            g̲o̲t̲o̲ l999;
+            l3:
+            q := lwork[q-5];
+            g̲o̲t̲o̲ lnxq;
+         e̲n̲d̲;
+         l999:
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ terminate;
+      b̲e̲g̲i̲n̲ printtext(“terminate”);
+         master
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report reading(addr, val);
+         v̲a̲l̲u̲e̲ addr, val;
+         i̲n̲t̲e̲g̲e̲r̲ addr, val;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“read   ”);
+         proct(addr, 9);
+         proct(val, 9)
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report writing(addr, val);
+         v̲a̲l̲u̲e̲ addr, val;
+         i̲n̲t̲e̲g̲e̲r̲ addr, val;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“write   ”);
+         proct(addr, 9);
+         proct(val, 9)
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report eoi;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“e o inst”)
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report eod(addr, instr);
+         v̲a̲l̲u̲e̲ addr, instr;
+         i̲n̲t̲e̲g̲e̲r̲ addr, instr;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“e o do  ”);
+         proct(addr, 9);
+         proct(instr, 9)
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report interrupt(ir addr);
+         v̲a̲l̲u̲e̲ ir addr;
+         i̲n̲t̲e̲g̲e̲r̲ ir addr;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“interr  ”);
+         proct(ir addr, 9)
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ report skip;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“skip   ”)
+      e̲n̲d̲;
+
+      c̲o̲m̲m̲e̲n̲t̲ einde ad hoc master- en trace-procedures;
+
+      i̲n̲t̲e̲g̲e̲r̲ ir addr, error number;
+      B̲o̲o̲l̲e̲a̲n̲ sva, in monitor, trace, key;
+      r̲e̲a̲l̲ ccs, ccs1, ccs of, ccsmax, dcs, dcs max;
+      r̲e̲a̲l̲ jcnt, tcnt;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ tlist[0 :  31];
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ init monitor;
+      b̲e̲g̲i̲n̲
+         ir addr := 0;
+         ccs := ccs1 := ccs of := dcs := 0;
+         error number := 999;
+         jcnt := tcnt := 0;
+         ccsmax := 1000000;
+         dcsmax := 100;
+         trace := sva := key := f̲a̲l̲s̲e̲;
+         in monitor := t̲r̲u̲e̲;
+         start monitor
+      e̲n̲d̲ init monitor;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ undef(ern);
+         v̲a̲l̲u̲e̲ ern;
+         i̲n̲t̲e̲g̲e̲r̲ ern;
+      b̲e̲g̲i̲n̲ undef := 1;
+         ir addr := ern ÷ 1000;
+         error number := ern - ir addr × 1000;
+         i̲f̲ in monitor t̲h̲e̲n̲ terminate e̲l̲s̲e̲
+         i̲f̲ filled[ir addr] i̲m̲p̲l̲ (ir addr= 0 ∨ ov=0) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            in monitor := t̲r̲u̲e̲;
+            cg := 0;
+            master;
+            in monitor := f̲a̲l̲s̲e̲
+         e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+            ingreep type := ingreep type + 2;
+            ov := 0;
+            g̲o̲t̲o̲ ingreep
+         e̲n̲d̲
+      e̲n̲d̲ undef;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ proct(m,dig);
+         v̲a̲l̲u̲e̲ m,dig;
+         i̲n̲t̲e̲g̲e̲r̲ m, dig;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ n, x;
+         space(1);
+         i̲f̲ dig = 6 t̲h̲e̲n̲ x := m / tp15 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            x := (i̲f̲ 1/m < 0 t̲h̲e̲n̲ m + tp27m1 e̲l̲s̲e̲ m) / tp24;
+            dig := 9
+         e̲n̲d̲;
+         rep:
+         n := entier(x);
+         prsym(n);
+         i̲f̲ dig= 7 t̲h̲e̲n̲ space(1);
+         dig := dig - 1;
+         i̲f̲ dig= 0 t̲h̲e̲n̲ g̲o̲t̲o̲ out;
+         x := (x-n) × 8;
+         g̲o̲t̲o̲ rep;
+         out:
+         space(1)
+      e̲n̲d̲ proct;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ reoct;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ n;
+         skip:
+         n := resym;
+         i̲f̲ n < 10 t̲h̲e̲n̲ undef(151);
+         i̲f̲ n ≠ 120 t̲h̲e̲n̲ g̲o̲t̲o̲ skip;
+         x := 0;
+         rep:
+         n := resym;
+         i̲f̲ n = 93 t̲h̲e̲n̲ n := resym;
+         i̲f̲ n < 8 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            x := x × 8 + n;
+            g̲o̲t̲o̲ rep
+         e̲n̲d̲;
+         i̲f̲ n ≠ 120 t̲h̲e̲n̲ undef(152);
+         i̲f̲ x > tp27m1 t̲h̲e̲n̲ undef(153);
+         i̲f̲ x > tp26m1 t̲h̲e̲n̲ x := x - tp27m1;
+         reoct := x
+      e̲n̲d̲ reoct;
+
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ oct(x);
+         v̲a̲l̲u̲e̲ x;
+         r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, sgn, n;
+         r̲e̲a̲l̲ res;
+         i̲f̲ 1/x < 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+            sgn := -1;
+            x := -x
+         e̲n̲d̲ e̲l̲s̲e̲ sgn := 1;
+         x := (x + ·05)÷9;        c̲o̲m̲m̲e̲n̲t̲ by editor: guessed transliteration of /\9 - unlikely to be correct because integer divide is already '/'.  Maybe Modulo? ;
+         res := 0;
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+            b̲e̲g̲i̲n̲ x := x × 10;
+               n := entier(x);
+               x := x - n;
+               res := res × 8 + n
+            e̲n̲d̲;
+         oct := (i̲f̲ res > tp26m1 t̲h̲e̲n̲ res - tp27m1 e̲l̲s̲e̲ res) × sgn
+      e̲n̲d̲ oct;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ tn(s, x);
+         v̲a̲l̲u̲e̲ x;
+         r̲e̲a̲l̲ x;
+           s̲t̲r̲i̲n̲g̲ s;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, n;
+         i := 0;
+         f̲o̲r̲ n := stringsymbol(i, s) w̲h̲i̲l̲e̲ n ≠ 255,
+           93 w̲h̲i̲l̲e̲ i < 7 d̲o̲
+            b̲e̲g̲i̲n̲
+               i := i + 1;
+               prsym(n)
+            e̲n̲d̲;
+         proct(x, 9); space(5)
+      e̲n̲d̲ tn;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ dump(from, to);
+         v̲a̲l̲u̲e̲ from, to;
+         i̲n̲t̲e̲g̲e̲r̲ from, to;
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ i, j, x;
+         i̲f̲ from < 0 ∨ to > max addr t̲h̲e̲n̲ undef(161);
+         i̲f̲ line number ≠ 1 ∨ print pos ≠ 0 t̲h̲e̲n̲ new page;
+         printtext(“geheugendump van”);
+         proct(from, 6);
+         printtext(“tot”);
+         proct(to,6);
+         nlcr;
+         addr := from;
+         g̲o̲t̲o̲ heading;
+         rep:
+         addr := addr + 1;
+         repa:
+         i̲f̲ addr > to t̲h̲e̲n̲ g̲o̲t̲o̲ out;
+         i̲f̲ ¬ filled[addr] t̲h̲e̲n̲ g̲o̲t̲o̲ rep;
+         printtext(“loc”);
+         addr := addr ÷ 8 × 8;
+         proct(addr,6);
+         prsym(65);
+         proct(addr + 7,6);
+         i := 0;
+         repi:
+         j := 0;
+         space(8);
+         repj:
+         i̲f̲ filled[addr] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ mem1;
+            proct(m, 9) e̲n̲d̲ e̲l̲s̲e̲ space(12);
+         addr := addr + 1;
+         i̲f̲ addr > to t̲h̲e̲n̲ g̲o̲t̲o̲ out;
+         j := j + 1;
+         i̲f̲ j < 4 t̲h̲e̲n̲ g̲o̲t̲o̲ repj;
+         i := i + 1;
+         i̲f̲ i < 2 t̲h̲e̲n̲ g̲o̲t̲o̲ repi;
+         nlcr;
+         i̲f̲ line number = 1 t̲h̲e̲n̲
+           heading:
+         b̲e̲g̲i̲n̲ space(25);
+            f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 7 d̲o̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ i = 4 t̲h̲e̲n̲ space(8);
+                  printtext(“   .....”); prsym(i)
+               e̲n̲d̲;
+            nlcr;
+            nlcr;
+         e̲n̲d̲;
+         g̲o̲t̲o̲ repa;
+         out:
+         nlcr;
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 144 d̲o̲ prsym(66);
+         nlcr
+      e̲n̲d̲ dump;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ print tlist;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ max,tcnt1, num, x;
+         nlcr;
+         printtext(“vorige sprongadressen”);
+         nlcr;
+         max := i̲f̲ jcnt > 32 t̲h̲e̲n̲ 32 e̲l̲s̲e̲ jcnt;
+         tcnt1 := tcnt;
+         f̲o̲r̲ num := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ max d̲o̲
+            b̲e̲g̲i̲n̲
+               space(2);
+               fixt(2, 0, -num);
+               x := tlist[tcnt1];
+               i̲f̲ 1/x < 0 t̲h̲e̲n̲ proct(and(x, tp26m1), 9) e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  space(4);
+                  proct(x, 6)
+               e̲n̲d̲;
+               tcnt1 := tcnt1 - 1;
+               i̲f̲ tcnt1 = -1 t̲h̲e̲n̲ tcnt1 := 31
+            e̲n̲d̲;
+         nlcr
+      e̲n̲d̲ print tlist;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ print dgp;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i, j;
+         nlcr;
+         printtext(“protectiebits”);
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ aantal kasten - 1 d̲o̲
+            b̲e̲g̲i̲n̲
+               nlcr;
+               printtext(“kast”);
+               absfixt(2, 0, i);
+               printtext(“   dp ”);
+               f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+                    prsym((even(dgp[32 × i + 8 × j]) + 1) / 2);
+               printtext(“    gp ”);
+               f̲o̲r̲ j := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 31 d̲o̲
+                    prsym((dgp[32 × i + j] + 1) ÷ 2)
+            e̲n̲d̲;
+         nlcr
+      e̲n̲d̲ print dgp;
+
+      c̲o̲m̲m̲e̲n̲t̲  dp  0 1 0 1
+        gp  0 0 1 1
+        dgp -1 0 1 2;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ print regs;
+      b̲e̲g̲i̲n̲
+         nlcr;
+         printtext(“registers”);
+         nlcr;
+         tn(“tlink”,  tlink  );
+         tn(“fh”,  fh     );
+         tn(“ft”,     ft    );
+         tn(“a”,   a  );
+         tn(“s”,  s      );
+         tn(“b”,      b     );
+         tn(“or”,   or  );
+         tn(“addr”,  addr   );
+         tn(“m”,      m     );
+         tn(“ir addr”,ir addr);
+         nlcr;
+         printtext(“jcnt (dec)”);
+         absfixt(10, 0, jcnt);
+         space(10);
+         printtext(“ccs  (dec)”);
+         absfixt(10, 0, ccs );
+         printtext(“+”);
+         absfixt(6, 0, ccs of);
+         space(10);
+         printtext(“drum cnt (dec)”);
+         absfixt(10, 0, drum cnt);
+         nlcr
+      e̲n̲d̲ print regs;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ print charon;
+      b̲e̲g̲i̲n̲
+         i̲n̲t̲e̲g̲e̲r̲ i;
+         nlcr;
+         nlcr;
+         printtext(“charon”);
+         nlcr;
+         printtext(“apparaat    af   if  lvif”);
+         f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 39 d̲o̲
+              i̲f̲ read q(i, ifv0, ifv1) + read q(i, lvifv0, lvifv1) = 2 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               nlcr;
+               absfixt(7, 0, i);
+               absfixt(4, 0, readq(i,   af0,   af1));
+               absfixt(4, 0, readq(i,   if0,   if1));
+               absfixt(4, 0, readq(i, lvif0, lvif1))
+            e̲n̲d̲;
+         nlcr;
+         f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 26 d̲o̲ prsym(66);
+         nlcr
+      e̲n̲d̲ print charon;
+
+      c̲o̲m̲m̲e̲n̲t̲ einde monitor procedures;
+
+      c̲o̲m̲m̲e̲n̲t̲ herkennen van instructies;
+
+      r̲e̲a̲l̲ x, y, z, u, v, w, tp26, tp27, tp27m1;
+      r̲e̲a̲l̲ i,l,n;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ tp[0: 27];
+
+      i̲n̲t̲e̲g̲e̲r̲ tp1, tp2, tp3, tp4, tp5, tp6, tp7, tp8, tp9, tp10,
+        tp11, tp12, tp13, tp14, tp15, tp16, tp17, tp18, tp19, tp20,
+        tp21, tp22, tp23, tp24, tp25;
+      i̲n̲t̲e̲g̲e̲r̲ tp14m1, tp18m3, tp18m1, tp26m1;
+
+      c̲o̲m̲m̲e̲n̲t̲ hulp-velden uit or:  ;
+      r̲e̲a̲l̲ b14t0,b16c15,b18c17,b20c19,b20,
+        b14t12, b11t0, b11t5, b11t9, b8t6, b5t0,
+        b4t0,b24,b21,b14t9,b8t0;
+
+      c̲o̲m̲m̲e̲n̲t̲ switches voor het herkennen van instructies:  ;
+
+      s̲w̲i̲t̲c̲h̲ sb26t22 :=
+        aplus,
+        aeq,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ aplusdyn e̲l̲s̲e̲ plusa,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ aeqdyn e̲l̲s̲e̲
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲ aplusa e̲l̲s̲e̲ eqa,
+        splus,
+        seq,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ splusdyn e̲l̲s̲e̲ pluss,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ seqdyn e̲l̲s̲e̲
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲ spluss e̲l̲s̲e̲ eqs,
+        mulas,
+        muls,
+        axor,
+        aand,
+        divas,
+        diva,
+        sxor,
+        sand,
+        bplus,
+        beq,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ bplusdyn e̲l̲s̲e̲ plusb,
+        i̲f̲ b20c19 = 1 t̲h̲e̲n̲ beqdyn e̲l̲s̲e̲
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲ bplusb e̲l̲s̲e̲ eqb,
+        i̲f̲ b18c17 > 1 t̲h̲e̲n̲ dsw[undef(202)] e̲l̲s̲e̲ jump,
+        i̲f̲ b18c17 > 1 t̲h̲e̲n̲ dsw[undef(204)] e̲l̲s̲e̲
+        i̲f̲ b21 = 0 t̲h̲e̲n̲ goto e̲l̲s̲e̲
+        i̲f̲ b20c19 = 3 t̲h̲e̲n̲ gotodyn e̲l̲s̲e̲ dsw[undef(203)],
+        repn,
+        i̲f̲ b18c17 = 0 t̲h̲e̲n̲ subn e̲l̲s̲e̲
+        i̲f̲ b18c17 = 2 t̲h̲e̲n̲ subn e̲l̲s̲e̲
+        i̲f̲ b21 = 0 t̲h̲e̲n̲ subc e̲l̲s̲e̲ i̲f̲ b20c19 = 1 t̲h̲e̲n̲ subcdyn e̲l̲s̲e̲ do,
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲ (i̲f̲ b20c19 = 1 t̲h̲e̲n̲ dsw[undef(228)] e̲l̲s̲e̲ gplus) e̲l̲s̲e̲ fplus,
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+        (i̲f̲ b20c19 = 1 t̲h̲e̲n̲ dsw[undef(229)] e̲l̲s̲e̲ geq  )
+      e̲l̲s̲e̲ feq,
+        i̲f̲ b21 = 0 t̲h̲e̲n̲
+        (i̲f̲ b20c19 = 1 ∨ b20c19 = 3 ∨ b18c17 ≠ 0 t̲h̲e̲n̲
+        dsw[undef(232)] e̲l̲s̲e̲ operate)
+      e̲l̲s̲e̲ dsw[undef(200)],
+        tabel6,
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+        (i̲f̲ b20c19 = 1 t̲h̲e̲n̲ dsw[undef(230)] e̲l̲s̲e̲ gtd  )
+      e̲l̲s̲e̲ ftd,
+        i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+        (i̲f̲ b20c19 = 1 t̲h̲e̲n̲ dsw[undef(231)] e̲l̲s̲e̲ eqg  )
+      e̲l̲s̲e̲ i̲f̲ b20c19 = 1 t̲h̲e̲n̲ feqdyn e̲l̲s̲e̲ eqf,
+        dsw[undef(201)],
+        tabel7;
+
+      s̲w̲i̲t̲c̲h̲ sb24c21c6c5 :=
+        lca, lua, lcas, luas,
+        rca, rua, rcas, ruas,
+        lcs, lus, lcsa, lusa,
+        rcs, rus, rcsa, rusa;
+
+      c̲o̲m̲m̲e̲n̲t̲ hulp-procedures:  ;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ itp(x);
+         r̲e̲a̲l̲ x;
+      b̲e̲g̲i̲n̲ x := tp[i];
+         i := i + 1
+      e̲n̲d̲ itp;
+
+      c̲o̲m̲m̲e̲n̲t̲ initialisatie:  ;
+
+      tp[0] := 1;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 27 d̲o̲ tp[i] := tp[i - 1] × 2;
+      i := 1;
+      itp(tp1);
+      itp(tp2);
+      itp(tp3);
+      itp(tp4);
+      itp(tp5);
+      itp(tp6);
+      itp(tp7);
+      itp(tp8);
+      itp(tp9);
+      itp(tp10);
+      itp(tp11);
+      itp(tp12);
+      itp(tp13);
+      itp(tp14);
+      itp(tp15);
+      itp(tp16);
+      itp(tp17);
+      itp(tp18);
+      itp(tp19);
+      itp(tp20);
+      itp(tp21);
+      itp(tp22);
+      itp(tp23);
+      itp(tp24);
+      itp(tp25);
+      itp(tp26);
+      itp(tp27);
+      tp14m1 := tp14 - 1;
+      tp18m3 := tp18 - 3;
+      tp18m1 := tp18 - 1;
+      tp26m1 := tp26 - 1;
+      tp27m1 := tp27 - 1;
+
+      set random(date/622598 + time/7200);
+      init parlist;
+      init x8;
+      init memory;
+      init charon;
+      init monitor;
+
+      bva1:
+      in monitor := f̲a̲l̲s̲e̲;
+
+      basis cyclus 1:
+      i̲f̲ ot > tp18m3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ dynamische stop;
+         i̲f̲ dyst stat < 2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            dyst stat := dyst stat + 1;
+            g̲o̲t̲o̲ skip
+         e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ charon teller > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            ccs := ccs + charon teller;
+            dyst stat := 0; g̲o̲t̲o̲ skip
+         e̲n̲d̲ e̲l̲s̲e̲ undef(1)
+      e̲n̲d̲ e̲l̲s̲e̲ dyst stat := 0;
+
+      cg := 0;
+      addr := ot;
+      mem;
+      or := m;
+      i̲f̲ noexec[ot] t̲h̲e̲n̲ undef(4);
+      ot := ot + 1;
+      i̲f̲ ot > max addr t̲h̲e̲n̲ undef(26358);
+
+      basis cyclus 2:
+      i̲f̲ ccs ≥ ccsmax t̲h̲e̲n̲ undef(2);
+      flag :=  f̲a̲l̲s̲e̲;
+      y := i̲f̲ 1/or < 0 t̲h̲e̲n̲ or + tp27m1 e̲l̲s̲e̲ or;
+      x := y ÷ tp15;
+      b14t0 := y - x × tp15;
+      y := x;
+      x := y ÷ tp2;
+      b16c15 := y - x × tp2;
+      y := x;
+      x := y ÷ tp2;
+      b18c17 := y - x × tp2;
+      y := x;
+      x := y ÷ tp2;
+      b20c19 := y - x × tp2;
+      y := x;
+      x := y ÷ tp1;
+      b21  := y - x × tp1;
+      g̲o̲t̲o̲ sb26t22[x + 1];
+
+      tabel6:
+      b24 := 0;
+      g̲o̲t̲o̲ tabel;
+      tabel7:
+      b24 := 1;
+      tabel:
+      b20 := b20c19 ÷ 2;
+      i̲f̲ b20 + b20 ≠ b20c19 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ bitstring(26, 17, or) = 1004 ∧ b14t0 = 31488 t̲h̲e̲n̲
+           g̲o̲t̲o̲ memprot;
+         undef(206)
+      e̲n̲d̲ b19 = 1;
+      b14t12 := b14t0 ÷ tp12;
+      b11t0 := b14t0 - b14t12 × tp12;
+      i̲f̲ b14t12 = 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ shift, nora, nors, noras, rgt, ten;
+         b11t5 := b11t0 ÷ tp5;
+         b4t0 := b11t0 - b11t5 × tp5;
+         i̲f̲ b11t5 < 4 t̲h̲e̲n̲ g̲o̲t̲o̲ shift e̲l̲s̲e̲
+         i̲f̲ b11t5 = 5 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b21 + b20 + b4t0 = 0 t̲h̲e̲n̲
+              g̲o̲t̲o̲ i̲f̲ b24 = 0 t̲h̲e̲n̲ nora e̲l̲s̲e̲ nors
+         e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b11t5 = 7 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b24 + b21 + b20 + b4t0 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ noras
+         e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b11t5 > 7 ∧ b11t5 < 11 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b24 + b20 = 0 ∧ b4t0 < 3 t̲h̲e̲n̲ g̲o̲t̲o̲ rgt
+         e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b11t5 = 32 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b24 = 1 ∧ b21 + b20 = 0 ∧ b4t0 < 2 t̲h̲e̲n̲ g̲o̲t̲o̲ ten
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b14t12 = 6 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ clp, int, maak iv, maak ov, itvon;
+         b11t9 := b11t0 ÷ tp9;
+         b8t0 := b11t0 - b11t9 × tp9;
+         i̲f̲ b21 + b20 + b18c17 + b8t0 = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b11t9 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ maak iv;
+            i̲f̲ b11t9 = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ maak ov;
+            i̲f̲ b11t9 = 2 ∧ b24 = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ itvon;
+            i̲f̲ b11t9 = 3 ∧ b24 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ clp;
+            i̲f̲ b11t9 = 4 ∧ b24 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ int
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b14t12 = 7 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ maak q, lees q;
+         b11t9 := b11t0 ÷ tp9;
+         b8t0 := b11t0 - b11t9 × tp9;
+         b 8t6 := b 8t0 ÷ tp6;
+         b5t0 := b 8t0 - b 8t6 × tp6;
+         i̲f̲ b11t9 < 4 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ b21 + b18c17 + b8t6 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ maak q
+         e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ b21 = 0 ∧ b8t6 < 2 ∧ b5t0 < 2 t̲h̲e̲n̲ g̲o̲t̲o̲ lees q
+      e̲n̲d̲ tabel;
+      undef(205);
+
+      aplusdyn:    b20c19 := 4;
+      g̲o̲t̲o̲ aplus;
+      aeqdyn:      b20c19 := 4;
+      g̲o̲t̲o̲ aeq;
+      splusdyn:    b20c19 := 4;
+      g̲o̲t̲o̲ splus;
+      seqdyn:      b20c19 := 4;
+      g̲o̲t̲o̲ seq;
+      bplusdyn:    b20c19 := 4;
+      g̲o̲t̲o̲ bplus;
+      beqdyn:      b20c19 := 4;
+      g̲o̲t̲o̲ beq;
+      gotodyn:
+      b20c19 := 4;
+      b21 := 0;
+      c̲o̲m̲m̲e̲n̲t̲ abnormale betekenis van b21;
+      g̲o̲t̲o̲ goto;
+      subcdyn:     b20c19 := 4;
+      g̲o̲t̲o̲ subc;
+      feqdyn:      b20c19 := 4;
+      g̲o̲t̲o̲ feq;
+
+
+      aeq:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := -val;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ a := val;
+      g̲o̲t̲o̲ time0;
+
+      seq:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := -val;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ s := val;
+      g̲o̲t̲o̲ time0;
+
+      beq:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := -val;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ b := val;
+      g̲o̲t̲o̲ time0;
+
+      aplus:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ ddr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ a + val e̲l̲s̲e̲ a - val;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ a := val;
+      g̲o̲t̲o̲ time0;
+
+      splus:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ s + val e̲l̲s̲e̲ s - val;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ s := val;
+      g̲o̲t̲o̲ time0;
+
+      bplus:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := itv + 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ b + val e̲l̲s̲e̲ b - val;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ b := val;
+      g̲o̲t̲o̲ time0;
+
+      eqa:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(306);
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ a e̲l̲s̲e̲ -a;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      m := val;
+      cg := itv;
+      stm1;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time2;
+
+      eqs:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(307);
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ s e̲l̲s̲e̲ -s;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      m := val;
+      cg := itv;
+      stm1;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time2;
+
+      eqb:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(308);
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ b e̲l̲s̲e̲ -b;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      m := val;
+      cg := itv;
+      stm1;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time2;
+
+      aplusa:
+      flag := t̲r̲u̲e̲;
+      plusa:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(309);
+      cg := 1;
+      mem1;
+      val := m;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ val + a e̲l̲s̲e̲ val - a;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ flag ∨ b16c15 ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         m := val;
+         cg := itv;
+         stm1
+      e̲n̲d̲;
+      i̲f̲ flag t̲h̲e̲n̲ a := m;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time3;
+
+      spluss:
+      flag := t̲r̲u̲e̲;
+      pluss:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(310);
+      cg := 1;
+      mem1;
+      val := m;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ val + s e̲l̲s̲e̲ val - s;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ flag ∨ b16c15 ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         m := val;
+         cg := itv;
+         stm1
+      e̲n̲d̲;
+      i̲f̲ flag t̲h̲e̲n̲ s := m;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time3;
+
+      bplusb:
+      flag := t̲r̲u̲e̲;
+      plusb:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(311);
+      cg := 1;
+      mem1;
+      val := m;
+      val := i̲f̲ b21 = 0 t̲h̲e̲n̲ val + b e̲l̲s̲e̲ val - b;
+      i̲f̲ abs(val) > tp26m1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ of := 1;
+         val := i̲f̲ val > 0 t̲h̲e̲n̲ val - tp27m1 e̲l̲s̲e̲ val + tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ flag ∨ b16c15 ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         m := val;
+         cg := itv;
+         stm1
+      e̲n̲d̲;
+      i̲f̲ flag t̲h̲e̲n̲ b := m;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time3;
+
+      axor:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := xor(a, i̲f̲ b21 = 0 t̲h̲e̲n̲ val e̲l̲s̲e̲ -val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ a := val;
+      g̲o̲t̲o̲ time0;
+
+      sxor:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := xor(s, i̲f̲ b21 = 0 t̲h̲e̲n̲ val e̲l̲s̲e̲ -val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ s := val;
+      g̲o̲t̲o̲ time0;
+
+      aand:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := and(a, i̲f̲ b21 = 0 t̲h̲e̲n̲ val e̲l̲s̲e̲ -val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ a := val;
+      g̲o̲t̲o̲ time0;
+
+      sand:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      val := and(s, i̲f̲ b21 = 0 t̲h̲e̲n̲ val e̲l̲s̲e̲ -val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ s := val;
+      g̲o̲t̲o̲ time0;
+
+      muls:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(223);
+      flag := t̲r̲u̲e̲;
+      mulas:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(222);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := - val;
+      hulp1 := val;
+      c̲o̲m̲m̲e̲n̲t̲ voor ccs-metingen;
+      i̲f̲ flag t̲h̲e̲n̲ a := 0;
+      y := val×s + a;
+      i̲f̲ y=0 t̲h̲e̲n̲ a := s := y e̲l̲s̲e̲
+      i̲f̲ abs(y)<tp26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         s := y;
+         a := i̲f̲ y>0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ -0
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         y := val ÷ tp13;
+         z := y × tp13;
+         v := s ÷ tp13;
+         z := (s - v×tp13) × z + (val - z) × s + a;
+         w := z ÷ tp26;
+         s := z - w×tp26;
+         a := y × v + w;
+         i̲f̲ s=0 t̲h̲e̲n̲ s := sign(a)×0
+      e̲n̲d̲ mulas;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+
+      x := abs(hulp1)/tp26;
+      y := 26;
+      rep ccs mulas:
+      x := x + x;
+      y := y - 1;
+      ccs := ccs + 1;
+      i̲f̲ x≥1 t̲h̲e̲n̲ x := x - 1 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ x := x + x;
+         y := y - 1;
+         i̲f̲ x ≥ 1 t̲h̲e̲n̲ x := x - 1
+      e̲n̲d̲;
+      i̲f̲ x = 0 t̲h̲e̲n̲ ccs := ccs + (y+1) ÷ 2 e̲l̲s̲e̲ g̲o̲t̲o̲ rep ccs mulas;
+      g̲o̲t̲o̲ time2;
+
+      diva:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(224);
+      flag := t̲r̲u̲e̲;
+      divas:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(225);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addr op t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 1;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := - val;
+      i̲f̲ abs(val) ≤ abs(a) t̲h̲e̲n̲ undef(103);
+      i̲f̲ flag t̲h̲e̲n̲
+        s := i̲f̲ a = 0 t̲h̲e̲n̲ a e̲l̲s̲e̲ i̲f̲ a > 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ -0 e̲l̲s̲e̲
+      i̲f̲ ¬1/a>0 ≡ 1/s>0 t̲h̲e̲n̲ undef(102);
+      hulp1 := a;
+      i̲f̲ abs(a)<tp13 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         y := a × tp26 + s;
+         s := y ÷ val;
+         a := y - s × val
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         u := s ÷ tp13;
+         y := a × tp13 + u;
+         v := y ÷ val;
+         y := (y - v × val - u) × tp13 + s;
+         w := y ÷ val;
+         a := y - w × val;
+         s := v × tp13 + w
+      e̲n̲d̲ diva, divas;
+      i̲f̲ a=0 t̲h̲e̲n̲
+        a := i̲f̲ hulp1 = 0 t̲h̲e̲n̲ hulp1 e̲l̲s̲e̲
+        i̲f̲ hulp1 > 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ -0;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      ccs := ccs + 28;
+      g̲o̲t̲o̲ time0;
+
+      ten:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(211);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      x := s × 10;
+      val := s := tail of(x);
+      i̲f̲ b4t0 = 0 t̲h̲e̲n̲ a := head of(x);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      g̲o̲t̲o̲ time1;
+
+      noras:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(219);
+      flag := t̲r̲u̲e̲;
+      shift:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(218);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      i̲f̲ b20 =0 t̲h̲e̲n̲ l := b4t0 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ l := b4t0 + b;
+         i̲f̲ l < 0 ∨ l > 31 t̲h̲e̲n̲ undef(140)
+      e̲n̲d̲;
+      i̲f̲ b11t5 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ ook voor noras;
+         nega := 1/a < 0;
+         negs := 1/s < 0;
+      e̲n̲d̲;
+      i̲f̲ flag t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ noras;
+         b := i̲f̲ a = 0 t̲h̲e̲n̲ norm shift
+           (i̲f̲ nega ∧ ¬negs t̲h̲e̲n̲ s - tp26m1 e̲l̲s̲e̲
+           i̲f̲ negs ∧ ¬nega t̲h̲e̲n̲ s + tp26m1 e̲l̲s̲e̲ s, x) + 26 e̲l̲s̲e̲
+           norm shift(a, x);
+         l := n := b; g̲o̲t̲o̲ lcas
+      e̲n̲d̲;
+      n := l;
+      g̲o̲t̲o̲ sb24c21c6c5[(b24 + b24 + b21) × 4 + b11t5 + 1];
+
+      lca:
+      a := circ shift(a, n);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      lcs:
+      s := circ shift(s, n);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      lcas:
+      i̲f̲ n>26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         n := 53-n;
+         g̲o̲t̲o̲ rcas2
+      e̲n̲d̲;
+      lcas2:
+      i̲f̲ n≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         hulp1 := tp[n];
+         hulp2 := tp26/hulp1;
+         hulp3 := hulp2 + hulp2;
+         ah := a ÷ hulp3;
+         sh := s ÷ hulp2;
+         a := -((ah × hulp3 - a) × hulp1 - sh);
+         s := -((sh × hulp2 - s) × hulp1 - ah);
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s - tp26m1;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      lcsa:
+      i̲f̲ n>27 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         n := 54 - n;
+         g̲o̲t̲o̲ rcsa2
+      e̲n̲d̲;
+      lcsa2:
+      i̲f̲ n≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp27m1;
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         hulp1 := tp[n];
+         hulp3 := tp27/hulp1;
+         sh := s ÷ hulp3;
+         ah := a ÷ hulp3;
+         s := -((sh × hulp3 - s) × hulp1 - ah);
+         a := -((ah × hulp3 - a) × hulp1 - sh);
+         i̲f̲ s ≥ tp26 t̲h̲e̲n̲ s := s - tp27m1;
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rca:
+      a := circ shift(a, -n);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rcs:
+      s := circ shift(s, -n);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rcas:
+      i̲f̲ n>26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         n := 53-n;
+         g̲o̲t̲o̲ lcas2
+      e̲n̲d̲;
+      rcas2:
+      i̲f̲ n≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         hulp1 := tp[n];
+         hulp2 := tp26/hulp1;
+         hulp3 := hulp2 + hulp2;
+         ah := a ÷ hulp1;
+         sh := s ÷ hulp1;
+         at := ah × hulp1 - a;
+         a := -((sh × hulp1 - s) × hulp3 - ah);
+         s := -(at × hulp2 - sh);
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s - tp26m1;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rcsa:
+      i̲f̲ n>27 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         n := 54 - n;
+         g̲o̲t̲o̲ lcsa2
+      e̲n̲d̲;
+      rcsa2:
+      i̲f̲ n≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp27m1;
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         hulp1 := tp[n];
+         hulp3 := tp27/hulp1;
+         sh := s ÷ hulp1;
+         ah := a ÷ hulp1;
+         st := sh × hulp1 - s;
+         s := -((ah × hulp1 - a) × hulp3 - sh);
+         a := -(st × hulp3 - ah);
+         i̲f̲ s ≥ tp26 t̲h̲e̲n̲ s := s - tp27m1;
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      lua:
+      i̲f̲ n ≥ 26 t̲h̲e̲n̲ a := sign(a) × 0 e̲l̲s̲e̲
+      i̲f̲ a ≠ 0 ∧ n ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         hulp2 := tp[26 - n];
+         at := a - a ÷ hulp2 × hulp2;
+         a := i̲f̲ at = 0 t̲h̲e̲n̲ sign(a) × 0 e̲l̲s̲e̲ tp26 / hulp2 × at
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel;
+
+      lus:
+      i̲f̲ n ≥ 26 t̲h̲e̲n̲ s := sign(s) × 0 e̲l̲s̲e̲
+      i̲f̲ s ≠ 0 ∧ n ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         hulp2 := tp[26 - n];
+         st := s - s ÷ hulp2 × hulp2;
+         s := i̲f̲ st = 0 t̲h̲e̲n̲ sign(s) × 0 e̲l̲s̲e̲ tp26 / hulp2 × st
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel;
+
+      luas:
+      i̲f̲ n > 26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         hulp1 := tp[n - 26];
+         hulp2 := tp26/hulp1;
+         a := -(s ÷ hulp2 × hulp2 - s) × hulp1;
+         s := i̲f̲ negs t̲h̲e̲n̲ -tp26m1 e̲l̲s̲e̲ 0;
+         i̲f̲ nega t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            a := a - tp26m1 + hulp1 - 1;
+            s := s + tp26m1
+         e̲n̲d̲;
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ n ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp26m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         hulp1 := tp[n];
+         hulp2 := tp26/hulp1;
+         sh := s ÷ hulp2;
+         a := -((a ÷ hulp2 × hulp2 - a) × hulp1 - sh);
+         s := -(sh × hulp2 - s) × hulp1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s - tp26m1;
+         i̲f̲ nega t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ a := a - tp26m1;
+            s := s + hulp1 - 1 e̲n̲d̲;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      lusa:
+      i̲f̲ n>26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         hulp1 := tp[n - 27];
+         hulp2 := tp26/hulp1;
+         s := -(a ÷ hulp2 × hulp2 - a) × hulp1;
+         a := 0;
+         i̲f̲ negs t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            s := s - tp26m1 + hulp1 - 1;
+            a := -0
+         e̲n̲d̲;
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ n ≠ 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         hulp1 := tp[n];
+         hulp2 := tp26/hulp1;
+         hulp3 := hulp2 + hulp2;
+         ah := a ÷ hulp3;
+         a := -(ah × hulp3 - a) × hulp1;
+         s := -((s ÷ hulp2 × hulp2 - s) × hulp1 - ah);
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1;
+         i̲f̲ negs t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            s := s - tp26m1;
+            a := a + hulp1 - 1
+         e̲n̲d̲;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rua:
+      a := i̲f̲ n ≥ 26 t̲h̲e̲n̲ sign(a) × 0 e̲l̲s̲e̲ a ÷ tp[n];
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel;
+
+      rus:
+      s := i̲f̲ n ≥ 26 t̲h̲e̲n̲ sign(s) × 0 e̲l̲s̲e̲ s ÷ tp[n];
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel;
+
+      ruas:
+      i̲f̲ n>26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ s := a÷tp[n-26];
+         a := i̲f̲ nega t̲h̲e̲n̲ -0 e̲l̲s̲e̲ 0;
+         i̲f̲ nega ∧ ¬negs t̲h̲e̲n̲ s := s + tp26m1 e̲l̲s̲e̲
+         i̲f̲ negs ∧ ¬ nega t̲h̲e̲n̲ s := s - tp26m1
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ n≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         hulp1 := tp[n];
+         hulp2 := tp26/hulp1;
+         ah := a ÷ hulp1;
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp26m1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         s := -((a ÷ hulp1 × hulp1 - a) × hulp2 - s ÷ hulp1);
+         a := ah;
+         i̲f̲ negs t̲h̲e̲n̲ s := s - tp26m1;
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := a;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      rusa:
+      i̲f̲ n>26 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ a := s÷tp[n-27]; s := i̲f̲ negs t̲h̲e̲n̲ -0 e̲l̲s̲e̲ 0 e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ n ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         hulp1 := tp[n];
+         hulp3 := tp27/hulp1;
+         sh := s ÷ hulp1;
+         i̲f̲ negs t̲h̲e̲n̲ s := s + tp26m1;
+         i̲f̲ nega t̲h̲e̲n̲ a := a + tp27m1;
+         a := -((s ÷ hulp1 × hulp1 - s) × hulp3 - a ÷ hulp1);
+         s := sh;
+         i̲f̲ a ≥ tp26 t̲h̲e̲n̲ a := a - tp27m1
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         val := s;
+         cond
+      e̲n̲d̲;
+      g̲o̲t̲o̲ timel2;
+
+      nora:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      b := l := norm shift(a, val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ a := val;
+      g̲o̲t̲o̲ timel;
+
+      nors:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      b := l := norm shift(s, val);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ s := val;
+      g̲o̲t̲o̲ timel;
+
+      feq:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      calc addr;
+      i̲f̲ addrop t̲h̲e̲n̲ b̲e̲g̲i̲n̲ valh := 0; valt := addr e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ addr = 57 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ valh := fh; valt := ft e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ addr = 59 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         valh :=  a;
+         valt :=  s
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         cg := 0;
+         mem;
+         valh := m;
+         addr := addr + 1;
+         mem;
+         valt := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown2;
+      i̲f̲ signinc t̲h̲e̲n̲ of := 1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         valh := -valh;
+         valt := -valt
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      i̲f̲ abs(valh) > tp14m1 t̲h̲e̲n̲ nint := 1;
+      fh := valh;
+      ft := valt;
+      g̲o̲t̲o̲ time0;
+
+      eqf:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      calc addr;
+      i̲f̲ b21 = 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         valh := fh;
+         valt := ft
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         valh := -fh;
+         valt := -ft
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      i̲f̲ abs(valh) > tp14m1 t̲h̲e̲n̲ nint := 1;
+      cg := 0;
+      m := valh;
+      stm;
+      addr := addr + 1;
+      m := valt;
+      stm;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up2;
+      g̲o̲t̲o̲ time0;
+
+      geq:
+      calc addr;
+      i̲f̲ addr = 57 t̲h̲e̲n̲ undef(341);
+      cg := 0;
+      memreg;
+      valt := m;
+      valh := sign(m) × 0;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         valh := -valh;
+         valt := -valt
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      fh := valh;
+      ft := valt;
+      g̲o̲t̲o̲ time0;
+
+      eqg:
+      calc addr;
+      i̲f̲ regop t̲h̲e̲n̲ undef(312);
+      i̲f̲ b21 = 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         valh := fh;
+         valt := ft
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         valh := -fh;
+         valt := -ft
+      e̲n̲d̲;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      i̲f̲ ¬(valh = 0 ∧ sign(1/valh) = sign(1/valt)) t̲h̲e̲n̲ nint := 1;
+      cg := 0;
+      m := valt;
+      stm1;
+      i̲f̲ mc addr t̲h̲e̲n̲ b up1;
+      g̲o̲t̲o̲ time0;
+
+      ftd:
+      flag := t̲r̲u̲e̲;
+      fplus:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ addrop t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         valh := 0;
+         valt := addr
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ addr = 57 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         valh := fh;
+         valt := ft
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ addr = 59 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         valh :=  a;
+         valt :=  s
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         cg := 0;
+         mem;
+         valh := m;
+         addr := addr + 1;
+         mem;
+         valt := m
+      e̲n̲d̲;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown2;
+      i̲f̲ signinc t̲h̲e̲n̲ of := 1;
+      x := compf(fh, ft);
+      y := compf(valh, valt);
+      i̲f̲ flag t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b21 = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            x := x × y;
+            ccs := ccs + 4;
+            ccsof := ccsof + 45
+         e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+            i̲f̲ x = 0 ∧ y =0 t̲h̲e̲n̲ undef(120);
+            x := x / y;
+            ccs := ccs + 44;
+            ccsof := ccsof + 5
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         x := i̲f̲ b21 =0 t̲h̲e̲n̲ x + y e̲l̲s̲e̲ x - y;
+         i̲f̲ b20c19 = 1 t̲h̲e̲n̲ ccs := ccs + 1;
+         ccsof := ccsof + 9
+      e̲n̲d̲;
+      valh := head of(x);
+      valt := tail of(x);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      i̲f̲ abs(valh) > tp14m1 t̲h̲e̲n̲ nint := 1;
+      fh := valh;
+      ft := valt;
+      g̲o̲t̲o̲ time0;
+
+      gtd:
+      flag := t̲r̲u̲e̲;
+      gplus:
+      calc addr;
+      i̲f̲ addr = 57 t̲h̲e̲n̲ undef(342);
+      cg := 0;
+      memreg;
+      valt := m;
+      valh := sign(m) × 0;
+      x := compf(fh, ft);
+      y := compose(valh, valt);
+      i̲f̲ flag t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b21 = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            x := x × y;
+            ccs := ccs + 5;
+            ccsof := ccsof + 43
+         e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+            i̲f̲ x = 0 ∧ y =0 t̲h̲e̲n̲ undef(121);
+            x := x / y;
+            ccs := ccs + 45;
+            ccsof := ccsof + 5
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         x := i̲f̲ b21 =0 t̲h̲e̲n̲ x + y e̲l̲s̲e̲ x - y;
+         ccsof := ccsof + 9
+      e̲n̲d̲;
+      valh := head of(x);
+      valt := tail of(x);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ condf;
+      i̲f̲ abs(valh) > tp14m1 t̲h̲e̲n̲ nint := 1;
+      fh := valh;
+      ft := valt;
+      g̲o̲t̲o̲ time0;
+
+      jump:
+      flag := t̲r̲u̲e̲;
+      goto:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ of = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ of := 0;
+      i̲f̲ addrop t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      i̲f̲ addr = 62 t̲h̲e̲n̲ undef(343) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 0;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := -val;
+      hulp1 := val;
+      i̲f̲ abs(val) > tp18m1 t̲h̲e̲n̲ val := star(val);
+      i̲f̲ flag t̲h̲e̲n̲ val := -(-ot - val);
+      i̲f̲ 1/val < 0 t̲h̲e̲n̲ undef(26350) e̲l̲s̲e̲
+      i̲f̲ val > tp18m1 t̲h̲e̲n̲ val := star(val) e̲l̲s̲e̲
+      i̲f̲ val > tp18m3 t̲h̲e̲n̲ e̲l̲s̲e̲
+      i̲f̲ val > max addr t̲h̲e̲n̲ undef(26351);
+      jcnt := jcnt + 1;
+      tcnt := tcnt + 1;
+      i̲f̲ tcnt = 32 t̲h̲e̲n̲ tcnt := 0;
+      tlist[tcnt] := ot;
+      ot := val;
+      i̲f̲ b18c17 = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ time0;
+      y := (i̲f̲ 1/hulp1 < 0 t̲h̲e̲n̲ hulp1 + tp26m1 e̲l̲s̲e̲ hulp1) ÷ tp18;
+      x := y ÷ 2;
+      c := y - x - x;
+      y := x ÷ 2;
+      iv := x - y - y;
+      x := y ÷ 2;
+      lt := y - x - x;
+      y := x ÷ 2;
+      of := x - y - y;
+      x := y ÷ 2;
+      last par word := -(y - x - x - 1);
+      y := x ÷ 2;
+      nint := x - y - y;
+      x := y ÷ 2;
+      ov := y - x - x;
+      i̲f̲ bt = 0 ∨ x ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         iv := ov := 1;
+         bt := 0
+      e̲n̲d̲;
+      g̲o̲t̲o̲ time0;
+
+      repn:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ of = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ of := 0;
+      hulp1 := b21 + b21 + b21 + b21 + b20c19;
+      i̲f̲ ¬ filled[hulp1] t̲h̲e̲n̲ undef(25410);
+      x := m0[hulp1] -1;
+      i̲f̲ trace t̲h̲e̲n̲ report reading(hulp1, x + 1);
+      i̲f̲ x < -tp26m1 t̲h̲e̲n̲ x := tp26m1;
+      m0[hulp1] := x;
+      i̲f̲ trace t̲h̲e̲n̲ report writing(hulp1, x);
+      i̲f̲ i̲f̲ b18c17 = 0 t̲h̲e̲n̲ t̲r̲u̲e̲ e̲l̲s̲e̲
+        i̲f̲ b18c17 = 1 t̲h̲e̲n̲ x ≥ 1 e̲l̲s̲e̲
+        i̲f̲ b18c17 = 2 t̲h̲e̲n̲ x = 0 e̲l̲s̲e̲ x ≥ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b14t0 > max addr t̲h̲e̲n̲ undef(26354);
+         jcnt := jcnt + 1;
+         tcnt := tcnt + 1;
+         i̲f̲ tcnt = 32 t̲h̲e̲n̲ tcnt := 0;
+         tlist[tcnt] := ot;
+         ot := b14t0
+      e̲n̲d̲;
+      g̲o̲t̲o̲ time0;
+
+      subn:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ of = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ of := 0;
+      hulp2 := i̲f̲ ingreep type = 2 t̲h̲e̲n̲ tlink + tp24 e̲l̲s̲e̲ tlink;
+      x := b18c17 + b21;
+      hulp1 := x + x + x + x + b20c19 + 8;
+      i̲f̲ prot t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ hulp1 > 15 ∧ dgp[0] ≥ 0 t̲h̲e̲n̲ undef(27503)
+      e̲n̲d̲;
+      filled[hulp1] := t̲r̲u̲e̲;
+      m0[hulp1] := hulp2;
+      i̲f̲ trace t̲h̲e̲n̲ report writing(hulp1, hulp2);
+      i̲f̲ b14t0 > max addr t̲h̲e̲n̲ undef(26355);
+      jcnt := jcnt + 1;
+      tcnt := tcnt + 1;
+      i̲f̲ tcnt = 32 t̲h̲e̲n̲ tcnt := 0;
+      tlist[tcnt] := hulp2 - tp26m1;
+      ot := b14t0;
+      g̲o̲t̲o̲ time0;
+
+      subc:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ of = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      subcd := bt = 1 ∧ b18c17 = 3;
+      gate := bt = 0 ∧ addr ≥ 256 ∧ addr < 320;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ of := 0;
+      i̲f̲ gate t̲h̲e̲n̲ prot := f̲a̲l̲s̲e̲;
+      i̲f̲ addrop t̲h̲e̲n̲ val := addr e̲l̲s̲e̲
+      i̲f̲ addr = 62 t̲h̲e̲n̲ undef(344) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 0;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      i̲f̲ gate t̲h̲e̲n̲ prot := t̲r̲u̲e̲;
+      hulp2 := i̲f̲ ingreep type = 2 t̲h̲e̲n̲ tlink + tp24 e̲l̲s̲e̲ tlink;
+      addr := i̲f̲ b > tp18m1 t̲h̲e̲n̲ star(b) e̲l̲s̲e̲ b;
+      i̲f̲ 1/addr < 0 t̲h̲e̲n̲ undef(26362);
+      i̲f̲ ¬addr op ∧ b = 0 t̲h̲e̲n̲ undef(26363);
+      i̲f̲ gate ∧ addr < 256 t̲h̲e̲n̲ undef(27502);
+      cg := 0;
+      m := hulp2;
+      stm;
+      b := b + 1;
+      i̲f̲ abs(val) > tp18m1 t̲h̲e̲n̲ val := star(val);
+      i̲f̲ 1/val < 0 t̲h̲e̲n̲ undef(26352) e̲l̲s̲e̲
+      i̲f̲ val > tp18m3 t̲h̲e̲n̲ e̲l̲s̲e̲
+      i̲f̲ val > max addr t̲h̲e̲n̲ undef(26353);
+      jcnt := jcnt + 1;
+      tcnt := tcnt + 1;
+      i̲f̲ tcnt = 32 t̲h̲e̲n̲ tcnt := 0;
+      tlist[tcnt] := hulp2 - tp26m1;
+      ot := val;
+      i̲f̲ gate t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         bt := 1;
+         iv := 0
+      e̲n̲d̲;
+      i̲f̲ subcd t̲h̲e̲n̲ iv := 0;
+      g̲o̲t̲o̲ time2;
+
+      do:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ b16c15 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ of = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ skip
+      e̲n̲d̲;
+      calc addr;
+      i̲f̲ mc addr t̲h̲e̲n̲ bdown1;
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ of := 0;
+      i̲f̲ b18c17 = 3 t̲h̲e̲n̲ s := addr;
+      i̲f̲ addr = 62 t̲h̲e̲n̲ undef(345) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         cg := 0;
+         memreg;
+         val := m
+      e̲n̲d̲;
+      or := val;
+      dcs := dcs + 1;
+      i̲f̲ dcs > dcs max t̲h̲e̲n̲ undef(3);
+      i̲f̲ key t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         ingreep type := 1;
+         ir addr := 28;
+         g̲o̲t̲o̲ ingreep
+      e̲n̲d̲;
+      i̲f̲ trace t̲h̲e̲n̲ report eod(addr, val);
+      g̲o̲t̲o̲ basis cyclus 2;
+
+      clp:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(212);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      c := parbit(last par word);
+      g̲o̲t̲o̲ time0;
+
+      int:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      val := nint;
+      nint := 0;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲ c := val;
+      g̲o̲t̲o̲ time0;
+
+      rgt:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      val :=  i̲f̲ b11t5 = 8 t̲h̲e̲n̲ a e̲l̲s̲e̲
+        i̲f̲ b11t5 = 9 t̲h̲e̲n̲ s e̲l̲s̲e̲ b;
+      i̲f̲ b21 = 1 t̲h̲e̲n̲ val := - val;
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b4t0 = 0 t̲h̲e̲n̲ a := val
+           e̲l̲s̲e̲ i̲f̲ b4t0 = 1 t̲h̲e̲n̲ s := val
+         e̲l̲s̲e̲ b := val
+      e̲n̲d̲;
+      g̲o̲t̲o̲ time0;
+
+      lees q:
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ b20 = 0 t̲h̲e̲n̲ l := b5t0 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         l := b5t0 + b;
+         i̲f̲ l < 0 ∨ l > 1 t̲h̲e̲n̲ undef(141)
+      e̲n̲d̲;
+      i̲f̲ b11t9= 5 t̲h̲e̲n̲ val := i̲f̲ l = 0 t̲h̲e̲n̲   if0 e̲l̲s̲e̲   if1 e̲l̲s̲e̲
+      i̲f̲ b11t9= 6 t̲h̲e̲n̲ val := i̲f̲ l = 0 t̲h̲e̲n̲ lvif0 e̲l̲s̲e̲ lvif1 e̲l̲s̲e̲
+        undef(145);
+      i̲f̲ b8t6 = 1 t̲h̲e̲n̲
+        val := and( val, i̲f̲ b24 = 0 t̲h̲e̲n̲ a e̲l̲s̲e̲ s);
+      i̲f̲ b18c17 > 0 t̲h̲e̲n̲ cond;
+      i̲f̲ b16c15 ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b24 = 0 t̲h̲e̲n̲ a := val e̲l̲s̲e̲ s := val e̲n̲d̲;
+      g̲o̲t̲o̲ time1;
+
+      maak q:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(213);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ bt = 0 t̲h̲e̲n̲ undef(130);
+      i̲f̲ b20 = 0 t̲h̲e̲n̲ l := b5t0 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ b < 0 t̲h̲e̲n̲ undef(142);
+         l := b5t0 + b
+      e̲n̲d̲;
+      i̲f̲ l > 39 t̲h̲e̲n̲ undef(143);
+      i̲f̲ b11t9 = 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ read q(l, afv0, afv1) = 0 t̲h̲e̲n̲ undef(147);
+         set q(l, af0, af1, b24); attendeer charon af(l)
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ b11t9 = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ read q(l, ifv0, ifv1) = 0 t̲h̲e̲n̲ undef(148);
+         set q(l, if0, if1, b24)
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ b11t9 = 2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ read q(l, lvifv0, lvifv1) = 0 t̲h̲e̲n̲ undef(149);
+         set q(l, lvif0, lvif1, b24)
+      e̲n̲d̲ e̲l̲s̲e̲
+        undef(146);
+      g̲o̲t̲o̲ time1;
+
+      maak iv:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(214);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ bt = 0 t̲h̲e̲n̲ undef(131);
+      iv := b24;
+      g̲o̲t̲o̲ time0;
+
+      maak ov:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(215);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ bt = 0 t̲h̲e̲n̲ undef(132);
+      ov := b24;
+      g̲o̲t̲o̲ time0;
+
+      itvon:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(216);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ bt = 0 t̲h̲e̲n̲ undef(133);
+      itv := 1;
+      g̲o̲t̲o̲ basis cyclus1;
+
+      memprot:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(217);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ bt = 0 t̲h̲e̲n̲ undef(134);
+      b20c19 := 2;
+      b14t0 := tp14;
+      calc addr;
+      cg := 0;
+      mem reg;
+      val := m;
+      hulp1 := bitstring(17,13,val) × 16;
+      i̲f̲ hulp1 > max addr ÷ tp9 t̲h̲e̲n̲ undef(26361);
+      val := circ shift(val, 3);
+      f̲o̲r̲ hulp3 := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 15 d̲o̲
+           dgp[hulp1 + hulp3] :=
+           bit(hulp3, val) × 2 + bit(hulp3 ÷ 8 + 25, val) - 1;
+      b up1;
+      g̲o̲t̲o̲ time2;
+
+      operate:
+      i̲f̲ b16c15 = 1 t̲h̲e̲n̲ undef(226);
+      i̲f̲ b16c15 > 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ b16c15 ≠ c+2 t̲h̲e̲n̲ g̲o̲t̲o̲ skip e̲n̲d̲;
+      i̲f̲ b20c19 ≠ 2 t̲h̲e̲n̲ l := b14t0 e̲l̲s̲e̲ l := b14t0 + b;
+      i̲f̲ l < 0 ∨ l > 15 t̲h̲e̲n̲ undef(154);
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ by editor:  Algol 60 standard later removed numeric labels: ;
+         s̲w̲i̲t̲c̲h̲ act := l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15,l16;
+         g̲o̲t̲o̲ act[l + 1];
+         l1:   newpage;         g̲o̲t̲o̲ time0;
+         l2:   s := rehep;       g̲o̲t̲o̲ time0;
+         l3:   puhep(s);        g̲o̲t̲o̲ time0;
+         l4:   col(s);          g̲o̲t̲o̲ time0;
+         l5:   prsym(s);        g̲o̲t̲o̲ time0;
+         l6:   s := resym;       g̲o̲t̲o̲ time0;
+         l7:   pusym(s);        g̲o̲t̲o̲ time0;
+         l8:   csym(s);         g̲o̲t̲o̲ time0;
+         l9:   proct(s, 9);     g̲o̲t̲o̲ time0;
+         l10:  s := reoct;       g̲o̲t̲o̲ time0;
+         l11:  undef(155);      g̲o̲t̲o̲ time0;
+         l12:  undef(156);      g̲o̲t̲o̲ time0;
+         l13:  print(s);        g̲o̲t̲o̲ time0;
+         l14:  s := read;        g̲o̲t̲o̲ time0;
+         l15:  punch(s);        g̲o̲t̲o̲ time0;
+         l16:  cpunch(s);       g̲o̲t̲o̲ time0;
+      e̲n̲d̲ operate;
+
+      timel:
+      ccs := ccs + (i̲f̲ l < 16 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 2);
+      g̲o̲t̲o̲ time0;
+
+      timel2:
+      ccs := ccs + 1 + (l - 1) ÷ 2;
+      g̲o̲t̲o̲ time0;
+
+      skip:
+      i̲f̲ trace t̲h̲e̲n̲ report skip;
+      g̲o̲t̲o̲ time0;
+
+      time3:
+      ccs := ccs + 1;
+      time2:
+      ccs := ccs + 1;
+      time1:
+      ccs := ccs + 1;
+      time0:
+      i̲f̲ ingreep type > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         bt := 1;
+         iv := 0
+      e̲n̲d̲;
+      ingreep type := itv := 0;
+      prot := bt = 0;
+      i̲f̲ sva t̲h̲e̲n̲ undef(0);
+
+      i̲f̲ charon teller > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         charon teller := charon teller - ccs + ccs1;
+         i̲f̲ charon teller ≤ 0 t̲h̲e̲n̲ wek charon
+      e̲n̲d̲;
+      ccs1 := ccs;
+      dcs := 0;
+      i̲f̲ trace t̲h̲e̲n̲ report eoi;
+      i̲f̲ key t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         ingreep type := 1;
+         ir addr := 28;
+         g̲o̲t̲o̲ ingreep
+      e̲n̲d̲;
+
+      i̲f̲ iv = 0 t̲h̲e̲n̲ x := y := 0 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         x := lvif0;
+         y := lvif1;
+         i̲f̲ if0 + if1 > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ and(and(ie0, lvif0), if0) +
+              and(and(ie1, lvif1), if1) > 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ charon ingreep;
+               ingreep type := 1;
+               ir addr := 24; g̲o̲t̲o̲ ingreep
+            e̲n̲d̲ charon ingreep
+         e̲n̲d̲ minstens een if aan
+      e̲n̲d̲ horend;
+      ie0 := x;
+      ie1 := y;
+      c̲o̲m̲m̲e̲n̲t̲ bewaren voor volgende opdracht;
+
+      g̲o̲t̲o̲ basis cyclus 1;
+
+      ingreep:
+      i̲f̲ trace t̲h̲e̲n̲ report interrupt(ir addr);
+      i̲f̲ itv = 1 t̲h̲e̲n̲ undef(135);
+      prot := f̲a̲l̲s̲e̲;
+      cg := 0;
+      addr := ir addr;
+      mem1;
+      or := m;
+      g̲o̲t̲o̲ basis cyclus 2;
+
+   e̲n̲d̲ extra end removed here;
+
+   c̲o̲m̲m̲e̲n̲t̲ ad hoc master- en trace-procedures, voor testdoeleinden;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ master;
+   b̲e̲g̲i̲n̲
+      nlcr;
+      printtext(“simulatie beeindigd met foutnummer”);
+      absfixt(3, 0, error number);
+      i̲f̲ ingreep type = 1 t̲h̲e̲n̲ printtext(“in charon/sleutelingreep”);
+      i̲f̲ ingreep type = 2 t̲h̲e̲n̲ printtext(“in foutingreep”);
+      i̲f̲ ingreep type = 3 t̲h̲e̲n̲ printtext(“in foutingreep tijdens charon/sleutelingreep”);
+      print regs;
+      print tlist;
+      print dgp;
+      print charon;
+      dump(0, max addr);
+      exit
+   e̲n̲d̲ master;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ start monitor;
+   b̲e̲g̲i̲n̲
+      sva := t̲r̲u̲e̲;
+      lsip;
+      sva := f̲a̲l̲s̲e̲;
+      cg := 0;
+      addr := 512;
+      m := 0;
+      stm;
+      bva
+   e̲n̲d̲ start monitor;
+
+e̲n̲d̲

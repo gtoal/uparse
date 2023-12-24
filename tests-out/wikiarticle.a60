@@ -1,0 +1,15 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   r̲e̲a̲l̲ y;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[0:10];
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ f(t); v̲a̲l̲u̲e̲ t; r̲e̲a̲l̲ t; f := sqrt(abs(t))+5×t⭡3;
+
+   f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲ read(a[i]);
+   f̲o̲r̲ i := 10 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ b̲e̲g̲i̲n̲
+         y := f(a[i]);
+         i̲f̲ y > 400 t̲h̲e̲n̲
+           write(i, “TOO LARGE”)
+         e̲l̲s̲e̲
+           write(i,y);
+      e̲n̲d̲
+e̲n̲d̲

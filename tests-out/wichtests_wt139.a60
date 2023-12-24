@@ -1,0 +1,23 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   r̲e̲a̲l̲
+     X,
+     Y;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(Z);
+      v̲a̲l̲u̲e̲
+        Z;
+      r̲e̲a̲l̲
+        Z;
+   b̲e̲g̲i̲n̲
+      X := Z + Y
+   e̲n̲d̲;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Q(Z);
+      v̲a̲l̲u̲e̲
+        Z;
+      r̲e̲a̲l̲
+        Z;
+      i̲f̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲
+        Q := Z + X + Y;
+   X := Y := 1·0;
+   OUTREAL(99, P(10·0) + Q(100·0))
+e̲n̲d̲

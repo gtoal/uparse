@@ -1,0 +1,19 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲
+     JJ[1 : 8];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(X);
+      v̲a̲l̲u̲e̲
+        X;
+      i̲n̲t̲e̲g̲e̲r̲
+        X;
+   ;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DEVIATION;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲
+        X,
+        Y;
+      P(JJ)
+   e̲n̲d̲;
+   DEVIATION;
+e̲n̲d̲

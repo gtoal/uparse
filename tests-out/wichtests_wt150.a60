@@ -1,0 +1,37 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   r̲e̲a̲l̲
+     X,
+     Y;
+   i̲n̲t̲e̲g̲e̲r̲
+     CASE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHECK(B);
+      v̲a̲l̲u̲e̲
+        B;
+      b̲o̲o̲l̲e̲a̲n̲
+        B;
+      i̲f̲ B t̲h̲e̲n̲
+        CASE := CASE + 1
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         OUTREAL(99, X);
+         OUTREAL(99, Y);
+         OUTREAL(99, CASE)
+      e̲n̲d̲;
+   CASE := 0;
+   f̲o̲r̲ X := - 6·8,·001,
+     13·4 d̲o̲
+        f̲o̲r̲ Y := - 6·8,·001,
+        13·4 d̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ X = Y t̲h̲e̲n̲
+              CHECK(X ≤ Y ∨ X ≥ Y)
+              e̲l̲s̲e̲ i̲f̲ X > Y t̲h̲e̲n̲
+              CHECK(X ≥ Y)
+              e̲l̲s̲e̲ i̲f̲ X < Y t̲h̲e̲n̲
+              CHECK(X ≤ Y)
+            e̲l̲s̲e̲
+              CHECK(f̲a̲l̲s̲e̲)
+         e̲n̲d̲;
+   OUTREAL(99, CASE);
+e̲n̲d̲

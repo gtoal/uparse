@@ -1,0 +1,47 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ 'LIBRARY' 1;
+   r̲e̲a̲l̲
+     X,
+     Y,
+     Z,
+     U;
+   i̲n̲t̲e̲g̲e̲r̲
+     I,
+     CASE;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMPARE(U, V);
+      v̲a̲l̲u̲e̲
+        U,
+        V;
+      r̲e̲a̲l̲
+        U,
+        V;
+   b̲e̲g̲i̲n̲
+      CASE := CASE + 1;
+      i̲f̲ U ≠ V t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         OUTREAL(99, U);
+         OUTREAL(99, V);
+         OUTREAL(99, CASE)
+      e̲n̲d̲;
+   e̲n̲d̲;
+   CASE := 0;
+   X := 1·2;
+   Y := 16·96;
+   Z := - 13·4;
+   f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+      b̲e̲g̲i̲n̲
+         COMPARE( - X × Y, - (X × Y));
+         COMPARE( - X / Y, - (X / Y));
+         COMPARE(X + Y + Z, (X + Y) + Z);
+         COMPARE(X × Y × Z, (X × Y) × Z);
+         COMPARE(X / Y / Z, (X / Y) / Z);
+         COMPARE(X × Y / Z, (X × Y) / Z);
+         COMPARE(X⭡2 / Y, (X × X) / Y);
+         COMPARE(X × Y⭡2, X × (Y × Y));
+         U := 1·01 × X;
+         X := 1·01 × Y;
+         Y := 1·01 × Z;
+         Z := U;
+      e̲n̲d̲;
+   OUTREAL(99, 0)
+e̲n̲d̲
