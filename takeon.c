@@ -1,5 +1,7 @@
 // TAKEON: Version 2.  This is a rewrite of the original takeon.
 
+// If B<name> clashes with P<name> no warning is given other than <name> Unused.
+
 // Convert a grammar into tables.
 
 #include <stdio.h>

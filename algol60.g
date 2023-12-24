@@ -246,11 +246,11 @@ P<JUMP-TARGET> = <LEXPR>;
 
 # 'LEXPR' is short for 'Label expression', which the report calls a 'designational expression'.
 P<LEXPR> =
-   '(' <LEXPR> ')',
+  '(' <LEXPR> ')',
    "i̲f̲" <Boolean_expression> "t̲h̲e̲n̲" <SLEXPR> "e̲l̲s̲e̲" <LEXPR>,  # if/then must have an else:
    <SLEXPR>;
 
-P<SLEXPR> = <NAME> <OPT-ARRAY>;   # simple label expression
+P<SLEXPR> = <NAME> <OPT-ARRAY>, "(" <LEXPR> ")";   # simple label expression
 
 # explicitly declared as 'own'
 P<OWN-DECLARATION> =
@@ -441,7 +441,11 @@ P<unsigned> =
    <decnum>;
 
 P<decfract> =
-   "." <DIGITS>;
+   <decimalpoint> <DIGITS>;
+
+P<decimalpoint> =
+   ".",
+   "·";  # Unicode Character “·” (U+00B7)
 
 P<expart> =
    <subten> <INTEGER-CONSTANT>;
@@ -544,6 +548,45 @@ P<simple_Boolean> = <implication_Boolean> <equiv_simple_Boolean>;
 P<Boolean_expression> =
    "i̲f̲" <Boolean_expression> "t̲h̲e̲n̲" <simple_Boolean> "e̲l̲s̲e̲" <Boolean_expression>,
    <simple_Boolean>;
+
+# A recursive loop was detected at runtime with one source file I'm working on.
+
+## P<BALANCED-STRING> = <ldquo> <BALANCED-CHAR-SEQUENCE> <rdquo>;
+## P<BALANCED-CHAR-SEQUENCE> = <BALANCED-CHAR> <BALANCED-CHAR-SEQUENCE> , ;
+## P<BALANCED-CHAR> = <BALANCED-STRING>, <!rdquo> <ch> ;
+## P<ch>  = <stropped>, «.»;    # any character. A stropped letter counts as a single character
+## P<stropped> = «(a̲|b̲|c̲|d̲|e̲|f̲|g̲|h̲|i̲|j̲|k̲|l̲|m̲|n̲|o̲|p̲|q̲|r̲|s̲|t̲|u̲|v̲|w̲|x̲|y̲|z̲|A̲|B̲|C̲|D̲|E̲|F̲|G̲|H̲|I̲|J̲|K̲|L̲|M̲|N̲|O̲|P̲|Q̲|R̲|S̲|T̲|U̲|V̲|W̲|X̲|Y̲|Z̲)»;
+
+# TRACE:
+
+#P<ch>
+#P<stropped>
+#«(a̲|b̲|c̲|d̲|e̲|f̲|g̲|h̲|i̲|j̲|k̲|l̲|m̲|n̲|o̲|p̲|q̲|r̲|s̲|t̲|u̲|v̲|w̲|x̲|y̲|z̲|A̲|B̲|C̲|D̲|E̲|F̲|G̲|H̲|I̲|J̲|K̲|L̲|M̲|N̲|O̲|P̲|Q̲|R̲|S̲|T̲|U̲|V̲|W̲|X̲|Y̲|Z̲)»
+#P<BALANCED-CHAR-SEQUENCE>
+#P<BALANCED-CHAR>
+#P<BALANCED-STRING>
+
+#P<ldquo>
+#"“"
+#'{'
+#"‘"
+#"'('"
+#"«"
+#"|<"
+#"<"
+#"«"
+
+#P<rdquo>
+#"”"
+#'}'
+#"’"
+#"')'"
+#"»"
+#"|>"
+#">"
+#"»"
+
+
 
 P<ch>  = <stropped>, «.»;    # any character. A stropped letter counts as a single character
                              # but parses as two in a regexp. So needs special handling.

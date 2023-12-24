@@ -20,8 +20,8 @@ all: $(LANGUAGE:%=%) regen Makefile # $(LANGUAGE:%=%.ng)  # mnemalyse
 # but with variables converted into upper case as a demonstration.
 # Your own code could be an actual compiler, or perhaps a translator
 # from your language to C.
-$(LANGUAGE:%=%): $(LANGUAGE:%=%.h) Makefile regexp-lexer.o mnemosyne.o flex.o uparse.o
-	$(CC) $(OPTS) -o $(LANGUAGE:%=%) uparse.o regexp-lexer.o mnemosyne.o flex.o
+$(LANGUAGE:%=%): $(LANGUAGE:%=%.h) Makefile regexp-lexer.o flex.o uparse.o
+	$(CC) $(OPTS) -o $(LANGUAGE:%=%) uparse.o regexp-lexer.o flex.o
 
 # This regenerates the skeleton compiler code (CST to AST conversion) from the grammar.
 $(LANGUAGE:%=%-ast.h): regen
@@ -79,16 +79,16 @@ flex.o: flex.c flex.h Makefile
 
 # This is an internal regular expression matcher which has been modified
 # to support Unicode characters.
-regexp-lexer.o: regexp-lexer.c tools/mnemosyne.h Makefile parser.h
+regexp-lexer.o: regexp-lexer.c Makefile parser.h
 	$(CC) $(OPTS) -c regexp-lexer.c -Itools
 
 # This is an old memory leak utility I used to use in the 80's - you can get
 # equally good results nowadays by using valgrind instead.  It is off by default.
-mnemosyne.o: tools/mnemosyne.c tools/mnemosyne.h Makefile
+mnemosyne.o: tools/mnemosyne.c Makefile
 	$(CC) $(OPTS) -Wno-unused-variable -Wno-pointer-to-int-cast -c tools/mnemosyne.c -Itools
 
 # The post-execution analyzer for mnemosyne (the Greek Goddess of memory)
-mnemalyse: tools/mnemalyse.c tools/mnemosyne.h Makefile
+mnemalyse: tools/mnemalyse.c Makefile
 	$(CC) $(OPTS) -o mnemalyse tools/mnemalyse.c -Itools
 
 web:

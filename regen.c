@@ -1,6 +1,8 @@
 // I've just finished adding semantic phrases.  I haven't
 // tidied the sources up yet, following some major surgery.
 
+// If the root phrase is not P<SS> this generates a bad statement.
+
 #include "parser.h"
 
 #include GRAMMAR

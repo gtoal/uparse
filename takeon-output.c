@@ -172,14 +172,15 @@ static DECLARE(StringPool, wchar_t, MAX_LIT);
 static STRINGINDEX Str_nextfree = 0;
 #define String(x) &_StringPool(x)
 
-// Filter '-' out of strings so they can be used as C variables.
+// Filter '-' out of strings so they can be used as C variables,
+// and convert spaces in identifiers to '_'
 wchar_t *CString(STRINGINDEX x) {
   wchar_t *Orig = String(x);
   STRINGINDEX Result = Str_nextfree;
   do {
     wint_t wc;
-    wc =  *Orig;
-    if (wc == '-') wc = '_';
+    wc = *Orig;
+    if (wc == '-' || wc == ' ') wc = '_';
     _StringPool(Str_nextfree++) = wc;
   } while (*Orig++ != '\0');
   return String(Result);

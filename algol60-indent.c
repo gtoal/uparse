@@ -524,6 +524,12 @@ text_descriptor reindent(int P, int depth) {
 
      // We'll canonicalise _10 with IMP-style '@' for now,
      // until the Unicode character becomes more widely implemented
+
+//\\ P<decimalpoint> = ".", "·";
+   case G_decimalpoint:
+     // O(SubPhrase(P, 1), L".");
+     O(SubPhrase(P, 1), L"·");
+     return r;
      
 //\\ P<subten> = "@", "&", "⏨", "\u23E8", "\u2081\u2080";
    case G_subten:
@@ -571,6 +577,11 @@ text_descriptor reindent(int P, int depth) {
      O(SubPhrase(P, 1), L"i̲m̲p̲l̲"); // until ⊃ is supported properly
      return r;
 
+     // NOTE:  the sloping <= (⩽ - U+2A7D) and >= (⩾ - U+2A7E) are a better representation than the
+     // default ≤ and ≥, however they do not work in plain unicode text files on my system so until
+     // support for those two characters improves I'll stick with the 'underlined <' representation.
+     // (That does not preclude using &LessSlantEqual; and &GreaterSlantEqual; in html output however...)
+     
    case G_relational_operator:
      if (alt == 0)               {  //\\    "=",
        O(SubPhrase(P, 1), L"=");

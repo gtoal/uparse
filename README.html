@@ -606,6 +606,11 @@ which was reported as:<br/>
 &hellip; Parsing an &lt;operand> resolved into parsing a &lt;plus-opt> followed by an &lt;exprn>.  The &lt;plus-opt> could be null,
 and the &lt;exprn> in turned called &lt;operand> and thus would loop indefinitely without consuming any characters.  The fact that
 &lt;operand> also had an unwanted null option was just the cherry on the cake :-(
+<h4>EMACS support</h4>
+I'm not very practised in Emacs Lisp and I'm sure this can be done better, but on the principle of something being better than
+nothing, here's an elisp file you can add to your <tt>~/.emacs</tt> startup file to provide syntax highlighting for the <tt>.g</tt> grammar
+files: <a href="gtbnf.el">gtbnf.el</a>  Possibly the most useful feature of the script is that it highlights rules with null alternatives, i.e. a trailing "<tt><font color="red">, ;</font></tt>"<br/>
+(The limitation of this script is that it doesn't handle embedded C code very well. The BNF part looks fine however.)
 <p><em>To be continued&hellip;</em></p>
 <hr>
 <p>
