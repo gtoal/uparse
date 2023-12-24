@@ -1,0 +1,16 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   s̲w̲i̲t̲c̲h̲ month:= Jan,Feb,March;
+
+   outstring(1,“which month”);
+   ininteger(1,i);
+
+   g̲o̲t̲o̲ month[i];
+   Jan:  outstring(1,“Jan has 31 days”);
+   g̲o̲t̲o̲ endlabel;
+   Feb:  outstring(1,“Feb has 29 days”);
+   g̲o̲t̲o̲ endlabel;
+   March:  outstring(1,“March has 30 days”);
+   g̲o̲t̲o̲ endlabel;
+
+   endlabel: e̲n̲d̲

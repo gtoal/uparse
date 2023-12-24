@@ -1,0 +1,8 @@
+c̲o̲m̲m̲e̲n̲t̲ ================== 34010 ================= ;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ VECVEC(L, U, SHIFT, A, B); v̲a̲l̲u̲e̲ L, U, SHIFT;
+   i̲n̲t̲e̲g̲e̲r̲ L, U, SHIFT; a̲r̲r̲a̲y̲ A, B;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ S;
+   S := 0;
+   f̲o̲r̲ K := L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲ S := A[K] × B[SHIFT + K] + S;
+   VECVEC := S
+e̲n̲d̲ VECVEC;

@@ -1,0 +1,62 @@
+b̲e̲g̲i̲n̲
+
+   c̲o̲m̲m̲e̲n̲t̲
+     //////////////////////////////////////////////////////////
+     // NAME: PETER M. MAURER
+     // PROGRAM: SIEVE OF ERATOSTHENES
+     // DUE: NEVER
+     // LANGUAGE: ALGOL 60 ALA IBM 360
+     //////////////////////////////////////////////////////////
+     ;
+   c̲o̲m̲m̲e̲n̲t̲ DEFINE THE SIEVE DATA STRUCTURE ;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ CANDIDATES[0:1000];
+   i̲n̲t̲e̲g̲e̲r̲ I,J,K;
+
+   c̲o̲m̲m̲e̲n̲t̲ SET LINE-LENGTH=120,SET LINES-PER-PAGE=62,OPEN ;
+   c̲o̲m̲m̲e̲n̲t̲ 1000 TO PROTECT AGAINST STRICT EVALUATION OF AND ;
+
+   f̲o̲r̲ I := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 1000 d̲o̲
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ EVERYTHING IS POTENTIALLY PRIME UNTIL PROVEN OTHERWISE ;
+         CANDIDATES[I] := 1;
+      e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ NEITHER 1 NOR 0 IS PRIME, SO FLAG THEM OFF  ;
+   CANDIDATES[0] := 0;
+   CANDIDATES[1] := 0;
+   c̲o̲m̲m̲e̲n̲t̲ START THE SIEVE WITH THE INTEGER 0 ;
+   I := 0;
+   f̲o̲r̲ I := I w̲h̲i̲l̲e̲ I < 1000 d̲o̲
+      b̲e̲g̲i̲n̲
+         c̲o̲m̲m̲e̲n̲t̲ ADVANCE TO THE NEXT UN-CROSSED OUT. ;
+         c̲o̲m̲m̲e̲n̲t̲ THIS NUMBER MUST BE A PRIME;
+         f̲o̲r̲ I := I w̲h̲i̲l̲e̲ I < 1000 ∧ CANDIDATES[I] = 0 d̲o̲
+            b̲e̲g̲i̲n̲
+               I := I+1;
+            e̲n̲d̲;
+         c̲o̲m̲m̲e̲n̲t̲ INSURE AGAINST RUNNING OFF THE END;
+         i̲f̲ I < 1000 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            c̲o̲m̲m̲e̲n̲t̲ CROSS OUT ALL MULTIPLES OF THE PRIME.;
+            J := 2;
+            K := J×I;
+            f̲o̲r̲ K := K w̲h̲i̲l̲e̲ K < 1000 d̲o̲
+               b̲e̲g̲i̲n̲
+                  CANDIDATES[K] := 0;
+                  J := J + 1;
+                  K := J×I;
+               e̲n̲d̲;
+            c̲o̲m̲m̲e̲n̲t̲ ADVANCE TO THE NEXT CANDIDATE ;
+            I := I+1;
+         e̲n̲d̲
+      e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ ALL UNCROSSED OUT NUMBERS ARE PRIME;
+   c̲o̲m̲m̲e̲n̲t̲ PRINT ALL PRIMES ;
+   f̲o̲r̲ I := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 999 d̲o̲
+      b̲e̲g̲i̲n̲
+         i̲f̲ CANDIDATES[I] ≠ 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            OUTINTEGER(1,I);
+            OUTSTRING(1,“ IS PRIME”);
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲

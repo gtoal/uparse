@@ -1,0 +1,13 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ ./algol60 tests/example9.a60 | ./unicode_to_jff | jff-a2c /dev/stdin ;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ dummy (n, L); v̲a̲l̲u̲e̲ L, n; i̲n̲t̲e̲g̲e̲r̲ n; l̲a̲b̲e̲l̲ L;
+      i̲f̲ n ≤ 1 t̲h̲e̲n̲ g̲o̲t̲o̲ L e̲l̲s̲e̲ dummy (n - 1, L);
+
+   outstring (1, “Example 9: label as parameter\n”);
+   g̲o̲t̲o̲ L2;
+   L1: outstring (1, “We terminated dummy\n”);
+   g̲o̲t̲o̲ L end;
+   L2: dummy (100, L1);
+   L end:
+   outstring (1, “We are at the end\n”);
+e̲n̲d̲;

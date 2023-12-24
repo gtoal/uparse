@@ -1,0 +1,414 @@
+b̲e̲g̲i̲n̲
+
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ lockedPiecesBoard[0:17,0:9];
+
+   c̲o̲m̲m̲e̲n̲t̲ "Allocate array to store what will be actually displayed - Recalculate on each loop";
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ compositeBoard[0:17,0:9]; 
+
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ tetronimos[0:6,0:3, 0:1];
+
+   c̲o̲m̲m̲e̲n̲t̲ "Rotation gives xNew = -y + (dx + dy) and YNew =x + (dy - dx)";
+   c̲o̲m̲m̲e̲n̲t̲ "Where dy, dy are center of piece";
+   c̲o̲m̲m̲e̲n̲t̲ "dx,dy can be non-integral, but dx+dy and dy-dx are not, so these are stored instead";
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ tetronimosOffset[0:6, 0:1];
+
+   c̲o̲m̲m̲e̲n̲t̲ "Random seed populated externally for LCG randInt";
+   i̲n̲t̲e̲g̲e̲r̲ seed;
+   i̲n̲t̲e̲g̲e̲r̲ score;
+
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ currentTetronimo[0:3, 0:1];
+
+   i̲n̲t̲e̲g̲e̲r̲ currentPositionX;
+   i̲n̲t̲e̲g̲e̲r̲ currentPositionY;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ randInt(max, out);
+      c̲o̲m̲m̲e̲n̲t̲ "Using random0 LCG";
+      i̲n̲t̲e̲g̲e̲r̲ max, out;
+   b̲e̲g̲i̲n̲
+      seed := seed × 8121 + 28411; 
+        modulo(seed, 134456);
+      out := seed;
+      modulo(out, max);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ drawBoard(board);
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ board;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ x,y;
+      f̲o̲r̲ y := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲ 
+                 setSquareColor(y,x, board[y,x]);
+         e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ "We queue up draw commands and execute in batch for performance";
+      outstring(1, “EXECUTE\n”);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ initialiseTetronimo(tetronimoIndex);
+      i̲n̲t̲e̲g̲e̲r̲ tetronimoIndex;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      f̲o̲r̲ i := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+         b̲e̲g̲i̲n̲
+            currentTetronimo[i,0] := tetronimos[tetronimoIndex,i,0];
+            currentTetronimo[i,1] := tetronimos[tetronimoIndex,i,1];
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ placeCurrentTetronimo(currentColorIndex);
+      i̲n̲t̲e̲g̲e̲r̲ currentColorIndex;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ x,y,squareIndex;
+
+      c̲o̲m̲m̲e̲n̲t̲ "Copy locked pieces into composite board";
+      f̲o̲r̲ y := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+                 compositeBoard[y,x] := lockedPiecesBoard[y,x];
+         e̲n̲d̲
+
+           c̲o̲m̲m̲e̲n̲t̲ "Insert current tetronimo into current board";
+      f̲o̲r̲ squareIndex := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+         b̲e̲g̲i̲n̲
+            compositeBoard[
+              currentTetronimo[squareIndex,1] + currentPositionY,
+              currentTetronimo[squareIndex,0] + currentPositionX
+              ] := currentColorIndex;
+         e̲n̲d̲;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ lockInCurrentPiece;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ x,y;
+      c̲o̲m̲m̲e̲n̲t̲ "Lock current visible board in";
+      f̲o̲r̲ y := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+                 lockedPiecesBoard[y,x] := compositeBoard[y,x];
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ clearLine(rowIndex);
+      i̲n̲t̲e̲g̲e̲r̲ rowIndex;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ x,y;
+      f̲o̲r̲ y := rowIndex s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲ 
+                 lockedPiecesBoard[y,x] := lockedPiecesBoard[y-1,x];
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ clearFullLines;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ x,y;
+      f̲o̲r̲ y := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 17 d̲o̲
+         b̲e̲g̲i̲n̲
+            b̲o̲o̲l̲e̲a̲n̲ fullLine;
+            fullLine := t̲r̲u̲e̲;
+            f̲o̲r̲ x := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲ fullLine := fullLine ∧ lockedPiecesBoard[y,x] > 0;
+            i̲f̲ (fullLine) t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               score := score + 100;
+               clearLine(y);
+            e̲n̲d̲;
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ setSquareColor(x,y,colorIndex);
+      i̲n̲t̲e̲g̲e̲r̲ x,y,colorIndex;
+   b̲e̲g̲i̲n̲
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ printColorByIndex(colorIndex);
+         i̲n̲t̲e̲g̲e̲r̲ colorIndex;
+      b̲e̲g̲i̲n̲
+         i̲f̲ (colorIndex = 1) t̲h̲e̲n̲ outstring(1, “aqua”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 2) t̲h̲e̲n̲ outstring(1, “blue”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 3) t̲h̲e̲n̲ outstring(1, “orange”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 4) t̲h̲e̲n̲ outstring(1, “yellow”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 5) t̲h̲e̲n̲ outstring(1, “green”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 6) t̲h̲e̲n̲ outstring(1, “purple”)
+           e̲l̲s̲e̲ i̲f̲ (colorIndex = 7) t̲h̲e̲n̲ outstring(1, “red”)
+         e̲l̲s̲e̲ outstring(1, “transparent”);
+      e̲n̲d̲;
+
+      outstring(1, “CALL:setElementProperty('#tetris-row-”);
+      outinteger(1, x);
+      outstring(1, “-cell-”);
+      outinteger(1, y);
+      outstring(1, “', classname,'”);
+      outstring(1, “tetris-cell-”);
+      printColorByIndex(colorIndex);
+      outstring(1, “')\n”);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ canMove(dx, dy, out);
+      b̲o̲o̲l̲e̲a̲n̲ out; i̲n̲t̲e̲g̲e̲r̲ dx,dy;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ squareIndex;
+      out := t̲r̲u̲e̲;
+      f̲o̲r̲ squareIndex := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+         b̲e̲g̲i̲n̲
+            b̲o̲o̲l̲e̲a̲n̲ canPlaceResult;
+            canPlace(
+              currentTetronimo[squareIndex,0] + currentPositionX + dx,
+              currentTetronimo[squareIndex,1] + currentPositionY + dy,
+              canPlaceResult
+              );
+            out := out ∧ canPlaceResult;
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ tryMove(dx, dy);
+      i̲n̲t̲e̲g̲e̲r̲ dx, dy;
+   b̲e̲g̲i̲n̲
+      b̲o̲o̲l̲e̲a̲n̲ canMoveResult;
+      canMove(dx, dy, canMoveResult);
+      i̲f̲ (canMoveResult) t̲h̲e̲n̲ 
+        b̲e̲g̲i̲n̲
+         currentPositionX := currentPositionX + dx;
+         currentPositionY := currentPositionY + dy;
+      e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ tryRotate(currentPieceIndex);
+      i̲n̲t̲e̲g̲e̲r̲ currentPieceIndex;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ squareIndex;
+      b̲o̲o̲l̲e̲a̲n̲ canRotateResult;
+      canRotateResult := t̲r̲u̲e̲;
+      canRotate(currentPieceIndex, canRotateResult);
+      i̲f̲ canRotateResult t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ squareIndex := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+            b̲e̲g̲i̲n̲      
+                 i̲n̲t̲e̲g̲e̲r̲ x,y;
+               x := currentTetronimo[squareIndex,0];
+               y := currentTetronimo[squareIndex,1];
+               currentTetronimo[squareIndex,0] := - y + tetronimosOffset[currentPieceIndex,0];
+               currentTetronimo[squareIndex,1] :=   x + tetronimosOffset[currentPieceIndex,1];
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ canRotate(currentPieceIndex, out);
+      b̲o̲o̲l̲e̲a̲n̲ out; i̲n̲t̲e̲g̲e̲r̲ currentPieceIndex;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ squareIndex;
+      f̲o̲r̲ squareIndex := 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 3 d̲o̲
+         b̲e̲g̲i̲n̲
+            i̲n̲t̲e̲g̲e̲r̲ x,y;
+            b̲o̲o̲l̲e̲a̲n̲ canPlaceResult;
+
+            x := - currentTetronimo[squareIndex,1] + tetronimosOffset[currentPieceIndex,0] + currentPositionX;
+            y :=   currentTetronimo[squareIndex,0] + tetronimosOffset[currentPieceIndex,1] + currentPositionY;
+
+            canPlace(x, y, canPlaceResult);
+            out := out ∧ canPlaceResult;
+
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ canPlace(x,y, out);
+      i̲n̲t̲e̲g̲e̲r̲ x, y; b̲o̲o̲l̲e̲a̲n̲ out;
+   b̲e̲g̲i̲n̲
+      out := (
+        y > -1 ∧
+        y < 18 ∧
+        x > -1 ∧
+        x < 10
+        );
+      i̲f̲ out t̲h̲e̲n̲ out := out ∧ lockedPiecesBoard[y, x] = 0;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ modulo(a,b);
+      i̲n̲t̲e̲g̲e̲r̲ a, b;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ floor;
+      floor := (a / b);
+      c̲o̲m̲m̲e̲n̲t̲ "Enforce floor division (ceiling by default)";
+      i̲f̲ (floor × b > a) t̲h̲e̲n̲ floor := floor - 1;
+      a := a - (b × floor);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ increment(out);
+      i̲n̲t̲e̲g̲e̲r̲ out;
+      out := out + 1;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ drawScore;
+   b̲e̲g̲i̲n̲
+      outstring(1, “CALL:setElementProperty('#score-value', innerhtml, '”);
+      outinteger(1, score);
+      outstring(1, “')\n”);
+      outstring(1, “EXECUTE\n”);
+   e̲n̲d̲;
+
+   c̲o̲m̲m̲e̲n̲t̲ "First index corresponds t̲o̲ tetronimo";
+   c̲o̲m̲m̲e̲n̲t̲ "Each line has two values corresponding to a single (x,y) pair";
+
+   c̲o̲m̲m̲e̲n̲t̲ "I Tetronimo";
+   tetronimos[0,0,0] := 0; tetronimos[0,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[0,1,0] := 1; tetronimos[0,1,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[0,2,0] := 2; tetronimos[0,2,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[0,3,0] := 3; tetronimos[0,3,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[0,0] := 2; tetronimosOffset[0,1] := -1; 
+
+     c̲o̲m̲m̲e̲n̲t̲ "O Tetronimo";
+   tetronimos[1,0,0] := 0; tetronimos[1,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[1,1,0] := 1; tetronimos[1,1,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[1,2,0] := 0; tetronimos[1,2,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[1,3,0] := 1; tetronimos[1,3,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[1,0] := 1; tetronimosOffset[1,1] := 0; 
+
+     c̲o̲m̲m̲e̲n̲t̲ "T Tetronimo";
+   tetronimos[2,0,0] := 0; tetronimos[2,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[2,1,0] := 1; tetronimos[2,1,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[2,2,0] := 2; tetronimos[2,2,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[2,3,0] := 1; tetronimos[2,3,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[2,0] := 1; tetronimosOffset[2,1] := -1;
+
+   c̲o̲m̲m̲e̲n̲t̲ "J Tetronimo";
+   tetronimos[3,0,0] := 1; tetronimos[3,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[3,1,0] := 1; tetronimos[3,1,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[3,2,0] := 0; tetronimos[3,2,1] := 2; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[3,3,0] := 1; tetronimos[3,3,1] := 2; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[3,0] := 2; tetronimosOffset[3,1] := 0;
+
+   c̲o̲m̲m̲e̲n̲t̲ "L Tetronimo";
+   tetronimos[4,0,0] := 0; tetronimos[4,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[4,1,0] := 0; tetronimos[4,1,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[4,2,0] := 0; tetronimos[4,2,1] := 2; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[4,3,0] := 1; tetronimos[4,3,1] := 2; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[4,0] := 1; tetronimosOffset[4,1] := 1;
+
+   c̲o̲m̲m̲e̲n̲t̲ "S Tetronimo";
+   tetronimos[5,0,0] := 1; tetronimos[5,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[5,1,0] := 2; tetronimos[5,1,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[5,2,0] := 0; tetronimos[5,2,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[5,3,0] := 1; tetronimos[5,3,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[5,0] := 2; tetronimosOffset[5,1] := 0;
+
+   c̲o̲m̲m̲e̲n̲t̲ "Z Tetronimo";
+   tetronimos[6,0,0] := 0; tetronimos[6,0,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 1";
+   tetronimos[6,1,0] := 1; tetronimos[6,1,1] := 0; c̲o̲m̲m̲e̲n̲t̲ "Square 2";
+   tetronimos[6,2,0] := 1; tetronimos[6,2,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 3";
+   tetronimos[6,3,0] := 2; tetronimos[6,3,1] := 1; c̲o̲m̲m̲e̲n̲t̲ "Square 4";
+
+   tetronimosOffset[6,0] := 2; tetronimosOffset[6,1] := 0;
+
+   ininteger(0, seed);
+
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      i̲n̲t̲e̲g̲e̲r̲ currentKey;
+      b̲o̲o̲l̲e̲a̲n̲ done;
+      i̲n̲t̲e̲g̲e̲r̲ currentFrame;
+      i̲n̲t̲e̲g̲e̲r̲ currentColorIndex;
+      i̲n̲t̲e̲g̲e̲r̲ currentPieceIndex;
+      i̲n̲t̲e̲g̲e̲r̲ rotationDelay; c̲o̲m̲m̲e̲n̲t̲ "Delay t̲o̲ prevent over-eager rotation";
+
+      inline(“startup();”);
+
+      currentFrame := 0;
+      rotationDelay:= 0;
+      done := f̲a̲l̲s̲e̲;
+      currentPositionX := 4;
+      currentPositionY := 0;
+      score := 0;
+
+      randInt(7, currentPieceIndex);
+
+      randInt(7, currentColorIndex);
+      increment(currentColorIndex);
+
+      initialiseTetronimo(currentPieceIndex);
+
+
+      f̲o̲r̲ i := 0 w̲h̲i̲l̲e̲ currentKey = 0 d̲o̲ b̲e̲g̲i̲n̲
+            ininteger(0, currentKey);
+            inline(“emscripten_sleep(10);”);
+         e̲n̲d̲;
+
+      outstring(1, “CALL:setElementProperty('#press-key-message', 'style.display', none)\n”);
+      outstring(1, “CALL:document.querySelector('#audio-theme').play()\n”);
+      outstring(1, “EXECUTE\n”);
+
+
+      f̲o̲r̲ i := 0 w̲h̲i̲l̲e̲ ¬done d̲o̲
+         b̲e̲g̲i̲n̲
+            currentFrame := currentFrame + 1;
+            modulo(currentFrame, 10);
+
+            i̲f̲ (rotationDelay > 0) t̲h̲e̲n̲ rotationDelay := rotationDelay - 1;
+
+            ininteger(0, currentKey);
+            i̲f̲ (currentKey = 81) t̲h̲e̲n̲
+              done := t̲r̲u̲e̲;
+            i̲f̲ (currentKey = 65) t̲h̲e̲n̲
+              tryMove(-1,0);
+            i̲f̲ (currentKey = 68) t̲h̲e̲n̲
+              tryMove(1,0);
+
+            i̲f̲ (currentKey = 83) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               b̲o̲o̲l̲e̲a̲n̲ canMoveResult;
+               tryMove(0,1);
+               canMove(0,1,canMoveResult);
+               i̲f̲ canMoveResult t̲h̲e̲n̲ currentFrame := 1;
+            e̲n̲d̲;
+
+            i̲f̲ (currentKey = 87 ∧ rotationDelay = 0) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               tryRotate(currentPieceIndex);
+               rotationDelay := 4;
+            e̲n̲d̲;
+
+            placeCurrentTetronimo(currentColorIndex);
+            drawBoard(compositeBoard);
+            drawScore;
+
+            i̲f̲ (currentFrame = 0) t̲h̲e̲n̲ 
+              b̲e̲g̲i̲n̲
+               c̲o̲m̲m̲e̲n̲t̲ "Auto move down logic";
+               b̲e̲g̲i̲n̲
+                  b̲o̲o̲l̲e̲a̲n̲ canMoveDownResult;
+                  canMove(0, 1, canMoveDownResult);
+                  i̲f̲ canMoveDownResult t̲h̲e̲n̲
+                    currentPositionY := currentPositionY + 1
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲
+                     lockInCurrentPiece;
+                     clearFullLines;
+                     b̲e̲g̲i̲n̲
+                        b̲o̲o̲l̲e̲a̲n̲ canPlaceResult;
+                        currentPositionX := 4;
+                        currentPositionY := 0;
+
+                        randInt(7, currentColorIndex);
+                        increment(currentColorIndex);
+                        randInt(7, currentPieceIndex);
+                        initialiseTetronimo(currentPieceIndex);
+                        canMove(0,0,canPlaceResult);
+
+                        i̲f̲ (¬canPlaceResult) t̲h̲e̲n̲ 
+                          b̲e̲g̲i̲n̲
+                           done := t̲r̲u̲e̲;
+                           outstring(1, “CALL:setElementProperty('#game-over-message', 'style.display', block)\n”);
+                           outstring(1, “CALL:document.querySelector('#audio-theme').pause()\n”);
+                           outstring(1, “EXECUTE\n”);
+                        e̲n̲d̲
+                     e̲n̲d̲
+                  e̲n̲d̲
+               e̲n̲d̲
+            e̲n̲d̲;
+
+            inline(“emscripten_sleep(50);”);
+
+         e̲n̲d̲
+   e̲n̲d̲
+e̲n̲d̲;

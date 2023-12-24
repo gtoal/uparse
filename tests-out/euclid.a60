@@ -1,0 +1,22 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Euclid(m,n);
+      v̲a̲l̲u̲e̲ m,n; 
+        i̲n̲t̲e̲g̲e̲r̲ m,n;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ r;
+      i̲f̲ m < n t̲h̲e̲n̲ Euclid(n,m);
+      LOOP:
+      r := m - entier(m / n) × n;
+      i̲f̲ r = 0 t̲h̲e̲n̲ g̲o̲t̲o̲ EXIT; 
+        m := n; 
+        n := r; 
+        g̲o̲t̲o̲ LOOP;
+      EXIT:
+      Euclid := n;
+   e̲n̲d̲ Euclid;
+
+   i̲n̲t̲e̲g̲e̲r̲ m,n;
+   ininteger(0,m);
+   ininteger(0,n);
+   outinteger(1, Euclid(m,n));
+e̲n̲d̲

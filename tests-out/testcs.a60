@@ -1,0 +1,40 @@
+b̲e̲g̲i̲n̲
+
+   r̲e̲a̲l̲ y,a,n,i,r;
+   i̲n̲t̲e̲g̲e̲r̲ b,c;
+   b̲o̲o̲l̲e̲a̲n̲ b1,b2,b3;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ nPT[1:10·1]; c̲o̲m̲m̲e̲n̲t̲ limite non entière;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ tab[1:15];
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ poly2(a0,a1,a2,x);r̲e̲a̲l̲ a0,a1,a2,a; r̲e̲a̲l̲ x;
+   b̲e̲g̲i̲n̲
+      poly2 := a0+a1×x+a2×x×x
+   e̲n̲d̲;
+
+   y := 12·0;
+   b:=y+a; c̲o̲m̲m̲e̲n̲t̲ non concordance des types;
+   n:=10⭡(y+p); c̲o̲m̲m̲e̲n̲t̲ variable non déclarée;
+   z:=poly2(0,0,1·0,2·0); c̲o̲m̲m̲e̲n̲t̲ affectation d'une valeur à une variable non déclarée;
+   y:=poly2(0,0,1·0); c̲o̲m̲m̲e̲n̲t̲ appel d'une procédure avec un argument manquant;
+   tab[4·2]:=12; c̲o̲m̲m̲e̲n̲t̲ accès à un emplacement de tableau non entier;
+   tab[17]:=0; c̲o̲m̲m̲e̲n̲t̲ accès à un emplacement de tableau dépassant les limites;
+
+   i̲f̲ c < 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      i̲f̲ c≥ -100	t̲h̲e̲n̲ b := c-100·0 e̲l̲s̲e̲ b := -100; c̲o̲m̲m̲e̲n̲t̲ non concordance des types au sein d'un if;
+   e̲n̲d̲
+   e̲l̲s̲e̲ b := 0;
+
+
+   f̲o̲r̲ i:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10·05 d̲o̲ a:=2; c̲o̲m̲m̲e̲n̲t̲ la borne de fin n'est pas entière alors que l'itérateur commence à un entier et que le pas est entier;
+   f̲o̲r̲ b:=1 s̲t̲e̲p̲ 0·5 u̲n̲t̲i̲l̲ 10 d̲o̲ outinteger(1, b); c̲o̲m̲m̲e̲n̲t̲ b est un entier et ne peut pas évoluer par pas non entier;
+   f̲o̲r̲ b3 := 0 s̲t̲e̲p̲ 0·2 u̲n̲t̲i̲l̲ 5 d̲o̲ a:=7; c̲o̲m̲m̲e̲n̲t̲ iterateur non entier ou réel;
+
+   i̲f̲ b1<0 t̲h̲e̲n̲ a:=4·0; c̲o̲m̲m̲e̲n̲t̲ on ne peut pas effectuer de comparaison sur un boolean et quoi que ce soit d'autre;
+   b3:=b1+b2; c̲o̲m̲m̲e̲n̲t̲ on ne peut pas additioner de booleens;
+   b3:=b1⭡b3; c̲o̲m̲m̲e̲n̲t̲ on ne peut pas mettre un booleen dans une puissance;
+   c̲o̲m̲m̲e̲n̲t̲ mix of Boolean and real rejected by uparse at parse time.   b2:=b3&&y; c̲o̲m̲m̲e̲n̲t̲ on ne peut pas mettre autre chose qu'un booleen dans une op logique;
+
+
+   n:=y/0; c̲o̲m̲m̲e̲n̲t̲ Erreur sem division explicite par 0;
+
+e̲n̲d̲

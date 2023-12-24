@@ -1,0 +1,54 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ calculate median;
+
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ aa[1:100000];
+   i̲n̲t̲e̲g̲e̲r̲ n;
+   r̲e̲a̲l̲ b, c;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ vectRandom( v, ndim, seed);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ ndim, seed;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      i̲n̲t̲e̲g̲e̲r̲ m, a, b, s, r;
+      m := 32768; a := 805; b := 6925;
+      s := seed;
+      f̲o̲r̲ i :=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ndim d̲o̲
+         b̲e̲g̲i̲n̲
+            s := s×a+b; r := entier(s/m); s := s - r×m; 
+              v[i] := (entier((s+1)/(m+1)×10000)) / 10000 
+           e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ vectBubbleSort( v, ndim); r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ ndim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, flag;
+      r̲e̲a̲l̲ acc;
+      start:;
+      flag := 0; 
+        f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ (ndim-1) d̲o̲
+         b̲e̲g̲i̲n̲
+            i̲f̲ (v[i] > v[i+1] ) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               acc := v[i]; v[i] := v[i+1]; v[i+1] := acc; flag := flag + 1;
+            e̲n̲d̲
+         e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ outinteger (1, flag);
+      i̲f̲ flag ≠ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ start
+   e̲n̲d̲;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ statMedian(a, dim); 
+        r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ dim;
+   b̲e̲g̲i̲n̲		
+        vectBubbleSort( a, dim);
+      statMedian := a[dim ÷ 2]
+   e̲n̲d̲ ;
+
+   n := 10000;
+
+   vectRandom(aa, n, n);
+   b := statMedian(aa, n);;
+
+   outstring (1,“median = ”);  outreal (1, b );
+   outstring (1,“\n”)
+
+e̲n̲d̲

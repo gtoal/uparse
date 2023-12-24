@@ -1,0 +1,33 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   r̲e̲a̲l̲ x, y;
+   r̲e̲a̲l̲ a, b;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ReMul(a1, b1, a2, b2);
+      v̲a̲l̲u̲e̲ a1, b1, a2, b2;
+      r̲e̲a̲l̲ a1, b1, a2, b2;
+      ReMul := a1×a2 - b1×b2;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ImMul(a1, b1, a2, b2);
+      v̲a̲l̲u̲e̲ a1, b1, a2, b2;
+      r̲e̲a̲l̲ a1, b1, a2, b2;
+      ImMul := a1×b2 + a2×b1;
+
+   f̲o̲r̲ y := 1 s̲t̲e̲p̲ -0·125 u̲n̲t̲i̲l̲ -1 d̲o̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ x := -2 s̲t̲e̲p̲ 0·125 u̲n̲t̲i̲l̲ 0·5 d̲o̲
+            b̲e̲g̲i̲n̲
+               a := x;
+               b := y;
+               f̲o̲r̲ i := 1 w̲h̲i̲l̲e̲ i < 50 ∧ a×a+b×b < 4 d̲o̲
+                  b̲e̲g̲i̲n̲
+                     a := ReMul(a, b, a, b) + x;
+                     b := ImMul(a, b, a, b) + y;
+                     i := i + 1;
+                  e̲n̲d̲;
+               outchar(1, “ #”, i̲f̲ i < 50 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 2);
+               outchar(1, “ #”, i̲f̲ i < 50 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 2);
+            e̲n̲d̲;
+         outstring(1, “”)
+      e̲n̲d̲
+e̲n̲d̲

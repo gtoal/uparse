@@ -1,0 +1,56 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ matrix and vector multiplication;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ aa[1:100,1:100];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ bb[1:100];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ cc[1:100];
+   i̲n̲t̲e̲g̲e̲r̲ n, i, j;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outVector( channel, v, ndim);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ v; i̲n̲t̲e̲g̲e̲r̲ channel, ndim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      outinteger (channel, ndim);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ ndim d̲o̲ outreal (channel, v[i]);
+      outstring(channel, “\n”)
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outmatrix(channel, a, dim);
+      i̲n̲t̲e̲g̲e̲r̲ channel; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ dim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      outinteger (channel, dim); outstring(channel,“\n”);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ outreal (channel, a[i,j]);
+            outstring(channel,“\n”)
+         e̲n̲d̲		
+     e̲n̲d̲ ;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ matrmultvector(a, b, c, dim);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ b; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ c; i̲n̲t̲e̲g̲e̲r̲ dim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲
+         b̲e̲g̲i̲n̲
+            c[i] :=0;
+            f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ c[i] := c[i] + a[i,j]×b[j]
+         e̲n̲d̲		
+     e̲n̲d̲ ;
+
+   c̲o̲m̲m̲e̲n̲t̲ matrix generation;
+   n := 4;
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      b̲e̲g̲i̲n̲
+         bb[i] := i;
+         f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ 
+              b̲e̲g̲i̲n̲
+               aa[i,j] := entier ( 100000 /i/j) / 100000
+            e̲n̲d̲
+      e̲n̲d̲ ;
+
+   outmatrix(1, aa, n);
+   outVector(1, bb, n);
+   matrmultvector(aa, bb, cc, n);
+   outVector(1, cc, n)
+
+e̲n̲d̲

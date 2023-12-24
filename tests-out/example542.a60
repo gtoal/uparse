@@ -1,0 +1,41 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ Spur (a) Order: (n); v̲a̲l̲u̲e̲ n;
+   a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ n; r̲e̲a̲l̲ s;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ k;
+   s:=0;
+   f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ s:=s+a[k,k]
+e̲n̲d̲ Spur;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ Transpose (a) Order: (n); v̲a̲l̲u̲e̲ n;
+   a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ n;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ w; i̲n̲t̲e̲g̲e̲r̲ i, k;
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+        f̲o̲r̲ k := 1+i s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ w:=a[i,k];
+            a[i,k]:=a[k,i];
+            a[k,i]:=w
+         e̲n̲d̲
+e̲n̲d̲ Transpose;
+
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ Step (u);
+   r̲e̲a̲l̲ u;
+   Step := i̲f̲ 0 ≤ u ∧ u ≤ 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ Absmax (a) Size: (n, m) Result: (y) Subscripts: (i, k);
+   c̲o̲m̲m̲e̲n̲t̲ The absolute greatest element of the matrix a, of size n by m
+     is transferred to y, and the subscripts of this element to i and k;
+   a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ n, m, i, k; real y;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ p, q;
+   y := 0;
+   f̲o̲r̲ p:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ f̲o̲r̲ q:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ m d̲o̲
+           i̲f̲ abs(a[p,q]) > y t̲h̲e̲n̲ b̲e̲g̲i̲n̲ y := abs(a[p,q]);
+            i:=p; k:=q
+         e̲n̲d̲
+e̲n̲d̲ Absmax;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ Innerproduct (a, b) Order: (k, p) Result: (y); v̲a̲l̲u̲e̲ k;
+   i̲n̲t̲e̲g̲e̲r̲ k, p; r̲e̲a̲l̲ y, a, b;
+b̲e̲g̲i̲n̲
+   s:=0;
+   f̲o̲r̲ p:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ k d̲o̲ s:=s+a×b;
+   y:=s
+e̲n̲d̲ Innerproduct;

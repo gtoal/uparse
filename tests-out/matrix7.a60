@@ -1,0 +1,39 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ random matrix generation;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ aa[1:100,1:100];
+   i̲n̲t̲e̲g̲e̲r̲ n;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ outmatrix(channel, a, dim);
+      i̲n̲t̲e̲g̲e̲r̲ channel; r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a; i̲n̲t̲e̲g̲e̲r̲ dim;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      outinteger (channel, dim); outstring(channel,“\n”);
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ dim d̲o̲ outreal (channel, a[i,j]);
+            outstring(channel,“\n”)
+         e̲n̲d̲		
+     e̲n̲d̲ ;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ matrRandom(ab, dim, seed);
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ ab; i̲n̲t̲e̲g̲e̲r̲ dim, seed;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ i, j;
+      i̲n̲t̲e̲g̲e̲r̲ m, a, b, s, r;
+      m := 32768; a := 805; b := 6925;
+      s := seed;
+      f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ j := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ 
+                 b̲e̲g̲i̲n̲
+                  s := s×a+b; r := entier(s/m); s := s - r×m; 
+                    ab[i,j] := (entier((s+1)/(m+1)×10000)) / 10000 
+                 e̲n̲d̲
+         e̲n̲d̲
+   e̲n̲d̲ ;
+
+   n := 10;
+   matrRandom(aa, n,  0);
+   outmatrix(1, aa, n)
+
+e̲n̲d̲

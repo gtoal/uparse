@@ -1,0 +1,27 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲
+     ALGOL Praktikum, Dr. Karl Nickel, 1964,
+     page 215 (Aufgabe 40)
+
+     ``Teilsummen-Formel nach Euler.
+     Bearbeitung nach Herrn Ulrich Arnold.
+     Optimum''
+     ;
+   i̲n̲t̲e̲g̲e̲r̲ K, N, U, T, L; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ B[1:30], S[0:200] ;
+
+   B[1] := 1 ;
+   f̲o̲r̲ K := 2 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ K + 200 - B[K - 1]  d̲o̲
+      b̲e̲g̲i̲n̲ B[K] := B[K - 1] + K/2 ;
+         B[K + 1] := B[K] + K + 1
+      e̲n̲d̲ ;
+   f̲o̲r̲ N := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 200 d̲o̲
+      b̲e̲g̲i̲n̲ S[0] := N ;  U := -1 ;  T := 0 ;  L := N - 1 ;
+         f̲o̲r̲ K := 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K + L d̲o̲
+            b̲e̲g̲i̲n̲ T := S[L] + T×U ;
+               L := N - B[K] ;
+               U := -U
+            e̲n̲d̲ ;
+         S[N] := ABS( T ) ;
+         VPRINT (N, S[N])
+      e̲n̲d̲
+e̲n̲d̲

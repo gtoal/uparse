@@ -1,0 +1,84 @@
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ HAVIE INTEGRATOR.
+     ALGORITHM 257, Robert N. Kubik,
+     CACM 8 (1965) 381;
+   r̲e̲a̲l̲ a,b,eps,mask,y,answer; i̲n̲t̲e̲g̲e̲r̲ count;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ havieintegrator(x,a,b,eps,integrand,m);
+      v̲a̲l̲u̲e̲ a,b,eps,m;
+      i̲n̲t̲e̲g̲e̲r̲ m; r̲e̲a̲l̲ integrand,x,a,b,eps;
+        c̲o̲m̲m̲e̲n̲t̲ This algorithm performs numerical integration of
+        definite integrals using an equidistant sampling of the
+        function and repeated halving of the sampling interval.
+        Each halving allows the calculation of a trapezium and
+        a tangent formula on a finer grid, but also the calcul-
+        ation of several higher order formulas which are defined
+        implicitly. The two families of approximate solutions
+        will normally bracket the value of the integral and from
+        these convergence is tested on each of the several orders
+        of approximation. The algorithm is based on a private
+        communication from F. Haavie of the Institutt for Atom-
+        energi Kjeller Research Establishment, Norway. A Fortran
+        version is in use on the Philco-2000. ...;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ h,endpts,sumt,sumu,d;
+      i̲n̲t̲e̲g̲e̲r̲ i,j,k,n;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ t,u,tprev,uprev[1:m];
+      x:= a; endpts:= integrand; count:= 1;
+      x:= b; endpts:= 0·5 × (integrand + endpts); count:= count + 1;
+      sumt:= 0·0; i:= n:= 1; h:= b - a;
+      estimate:
+      t[1]:= h × (endpts + sumt); sumu:= 0·0;
+      c̲o̲m̲m̲e̲n̲t̲ t[1] = h*(0.5*f[0]+f[1]+f[2]+...+0.5*f[2^(i-1)]);
+      x:= a - h/2·0;
+      f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ x:= x + h; sumu:= sumu + integrand; count:= count + 1 e̲n̲d̲;
+      u[1]:= h × sumu; k:= 1;
+      c̲o̲m̲m̲e̲n̲t̲ u[1] = h*(f[1/2]+f[3/2]+...f[(2^i-1)/2],
+        k corresponds to approximate solution with truncation
+        error term of order 2k;
+      test:
+      i̲f̲ abs(t[k]-u[k]) < eps
+        t̲h̲e̲n̲ b̲e̲g̲i̲n̲ havieintegrator:= 0·5 × (t[k] + u[k]);
+         g̲o̲t̲o̲ exit
+      e̲n̲d̲;
+      i̲f̲ k ≠ i
+        t̲h̲e̲n̲ b̲e̲g̲i̲n̲ d:= 2 ⭡ (2×k);
+         t[k+1]:= (d × t[k] - tprev[k]) / (d - 1·0);
+         tprev[k]:= t[k];
+         u[k+1]:= (d × u[k] - uprev[k]) / (d - 1·0);
+         uprev[k]:= u[k];
+         c̲o̲m̲m̲e̲n̲t̲ This implicit formulation of the higher
+           order integration formulas is given in
+           [ROMBERG, W. ...;
+         k:= k + 1;
+         i̲f̲ k = m
+           t̲h̲e̲n̲ b̲e̲g̲i̲n̲ havieintegrator:= mask;
+            g̲o̲t̲o̲ exit
+         e̲n̲d̲;
+         g̲o̲t̲o̲ test
+      e̲n̲d̲;
+      h:= h / 2·0; sumt:= sumt + sumu;
+      tprev[k]:= t[k]; uprev[k]:= u[k];
+      i:= i + 1; n:= 2 × n;
+      g̲o̲t̲o̲ estimate;
+      exit: NLCR; NLCR;
+      PRINTTEXT(“i: ”); ABSFIXT(3,0,i);
+      PRINTTEXT(“k: ”); ABSFIXT(3,0,k);
+      PRINTTEXT(“ count:”); ABSFIXT(7,0,count)
+   e̲n̲d̲ havieintegrator;
+   c̲o̲m̲m̲e̲n̲t̲ Following is a driver program to test havieintegrator;
+   a:= 0·0; b:= 1·5707963; eps:= 0·00001; mask:= 9·99;
+   answer:= havieintegrator(y,a,b,eps,cos(y),12);
+   NLCR; PRINTTEXT(“integral(0,pi/2,cos(x)) = ”);
+   FLOT(10,2,answer);
+   a:= 0·0; b:= 4·3;
+   answer:= havieintegrator(y,a,b,eps,exp(-y×y),12);
+   NLCR; PRINTTEXT(“integral(0,4.3,exp(-x*x)) = ”);
+   FLOT(10,2,answer);
+   a:= 1·0; b:= 10·0;
+   answer:= havieintegrator(y,a,b,eps,ln(y),12);
+   NLCR; PRINTTEXT(“integral(1,10,ln(x)) = ”);
+   FLOT(10,2,answer);
+   a:= 0·0; b:= 20·0;
+   answer:= havieintegrator(y,a,b,eps,y⭡(1/2)/(exp(y-4)+1),20);
+   NLCR; PRINTTEXT(“integral(1,20,x^(1/2)/(exp(x-4)+1)) = ”);
+   FLOT(10,2,answer);
+e̲n̲d̲

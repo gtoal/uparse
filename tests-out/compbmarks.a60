@@ -1,0 +1,999 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ L1,L2,JN,NN,I,J,K;
+   r̲e̲a̲l̲ RH,PI,ONE3,SUM,W,SUMT,D,EPS,SUM2,D1,D2,D3,AB;
+   a̲r̲r̲a̲y̲ U1,U2,U3,CCC[1:10,1:10],QQ[1:20];
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲JA,JB,JC[1:10],IALP[1:10,1:10];
+   b̲o̲o̲l̲e̲a̲n̲ TEST,YES,NO;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ SCRUFF(A);
+      v̲a̲l̲u̲e̲ A;
+      r̲e̲a̲l̲ A;
+      SCRUFF:=SQRT(ABS(A/PI×RH));
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ HH(A,B,C);
+      a̲r̲r̲a̲y̲ A,B,C;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ L,M,N;
+      f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           f̲o̲r̲ M:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            b̲e̲g̲i̲n̲
+               SUMT:=0;
+               f̲o̲r̲ N:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+                    SUMT:=SUMT + A[L,N]×B[N,M];
+               C[L,M]:=SUMT;
+            e̲n̲d̲;
+   e̲n̲d̲ OF H;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ FACT(N);
+      v̲a̲l̲u̲e̲ N;
+      i̲n̲t̲e̲g̲e̲r̲ N;
+      FACT:=N×(i̲f̲ N ≤ 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ FACT(N-1));
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ WRT(ARR,N);
+      v̲a̲l̲u̲e̲ARR,N;
+      i̲n̲t̲e̲g̲e̲r̲ N;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ ARR;
+        c̲o̲m̲m̲e̲n̲t̲ WRITES AN INTEGER ARRAY;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ AI;
+      WRITE TEXT(““CC””);
+      WRITE TEXT(““3S””);
+      f̲o̲r̲ AI:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            WRITE TEXT(““3S””);
+            PRINT(ARR[AI],5,0);
+         e̲n̲d̲;
+      WRITE TEXT(““CC””);
+   e̲n̲d̲ WRT;
+   i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ INT(II);
+      i̲n̲t̲e̲g̲e̲r̲ II;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲Q,R,S,T;
+      Q:=JA[II]+FACT(II);
+      R:=i̲f̲ II>1 t̲h̲e̲n̲ JB[II-1]+1 e̲l̲s̲e̲ 1;
+      S:=Q+R⭡3+II;
+      T:=i̲f̲ Q=R t̲h̲e̲n̲ S+Q+R e̲l̲s̲e̲ S+Q-2×R;
+      INT:=(Q+R+S+T)÷2+II;
+   e̲n̲d̲;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ II1(R,AL,AU);
+      v̲a̲l̲u̲e̲ R,AL,AU;
+      r̲e̲a̲l̲ R,AL,AU;
+        c̲o̲m̲m̲e̲n̲t̲ MADE UP PROCEDURE;
+      II1:=SQRT(COS(AU)-SIN(AL))-EXP(2+R+R×R);
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ II2(R,AL,AU);
+      v̲a̲l̲u̲e̲ R,AL,AU;
+      r̲e̲a̲l̲ R,AL,AU;
+        c̲o̲m̲m̲e̲n̲t̲ MADE UP PROCEDURE;
+      II2:=SQRT(SIN(AU)-COS(AL))-EXP(2+R+R×R);
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ II3(R,AU);
+      v̲a̲l̲u̲e̲ R,AU;
+      r̲e̲a̲l̲ R,AU;
+        c̲o̲m̲m̲e̲n̲t̲MADE UP PROCEDURE;
+      II3:=SQRT(COS(AU)+SIN(AU))-EXP(2-R-COS(AU)+R×R);
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVA(N,A,EPSILON,ALARM,DELTA);
+      v̲a̲l̲u̲e̲ N;
+      a̲r̲r̲a̲y̲ A;
+        r̲e̲a̲l̲ EPSILON,DELTA;
+        i̲n̲t̲e̲g̲e̲r̲ N;
+        l̲a̲b̲e̲l̲ ALARM;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ B,C[1:N];
+      r̲e̲a̲l̲ X,Y;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,P;
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ Z[1:N];
+      DELTA:=1·0;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           Z[J]:=J;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            K:=I;
+            Y:=A[I,I];
+            L:=I-1;
+            P:=I+1;
+            f̲o̲r̲ J:=P  s̲t̲e̲p̲ 1  u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  i̲f̲ ABS(W) > ABS(Y) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     K:=J;
+                     Y:=W
+                  e̲n̲d̲
+               e̲n̲d̲;
+            DELTA:=DELTA×Y;
+            i̲f̲ ABS(Y) < EPSILON t̲h̲e̲n̲ g̲o̲t̲o̲ ALARM;
+            Y:=1·0/Y;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  C[J]:=A[J,K];
+                  A[J,K]:=A[J,I];
+                  A[J,I]:=-C[J]×Y;
+                  B[J]:=A[I,J]:=A[I,J]×Y
+               e̲n̲d̲;
+            A[I,I]:=Y;
+            J:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=J;
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    A[K,J]:=A[K,J]-B[J]×C[K]
+         e̲n̲d̲;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            REPEAT:     K:=Z[I];
+            i̲f̲ K=I t̲h̲e̲n̲ g̲o̲t̲o̲ ADVANCE;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  A[I,K]:=A[K,J];
+                  A[K,J]:=W
+               e̲n̲d̲;
+            P:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=P;
+            DELTA:=-DELTA;
+            g̲o̲t̲o̲ REPEAT;
+            ADVANCE:e̲n̲d̲
+   e̲n̲d̲ OF INVERSION;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVB(N,A,EPSILON,ALARM,DELTA);
+      v̲a̲l̲u̲e̲ N;
+      a̲r̲r̲a̲y̲ A;
+        r̲e̲a̲l̲ EPSILON,DELTA;
+        i̲n̲t̲e̲g̲e̲r̲ N;
+        l̲a̲b̲e̲l̲ ALARM;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ B,C[1:N];
+      r̲e̲a̲l̲ X,Y;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,P;
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ Z[1:N];
+      DELTA:=1·0;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           Z[J]:=J;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            K:=I;
+            Y:=A[I,I];
+            L:=I-1;
+            P:=I+1;
+            f̲o̲r̲ J:=P  s̲t̲e̲p̲ 1  u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  i̲f̲ ABS(W) > ABS(Y) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     K:=J;
+                     Y:=W
+                  e̲n̲d̲
+               e̲n̲d̲;
+            DELTA:=DELTA×Y;
+            i̲f̲ ABS(Y) < EPSILON t̲h̲e̲n̲ g̲o̲t̲o̲ ALARM;
+            Y:=1·0/Y;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  C[J]:=A[J,K];
+                  A[J,K]:=A[J,I];
+                  A[J,I]:=-C[J]×Y;
+                  B[J]:=A[I,J]:=A[I,J]×Y
+               e̲n̲d̲;
+            A[I,I]:=Y;
+            J:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=J;
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    A[K,J]:=A[K,J]-B[J]×C[K]
+         e̲n̲d̲;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            REPEAT:     K:=Z[I];
+            i̲f̲ K=I t̲h̲e̲n̲ g̲o̲t̲o̲ ADVANCE;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  A[I,K]:=A[K,J];
+                  A[K,J]:=W
+               e̲n̲d̲;
+            P:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=P;
+            DELTA:=-DELTA;
+            g̲o̲t̲o̲ REPEAT;
+            ADVANCE:e̲n̲d̲
+   e̲n̲d̲ OF INVERSION;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVC(N,A,EPSILON,ALARM,DELTA);
+      v̲a̲l̲u̲e̲ N;
+      a̲r̲r̲a̲y̲ A;
+        r̲e̲a̲l̲ EPSILON,DELTA;
+        i̲n̲t̲e̲g̲e̲r̲ N;
+        l̲a̲b̲e̲l̲ ALARM;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ B,C[1:N];
+      r̲e̲a̲l̲ X,Y;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,P;
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ Z[1:N];
+      DELTA:=1·0;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           Z[J]:=J;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            K:=I;
+            Y:=A[I,I];
+            L:=I-1;
+            P:=I+1;
+            f̲o̲r̲ J:=P  s̲t̲e̲p̲ 1  u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  i̲f̲ ABS(W) > ABS(Y) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     K:=J;
+                     Y:=W
+                  e̲n̲d̲
+               e̲n̲d̲;
+            DELTA:=DELTA×Y;
+            i̲f̲ ABS(Y) < EPSILON t̲h̲e̲n̲ g̲o̲t̲o̲ ALARM;
+            Y:=1·0/Y;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  C[J]:=A[J,K];
+                  A[J,K]:=A[J,I];
+                  A[J,I]:=-C[J]×Y;
+                  B[J]:=A[I,J]:=A[I,J]×Y
+               e̲n̲d̲;
+            A[I,I]:=Y;
+            J:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=J;
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    A[K,J]:=A[K,J]-B[J]×C[K]
+         e̲n̲d̲;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            REPEAT:     K:=Z[I];
+            i̲f̲ K=I t̲h̲e̲n̲ g̲o̲t̲o̲ ADVANCE;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  A[I,K]:=A[K,J];
+                  A[K,J]:=W
+               e̲n̲d̲;
+            P:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=P;
+            DELTA:=-DELTA;
+            g̲o̲t̲o̲ REPEAT;
+            ADVANCE:e̲n̲d̲
+   e̲n̲d̲ OF INVERSION;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INVD(N,A,EPSILON,ALARM,DELTA);
+      v̲a̲l̲u̲e̲ N;
+      a̲r̲r̲a̲y̲ A;
+        r̲e̲a̲l̲ EPSILON,DELTA;
+        i̲n̲t̲e̲g̲e̲r̲ N;
+        l̲a̲b̲e̲l̲ ALARM;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ B,C[1:N];
+      r̲e̲a̲l̲ X,Y;
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,P;
+      i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ Z[1:N];
+      DELTA:=1·0;
+      f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           Z[J]:=J;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            K:=I;
+            Y:=A[I,I];
+            L:=I-1;
+            P:=I+1;
+            f̲o̲r̲ J:=P  s̲t̲e̲p̲ 1  u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  i̲f̲ ABS(W) > ABS(Y) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     K:=J;
+                     Y:=W
+                  e̲n̲d̲
+               e̲n̲d̲;
+            DELTA:=DELTA×Y;
+            i̲f̲ ABS(Y) < EPSILON t̲h̲e̲n̲ g̲o̲t̲o̲ ALARM;
+            Y:=1·0/Y;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  C[J]:=A[J,K];
+                  A[J,K]:=A[J,I];
+                  A[J,I]:=-C[J]×Y;
+                  B[J]:=A[I,J]:=A[I,J]×Y
+               e̲n̲d̲;
+            A[I,I]:=Y;
+            J:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=J;
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L,P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    A[K,J]:=A[K,J]-B[J]×C[K]
+         e̲n̲d̲;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            REPEAT:     K:=Z[I];
+            i̲f̲ K=I t̲h̲e̲n̲ g̲o̲t̲o̲ ADVANCE;
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  W:=A[I,J];
+                  A[I,K]:=A[K,J];
+                  A[K,J]:=W
+               e̲n̲d̲;
+            P:=Z[I];
+            Z[I]:=Z[K];
+            Z[K]:=P;
+            DELTA:=-DELTA;
+            g̲o̲t̲o̲ REPEAT;
+            ADVANCE:e̲n̲d̲
+   e̲n̲d̲ OF INVERSION;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ MK1(Z1,Z2,A1,A2,V);
+      v̲a̲l̲u̲e̲ Z1,Z2,A1,A2,V;
+      r̲e̲a̲l̲  Z1,Z2,A1,A2,V;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ EP,K,R,AL,RL,IU,IL,BE,N,AFS,EE,TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ OXFORD PROCEDURE;
+      EE:=(465·5×V⭡2)/(9·0@4);
+      TEMP:=Z1⭡ONE3+Z2⭡ONE3;
+      EP:=(3·24@4×A1×A2×EE)/(SQRT(TEMP)×Z1×Z2×(A1+A2));
+      N:=(RH/(A2×1·66))×1·0@3;
+      AFS:=1·096/TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ RESULT NOW IN G-UNITS;
+      R:=A1/A2;
+      AL:=(1+R)/2;
+      BE:=(AL×AL)/R;
+      K:=0·0;
+      i̲f̲ EP ≤ 0·380001 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IL:=PI;
+         g̲o̲t̲o̲ B2B
+      e̲n̲d̲;
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IU:=PI;
+         g̲o̲t̲o̲ SA
+      e̲n̲d̲;
+      RL:=2×ARCTAN((3/SQRT(EP×EP-9)));
+      IU:=RL;
+      SA:   IL:=2×ARCTAN((0·38/SQRT((EP×EP-0·1444))));
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲ g̲o̲t̲o̲ B;
+      K:=K+II1(R,RL,PI)/(EP×EP);
+      B:    K:=K+0·814×(II3(R,IU)-II3(R,IL))/EP-0·2×II2(R,IL,IU);
+      B2B:  K:=K+0·87×II3(R,IL)/EP;
+      MK1:=(K×PI×N×AFS)/2
+   e̲n̲d̲;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ MK2(Z1,Z2,A1,A2,V);
+      v̲a̲l̲u̲e̲ Z1,Z2,A1,A2,V;
+      r̲e̲a̲l̲  Z1,Z2,A1,A2,V;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ EP,K,R,AL,RL,IU,IL,BE,N,AFS,EE,TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ OXFORD PROCEDURE;
+      EE:=(465·5×V⭡2)/(9·0@4);
+      TEMP:=Z1⭡ONE3+Z2⭡ONE3;
+      EP:=(3·24@4×A1×A2×EE)/(SQRT(TEMP)×Z1×Z2×(A1+A2));
+      N:=(RH/(A2×1·66))×1·0@3;
+      AFS:=1·096/TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ RESULT NOW IN G-UNITS;
+      R:=A1/A2;
+      AL:=(1+R)/2;
+      BE:=(AL×AL)/R;
+      K:=0·0;
+      i̲f̲ EP ≤ 0·380001 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IL:=PI;
+         g̲o̲t̲o̲ B2B
+      e̲n̲d̲;
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IU:=PI;
+         g̲o̲t̲o̲ SA
+      e̲n̲d̲;
+      RL:=2×ARCTAN((3/SQRT(EP×EP-9)));
+      IU:=RL;
+      SA:   IL:=2×ARCTAN((0·38/SQRT((EP×EP-0·1444))));
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲ g̲o̲t̲o̲ B;
+      K:=K+II1(R,RL,PI)/(EP×EP);
+      B:    K:=K+0·814×(II3(R,IU)-II3(R,IL))/EP-0·2×II2(R,IL,IU);
+      B2B:  K:=K+0·87×II3(R,IL)/EP;
+      MK2:=(K×PI×N×AFS)/2
+   e̲n̲d̲;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ MK3(Z1,Z2,A1,A2,V);
+      v̲a̲l̲u̲e̲ Z1,Z2,A1,A2,V;
+      r̲e̲a̲l̲  Z1,Z2,A1,A2,V;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ EP,K,R,AL,RL,IU,IL,BE,N,AFS,EE,TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ OXFORD PROCEDURE;
+      EE:=(465·5×V⭡2)/(9·0@4);
+      TEMP:=Z1⭡ONE3+Z2⭡ONE3;
+      EP:=(3·24@4×A1×A2×EE)/(SQRT(TEMP)×Z1×Z2×(A1+A2));
+      N:=(RH/(A2×1·66))×1·0@3;
+      AFS:=1·096/TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ RESULT NOW IN G-UNITS;
+      R:=A1/A2;
+      AL:=(1+R)/2;
+      BE:=(AL×AL)/R;
+      K:=0·0;
+      i̲f̲ EP ≤ 0·380001 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IL:=PI;
+         g̲o̲t̲o̲ B2B
+      e̲n̲d̲;
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IU:=PI;
+         g̲o̲t̲o̲ SA
+      e̲n̲d̲;
+      RL:=2×ARCTAN((3/SQRT(EP×EP-9)));
+      IU:=RL;
+      SA:   IL:=2×ARCTAN((0·38/SQRT((EP×EP-0·1444))));
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲ g̲o̲t̲o̲ B;
+      K:=K+II1(R,RL,PI)/(EP×EP);
+      B:    K:=K+0·814×(II3(R,IU)-II3(R,IL))/EP-0·2×II2(R,IL,IU);
+      B2B:  K:=K+0·87×II3(R,IL)/EP;
+      MK3:=(K×PI×N×AFS)/2
+   e̲n̲d̲;
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ MK4(Z1,Z2,A1,A2,V);
+      v̲a̲l̲u̲e̲  Z1,Z2,A1,A2,V;
+      r̲e̲a̲l̲  Z1,Z2,A1,A2,V;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ EP,K,R,AL,RL,IU,IL,BE,N,AFS,EE,TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ OXFORD PROCEDURE;
+      EE:=(465·5×V⭡2)/(9·0@4);
+      TEMP:=Z1⭡ONE3+Z2⭡ONE3;
+      EP:=(3·24@4×A1×A2×EE)/(SQRT(TEMP)×Z1×Z2×(A1+A2));
+      N:=(RH/(A2×1·66))×1·0@3;
+      AFS:=1·096/TEMP;
+      c̲o̲m̲m̲e̲n̲t̲ RESULT NOW IN G-UNITS;
+      R:=A1/A2;
+      AL:=(1+R)/2;
+      BE:=(AL×AL)/R;
+      K:=0·0;
+      i̲f̲ EP ≤ 0·380001 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IL:=PI;
+         g̲o̲t̲o̲ B2B
+      e̲n̲d̲;
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         IU:=PI;
+         g̲o̲t̲o̲ SA
+      e̲n̲d̲;
+      RL:=2×ARCTAN((3/SQRT(EP×EP-9)));
+      IU:=RL;
+      SA:   IL:=2×ARCTAN((0·38/SQRT((EP×EP-0·1444))));
+      i̲f̲ EP ≤ 3 t̲h̲e̲n̲ g̲o̲t̲o̲ B;
+      K:=K+II1(R,RL,PI)/(EP×EP);
+      B:    K:=K+0·814×(II3(R,IU)-II3(R,IL))/EP-0·2×II2(R,IL,IU);
+      B2B:  K:=K+0·87×II3(R,IL)/EP;
+      MK4:=(K×PI×N×AFS)/2
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP1A(F,H,P0,P1,P2);
+      v̲a̲l̲u̲e̲ P0,P1,P2;
+      r̲e̲a̲l̲  P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ H;c̲o̲m̲m̲e̲n̲t̲(I):'INTEGER'I;
+   b̲e̲g̲i̲n̲
+      SUM:=0;
+      f̲o̲r̲ JN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           f̲o̲r̲ NN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            b̲e̲g̲i̲n̲
+               U1[JN,NN]:=F(P0+NN×PI+P2);
+               U2[NN,JN]:=U1[JN,NN];
+               SUM:=SUM+U2[NN,JN];
+               U3[JN,NN]:=U2[NN,JN]+F(SUM);
+               c̲o̲m̲m̲e̲n̲t̲ RUBBISH;
+               JA[NN]:=NN+JN-H(1);
+               c̲o̲m̲m̲e̲n̲t̲ MORE RUBBISH;
+               JB[NN]:=-JA[NN]+NN;
+               JC[NN]:=JA[NN]-NN+JN+H(1);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JA_“C”SECTION”);
+               WRT(JA,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JB_“C”SECTION”);
+               WRT(JB,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JC_“C”SECTION”);
+               WRT(JC,NN);
+            e̲n̲d̲;
+      NEWPAGE;
+      SORTA(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲ SUM=70 ∨ SUM=70+PI t̲h̲e̲n̲ SORTA(JB,JC,JA,10,1)
+      e̲l̲s̲e̲ SORTA(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVA(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲ D = SUM t̲h̲e̲n̲ INVA(10,U2,EPS,EX,D)
+      e̲l̲s̲e̲ INVA(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP1B(F,H,P0,P1,P2);
+      v̲a̲l̲u̲e̲ P0,P1,P2;
+      r̲e̲a̲l̲  P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ H;
+   b̲e̲g̲i̲n̲
+      SUM:=0;
+      f̲o̲r̲ JN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           f̲o̲r̲ NN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            b̲e̲g̲i̲n̲
+               U1[JN,NN]:=F(P0+NN×PI+P2);
+               U2[NN,JN]:=U1[JN,NN];
+               SUM:=SUM+U2[NN,JN];
+               U3[JN,NN]:=U2[NN,JN]+F(SUM);
+               c̲o̲m̲m̲e̲n̲t̲ RUBBISH;
+               JA[NN]:=NN+JN-H;
+               c̲o̲m̲m̲e̲n̲t̲ MORE RUBBISH;
+               JB[NN]:=-JA[NN]+NN;
+               JC[NN]:=JA[NN]-NN+JN+H;
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JA_“C”SECTION”);
+               WRT(JA,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JB_“C”SECTION”);
+               WRT(JB,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JC_“C”SECTION”);
+               WRT(JC,NN);
+            e̲n̲d̲;
+      NEWPAGE;
+      SORTB(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲ SUM=70 ∨ SUM=70+PI t̲h̲e̲n̲ SORTB(JB,JC,JA,10,1)
+      e̲l̲s̲e̲ SORTB(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVB(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲ D=SUM t̲h̲e̲n̲ INVB(10,U2,EPS,EX,D)
+      e̲l̲s̲e̲ INVB(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP1C(F,H,P0,P1,P2);
+      v̲a̲l̲u̲e̲ P0,P1,P2;
+      r̲e̲a̲l̲  P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ H;
+   b̲e̲g̲i̲n̲
+      SUM:=0;
+      f̲o̲r̲ JN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           f̲o̲r̲ NN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            b̲e̲g̲i̲n̲
+               U1[JN,NN]:=F(P0+NN×PI+P2);
+               U2[NN,JN]:=U1[JN,NN];
+               SUM:=SUM+U2[NN,JN];
+               U3[JN,NN]:=U2[NN,JN]+F(SUM);
+               c̲o̲m̲m̲e̲n̲t̲ RUBBISH;
+               JA[NN]:=NN+JN-H;
+               c̲o̲m̲m̲e̲n̲t̲ MORE RUBBISH;
+               JB[NN]:=-JA[NN]+NN;
+               JC[NN]:=JA[NN]-NN+JN+H;
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JA_“C”SECTION”);
+               WRT(JA,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JB_“C”SECTION”);
+               WRT(JB,NN);
+
+               WRITE TEXT(““CC”_ARRAY_JC_“C”SECTION”);
+               WRT(JC,NN);
+            e̲n̲d̲;
+      NEWPAGE;
+      SORTC(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲ SUM=70 ∨ SUM=70+PI t̲h̲e̲n̲ SORTC(JB,JC,JA,10,1)
+      e̲l̲s̲e̲ SORTC(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVC(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲ D=SUM t̲h̲e̲n̲ INVC(10,U2,EPS,EX,D)
+      e̲l̲s̲e̲ INVC(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP1D(F,H,P0,P1,P2);
+      v̲a̲l̲u̲e̲ P0,P1,P2;
+      r̲e̲a̲l̲  P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+        i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ H;
+   b̲e̲g̲i̲n̲
+      SUM:=0;
+      f̲o̲r̲ JN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+           f̲o̲r̲ NN:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 10 d̲o̲
+            b̲e̲g̲i̲n̲
+               U1[JN,NN]:=F(P0+NN×PI+P2);
+               U2[NN,JN]:=U1[JN,NN];
+               SUM:=SUM+U2[NN,JN];
+               U3[JN,NN]:=U2[NN,JN]+F(SUM);
+               c̲o̲m̲m̲e̲n̲t̲ RUBBISH;
+               JA[NN]:=NN+JN-H;
+               c̲o̲m̲m̲e̲n̲t̲ MORE RUBBISH;
+               JB[NN]:=-JA[NN]+NN;
+               JC[NN]:=JA[NN]-NN+JN+H;
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JA_“C”SECTION”);
+               WRT(JA,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JB_“C”SECTION”);
+               WRT(JB,NN);
+               NEWPAGE;
+               WRITE TEXT(““CC”_ARRAY_JC_“C”SECTION”);
+               WRT(JC,NN);
+            e̲n̲d̲;
+      NEWPAGE;
+      SORTD(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲ SUM=70 ∨ SUM=70+PI t̲h̲e̲n̲ SORTD(JB,JC,JA,10,1)
+      e̲l̲s̲e̲ SORTD(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVD(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲ D=SUM t̲h̲e̲n̲ INVD(10,U2,EPS,EX,D)
+      e̲l̲s̲e̲ INVD(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SORTA(IA,IB,IC,N,P);
+      v̲a̲l̲u̲e̲ N,P;
+      i̲n̲t̲e̲g̲e̲r̲ N,P;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ IA,IB,IC;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,WORK;
+      i̲f̲ N > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               I:=K÷3;
+               K:=I×3;
+               I:=J-K;
+               IA[J]:=i̲f̲ I=0 t̲h̲e̲n̲ J e̲l̲s̲e̲
+                 2×N-J+(i̲f̲ I>0 t̲h̲e̲n̲ N e̲l̲s̲e̲ 0)
+            e̲n̲d̲;
+         WRT(IA,N);
+         i̲f̲ P≠0 t̲h̲e̲n̲
+           f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               K:=N-L-1;
+               f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                    i̲f̲ IA[I] > IA[K] t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WORK:=IA[K];
+                     IA[K]:=IA[I];
+                     IA[I]:=WORK
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         WRT(IA,N)
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ N<0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         SORTB(IC,IA,IB,10,P);
+         SORTB(IB,IC,IA,10,P);
+         SORTB(IA,IB,IC,L1,P);
+         SORTB(IA,IB,IC,L2,P);
+      e̲n̲d̲
+   e̲n̲d̲ SORTA;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SORTB(IA,IB,IC,N,P);
+      v̲a̲l̲u̲e̲ N,P;
+      i̲n̲t̲e̲g̲e̲r̲ N,P;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ IA,IB,IC;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,WORK;
+      i̲f̲ N > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               I:=K÷3;
+               K:=I×3;
+               I:=J-K;
+               IA[J]:=i̲f̲ I=0 t̲h̲e̲n̲ J e̲l̲s̲e̲
+                 2×N-J+(i̲f̲ I>0 t̲h̲e̲n̲ N e̲l̲s̲e̲ 0)
+            e̲n̲d̲;
+         WRT(IA,N);
+         i̲f̲ P≠0 t̲h̲e̲n̲
+           f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               K:=N-L-1;
+               f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                    i̲f̲ IA[I] > IA[K] t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WORK:=IA[K];
+                     IA[K]:=IA[I];
+                     IA[I]:=WORK
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         WRT(IA,N)
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ N<0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         SORTC(IC,IA,IB,10,P);
+         SORTC(IA,IB,IC,L1,P);
+         SORTC(IA,IB,IC,L2,P);
+      e̲n̲d̲
+   e̲n̲d̲ SORTB;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SORTC(IA,IB,IC,N,P);
+      v̲a̲l̲u̲e̲ N,P;
+      i̲n̲t̲e̲g̲e̲r̲ N,P;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ IA,IB,IC;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,WORK;
+      i̲f̲ N > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               I:=K÷3;
+               K:=I×3;
+               I:=J-K;
+               IA[J]:= i̲f̲ I=0 t̲h̲e̲n̲ J e̲l̲s̲e̲
+                 2×N-J+(i̲f̲ I>0 t̲h̲e̲n̲ N e̲l̲s̲e̲ 0)
+            e̲n̲d̲;
+         WRT(IA,N);
+         i̲f̲ P≠0 t̲h̲e̲n̲
+           f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               K:=N-L-1;
+               f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                    i̲f̲ IA[I] > IA[K] t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WORK:=IA[K];
+                     IA[K]:=IA[I];
+                     IA[I]:=WORK
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         WRT(IA,N)
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ N<0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         SORTD(IC,IA,IB,10,P);
+         SORTD(IB,IC,IA,10,P);
+         SORTD(IA,IB,IC,L1,P);
+         SORTD(IA,IB,IC,L2,P);
+      e̲n̲d̲
+   e̲n̲d̲ SORTC;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SORTD(IA,IB,IC,N,P);
+      v̲a̲l̲u̲e̲ N,P;
+      i̲n̲t̲e̲g̲e̲r̲ N,P;
+        i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ IA,IB,IC;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,L,WORK;
+      i̲f̲ N > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲
+               I:=K÷3;
+               K:=I×3;
+               I:=J-K;
+               IA[J]:=i̲f̲ I=0 t̲h̲e̲n̲ J e̲l̲s̲e̲
+                 2×N-J+(i̲f̲ I>0 t̲h̲e̲n̲ N e̲l̲s̲e̲ 0)
+            e̲n̲d̲;
+         WRT(IA,N);
+         i̲f̲P≠0t̲h̲e̲n̲
+           f̲o̲r̲L:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+            b̲e̲g̲i̲n̲
+               K:=N-L-1;
+               f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Kd̲o̲
+                    i̲f̲ IA[I]>IA[K] t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     WORK:=IA[K];
+                     IA[K]:=IA[I];
+                     IA[I]:=WORK
+                  e̲n̲d̲;
+            e̲n̲d̲;
+         WRT(IA,N)
+      e̲n̲d̲e̲l̲s̲e̲i̲f̲N<0t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         SORTA(IC,IA,IB,10,P);
+         SORTA(IB,IC,IA,10,P);
+         SORTA(IA,IB,IC,L1,P);
+         SORTA(IA,IB,IC,L2,P);
+      e̲n̲d̲
+   e̲n̲d̲SORTD;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP2A(F,P0,P1,P2);
+      v̲a̲l̲u̲e̲P0,P1,P2;
+      r̲e̲a̲l̲P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+   b̲e̲g̲i̲n̲
+      JN:=32;
+      SUM:=0;
+      f̲o̲r̲NN:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            U1[JN,NN]:=F(P0+NN×PI+P2);
+            U2[NN,JN]:=U1[JN,NN];
+            SUM:=SUM+U2[NN,JN];
+            U3[JN,NN]:=U2[NN,JN]+F(SUM);
+            c̲o̲m̲m̲e̲n̲t̲RUBBISH;
+            JA[NN]:=NN+J;
+            c̲o̲m̲m̲e̲n̲t̲MORERUBBISH;
+            JB[NN]:=-JA[NN]+NN;
+            JC[NN]:=JA[NN]-NN+J;
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JA_“C”SECTION”);
+            WRT(JA,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JB_“C”SECTION”);
+            WRT(JB,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JC_“C”SECTION”);
+            WRT(JC,NN);
+         e̲n̲d̲;
+      NEWPAGE;
+      SORTA(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲SUM=70∨SUM=70+PIt̲h̲e̲n̲SORTA(JB,JC,JA,10,1)
+      e̲l̲s̲e̲SORTA(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVA(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲D=SUMt̲h̲e̲n̲INVA(10,U2,EPS,EX,D)
+        e̲l̲s̲e̲i̲f̲SUM≠PIt̲h̲e̲n̲HH(U1,U2,U3)
+      e̲l̲s̲e̲INVA(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP2B(F,P0,P1,P2);
+      v̲a̲l̲u̲e̲P0,P1,P2;
+      r̲e̲a̲l̲P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+   b̲e̲g̲i̲n̲
+      JN:=32;
+      SUM:=0;
+      f̲o̲r̲NN:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            U2[NN,JN]:=U1[JN,NN];
+            SUM:=SUM+U2[NN,JN];
+            U3[JN,NN]:=U2[NN,JN]+F(SUM);
+            c̲o̲m̲m̲e̲n̲t̲RUBBISH;
+            JA[NN]:=NN+J;
+            c̲o̲m̲m̲e̲n̲t̲MORERUBBISH;
+            JB[NN]:=-JA[NN]+NN;
+            JC[NN]:=JA[NN]-NN+J;
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JA_“C”SECTION”);
+            WRT(JA,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JB_“C”SECTION”);
+            WRT(JB,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JC_“C”SECTION”);
+            WRT(JC,NN);
+         e̲n̲d̲;
+      NEWPAGE;
+      SORTB(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲SUM=70∨SUM=70+PIt̲h̲e̲n̲SORTB(JB,JC,JA,10,1)
+      e̲l̲s̲e̲SORTB(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVB(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲ D=SUM t̲h̲e̲n̲ INVB(10,U2,EPS,EX,D);
+      NEWLINES(1);
+      i̲f̲D=SUMt̲h̲e̲n̲INVB(10,U2,EPS,EX,D)
+        e̲l̲s̲e̲i̲f̲SUM≠PIt̲h̲e̲n̲HH(U1,U2,U3)
+      e̲l̲s̲e̲INVB(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP2C(F,P0,P1,P2);
+      v̲a̲l̲u̲e̲P0,P1,P2;
+      r̲e̲a̲l̲P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+   b̲e̲g̲i̲n̲
+      JN:=32;
+      SUM:=0;
+      f̲o̲r̲NN:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            U1[JN,NN]:=F(P0+NN×PI+P2);
+            U2[NN,JN]:=U1[JN,NN];
+            SUM:=SUM+U2[NN,JN];
+            U3[JN,NN]:=U2[NN,JN]+F(SUM);
+            c̲o̲m̲m̲e̲n̲t̲RUBBISH;
+            JA[NN]:=NN+J;
+            c̲o̲m̲m̲e̲n̲t̲MORERUBBISH;
+            JB[NN]:=-JA[NN]+NN;
+            JC[NN]:=JA[NN]-NN+J;
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JA_“C”SECTION”);
+            WRT(JA,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JB_“C”SECTION”);
+            WRT(JB,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JC_“C”SECTION”);
+            WRT(JC,NN);
+         e̲n̲d̲;
+      NEWPAGE;
+      SORTC(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲SUM=70∨SUM=70+PIt̲h̲e̲n̲SORTC(JB,JC,JA,10,1)
+      e̲l̲s̲e̲SORTC(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVC(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲D=SUMt̲h̲e̲n̲INVC(10,U2,EPS,EX,D)
+        e̲l̲s̲e̲i̲f̲SUM≠PIt̲h̲e̲n̲HH(U1,U2,U3)
+      e̲l̲s̲e̲INVC(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲MP2D(F,P0,P1,P2);
+      v̲a̲l̲u̲e̲P0,P1,P2;
+      r̲e̲a̲l̲P0,P1,P2;
+        r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲F;c̲o̲m̲m̲e̲n̲t̲(X):'VALUE'X:'REAL'X;
+   b̲e̲g̲i̲n̲
+      JN:=32;
+      SUM:=0;
+      f̲o̲r̲NN:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+         b̲e̲g̲i̲n̲
+            U1[JN,NN]:=F(P0+NN×PI+P2);
+            U2[NN,JN]:=U1[JN,NN];
+            SUM:=SUM+U2[NN,JN];
+            U3[JN,NN]:=U2[NN,JN]+F(SUM);
+            c̲o̲m̲m̲e̲n̲t̲RUBBISH;
+            JA[NN]:=NN+J;
+            c̲o̲m̲m̲e̲n̲t̲MORERUBBISH;
+            JB[NN]:=-JA[NN]+NN;
+            JC[NN]:=JA[NN]-NN+J;
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JA_“C”SECTION”);
+            WRT(JA,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JB_“C”SECTION”);
+            WRT(JB,NN);
+            NEWPAGE;
+            WRITETEXT(““CC”_ARRAY_JC_“C”SECTION”);
+            WRT(JC,NN);
+         e̲n̲d̲;
+      NEWPAGE;
+      SORTD(JA,JB,JC,10,1);
+      NEWPAGE;
+      i̲f̲SUM=70∨SUM=70+PIt̲h̲e̲n̲SORTD(JB,JC,JA,10,1)
+      e̲l̲s̲e̲SORTD(JC,JA,JB,10,1);
+      NEWPAGE;
+      INVD(10,U1,EPS,EX,D);
+      ARCTAN(D);
+      NEWLINES(1);
+      i̲f̲D=SUMt̲h̲e̲n̲INVD(10,U2,EPS,EX,D)
+        e̲l̲s̲e̲i̲f̲SUM≠PIt̲h̲e̲n̲HH(U1,U2,U3)
+      e̲l̲s̲e̲INVD(10,U3,EPS,EX,D);
+      ARCTAN(D);
+   e̲n̲d̲;
+   EPS:=1·0;
+   PI:=3·14159;
+   RH:=PI×PI×EPS;
+   MP1A(SQRT,INT,PI+PI,RH+PI,EPS+PI);
+   ONE3:=0·6667;
+   f̲o̲r̲J:=1s̲t̲e̲p̲Iu̲n̲t̲i̲l̲10d̲o̲
+      b̲e̲g̲i̲n̲
+         SUM2:=0;
+         JA[J]:=J;
+         JB[J]:=JA[J]+1;
+         JC[J]:=JB[J]+1;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+            b̲e̲g̲i̲n̲
+               MP2A(SQRT,PI+ONE3,RH,EPS);
+               INVA(10,U1,EPS,EX,D1);
+               MP2A(SQRT,PI+ONE3,RH,EPS);
+               INVA(10,U1,EPS,EX,D1);
+               INVB(10,U2,EPS,EX,D2);
+               INVC(10,U3,EPS,EX,D3);
+               TEST:=D+D1<D2+D3;
+               SUM2:=SUM2+D+D1+D2+D3;
+               AB:=SUM2×EPS;
+               YES:=TEST∨t̲r̲u̲e̲;
+               NO:=TEST∧f̲a̲l̲s̲e̲;
+            e̲n̲d̲;
+         AB:=AB+SCRUFF(PI);
+         QQ[J]:=AB×J-PI×JA[J];
+         QQ[20-J]:=QQ[J]-QQ[JB[J]-JA[J]]×RH;
+         i̲f̲AB≠RHt̲h̲e̲n̲HH(U1,U2,U3)
+         e̲l̲s̲e̲HH(U3,U2,U1);
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Jd̲o̲
+              U1[J,I]:=U3[I,JA[J]]-PI-RH-AB-EPS;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Jd̲o̲
+              U2[J,I]:=U1[I,JA[J]]+PI-RH+J×PI;
+         f̲o̲r̲I:=Js̲t̲e̲p̲1u̲n̲t̲i̲l̲10d̲o̲
+              U3[I,J]:=U3[J,JA[J]]-PI-RH-EPS+AB×PI-QQ[I+J];
+         PRINT(JA[JB[J]],8,0);
+         PRINT(JC[JB[J]],8,0);
+         WRITETEXT(““CC”_RUBBISH__“CC”_RUBBISH_“CC”__AND_MORE_
+           RUBBISH”);
+         i̲f̲AB=PIt̲h̲e̲n̲HH(U1,U2,U3)
+         e̲l̲s̲e̲MP2B(ABS,PI,RH,MK1(PI,PI,RH,AB,RH));
+      e̲n̲d̲;
+   EX: e̲n̲d̲;
+
+

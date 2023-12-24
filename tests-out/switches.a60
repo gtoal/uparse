@@ -1,0 +1,25 @@
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ i;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ inc(i); v̲a̲l̲u̲e̲ i; i̲n̲t̲e̲g̲e̲r̲ i;
+      inc := i̲f̲ i + 1 > 4 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ i + 1;
+   s̲w̲i̲t̲c̲h̲ s := s1, s2, s3, soleil;
+
+   i := 0;
+
+   next:
+   i := inc(i);
+   g̲o̲ t̲o̲ s[i];
+
+   s3:
+   outstring(1, “Trois”);
+   g̲o̲ t̲o̲ next;
+   s2:
+   outstring(1, “Deux”);
+   g̲o̲ t̲o̲ next;
+   s1:
+   outstring(1, “Un”);
+   g̲o̲ t̲o̲ next;
+
+   soleil:
+   outstring(1, “SOLEIL”);
+e̲n̲d̲

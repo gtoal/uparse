@@ -1,0 +1,164 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ jungle generator          C.H.A. Koster           R500;
+
+   c̲o̲m̲m̲e̲n̲t̲ transcribed to UTF8 from https://github.com/cwi-software-archive/Algol60/tree/main/JungleGenerator by gtoal@gtoal.com 20231004
+     - apologies for losing the formatting in the process. ;
+
+   r̲e̲a̲l̲ rr;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ R;
+   b̲e̲g̲i̲n̲
+      RANDOM; R:= rr:= RANDOM
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ P(u);
+      s̲t̲r̲i̲n̲g̲ u;
+      PRINTTEXT(u);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ sentence;
+   b̲e̲g̲i̲n̲
+      subject; predicate;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ nextsentence
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ nextsentence;
+   b̲e̲g̲i̲n̲
+      connective; sentence
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ connective;
+      i̲f̲ R <·3 t̲h̲e̲n̲ P(“ and”) e̲l̲s̲e̲
+      i̲f̲ rr < ·55 t̲h̲e̲n̲ P(“ but”) e̲l̲s̲e̲
+      i̲f̲ rr <·8 t̲h̲e̲n̲ P(“ because”)
+      e̲l̲s̲e̲ P(“ though”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ subject;
+      i̲f̲ R < ·8 t̲h̲e̲n̲ subst e̲l̲s̲e̲ subname;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ subst;
+   b̲e̲g̲i̲n̲
+      article; noun phrase;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ property
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ property;
+      i̲f̲ R <·25 t̲h̲e̲n̲  P(“ with blue eyes”) e̲l̲s̲e̲
+      i̲f̲ rr < ·5 t̲h̲e̲n̲ P(“ in a mink coat”) e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         P(“ from”);
+         i̲f̲ R < ·25 t̲h̲e̲n̲ P(“ Australia”) e̲l̲s̲e̲
+         i̲f̲ rr < ·5 t̲h̲e̲n̲ P(“ Switserland”) e̲l̲s̲e̲
+         i̲f̲ rr <·75 t̲h̲e̲n̲ P(“ Siberia”)
+         e̲l̲s̲e̲ P(“ Cleveland (Ohio)”)
+      e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ noun phrase;
+      i̲f̲ R < ·25 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ adje; noun phrase e̲n̲d̲
+      e̲l̲s̲e̲ nounpart;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ nounpart;
+      i̲f̲ R < ·25 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ noun; relsentence e̲n̲d̲
+      e̲l̲s̲e̲ noun;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ predicate;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ modifier; modpredicate e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ rr < ·5 t̲h̲e̲n̲ quality
+      e̲l̲s̲e̲ modpredicate;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ modpredicate;
+   b̲e̲g̲i̲n̲
+      verb; object
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ relsentence;
+   b̲e̲g̲i̲n̲
+      P(“, that”);
+      i̲f̲ R < ·4 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ subject; verb e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ rr < ·6 t̲h̲e̲n̲ quality
+      e̲l̲s̲e̲ predicate
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ object;
+      i̲f̲ R < ·8 t̲h̲e̲n̲ subst e̲l̲s̲e̲ objname;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ quality;
+   b̲e̲g̲i̲n̲
+      i̲f̲ R < ·45 t̲h̲e̲n̲ P(“ was”) e̲l̲s̲e̲ P(“ is”);
+      i̲f̲ R < ·4 t̲h̲e̲n̲ adje e̲l̲s̲e̲ object
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ adje;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         adverb; adjective
+      e̲n̲d̲
+      e̲l̲s̲e̲ adjective;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ subname;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ P(“ he”) e̲l̲s̲e̲
+      i̲f̲ rr < ·4 t̲h̲e̲n̲ P(“ Jim”) e̲l̲s̲e̲
+      i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ Mary”) e̲l̲s̲e̲
+      i̲f̲ rr < ·8 t̲h̲e̲n̲ P(“ she”) e̲l̲s̲e̲
+      i̲f̲ rr < ·9 t̲h̲e̲n̲ P(“ David Livingstone”)
+      e̲l̲s̲e̲ P(“ the world Famous X8 Computer”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ objname;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ P(“ him”) e̲l̲s̲e̲
+      i̲f̲ rr < ·4 t̲h̲e̲n̲ P(“ Jim”) e̲l̲s̲e̲
+      i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ Mary”) e̲l̲s̲e̲
+      i̲f̲ rr < ·8 t̲h̲e̲n̲ P(“ her”) e̲l̲s̲e̲
+      i̲f̲ rr < ·95 t̲h̲e̲n̲ P(“ David Livingstone”)
+      e̲l̲s̲e̲ P(“ a computer”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ modifier;
+      i̲f̲ R < ·33 t̲h̲e̲n̲ P(“ always”) e̲l̲s̲e̲
+      i̲f̲ rr < ·67 t̲h̲e̲n̲ P(“ often”)
+      e̲l̲s̲e̲ P(“ never”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ article;
+      i̲f̲ R < ·35 t̲h̲e̲n̲ P(“ a”) e̲l̲s̲e̲
+      i̲f̲ rr < ·75 t̲h̲e̲n̲ P(“ the”) e̲l̲s̲e̲
+      i̲f̲ rr < ·87 t̲h̲e̲n̲ P(“ this”)
+      e̲l̲s̲e̲ P(“ that”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ noun;
+      i̲f̲ R < ·17 t̲h̲e̲n̲ P(“ boy”) e̲l̲s̲e̲
+      i̲f̲ rr < ·33 t̲h̲e̲n̲ P(“ tree”) e̲l̲s̲e̲
+      i̲f̲ rr < ·5 t̲h̲e̲n̲ P(“ girl”) e̲l̲s̲e̲
+      i̲f̲ rr < ·67 t̲h̲e̲n̲ P(“ bear”) e̲l̲s̲e̲
+      i̲f̲ rr < ·83 t̲h̲e̲n̲ P(“ hunter”)
+      e̲l̲s̲e̲ P(“ lamb”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ adjective;
+      i̲f̲ R < ·2 t̲h̲e̲n̲ P(“ little”) e̲l̲s̲e̲
+      i̲f̲ rr < ·4 t̲h̲e̲n̲ P(“ nice”) e̲l̲s̲e̲
+      i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ big”) e̲l̲s̲e̲
+      i̲f̲ rr < ·8 t̲h̲e̲n̲ P(“ green”)
+      e̲l̲s̲e̲ P(“ bad”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ adverb;
+      i̲f̲ R < ·4 t̲h̲e̲n̲ P(“ very”) e̲l̲s̲e̲
+      i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ extraordinarily”)
+      e̲l̲s̲e̲ P(“ rather”);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ verb;
+      i̲f̲ R < ·45 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         i̲f̲ R < ·2 t̲h̲e̲n̲ P(“ saw”) e̲l̲s̲e̲
+         i̲f̲ rr < ·4 t̲h̲e̲n̲ P(“ liked”) e̲l̲s̲e̲
+         i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ dreamt about”) e̲l̲s̲e̲
+         i̲f̲ rr < ·7 t̲h̲e̲n̲ P(“ smelled”) e̲l̲s̲e̲
+         i̲f̲ rr < ·8 t̲h̲e̲n̲ P(“ ate”)
+         e̲l̲s̲e̲ P(“ had”)
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+         i̲f̲ R < ·2 t̲h̲e̲n̲ P(“ sees”) e̲l̲s̲e̲
+         i̲f̲ rr < ·4 t̲h̲e̲n̲ P(“ likes”) e̲l̲s̲e̲
+         i̲f̲ rr < ·6 t̲h̲e̲n̲ P(“ dreams about”) e̲l̲s̲e̲
+         i̲f̲ rr < ·7 t̲h̲e̲n̲ P(“ eats”) e̲l̲s̲e̲
+         i̲f̲ rr < ·8 t̲h̲e̲n̲ P(“ smells”)
+         e̲l̲s̲e̲ P(“ has”)
+      e̲n̲d̲;
+
+   SETRANDOM (XEEN (2047) / 2048);
+
+   NZ:    NLCR; sentence; NLCR;
+
+   i̲f̲ XEEN(-0) > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ NZ
+e̲n̲d̲

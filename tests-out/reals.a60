@@ -1,0 +1,35 @@
+b̲e̲g̲i̲n̲
+
+   i̲n̲t̲e̲g̲e̲r̲ i,n;
+   r̲e̲a̲l̲ a,b,c;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ cos(x); v̲a̲l̲u̲e̲ x; r̲e̲a̲l̲ x;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ res, xi, x2;
+      i̲n̲t̲e̲g̲e̲r̲ i;
+      res := xi := 1;
+      x2 := x×x;
+
+      f̲o̲r̲ i := 2 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ 8 d̲o̲
+         b̲e̲g̲i̲n̲
+            xi := -xi × x2 / ((i-1) × i);
+            res := res + xi;
+         e̲n̲d̲;
+
+      cos := res
+   e̲n̲d̲;
+
+   a := 3·2;
+   b := 2·2;
+   c := 1·7;
+   outstring(1,“Logarithme de 3.2 : ”);
+   outreal(1, log(a));
+   outstring(1,“Exponentielle de de 2.2 : ”);
+   outreal(1, exp(b));
+   outstring(1,“Calcul de 3.2^1.7 : ”);
+   outreal(1, a⭡c);
+   outstring(1,“log(exp(1)) :”);
+   outreal(1,log(exp(1·0)));
+   outstring(1,“Cosinus de 3.14 : ”);
+   outreal(1,cos(3·14));
+
+e̲n̲d̲

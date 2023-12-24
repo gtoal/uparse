@@ -1,0 +1,73 @@
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RK (x,y,n,FKT,eps,eta,xE,yE,fi); v̲a̲l̲u̲e̲ x,y; i̲n̲t̲e̲g̲e̲r̲ n;
+     B̲o̲o̲l̲e̲a̲n̲ fi; r̲e̲a̲l̲ x,eps,eta,xE; array y,yE; p̲r̲o̲c̲e̲d̲u̲r̲e̲ FKT;
+
+     c̲o̲m̲m̲e̲n̲t̲ RK integrates the system y’k=fk(x,y1,y2,...,yn)(k=1,2,...n)
+     of differential equations with the method of Runge-Kutta with automatic
+     search for appropriate length of integration step. Parameters are: The
+     initial values x and y[k] for x and the unknown functions yk(x). The
+     order n of the system. The procedure FKT(x,y,n,z) which represents the
+     system to be integrated, i.e. the set of functions fk. The tolerance values eps
+     and eta which govern the accuracy of the numerical integration. The end
+     of the integration interval xE. The output parameter yE which represents
+     the solution x=xE. The Boolean variable fi, which must always be given
+     the value true for an isolated or first entry into RK. If however the functions
+     y must be available at several meshpoints x0,x1,...,xn, then the procedure
+     must be called repeatedly (with x=xk, xE=x(k+1), for k=0,1,...,n-1)
+     and then the later calls may occur with fi=false which saves computing
+     time. The input parameters of FKT must be x,y,z,n, the output parameter z
+     represents the set of derivatives z[k]=fk(x,y[1],y[2],...,y[n]) for x and
+     the actual y’s. A procedure comp enters as a non-local identifier;
+
+b̲e̲g̲i̲n̲
+   a̲r̲r̲a̲y̲ z,y1,y2,y3[1:n]; r̲e̲a̲l̲ x1,x2,x3,H; B̲o̲o̲l̲e̲a̲n̲ out;
+   i̲n̲t̲e̲g̲e̲r̲ k,j; o̲w̲n̲ r̲e̲a̲l̲ s,Hs;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RK1ST (x,y,h,xe,ye); r̲e̲a̲l̲ x,h,xe; a̲r̲r̲a̲y̲ y,ye;
+        c̲o̲m̲m̲e̲n̲t̲ RK1ST integrates one single Runge-Kutta step with
+        initial values x, y[k] which yields the output parameters xe=x+h
+        and ye[k], the latter being the solution at xe.  Important: the
+        parameters n, FKT, z enter RK1ST as nonlocal entities;
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ w[1:n], a[1:5]; i̲n̲t̲e̲g̲e̲r̲ k,j;
+      a[1]:=a[2]:=a[5]:=h/2; a[3]:=a[4]:=h;
+      xe:=x;
+      f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ ye[k]:=w[k]:=y[k];
+      f̲o̲r̲ j:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+         b̲e̲g̲i̲n̲
+            FKT(xe,w,n,z);
+            xe:=x+a[j];
+            f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+               b̲e̲g̲i̲n̲
+                  w[k]:=y[k]+a[j]×z[k];
+                  ye[k]:=ye[k]+a[j+1]×z[k]/3
+               e̲n̲d̲ k
+         e̲n̲d̲ j
+   e̲n̲d̲ RK1ST;
+
+   Begin of program:
+
+   i̲f̲ fi t̲h̲e̲n̲ b̲e̲g̲i̲n̲ H:=xE-x; s:=0 e̲n̲d̲ e̲l̲s̲e̲ H:=Hs;
+   out:=false;
+
+   AA: i̲f̲ ((x+2·01×H-xE)>0) ≡ (H>0) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Hs:=H; out:=true; H:=(xE-x)/2 e̲n̲d̲ if;
+   RK1ST (x,y,2×H,x1,y1);
+
+   BB: RK1ST (x,y,H,x2,y2); RK1ST (x2,y2,H,x3,y3);
+   f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+        i̲f̲ comp (y1[k],y3[k],eta) > eps t̲h̲e̲n̲ g̲o̲t̲o̲ CC;
+   c̲o̲m̲m̲e̲n̲t̲ comp(a,b,c) is a function designator, the value of
+     which is the absolute value of the difference of the mantissae of a
+     and b, after the exponents of these quantities have been made equal
+     to the largest of the exponents of the originally given parameters
+     a, b, c;
+   x:=x3; i̲f̲ out t̲h̲e̲n̲ g̲o̲t̲o̲ DD;
+   f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ y[k]:=y3[k];
+   i̲f̲ s=5 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ s:=0; H:=2×H e̲n̲d̲ if;
+   s:=s+1; g̲o̲t̲o̲ AA;
+
+   CC: H:=0·5×X; out:=false; x1:=x2;
+   f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ y1[k]:=y2[k];
+   g̲o̲t̲o̲ BB;
+
+   DD: f̲o̲r̲ k:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ yE[k]:=y3[k]
+e̲n̲d̲ RK;
