@@ -1,0 +1,15 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>procedure</u> tridiag(a, b, c, d) order : (n) result : (x);
+   <u>array</u> a, b, c, d, x; <u>integer</u> n;
+     <u>comment</u> ;
+<u>begin</u> <u>array</u> gamma[1 :n-1]; <u>integer</u> i; <u>real</u> y;
+   gamma [1] ≔ -a[1]/b[1];
+   x[1] ≔ -d[1]/b[1];
+   <u>for</u>	    i ≔ 2 <u>step</u> 1 <u>until</u> n-1 <u>do</u>
+      <u>begin</u>	    y ≔ b[i] + c[i] × gamma [i - 1];
+         gamma [i] ≔ -a[i]/y; x[i] ≔ -(c[i] × x[i-1]
+           + d[i])/y <u>end</u>;
+   x[n] ≔ -(c[n] × x[n-1] + d[n])/(b[n] + c[n]× gamma[n-1]);
+   <u>for</u>	    i ≔ n <u>step</u> -1 <u>until</u> 2 <u>do</u>
+        x[i - 1] ≔ x[i] × gamma [i - 1] + x[i - 1]
+<u>end</u> tridiag;
+</pre></body></html>

@@ -1,0 +1,124 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u>
+     FIND A SOLUTION FOR THE `N QUEEN' PROBLEM.
+     (GOT THE ALGORITHM FROM A MODULA PROGRAM FROM
+     MARTIN NEITZEL).
+     ;
+
+   <u>integer</u> N, MAXN;
+
+   MAXN ≔ 9;		<u>comment</u> MAXIMUM SIZE;
+   N ≔ 2;			<u>comment</u> CURRENT SIZE;
+
+   TRY NEXT N:
+
+   <u>begin</u>
+
+      <u>integer</u> <u>array</u> COLUMN [1 : N];
+      <u>boolean</u> <u>array</u> EMPCOL [1 : N];
+      <u>boolean</u> <u>array</u> EMPUP [-N+1 : N-1];
+      <u>boolean</u> <u>array</u> EMPDO [2 : 2×N];
+      <u>integer</u> I;
+
+      <u>procedure</u> PRINT;
+         <u>comment</u>
+           PRINT THE CURRENT SOLUTION IN A CHESSBOARD ALIKE
+           PICTURE ;
+      <u>begin</u>
+         <u>integer</u> I, J;
+
+         <u>procedure</u> OUTFRAME;
+         <u>begin</u>
+            <u>integer</u> I;
+
+            <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+                 OUTSTRING (1, “+---”);
+            OUTSTRING (1, “+\N”)
+         <u>end</u>;
+
+         OUTSTRING (1, “SEE:\N”) ;
+
+         <u>for</u> J ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u> <u>begin</u>
+               OUTFRAME;
+               OUTSTRING (1, “|”);
+               <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u> <u>begin</u>
+                     <u>if</u> N + 1 - J = COLUMN [I] <u>then</u>
+                       OUTSTRING (1, “ Q |”)
+                     <u>else</u>
+                       OUTSTRING (1, “   |”)
+                  <u>end</u>;
+               OUTSTRING (1, “\N”)
+            <u>end</u>;
+         OUTFRAME
+      <u>end</u>;
+
+
+      <u>procedure</u> SET (X);
+         <u>value</u> X;
+         <u>integer</u> X;
+      <u>begin</u>
+         <u>integer</u> Y;
+
+         <u>for</u> Y ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+            <u>begin</u>
+               <u>if</u> EMPCOL [ Y ] ∧ EMPUP [ X-Y ] ∧ EMPDO [ X+Y ] <u>then</u>
+               <u>begin</u>
+                  COLUMN [ Y ] ≔ X ;
+                  EMPCOL [ Y ] ≔ <u>false</u> ;
+                  EMPUP [ X-Y ] ≔ <u>false</u> ;
+                  EMPDO [ X+Y ] ≔ <u>false</u> ;
+                  <u>if</u> X = N <u>then</u>
+                    <u>goto</u> GOTONE
+                  <u>else</u>
+                    SET ( X + 1 ) ;
+                  EMPDO [ X+Y ] ≔ <u>true</u> ;
+                  EMPUP [ X-Y ] ≔ <u>true</u> ;
+                  EMPCOL [ Y ] ≔ <u>true</u> ;
+                  COLUMN [ Y ] ≔ 0
+               <u>end</u>
+            <u>end</u>
+      <u>end</u>;
+
+      <u>comment</u>
+        MAIN PROGRAM START
+        ;
+
+      OUTSTRING (1, “LOOKING ONTO A ”);
+      OUTINTEGER (1, N);
+      OUTSTRING (1, “ X ”);
+      OUTINTEGER (1, N);
+      OUTSTRING (1, “ CHESSBOARD...\N”);
+
+      <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>begin</u>
+            COLUMN [ I ] ≔ 0 ;
+            EMPCOL [ I ] ≔ <u>true</u>
+         <u>end</u>;
+
+      <u>for</u> I ≔ -N+1 <u>step</u> 1 <u>until</u> N-1 <u>do</u>
+           EMPUP [ I ] ≔ <u>true</u> ;
+
+      <u>for</u>  I ≔ 2 <u>step</u> 1 <u>until</u> 2×N <u>do</u>
+           EMPDO [ I ] ≔ <u>true</u> ;
+
+      SET ( 1 ) ;
+
+      OUTSTRING (1, “NO SOLUTION.\N”);
+      <u>goto</u> CONTN;
+
+      GOTONE:
+      PRINT;
+
+      CONTN:
+      <u>if</u> N &lt; MAXN <u>then</u> <u>begin</u>
+         N ≔ N + 1;
+         <u>goto</u> TRY NEXT N
+      <u>end</u>;
+
+      OUTSTRING (1, “DONE.\N”)
+
+   <u>end</u>
+<u>end</u>
+
+
+</pre></body></html>

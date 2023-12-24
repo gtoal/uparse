@@ -1,0 +1,110 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u> 
+     <u>comment</u> Game of Life;
+
+   <u>integer</u> <u>array</u> table[0:2,0:2];
+
+   <u>procedure</u> initialisetable (table, M,N);
+      <u>integer</u> <u>array</u> table;
+        <u>integer</u> M,N;
+   <u>begin</u>
+      <u>integer</u> i,j;
+      <u>for</u> i ≔  <u>step</u> 1 <u>until</u> (M-1) <u>do</u>
+           <u>for</u> j ≔  <u>step</u> 1 <u>until</u> (N-1) <u>do</u>
+            <u>begin</u>
+               <u>if</u> (i ≠ j) <u>then</u>
+                 table[i,j] ≔ 0
+               <u>else</u>
+                 table[i,j] ≔ ;
+
+            <u>end</u>
+
+   <u>end</u>;
+
+   <u>procedure</u> printtable (table,M,N);
+      <u>integer</u> <u>array</u> table;
+        <u>integer</u> M,N;
+   <u>begin</u>
+      <u>integer</u> i,j;
+      <u>for</u> i ≔  <u>step</u> 1 <u>until</u> M-1 <u>do</u>
+         <u>begin</u>
+            <u>for</u> j ≔  <u>step</u> 1 <u>until</u> N-1 <u>do</u>
+               <u>begin</u>
+                  outinteger(1, table[i,j]);
+               <u>end</u>;
+            outstring(1, “\n”)
+         <u>end</u>
+   <u>end</u>;      
+
+
+     <u>procedure</u> applyRules (table, M,N);
+      <u>integer</u> <u>array</u> table;
+        <u>integer</u> M,N;
+   <u>begin</u>
+      <u>integer</u> Neighbours,actual,i,j;
+      <u>integer</u> <u>array</u> prevGen[0:2,0:2];
+      copytable(prevGen,table,M,N);
+
+      <u>for</u> i ≔  <u>step</u> 1 <u>until</u> M-1 <u>do</u>
+         <u>begin</u>
+            <u>for</u> j ≔  <u>step</u> 1 <u>until</u> N-1 <u>do</u>
+               <u>begin</u>
+                  actual ≔ prevGen[i,j];
+                  countNeighboursAlive (prevGen,M,N,i,j,Neighbours);
+                  <u>if</u> (actual = 1) <u>then</u>
+                  <u>begin</u>
+                     <u>if</u> (Neighbours &lt; 2) <u>then</u>
+                       table[i,j] ≔  
+                       <u>else</u>
+                     <u>if</u> (Neighbours &LessSlantEqual; 3) <u>then</u>
+                       table[i,j] ≔ 
+                     <u>else</u> 
+                       table[i,j] ≔ ;            
+                    <u>end</u>
+                    <u>else</u>
+                  <u>if</u> (Neighbours = 3) <u>then</u> table[i,j] ≔ ;
+
+               <u>end</u>;
+         <u>end</u>
+
+   <u>end</u>;
+
+   <u>procedure</u> countNeighboursAlive (table, M,N, x,y, Neighbours);
+      <u>value</u> M,N,x,y;
+      <u>integer</u> <u>array</u> table;
+        <u>integer</u> M,N,x,y,Neighbours;
+   <u>begin</u>
+      <u>boolean</u> isNeighbour;
+      <u>integer</u> i,j;
+      Neighbours ≔ 0;
+      <u>for</u> i ≔ x-1) <u>step</u> 1 <u>until</u> (x+1) <u>do</u>
+         <u>begin</u>
+            <u>for</u> j ≔ y-1) <u>step</u> 1 <u>until</u> (y+1) <u>do</u>
+               <u>begin</u>
+                  isNeighbour ≔ (   (i&GreaterSlantEqual;0) ∧ (j&GreaterSlantEqual;0) ∧ (i&lt;M) ∧ (j&lt;N) ∧ ( (x ≠ i) ∨ (y ≠ j) )   );
+                  <u>if</u>  isNeighbour <u>then</u>
+                  <u>begin</u>
+                     <u>if</u> (table[i,j] = 1) <u>then</u> Neighbours ≔ Neighbours +1
+                  <u>end</u>
+
+               <u>end</u>;
+         <u>end</u>
+
+
+   <u>end</u>;
+
+   <u>procedure</u> copytable (prevGen,table,M,N);
+   <u>begin</u>
+      <u>integer</u> i,j;
+      <u>for</u> i ≔  <u>step</u> 1 <u>until</u> (M-1) <u>do</u>
+           <u>for</u> j ≔  <u>step</u> 1 <u>until</u> (N-1) <u>do</u>
+              prevGen[i,j] ≔ table[i,j];
+
+   <u>end</u>;
+
+   initialisetable(table,3,3);
+   printtable(table,3,3);
+   applyRules(table,3,3);
+   printtable(table,3,3);
+
+<u>end</u>
+</pre></body></html>

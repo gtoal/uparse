@@ -1,0 +1,25 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u> <u>integer</u> I;
+   <u>integer</u> <u>array</u> A,B[1:10];
+   <u>array</u> C,D[1:10];
+   <u>procedure</u> TEST(P,Q,R,S); <u>value</u> P,Q,R,S; <u>array</u> R,S;
+        <u>integer</u> <u>array</u> P,Q; <u>begin</u> <u>integer</u> I;
+      <u>for</u> I ≔ <u>step</u>1<u>until</u> 10 <u>do</u> <u>begin</u>
+            <u>if</u> I≠P[I]∨ I≠Q[I]∨ I≠R[I]∨ I≠S[I] <u>then</u> <u>begin</u>
+               PRINT(I,2,0); PRINT(P[I],2,0); PRINT(Q[I],2,0);
+               PRINT(R[I],2,1); PRINT(S[I],2,1); NEWLINE
+            <u>end</u>;
+            P[I] ≔ [I] ≔ ; R[I] ≔ [I] ≔ 
+         <u>end</u> FOR;
+      PRINTSTRING(“ARRAY  ̲PASSED”)
+   <u>end</u> TEST;
+   <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 10 <u>do</u> <u>begin</u>
+         A[I] ≔ [I] ≔ ; C[I] ≔ [I] ≔ 
+      <u>end</u>;
+   TEST(A,C,D,B);
+   <u>for</u> I ≔  <u>step</u> 1 <u>until</u> 10 <u>do</u> <u>begin</u>
+         <u>if</u> A[I]≠I ∨ B[I]≠I ∨ C[I]≠I ∨ D[I]≠I  <u>then</u> <u>begin</u>
+            PRINTSTRING(“ERROR”); PRINT(I,2,0)
+         <u>end</u>
+      <u>end</u>
+<u>end</u>
+</pre></body></html>

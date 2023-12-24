@@ -1,311 +1,396 @@
 #!/bin/sh
-./algol60 tests/wichtests_wt44.a60 |./a60tohtml >html/wichtests_wt44.a60.html
-./algol60 tests/wichtests_wt133.a60 |./a60tohtml >html/wichtests_wt133.a60.html
-./algol60 tests/wichtests_wt89.a60 |./a60tohtml >html/wichtests_wt89.a60.html
-./algol60 tests/wichtests_wt137.a60 |./a60tohtml >html/wichtests_wt137.a60.html
-./algol60 tests/algtests_at118.a60 |./a60tohtml >html/algtests_at118.a60.html
-./algol60 tests/algtests_at73.a60 |./a60tohtml >html/algtests_at73.a60.html
-./algol60 tests/wichtests_wt35.a60 |./a60tohtml >html/wichtests_wt35.a60.html
-./algol60 tests/algtests_at93.a60 |./a60tohtml >html/algtests_at93.a60.html
-./algol60 tests/wichtests_wt96.a60 |./a60tohtml >html/wichtests_wt96.a60.html
-./algol60 tests/example542.a60 |./a60tohtml >html/example542.a60.html
-./algol60 tests/algtests_at98.a60 |./a60tohtml >html/algtests_at98.a60.html
-./algol60 tests/beer.a60 |./a60tohtml >html/beer.a60.html
-./algol60 tests/wichtests_wt58.a60 |./a60tohtml >html/wichtests_wt58.a60.html
-./algol60 tests/wichtests_pete7.a60 |./a60tohtml >html/wichtests_pete7.a60.html
-./algol60 tests/wichtests_wt17.a60 |./a60tohtml >html/wichtests_wt17.a60.html
-./algol60 tests/algtests_at16.a60 |./a60tohtml >html/algtests_at16.a60.html
-./algol60 tests/algtests_at58.a60 |./a60tohtml >html/algtests_at58.a60.html
-./algol60 tests/wichtests_wt100.a60 |./a60tohtml >html/wichtests_wt100.a60.html
-./algol60 tests/wichtests_wt113.a60 |./a60tohtml >html/wichtests_wt113.a60.html
-./algol60 tests/wichtests_wt29.a60 |./a60tohtml >html/wichtests_wt29.a60.html
-./algol60 tests/algtests_at157.a60 |./a60tohtml >html/algtests_at157.a60.html
-./algol60 tests/algtests_at70.a60 |./a60tohtml >html/algtests_at70.a60.html
-./algol60 tests/cacm019.a60 |./a60tohtml >html/cacm019.a60.html
-./algol60 tests/algtests_at90.a60 |./a60tohtml >html/algtests_at90.a60.html
-./algol60 tests/codeon.a60 |./a60tohtml >html/codeon.a60.html
-./algol60 tests/wichtests_pete3.a60 |./a60tohtml >html/wichtests_pete3.a60.html
-./algol60 tests/algtests_at88.a60 |./a60tohtml >html/algtests_at88.a60.html
-./algol60 tests/wichtests_wt7.a60 |./a60tohtml >html/wichtests_wt7.a60.html
-./algol60 tests/algtests_at81.a60 |./a60tohtml >html/algtests_at81.a60.html
-./algol60 tests/wichtests_wt135.a60 |./a60tohtml >html/wichtests_wt135.a60.html
-./algol60 tests/algtests_at56.a60 |./a60tohtml >html/algtests_at56.a60.html
-./algol60 tests/algtests_at113.a60 |./a60tohtml >html/algtests_at113.a60.html
-./algol60 tests/algtests_at146.a60 |./a60tohtml >html/algtests_at146.a60.html
-./algol60 tests/algtests_at60.a60 |./a60tohtml >html/algtests_at60.a60.html
-./algol60 tests/algtests_at21.a60 |./a60tohtml >html/algtests_at21.a60.html
-./algol60 tests/algtests_at51.a60 |./a60tohtml >html/algtests_at51.a60.html
-./algol60 tests/algtests_at49.a60 |./a60tohtml >html/algtests_at49.a60.html
-./algol60 tests/wichtests_wt25.a60 |./a60tohtml >html/wichtests_wt25.a60.html
-./algol60 tests/wichtests_wt75.a60 |./a60tohtml >html/wichtests_wt75.a60.html
-./algol60 tests/cacm089.a60 |./a60tohtml >html/cacm089.a60.html
-./algol60 tests/wichtests_wt34.a60 |./a60tohtml >html/wichtests_wt34.a60.html
-./algol60 tests/algtests_at24.a60 |./a60tohtml >html/algtests_at24.a60.html
-./algol60 tests/wichtests_wt131.a60 |./a60tohtml >html/wichtests_wt131.a60.html
-./algol60 tests/wichtests_pete9.a60 |./a60tohtml >html/wichtests_pete9.a60.html
-./algol60 tests/algtests_at38.a60 |./a60tohtml >html/algtests_at38.a60.html
-./algol60 tests/wichtests_wt45.a60 |./a60tohtml >html/wichtests_wt45.a60.html
-./algol60 tests/algtests_at63.a60 |./a60tohtml >html/algtests_at63.a60.html
-./algol60 tests/wichtests_wt142.a60 |./a60tohtml >html/wichtests_wt142.a60.html
-./algol60 tests/sieve.a60 |./a60tohtml >html/sieve.a60.html
-./algol60 tests/cacm017.a60 |./a60tohtml >html/cacm017.a60.html
-./algol60 tests/algtests_at82.a60 |./a60tohtml >html/algtests_at82.a60.html
-./algol60 tests/wichtests_wt92.a60 |./a60tohtml >html/wichtests_wt92.a60.html
-./algol60 tests/wichtests_wt30.a60 |./a60tohtml >html/wichtests_wt30.a60.html
-./algol60 tests/algtests_at50.a60 |./a60tohtml >html/algtests_at50.a60.html
-./algol60 tests/algtests_at143.a60 |./a60tohtml >html/algtests_at143.a60.html
-./algol60 tests/wichtests_wt84.a60 |./a60tohtml >html/wichtests_wt84.a60.html
-./algol60 tests/algtests_at129.a60 |./a60tohtml >html/algtests_at129.a60.html
-./algol60 tests/algtests_at85.a60 |./a60tohtml >html/algtests_at85.a60.html
-./algol60 tests/wichtests_wt95.a60 |./a60tohtml >html/wichtests_wt95.a60.html
-./algol60 tests/wichtests_wt90.a60 |./a60tohtml >html/wichtests_wt90.a60.html
-./algol60 tests/cacm040.a60 |./a60tohtml >html/cacm040.a60.html
-./algol60 tests/wichtests_wt117.a60 |./a60tohtml >html/wichtests_wt117.a60.html
-./algol60 tests/easter.a60 |./a60tohtml >html/easter.a60.html
-./algol60 tests/algtests_at139.a60 |./a60tohtml >html/algtests_at139.a60.html
-./algol60 tests/wichtests_wt86a.a60 |./a60tohtml >html/wichtests_wt86a.a60.html
-./algol60 tests/algtests_at42.a60 |./a60tohtml >html/algtests_at42.a60.html
-./algol60 tests/cacm101-new.a60 |./a60tohtml >html/cacm101-new.a60.html
-./algol60 tests/algtests_at18.a60 |./a60tohtml >html/algtests_at18.a60.html
-./algol60 tests/algtests_at80.a60 |./a60tohtml >html/algtests_at80.a60.html
-./algol60 tests/algtests_at37.a60 |./a60tohtml >html/algtests_at37.a60.html
-./algol60 tests/wichtests_wt123.a60 |./a60tohtml >html/wichtests_wt123.a60.html
-./algol60 tests/wichtests_wt130.a60 |./a60tohtml >html/wichtests_wt130.a60.html
-./algol60 tests/algtests_at52.a60 |./a60tohtml >html/algtests_at52.a60.html
-./algol60 tests/cacm094.a60 |./a60tohtml >html/cacm094.a60.html
-./algol60 tests/wichtests_wt48.a60 |./a60tohtml >html/wichtests_wt48.a60.html
-./algol60 tests/wichtests_pete4.a60 |./a60tohtml >html/wichtests_pete4.a60.html
-./algol60 tests/wichtests_wt91.a60 |./a60tohtml >html/wichtests_wt91.a60.html
-./algol60 tests/wichtests_wt42.a60 |./a60tohtml >html/wichtests_wt42.a60.html
-./algol60 tests/wichtests_wt40.a60 |./a60tohtml >html/wichtests_wt40.a60.html
-./algol60 tests/algtests_at54.a60 |./a60tohtml >html/algtests_at54.a60.html
-./algol60 tests/cacm024.a60 |./a60tohtml >html/cacm024.a60.html
-./algol60 tests/test9.a60 |./a60tohtml >html/test9.a60.html
-./algol60 tests/algtests_at134.a60 |./a60tohtml >html/algtests_at134.a60.html
-./algol60 tests/StatalI.a60 |./a60tohtml >html/StatalI.a60.html
-./algol60 tests/algtests_at89.a60 |./a60tohtml >html/algtests_at89.a60.html
-./algol60 tests/algtests_at10.a60 |./a60tohtml >html/algtests_at10.a60.html
-./algol60 tests/primes.a60 |./a60tohtml >html/primes.a60.html
-./algol60 tests/algtests_at35.a60 |./a60tohtml >html/algtests_at35.a60.html
-./algol60 tests/wichtests_wt50.a60 |./a60tohtml >html/wichtests_wt50.a60.html
-./algol60 tests/algtests_at121.a60 |./a60tohtml >html/algtests_at121.a60.html
-./algol60 tests/cacm033.a60 |./a60tohtml >html/cacm033.a60.html
-./algol60 tests/wichtests_wt77.a60 |./a60tohtml >html/wichtests_wt77.a60.html
-./algol60 tests/wichtests_wt119.a60 |./a60tohtml >html/wichtests_wt119.a60.html
-./algol60 tests/algtests_at20.a60 |./a60tohtml >html/algtests_at20.a60.html
-./algol60 tests/wichtests_wt60.a60 |./a60tohtml >html/wichtests_wt60.a60.html
-./algol60 tests/cacm011.a60 |./a60tohtml >html/cacm011.a60.html
-./algol60 tests/algtests_at1.a60 |./a60tohtml >html/algtests_at1.a60.html
-./algol60 tests/wichtests_wt23.a60 |./a60tohtml >html/wichtests_wt23.a60.html
-./algol60 tests/algtests_at141.a60 |./a60tohtml >html/algtests_at141.a60.html
-./algol60 tests/algtests_at79.a60 |./a60tohtml >html/algtests_at79.a60.html
-./algol60 tests/algtests_at96.a60 |./a60tohtml >html/algtests_at96.a60.html
-./algol60 tests/algtests_at75.a60 |./a60tohtml >html/algtests_at75.a60.html
-./algol60 tests/wichtests_wt143.a60 |./a60tohtml >html/wichtests_wt143.a60.html
-./algol60 tests/algtests_at71.a60 |./a60tohtml >html/algtests_at71.a60.html
-./algol60 tests/algtests_at41.a60 |./a60tohtml >html/algtests_at41.a60.html
-./algol60 tests/pi4.a60 |./a60tohtml >html/pi4.a60.html
-./algol60 tests/semi.a60 |./a60tohtml >html/semi.a60.html
-./algol60 tests/algtests_at57.a60 |./a60tohtml >html/algtests_at57.a60.html
-./algol60 tests/algtests_at152.a60 |./a60tohtml >html/algtests_at152.a60.html
-./algol60 tests/wichtests_wt32.a60 |./a60tohtml >html/wichtests_wt32.a60.html
-./algol60 tests/algtests_at72.a60 |./a60tohtml >html/algtests_at72.a60.html
-./algol60 tests/algtests_at99.a60 |./a60tohtml >html/algtests_at99.a60.html
-./algol60 tests/wichtests_wt141.a60 |./a60tohtml >html/wichtests_wt141.a60.html
-./algol60 tests/wichtests_wt56.a60 |./a60tohtml >html/wichtests_wt56.a60.html
-./algol60 tests/algtests_at148.a60 |./a60tohtml >html/algtests_at148.a60.html
-./algol60 tests/algtests_at65.a60 |./a60tohtml >html/algtests_at65.a60.html
-./algol60 tests/cacm070.a60 |./a60tohtml >html/cacm070.a60.html
-./algol60 tests/algtests_at46.a60 |./a60tohtml >html/algtests_at46.a60.html
-./algol60 tests/psoap.a60 |./a60tohtml >html/psoap.a60.html
-./algol60 tests/algtests_at53.a60 |./a60tohtml >html/algtests_at53.a60.html
-./algol60 tests/algtests_at26.a60 |./a60tohtml >html/algtests_at26.a60.html
-./algol60 tests/wichtests_wt55.a60 |./a60tohtml >html/wichtests_wt55.a60.html
-./algol60 tests/mmind.a60 |./a60tohtml >html/mmind.a60.html
-./algol60 tests/algtests_at122.a60 |./a60tohtml >html/algtests_at122.a60.html
-./algol60 tests/algtests_at133.a60 |./a60tohtml >html/algtests_at133.a60.html
-./algol60 tests/wichtests_wt138.a60 |./a60tohtml >html/wichtests_wt138.a60.html
-./algol60 tests/NUMAL.a60 |./a60tohtml >html/NUMAL.a60.html
-./algol60 tests/algtests_at94.a60 |./a60tohtml >html/algtests_at94.a60.html
-./algol60 tests/wichtests_wt24.a60 |./a60tohtml >html/wichtests_wt24.a60.html
-./algol60 tests/halting.a60 |./a60tohtml >html/halting.a60.html
-./algol60 tests/wichtests_wt62.a60 |./a60tohtml >html/wichtests_wt62.a60.html
-./algol60 tests/cacm507.a60 |./a60tohtml >html/cacm507.a60.html
-./algol60 tests/wichtests_wt51.a60 |./a60tohtml >html/wichtests_wt51.a60.html
-./algol60 tests/wichtests_wt53.a60 |./a60tohtml >html/wichtests_wt53.a60.html
-./algol60 tests/wichtests_wt150.a60 |./a60tohtml >html/wichtests_wt150.a60.html
-./algol60 tests/algtests_at28.a60 |./a60tohtml >html/algtests_at28.a60.html
-./algol60 tests/wichtests_wt85.a60 |./a60tohtml >html/wichtests_wt85.a60.html
-./algol60 tests/cacm046.a60 |./a60tohtml >html/cacm046.a60.html
-./algol60 tests/wichtests_wt49.a60 |./a60tohtml >html/wichtests_wt49.a60.html
-./algol60 tests/hanoi.a60 |./a60tohtml >html/hanoi.a60.html
-./algol60 tests/wichtests_wt83.a60 |./a60tohtml >html/wichtests_wt83.a60.html
-./algol60 tests/calgo016.a60 |./a60tohtml >html/calgo016.a60.html
-./algol60 tests/algtests_at78.a60 |./a60tohtml >html/algtests_at78.a60.html
-./algol60 tests/havie.a60 |./a60tohtml >html/havie.a60.html
-./algol60 tests/game_of_life.a60 |./a60tohtml >html/game_of_life.a60.html
-./algol60 tests/rk.a60 |./a60tohtml >html/rk.a60.html
-./algol60 tests/algtests_at153.a60 |./a60tohtml >html/algtests_at153.a60.html
-./algol60 tests/cacm013.a60 |./a60tohtml >html/cacm013.a60.html
-./algol60 tests/algtests_at180.a60 |./a60tohtml >html/algtests_at180.a60.html
-./algol60 tests/wichtests_wt86.a60 |./a60tohtml >html/wichtests_wt86.a60.html
-./algol60 tests/algtests_at86.a60 |./a60tohtml >html/algtests_at86.a60.html
-./algol60 tests/wichtests_wt154.a60 |./a60tohtml >html/wichtests_wt154.a60.html
-./algol60 tests/algtests_at91.a60 |./a60tohtml >html/algtests_at91.a60.html
-./algol60 tests/strtest.a60 |./a60tohtml >html/strtest.a60.html
-./algol60 tests/cacm101.a60 |./a60tohtml >html/cacm101.a60.html
-./algol60 tests/wichtests_wt63.a60 |./a60tohtml >html/wichtests_wt63.a60.html
-./algol60 tests/cacm060.a60 |./a60tohtml >html/cacm060.a60.html
-./algol60 tests/cacm016.a60 |./a60tohtml >html/cacm016.a60.html
-./algol60 tests/wichtests_wt180.a60 |./a60tohtml >html/wichtests_wt180.a60.html
-./algol60 tests/wichtests_wt136.a60 |./a60tohtml >html/wichtests_wt136.a60.html
-./algol60 tests/algtests_at142.a60 |./a60tohtml >html/algtests_at142.a60.html
-./algol60 tests/swtest.a60 |./a60tohtml >html/swtest.a60.html
-./algol60 tests/pentonimo.a60 |./a60tohtml >html/pentonimo.a60.html
-./algol60 tests/gps.a60 |./a60tohtml >html/gps.a60.html
-./algol60 tests/SieveE.a60 |./a60tohtml >html/SieveE.a60.html
-./algol60 tests/wichtests_wt120.a60 |./a60tohtml >html/wichtests_wt120.a60.html
-./algol60 tests/teul1.a60 |./a60tohtml >html/teul1.a60.html
-./algol60 tests/cacm090.a60 |./a60tohtml >html/cacm090.a60.html
-./algol60 tests/wichtests_wt116.a60 |./a60tohtml >html/wichtests_wt116.a60.html
-./algol60 tests/wichtests_wt88.a60 |./a60tohtml >html/wichtests_wt88.a60.html
-./algol60 tests/jazz164.a60 |./a60tohtml >html/jazz164.a60.html
-./algol60 tests/wichtests_wt76.a60 |./a60tohtml >html/wichtests_wt76.a60.html
-./algol60 tests/wichtests_wt33.a60 |./a60tohtml >html/wichtests_wt33.a60.html
-./algol60 tests/wichtests_wt122.a60 |./a60tohtml >html/wichtests_wt122.a60.html
-./algol60 tests/euler.a60 |./a60tohtml >html/euler.a60.html
-./algol60 tests/teul2.a60 |./a60tohtml >html/teul2.a60.html
-./algol60 tests/algtests_at7.a60 |./a60tohtml >html/algtests_at7.a60.html
-./algol60 tests/wichtests_wt112.a60 |./a60tohtml >html/wichtests_wt112.a60.html
-./algol60 tests/algtests_at68.a60 |./a60tohtml >html/algtests_at68.a60.html
-./algol60 tests/algtests_at77.a60 |./a60tohtml >html/algtests_at77.a60.html
-./algol60 tests/algtests_at30.a60 |./a60tohtml >html/algtests_at30.a60.html
-./algol60 tests/wichtests_wt132.a60 |./a60tohtml >html/wichtests_wt132.a60.html
-./algol60 tests/algtests_at8.a60 |./a60tohtml >html/algtests_at8.a60.html
-./algol60 tests/wichtests_wt146.a60 |./a60tohtml >html/wichtests_wt146.a60.html
-./algol60 tests/wichtests_wt28.a60 |./a60tohtml >html/wichtests_wt28.a60.html
-./algol60 tests/algtests_at112.a60 |./a60tohtml >html/algtests_at112.a60.html
-./algol60 tests/algtests_at62.a60 |./a60tohtml >html/algtests_at62.a60.html
-./algol60 tests/algtests_at74.a60 |./a60tohtml >html/algtests_at74.a60.html
-./algol60 tests/testif.a60 |./a60tohtml >html/testif.a60.html
-./algol60 tests/wichtests_wt61.a60 |./a60tohtml >html/wichtests_wt61.a60.html
-./algol60 tests/x8algol.a60 |./a60tohtml >html/x8algol.a60.html
-./algol60 tests/algtests_at40.a60 |./a60tohtml >html/algtests_at40.a60.html
-./algol60 tests/whetstone.a60 |./a60tohtml >html/whetstone.a60.html
-./algol60 tests/algtests_at43.a60 |./a60tohtml >html/algtests_at43.a60.html
-./algol60 tests/algtests_at135.a60 |./a60tohtml >html/algtests_at135.a60.html
-./algol60 tests/wichtests_wt9.a60 |./a60tohtml >html/wichtests_wt9.a60.html
-./algol60 tests/wichtests_wt54.a60 |./a60tohtml >html/wichtests_wt54.a60.html
-./algol60 tests/algtests_at23.a60 |./a60tohtml >html/algtests_at23.a60.html
-./algol60 tests/heapsort.a60 |./a60tohtml >html/heapsort.a60.html
-./algol60 tests/algtests_at9.a60 |./a60tohtml >html/algtests_at9.a60.html
-./algol60 tests/wichtests_wt41.a60 |./a60tohtml >html/wichtests_wt41.a60.html
-./algol60 tests/algtests_at32.a60 |./a60tohtml >html/algtests_at32.a60.html
-./algol60 tests/wichtests_wt82.a60 |./a60tohtml >html/wichtests_wt82.a60.html
-./algol60 tests/algtests_at59.a60 |./a60tohtml >html/algtests_at59.a60.html
-./algol60 tests/algtests_at144.a60 |./a60tohtml >html/algtests_at144.a60.html
-./algol60 tests/algtests_at29.a60 |./a60tohtml >html/algtests_at29.a60.html
-./algol60 tests/algtests_at97.a60 |./a60tohtml >html/algtests_at97.a60.html
-./algol60 tests/algtests_at206.a60 |./a60tohtml >html/algtests_at206.a60.html
-./algol60 tests/algtests_at131.a60 |./a60tohtml >html/algtests_at131.a60.html
-./algol60 tests/wichtests_wt52.a60 |./a60tohtml >html/wichtests_wt52.a60.html
-./algol60 tests/algtests_at34.a60 |./a60tohtml >html/algtests_at34.a60.html
-./algol60 tests/wichtests_wt152.a60 |./a60tohtml >html/wichtests_wt152.a60.html
-./algol60 tests/cacm100.a60 |./a60tohtml >html/cacm100.a60.html
-./algol60 tests/prim.a60 |./a60tohtml >html/prim.a60.html
-./algol60 tests/wichtests_wt73.a60 |./a60tohtml >html/wichtests_wt73.a60.html
-./algol60 tests/algtests_at61.a60 |./a60tohtml >html/algtests_at61.a60.html
-./algol60 tests/wichtests_wt93.a60 |./a60tohtml >html/wichtests_wt93.a60.html
-./algol60 tests/algtests_at83.a60 |./a60tohtml >html/algtests_at83.a60.html
-./algol60 tests/nqueen.a60 |./a60tohtml >html/nqueen.a60.html
-./algol60 tests/wichtests_wt46.a60 |./a60tohtml >html/wichtests_wt46.a60.html
-./algol60 tests/algtests_at64.a60 |./a60tohtml >html/algtests_at64.a60.html
-./algol60 tests/algtests_at22.a60 |./a60tohtml >html/algtests_at22.a60.html
-./algol60 tests/Algol_editor.a60 |./a60tohtml >html/Algol_editor.a60.html
-./algol60 tests/wichtests_wt16.a60 |./a60tohtml >html/wichtests_wt16.a60.html
-./algol60 tests/cacm012.a60 |./a60tohtml >html/cacm012.a60.html
-./algol60 tests/algtests_at48.a60 |./a60tohtml >html/algtests_at48.a60.html
-./algol60 tests/wichtests_pete1.a60 |./a60tohtml >html/wichtests_pete1.a60.html
-./algol60 tests/wichtests_wt114.a60 |./a60tohtml >html/wichtests_wt114.a60.html
-./algol60 tests/algtests_at47.a60 |./a60tohtml >html/algtests_at47.a60.html
-./algol60 tests/wichtests_wt10.a60 |./a60tohtml >html/wichtests_wt10.a60.html
-./algol60 tests/algtests_at17.a60 |./a60tohtml >html/algtests_at17.a60.html
-./algol60 tests/wichtests_wt22.a60 |./a60tohtml >html/wichtests_wt22.a60.html
-./algol60 tests/test11.a60 |./a60tohtml >html/test11.a60.html
-./algol60 tests/wichtests_wt121.a60 |./a60tohtml >html/wichtests_wt121.a60.html
-./algol60 tests/wichtests_wt38.a60 |./a60tohtml >html/wichtests_wt38.a60.html
-./algol60 tests/algtests_at87.a60 |./a60tohtml >html/algtests_at87.a60.html
-./algol60 tests/wichtests_wt98.a60 |./a60tohtml >html/wichtests_wt98.a60.html
-./algol60 tests/wichtests_wt99.a60 |./a60tohtml >html/wichtests_wt99.a60.html
-./algol60 tests/algtests_at45.a60 |./a60tohtml >html/algtests_at45.a60.html
-./algol60 tests/algtests_at66.a60 |./a60tohtml >html/algtests_at66.a60.html
-./algol60 tests/algtests_at130.a60 |./a60tohtml >html/algtests_at130.a60.html
-./algol60 tests/algtests_at39.a60 |./a60tohtml >html/algtests_at39.a60.html
-./algol60 tests/algtests_at207.a60 |./a60tohtml >html/algtests_at207.a60.html
-./algol60 tests/wichtests_pete5.a60 |./a60tohtml >html/wichtests_pete5.a60.html
-./algol60 tests/calgo414.a60 |./a60tohtml >html/calgo414.a60.html
-./algol60 tests/wichtests_wt43.a60 |./a60tohtml >html/wichtests_wt43.a60.html
-./algol60 tests/algtests_at19.a60 |./a60tohtml >html/algtests_at19.a60.html
-./algol60 tests/cacm112.a60 |./a60tohtml >html/cacm112.a60.html
-./algol60 tests/wichtests_wt156.a60 |./a60tohtml >html/wichtests_wt156.a60.html
-./algol60 tests/cacm118.a60 |./a60tohtml >html/cacm118.a60.html
-./algol60 tests/cacm057.a60 |./a60tohtml >html/cacm057.a60.html
-./algol60 tests/by-name-test.a60 |./a60tohtml >html/by-name-test.a60.html
-./algol60 tests/wichtests_wt59.a60 |./a60tohtml >html/wichtests_wt59.a60.html
-./algol60 tests/JAZ164.a60 |./a60tohtml >html/JAZ164.a60.html
-./algol60 tests/algtests_at2.a60 |./a60tohtml >html/algtests_at2.a60.html
-./algol60 tests/algtests_at202.a60 |./a60tohtml >html/algtests_at202.a60.html
-./algol60 tests/algtests_at178.a60 |./a60tohtml >html/algtests_at178.a60.html
-./algol60 tests/wichtests_wt37.a60 |./a60tohtml >html/wichtests_wt37.a60.html
-./algol60 tests/wichtests_wt139.a60 |./a60tohtml >html/wichtests_wt139.a60.html
-./algol60 tests/wichtests_wt18.a60 |./a60tohtml >html/wichtests_wt18.a60.html
-./algol60 tests/cacm020.a60 |./a60tohtml >html/cacm020.a60.html
-./algol60 tests/AlgolEdit.a60 |./a60tohtml >html/AlgolEdit.a60.html
-./algol60 tests/algtests_at25.a60 |./a60tohtml >html/algtests_at25.a60.html
-./algol60 tests/cacm414.a60 |./a60tohtml >html/cacm414.a60.html
-./algol60 tests/wichtests_wt115.a60 |./a60tohtml >html/wichtests_wt115.a60.html
-./algol60 tests/wichtests_wt153.a60 |./a60tohtml >html/wichtests_wt153.a60.html
-./algol60 tests/wichtests_wt157.a60 |./a60tohtml >html/wichtests_wt157.a60.html
-./algol60 tests/algolps9.a60 |./a60tohtml >html/algolps9.a60.html
-./algol60 tests/wichtests_wt2.a60 |./a60tohtml >html/wichtests_wt2.a60.html
-./algol60 tests/algtests_at181.a60 |./a60tohtml >html/algtests_at181.a60.html
-./algol60 tests/algtests_at24a.a60 |./a60tohtml >html/algtests_at24a.a60.html
-./algol60 tests/wichtests_wt39.a60 |./a60tohtml >html/wichtests_wt39.a60.html
-./algol60 tests/algtests_at55.a60 |./a60tohtml >html/algtests_at55.a60.html
-./algol60 tests/cacm100-new.a60 |./a60tohtml >html/cacm100-new.a60.html
-./algol60 tests/algtests_at27.a60 |./a60tohtml >html/algtests_at27.a60.html
-./algol60 tests/algtests_at154.a60 |./a60tohtml >html/algtests_at154.a60.html
-./algol60 tests/algtests_at44.a60 |./a60tohtml >html/algtests_at44.a60.html
-./algol60 tests/eigen.a60 |./a60tohtml >html/eigen.a60.html
-./algol60 tests/wichtests_wt118.a60 |./a60tohtml >html/wichtests_wt118.a60.html
-./algol60 tests/example23.a60 |./a60tohtml >html/example23.a60.html
-./algol60 tests/algtests_at137.a60 |./a60tohtml >html/algtests_at137.a60.html
-./algol60 tests/wichtests_wt134.a60 |./a60tohtml >html/wichtests_wt134.a60.html
-./algol60 tests/wikiarticle.a60 |./a60tohtml >html/wikiarticle.a60.html
-./algol60 tests/algtests_at156.a60 |./a60tohtml >html/algtests_at156.a60.html
-./algol60 tests/algtests_at138.a60 |./a60tohtml >html/algtests_at138.a60.html
-./algol60 tests/wichtests_wt57.a60 |./a60tohtml >html/wichtests_wt57.a60.html
-./algol60 tests/wichtests_pete6.a60 |./a60tohtml >html/wichtests_pete6.a60.html
-./algol60 tests/wichtests_wt129.a60 |./a60tohtml >html/wichtests_wt129.a60.html
-./algol60 tests/wichtests_wt47.a60 |./a60tohtml >html/wichtests_wt47.a60.html
-./algol60 tests/wichtests_wt94.a60 |./a60tohtml >html/wichtests_wt94.a60.html
-./algol60 tests/lisp.a60 |./a60tohtml >html/lisp.a60.html
-./algol60 tests/algtests_at95.a60 |./a60tohtml >html/algtests_at95.a60.html
-./algol60 tests/algtests_at33.a60 |./a60tohtml >html/algtests_at33.a60.html
-./algol60 tests/algtests_at69.a60 |./a60tohtml >html/algtests_at69.a60.html
-./algol60 tests/cacm514.a60 |./a60tohtml >html/cacm514.a60.html
-./algol60 tests/wichtests_wt36.a60 |./a60tohtml >html/wichtests_wt36.a60.html
-./algol60 tests/algtests_at150.a60 |./a60tohtml >html/algtests_at150.a60.html
-./algol60 tests/algtests_at132.a60 |./a60tohtml >html/algtests_at132.a60.html
-./algol60 tests/wichtests_wt97.a60 |./a60tohtml >html/wichtests_wt97.a60.html
-./algol60 tests/wichtests_wt144.a60 |./a60tohtml >html/wichtests_wt144.a60.html
-./algol60 tests/cacm010.a60 |./a60tohtml >html/cacm010.a60.html
-./algol60 tests/wichtests_wt87.a60 |./a60tohtml >html/wichtests_wt87.a60.html
-./algol60 tests/algtests_at92.a60 |./a60tohtml >html/algtests_at92.a60.html
-./algol60 tests/calgo514.a60 |./a60tohtml >html/calgo514.a60.html
-./algol60 tests/algtests_at204.a60 |./a60tohtml >html/algtests_at204.a60.html
-./algol60 tests/algtests_at76.a60 |./a60tohtml >html/algtests_at76.a60.html
-./algol60 tests/algtests_at123.a60 |./a60tohtml >html/algtests_at123.a60.html
-./algol60 tests/algtests_at67.a60 |./a60tohtml >html/algtests_at67.a60.html
-./algol60 tests/algobey.a60 |./a60tohtml >html/algobey.a60.html
-scp html/* gtoal@gtoal.com:gtoal.com/languages/algol60/new-unicode-parser/html/
+./algol60 tests/wichtests_wt44.a60 |./a60tohtml > tests-html/wichtests_wt44.a60.html
+./algol60 tests/algolbm_calg52.a60 |./a60tohtml > tests-html/algolbm_calg52.a60.html
+./algol60 tests/algolbm_alg54.a60 |./a60tohtml > tests-html/algolbm_alg54.a60.html
+./algol60 tests/wichtests_wt133.a60 |./a60tohtml > tests-html/wichtests_wt133.a60.html
+./algol60 tests/wichtests_wt89.a60 |./a60tohtml > tests-html/wichtests_wt89.a60.html
+./algol60 tests/wichtests_wt137.a60 |./a60tohtml > tests-html/wichtests_wt137.a60.html
+./algol60 tests/algtests_at118.a60 |./a60tohtml > tests-html/algtests_at118.a60.html
+./algol60 tests/algtests_at73.a60 |./a60tohtml > tests-html/algtests_at73.a60.html
+./algol60 tests/wichtests_wt35.a60 |./a60tohtml > tests-html/wichtests_wt35.a60.html
+./algol60 tests/algtests_at93.a60 |./a60tohtml > tests-html/algtests_at93.a60.html
+./algol60 tests/wichtests_wt96.a60 |./a60tohtml > tests-html/wichtests_wt96.a60.html
+./algol60 tests/example542.a60 |./a60tohtml > tests-html/example542.a60.html
+./algol60 tests/algtests_at98.a60 |./a60tohtml > tests-html/algtests_at98.a60.html
+./algol60 tests/beer.a60 |./a60tohtml > tests-html/beer.a60.html
+./algol60 tests/algolbm_alg40.a60 |./a60tohtml > tests-html/algolbm_alg40.a60.html
+./algol60 tests/algolbm_calg45.a60 |./a60tohtml > tests-html/algolbm_calg45.a60.html
+./algol60 tests/wichtests_wt58.a60 |./a60tohtml > tests-html/wichtests_wt58.a60.html
+./algol60 tests/wichtests_pete7.a60 |./a60tohtml > tests-html/wichtests_pete7.a60.html
+./algol60 tests/wichtests_wt17.a60 |./a60tohtml > tests-html/wichtests_wt17.a60.html
+./algol60 tests/algtests_at16.a60 |./a60tohtml > tests-html/algtests_at16.a60.html
+./algol60 tests/algtests_at58.a60 |./a60tohtml > tests-html/algtests_at58.a60.html
+./algol60 tests/algolbm_alg43.a60 |./a60tohtml > tests-html/algolbm_alg43.a60.html
+./algol60 tests/wichtests_wt100.a60 |./a60tohtml > tests-html/wichtests_wt100.a60.html
+./algol60 tests/wichtests_wt113.a60 |./a60tohtml > tests-html/wichtests_wt113.a60.html
+./algol60 tests/wichtests_wt29.a60 |./a60tohtml > tests-html/wichtests_wt29.a60.html
+./algol60 tests/algtests_at157.a60 |./a60tohtml > tests-html/algtests_at157.a60.html
+./algol60 tests/matrix7.a60 |./a60tohtml > tests-html/matrix7.a60.html
+./algol60 tests/algtests_at70.a60 |./a60tohtml > tests-html/algtests_at70.a60.html
+./algol60 tests/cacm019.a60 |./a60tohtml > tests-html/cacm019.a60.html
+./algol60 tests/algtests_at90.a60 |./a60tohtml > tests-html/algtests_at90.a60.html
+./algol60 tests/codeon.a60 |./a60tohtml > tests-html/codeon.a60.html
+./algol60 tests/wichtests_pete3.a60 |./a60tohtml > tests-html/wichtests_pete3.a60.html
+./algol60 tests/algtests_at88.a60 |./a60tohtml > tests-html/algtests_at88.a60.html
+./algol60 tests/algolbm_alg50.a60 |./a60tohtml > tests-html/algolbm_alg50.a60.html
+./algol60 tests/wichtests_wt7.a60 |./a60tohtml > tests-html/wichtests_wt7.a60.html
+./algol60 tests/algtests_at81.a60 |./a60tohtml > tests-html/algtests_at81.a60.html
+./algol60 tests/bairstow-updated.a60 |./a60tohtml > tests-html/bairstow-updated.a60.html
+./algol60 tests/wichtests_wt135.a60 |./a60tohtml > tests-html/wichtests_wt135.a60.html
+./algol60 tests/quinio.a60 |./a60tohtml > tests-html/quinio.a60.html
+./algol60 tests/algtests_at56.a60 |./a60tohtml > tests-html/algtests_at56.a60.html
+./algol60 tests/algtests_at113.a60 |./a60tohtml > tests-html/algtests_at113.a60.html
+./algol60 tests/algtests_at146.a60 |./a60tohtml > tests-html/algtests_at146.a60.html
+./algol60 tests/algtests_at60.a60 |./a60tohtml > tests-html/algtests_at60.a60.html
+./algol60 tests/algtests_at21.a60 |./a60tohtml > tests-html/algtests_at21.a60.html
+./algol60 tests/treesearch.a60 |./a60tohtml > tests-html/treesearch.a60.html
+./algol60 tests/algtests_at51.a60 |./a60tohtml > tests-html/algtests_at51.a60.html
+./algol60 tests/algtests_at49.a60 |./a60tohtml > tests-html/algtests_at49.a60.html
+./algol60 tests/wichtests_wt25.a60 |./a60tohtml > tests-html/wichtests_wt25.a60.html
+./algol60 tests/wichtests_wt75.a60 |./a60tohtml > tests-html/wichtests_wt75.a60.html
+./algol60 tests/algolbm_alg49.a60 |./a60tohtml > tests-html/algolbm_alg49.a60.html
+./algol60 tests/cacm089.a60 |./a60tohtml > tests-html/cacm089.a60.html
+./algol60 tests/cogs.a60 |./a60tohtml > tests-html/cogs.a60.html
+./algol60 tests/wichtests_wt34.a60 |./a60tohtml > tests-html/wichtests_wt34.a60.html
+./algol60 tests/algtests_at24.a60 |./a60tohtml > tests-html/algtests_at24.a60.html
+./algol60 tests/wichtests_wt131.a60 |./a60tohtml > tests-html/wichtests_wt131.a60.html
+./algol60 tests/wichtests_pete9.a60 |./a60tohtml > tests-html/wichtests_pete9.a60.html
+./algol60 tests/algtests_at38.a60 |./a60tohtml > tests-html/algtests_at38.a60.html
+./algol60 tests/wichtests_wt45.a60 |./a60tohtml > tests-html/wichtests_wt45.a60.html
+./algol60 tests/algtests_at63.a60 |./a60tohtml > tests-html/algtests_at63.a60.html
+./algol60 tests/wichtests_wt142.a60 |./a60tohtml > tests-html/wichtests_wt142.a60.html
+./algol60 tests/sieve.a60 |./a60tohtml > tests-html/sieve.a60.html
+./algol60 tests/cacm017.a60 |./a60tohtml > tests-html/cacm017.a60.html
+./algol60 tests/algtests_at82.a60 |./a60tohtml > tests-html/algtests_at82.a60.html
+./algol60 tests/tetris.a60 |./a60tohtml > tests-html/tetris.a60.html
+./algol60 tests/wichtests_wt92.a60 |./a60tohtml > tests-html/wichtests_wt92.a60.html
+./algol60 tests/wichtests_wt30.a60 |./a60tohtml > tests-html/wichtests_wt30.a60.html
+./algol60 tests/algtests_at50.a60 |./a60tohtml > tests-html/algtests_at50.a60.html
+./algol60 tests/algtests_at143.a60 |./a60tohtml > tests-html/algtests_at143.a60.html
+./algol60 tests/wichtests_wt84.a60 |./a60tohtml > tests-html/wichtests_wt84.a60.html
+./algol60 tests/algtests_at129.a60 |./a60tohtml > tests-html/algtests_at129.a60.html
+./algol60 tests/algtests_at85.a60 |./a60tohtml > tests-html/algtests_at85.a60.html
+./algol60 tests/wichtests_wt95.a60 |./a60tohtml > tests-html/wichtests_wt95.a60.html
+./algol60 tests/kdf9tests.a60 |./a60tohtml > tests-html/kdf9tests.a60.html
+./algol60 tests/wichtests_wt90.a60 |./a60tohtml > tests-html/wichtests_wt90.a60.html
+./algol60 tests/vector7.a60 |./a60tohtml > tests-html/vector7.a60.html
+./algol60 tests/cacm040.a60 |./a60tohtml > tests-html/cacm040.a60.html
+./algol60 tests/wichtests_wt117.a60 |./a60tohtml > tests-html/wichtests_wt117.a60.html
+./algol60 tests/easter.a60 |./a60tohtml > tests-html/easter.a60.html
+./algol60 tests/matrix8.a60 |./a60tohtml > tests-html/matrix8.a60.html
+./algol60 tests/procedure.a60 |./a60tohtml > tests-html/procedure.a60.html
+./algol60 tests/algtests_at139.a60 |./a60tohtml > tests-html/algtests_at139.a60.html
+./algol60 tests/arithmetique.a60 |./a60tohtml > tests-html/arithmetique.a60.html
+./algol60 tests/wichtests_wt86a.a60 |./a60tohtml > tests-html/wichtests_wt86a.a60.html
+./algol60 tests/algtests_at42.a60 |./a60tohtml > tests-html/algtests_at42.a60.html
+./algol60 tests/cacm101-new.a60 |./a60tohtml > tests-html/cacm101-new.a60.html
+./algol60 tests/bubblesort.a60 |./a60tohtml > tests-html/bubblesort.a60.html
+./algol60 tests/algtests_at18.a60 |./a60tohtml > tests-html/algtests_at18.a60.html
+./algol60 tests/algtests_at80.a60 |./a60tohtml > tests-html/algtests_at80.a60.html
+./algol60 tests/algtests_at37.a60 |./a60tohtml > tests-html/algtests_at37.a60.html
+./algol60 tests/wichtests_wt123.a60 |./a60tohtml > tests-html/wichtests_wt123.a60.html
+./algol60 tests/euclid.a60 |./a60tohtml > tests-html/euclid.a60.html
+./algol60 tests/matrix9.a60 |./a60tohtml > tests-html/matrix9.a60.html
+./algol60 tests/wichtests_wt130.a60 |./a60tohtml > tests-html/wichtests_wt130.a60.html
+./algol60 tests/2-pythagoreischesTripel.a60 |./a60tohtml > tests-html/2-pythagoreischesTripel.a60.html
+./algol60 tests/algtests_at52.a60 |./a60tohtml > tests-html/algtests_at52.a60.html
+./algol60 tests/algolbm_calg2.a60 |./a60tohtml > tests-html/algolbm_calg2.a60.html
+./algol60 tests/cacm094.a60 |./a60tohtml > tests-html/cacm094.a60.html
+./algol60 tests/wichtests_wt48.a60 |./a60tohtml > tests-html/wichtests_wt48.a60.html
+./algol60 tests/wichtests_pete4.a60 |./a60tohtml > tests-html/wichtests_pete4.a60.html
+./algol60 tests/wichtests_wt91.a60 |./a60tohtml > tests-html/wichtests_wt91.a60.html
+./algol60 tests/wichtests_wt42.a60 |./a60tohtml > tests-html/wichtests_wt42.a60.html
+./algol60 tests/wichtests_wt40.a60 |./a60tohtml > tests-html/wichtests_wt40.a60.html
+./algol60 tests/algtests_at54.a60 |./a60tohtml > tests-html/algtests_at54.a60.html
+./algol60 tests/compbmarks.a60 |./a60tohtml > tests-html/compbmarks.a60.html
+./algol60 tests/example9.a60 |./a60tohtml > tests-html/example9.a60.html
+./algol60 tests/cacm024.a60 |./a60tohtml > tests-html/cacm024.a60.html
+./algol60 tests/stat4.a60 |./a60tohtml > tests-html/stat4.a60.html
+./algol60 tests/test9.a60 |./a60tohtml > tests-html/test9.a60.html
+./algol60 tests/dynamic.a60 |./a60tohtml > tests-html/dynamic.a60.html
+./algol60 tests/vector4.a60 |./a60tohtml > tests-html/vector4.a60.html
+./algol60 tests/algtests_at134.a60 |./a60tohtml > tests-html/algtests_at134.a60.html
+./algol60 tests/StatalI.a60 |./a60tohtml > tests-html/StatalI.a60.html
+./algol60 tests/algtests_at89.a60 |./a60tohtml > tests-html/algtests_at89.a60.html
+./algol60 tests/algtests_at10.a60 |./a60tohtml > tests-html/algtests_at10.a60.html
+./algol60 tests/algolbm_calg44.a60 |./a60tohtml > tests-html/algolbm_calg44.a60.html
+./algol60 tests/primes.a60 |./a60tohtml > tests-html/primes.a60.html
+./algol60 tests/algtests_at35.a60 |./a60tohtml > tests-html/algtests_at35.a60.html
+./algol60 tests/wichtests_wt50.a60 |./a60tohtml > tests-html/wichtests_wt50.a60.html
+./algol60 tests/algtests_at121.a60 |./a60tohtml > tests-html/algtests_at121.a60.html
+./algol60 tests/cacm033.a60 |./a60tohtml > tests-html/cacm033.a60.html
+./algol60 tests/algolbm_alg52.a60 |./a60tohtml > tests-html/algolbm_alg52.a60.html
+./algol60 tests/mandelbrot.a60 |./a60tohtml > tests-html/mandelbrot.a60.html
+./algol60 tests/wichtests_wt77.a60 |./a60tohtml > tests-html/wichtests_wt77.a60.html
+./algol60 tests/vector1.a60 |./a60tohtml > tests-html/vector1.a60.html
+./algol60 tests/wichtests_wt119.a60 |./a60tohtml > tests-html/wichtests_wt119.a60.html
+./algol60 tests/algtests_at20.a60 |./a60tohtml > tests-html/algtests_at20.a60.html
+./algol60 tests/wichtests_wt60.a60 |./a60tohtml > tests-html/wichtests_wt60.a60.html
+./algol60 tests/cacm011.a60 |./a60tohtml > tests-html/cacm011.a60.html
+./algol60 tests/algtests_at1.a60 |./a60tohtml > tests-html/algtests_at1.a60.html
+./algol60 tests/wichtests_wt23.a60 |./a60tohtml > tests-html/wichtests_wt23.a60.html
+./algol60 tests/month.a60 |./a60tohtml > tests-html/month.a60.html
+./algol60 tests/algtests_at141.a60 |./a60tohtml > tests-html/algtests_at141.a60.html
+./algol60 tests/algtests_at79.a60 |./a60tohtml > tests-html/algtests_at79.a60.html
+./algol60 tests/algtests_at96.a60 |./a60tohtml > tests-html/algtests_at96.a60.html
+./algol60 tests/algtests_at75.a60 |./a60tohtml > tests-html/algtests_at75.a60.html
+./algol60 tests/wichtests_wt143.a60 |./a60tohtml > tests-html/wichtests_wt143.a60.html
+./algol60 tests/algtests_at71.a60 |./a60tohtml > tests-html/algtests_at71.a60.html
+./algol60 tests/algtests_at41.a60 |./a60tohtml > tests-html/algtests_at41.a60.html
+./algol60 tests/pi4.a60 |./a60tohtml > tests-html/pi4.a60.html
+./algol60 tests/semi.a60 |./a60tohtml > tests-html/semi.a60.html
+./algol60 tests/algtests_at57.a60 |./a60tohtml > tests-html/algtests_at57.a60.html
+./algol60 tests/algtests_at152.a60 |./a60tohtml > tests-html/algtests_at152.a60.html
+./algol60 tests/wichtests_wt32.a60 |./a60tohtml > tests-html/wichtests_wt32.a60.html
+./algol60 tests/algtests_at72.a60 |./a60tohtml > tests-html/algtests_at72.a60.html
+./algol60 tests/stat1.a60 |./a60tohtml > tests-html/stat1.a60.html
+./algol60 tests/algtests_at99.a60 |./a60tohtml > tests-html/algtests_at99.a60.html
+./algol60 tests/wichtests_wt141.a60 |./a60tohtml > tests-html/wichtests_wt141.a60.html
+./algol60 tests/wichtests_wt56.a60 |./a60tohtml > tests-html/wichtests_wt56.a60.html
+./algol60 tests/algtests_at148.a60 |./a60tohtml > tests-html/algtests_at148.a60.html
+./algol60 tests/algtests_at65.a60 |./a60tohtml > tests-html/algtests_at65.a60.html
+./algol60 tests/cacm070.a60 |./a60tohtml > tests-html/cacm070.a60.html
+./algol60 tests/matrix.a60 |./a60tohtml > tests-html/matrix.a60.html
+./algol60 tests/algtests_at46.a60 |./a60tohtml > tests-html/algtests_at46.a60.html
+./algol60 tests/psoap.a60 |./a60tohtml > tests-html/psoap.a60.html
+./algol60 tests/algtests_at53.a60 |./a60tohtml > tests-html/algtests_at53.a60.html
+./algol60 tests/algtests_at26.a60 |./a60tohtml > tests-html/algtests_at26.a60.html
+./algol60 tests/algolbm_calg50.a60 |./a60tohtml > tests-html/algolbm_calg50.a60.html
+./algol60 tests/wichtests_wt55.a60 |./a60tohtml > tests-html/wichtests_wt55.a60.html
+./algol60 tests/mmind.a60 |./a60tohtml > tests-html/mmind.a60.html
+./algol60 tests/algtests_at122.a60 |./a60tohtml > tests-html/algtests_at122.a60.html
+./algol60 tests/algtests_at133.a60 |./a60tohtml > tests-html/algtests_at133.a60.html
+./algol60 tests/wichtests_wt138.a60 |./a60tohtml > tests-html/wichtests_wt138.a60.html
+./algol60 tests/NUMAL.a60 |./a60tohtml > tests-html/NUMAL.a60.html
+./algol60 tests/algtests_at94.a60 |./a60tohtml > tests-html/algtests_at94.a60.html
+./algol60 tests/wichtests_wt24.a60 |./a60tohtml > tests-html/wichtests_wt24.a60.html
+./algol60 tests/halting.a60 |./a60tohtml > tests-html/halting.a60.html
+./algol60 tests/variable.a60 |./a60tohtml > tests-html/variable.a60.html
+./algol60 tests/testcs.a60 |./a60tohtml > tests-html/testcs.a60.html
+./algol60 tests/algolbm_alg44.a60 |./a60tohtml > tests-html/algolbm_alg44.a60.html
+./algol60 tests/wichtests_wt62.a60 |./a60tohtml > tests-html/wichtests_wt62.a60.html
+./algol60 tests/cacm507.a60 |./a60tohtml > tests-html/cacm507.a60.html
+./algol60 tests/matrix4.a60 |./a60tohtml > tests-html/matrix4.a60.html
+./algol60 tests/wichtests_wt51.a60 |./a60tohtml > tests-html/wichtests_wt51.a60.html
+./algol60 tests/pass_value.a60 |./a60tohtml > tests-html/pass_value.a60.html
+./algol60 tests/wichtests_wt53.a60 |./a60tohtml > tests-html/wichtests_wt53.a60.html
+./algol60 tests/wichtests_wt150.a60 |./a60tohtml > tests-html/wichtests_wt150.a60.html
+./algol60 tests/algtests_at28.a60 |./a60tohtml > tests-html/algtests_at28.a60.html
+./algol60 tests/wichtests_wt85.a60 |./a60tohtml > tests-html/wichtests_wt85.a60.html
+./algol60 tests/cacm046.a60 |./a60tohtml > tests-html/cacm046.a60.html
+./algol60 tests/wichtests_wt49.a60 |./a60tohtml > tests-html/wichtests_wt49.a60.html
+./algol60 tests/hanoi.a60 |./a60tohtml > tests-html/hanoi.a60.html
+./algol60 tests/wichtests_wt83.a60 |./a60tohtml > tests-html/wichtests_wt83.a60.html
+./algol60 tests/algolbm_calg5.a60 |./a60tohtml > tests-html/algolbm_calg5.a60.html
+./algol60 tests/algolbm_alg13.a60 |./a60tohtml > tests-html/algolbm_alg13.a60.html
+./algol60 tests/calgo016.a60 |./a60tohtml > tests-html/calgo016.a60.html
+./algol60 tests/algtests_at78.a60 |./a60tohtml > tests-html/algtests_at78.a60.html
+./algol60 tests/havie.a60 |./a60tohtml > tests-html/havie.a60.html
+./algol60 tests/game_of_life.a60 |./a60tohtml > tests-html/game_of_life.a60.html
+./algol60 tests/lgtests_at141.a60 |./a60tohtml > tests-html/lgtests_at141.a60.html
+./algol60 tests/rk.a60 |./a60tohtml > tests-html/rk.a60.html
+./algol60 tests/algtests_at153.a60 |./a60tohtml > tests-html/algtests_at153.a60.html
+./algol60 tests/cacm013.a60 |./a60tohtml > tests-html/cacm013.a60.html
+./algol60 tests/algolbm_alg42.a60 |./a60tohtml > tests-html/algolbm_alg42.a60.html
+./algol60 tests/algtests_at180.a60 |./a60tohtml > tests-html/algtests_at180.a60.html
+./algol60 tests/wichtests_wt86.a60 |./a60tohtml > tests-html/wichtests_wt86.a60.html
+./algol60 tests/algtests_at86.a60 |./a60tohtml > tests-html/algtests_at86.a60.html
+./algol60 tests/wichtests_wt154.a60 |./a60tohtml > tests-html/wichtests_wt154.a60.html
+./algol60 tests/algtests_at91.a60 |./a60tohtml > tests-html/algtests_at91.a60.html
+./algol60 tests/strtest.a60 |./a60tohtml > tests-html/strtest.a60.html
+./algol60 tests/cacm101.a60 |./a60tohtml > tests-html/cacm101.a60.html
+./algol60 tests/wichtests_wt63.a60 |./a60tohtml > tests-html/wichtests_wt63.a60.html
+./algol60 tests/cacm060.a60 |./a60tohtml > tests-html/cacm060.a60.html
+./algol60 tests/cacm016.a60 |./a60tohtml > tests-html/cacm016.a60.html
+./algol60 tests/wichtests_wt180.a60 |./a60tohtml > tests-html/wichtests_wt180.a60.html
+./algol60 tests/wichtests_wt136.a60 |./a60tohtml > tests-html/wichtests_wt136.a60.html
+./algol60 tests/algtests_at142.a60 |./a60tohtml > tests-html/algtests_at142.a60.html
+./algol60 tests/swtest.a60 |./a60tohtml > tests-html/swtest.a60.html
+./algol60 tests/pentonimo.a60 |./a60tohtml > tests-html/pentonimo.a60.html
+./algol60 tests/gps.a60 |./a60tohtml > tests-html/gps.a60.html
+./algol60 tests/SieveE.a60 |./a60tohtml > tests-html/SieveE.a60.html
+./algol60 tests/algolbm_calg3.a60 |./a60tohtml > tests-html/algolbm_calg3.a60.html
+./algol60 tests/algolbm_alg18.a60 |./a60tohtml > tests-html/algolbm_alg18.a60.html
+./algol60 tests/wichtests_wt120.a60 |./a60tohtml > tests-html/wichtests_wt120.a60.html
+./algol60 tests/teul1.a60 |./a60tohtml > tests-html/teul1.a60.html
+./algol60 tests/cacm090.a60 |./a60tohtml > tests-html/cacm090.a60.html
+./algol60 tests/wichtests_wt116.a60 |./a60tohtml > tests-html/wichtests_wt116.a60.html
+./algol60 tests/wichtests_wt88.a60 |./a60tohtml > tests-html/wichtests_wt88.a60.html
+./algol60 tests/jazz164.a60 |./a60tohtml > tests-html/jazz164.a60.html
+./algol60 tests/wichtests_wt76.a60 |./a60tohtml > tests-html/wichtests_wt76.a60.html
+./algol60 tests/wichtests_wt33.a60 |./a60tohtml > tests-html/wichtests_wt33.a60.html
+./algol60 tests/divisible.a60 |./a60tohtml > tests-html/divisible.a60.html
+./algol60 tests/wichtests_wt122.a60 |./a60tohtml > tests-html/wichtests_wt122.a60.html
+./algol60 tests/euler.a60 |./a60tohtml > tests-html/euler.a60.html
+./algol60 tests/teul2.a60 |./a60tohtml > tests-html/teul2.a60.html
+./algol60 tests/algtests_at7.a60 |./a60tohtml > tests-html/algtests_at7.a60.html
+./algol60 tests/wichtests_wt112.a60 |./a60tohtml > tests-html/wichtests_wt112.a60.html
+./algol60 tests/algtests_at68.a60 |./a60tohtml > tests-html/algtests_at68.a60.html
+./algol60 tests/algolbm_alg46.a60 |./a60tohtml > tests-html/algolbm_alg46.a60.html
+./algol60 tests/algtests_at77.a60 |./a60tohtml > tests-html/algtests_at77.a60.html
+./algol60 tests/algtests_at30.a60 |./a60tohtml > tests-html/algtests_at30.a60.html
+./algol60 tests/wichtests_wt132.a60 |./a60tohtml > tests-html/wichtests_wt132.a60.html
+./algol60 tests/algtests_at8.a60 |./a60tohtml > tests-html/algtests_at8.a60.html
+./algol60 tests/wichtests_wt146.a60 |./a60tohtml > tests-html/wichtests_wt146.a60.html
+./algol60 tests/wichtests_wt28.a60 |./a60tohtml > tests-html/wichtests_wt28.a60.html
+./algol60 tests/0-ausgabe.a60 |./a60tohtml > tests-html/0-ausgabe.a60.html
+./algol60 tests/algtests_at112.a60 |./a60tohtml > tests-html/algtests_at112.a60.html
+./algol60 tests/algtests_at62.a60 |./a60tohtml > tests-html/algtests_at62.a60.html
+./algol60 tests/algtests_at74.a60 |./a60tohtml > tests-html/algtests_at74.a60.html
+./algol60 tests/vector2.a60 |./a60tohtml > tests-html/vector2.a60.html
+./algol60 tests/testif.a60 |./a60tohtml > tests-html/testif.a60.html
+./algol60 tests/wichtests_wt61.a60 |./a60tohtml > tests-html/wichtests_wt61.a60.html
+./algol60 tests/x8algol.a60 |./a60tohtml > tests-html/x8algol.a60.html
+./algol60 tests/algtests_at40.a60 |./a60tohtml > tests-html/algtests_at40.a60.html
+./algol60 tests/whetstone.a60 |./a60tohtml > tests-html/whetstone.a60.html
+./algol60 tests/algtests_at43.a60 |./a60tohtml > tests-html/algtests_at43.a60.html
+./algol60 tests/algtests_at135.a60 |./a60tohtml > tests-html/algtests_at135.a60.html
+./algol60 tests/wichtests_wt9.a60 |./a60tohtml > tests-html/wichtests_wt9.a60.html
+./algol60 tests/algolbm_alg19.a60 |./a60tohtml > tests-html/algolbm_alg19.a60.html
+./algol60 tests/algolbm_alg15.a60 |./a60tohtml > tests-html/algolbm_alg15.a60.html
+./algol60 tests/wichtests_wt54.a60 |./a60tohtml > tests-html/wichtests_wt54.a60.html
+./algol60 tests/algtests_at23.a60 |./a60tohtml > tests-html/algtests_at23.a60.html
+./algol60 tests/heapsort.a60 |./a60tohtml > tests-html/heapsort.a60.html
+./algol60 tests/stat2.a60 |./a60tohtml > tests-html/stat2.a60.html
+./algol60 tests/algolbm_alg14.a60 |./a60tohtml > tests-html/algolbm_alg14.a60.html
+./algol60 tests/algtests_at9.a60 |./a60tohtml > tests-html/algtests_at9.a60.html
+./algol60 tests/value_reference.a60 |./a60tohtml > tests-html/value_reference.a60.html
+./algol60 tests/wichtests_wt41.a60 |./a60tohtml > tests-html/wichtests_wt41.a60.html
+./algol60 tests/array.a60 |./a60tohtml > tests-html/array.a60.html
+./algol60 tests/algtests_at32.a60 |./a60tohtml > tests-html/algtests_at32.a60.html
+./algol60 tests/wichtests_wt82.a60 |./a60tohtml > tests-html/wichtests_wt82.a60.html
+./algol60 tests/algtests_at59.a60 |./a60tohtml > tests-html/algtests_at59.a60.html
+./algol60 tests/algtests_at144.a60 |./a60tohtml > tests-html/algtests_at144.a60.html
+./algol60 tests/5-shortest-path.a60 |./a60tohtml > tests-html/5-shortest-path.a60.html
+./algol60 tests/algtests_at29.a60 |./a60tohtml > tests-html/algtests_at29.a60.html
+./algol60 tests/algtests_at97.a60 |./a60tohtml > tests-html/algtests_at97.a60.html
+./algol60 tests/algtests_at206.a60 |./a60tohtml > tests-html/algtests_at206.a60.html
+./algol60 tests/algtests_at131.a60 |./a60tohtml > tests-html/algtests_at131.a60.html
+./algol60 tests/wichtests_wt52.a60 |./a60tohtml > tests-html/wichtests_wt52.a60.html
+./algol60 tests/algolbm_alg55.a60 |./a60tohtml > tests-html/algolbm_alg55.a60.html
+./algol60 tests/matrix5.a60 |./a60tohtml > tests-html/matrix5.a60.html
+./algol60 tests/algtests_at34.a60 |./a60tohtml > tests-html/algtests_at34.a60.html
+./algol60 tests/reals.a60 |./a60tohtml > tests-html/reals.a60.html
+./algol60 tests/wichtests_wt152.a60 |./a60tohtml > tests-html/wichtests_wt152.a60.html
+./algol60 tests/cacm100.a60 |./a60tohtml > tests-html/cacm100.a60.html
+./algol60 tests/prim.a60 |./a60tohtml > tests-html/prim.a60.html
+./algol60 tests/algolbm_alg48.a60 |./a60tohtml > tests-html/algolbm_alg48.a60.html
+./algol60 tests/wichtests_wt73.a60 |./a60tohtml > tests-html/wichtests_wt73.a60.html
+./algol60 tests/algolbm_alg45.a60 |./a60tohtml > tests-html/algolbm_alg45.a60.html
+./algol60 tests/algtests_at61.a60 |./a60tohtml > tests-html/algtests_at61.a60.html
+./algol60 tests/ecalculation.a60 |./a60tohtml > tests-html/ecalculation.a60.html
+./algol60 tests/wichtests_wt93.a60 |./a60tohtml > tests-html/wichtests_wt93.a60.html
+./algol60 tests/algtests_at83.a60 |./a60tohtml > tests-html/algtests_at83.a60.html
+./algol60 tests/nqueen.a60 |./a60tohtml > tests-html/nqueen.a60.html
+./algol60 tests/wichtests_wt46.a60 |./a60tohtml > tests-html/wichtests_wt46.a60.html
+./algol60 tests/algtests_at64.a60 |./a60tohtml > tests-html/algtests_at64.a60.html
+./algol60 tests/algtests_at22.a60 |./a60tohtml > tests-html/algtests_at22.a60.html
+./algol60 tests/Algol_editor.a60 |./a60tohtml > tests-html/Algol_editor.a60.html
+./algol60 tests/wichtests_wt16.a60 |./a60tohtml > tests-html/wichtests_wt16.a60.html
+./algol60 tests/cacm012.a60 |./a60tohtml > tests-html/cacm012.a60.html
+./algol60 tests/algtests_at48.a60 |./a60tohtml > tests-html/algtests_at48.a60.html
+./algol60 tests/wichtests_pete1.a60 |./a60tohtml > tests-html/wichtests_pete1.a60.html
+./algol60 tests/stat0.a60 |./a60tohtml > tests-html/stat0.a60.html
+./algol60 tests/wichtests_wt114.a60 |./a60tohtml > tests-html/wichtests_wt114.a60.html
+./algol60 tests/algtests_at47.a60 |./a60tohtml > tests-html/algtests_at47.a60.html
+./algol60 tests/algolbm_calg46.a60 |./a60tohtml > tests-html/algolbm_calg46.a60.html
+./algol60 tests/wichtests_wt10.a60 |./a60tohtml > tests-html/wichtests_wt10.a60.html
+./algol60 tests/algtests_at17.a60 |./a60tohtml > tests-html/algtests_at17.a60.html
+./algol60 tests/algolbm_alg2.a60 |./a60tohtml > tests-html/algolbm_alg2.a60.html
+./algol60 tests/wichtests_wt22.a60 |./a60tohtml > tests-html/wichtests_wt22.a60.html
+./algol60 tests/test11.a60 |./a60tohtml > tests-html/test11.a60.html
+./algol60 tests/wichtests_wt121.a60 |./a60tohtml > tests-html/wichtests_wt121.a60.html
+./algol60 tests/wichtests_wt38.a60 |./a60tohtml > tests-html/wichtests_wt38.a60.html
+./algol60 tests/algtests_at87.a60 |./a60tohtml > tests-html/algtests_at87.a60.html
+./algol60 tests/algolbm_calg49.a60 |./a60tohtml > tests-html/algolbm_calg49.a60.html
+./algol60 tests/wichtests_wt98.a60 |./a60tohtml > tests-html/wichtests_wt98.a60.html
+./algol60 tests/wichtests_wt99.a60 |./a60tohtml > tests-html/wichtests_wt99.a60.html
+./algol60 tests/algtests_at45.a60 |./a60tohtml > tests-html/algtests_at45.a60.html
+./algol60 tests/algtests_at66.a60 |./a60tohtml > tests-html/algtests_at66.a60.html
+./algol60 tests/algtests_at130.a60 |./a60tohtml > tests-html/algtests_at130.a60.html
+./algol60 tests/algtests_at39.a60 |./a60tohtml > tests-html/algtests_at39.a60.html
+./algol60 tests/algtests_at207.a60 |./a60tohtml > tests-html/algtests_at207.a60.html
+./algol60 tests/wichtests_pete5.a60 |./a60tohtml > tests-html/wichtests_pete5.a60.html
+./algol60 tests/vector3.a60 |./a60tohtml > tests-html/vector3.a60.html
+./algol60 tests/calgo414.a60 |./a60tohtml > tests-html/calgo414.a60.html
+./algol60 tests/wichtests_wt43.a60 |./a60tohtml > tests-html/wichtests_wt43.a60.html
+./algol60 tests/algtests_at19.a60 |./a60tohtml > tests-html/algtests_at19.a60.html
+./algol60 tests/cacm112.a60 |./a60tohtml > tests-html/cacm112.a60.html
+./algol60 tests/wichtests_wt156.a60 |./a60tohtml > tests-html/wichtests_wt156.a60.html
+./algol60 tests/cacm118.a60 |./a60tohtml > tests-html/cacm118.a60.html
+./algol60 tests/cacm057.a60 |./a60tohtml > tests-html/cacm057.a60.html
+./algol60 tests/by-name-test.a60 |./a60tohtml > tests-html/by-name-test.a60.html
+./algol60 tests/wichtests_wt59.a60 |./a60tohtml > tests-html/wichtests_wt59.a60.html
+./algol60 tests/algolbm_alg16.a60 |./a60tohtml > tests-html/algolbm_alg16.a60.html
+./algol60 tests/JAZ164.a60 |./a60tohtml > tests-html/JAZ164.a60.html
+./algol60 tests/algtests_at2.a60 |./a60tohtml > tests-html/algtests_at2.a60.html
+./algol60 tests/algtests_at202.a60 |./a60tohtml > tests-html/algtests_at202.a60.html
+./algol60 tests/algtests_at178.a60 |./a60tohtml > tests-html/algtests_at178.a60.html
+./algol60 tests/wichtests_wt37.a60 |./a60tohtml > tests-html/wichtests_wt37.a60.html
+./algol60 tests/algolbm_calg43.a60 |./a60tohtml > tests-html/algolbm_calg43.a60.html
+./algol60 tests/vector0.a60 |./a60tohtml > tests-html/vector0.a60.html
+./algol60 tests/matrix10.a60 |./a60tohtml > tests-html/matrix10.a60.html
+./algol60 tests/1-fakultaet.a60 |./a60tohtml > tests-html/1-fakultaet.a60.html
+./algol60 tests/wichtests_wt139.a60 |./a60tohtml > tests-html/wichtests_wt139.a60.html
+./algol60 tests/wichtests_wt18.a60 |./a60tohtml > tests-html/wichtests_wt18.a60.html
+./algol60 tests/cacm020.a60 |./a60tohtml > tests-html/cacm020.a60.html
+./algol60 tests/AlgolEdit.a60 |./a60tohtml > tests-html/AlgolEdit.a60.html
+./algol60 tests/algtests_at25.a60 |./a60tohtml > tests-html/algtests_at25.a60.html
+./algol60 tests/cacm414.a60 |./a60tohtml > tests-html/cacm414.a60.html
+./algol60 tests/wichtests_wt115.a60 |./a60tohtml > tests-html/wichtests_wt115.a60.html
+./algol60 tests/wichtests_wt153.a60 |./a60tohtml > tests-html/wichtests_wt153.a60.html
+./algol60 tests/7-neural-net.a60 |./a60tohtml > tests-html/7-neural-net.a60.html
+./algol60 tests/wichtests_wt157.a60 |./a60tohtml > tests-html/wichtests_wt157.a60.html
+./algol60 tests/algolbm_alg5.a60 |./a60tohtml > tests-html/algolbm_alg5.a60.html
+./algol60 tests/wichtests_wt2.a60 |./a60tohtml > tests-html/wichtests_wt2.a60.html
+./algol60 tests/sbmark.a60 |./a60tohtml > tests-html/sbmark.a60.html
+./algol60 tests/algtests_at181.a60 |./a60tohtml > tests-html/algtests_at181.a60.html
+./algol60 tests/vector6.a60 |./a60tohtml > tests-html/vector6.a60.html
+./algol60 tests/algtests_at24a.a60 |./a60tohtml > tests-html/algtests_at24a.a60.html
+./algol60 tests/wichtests_wt39.a60 |./a60tohtml > tests-html/wichtests_wt39.a60.html
+./algol60 tests/algtests_at55.a60 |./a60tohtml > tests-html/algtests_at55.a60.html
+./algol60 tests/cacm100-new.a60 |./a60tohtml > tests-html/cacm100-new.a60.html
+./algol60 tests/algolbm_alg47.a60 |./a60tohtml > tests-html/algolbm_alg47.a60.html
+./algol60 tests/algtests_at27.a60 |./a60tohtml > tests-html/algtests_at27.a60.html
+./algol60 tests/algtests_at154.a60 |./a60tohtml > tests-html/algtests_at154.a60.html
+./algol60 tests/algtests_at44.a60 |./a60tohtml > tests-html/algtests_at44.a60.html
+./algol60 tests/eigen.a60 |./a60tohtml > tests-html/eigen.a60.html
+./algol60 tests/wichtests_wt118.a60 |./a60tohtml > tests-html/wichtests_wt118.a60.html
+./algol60 tests/example23.a60 |./a60tohtml > tests-html/example23.a60.html
+./algol60 tests/algtests_at137.a60 |./a60tohtml > tests-html/algtests_at137.a60.html
+./algol60 tests/wichtests_wt134.a60 |./a60tohtml > tests-html/wichtests_wt134.a60.html
+./algol60 tests/wikiarticle.a60 |./a60tohtml > tests-html/wikiarticle.a60.html
+./algol60 tests/algtests_at156.a60 |./a60tohtml > tests-html/algtests_at156.a60.html
+./algol60 tests/jungle.a60 |./a60tohtml > tests-html/jungle.a60.html
+./algol60 tests/switches.a60 |./a60tohtml > tests-html/switches.a60.html
+./algol60 tests/algtests_at138.a60 |./a60tohtml > tests-html/algtests_at138.a60.html
+./algol60 tests/wichtests_wt57.a60 |./a60tohtml > tests-html/wichtests_wt57.a60.html
+./algol60 tests/wichtests_pete6.a60 |./a60tohtml > tests-html/wichtests_pete6.a60.html
+./algol60 tests/wichtests_wt129.a60 |./a60tohtml > tests-html/wichtests_wt129.a60.html
+./algol60 tests/wichtests_wt47.a60 |./a60tohtml > tests-html/wichtests_wt47.a60.html
+./algol60 tests/wichtests_wt94.a60 |./a60tohtml > tests-html/wichtests_wt94.a60.html
+./algol60 tests/lisp.a60 |./a60tohtml > tests-html/lisp.a60.html
+./algol60 tests/algolbm_calg40.a60 |./a60tohtml > tests-html/algolbm_calg40.a60.html
+./algol60 tests/algtests_at95.a60 |./a60tohtml > tests-html/algtests_at95.a60.html
+./algol60 tests/algtests_at33.a60 |./a60tohtml > tests-html/algtests_at33.a60.html
+./algol60 tests/algtests_at69.a60 |./a60tohtml > tests-html/algtests_at69.a60.html
+./algol60 tests/cacm514.a60 |./a60tohtml > tests-html/cacm514.a60.html
+./algol60 tests/wichtests_wt36.a60 |./a60tohtml > tests-html/wichtests_wt36.a60.html
+./algol60 tests/algtests_at150.a60 |./a60tohtml > tests-html/algtests_at150.a60.html
+./algol60 tests/X8Sa.a60 |./a60tohtml > tests-html/X8Sa.a60.html
+./algol60 tests/algtests_at132.a60 |./a60tohtml > tests-html/algtests_at132.a60.html
+./algol60 tests/vector5.a60 |./a60tohtml > tests-html/vector5.a60.html
+./algol60 tests/wichtests_wt97.a60 |./a60tohtml > tests-html/wichtests_wt97.a60.html
+./algol60 tests/wichtests_wt144.a60 |./a60tohtml > tests-html/wichtests_wt144.a60.html
+./algol60 tests/cacm010.a60 |./a60tohtml > tests-html/cacm010.a60.html
+./algol60 tests/wichtests_wt87.a60 |./a60tohtml > tests-html/wichtests_wt87.a60.html
+./algol60 tests/algtests_at92.a60 |./a60tohtml > tests-html/algtests_at92.a60.html
+./algol60 tests/calgo514.a60 |./a60tohtml > tests-html/calgo514.a60.html
+./algol60 tests/algtests_at204.a60 |./a60tohtml > tests-html/algtests_at204.a60.html
+./algol60 tests/algtests_at76.a60 |./a60tohtml > tests-html/algtests_at76.a60.html
+./algol60 tests/stat3.a60 |./a60tohtml > tests-html/stat3.a60.html
+./algol60 tests/algolbm_alg3.a60 |./a60tohtml > tests-html/algolbm_alg3.a60.html
+./algol60 tests/algtests_at123.a60 |./a60tohtml > tests-html/algtests_at123.a60.html
+./algol60 tests/algtests_at67.a60 |./a60tohtml > tests-html/algtests_at67.a60.html
+./algol60 tests/algobey.a60 |./a60tohtml > tests-html/algobey.a60.html
+scp tests-html/*.html gtoal@gtoal.com:gtoal.com/languages/algol60/new-unicode-parser/html/

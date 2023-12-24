@@ -1,0 +1,72 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> 'LIBRARY'5;
+   <u>real</u> PR;
+   <u>integer</u> PI;
+   <u>boolean</u> PB;
+   PI ≔ 1;
+   PR ≔ 0·0&#9192;0;
+   PB ≔      <u>if</u> ¬ PI &gt; 0 ∧ PI &GreaterSlantEqual; 1 ∨ PI &lt; 0 <u>impl</u> PR &LessSlantEqual; 0≡ PI ≠ 0 <u>then</u>
+     <u>true</u>
+   <u>else</u>
+     <u>true</u>;
+   <u>if</u> PB <u>then</u>
+     PR ≔ - 1 × PI⭡3 ÷ 2 +
+     ENTIER(SIGN(SQRT(ABS(ARCTAN(LN(EXP(COS(SIN(1)))))
+     )))) - (PR / (<u>if</u> PR = 0·0 <u>then</u> 3 <u>else</u> 3));
+   <u>begin</u>
+      <u>switch</u> PSW ≔ ENTRY, EXIT;
+      <u>own</u> <u>real</u> <u>array</u> PRA[0 : 1];
+      <u>integer</u> <u>array</u> PIA[2 : 3];
+      <u>boolean</u> <u>array</u> PBA[ - 1 : 0];
+      <u>boolean</u> <u>procedure</u> PFB;
+         PFB ≔ <u>false</u>;
+      <u>procedure</u> WRITE TEXT(OD, S);
+         <u>value</u> OD;
+         <u>integer</u> OD;
+           <u>string</u> S;
+         OUTREAL(99, OD);
+      <u>procedure</u> ALL PARAMETERS(CSR, CSI, CSB, CA1, CA2, CB,
+        CRFA, CIFA, CBFA, CFR, CFI, CFB, CL, CSL, CPR,
+        CST, CSW, CAR, CAI, CAB);
+         <u>value</u> CA1, CA2, CB, CRFA, CIFA, CBFA, CSL;
+         <u>integer</u> CSI, CA2;
+           <u>real</u> CSR, CA1;
+           <u>boolean</u> CSB, CB;
+           <u>integer</u> <u>array</u> CIFA, CAI;
+           <u>real</u> <u>array</u> CRFA, CAR;
+           <u>real</u> <u>procedure</u> CFR; <u>comment</u>(X): 'VALUE' X: 'REAL' X;
+           <u>integer</u> <u>procedure</u> CFI; <u>comment</u>(X): 'VALUE' X: 'REAL' X;
+           <u>boolean</u> <u>procedure</u> CFB;
+           <u>boolean</u> <u>array</u> CBFA, CAB;
+           <u>procedure</u> CPR;<u>comment</u>(D,S):'VALUE' D:'INTEGER' D:'STRING' S;
+           <u>string</u> CST;
+           <u>switch</u> CSW;
+           <u>label</u> CL, CSL;
+      <u>begin</u>
+         <u>real</u> <u>procedure</u> TAKE FORMAL(TF);
+            <u>real</u> TF;
+            TAKE FORMAL ≔ TF;
+         CAR[1] ≔ TAKE FORMAL(CA1);
+         CAI[2] ≔ CA2;
+         CAB[ - 1] ≔ CB;
+         CPR(30, CST);
+         CFB;
+         CA2 ≔ CFI(1);
+         <u>goto</u> CL;
+      <u>end</u> ALL PARAMETERS;
+      <u>for</u> PI ≔ PI + 1 <u>while</u> PI &lt; 3,
+        1 <u>step</u> 1 <u>until</u> 1,
+        1 <u>do</u>
+           PI ≔ PI ≔ PI;
+      <u>goto</u> PSW[1];
+      ENTRY :;
+      ALL PARAMETERS(PR, PI, PB, 3·0, 3, <u>false</u>, PRA, PIA,
+        PBA, SIN,  ENTIER, PFB, PSW[2], EXIT, WRITE
+        TEXT, ““C”
+        THIS$IS$A$STRING”, PSW, PRA, PIA, PBA);
+      EXIT :;
+      OUTREAL(99, PRA[1]+ PIA[2]+ PI + PR + (<u>if</u> PBA[ - 1]
+        <u>then</u> 10 <u>else</u> 0));
+   <u>end</u>;
+<u>end</u>
+</pre></body></html>

@@ -1,0 +1,16 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integer</u> i;
+   <u>real</u> y;
+   <u>real</u> <u>array</u> a[0:10];
+   <u>real</u> <u>procedure</u> f(t); <u>value</u> t; <u>real</u> t; f ≔ sqrt(abs(t))+5×t⭡3;
+
+   <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> 10 <u>do</u> read(a[i]);
+   <u>for</u> i ≔ 10 <u>step</u> -1 <u>until</u> 0 <u>do</u> <u>begin</u>
+         y ≔ f(a[i]);
+         <u>if</u> y &gt; 400 <u>then</u>
+           write(i, “TOO LARGE”)
+         <u>else</u>
+           write(i,y);
+      <u>end</u>
+<u>end</u>
+</pre></body></html>

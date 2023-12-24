@@ -1,0 +1,119 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u> <u>comment</u> eigenvalues of a real symmetric matrix
+     by the QR method. Algorithm 253, P.A. Businger, CACM 8 (1965) 217;
+   <u>integer</u> n;
+   n ≔ read;
+   <u>begin</u> <u>integer</u> i,j;
+      <u>real</u> <u>array</u> a[1:n,1:n];
+      <u>procedure</u> symmetric QR1(n,g);
+         <u>value</u> n; <u>integer</u> n; <u>array</u> g;
+           <u>comment</u> uses Housholders.s method and the QR algorithm to
+           find all n eigenvalues of the real symmetric matrix whose lower
+           triangular part is given in the array g[1:n,1:n]. The computed
+           eigenvalues are stored as the diagonal elements g[i,i]. The
+           original contents of the lower triangular part of g are lost during
+           the computation whereas the strictly upper triagular part of g
+           is left untouched;
+      <u>begin</u>
+         <u>real</u> <u>procedure</u> sum(i,m,n,a);
+            <u>value</u> m,n; <u>integer</u> i,m,n; <u>real</u> a;
+         <u>begin</u> <u>real</u> s; s ≔ 0;
+            <u>for</u> i ≔ m <u>step</u> 1 <u>until</u> n <u>do</u> s ≔ s + a;
+            sum ≔ s
+         <u>end</u> sum;
+         <u>real</u> <u>procedure</u> max (a,b);
+            <u>value</u> a,b; <u>real</u> a,b;
+            max ≔ <u>if</u> a &gt; b <u>then</u> a <u>else</u> b;
+         <u>procedure</u> Housholder tridiagonalization 1(n,g,a,bq,norm);
+            <u>value</u> n; <u>integer</u> n; <u>array</u> g,a,bq; <u>real</u> norm;
+              <u>comment</u> nonlocal real procedure sum, max;
+              <u>comment</u> reduces the given real symmetric n by n matrix g
+              to tridiagonal form using n - 2 elementary orthogonal trans-
+              formations (I-2ww.) = (I-gamma uu.). Only the lower tri
+              angular part of g need be given. The diagonal elements and
+              the squares of the subdiagonal elements of the reduced matrix
+              are stored in a[1:n] and bq[1:n-1] respectively. norm is set
+              equal to the infinity norm of the reduced matrix. The columns
+              of the strictly lower triagular part of g are replaced by the
+              nonzero portions of the vectors u;
+         <u>begin</u> <u>integer</u> i,j,k;
+            <u>real</u> t,absb,alpha,beta,gamma,sigma;
+            <u>array</u> p[2:n];
+            norm ≔ absb ≔ 0;
+            <u>for</u> k ≔ 1 <u>step</u> 1 <u>until</u> n - 2 <u>do</u>
+               <u>begin</u> a[k] ≔ g[k,k];
+                  sigma ≔ bq[k] ≔ sum(i,k+1,n,g[i,k]⭡2);
+                  t ≔ absb + abs(a[k]); absb ≔ sqrt(sigma);
+                  norm ≔ max(norm,t+absb);
+                  <u>if</u> sigma ≠ 0 <u>then</u>
+                  <u>begin</u> alpha ≔ g[k+1,k];
+                     beta ≔ <u>if</u> alpha &lt; 0 <u>then</u> absb <u>else</u> - absb;
+                     gamma ≔ 1 / (sigma-alpha×beta); g[k+1,k] ≔ alpha - beta;
+                     <u>for</u> i ≔ k + 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+                          p[i] ≔ gamma ×
+                          (sum(j,k+1,i,g[i,j]×g[j,k]) + sum(j,i+1,n,g[j,i]×g[j,k]));
+                     t ≔ 0·5 × gamma × sum(i,k+1,n,g[i,k]×p[i]);
+                     <u>for</u> i ≔ k + 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+                          p[i] ≔ p[i] - t×g[i,k];
+                     <u>for</u> i ≔ k + 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+                          <u>for</u> j ≔ k + 1 <u>step</u> 1 <u>until</u> i <u>do</u>
+                             g[i,j] ≔ g[i,j] - g[i,k]×p[j] - p[i]×g[j,k]
+                  <u>end</u>
+               <u>end</u> k;
+            a[n-1] ≔ g[n-1,n-1]; bq[n-1] ≔ g[n,n-1]⭡2;
+            a[n] ≔ g[n,n]; t ≔ abs(g[n,n-1]);
+            norm ≔ max(norm,absb+abs(a[n-1])+t);
+            norm ≔ max(norm,t+abs(a[n]))
+         <u>end</u> Housholder tridiagonalization 1;
+         <u>integer</u> i,k,m,m1;
+         <u>real</u> norm,epsq,lambda,mu,sq1,sq2,u,pq,gamma,t;
+         <u>array</u> a[1:n],bq[0:n-1];
+         Housholder tridiagonalization 1(n,g,a,bq,norm);
+         epsq ≔ 2·25÷-22×norm⭡2;
+         <u>comment</u> The tollerance used in the QR iteration depends
+           on the square of the relative machine precision. Here 2.25%-22
+           is used which is appropriate for a machine with a 36-bit
+           mantissa;
+         mu ≔ 0; m ≔ n;
+         inspect: <u>if</u> m = 0
+           <u>then</u> <u>goto</u> return <u>else</u> i ≔ k ≔ m1 ≔ m - 1;
+         bq[0] ≔ 0;
+         <u>if</u> bq[k] &lt; epsq <u>then</u>
+         <u>begin</u> g[m,m] ≔ a[m]; mu ≔ 0; m ≔ k;
+            <u>goto</u> inspect
+         <u>end</u>;
+         <u>for</u> i ≔ i - 1 <u>while</u> bq[i] &gt; epsq <u>do</u> k ≔ i;
+         <u>if</u> k = m1 <u>then</u>
+         <u>begin</u> <u>comment</u> treat 2 * 2 block separately;
+            mu ≔ a[m1]×a[m] - bq[m1]; sq1 ≔ a[m1] + a[m];
+            sq2 ≔ sqrt((a[m1]-a[m])⭡2+4×bq[m1]);
+            lambda ≔ 0·5×(<u>if</u> sq1&gt;0 <u>then</u> sq1+sq2 <u>else</u> sq1-sq2);
+            g[m1,m1] ≔ lambda; g[m,m] ≔ mu / lambda;
+            mu ≔ 0; m ≔ m - 2; <u>goto</u> inspect
+         <u>end</u>;
+         lambda ≔ <u>if</u> abs(a[m]-mu) &lt; 0·5×abs(a[m])
+           <u>then</u> a[m] + 0·5×sqrt(bq[m1]) <u>else</u> 0·0;
+         mu ≔ a[m]; sq1 ≔ sq2 ≔ u ≔ 0;
+         <u>for</u> i ≔ k <u>step</u> 1 <u>until</u> m1 <u>do</u>
+            <u>begin</u> <u>comment</u> shortcut single QR iteration;
+               gamma ≔ a[i] - lambda - u;
+               pq ≔ <u>if</u> sq1 ≠ 1
+                 <u>then</u> gamma⭡2/(1-sq1) <u>else</u> (1-sq2)×bq[i-1];
+               t ≔ pq + bq[i]; bq[i-1] ≔ sq1 × t; sq2 ≔ sq1;
+               sq1 ≔ bq[i] / t; u ≔ sq1 × (gamma+a[i+1]-lambda);
+               a[i] ≔ gamma + u + lambda
+            <u>end</u> i;
+         gamma ≔ a[m] - lambda - u;
+         bq[m1] ≔ sq1 ×
+           (<u>if</u> sq1≠1 <u>then</u> gamma⭡2/(1-sq1) <u>else</u> (1-sq2)×bq[m1]);
+         a[m] ≔ gamma + lambda; <u>goto</u> inspect;
+         return:
+      <u>end</u> symmetric QR 1;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+           <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> i <u>do</u>
+              a[i,j] ≔ read;
+      symmetric QR 1(n,a);
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u> NLCR; ABSFIXT(2,0,i); PRINT(a[i,i]) <u>end</u>
+   <u>end</u>
+<u>end</u>
+</pre></body></html>

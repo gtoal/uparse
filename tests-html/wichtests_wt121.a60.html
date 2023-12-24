@@ -1,0 +1,25 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> 'LIBRARY' 1;
+   <u>integer</u>
+     I,
+     P;
+   I ≔ 0;
+   <u>for</u> P ≔ 1 <u>step</u> 1 <u>until</u> 4 <u>do</u>
+      <u>begin</u>
+         <u>own</u> <u>integer</u>
+           I;
+         <u>if</u> P = 1 <u>then</u>
+           I ≔ 3
+         <u>else</u>
+           I ≔ 2 × I;
+         <u>begin</u>
+            <u>integer</u>
+              J,
+              I;
+            J ≔ 4;
+            I ≔ 0
+         <u>end</u>;
+         OUTREAL(99, I);
+      <u>end</u>;
+<u>end</u>
+</pre></body></html>

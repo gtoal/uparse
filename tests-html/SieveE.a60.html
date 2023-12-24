@@ -1,0 +1,63 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+
+   <u>comment</u>
+     //////////////////////////////////////////////////////////
+     // NAME: PETER M. MAURER
+     // PROGRAM: SIEVE OF ERATOSTHENES
+     // DUE: NEVER
+     // LANGUAGE: ALGOL 60 ALA IBM 360
+     //////////////////////////////////////////////////////////
+     ;
+   <u>comment</u> DEFINE THE SIEVE DATA STRUCTURE ;
+   <u>integer</u> <u>array</u> CANDIDATES[0:1000];
+   <u>integer</u> I,J,K;
+
+   <u>comment</u> SET LINE-LENGTH=120,SET LINES-PER-PAGE=62,OPEN ;
+   <u>comment</u> 1000 TO PROTECT AGAINST STRICT EVALUATION OF AND ;
+
+   <u>for</u> I ≔ 0 <u>step</u> 1 <u>until</u> 1000 <u>do</u>
+      <u>begin</u>
+         <u>comment</u> EVERYTHING IS POTENTIALLY PRIME UNTIL PROVEN OTHERWISE ;
+         CANDIDATES[I] ≔ 1;
+      <u>end</u>;
+   <u>comment</u> NEITHER 1 NOR 0 IS PRIME, SO FLAG THEM OFF  ;
+   CANDIDATES[0] ≔ 0;
+   CANDIDATES[1] ≔ 0;
+   <u>comment</u> START THE SIEVE WITH THE INTEGER 0 ;
+   I ≔ 0;
+   <u>for</u> I ≔ I <u>while</u> I &lt; 1000 <u>do</u>
+      <u>begin</u>
+         <u>comment</u> ADVANCE TO THE NEXT UN-CROSSED OUT. ;
+         <u>comment</u> THIS NUMBER MUST BE A PRIME;
+         <u>for</u> I ≔ I <u>while</u> I &lt; 1000 ∧ CANDIDATES[I] = 0 <u>do</u>
+            <u>begin</u>
+               I ≔ I+1;
+            <u>end</u>;
+         <u>comment</u> INSURE AGAINST RUNNING OFF THE END;
+         <u>if</u> I &lt; 1000 <u>then</u>
+         <u>begin</u>
+            <u>comment</u> CROSS OUT ALL MULTIPLES OF THE PRIME.;
+            J ≔ 2;
+            K ≔ J×I;
+            <u>for</u> K ≔ K <u>while</u> K &lt; 1000 <u>do</u>
+               <u>begin</u>
+                  CANDIDATES[K] ≔ 0;
+                  J ≔ J + 1;
+                  K ≔ J×I;
+               <u>end</u>;
+            <u>comment</u> ADVANCE TO THE NEXT CANDIDATE ;
+            I ≔ I+1;
+         <u>end</u>
+      <u>end</u>;
+   <u>comment</u> ALL UNCROSSED OUT NUMBERS ARE PRIME;
+   <u>comment</u> PRINT ALL PRIMES ;
+   <u>for</u> I ≔ 0 <u>step</u> 1 <u>until</u> 999 <u>do</u>
+      <u>begin</u>
+         <u>if</u> CANDIDATES[I] ≠ 0 <u>then</u>
+         <u>begin</u>
+            OUTINTEGER(1,I);
+            OUTSTRING(1,“ IS PRIME”);
+         <u>end</u>
+      <u>end</u>
+<u>end</u>
+</pre></body></html>

@@ -1,0 +1,40 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> LIBRARY 1;
+   <u>comment</u> THIS PROGRAM HAS BEEN MODIFIED TO AVOID USE BEFORE DECLARATION
+     AND ALSO TO REMOVE THE TYPE CHANGES ON ARRAYS TO VALUE;
+   <u>integerarray</u>
+     A[16384 : 16385, - 16383 : - 16382];
+   <u>integer</u>
+     S;
+   <u>array</u>
+     B[1 : 2, 0 : 2];
+   <u>procedure</u> P(A, B, C, D);
+      <u>value</u>
+        B,
+        C;
+      <u>real</u>
+        A,
+        B;
+        <u>array</u>
+        C,
+        D;
+   <u>begin</u>
+      A ≔ A + 1;
+      S ≔ S + A + B + C[1, 2] + D[1, 2];
+      D[1, 2] ≔ 2
+   <u>end</u>;
+   A[16384, - 16383] ≔ 3·0;
+   B[1, 2] ≔ A[16384, - 16383];
+   <u>begin</u>
+      <u>array</u>
+        G[1 : B[1, 2], 0 : 2];
+      S ≔ 0;
+      G[1, 0] ≔ G[2, 0] ≔ G[3, 0] ≔ G[1, 1] ≔ G[2, 1]
+        ≔ G[3, 1] ≔ G[1, 2] ≔ G[2, 2] ≔ G[3, 2]
+        ≔ 1;
+      P(B[1, 2], B[1, 2], G, B);
+      S ≔ S + B[1, 2];
+      OUTREAL(99, S)
+   <u>end</u>
+<u>end</u>
+</pre></body></html>

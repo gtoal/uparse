@@ -1,0 +1,50 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> 'LIBRARY' 1;
+   <u>integer</u>
+     I,
+     J,
+     CASE;
+   <u>procedure</u> CHECKB(BOOL, ANSWER);
+      <u>value</u>
+        ANSWER;
+      <u>boolean</u>
+        BOOL;
+        <u>integer</u>
+        ANSWER;
+   <u>begin</u>
+      <u>boolean</u>
+        B;
+      <u>procedure</u> FAIL;
+      <u>begin</u>
+         OUTREAL(99, I);
+         OUTREAL(99, J);
+         OUTREAL(99, CASE)
+      <u>end</u>;
+      <u>for</u> I ≔ 0,
+        1 <u>do</u>
+           <u>for</u> J ≔ 0,
+           1 <u>do</u>
+            <u>begin</u>
+               B ≔ ANSWER ÷ 2 × 2 = ANSWER;
+               <u>if</u> B <u>then</u>
+               <u>begin</u>
+                  <u>if</u> BOOL <u>then</u>
+                  <u>else</u>
+                    FAIL
+               <u>end</u>
+                 <u>else</u> <u>if</u> BOOL <u>then</u>
+                 FAIL;
+               ANSWER ≔ ANSWER ÷ 2;
+            <u>end</u>;
+      CASE ≔ CASE + 1
+   <u>end</u> CHECKB;
+   CASE ≔ 1;
+   CHECKB(J = 0 ∨ I = 0, 8);
+   CHECKB(J = 0 ∧ I = 0, 14);
+   CHECKB(J = 0 ≡ I = 0, 6);
+   CHECKB(J = 0 <u>impl</u> I = 0, 4);
+   CHECKB(J = 0, 10);
+   CHECKB( ¬ (J = 0), 5);
+   OUTREAL(99, CASE)
+<u>end</u>
+</pre></body></html>

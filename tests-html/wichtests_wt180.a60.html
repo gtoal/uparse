@@ -1,0 +1,28 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u> 'LIBRARY' 1;
+   <u>integer</u>
+     I,
+     J,
+     K,
+     M;
+   <u>integer</u> <u>procedure</u> GPPS(I, N, V, Z);
+      <u>integer</u>
+        I,
+        N,
+        V,
+        Z;
+   <u>begin</u>
+      <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+           V ≔ Z;
+      GPPS ≔ 1
+   <u>end</u>;
+   <u>for</u> M ≔ 1 <u>step</u> 1 <u>until</u> 25 <u>do</u>
+      <u>begin</u>
+         I ≔ GPPS(I, M + 1, K, <u>if</u> I = 1 <u>then</u> 1 <u>else</u> K +
+           GPPS(J, K - 1, J, <u>if</u> (K + 1) - (J + 1) × ((K +
+           1) ÷ (J + 1)) ≠ 0 <u>then</u> J <u>else</u> K × GPPS(J, 1,
+           I, I - 1)));
+         OUTREAL(99, K)
+      <u>end</u>
+<u>end</u>
+</pre></body></html>

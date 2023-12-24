@@ -1,0 +1,9 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>comment</u> ================== 34010 ================= ;
+<u>real</u> <u>procedure</u> VECVEC(L, U, SHIFT, A, B); <u>value</u> L, U, SHIFT;
+   <u>integer</u> L, U, SHIFT; <u>array</u> A, B;
+<u>begin</u> <u>integer</u> K; <u>real</u> S;
+   S ≔ 0;
+   <u>for</u> K ≔ L <u>step</u> 1 <u>until</u> U <u>do</u> S ≔ A[K] × B[SHIFT + K] + S;
+   VECVEC ≔ S
+<u>end</u> VECVEC;
+</pre></body></html>

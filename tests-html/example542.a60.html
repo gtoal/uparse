@@ -1,0 +1,42 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>procedure</u> Spur (a) Order: (n); <u>value</u> n;
+   <u>array</u> a; <u>integer</u> n; <u>real</u> s;
+<u>begin</u> <u>integer</u> k;
+   s ≔ ;
+   <u>for</u> k ≔  <u>step</u> 1 <u>until</u> n <u>do</u> s ≔ +a[k,k]
+<u>end</u> Spur;
+
+<u>procedure</u> Transpose (a) Order: (n); <u>value</u> n;
+   <u>array</u> a; <u>integer</u> n;
+<u>begin</u> <u>real</u> w; <u>integer</u> i, k;
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+        <u>for</u> k ≔ 1+i <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u> w ≔ [i,k];
+            a[i,k] ≔ [k,i];
+            a[k,i] ≔ 
+         <u>end</u>
+<u>end</u> Transpose;
+
+<u>integer</u> <u>procedure</u> Step (u);
+   <u>real</u> u;
+   Step ≔ <u>if</u> 0 &LessSlantEqual; u ∧ u &LessSlantEqual; 1 <u>then</u> 1 <u>else</u> 0;
+
+<u>procedure</u> Absmax (a) Size: (n, m) Result: (y) Subscripts: (i, k);
+   <u>comment</u> The absolute greatest element of the matrix a, of size n by m
+     is transferred to y, and the subscripts of this element to i and k;
+   <u>array</u> a; <u>integer</u> n, m, i, k; real y;
+<u>begin</u> <u>integer</u> p, q;
+   y ≔ 0;
+   <u>for</u> p ≔  <u>step</u> 1 <u>until</u> n <u>do</u> <u>for</u> q ≔  <u>step</u> 1 <u>until</u> m <u>do</u>
+           <u>if</u> abs(a[p,q]) &gt; y <u>then</u> <u>begin</u> y ≔ abs(a[p,q]);
+            i ≔ ; k ≔ 
+         <u>end</u>
+<u>end</u> Absmax;
+
+<u>procedure</u> Innerproduct (a, b) Order: (k, p) Result: (y); <u>value</u> k;
+   <u>integer</u> k, p; <u>real</u> y, a, b;
+<u>begin</u>
+   s ≔ ;
+   <u>for</u> p ≔  <u>step</u> 1 <u>until</u> k <u>do</u> s ≔ +a×b;
+   y ≔ 
+<u>end</u> Innerproduct;
+</pre></body></html>

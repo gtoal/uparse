@@ -1,0 +1,593 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>comment</u> ACM Algorithm 414
+  Chebyshev Approximation of Continuous Functions by a Chebyshev System of
+  Functions. 4/11/70
+  G.H. Golub and L.B. Smith, Dept. of Computer Science, Stanford University,
+  Stanford, CA 94305;
+
+<u>procedure</u> remez (n, a, b, kstart, kmax, loops, f, chebyshev, eps,
+  exchange, c, emax, trouble, why);
+   <u>value</u> n, a, b, kstart, kmax, loops;
+   <u>real</u> <u>array</u> c;  <u>real</u> a, b, emax;  <u>label</u> trouble;
+     <u>integer</u> n, kstart, kmax, loops, why;
+     <u>real</u> <u>procedure</u> f, eps; <u>procedure</u> chebyshev, exchange;
+     <u>comment</u> Procedure remez finds the best fit (in the minimax sense) to
+     a function f using a linear combination of functions which form a
+     Chebyshev system.  The exchange algorithm of E.L. Stiefel is used
+     to obtain starting values for the critical points and the Remez
+     algorithm is then used to find the best fit;
+<u>begin</u>
+   <u>procedure</u> quadraticmax(n, x, niter, alfa, beta, ok, a, b, c, nadded, eps);
+      <u>value</u> n, niter, alfa, beta, nadded;  <u>array</u> x, c;
+        <u>integer</u> n, niter, nadded;  <u>real</u> alfa, beta, a, b;
+        <u>boolean</u> ok;  <u>real</u> <u>procedure</u> eps;
+        <u>comment</u> Procedure quadraticmax is called to adjust the values of
+        the critical points in each iteration of the Remez algorithm.  The
+        points are adjusted by fitting a parabola to the error curve in a
+        neighborhood, or if that proves unsatisfactory a brute force de-
+        termination of the extrema is used;
+   <u>begin</u>
+      <u>integer</u> i, count1, count2, nhalf, signepsxstar, signu, signv, signw,
+        jmax, ncrude, j, nn;
+      <u>real</u> u, v, w, denom, epsu, epsv, epsw, xstar, epsxstar, xxx, misse,
+        missx, dx, emax, etmp;
+      <u>integer</u> <u>array</u> signepsx [0 : n + 1];  <u>array</u> epsx [0 : n + 1];
+      nn ≔ n - nadded;
+      <u>comment</u> On arbitray parameter...
+        ncrude The number of divisions used in the brute force
+        search for extrema.
+        nhalf The parameter (alpha) which determines the size of
+        interval to be examined for an extremum is reduced by
+        half if a bad value for xstar is computed, however this
+        reduction may occur only nhalf times.
+        misse If the value of the error curve at a new critical point
+        differs from the previous value by a relative difference of
+        more than misse then the brute force method is brought in.
+        missx The brute force method keeps searching until it is
+        within missx of an extremum;
+      <u>comment</u> Set values of the constants;
+      ncrude ≔ 10;  nhalf ≔ 4;  misse ≔ 1·0 -2;  missx ≔ 1·0 -5;
+      <u>comment</u> Compare missx with absepsx.  They should be equal;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n + 1 <u>do</u>
+         <u>begin</u>
+            epsx[i] ≔ eps(x[i],c,nn);
+            signepsx[i] ≔ sign(epsx[i]);
+         <u>end</u>;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n + 1 <u>do</u>
+         <u>begin</u>
+            <u>comment</u> If the startingvalues for the critical points do not
+              alternate the sign of eps(x), then we g̲o̲ t̲o̲ the label trouble;
+            <u>if</u> signepsx[i] × signepsx[i-1] ≠ -1 <u>then</u> <u>go</u> <u>to</u> trouble;
+         <u>end</u>;
+      <u>comment</u> First find all the interior extrema.  Then we will find
+        the end extrema, which may occur at the ends of the interval;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            count1 ≔ 0;  count2 ≔ 0;
+            L1:
+            u ≔ x[i];
+            v ≔ u + alfa × (x[i+1] - u);  w ≔ u + alfa ×
+              (x[i-1] - u);
+            epsu ≔ epsx[i];  signu ≔ signepsx[i];
+            epsv ≔ eps(v,c,nn);  signv ≔ sign(epsv);
+            epsw ≔ eps(w,c,nn);  signw(epsw);
+            <u>if</u> ¬ signu = signv ∨ ¬ signv = signw <u>then</u> <u>go</u> <u>to</u> L3;
+            <u>comment</u> If the sign of eps(x) at the three points is
+              not the same, we g̲o̲ t̲o̲ L# where alfa is reduced to
+              make the points closer together;
+            epsu ≔ abs(epsu);  epsv ≔ abs(epsv);  epsw ≔ abs(epsw);
+            L2:
+            denom ≔ 2·0 × ((epsv - epsu) × (w - u) + (epsw - epsu)× (u - v));
+            <u>if</u> denom = 0·0  <u>then</u> xstar ≔ 0·5 × (v + w) <u>else</u> xstar ≔               0·5 × (v + w) + (v - w) × (epsv - epsw)/ denom;
+            count1 ≔ count1 + 1;
+            <u>comment</u> Test xstar to be sure it is what we want.  Is it
+              between x[i-1] and x[i+1]?  Is eps(xstar) &gt;= eps(u,v,w)?
+              If xstar is too bad, g̲o̲ t̲o̲ L3 and reduce alfa unless
+              alfa has been reduced nhalf times.  Otherwise if ok,
+              g̲o̲ t̲o̲ savexstar;
+            <u>if</u> xstar = u ∨ xstar = v ∨ w <u>then</u>
+            <u>begin</u>
+               epsxstar ≔ eps(xstar,c,nn); signepsxstar ≔ sign
+                 (epsxstar);
+               epsxstar ≔ abs(epsxstar);  <u>go</u> <u>to</u> savexstar
+            <u>end</u>;
+            <u>if</u> xstar &LessSlantEqual; x[i-1] ∨ xstar &GreaterSlantEqual; x[i+1] <u>then</u> <u>go</u> <u>to</u> L3;
+            epsxstar ≔ eps(xstar,c,nn);
+            signepsxstar ≔ sign(epsxstar);
+            epsxstar ≔ abs(epsxstar);
+            <u>if</u> signepsxstar ≠ signu ∨ epsxstar &lt; epsu ∨ epsxstar &lt;
+              epsv ∨ epsxstar &lt; epsw <u>then</u>
+            <u>begin</u>
+               <u>if</u> epsu &GreaterSlantEqual; epsv ∨ epsu &GreaterSlantEqual; epsw <u>then</u>
+               <u>begin</u>
+                  <u>if</u> abs(epsxstar - epsu) &gt; misse × epsu <u>then</u> <u>go</u> <u>to</u>
+                    LBL2;       			
+                    xstar ≔ u;  epsxstar ≔ epsu;  signepsxtar ≔ signu;
+                  <u>go</u> <u>to</u> savexstar;
+               <u>end</u>;
+               <u>if</u> epsv &GreaterSlantEqual; epsu ∨ epsv &GreaterSlantEqual; epsw <u>then</u>
+               <u>begin</u>
+                  <u>if</u> abs(epsxstar - epsv) &gt; misse × epsv <u>then</u> <u>go</u> <u>to</u>
+                    LBL2;
+                  xstar ≔ v;  epsxstar ≔ epsv;  signepsxstar ≔ signv;
+                  <u>go</u> <u>to</u> savexstar
+               <u>end</u>;
+               <u>if</u> abs(epsxstar - epsw) &gt; misse × epsw <u>then</u> <u>go</u> <u>to</u>
+                 LBL2;
+               xstar ≔ w;  epsxstar ≔ epsw;  signepsxstar ≔ signw;
+               <u>go</u> <u>to</u> savexstar;
+               LBL2:
+               jmax ≔ 0;
+               LBL1:
+               dx ≔ (v-w)/ncrude;  emax ≔ 0·0;  xxx ≔ w - dx;
+               <u>for</u> j ≔ 0 <u>step</u> 1 <u>until</u> ncrude <u>do</u>
+                  <u>begin</u>
+                     xxx ≔ xxx + dx;  jmax ≔ jmax + 1;
+                     etmp ≔ eps(xxx,c,nn);
+                     <u>if</u> abs(etmp) &gt; emax <u>then</u>
+                     <u>begin</u>
+                        emax ≔ epsxstar ≔ abs(etmp);
+                        signepsxstar ≔ sign(etmp);
+                        u ≔ xstar ≔ xxx;
+                        v ≔ u + dx;  w ≔ u - dx;
+                     <u>end</u>
+                  <u>end</u>;
+               <u>if</u> dx &gt; missx <u>then</u> <u>go</u> <u>to</u> LBL1;
+               <u>comment</u> Make sure v and w are thein bounds;
+               <u>if</u> v &GreaterSlantEqual; x[i+1] <u>then</u> <u>go</u> <u>to</u> L3;
+               <u>if</u> w &LessSlantEqual; x[i-1] <u>then</u> <u>go</u> <u>to</u> L3;
+               <u>go</u> <u>to</u> savexstar
+            <u>end</u>;
+            <u>if</u> count1 &gt; niter <u>then</u> <u>go</u> <u>to</u> savexstar;
+            <u>if</u> epsu &LessSlantEqual; epsw <u>then</u>
+            <u>begin</u>
+               <u>if</u> epsv &lt; epsu <u>then</u>
+                 L4:
+               <u>begin</u>
+                  <u>comment</u> v is minimum;
+                  <u>if</u> xstar &gt; u <u>then</u>
+                  <u>begin</u>
+                     v ≔ xstar;  epsv ≔ epsxstar;  <u>go</u> <u>to</u> L2;
+                  <u>end</u>;
+                  <u>if</u> xstar &gt; w <u>then</u>
+                  <u>begin</u>
+                     epsv ≔ epsu;  v ≔ u;
+                     epsu ≔ epsxstar;  u ≔ xstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     v ≔ u;  epsv ≔ epsu;
+                     u ≔ w;  epsu ≔ epsw;
+                     w ≔ xstar;  epsw ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>comment</u> u is minimum;
+                  <u>if</u> xstar &GreaterSlantEqual; v <u>then</u>
+                  <u>begin</u>
+                     u ≔ v;  epsu ≔ epsv;
+                     v ≔ xstar; epsv ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>;
+                  <u>if</u> xstar &GreaterSlantEqual; w <u>then</u>
+                  <u>begin</u>
+                     u ≔ xstar;  epsu ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     u ≔ w;  epsu ≔ epsw;
+                     w ≔ xstar; epsw ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+               <u>end</u>
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>if</u> epsv &lt; epsw <u>then</u>
+               <u>begin</u>
+                  <u>comment</u> v is minimum;  <u>go</u> <u>to</u> L4;
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>comment</u> w is minimum;  <u>if</u> xstar &GreaterSlantEqual; v <u>then</u>
+                  <u>begin</u>
+                     w ≔ u;  epsw ≔ epsu;
+                     u ≔ v;  epsu ≔ epsv;
+                     v ≔ xstar;  epsv ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>;
+                  <u>if</u> xstar &GreaterSlantEqual; u <u>then</u>
+                  <u>begin</u>
+                     w ≔ u;  epsw ≔ epsu;
+                     u ≔ xstar; epsu ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     w ≔ xstar;  epsw ≔ epsxstar;
+                     <u>go</u> <u>to</u> L2;
+                  <u>end</u>
+               <u>end</u>
+            <u>end</u>;
+            L3:
+            count2 ≔ count2 + 1;
+            <u>if</u> count2 &gt; nhalf <u>then</u> <u>go</u> <u>to</u> trouble;
+            alfa ≔ 0·5 × alfa;
+            <u>comment</u> The factor 0.5 used in reducing alpha is
+              arbitrarily chosen;
+            <u>go</u> <u>to</u> L1;
+            <u>comment</u> Replace x[i] by xstar after checking alternation
+              of signs;
+            savexstar:
+            <u>if</u> i &gt; 1 ∨ signepsxstar × signepsx[i-1] ≠ -1 <u>then</u> <u>go</u> <u>to</u>
+              trouble;
+            signepsx[i] ≔ signepsxstar;
+            x[i] ≔ xstar;
+         <u>end</u>;
+      <u>comment</u> This is the end of the loop on i which finds all interior
+        extrema.  Now we proceed to locate the extrema at or near
+        the two endpoints (left end, then right end);
+      <u>comment</u> We assume beta &gt; alfa;
+      <u>for</u> i ≔ 1 <u>step</u> n + 1 <u>until</u> n + 1 <u>do</u>
+         <u>begin</u>
+            count1 ≔ 0;  count2 ≔ 0;
+            L8:
+            u ≔ x[i];  <u>if</u> i = 0 <u>then</u>
+            <u>begin</u>
+               <u>if</u> a &lt; u <u>then</u> w ≔ u + alfa × (a - u) <u>else</u> w ≔ u +
+                 beta × (x[1] - u);
+               v ≔ u + alfa × (x[1] - u);
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>if</u> b &gt; u <u>then</u> w ≔ u + alfa × (b - u) <u>else</u> w ≔ u +
+                 beta xx (x[n] - u);
+               v ≔ u + alfa × (x[n] - u);
+            <u>end</u>;
+            epsu ≔ epsx[i];  signu ≔ signepsx[i];
+            epsv ≔ eps(v,c,nn);  signv ≔ sign(epsv);
+            epsw ≔ eps(w,c,nn);  signw ≔ sign(epsw);
+            <u>if</u> signv ≠ signu ∨ signv ≠ signw <u>then</u> <u>go</u> <u>to</u> L7;
+            epsu ≔ abs(epsu);  epsv ≔ abs(epsv);  epsw ≔ abs(epsw);
+            L5:
+            denom ≔ 2·0 × (epsu × (v-w) + epsv × (w-u) + epsw ×
+              (u-v));
+            <u>if</u> denom = 0·0 <u>then</u> xstar ≔ 0·5 × (w+v) <u>else</u> xstar ≔               0·5 × (v+w) + (v-u) × (u-w) × (epsv - epsw)/ denom;
+            <u>if</u> i = 0 ∧ (xstar &lt; a ∨ xstar &GreaterSlantEqual; x[1]) <u>then</u>
+            <u>begin</u>
+               xstar ≔ a;  epsxstar ≔ eps(a,c,nn);
+               signepsxstar ≔ sign(epsxstar);epsxstar ≔ abs(epsxstar);
+            <u>end</u>
+              <u>else</u>
+            <u>if</u> i = n + 1 ∧ (xstar &gt; b ∧ xstar &LessSlantEqual; x[n]) <u>then</u>
+            <u>begin</u>
+               xstar ≔ b;  epsxstar ≔ eps(b,c,nn);
+               signepsxstar ≔ sign(epsxstar);epsxstar ≔ abs (epsxstar);
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               epsxstar ≔ eps(xstar,c,nn);
+               signepsxstar ≔ sign(epsxstar);
+               epsxstar ≔ abs(epsxstar);
+            <u>end</u>;
+            count1 ≔ count1 + 1;
+            <u>if</u> i = 0 ∧ xstar &GreaterSlantEqual; x[1] <u>then</u> <u>go</u> <u>to</u> L7;
+            <u>if</u> i = n + 1 ∧ xstar &LessSlantEqual; x[n] <u>then</u> <u>go</u> <u>to</u> L7;
+            <u>if</u> xstar = u ∨ xstar = v ∨ xstar = w <u>then</u> <u>go</u> <u>to</u> L6;
+            <u>if</u> signepsxstar ≠ signu ∨ epsxstar &lt; epsu ∨ epsxstar &lt;
+              epsv ∨ epsxstar &lt; epsw <u>then</u>
+            <u>begin</u>
+               <u>if</u> epsu &GreaterSlantEqual; epsv ∧ epsu &GreaterSlantEqual; epsw <u>then</u>
+               <u>begin</u>
+                  xstar ≔ u;  epsxstar ≔ epsu;
+                  signepsxstar ≔ signu;  <u>go</u> <u>to</u> L6;
+               <u>end</u>;
+               <u>if</u> epsv &GreaterSlantEqual; epsu ∧ epsv &GreaterSlantEqual; epsw <u>then</u>
+               <u>begin</u>
+                  xstar ≔ v;  epsxstar ≔ epsv;
+                  signepsxstar ≔ signv;  <u>go</u> <u>to</u> L6;
+               <u>end</u>;
+               xstar ≔ w;  epsxstar ≔ epsw;
+               signepsxstar ≔ signw; <u>go</u> <u>to</u> L6;
+            <u>end</u>;
+            <u>if</u> count1 &gt; niter <u>then</u> <u>go</u> <u>to</u> L6;
+            <u>if</u> epsu &lt; epsw <u>then</u>
+            <u>begin</u>
+               <u>if</u> epsv &lt; epsu <u>then</u>
+               <u>begin</u>
+                  <u>comment</u> v is minimum;
+                  v ≔ xstar;  epsv ≔ epsxstar;
+                  <u>go</u> <u>to</u> L5;
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>comment</u> u is minimum;
+                  u ≔ xstar;  epsu ≔ epsxstar;
+                  <u>go</u> <u>to</u> L5;
+               <u>end</u>
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>if</u> epsv = epsw <u>then</u>
+               <u>begin</u>
+                  <u>comment</u> v is minimum;
+                  v ≔ xstar; epsv ≔ epsxstar;
+                  <u>go</u> <u>to</u> L5;
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>comment</u> w is minimum; w ≔ xstar;epsw ≔ epsxstar;
+                  <u>go</u> <u>to</u> L5;
+               <u>end</u>
+            <u>end</u>;
+            L7:
+            count2 ≔ count2 + 1;
+            <u>if</u> count2 &gt; nhalf <u>then</u> <u>go</u> <u>to</u> trouble;
+            alfa ≔ 0·5 × alfa;  beta ≔ 0·5 × beta;
+            <u>go</u> <u>to</u> L8;
+            <u>comment</u> Replace x[i] by xstar after checking its sign;
+            L6:
+            <u>if</u> i = 0 ∧ signepsxstar × signepsx[1] ≠ - 1 <u>then</u> <u>goto</u>
+              trouble;
+            <u>if</u> i ≠ 0 ∧ signepsxstar × signepsx[n] ≠ - 1 <u>then</u> <u>goto</u>
+              trouble;
+            signepsx[i] ≔ signepsxstar;  x[i] ≔ xstar;
+         <u>end</u>;
+      <u>goto</u> done;
+      trouble:
+      ok ≔ <u>false</u>;  <u>goto</u> L9;
+      done:
+      ok ≔ <u>true</u>;
+      L9:
+   <u>end</u>  quadraticmax;
+   <u>comment</u> Procedure start computes the arrays which are then in-
+     put to exchange to find the best approximation on the points
+     at hand;
+   <u>procedure</u> start (m,n,a,d,xi,chebyshev,f);
+      <u>value</u> m, n;  <u>integer</u> m, n;
+        <u>array</u> a, d, xi;
+        <u>procedure</u> chebyshev;  <u>real</u> <u>procedure</u> f;
+   <u>begin</u>
+      <u>integer</u> i, j;  <u>real</u> <u>array</u> t[0:n];
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            chebyshev (n, xi[i], t);
+            <u>for</u> j ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u> a[i,j] ≔ t[j];
+            d[i] ≔ f(xi[i]);
+         <u>end</u>
+   <u>end</u> start;
+   <u>comment</u> Now the procedure remez;
+   <u>real</u> epsc, alfa, beta, epsx, absepsc, absepsx, rcompare, dx, maxr,
+     minr, tempr, minsep;
+   <u>integer</u> m, i, itemp, j, niter, nloop, k, nadded, isub, maxri, ilast,
+     signnow, jj;
+   <u>integer</u> signnew;  <u>integer</u> <u>array</u> refset[0 : n + 1 + n];
+   <u>comment</u> Assume number of points added &lt;= n;
+   <u>integer</u> <u>array</u> ptsadd[o : n];
+   <u>array</u> clast[0 : n + 1], xq, xqlast[0 : n + 1 + n];
+   <u>boolean</u> firsttime, ok, convx, convc, addit;
+   why ≔ 0; k ≔ kstart;
+   <u>comment</u> Come here if k gets changed;
+   newk:
+   m ≔ n + 1 + (k-1) × (n+2);
+   <u>begin</u>
+      <u>array</u> r, xi, d[0 : m], aa[0 : m, 0 : n + 1];
+      firsttime ≔ <u>true</u>;  convx ≔ <u>false</u>; convc ≔ <u>false</u>;
+      nloop ≔ 0;
+      <u>comment</u> This makes the initial points spaced according to the
+        extrema of the Chebyshev polynomial of degree m - 1;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m <u>do</u>
+           xi[i] ≔ (a+b)/2·0 - (b-a) × cos((3·1415926359 × i)/m)/2·0;
+      <u>comment</u> 3.14159... is pi
+        dx := (b-a)/m;
+      <u>comment</u> To use equally spaced points a statement such as the
+        following could be used. for i := 0 step 1 until m do xi[i]
+        := a + i * dx;
+      start(m,n,aa,d,xi,chebyshev,f);
+      <u>comment</u> The following constants are used in testing for convergence
+        epsc used in relative test on coefficients
+        absepsc used in absolute test on coefficients
+        epsx used in relative test on critical points
+        absepsx used in absolute test on critical points
+        rcompare used to compare relative magnitudes of max and
+        min values of residual on the critical points;
+      epsc ≔ 1·0 - 7; absepsc ≔ 1·0 - 7; epsx ≔ 1·0 - 7;
+      absepsx ≔ 1·0 - 5;
+      rcompare ≔ 1·0000005;
+      <u>comment</u> epsx and absepsx should be the same as missx in pro-
+        cedure quadraticmax.  epsc and absepsc should be adjusted
+        according to knowledge of the expected magnitudes of the
+        coefficients (if known).  It is best to depend on the critical
+        points and/of the max and min of the residuals for conver-
+        gence criteria;
+      <u>comment</u> Now call on exchange to find the first approximation
+        to the best approximating function;
+      exchange (aa,d,c,m,n,refset,emax,singular,r);
+      <u>comment</u> The subscripts of the points chosen are in array ref-
+        set[0:n+1], the coefficients of the best approximating func-
+        tion on the m points are in c[0:n], the residuals in r;
+      <u>comment</u> The reference set, the coefficients at this step, and/or
+        the residuals may be written at this point;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u> clast[i] ≔ c[i];
+      <u>comment</u> Now we are going to look for any extrema not given
+        by the points chosen by exchange;
+      <u>comment</u> Make sure critical points are algebraically ordered;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u> <u>for</u> j ≔ i + 1 <u>step</u> 1 <u>until</u> n + 1 <u>do</u>
+            <u>begin</u>
+               <u>if</u> refset[j] &lt; refset[i] <u>then</u>
+               <u>begin</u>
+                  itemp ≔ refset[j];  refset[j] ≔ refset[i];
+                  refset[i] ≔ itemp;
+               <u>end</u>
+            <u>end</u>;
+      nadded ≔ 0;  maxr ≔ 0;  maxri ≔ 0; ilast ≔ 0;
+      signnow ≔ sign(r[0]);
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m + 1 <u>do</u>
+         <u>begin</u>
+            <u>if</u> i = m + 1 <u>then</u> <u>goto</u> LBL;
+            <u>if</u> sign(r[i]) ≠ 0 ∧ sign(r[i]) = signnow <u>then</u>
+            <u>begin</u>
+               <u>if</u> abs(r[i]) &gt; maxr <u>then</u>
+               <u>begin</u> maxri ≔ i;  maxr ≔ abs(r[i]);  <u>end</u>
+            <u>end</u>
+            <u>else</u>
+              LBL:
+            <u>begin</u>
+               <u>if</u> i &lt; m + 1 <u>then</u> signnow ≔ sign(r[i]);
+               addit ≔ <u>true</u>;
+               <u>for</u> j ≔ 0 <u>step</u> 1 <u>until</u> n + 1 <u>do</u>
+                  <u>begin</u>
+                     <u>for</u> jj ≔ ilast <u>step</u> 1 <u>until</u> i - 1 <u>do</u>
+                        <u>begin</u>
+                           <u>if</u> jj = refset[j] <u>then</u> addit ≔ <u>false</u>;
+                        <u>end</u>
+                  <u>end</u>;
+               <u>if</u> addit <u>then</u>
+               <u>begin</u>
+                  nadded ≔ nadded + 1;  <u>if</u> nadded &gt; n <u>then</u>
+                  <u>begin</u>
+                     <u>comment</u> We assume nadded is always &lt;= n.  If nadded
+                       is &gt; n, why is set to -1 and we g̲o̲ t̲o̲ the label
+                       trouble.  This can be modified by changing this
+                       test and changing the declarations for ptsadd,
+                       refset, xq, and xqlast above;
+                     why ≔ -1;
+                     <u>goto</u> trouble
+                  <u>end</u>;
+                  ptsadd[nadded] ≔ maxri;
+                  refset [n + 1 + nadded] ≔ maxri;
+               <u>end</u>;
+               <u>if</u> i &lt; m + 1 <u>then</u>
+               <u>begin</u>
+                  ilast ≔ i;  maxr ≔ abs(r[i]);  maxri ≔ i;
+               <u>end</u>
+            <u>end</u>
+         <u>end</u>;
+      <u>comment</u> We now have n + 2 + nadded points to send to
+        quadraticmax for adjustment;
+      m ≔ n + nadded;
+      <u>comment</u> Make sure critical points are algebraically ordered;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m <u>do</u> <u>for</u> j ≔ i + 1 <u>step</u> 1 <u>until</u> m + 1 <u>do</u>
+            <u>begin</u>
+               <u>if</u> refset[j] &lt; refset[i] <u>then</u>
+               <u>begin</u>
+                  itemp ≔ refset[j] ≔  refset [j] ≔ refset[i];
+                  refset[i] ≔ itemp;
+               <u>end</u>
+            <u>end</u>;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m + 1 <u>do</u> xq[i] ≔ xi[refset [i]];
+      niter ≔ 2;
+      <u>comment</u> This is the number of times to iterate in quadraticmax;
+      alfa ≔ 0·15;  beta ≔ 0·2;
+      <u>comment</u> alfa and beta are used to determine the points used
+        in quadraticmax to fit a parabola.  They are arbitrary
+        subject to: 0 &lt; alfa &lt; beta &lt; 1.  Also beta should be
+        fairly small to keep the points on one side of zero;
+      <u>comment</u> This is the beginning of the loop that calls on
+        quadraticmax, exchange, etc.;
+      loop:
+      nloop ≔ nloop + 1;
+      quadraticmax(m, xq, niter, alfa, beta, ok, a, b, c, nadded, eps);
+      <u>if</u> ¬ ok <u>then</u>
+      <u>begin</u>
+         k ≔ k + 1;  <u>if</u> k &gt; kmax <u>then</u>
+         <u>begin</u> why ≔ 1;  <u>goto</u> trouble;  <u>end</u>
+           <u>goto</u> newk;
+      <u>end</u>;
+      <u>if</u> ¬ firsttime <u>then</u>
+      <u>begin</u>
+         <u>comment</u> Compare the largest and smallest of the residuals
+           at the critical points (after adjustment);
+         <u>comment</u> Set minr to a large number;
+         maxr ≔ 0·0;  minr ≔ 1·0 50;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n + 1 <u>do</u>
+            <u>begin</u>
+               addit ≔ <u>true</u>;
+               <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> nadded <u>do</u> <u>if</u> refset[i] = ptsadd[j]
+                    <u>then</u> addit ≔ <u>false</u>;
+               <u>if</u> addit <u>then</u>
+               <u>begin</u>
+                  tempr ≔ abs(eps (xq [refset [i]],c,n));
+                  <u>if</u> tempr &gt; maxr <u>then</u> maxr ≔ tempr <u>else</u> <u>if</u> tempr &lt;
+                    minr <u>then</u> minr ≔ tempr;
+               <u>end</u>
+            <u>end</u>
+              <u>if</u> maxr &lt;= rcompare * minr <u>then</u> why ≔ 4;
+      <u>end</u>
+        <u>comment</u> Compare xq to xqlast;
+      <u>if</u> ¬ firsttime <u>then</u>
+      <u>begin</u>
+         convx ≔ <u>true</u>;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m + 1 <u>do</u>
+            <u>begin</u>
+               <u>if</u> abs(xq [i] - xqlast[i]) &gt; absepsx <u>then</u>
+               <u>begin</u>
+                  <u>if</u> abs(xq [i] - xqlast[i]) &GreaterSlantEqual; epsx × abs(xq [i]) ∧
+                    xq[i] ≠ 0·0 <u>then</u> convx ≔ <u>false</u>;
+                  <u>if</u> xq[i] = 0·0 ∧ abs(xq [i] - xqlast[i]) &gt; absepsx
+                    <u>then</u> convx ≔ <u>false</u>;
+               <u>end</u>;
+               xqlast[i] ≔ xq[i];
+            <u>end</u>
+      <u>end</u>
+      <u>else</u>
+      <u>begin</u>
+         firsttime ≔ <u>false</u>;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> m + 1 <u>do</u> xqlast[i] ≔ xq[i];
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u> clast[i] ≔ c[i];
+      <u>end</u>
+        <u>comment</u> Get ready to call exchange again;
+      start(m + 1, n, aa, d, xq, chebyshev, f);
+      exchange(aa, d, c, m + 1, n, refset, emax, singular, r);
+      <u>comment</u> Now compare the new coefficients to the last set of
+        coefficients;
+      <u>if</u> ¬ firsttime <u>then</u>
+      <u>begin</u>
+         convc ≔ <u>true</u>;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> n <u>do</u>
+            <u>begin</u>
+               <u>if</u> abs(c[i] - clast[i]) &GreaterSlantEqual; epsc × abs(c[i]) ∧ c[i] ≠ 0·0
+                 <u>then</u> convc ≔ <u>false</u>;
+               <u>if</u> c[i] = 0·0 ∧ abs(c[i] - clast[i]) &gt; absepsc <u>then</u>
+                 convc ≔ <u>false</u>;  clast[i] ≔ c[i];
+            <u>end</u>
+      <u>end</u>;
+      <u>comment</u> Set the parameter why to the proper value according
+        to the following:
+        why := 4 if maxr &lt;= rcompare * minr.
+        why := 5 if "4" and convx := true.
+        why := 6 if "4" and convc := true.
+        why := 7 if "4" and convx := convc := true.
+        why := 8 if convx := true.
+        why := 9 if convc := true.
+        why := 10 if convx := convc := true.  Any value of why &gt;=
+        4 indicates convergence;
+      <u>if</u> why = 4 ∧ convx <u>then</u> why ≔ 5;
+      <u>if</u> why = 4 ∧ convc <u>then</u> why ≔ 6;
+      <u>if</u> why = 5 ∧ convc <u>then</u> why ≔ 7;
+      <u>if</u> why = 0 ∧ convx <u>then</u> why ≔ 8;
+      <u>if</u> why = 0 ∧ convc <u>then</u> why ≔ 9;
+      <u>if</u> why = 8 ∧ convc <u>then</u> why ≔ 10;
+      <u>if</u> why &GreaterSlantEqual; 4 <u>then</u> <u>go</u> <u>to</u> converged;
+      <u>if</u> nloop &GreaterSlantEqual; loops <u>then</u>
+      <u>begin</u> why ≔ 3;  <u>goto</u> trouble <u>end</u>;
+      <u>comment</u> We g̲o̲ t̲o̲ label trouble in calling program if no con-
+        vergence after a number of iterations equal to loops;
+      <u>goto</u> loop;
+      singular:
+      why ≔ 2;  <u>goto</u> trouble;
+      <u>comment</u> We come to singular if exchange gets into trouble;
+      converged:
+   <u>end</u>;
+   <u>comment</u> End of block using m in array declarations;
+   <u>comment</u> There are four exits to the label trouble...
+     (why=1) if k gets &gt; kmax
+     (why=2) if exchange gets into trouble
+     (why=3) if no convergence after iterating loops number of
+     times
+     (why=-1) if number of added points is greater than n;
+<u>end</u> remez;
+</pre></body></html>

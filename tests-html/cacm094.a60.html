@@ -1,0 +1,24 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>real</u> <u>procedure</u> COMBINATION(J, N, K);
+   <u>value</u> N, K;
+   <u>integer</u> <u>array</u> J;
+     <u>integer</u> N;
+     <u>integer</u> K;
+<u>begin</u>
+   <u>integer</u> A;
+   <u>integer</u> B;
+   <u>integer</u> L;
+   B ≔ 1;
+   mainbody: <u>if</u> J[B] &GreaterSlantEqual; B <u>then</u>
+   <u>begin</u>
+      A ≔ J[B] - B - 1;
+      <u>for</u> L ≔ 1 <u>step</u> 1 <u>until</u> B <u>do</u> J[L] ≔ L + A;
+      <u>goto</u> exit
+   <u>end</u>;
+   <u>if</u> B = K <u>then</u> <u>goto</u> initiate;
+   B ≔ B + 1;
+   <u>goto</u> mainbody;
+   initiate:
+   <u>for</u> B ≔ 1 <u>step</u> 1 <u>until</u> K <u>do</u> J[B] ≔ N - K - 1 + B;
+   exit:
+<u>end</u> COMBINATION;
+</pre></body></html>

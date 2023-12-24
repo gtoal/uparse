@@ -1,0 +1,18 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integer</u>
+     I,
+     J;
+   <u>for</u> I ≔ - 2,
+     - 1,
+     1,
+     2 <u>do</u>
+        <u>for</u> J ≔ - 2 <u>step</u> 1 <u>until</u> 2 <u>do</u>
+           <u>if</u> J ÷ I ≠ SIGN(J / I) × ENTIER(ABS(J / I))
+           <u>then</u>
+         <u>begin</u>
+            OUTREAL(99, J);
+            OUTREAL(99, I);
+            OUTREAL(99, J ÷ I)
+         <u>end</u>;
+<u>end</u>
+</pre></body></html>

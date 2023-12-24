@@ -1,0 +1,41 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integer</u> <u>procedure</u> TSIGN(X);
+      <u>value</u>
+        X;
+      <u>real</u>
+        X;
+      TSIGN ≔         <u>if</u> X &gt; 0 <u>then</u>
+        1
+      <u>else</u> <u>if</u> X &lt; 0 <u>then</u>
+        - 1
+      <u>else</u>
+        0;
+   <u>integer</u> <u>procedure</u> TENTIER(X);
+      <u>value</u>
+        X;
+      <u>real</u>
+        X;
+      TENTIER ≔ X - ·5;
+   <u>real</u> <u>procedure</u> TABS(X);
+      <u>value</u>
+        X;
+      <u>real</u>
+        X;
+      TABS ≔         <u>if</u> X &lt; 0 <u>then</u>
+        - X
+      <u>else</u>
+        X;
+   <u>real</u>
+     X;
+   <u>for</u> X ≔ - 100,
+     - 100·1,
+     - 99·4,
+     - ·4,
+     - ·1,
+     0,·1,·4,·6,
+     300 <u>do</u>
+        <u>if</u> TSIGN(X) ≠ SIGN(X) ∨ TENTIER(X) ≠ ENTIER(X) ∨
+        TABS(X) ≠ ABS(X) <u>then</u>
+        OUTREAL(99, X)
+<u>end</u>
+</pre></body></html>

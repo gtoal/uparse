@@ -1,0 +1,33 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>integer</u>
+     N1,
+     N2;
+   <u>procedure</u> DUMMY;
+   ;
+   <u>procedure</u> P(X, L);
+      <u>value</u>
+        X;
+      <u>integer</u>
+        X;
+        <u>procedure</u>
+        L;
+   <u>begin</u>
+      <u>procedure</u> GOTOL1;
+         <u>goto</u> L1;
+      <u>if</u> X = N1 <u>then</u>
+        P(X - 1, GOTOL1)
+        <u>else</u>
+      <u>if</u> X = N2 <u>then</u>
+        L
+      <u>else</u>
+        P(X - 1, L);
+      L1 :;
+      OUTREAL(99, X)
+   <u>end</u> P;
+   N1 ≔ 4;
+   N2 ≔ 2;
+   P(5, DUMMY);
+   N2 ≔ 0;
+   P(7, DUMMY);
+<u>end</u>
+</pre></body></html>

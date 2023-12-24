@@ -1,0 +1,226 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>begin</u>
+   <u>comment</u>
+     The Whetstone Benchmark.
+
+     See:
+     A Synthetic Benchmark, 
+     H.J. Curnow and B.A. Whichmann, 
+     The Computing Journal, Volume 19  Number 1
+     Feb 1976, P. 43-49
+
+     Some results
+     (in thousands of Whetstone Instructions per second):
+
+     IBM 3090:  	(Delft ?) Algol Compiler	5000
+     Sun 3/60: 	Nase Algol Interpreter		10
+     Nase Algol2C			400
+     Sparc 2: 	Nase Algol Interpreter		63
+     Nase Algol2C			4200
+     Pyramid ??: 	Nase Algol Interpreter		20
+
+     ``Nase'' indicates NASE A60.
+     ;
+
+   <u>real</u> X1, X2, X3, X4, X, Y, Z, T, T1, T2;
+   <u>array</u> E1[1:4];
+   <u>integer</u> I, J, K, L, N1, N2, N3, N4, N5, N6, N7, N8, N9, N10,N11;
+
+   <u>procedure</u> PA(E);
+      <u>array</u> E;
+   <u>begin</u>
+      <u>integer</u> J;
+
+      J ≔ 0;
+      LAB:
+      E[1] ≔ (E[1] + E[2] + E[3] - E[4]) × T;
+      E[2] ≔ (E[1] + E[2] - E[3] + E[4]) × T;
+      E[3] ≔ (E[1] - E[2] + E[3] + E[4]) × T;
+      E[4] ≔ (- E[1] + E[2] + E[3] + E[4]) / T2;
+      J ≔ J + 1;
+      <u>if</u> J &lt; 6 <u>then</u>
+        <u>goto</u> LAB;
+   <u>end</u>;
+
+   <u>procedure</u> P0;
+   <u>begin</u>
+      E1[J] ≔ E1[K];
+      E1[K] ≔ E1[L];
+      E1[L] ≔ E1[J];
+   <u>end</u>;
+
+   <u>procedure</u> P3(X, Y, Z);
+      <u>value</u> X, Y;
+      <u>real</u> X, Y, Z;
+   <u>begin</u>
+      X ≔ T × (X + Y);
+      Y ≔ T × (X + Y);
+      Z ≔ (X + Y) / T2;
+   <u>end</u>;
+
+   <u>procedure</u> POUT (N, J, K, X1, X2, X3, X4);
+      <u>value</u> N, J, K, X1, X2, X3, X4;
+      <u>integer</u> N, J, K;
+        <u>real</u> X1, X2, X3, X4;
+   <u>begin</u>
+      OUTREAL (1, N);
+      OUTREAL (1, J);
+      OUTREAL (1, K);
+      OUTREAL (1, X1);
+      OUTREAL (1, X2);
+      OUTREAL (1, X3);
+      OUTREAL (1, X4);
+      OUTSTRING (1, “\N”);
+   <u>end</u>;
+
+   <u>comment</u> initialize constants ;
+
+   T ≔ 0·499975;
+   T1 ≔ 0·50025;
+   T2 ≔ 2·0;
+
+   <u>comment</u> read the value of i, controlling total wight: if i = 10 the
+     total weight is one million Whetstone instructions ;
+
+   <u>comment</u> inreal (2, i) ;
+
+   I ≔ 10;
+
+   N1 ≔ 0;		N2 ≔ 12 × I;		N3 ≔ 14 × I;
+   N4 ≔ 345 × I;		N5 ≔ 0;		N6 ≔ 210 × I;
+   N7 ≔ 32 × I;		N8 ≔ 899 × I;		N9 ≔ 616 × I;
+   N10 ≔ 0;		N11 ≔ 93 × I;
+
+   <u>comment</u> module 1: simple identifiers ;
+
+   X1 ≔ 1·0;
+   X2 ≔ X3 ≔ X4 ≔ - 1·0;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N1 <u>do</u>
+      <u>begin</u>
+         X1 ≔ (X1 + X2 + X3 - X4) × T;
+         X2 ≔ (X1 + X2 - X3 + X4) × T;
+         X3 ≔ (X1 - X2 + X3 + X4) × T;
+         X4 ≔ (- X1 + X2 + X3 + X4) × T;
+      <u>end</u>;
+
+   POUT (N1, N1, N1, X1, X2, X3, X4);
+
+   <u>comment</u> module 2: array elements ;
+
+   E1[1] ≔ 1·0;
+   E1[2] ≔ E1[3] ≔ E1[4] ≔ -1·0;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N2 <u>do</u>
+      <u>begin</u>
+         E1[1] ≔ (E1[1] + E1[2] + E1[3] - E1[4]) × T;
+         E1[2] ≔ (E1[1] + E1[2] - E1[3] + E1[4]) × T;
+         E1[3] ≔ (E1[1] - E1[2] + E1[3] + E1[4]) × T;
+         E1[4] ≔ (- E1[1] + E1[2] + E1[3] + E1[4]) × T;
+      <u>end</u>;
+
+   POUT (N2, N3, N2, E1[1], E1[2], E1[3], E1[4]);
+
+   <u>comment</u> module 3: as array parameter ;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N3 <u>do</u>
+        PA(E1);
+
+   POUT (N3, N2, N2, E1[1], E1[2], E1[3], E1[4]);
+
+   <u>comment</u> module 4: conditional jumps ;
+
+   J ≔ 1;
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N4 <u>do</u>
+      <u>begin</u>
+         <u>if</u> J = 1 <u>then</u>
+           J ≔ 2
+         <u>else</u>
+           J ≔ 3;
+
+         <u>if</u> J &gt; 2 <u>then</u>
+           J ≔ 0
+         <u>else</u>
+           J ≔ 1;
+
+         <u>if</u> J &lt; 1 <u>then</u>
+           J ≔ 1
+         <u>else</u>
+           J ≔ 0;
+      <u>end</u>;
+
+   POUT (N4, J, J, X1, X2, X3, X4);
+
+   <u>comment</u> module 5: omitted ;
+
+   <u>comment</u> module 6: integer arithmetik ;
+
+   J ≔ 1;	K ≔ 2;	L ≔ 3;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N6 <u>do</u>
+      <u>begin</u>
+         J ≔ J × (K - J) × (L - K);
+         K ≔ L × K - (L - J) × K;
+         L ≔ (L - K) × (K + J) ;	 <u>comment</u> typo in TCJ ;
+         E1[L-1] ≔ J + K + L;
+         E1[K-1] ≔ J × K × L;
+      <u>end</u>;
+
+   POUT (N6, J, K, E1[1], E1[2], E1[3], E1[4]);
+
+   <u>comment</u> module 7: trig functions ;
+
+   X ≔ Y ≔ 0·5;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N7 <u>do</u>
+      <u>begin</u>
+         X ≔ T × ARCTAN (T2 × SIN (X) × COS (X) /
+           (COS (X + Y) + COS (X - Y) - 1·0));
+         Y ≔ T × ARCTAN (T2 × SIN (Y) × COS (Y) /
+           (COS (X + Y) + COS (X - Y) - 1·0));
+      <u>end</u>;
+
+   POUT (N7, J, K, X, X, Y, Y);
+
+   <u>comment</u> module 8: procedure calls ;
+
+   X ≔ Y ≔ Z ≔ 1·0;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N8 <u>do</u>
+        P3 (X, Y, Z);
+
+   POUT (N8, J, K, X, Y, Z, Z);
+
+   <u>comment</u> module 9: array references ;
+
+   J ≔ 1;  K ≔ 2;  L ≔ 3;
+   E1[1] ≔ 1·0;  E1[2] ≔ 2·0;  E1[3] ≔ 3·0;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N9 <u>do</u>
+        P0;
+
+   POUT (N9, J, K, E1[1], E1[2], E1[3], E1[4]);
+
+   <u>comment</u> module 10: integer arithmetik ;
+
+   J ≔ 2;  K ≔ 3;
+
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N10 <u>do</u>
+      <u>begin</u>
+         J ≔ J + K;
+         K ≔ J + K;
+         J ≔ K - J;
+         K ≔ K -J -J;
+      <u>end</u>;
+
+   POUT (N10, J, K, X1, X2, X3, X4);
+
+   <u>comment</u> module 11: standard functions ;
+
+   X ≔ 0·75;
+   <u>for</u> I ≔ 1 <u>step</u> 1 <u>until</u> N11 <u>do</u>
+        X ≔ SQRT (EXP (LN (X) / T1));
+
+   POUT (N11, J, K, X, X, X, X);
+<u>end</u>
+
+</pre></body></html>

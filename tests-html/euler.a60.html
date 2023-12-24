@@ -1,0 +1,27 @@
+<html><head><meta charset="utf-8"></head><body><pre><u>procedure</u> euler (fct,sum,eps,tim); <u>value</u> eps,tim; <u>integer</u> tim;
+     <u>real</u> <u>procedure</u> fct; <u>real</u> sum,eps;
+     <u>comment</u> euler computes the sum of fct(i) for i from zero up to
+     infinity by means of a suitably refined euler transformation. The
+     summation is stopped as soon as tim times in succession the absolute
+     value of the terms of the transformed series are found to be less than
+     eps. Hence, one should provide a function fct with one integer argument,
+     an upper bound eps, and an integer tim. The output is the sum sum. euler
+     is particularly efficient in the case of a slowly convergent or
+     divergent alternating series;
+<u>begin</u>
+   <u>integer</u> i,k,n,t; <u>array</u> m[0:15]; <u>real</u> mn,mp,ds;
+   i ≔ ; t ≔ ; m[0] ≔ ct(0); sum ≔ [0]/2;
+   nextterm: i ≔ +1; mn ≔ ct(i);
+   <u>for</u> k ≔  <u>step</u> 1 <u>until</u> n <u>do</u>
+      <u>begin</u> mp ≔ mn+m[k])/2; m[k] ≔ n;
+         mn ≔ p
+      <u>end</u> means;
+   <u>if</u> (abs(mn)&lt;abs(m[n])) ∧ (n&lt;15) <u>then</u> <u>begin</u>
+      ds ≔ n/2; n ≔ +1; m[n] ≔ n
+   <u>end</u> accept
+   <u>else</u> ds ≔ n;
+   sum ≔ um+ds;
+   <u>if</u> abs(ds) &lt; eps <u>then</u> t ≔ +1 <u>else</u> t ≔ ;
+   <u>if</u> t &lt; tim <u>then</u> <u>goto</u> nextterm
+<u>end</u> euler;
+</pre></body></html>
