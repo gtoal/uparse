@@ -3,6 +3,7 @@
 ./algol60 tests/algolbm_calg52.a60
 ./algol60 tests/algolbm_alg54.a60
 ./algol60 tests/wichtests_wt133.a60
+./algol60 tests/fbench.a60
 ./algol60 tests/wichtests_wt89.a60
 ./algol60 tests/wichtests_wt137.a60
 ./algol60 tests/algtests_at118.a60
