@@ -270,7 +270,7 @@ J] := 0.0;
                         b̲e̲g̲i̲n̲
                         K := ENTIER(12*T+0.5);
                         f̲o̲r̲  J  :=  6, 4, 3, 2, 1  d̲o̲
-                          i̲f̲  ABS(K/J-K'/'J) < 0.000 000 1  t̲h̲e̲n̲
+                          i̲f̲  ABS(K/J-K÷J) < 0.000 000 1  t̲h̲e̲n̲
 g̲o̲t̲o̲  NUMBER;
  NUMBER : PRINT(K/J,4,0);
                         OUTBASICSYMBOL (DOUT,161);

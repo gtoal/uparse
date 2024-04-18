@@ -79,7 +79,7 @@ b̲e̲g̲i̲n̲
 	T2 := 2.0;
 
 	c̲o̲m̲m̲e̲n̲t̲ read the value of i, controlling total wight: if i = 10 the
-		total whight is one million Whetstone instructions ;
+		total weight is one million Whetstone instructions ;
 
 	c̲o̲m̲m̲e̲n̲t̲ inreal (2, i) ;
 

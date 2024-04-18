@@ -1,5 +1,5 @@
 b̲e̲g̲i̲n̲
-   c̲o̲m̲m̲e̲n̲t̲ 'procedure' inVector of reading vector from a file;
+   c̲o̲m̲m̲e̲n̲t̲ procedure inVector of reading vector from a file;
 
    r̲e̲a̲l̲ a̲r̲r̲a̲y̲ a[1:100];
    i̲n̲t̲e̲g̲e̲r̲ i, dim;
