@@ -47,11 +47,12 @@ The demonstration parser builds an executable, "`algol60`", which will
 re-indent an Algol60 source file (such as the examples in `test/*.a60`)
 while canonicalizing some of the alternative Algol symbols to something
 approaching the *publication syntax* standard, with stropped keywords
-having been converted to underlined format. You can compile the
-canonical Algol60 program by piping it through the `unicode_to_jff`
-utility in the `tools/` subdirectory, and feeding that to the `jff-a2c`
-compiler from
+having been converted to underlined format. The command-line option "-jff"
+will cause the source to be output in plain ascii instead, in a format
+suitable for feeding to the `jff-a2c` (or `jff-algol`) command from
 [`https://github.com/JvanKatwijk/algol-60-compiler`](https://github.com/JvanKatwijk/algol-60-compiler).
+Using the parser in this way should enable Algol 60 source files in almost
+any encoding to be compiled with the jff compiler.
 
 ### The grammar files
 
