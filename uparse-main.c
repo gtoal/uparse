@@ -30,6 +30,10 @@ int main(int argc, char **argv) {
    */
   /* char *locale = */ (void) setlocale(LC_ALL, "");
 
+#ifdef APPMODULE
+  //fprintf(stderr, "DEBUG: appmodule = %s\n", APPMODULE);
+#endif
+
   while (argc >= 2) {
     if (strcmp(argv[1], "-d") == 0) { // they're not very mnemonic but they're primarily for me during development.
       argv += 1;
@@ -54,6 +58,13 @@ int main(int argc, char **argv) {
       argv += 1;
       argc -= 1;
       PARM_UNASS_CHECK = 1;
+#ifdef APPMODULE
+    } else if ((strcmp(APPMODULE, "algol60-indent.c") == 0) && (strcmp(argv[1], "-jff") == 0)) {
+      extern int jff;
+      argv += 1;
+      argc -= 1;
+      jff = TRUE;
+#endif
     } else break;
   }
   
