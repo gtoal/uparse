@@ -1,3 +1,7 @@
+// THIS UTILITY IS NOW SUPERCEDED BY THE USE OF THE "-jff" OPTION WHEN RUNNING THE algol60 FILTER.
+// This file will be deleted from the distribution after I've checked that it is no longer referenced
+// by any scripts or documentation in this repository.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
