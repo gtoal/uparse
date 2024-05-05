@@ -15,6 +15,10 @@
 // preferred Unicode characters, except in the few cases where the appropriate
 // Unicode character is not well supported at the time of writing this code.
 
+// A run-time option allows for output of 7-bit ascii format (for
+// other algol60 compilers such as jff or marst etc.)
+int jff = FALSE;
+
 // There are some small infelicities in the indentation algorithm that
 // I decided to live with - fixing them looks like too much complexity,
 // whereas we already get pretty good results with this simple algorithm.
@@ -84,10 +88,32 @@ void O(int Leading_spaces, wchar_t *Literal) {
 
 #define PrintIndent(x) PrintIndent_inner(x, __LINE__)
 void PrintIndent_inner(int Literal, int line) {
+  int leading_space = TRUE, stropped = FALSE;
   int i;
   // fprintf(stderr, "PrintIndent(%d) at line %d\n", Literal, line);
-  for (i = atom(Literal).start; i < atom(Literal).end; i++)
-    Outch(source(i));
+  for (i = atom(Literal).start; i < atom(Literal).end; i++) {
+    if (!jff) {
+      Outch(source(i));
+    } else {
+      if (leading_space && (source(i) == ' ' || source(i) == '\n' || source(i) == '\t' || source(i) == '\f')) {
+        Outch(source(i));
+      } else {
+        if (leading_space) {
+          if (source(i+1) == 818) {
+            Outch('\'');
+            stropped = TRUE;
+          }
+          leading_space = FALSE;
+        }
+        if (source(i+1) == 818) { // combining low-line post-character underline
+          Outch(source(i)); i += 1;
+        } else {
+          Outch(source(i));
+        }
+      }
+    }
+  }
+  if (stropped) Outch('\'');
 }
 
 text_descriptor reindent(int P, int depth) {
@@ -117,12 +143,12 @@ text_descriptor reindent(int P, int depth) {
 
 //\\ P<ldquo> = "“", '{', "‘", "'('", "«", "|<";
    case G_ldquo:
-     O(SubPhrase(P, 1), L"“");
+     O(SubPhrase(P, 1), (jff ? L"\"" : L"“"));
      return r;
 
 //\\ P<rdquo> = "”", '}', "’", "')'", "»", "|>";
    case G_rdquo:
-     O(SubPhrase(P, 1), L"”");
+     O(SubPhrase(P, 1), (jff ? L"\"" : L"”"));
      return r;
 
 //\\ P<BALANCED_STRING> =
@@ -134,29 +160,12 @@ text_descriptor reindent(int P, int depth) {
      }
      return r;
 
-//\\ P<RB> =
-   case G_RB:
-     {                              //\\    '>';
-     O(SubPhrase(P, 3), L"”");
-     }
-     return r;
-
 //\\ P<C_STRING> =
    case G_C_STRING:
-     if (alt == 0)               {  //\\    '"' <C_CHARS> '"',
-       O(SubPhrase(P, 1), L"“");
-       reindent(SubPhraseIdx(P, 2), depth+1 /* G_C_CHARS */);
-       O(SubPhrase(P, 3), L"”");
-     } else if (alt == 1)        {  //\\    "``" «[^']*» "''",
-       // Needs a little more effort to massage
-       O(SubPhrase(P, 1), L"“");
-       PrintIndent(SubPhrase(P, 2));
-       O(SubPhrase(P, 3), L"”");
-     } else                      {  //\\    "`" «[^']*» "'";
-       // Needs a little more effort to massage
-       O(SubPhrase(P, 1), L"“");
-       PrintIndent(SubPhrase(P, 2));
-       O(SubPhrase(P, 3), L"”");
+     {
+     O(SubPhrase(P, 1), (jff ? L"\"" : L"“"));
+     reindent(SubPhraseIdx(P, 2), depth+1 /* G_C_CHARS */);
+     O(SubPhrase(P, 3), (jff ? L"\"" : L"”"));
      }
      return r;
      
@@ -528,7 +537,7 @@ text_descriptor reindent(int P, int depth) {
 //\\ P<decimalpoint> = ".", "·";
    case G_decimalpoint:
      // O(SubPhrase(P, 1), L".");
-     O(SubPhrase(P, 1), L"·");
+     O(SubPhrase(P, 1), (jff ? L"." : L"·"));
      return r;
      
 //\\ P<subten> = "@", "&", "⏨", "\u23E8", "\u2081\u2080";
@@ -538,43 +547,43 @@ text_descriptor reindent(int P, int depth) {
 
 //\\ P<exp_op> = "^", "**", "⭡", "p̲o̲w̲e̲r̲";
   case G_exp_op:
-     O(SubPhrase(P, 1), L"⭡");
+    O(SubPhrase(P, 1), (jff ? L"^" : L"⭡"));
      return r;
 
 //\\ P<mul_op> = "*", "×";
    case G_mul_op:
-     O(SubPhrase(P, 1), L"×");
+     O(SubPhrase(P, 1), (jff ? L"*" : L"×"));
      return r;
 
 //\\ P<idiv_op> = "//", "÷", "%", "d̲i̲v̲";
    case G_idiv_op:
      // if (alt == 2) warn(L"Check that % was used as a substitute for ÷ and not as m̲o̲d̲\n");
-     O(SubPhrase(P, 1), L"÷");
+     O(SubPhrase(P, 1), (jff ? L"'div'" : L"÷"));
      return r;
 
 //\\ P<and_term> = "a̲n̲d̲", "∧", "&";
    case G_and_term:
-     O(SubPhrase(P, 1), L"∧");
+     O(SubPhrase(P, 1), (jff ? L"'and'" : L"∧"));
      return r;
 
 //\\ P<or_term> = "o̲r̲", "∨";
    case G_or_term:
-     O(SubPhrase(P, 1), L"∨");
+     O(SubPhrase(P, 1), (jff ? L"'or'" : L"∨"));
      return r;
 
 //\\ P<equiv_term> = "e̲q̲u̲i̲v̲", "e̲q̲v̲", "≡";
    case G_equiv_term:
-     O(SubPhrase(P, 1), L"≡");
+     O(SubPhrase(P, 1), (jff ? L"'equiv'" : L"≡"));
      return r;
 
 //\\ P<not_term> = "n̲o̲t̲", "¬", "!", "~";
    case G_not_term:
-     O(SubPhrase(P, 1), L"¬");
+     O(SubPhrase(P, 1), (jff ? L"!" : L"¬"));
      return r;
 
 //\\ P<impl_term> = "i̲m̲p̲l̲", "⊃", "\u2283";
    case G_impl_term:
-     O(SubPhrase(P, 1), L"i̲m̲p̲l̲"); // until ⊃ is supported properly
+     O(SubPhrase(P, 1), (jff ? L"'implies'" : L"i̲m̲p̲l̲")); // until ⊃ is supported properly
      return r;
 
      // NOTE:  the sloping <= (⩽ - U+2A7D) and >= (⩾ - U+2A7E) are a better representation than the
@@ -590,15 +599,15 @@ text_descriptor reindent(int P, int depth) {
      } else if (alt == 2)        {  //\\    "e̲q̲",
        O(SubPhrase(P, 1), L"=");
      } else if (alt == 3)        {  //\\    ">=",
-       O(SubPhrase(P, 1), L"≥");
+       O(SubPhrase(P, 1), (jff ? L">=" : L"≥"));
      } else if (alt == 4)        {  //\\    "≥",
-       O(SubPhrase(P, 1), L"≥");
+       O(SubPhrase(P, 1), (jff ? L">=" : L"≥"));
      } else if (alt == 5)        {  //\\    "g̲e̲",
-       O(SubPhrase(P, 1), L"≥");
+       O(SubPhrase(P, 1), (jff ? L">=" : L"≥"));
      } else if (alt == 6)        {  //\\    "n̲o̲t̲l̲e̲s̲s̲",
-       O(SubPhrase(P, 1), L"≥");
+       O(SubPhrase(P, 1), (jff ? L">=" : L"≥"));
      } else if (alt == 7)        {  //\\    "g̲r̲e̲q̲",
-       O(SubPhrase(P, 1), L"≥");
+       O(SubPhrase(P, 1), (jff ? L">=" : L"≥"));
      } else if (alt == 8)        {  //\\    ">",
        O(SubPhrase(P, 1), L">");
      } else if (alt == 9)        {  //\\    "g̲t̲",
@@ -606,33 +615,33 @@ text_descriptor reindent(int P, int depth) {
      } else if (alt == 10)        {  //\\    "g̲r̲e̲a̲t̲e̲r̲",
        O(SubPhrase(P, 1), L">");
      } else if (alt == 11)        {  //\\    "<>",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 12)        {  //\\    "#",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 13)        {  //\\    "≠",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 14)        {  //\\    "n̲e̲",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 15)        {  //\\    "n̲o̲t̲e̲q̲u̲a̲l̲",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 16)        {  //\\    "\=",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 17)        {  //\\    "¬=",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 18)        {  //\\    "!=",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 19)        {  //\\    "^=",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 20)        {  //\\    "|=",
-       O(SubPhrase(P, 1), L"≠");
+       O(SubPhrase(P, 1), (jff ? L"!=" : L"≠"));
      } else if (alt == 21)        {  //\\    "<=",
-       O(SubPhrase(P, 1), L"≤");
+       O(SubPhrase(P, 1), (jff ? L"<=" : L"≤"));
      } else if (alt == 22)        {  //\\    "≤",
-       O(SubPhrase(P, 1), L"≤");
+       O(SubPhrase(P, 1), (jff ? L"<=" : L"≤"));
      } else if (alt == 23)        {  //\\    "l̲e̲s̲s̲e̲q̲",
-       O(SubPhrase(P, 1), L"≤");
+       O(SubPhrase(P, 1), (jff ? L"<=" : L"≤"));
      } else if (alt == 24)        {  //\\    "n̲o̲t̲g̲r̲e̲a̲t̲e̲r̲",
-       O(SubPhrase(P, 1), L"≤");
+       O(SubPhrase(P, 1), (jff ? L"<=" : L"≤"));
      } else if (alt == 25)        {  //\\    "<",
        O(SubPhrase(P, 1), L"<");
      } else if (alt == 26)        {  //\\    "l̲t̲",
@@ -640,7 +649,7 @@ text_descriptor reindent(int P, int depth) {
      } else if (alt == 27)        {  //\\    "l̲e̲s̲s̲",
        O(SubPhrase(P, 1), L"<");
      } else                      {  //\\    "l̲e̲";
-       O(SubPhrase(P, 1), L"≤");
+       O(SubPhrase(P, 1), (jff ? L"<=" : L"≤"));
      }
      return r;
 
