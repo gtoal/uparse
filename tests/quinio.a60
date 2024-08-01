@@ -86,7 +86,7 @@ b̲e̲g̲i̲n̲  c̲o̲m̲m̲e̲n̲t̲  L. Meertens, R 1082, LM 010964/9219.
             b̲e̲g̲i̲n̲  i̲f̲ i̲f̲ BORD[X[k], Y[k]] = 2 t̲h̲e̲n̲ WT[k, 1 - kleur] = 0 e̲l̲s̲e̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲ minim (w, TEMPO[k, 1 - kleur]) e̲n̲d̲;
          f̲o̲r̲ k:= sw - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
             b̲e̲g̲i̲n̲  i̲f̲ i̲f̲ BORD[X[k], Y[k]] = 2 t̲h̲e̲n̲
-                 (i̲f̲ TEMPO[k, kleur] <= w t̲h̲e̲n̲ t̲r̲u̲e̲ e̲l̲s̲e̲ i̲f̲ WT[k, 1 - kleur] = 0 t̲h̲e̲n̲ w = TEMPO[k, 1 - kleur] e̲l̲s̲e̲ f̲a̲l̲s̲e̲) e̲l̲s̲e̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲
+                 (i̲f̲ TEMPO[k, kleur] ≤ w t̲h̲e̲n̲ t̲r̲u̲e̲ e̲l̲s̲e̲ i̲f̲ WT[k, 1 - kleur] = 0 t̲h̲e̲n̲ w = TEMPO[k, 1 - kleur] e̲l̲s̲e̲ f̲a̲l̲s̲e̲) e̲l̲s̲e̲ f̲a̲l̲s̲e̲ t̲h̲e̲n̲
                b̲e̲g̲i̲n̲
                   i̲f̲ maxim (v, SUM (j, 1, 4, 2 × RVAL[k, j] + RNUM[k, kleur, j]) +
                          SUM (j, 0, 1, 2 ⭡ (7 - WT[k, j] - abs (j - kleur) / 2))) t̲h̲e̲n̲ m:= k
