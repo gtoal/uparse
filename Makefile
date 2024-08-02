@@ -129,7 +129,7 @@ upload:
 
 # Parse a lot of Algol source files with the ALGOL 60 demonstration parser.
 regression:
-	find tests -name '*.a60' > REGRESSION-TESTS.sh
+	find tests -maxdepth 1 -name '*.a60' > REGRESSION-TESTS.sh
 	# Oops. Does require ecce. Need to avoid that. Use sed instead?
 	ecce REGRESSION-TESTS.sh -command "(rli=./$(LANGUAGE:%=%) =m)0m-0i.#!/bin/sh.b;%c"
 	chmod +x REGRESSION-TESTS.sh
