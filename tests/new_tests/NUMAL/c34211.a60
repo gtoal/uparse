@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34211;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RNK1UPD(H, N, V, C);v̲a̲l̲u̲e̲ N, C; i̲n̲t̲e̲g̲e̲r̲ N;
+     r̲e̲a̲l̲ C;a̲r̲r̲a̲y̲ H, V;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, K;
+   K:= 0;
+   f̲o̲r̲ J:= 1, J + K w̲h̲i̲l̲e̲ K < N d̲o̲
+      b̲e̲g̲i̲n̲ K:= K +1 ;
+         ELMVEC(J, J + K - 1, 1 - J, H, V, V[K] × C)
+      e̲n̲d̲
+e̲n̲d̲ RNK1UPD;
+e̲o̲p̲

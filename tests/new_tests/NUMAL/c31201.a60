@@ -1,0 +1,28 @@
+c̲o̲d̲e̲ 31201;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNG INT SUBTRACT(U,V,DIFFERENCE);
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ U,V,DIFFERENCE;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ LU,LV,DIFF,I,T,J,CARRY;
+   LU:=U[0]; LV:=V[0];
+   i̲f̲ LU<LV ∨ LU=LV ∧ U[1]<V[1] t̲h̲e̲n̲ DIFFERENCE[0]:=0 e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ DIFF:=LU - LV + 1; CARRY:=0;
+      f̲o̲r̲ I:=LU s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ DIFF d̲o̲
+         b̲e̲g̲i̲n̲ T:=U[I] - V[I-DIFF+1] + CARRY;
+            CARRY:=i̲f̲ T<0 t̲h̲e̲n̲ -1 e̲l̲s̲e̲ 0;
+            DIFFERENCE[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲;
+      f̲o̲r̲ I:=DIFF - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ T:=U[I] + CARRY; CARRY:=i̲f̲ T<0 t̲h̲e̲n̲ -1 e̲l̲s̲e̲ 0;
+            DIFFERENCE[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲;
+      i̲f̲ CARRY=-1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DIFFERENCE[0]:=0; g̲o̲t̲o̲ READY e̲n̲d̲;
+      I:=0; J:=LU;
+      f̲o̲r̲ I:=I+1 w̲h̲i̲l̲e̲ DIFFERENCE[I]=0 ∧ J>1 d̲o̲ J:=J-1;
+      DIFFERENCE[0]:=J;
+      i̲f̲ J<LU t̲h̲e̲n̲
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J d̲o̲
+           DIFFERENCE[I]:=DIFFERENCE[LU+I-J]
+   e̲n̲d̲;
+   READY:
+e̲n̲d̲ LNG INT SUBTRACT;
+e̲o̲p̲

@@ -1,0 +1,27 @@
+c̲o̲d̲e̲ 34250;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ITISOL(A, LU, N, AUX, RI, CI, B); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, LU, AUX, B; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, ITER, MAXITER;
+   r̲e̲a̲l̲ MAXERX, ERX, NRMRES, NRMSOL, R, RR;
+   a̲r̲r̲a̲y̲ RES, SOL[1:N];
+   MAXERX:= ERX:= AUX[10]; MAXITER:= AUX[12];
+   INIVEC(1, N, SOL, 0); DUPVEC(1, N, 0, RES, B);
+   f̲o̲r̲ ITER:= 1, ITER + 1 w̲h̲i̲l̲e̲ ITER ≤ MAXITER ∧
+     MAXERX < ERX d̲o̲
+      b̲e̲g̲i̲n̲ SOLELM(LU, N, RI, CI, RES); ERX:= NRMSOL:= NRMRES:= 0;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ R:= RES[I]; ERX:= ERX + ABS(R); RR:= SOL[I] + R;
+               SOL[I]:= RR; NRMSOL:= NRMSOL + ABS(RR)
+            e̲n̲d̲;
+         ERX:= ERX / NRMSOL;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ LNGMATVEC(1, N, I, A, SOL, - B[I], 0, R, RR);
+               R:= - (R + RR); RES[I]:= R; NRMRES:= NRMRES + ABS(R)
+            e̲n̲d̲
+      e̲n̲d̲ ITERATION;
+   DUPVEC(1, N, 0, B, SOL);
+   AUX[11]:= ERX; AUX[13]:= NRMRES
+e̲n̲d̲ ITISOL
+
+;e̲o̲p̲

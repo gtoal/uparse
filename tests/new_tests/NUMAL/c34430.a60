@@ -1,0 +1,60 @@
+c̲o̲d̲e̲ 34430;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ QUANEWBND(N, LW, RW, X, F, JAC, FUNCT, IN, OUT);
+   v̲a̲l̲u̲e̲ N, LW, RW; i̲n̲t̲e̲g̲e̲r̲ N, LW, RW;
+     a̲r̲r̲a̲y̲ X, F, JAC, IN, OUT; b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ L, IT, FCNT, FMAX, ERR, B;
+   r̲e̲a̲l̲ MACHEPS, RELTOL, ABSTOL, TOLRES, ND, MZ, RES;
+   a̲r̲r̲a̲y̲ DELTA[1:N];
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVALUATE(N, X, F); v̲a̲l̲u̲e̲ N;
+      i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ X, F;
+   b̲e̲g̲i̲n̲ FCNT:= FCNT + N; i̲f̲ ¬ FUNCT(N, 1, N, X, F) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ERR:= 2; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+      i̲f̲ FCNT > FMAX t̲h̲e̲n̲ ERR:= 1;
+      EVALUATE:= SQRT(VECVEC(1, N, 0, F, F))
+   e̲n̲d̲ EVAL;
+
+   b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIRECTION;
+   b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ LU[1:L], AUX[1:5]; AUX[2]:= MACHEPS;
+      MULVEC(1, N, 0, DELTA, F, -1); DUPVEC(1, L, 0, LU, JAC);
+      DECSOLBND(LU, N, LW, RW, AUX, DELTA);
+      DIRECTION:= AUX[3] = N
+   e̲n̲d̲ SOLLINSYS;
+
+   b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TEST(ND, TOLD, NRES, TOLRES, ERR);
+      v̲a̲l̲u̲e̲ ND, TOLD; i̲n̲t̲e̲g̲e̲r̲ ERR; r̲e̲a̲l̲ ND, TOLD, NRES, TOLRES;
+      TEST:= ERR ≠ 0 ∨ (NRES < TOLRES ∧ ND < TOLD);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ UPDATE JAC;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲  I, J, K, R, M; r̲e̲a̲l̲ MUL, CRIT;
+      a̲r̲r̲a̲y̲ PP, S[1:N];
+      CRIT:= ND × MZ;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ PP[I]:= DELTA[I] ⭡ 2;
+      R:= 1; K:= 1; M:= RW + 1;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ MUL:= 0; f̲o̲r̲ J:= R s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 MUL:= MUL + PP[J]; J:= R - K;
+            i̲f̲ ABS(MUL) > CRIT t̲h̲e̲n̲
+              ELMVEC(K, M - J, J, JAC, DELTA, F[I] / MUL); K:= K + B;
+            i̲f̲ I > LW t̲h̲e̲n̲ R:= R + 1 e̲l̲s̲e̲ K:= K - 1;
+            i̲f̲ M < N t̲h̲e̲n̲ M:= M + 1
+         e̲n̲d̲
+   e̲n̲d̲ UPDATEJAC
+
+     MACHEPS:= IN[0]; RELTOL:= IN[1]; ABSTOL:= IN[2];
+   TOLRES:= IN[3]; FMAX:= IN[4]; MZ:= MACHEPS ⭡ 2;
+   IT:= FCNT:= 0; B:= LW + RW; L:= (N - 1) × B + N; B:= B + 1;
+   RES:= SQRT(VECVEC(1, N, 0, F, F)); ERR:= 0;
+   ITERATE: i̲f̲ ¬ TEST(SQRT(ND), SQRT(VECVEC(1, N, 0, X, X)) × RELTOL
+     + ABSTOL, RES, TOLRES, ERR) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ IT:= IT + 1; i̲f̲ IT ≠ 1 t̲h̲e̲n̲ UPDATEJAC;
+      i̲f̲ ¬ DIRECTION t̲h̲e̲n̲ ERR:= 3 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ ELMVEC(1, N, 0, X, DELTA, 1);
+         ND:= VECVEC(1, N, 0, DELTA, DELTA);
+         RES:= EVALUATE(N, X, F); g̲o̲t̲o̲ ITERATE
+      e̲n̲d̲
+   e̲n̲d̲;
+   EXIT: OUT[1]:= SQRT(ND); OUT[2]:=RES; OUT[3]:= FCNT;
+   OUT[4]:= IT; OUT[5]:= ERR
+e̲n̲d̲ QUANEWBND;
+e̲o̲p̲

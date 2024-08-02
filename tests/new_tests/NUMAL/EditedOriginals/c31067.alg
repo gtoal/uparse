@@ -1,0 +1,9 @@
+'CODE' 31067;
+ 'REAL' 'PROCEDURE' ONENRMCOL(L, U, J, A); 'VALUE' L, U, J;
+ 'INTEGER' L, U, J; 'ARRAY' A;
+ 'BEGIN' 'REAL' SUM;
+    SUM:= 0; 'FOR' L:= L 'STEP' 1 'UNTIL' U 'DO'
+    SUM:= SUM + ABS(A[L,J]);
+    ONENRMCOL:= SUM
+'END' ONENRMCOL;
+        'EOP'

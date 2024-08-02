@@ -1,0 +1,12 @@
+c̲o̲d̲e̲ 31062;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INFNRMROW(L, U, I, K, A); v̲a̲l̲u̲e̲ L, U, I;
+   i̲n̲t̲e̲g̲e̲r̲ L, U, I, K; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R, MAX;
+   MAX:= 0; K:= L;
+   f̲o̲r̲ L:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+      b̲e̲g̲i̲n̲ R:= ABS(A[I,L]); i̲f̲ R > MAX t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MAX:= R; K:= L e̲n̲d̲
+      e̲n̲d̲;
+   INFNRMROW:= MAX
+e̲n̲d̲ INFNRMROW;
+e̲o̲p̲

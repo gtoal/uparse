@@ -1,0 +1,72 @@
+c̲o̲d̲e̲ 33033;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RKE (X, XE, N, Y, DER, DATA, FI, OUT);
+   v̲a̲l̲u̲e̲  FI, N; i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ X, XE;
+     b̲o̲o̲l̲e̲a̲n̲ FI; a̲r̲r̲a̲y̲ Y, DATA;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DER, OUT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J;
+   r̲e̲a̲l̲ XT, H, HMIN, INT, HL, HT, ABSH, FHM, DISCR, TOL, MU,
+     MU1, FH, E1, E2;
+   b̲o̲o̲l̲e̲a̲n̲ LAST, FIRST, REJECT;
+   a̲r̲r̲a̲y̲ K0, K1, K2, K3, K4[1:N];
+   i̲f̲ FI t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ DATA[3]:= XE - X; DATA[4]:= DATA[5]:= DATA[6]:= 0 e̲n̲d̲;
+   ABSH:= H:= ABS(DATA[3]);
+   i̲f̲ XE < X t̲h̲e̲n̲ H:= - H; INT:= ABS(XE - X);
+   HMIN:= INT × DATA[1] + DATA[2];
+   E1:= 12 × DATA[1] / INT; E2:= 12 × DATA[2] / INT;
+   FIRST:= t̲r̲u̲e̲; REJECT:= f̲a̲l̲s̲e̲; i̲f̲ FI t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LAST:= t̲r̲u̲e̲; g̲o̲t̲o̲ STEP e̲n̲d̲;
+   TEST: ABSH:= ABS(H); i̲f̲ ABSH < HMIN t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ H:= SIGN (XE - X) × HMIN; ABSH:= HMIN e̲n̲d̲;
+   i̲f̲ H ≥ XE - X ≡ H ≥ 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LAST:= t̲r̲u̲e̲; H:= XE - X; ABSH:= ABS(H) e̲n̲d̲
+   e̲l̲s̲e̲ LAST:= f̲a̲l̲s̲e̲;
+   STEP: i̲f̲ ¬ REJECT t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K0[J]:= Y[J];
+      DER(X, K0)
+   e̲n̲d̲;
+   HT:= ·184262134833347 × H; XT:= X + HT;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K1[J]:= K0[J] × HT + Y[J];
+   DER(XT, K1);
+   HT:= ·690983005625053@-1 × H; XT:= 4 × HT + X;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K2[J]:=
+        (3 × K1[J] + K0[J]) × HT + Y[J];
+   DER(XT, K2);
+   XT:= ·5 × H + X; HT:= ·1875 × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K3[J]:=((1·74535599249993× K2[J] - K1[J]) × 2·23606797749979 + K0[J]) × HT + Y[J];
+   DER(XT, K3);
+   XT:= ·723606797749979 × H + X; HT:= ·4 × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K4[J]:= (((·517595468166681× K0[J] - K1[J]) × ·927050983124840 + K2[J]) × 1·46352549156242
+        + K3[J]) × HT + Y[J];
+   DER(XT, K4);
+   XT:= i̲f̲ LAST t̲h̲e̲n̲ XE e̲l̲s̲e̲ X + H; HT:= 2 × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K1[J]:= ((((2 × K4[J] +
+        K2[J]) × ·412022659166595 + K1[J]) × 2·23606797749979 -
+        K0[J]) × ·375 - K3[J]) × HT + Y[J];
+   DER(XT, K1);
+   REJECT:= f̲a̲l̲s̲e̲; FHM:= 0;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ DISCR:= ABS((1·6 × K3[J] - K2[J] - K4[J]) × 5 +
+           K0[J] + K1[J]);
+         TOL:= ABS(K0[J]) × E1 + E2;
+         REJECT:= DISCR > TOL ∨ REJECT;
+         FH:= DISCR / TOL; i̲f̲ FH > FHM t̲h̲e̲n̲ FHM:= FH
+      e̲n̲d̲;
+   MU:= 1 / (1 + FHM) + ·45; i̲f̲ REJECT t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ DATA[5]:= DATA[5] + 1; i̲f̲ ABSH ≤ HMIN t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DATA[6]:= DATA[6] + 1; HL:= H; REJECT:= f̲a̲l̲s̲e̲;
+         FIRST:= t̲r̲u̲e̲; g̲o̲t̲o̲ NEXT
+      e̲n̲d̲;
+      H:= MU × H; g̲o̲t̲o̲ TEST
+   e̲n̲d̲;
+   i̲f̲ FIRST t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:= f̲a̲l̲s̲e̲; HL:= H; H:= MU × H; g̲o̲t̲o̲ ACC
+   e̲n̲d̲;
+   FH:= MU × H / HL + MU - MU1; HL:= H; H:= FH × H;
+   ACC: MU1:= MU; HT:= HL / 12;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[J]:=
+        ((K2[J] + K4[J]) × 5 + K0[J] + K1[J]) × HT + Y[J];
+   NEXT: DATA[3]:= HL; DATA[4]:= DATA[4] + 1; X:= XT; OUT;
+   i̲f̲ X ≠ XE t̲h̲e̲n̲ g̲o̲t̲o̲ TEST
+e̲n̲d̲ RKE;
+e̲o̲p̲

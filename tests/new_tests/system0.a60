@@ -1,0 +1,11 @@
+'BEGIN'
+'COMMENT' stop procedure;
+	'INTEGER' i;
+	
+	'FOR' i := 1 'STEP' 1 'UNTIL' 20 'DO'
+	'BEGIN'
+		outinteger(1, i);
+		'IF' i = 11 'THEN' stop
+	'END'
+	
+'END'

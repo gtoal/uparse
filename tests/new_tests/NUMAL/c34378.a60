@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34378;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELMCOMROWVEC(L,U,I,AR,AI,BR,BI,XR,XI);
+   v̲a̲l̲u̲e̲ L,U,I,XR,XI;
+   i̲n̲t̲e̲g̲e̲r̲ L,U,I;r̲e̲a̲l̲ XR,XI;a̲r̲r̲a̲y̲ AR,AI,BR,BI;
+b̲e̲g̲i̲n̲
+   ELMROWVEC(L,U,I,AR,BR,XR);
+   ELMROWVEC(L,U,I,AR,BI,-XI);
+   ELMROWVEC(L,U,I,AI,BR,XI);
+   ELMROWVEC(L,U,I,AI,BI,XR)
+e̲n̲d̲ ELMCOMROWVEC;
+e̲o̲p̲

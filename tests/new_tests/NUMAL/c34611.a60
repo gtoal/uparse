@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 34611;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲CHSH2(A1R,A1I,A2R,A2I,C,SR,SI);
+   v̲a̲l̲u̲e̲A1R,A1I,A2R,A2I;r̲e̲a̲l̲A1R,A1I,A2R,A2I,C,SR,SI;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R;
+   i̲f̲ A2R≠0 ∨ A2I≠0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ A1R≠0 ∨ A1I≠0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ R:=SQRT(A1R×A1R+A1I×A1I);C:=R;
+         SR:=(A1R×A2R+A1I×A2I)/R;SI:=(A1R×A2I-A1I×A2R)/R;
+         R:=SQRT(C×C+SR×SR+SI×SI);C:=C/R;SR:=SR/R;SI:=SI/R
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ SI:=C:=0;SR:=1 e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲ C:=1;SR:=SI:=0 e̲n̲d̲
+e̲n̲d̲ CHSH2;
+e̲o̲p̲

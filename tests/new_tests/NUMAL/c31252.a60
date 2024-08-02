@@ -1,0 +1,25 @@
+c̲o̲d̲e̲ 31252;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSWTSSYM(N,ZER,C)RESULTS:(W);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ ZER,C,W;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ LOW,UP,DUMMY;
+   a̲r̲r̲a̲y̲ P[0:N-1];
+   LOW:=1; UP:=N;
+   f̲o̲r̲ DUMMY:=1
+     w̲h̲i̲l̲e̲ LOW < UP d̲o̲
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ S;
+         ALLORTPOLSYM( N-1,ZER[LOW],C,P );
+         S:=P[N-1]⭡2;
+         f̲o̲r̲ I:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              S:=S/C[I] + (P[I-1])⭡2;
+         W[LOW]:=1/S; LOW:=LOW+1; UP:=UP-1;
+      e̲n̲d̲;
+   i̲f̲ LOW = UP
+     t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ TWOI; r̲e̲a̲l̲ S; S:=1·0;
+      f̲o̲r̲ TWOI:=N-1 s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ 2 d̲o̲
+           S:=S×C[TWOI-1]/C[TWOI]+1;
+      W[LOW]:=1/S;
+   e̲n̲d̲;
+e̲n̲d̲ GSSWTSSYM;
+e̲o̲p̲

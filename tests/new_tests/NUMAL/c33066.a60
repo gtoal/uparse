@@ -1,0 +1,72 @@
+c̲o̲d̲e̲ 33066;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ARKMAT( T, TE, M, N, U, DER, TYPE, ORDER, SPR, OUT);
+   v̲a̲l̲u̲e̲ M,N,TYPE,ORDER;
+   i̲n̲t̲e̲g̲e̲r̲ M,N,TYPE,ORDER;
+     r̲e̲a̲l̲ T,TE,SPR;
+     a̲r̲r̲a̲y̲ U;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DER,OUT;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ SIG,L;
+   r̲e̲a̲l̲ TAU;
+   a̲r̲r̲a̲y̲ LAMBDA[1:9],UH,DU[1:N,1:M];
+   b̲o̲o̲l̲e̲a̲n̲ LAST;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELMMAT(A,B,X); v̲a̲l̲u̲e̲ X; a̲r̲r̲a̲y̲ A,B; r̲e̲a̲l̲ X;
+      f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ ELMCOL(1,N,L,L,A,B,X);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INITIALIZE;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;r̲e̲a̲l̲ LBD;
+      s̲w̲i̲t̲c̲h̲ TYPEODE:=NOTSPECIFIED2,PARABOLIC1,PARABOLIC2,HYPERBOLIC2;
+
+      i̲f̲ TYPE≠2 ∧ TYPE≠3 t̲h̲e̲n̲ TYPE:=1;
+      i̲f̲ TYPE≠2 t̲h̲e̲n̲ ORDER:=2 e̲l̲s̲e̲ i̲f̲ ORDER≠2 t̲h̲e̲n̲ ORDER:=1;
+      I:=1;
+      g̲o̲t̲o̲ TYPEODE[i̲f̲ TYPE=1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ TYPE+ORDER-1];
+
+      NOTSPECIFIED2: f̲o̲r̲ LBD:=1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,4·3 d̲o̲
+         b̲e̲g̲i̲n̲ LAMBDA[I]:=LBD; I:=I+1 e̲n̲d̲;
+      g̲o̲t̲o̲ EXIT;
+
+      PARABOLIC1:    f̲o̲r̲LBD:=·1418519249@-2,·3404154076@-2,·0063118569
+        ,·01082794375,·01842733851,·03278507942,·0653627415,·1691078577,156 d̲o̲
+         b̲e̲g̲i̲n̲ LAMBDA[I]:=LBD; I:=I+1 e̲n̲d̲;
+      g̲o̲t̲o̲ EXIT;
+
+      PARABOLIC2:    f̲o̲r̲ LBD:=·3534355908@-2,·8532600867@-2,·015956206
+        ,·02772229155,·04812587964,·08848689452,·1863578961,·5,64 d̲o̲
+         b̲e̲g̲i̲n̲ LAMBDA[I]:=LBD; I:=I+1 e̲n̲d̲;
+      g̲o̲t̲o̲ EXIT;
+
+      HYPERBOLIC2:   f̲o̲r̲ LBD:=1/8,1/20,5/32,2/17,17/80,5/22,11/32,1/2,
+        8 d̲o̲
+         b̲e̲g̲i̲n̲ LAMBDA[I]:=LBD; I:=I+1 e̲n̲d̲;
+      g̲o̲t̲o̲ EXIT;
+      EXIT: SIG:=SIGN(TE-T)
+
+   e̲n̲d̲ INITIALIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;r̲e̲a̲l̲ MLT;
+
+      DER(T,U,DU);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 8 d̲o̲
+         b̲e̲g̲i̲n̲ MLT:=LAMBDA[I]×TAU;
+            DUPMAT(1,N,1,M,UH,U);
+            ELMMAT(UH,DU,MLT);
+            DER(T+MLT,UH,DU)
+         e̲n̲d̲;
+      ELMMAT(U,DU,TAU);
+      T:=i̲f̲ LAST t̲h̲e̲n̲ TE e̲l̲s̲e̲ T+TAU;
+   e̲n̲d̲ DIFFERENCE SCHEME;
+
+   INITIALIZE; LAST:=f̲a̲l̲s̲e̲;
+
+   STEP:
+   TAU:=(i̲f̲ SPR=0 t̲h̲e̲n̲ ABS(TE-T) e̲l̲s̲e̲ ABS(LAMBDA[9]/SPR))×SIG;
+   i̲f̲ T+TAU ≥ TE ≡ TAU≥0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ TAU:=TE-T;LAST:=t̲r̲u̲e̲ e̲n̲d̲;
+   DIFFERENCE SCHEME ; OUT;
+   i̲f̲ ¬ LAST t̲h̲e̲n̲ g̲o̲t̲o̲ STEP
+
+e̲n̲d̲ ARKMAT;
+e̲o̲p̲

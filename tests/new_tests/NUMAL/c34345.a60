@@ -1,0 +1,23 @@
+c̲o̲d̲e̲34345;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMKWD(PR,PI,QR,QI,GR,GI,KR,KI);
+   v̲a̲l̲u̲e̲ PR,PI,QR,QI;r̲e̲a̲l̲ PR,PI,QR,QI,GR,GI,KR,KI;
+b̲e̲g̲i̲n̲
+   i̲f̲ QR=0 ∧ QI = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ KR:=KI:=0 ;GR:=PR×2;GI:=PI×2 e̲n̲d̲ e̲l̲s̲e̲
+   i̲f̲ PR=0 ∧ PI= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ COMSQRT(QR,QI,GR,GI);KR:=-GR;KI:=-GI e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ HR,HI;
+      i̲f̲ ABS(PR) > 1 ∨ ABS(PI) >1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+         COMDIV(QR,QI,PR,PI,HR,HI);
+         COMDIV(HR,HI,PR,PI,HR,HI);
+         COMSQRT(1+HR,HI,HR,HI);
+         COMMUL(PR,PI,HR+1,HI,GR,GI);
+      e̲n̲d̲ e̲l̲s̲e̲ b̲e̲g̲i̲n̲ COMSQRT(QR+(PR+PI)×(PR-PI),QI+ PR×PI×2,HR,HI);
+         i̲f̲ PR × HR + PI × HI > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ GR := PR + HR;GI := PI + HI e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ GR := PR - HR;GI:= PI - HI e̲n̲d̲;
+      e̲n̲d̲;
+      COMDIV(-QR,-QI,GR,GI,KR,KI);
+   e̲n̲d̲
+e̲n̲d̲ COMKWD;
+e̲o̲p̲

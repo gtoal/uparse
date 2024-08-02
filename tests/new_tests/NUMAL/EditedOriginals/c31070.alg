@@ -1,0 +1,9 @@
+'CODE' 31070;
+'PROCEDURE' HSHVECMAT(LR, UR, LC, UC, X, U, A);
+'VALUE' LR, UR, LC, UC, X; 'INTEGER' LR, UR, LC, UC;
+'REAL' X; 'ARRAY' U, A;
+'BEGIN'
+    'FOR' LC:= LC 'STEP' 1 'UNTIL' UC 'DO'
+    ELMCOLVEC(LR, UR, LC, A, U, TAMVEC(LR, UR, LC, A, U) * X)
+'END';
+        'EOP'

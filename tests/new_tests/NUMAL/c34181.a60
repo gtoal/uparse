@@ -1,0 +1,48 @@
+c̲o̲d̲e̲ 34181;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2411;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAVECHES(A, N, LAMBDA, EM, V); v̲a̲l̲u̲e̲ N, LAMBDA;
+   i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ LAMBDA; a̲r̲r̲a̲y̲ A, EM, V;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, I1, J, COUNT, MAX;
+   r̲e̲a̲l̲ M, R, NORM, MACHTOL, TOL;
+   b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ P[1:N];
+
+   NORM:= EM[1]; MACHTOL:= EM[0] × NORM; TOL:= EM[6] × NORM;
+   MAX:= EM[8]; A[1,1]:= A[1,1] - LAMBDA;
+   GAUSS: f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1; R:= A[I,I]; M:= A[I1,I];
+         i̲f̲ ABS(M) < MACHTOL t̲h̲e̲n̲ M:= MACHTOL;
+         P[I]:= ABS(M) ≤ ABS(R);
+         i̲f̲ P[I] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ A[I1,I]:= M:= M / R;
+            f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 A[I1,J]:= (i̲f̲ J > I1 t̲h̲e̲n̲ A[I1,J]
+               e̲l̲s̲e̲ A[I1,J] - LAMBDA) - M × A[I,J]
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ A[I,I]:= M; A[I1,I]:= M:= R / M;
+            f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ R:= (i̲f̲ J > I1 t̲h̲e̲n̲ A[I1,J] e̲l̲s̲e̲
+                    A[I1,J] - LAMBDA);
+                  A[I1,J]:= A[I,J] - M × R; A[I,J]:= R
+               e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲ GAUSS;
+   i̲f̲ ABS(A[N,N]) < MACHTOL t̲h̲e̲n̲ A[N,N]:= MACHTOL;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ V[J]:= 1; COUNT:= 0;
+   FORWARD: COUNT:= COUNT + 1; i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ OUT;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1;
+         i̲f̲ P[I] t̲h̲e̲n̲ V[I1]:= V[I1] - A[I1,I] × V[I] e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ R:= V[I1]; V[I1]:= V[I] - A[I1,I] × R;
+            V[I]:=R
+         e̲n̲d̲
+      e̲n̲d̲ FORWARD;
+   BACKWARD: f̲o̲r̲ I:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        V[I]:= (V[I] - MATVEC(I + 1, N, I, A, V)) / A[I,I];
+   R:= 1 / SQRT(VECVEC(1, N, 0, V, V));
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ V[J]:= V[J] × R;
+   i̲f̲ R > TOL t̲h̲e̲n̲ g̲o̲t̲o̲ FORWARD;
+   OUT: EM[7]:= R; EM[9]:= COUNT
+e̲n̲d̲ REAVECHES
+
+;e̲o̲p̲

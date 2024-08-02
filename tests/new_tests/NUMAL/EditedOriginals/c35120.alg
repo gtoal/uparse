@@ -1,0 +1,7 @@
+'CODE' 35120;
+'REAL' 'PROCEDURE' TAN(X); 'VALUE' X; 'REAL' X;
+'BEGIN' 'REAL' U;
+    U:= SIN(X)/COS(X);
+    TAN:= 'IF' OVERFLOW(U) 'THEN' GIANT 'ELSE' U
+'END' TAN;
+        'EOP'

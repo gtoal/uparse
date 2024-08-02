@@ -1,0 +1,10 @@
+'CODE' 31066;
+ 'REAL' 'PROCEDURE' ONENRMROW(L, U, I, A); 'VALUE' L, U, I;
+ 'INTEGER' L, U, I; 'ARRAY' A;
+ 'BEGIN' 'REAL' SUM;
+    SUM:= 0; 'FOR' L:= L 'STEP' 1 'UNTIL' U 'DO'
+    SUM:= SUM + ABS(A[I,L]);
+    ONENRMROW:= SUM
+'END' ONENRMROW
+
+        ;'EOP'

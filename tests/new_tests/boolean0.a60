@@ -1,0 +1,6 @@
+'BEGIN'
+'COMMENT' print boolean value;
+	'BOOLEAN' b;
+	b := 'FALSE';
+	'IF' b 'THEN' outstring(1, 'TRUE') 'ELSE' outstring(1, 'FALSE');
+'END'

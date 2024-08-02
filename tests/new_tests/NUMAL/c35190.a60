@@ -1,0 +1,22 @@
+c̲o̲d̲e̲ 35190;
+c̲o̲m̲m̲e̲n̲t̲ COMPUTATION OF I[A](X),   , I[N+A](X);
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS IAPLUSN(A, X, N, IA); v̲a̲l̲u̲e̲ A, X, N;
+   i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ X, A; a̲r̲r̲a̲y̲ IA;
+   i̲f̲ X= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ IA[0]:= i̲f̲ A= 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0;
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ IA[N]:= 0
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ A= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      BESS I(X, N, IA);
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ A= ·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C;
+      C:= ·797 884 560 802 865 × SQRT(ABS(X)) × EXP (ABS (X));
+      NONEXP SPHER BESSI(X, N, IA);
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ IA[N]:= C×IA[N]
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ EXPX;
+      EXPX:= EXP(ABS(X));
+      NONEXP BESS IAPLUSN(A, X, N, IA);
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ IA[N]:= EXPX × IA[N]
+   e̲n̲d̲ BESS IAPLUSN;
+e̲o̲p̲

@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 34362;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BAKLBRCOM(N, N1, N2, D, INT, VR, VI);
+   v̲a̲l̲u̲e̲ N, N1, N2; i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ D, VR, VI;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT;
+b̲e̲g̲i̲n̲
+   BAKLBR(N, N1, N2, D, INT, VR);
+   BAKLBR(N, N1, N2, D, INT, VI)
+e̲n̲d̲ BAKLBRCOM;
+e̲o̲p̲

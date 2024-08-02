@@ -1,0 +1,28 @@
+c̲o̲d̲e̲ 35176;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXP BESS I1(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+   i̲f̲ X=0 t̲h̲e̲n̲ NONEXP BESS I1:= 0
+     e̲l̲s̲e̲ i̲f̲ ABS(X)> 15·0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ SIGNX ;
+      r̲e̲a̲l̲ AR, BR, BR1, BR2, Z, Z2,
+        SQRTX, DENOMINATOR, NUMERATOR;
+      SIGNX:= SIGN(X); X:= ABS(X); SQRTX:= SQRT(X);
+      Z:= 30/X - 1; Z2 := Z + Z;
+      BR1:= BR2:= 0;
+      f̲o̲r̲ AR:=
+        +·14940  52814  740  @+1,-·36202  64202  42263  @+3,
+        +·22054  97222  60336  @+5,-·40892  80849  44275  @+6 d̲o̲
+         b̲e̲g̲i̲n̲ BR:= Z2 × BR1 - BR2 + AR;
+            BR2:= BR1; BR1:= BR
+         e̲n̲d̲;
+      NUMERATOR:= Z × BR1 -BR2 +·10277  66923  71524  @7;
+      BR1:= BR2:= 0; f̲o̲r̲ AR:= 1,-·63100  32005  51590  @3,
+        +·49681  19495  33398  @5,-·10042  54281  33695  @7  d̲o̲
+         b̲e̲g̲i̲n̲ BR:= Z2 × BR1 - BR2 + AR; BR2:= BR1; BR1:=BR e̲n̲d̲;
+      DENOMINATOR:= Z × BR1 - BR2 +·26028  87678  9105  @7;
+      NONEXP BESS I1:= ((NUMERATOR/DENOMINATOR)/SQRTX) × SIGN X
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲
+      NONEXP BESS I1:= EXP(-ABS(X))×BESS I1(X)
+   e̲n̲d̲;
+
+e̲o̲p̲

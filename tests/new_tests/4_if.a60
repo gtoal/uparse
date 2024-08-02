@@ -1,0 +1,6 @@
+'BEGIN'
+	'INTEGER' n;	
+	ininteger(0,n);
+	'IF' n < 0 'THEN' outstring(1,"negative");	
+	outstring(1,"\n")
+'END'

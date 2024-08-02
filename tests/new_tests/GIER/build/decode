@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# If you get this error: node-jsdom : Depends: node-contextify (>= 0.1) but it is not installable
+# you may need to do a bunch of Pi upgrades first and then install the latest node.
+
+# If you then get a GLIBC version error with the latest node command, try this:
+# nvm install 18.20.3
+# nvm use 18.20.3
+# - you may need to do those as root and then switch back to the user and do nvm use 18.20.3 again...
+
+## Demon5tn.pdf  Inv1.pdf     Lorenz3.pdf  Nqueen18.pdf  Pc1b.pdf  Pc3.pdf  Pc5.pdf  Pc7.pdf      Pentomino4.pdf
+## Enigma1.pdf   Inv1ga3.pdf  Lorenz2.pdf  Pc1.pdf       Pc4.pdf   Pc6.pdf  Pc8.pdf  Sudoku7.pdf  Sudokus7.pdf
+
+for file in *.pdf ; do
+    echo `basename $file .pdf`:
+    ecce extract.js `basename $file .pdf`.js -command "(f/test.pdf/s/$file/p)0;%c" > /dev/null 2>&1
+    # "x": 36,
+    # "y": 36,
+    # "str": "algol<",
+    node `basename $file .pdf`.js > `basename $file .pdf`.txt0 2> /dev/null
+    /usr/bin/tr '\t' ' ' < `basename $file .pdf`.txt0 > `basename $file .pdf`.txt1
+    ecce `basename $file .pdf`.txt1 `basename $file .pdf`.txt -command <<EOF > /dev/null 2>&1
+(f/"str":/pm-2 (i/#/pm)3 )0
+m-0(v/#/epm,k)0
+m-0(f/"x":/s//d/,/p   f/"y":/s//d/,/p   f/"str":/s//p)0
+m-0(j2pm)0
+m-0(f1/"/  (f-1/  /s/ /r)0  m,m)0
+m-0(r0v-/,/e-m,m)0
+m-0(r0v-/" "/k,m)0
+m-0(v/ /em,m)0
+%c
+EOF
+    # rm `basename $file .pdf`.txt0 `basename $file .pdf`.txt1
+done
+rm example-output.*

@@ -1,0 +1,131 @@
+c̲o̲d̲e̲ 34502;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BOUNDS(N,A,RE,IM,RELE,ABSE,RECENTRE,IMCENTRE,BOUND);
+   v̲a̲l̲u̲e̲ N, RELE, ABSE; i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ RELE, ABSE;
+     a̲r̲r̲a̲y̲ RE, IM, A, RECENTRE, IMCENTRE, BOUND;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K, L, INDEX1, INDEX2; b̲o̲o̲l̲e̲a̲n̲ GOON;
+   r̲e̲a̲l̲ H, MIN, RECENT, IMCENT, GIA, XK, YK, ZK, CORR;
+   a̲r̲r̲a̲y̲ RC, C, RCE[0:N], CLUST[1:N];
+
+   r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ G(RAD, RECENT, IMCENT, K, M);
+      v̲a̲l̲u̲e̲ RAD, RECENT, IMCENT, K, M; r̲e̲a̲l̲ RAD, RECENT, IMCENT;
+        i̲n̲t̲e̲g̲e̲r̲ K, M;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S, H1, H2; i̲n̲t̲e̲g̲e̲r̲ I;
+      S:= SQRT(RECENT × RECENT + IMCENT × IMCENT) + RAD;
+      H1:= RC[1]; H2:= RC[0];
+      f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ H1:= H1×S + RC[I];
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M-1, M+K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           H2:= H2 × ABS(SQRT((RE[I]-RECENT)⭡2 + (IM[I]-IMCENT)⭡2) - RAD);
+      G:= i̲f̲ H1=0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ i̲f̲ H2=0 t̲h̲e̲n̲ -10 e̲l̲s̲e̲ H1 / H2
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ KCLUSTER(K, M);
+      v̲a̲l̲u̲e̲ K, M; i̲n̲t̲e̲g̲e̲r̲ K, M;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, STOP, L; b̲o̲o̲l̲e̲a̲n̲ NONZERO;
+      r̲e̲a̲l̲ RECENT, IMCENT, D, PROD, RAD, GR, R;
+      a̲r̲r̲a̲y̲ DIST[M: M+K-1];
+      RECENT:= RE[M]; IMCENT:= IM[M]; STOP:= M+K-1;
+      L:= SIGN(IMCENT); NONZERO:= L ≠ 0;
+      f̲o̲r̲ I:= M+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ STOP d̲o̲
+         b̲e̲g̲i̲n̲ RECENT:= RECENT+RE[I];
+            i̲f̲ NONZERO t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ NONZERO:= L = SIGN(IM[I]); IMCENT:= IMCENT+IM[I] e̲n̲d̲
+         e̲n̲d̲;
+      RECENT:= RECENT/K; IMCENT:= i̲f̲ NONZERO t̲h̲e̲n̲ IMCENT/K e̲l̲s̲e̲ 0;
+      D:= 0; RAD:= 0;
+      f̲o̲r̲ I:= M s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ STOP d̲o̲
+         b̲e̲g̲i̲n̲ RECENTRE[I]:= RECENT; IMCENTRE[I]:= IMCENT;
+            DIST[I]:= SQRT((RE[I] -RECENT)⭡2 + (IM[I]-IMCENT)⭡2);
+            i̲f̲ D < DIST[I] t̲h̲e̲n̲ D:= DIST[I]
+         e̲n̲d̲;
+      GR:= ABS(G(0, RECENT, IMCENT, K, M));
+      i̲f̲ GR > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1, 1 w̲h̲i̲l̲e̲ PROD ≤ GR d̲o̲
+            b̲e̲g̲i̲n̲ R:= RAD; RAD:= D + EXP(LN(1·1×GR)/K);
+               i̲f̲ RAD = R t̲h̲e̲n̲ RAD:= EXP(LN(1·1)/K) × RAD;
+               GR:= G(RAD, RECENT, IMCENT, K, M);
+               PROD:= 1;
+               f̲o̲r̲ I:= M s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ STOP d̲o̲
+                    PROD:= PROD×(RAD-DIST[I])
+            e̲n̲d̲
+      e̲n̲d̲;
+      f̲o̲r̲ I:= M s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ STOP d̲o̲
+         b̲e̲g̲i̲n̲ BOUND[I]:= RAD; CLUST[I]:= K e̲n̲d̲;
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SHIFT(INDEX, NEW);
+      v̲a̲l̲u̲e̲ INDEX, NEW; i̲n̲t̲e̲g̲e̲r̲ INDEX, NEW;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, PLACE, CLUSTIN;
+      r̲e̲a̲l̲ BOUNDIN, IMCENT, RECENT;
+      r̲e̲a̲l̲a̲r̲r̲a̲y̲ WA1, WA2[1:CLUST[INDEX]];
+      CLUSTIN:= CLUST[INDEX]; BOUNDIN:= BOUND[INDEX];
+      IMCENT:= IMCENTRE[INDEX]; RECENT:= RECENTRE[INDEX];
+      f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ CLUSTIN d̲o̲
+         b̲e̲g̲i̲n̲ PLACE:=INDEX+J-1; WA1[J]:= RE[PLACE]; WA2[J]:= IM[PLACE];
+         e̲n̲d̲;
+      f̲o̲r̲ J:= INDEX-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ NEW d̲o̲
+         b̲e̲g̲i̲n̲ PLACE:= J+CLUSTIN;
+            RE[PLACE]:= RE[J]; IM[PLACE]:= IM[J]; CLUST[PLACE]:= CLUST[J];
+            BOUND[PLACE]:= BOUND[J]; RECENTRE[PLACE]:= RECENTRE[J];
+            IMCENTRE[PLACE]:= IMCENTRE[J]
+         e̲n̲d̲;
+      f̲o̲r̲ J:= NEW+CLUSTIN-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ NEW d̲o̲
+         b̲e̲g̲i̲n̲ PLACE:= J+1-NEW;
+            RE[J]:= WA1[PLACE]; IM[J]:= WA2[PLACE];
+            BOUND[J]:= BOUNDIN; CLUST[J]:= CLUSTIN;
+            RECENTRE[J]:= RECENT; IMCENTRE[J]:= IMCENT
+         e̲n̲d̲
+   e̲n̲d̲;
+
+   GIA:= GIANT;
+   RC[0]:= C[0]:= A[N]; RCE[0]:= ABS(C[0]); K:= 0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ RC[I]:= RCE[I]:= 0 ; C[I]:= A[N-I] e̲n̲d̲;
+   f̲o̲r̲ I:= 0 w̲h̲i̲l̲e̲ K < N d̲o̲
+      b̲e̲g̲i̲n̲ K:= K+1; XK:= RE[K]; YK:= IM[K]; ZK:= XK×XK+YK×YK;
+         f̲o̲r̲ J:= K s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              RCE[J]:= RCE[J]+RCE[J-1]×SQRT(ZK);
+         i̲f̲ YK = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ J:= K s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                 RC[J]:= RC[J]-XK×RC[J-1]
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ K:= K+1;
+            i̲f̲ K ≤ N ∧ XK = RE[K] ∧ YK = -IM[K] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ XK:= -2×XK;
+               f̲o̲r̲ J:= K s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                    RCE[J]:= RCE[J]+RCE[J-1]×SQRT(ZK);
+               f̲o̲r̲ J:= K s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 2 d̲o̲
+                    RC[J]:= RC[J]+XK×RC[J-1]+ZK×RC[J-2];
+               RC[1]:= RC[1]+XK×RC[0]
+            e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲;
+   RC[0]:= RCE[0]; CORR:= 1·06×ARREB;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲
+        RC[I]:= ABS(RC[I]-C[I])+RCE[I]×CORR×(N+I-2)+RELE×ABS(C[I])+ABSE;
+   RC[N]:= ABS(RC[N]-C[N])+RCE[N]×CORR×(N-1)+RELE×ABS(C[N])+ABSE;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ KCLUSTER(1, I);
+   GOON:= t̲r̲u̲e̲;
+   f̲o̲r̲ L:= 1 w̲h̲i̲l̲e̲ GOON d̲o̲
+      b̲e̲g̲i̲n̲ INDEX1:= INDEX2:= 0; MIN:= GIANT; I:= N-CLUST[N]+1;
+         f̲o̲r̲ I:= I w̲h̲i̲l̲e̲ I ≥ 2 d̲o̲
+            b̲e̲g̲i̲n̲ J:= I; RECENT:= RECENTRE[I]; IMCENT:= IMCENTRE[I];
+               f̲o̲r̲ J:= J w̲h̲i̲l̲e̲ J ≥ 2 d̲o̲
+                  b̲e̲g̲i̲n̲ J:= J-CLUST[J-1];
+                     H:= SQRT((RECENT-RECENTRE[J])⭡2 + (IMCENT-IMCENTRE[J])⭡2);
+                     i̲f̲ H < BOUND[I] + BOUND[J] ∧ H ≤ MIN t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ INDEX1:= J; INDEX2:= I; MIN:= H e̲n̲d̲
+                  e̲n̲d̲; I:= I-CLUST[I-1]
+            e̲n̲d̲;
+         i̲f̲ INDEX1 = 0 t̲h̲e̲n̲ GOON:= f̲a̲l̲s̲e̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ i̲f̲ IMCENTRE[INDEX1] = 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ i̲f̲ IMCENTRE[INDEX2] ≠ 0 t̲h̲e̲n̲
+                 CLUST[INDEX2]:= 2×CLUST[INDEX2]
+            e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ IMCENTRE[INDEX2] = 0 t̲h̲e̲n̲
+              CLUST[INDEX1]:= 2×CLUST[INDEX1];
+            K:= INDEX1+CLUST[INDEX1];
+            i̲f̲ K ≠ INDEX2 t̲h̲e̲n̲ SHIFT(INDEX2, K);
+            K:= CLUST[INDEX1]+CLUST[K];
+            KCLUSTER(K, INDEX1)
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲;
+e̲o̲p̲

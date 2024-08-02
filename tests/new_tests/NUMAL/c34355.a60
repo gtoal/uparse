@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34355;
+b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHCOMCOL(L, U, J, AR, AI, TOL, K, C, S, T);
+   v̲a̲l̲u̲e̲ L, U, J, TOL; i̲n̲t̲e̲g̲e̲r̲ L, U, J; r̲e̲a̲l̲ TOL, K, C, S, T;
+     a̲r̲r̲a̲y̲ AR, AI;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ VR, DEL, MOD, H, ARLJ, AILJ;
+   VR:= TAMMAT(L + 1, U, J, J, AR, AR) + TAMMAT(L + 1, U,
+     J, J, AI, AI); ARLJ:= AR[L,J]; AILJ:= AI[L,J];
+   CARPOL(ARLJ, AILJ, MOD, C, S); i̲f̲ VR > TOL t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ VR:= VR + ARLJ ⭡ 2 + AILJ ⭡ 2; H:= K:= SQRT(VR);
+      T:= VR + MOD × H;
+      i̲f̲ ARLJ = 0 ∧ AILJ = 0 t̲h̲e̲n̲ AR[L,J]:= H e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ AR[L,J]:= ARLJ + C × K; AI[L,J]:= AILJ + S × K;
+         S:= - S
+      e̲n̲d̲;
+      C:= - C; HSHCOMCOL:= t̲r̲u̲e̲
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ HSHCOMCOL:= f̲a̲l̲s̲e̲; K:= MOD; T:= - 1 e̲n̲d̲
+e̲n̲d̲ HSHCOMCOL;
+e̲o̲p̲

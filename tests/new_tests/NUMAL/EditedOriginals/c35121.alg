@@ -1,0 +1,8 @@
+'CODE' 35121;
+'REAL' 'PROCEDURE' ARCSIN(X); 'VALUE' X; 'REAL' X;
+'BEGIN' 'REAL' U; U:= ABS(X);
+    ARCSIN:= 'IF' U<0.8 'THEN' ARCTAN(X/SQRT(1-X*X)) 'ELSE'
+             SIGN(X) * ( 'IF' U=1  'THEN' 1.57079632679489 'ELSE'
+             ( 1.57079632679489 - ARCTAN(SQRT(1/(X*X)-1))))
+'END' ARCSIN;
+        'EOP'

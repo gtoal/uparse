@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 34284;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HOMSOLSVD(U, VAL, V, M, N);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ U, VAL, V;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J;
+   r̲e̲a̲l̲ X;
+
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+        f̲o̲r̲ J:= I - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+           i̲f̲ VAL[I] > VAL[J] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ X:= VAL[I]; VAL[I]:= VAL[J]; VAL[J]:= X;
+            ICHCOL(1, M, I, J, U); ICHCOL(1, N, I, J, V)
+         e̲n̲d̲
+e̲n̲d̲ HOMSOLSVD;
+e̲o̲p̲

@@ -1,0 +1,10 @@
+'BEGIN'
+	'COMMENT' real power of real;
+	'REAL' x, y, z;
+start:
+	inreal (0,x);
+	inreal (0,y);
+	z := x ** y;
+	outreal(1,z);
+	'GOTO' start
+'END'

@@ -1,0 +1,94 @@
+c̲o̲d̲e̲ 33160;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EFSIRK(X, XE, M, Y, DELTA, DERIVATIVE, JACOBIAN, J,
+  N, AETA, RETA, HMIN, HMAX, LINEAR, OUTPUT);
+   v̲a̲l̲u̲e̲ M; i̲n̲t̲e̲g̲e̲r̲ M, N;
+     r̲e̲a̲l̲ X, XE, DELTA, AETA, RETA, HMIN, HMAX;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE, JACOBIAN, OUTPUT;
+     b̲o̲o̲l̲e̲a̲n̲ LINEAR;
+     a̲r̲r̲a̲y̲ Y, J;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, L;
+   r̲e̲a̲l̲ STEP, H, MU0, MU1, MU2, THETA0, THETA1, NU1, NU2,
+     NU3, YK, FK, C1, C2, D;
+   a̲r̲r̲a̲y̲ F, K0, LABDA[1 : M], J1[1 : M,1 : M], AUX[1 : 7];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI[1 : M];
+   b̲o̲o̲l̲e̲a̲n̲ LIN;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ DISCR, ETA, S;
+      i̲f̲ LINEAR t̲h̲e̲n̲ S:= H:= HMAX e̲l̲s̲e̲
+      i̲f̲ N = 1 ∨ HMIN = HMAX t̲h̲e̲n̲ S:= H:= HMIN e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ ETA:= AETA + RETA × SQRT(VECVEC(1, M, 0, Y, Y));
+         C1:= NU3 × STEP; f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+              LABDA[K]:= LABDA[K] + C1 × F[K] - Y[K];
+         DISCR:= SQRT(VECVEC(1, M, 0, LABDA, LABDA));
+         S:= H:= (ETA / (0·75 × (ETA + DISCR)) + 0·33) × H;
+         i̲f̲ H < HMIN t̲h̲e̲n̲ S:= H:= HMIN e̲l̲s̲e̲
+         i̲f̲ H > HMAX t̲h̲e̲n̲ S:= H:= HMAX
+      e̲n̲d̲;
+      i̲f̲ X + S > XE t̲h̲e̲n̲ S:= XE - X;
+      LIN:= STEP = S ∧ LINEAR; STEPSIZE:= S
+   e̲n̲d̲ STEPSIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ Z1, E, ALPHA1, A, B;
+      o̲w̲n̲ r̲e̲a̲l̲ Z2;
+      Z1:= STEP × DELTA; i̲f̲ N = 1 t̲h̲e̲n̲ Z2:= Z1 + Z1;
+      i̲f̲ ABS(Z2 - Z1) > @ - 6 × ABS(Z1) ∨ Z2 > - 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ A:= Z1 × Z1 + 12; B:= 6 × Z1;
+         i̲f̲ ABS(Z1) < 0·1 t̲h̲e̲n̲
+           ALPHA1:= (Z1 × Z1 / 140 - 1) × Z1 / 30 e̲l̲s̲e̲
+         i̲f̲ Z1 < - @14 t̲h̲e̲n̲ ALPHA1:= 1 / 3 e̲l̲s̲e̲
+         i̲f̲ Z1 < - 33 t̲h̲e̲n̲
+           ALPHA1:= (A + B) / (3 × Z1 × (2 + Z1)) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ E:= i̲f̲ Z1 < 230 t̲h̲e̲n̲ EXP(Z1) e̲l̲s̲e̲ @100;
+            ALPHA1:= ((A - B) × E - A - B) /
+              (((2 - Z1) × E - 2 - Z1) × 3 × Z1)
+         e̲n̲d̲;
+         MU2:= (1 / 3 + ALPHA1) × 0·25;
+         MU1:= - (1 + ALPHA1) × 0·5;
+         MU0:= (6 × MU1 + 2) / 9; THETA0:= 0·25;
+         THETA1:= 0·75; A:= 3 × ALPHA1;
+         NU3:= (1 + A) / (5 - A) × 0·5; A:= NU3 + NU3;
+         NU1:= 0·5 - A; NU2:= (1 + A) × 0·75;
+         Z2:= Z1
+      e̲n̲d̲
+   e̲n̲d̲ COEFFICIENT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ DERIVATIVE(F); STEP:= STEPSIZE;
+      i̲f̲ ¬ LINEAR ∨ N = 1 t̲h̲e̲n̲ JACOBIAN(J, Y);
+      i̲f̲ ¬ LIN t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ COEFFICIENT;
+         C1:= STEP × MU1; D:= STEP × STEP × MU2;
+         f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                    J1[K,L]:= D × MATMAT(1, M, K, L, J, J) +
+                    C1 × J[K,L];
+               J1[K,K]:= J1[K,K] + 1
+            e̲n̲d̲;
+         GSSELM(J1, M, AUX, RI, CI)
+      e̲n̲d̲;
+      C1:= STEP × STEP × MU0; D:= STEP × 2 / 3;
+      f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ K0[K]:= FK:= F[K];
+            LABDA[K]:= D × FK + C1 × MATVEC(1, M, K, J, F)
+         e̲n̲d̲;
+      SOLELM(J1, M, RI, CI, LABDA);
+      f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ F[K]:= Y[K] + LABDA[K];
+      DERIVATIVE(F);
+      C1:= THETA0 × STEP; C2:= THETA1 × STEP; D:= NU1 × STEP;
+      f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ YK:= Y[K]; FK:= F[K];
+            LABDA[K]:= YK + D × FK + NU2 × LABDA[K];
+            Y[K]:= F[K]:= YK + C1 × K0[K] + C2 × FK
+         e̲n̲d̲
+   e̲n̲d̲ DIFFERENCE SCHEME;
+
+   AUX[2]:= @-14; AUX[4]:= 8;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ F[K]:= Y[K];
+   N:= 0; OUTPUT; STEP:= 0;
+   NEXT STEP: N:= N + 1;
+   DIFFERENCE SCHEME; X:= X + STEP; OUTPUT;
+   i̲f̲ X < XE t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT STEP
+e̲n̲d̲ EFSIRK;
+e̲o̲p̲

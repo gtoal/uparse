@@ -1,0 +1,40 @@
+c̲o̲d̲e̲ 34433;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MININ(X, A, B, FX, TOLX);
+   r̲e̲a̲l̲ X, A, B, FX, TOLX;
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ SEE BRENT, 1973, P79;
+   r̲e̲a̲l̲ Z, C, D, E, M, P, Q, R, TOL, T, U, V, W, FU, FV, FW, FZ;
+   C:= (3 - SQRT(5)) / 2; i̲f̲ A > B t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Z:= A; A:= B; B:= Z e̲n̲d̲;
+   W:= X:= A; FW:= FX; Z:= X:= B; FZ:= FX; i̲f̲ FZ > FW t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Z:= W; W:= X; V:= FZ; FZ:= FW; FW:= V e̲n̲d̲;
+   V:= W; FV:= FW; E:= 0;
+   LOOP: M:= (A + B) × 0·5; TOL:= TOLX; T:= TOL × 2;
+   i̲f̲ ABS(Z - M) > T - (B - A) × 0·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ P:= Q:= R:= 0; i̲f̲ ABS(E) > TOL t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ R:= (Z - W) × (FZ - FV);
+         Q:= (Z - V) × (FZ - FW); P:= (Z - V) × Q - (Z - W) × R;
+         Q:= (Q - R) × 2; i̲f̲ Q>0 t̲h̲e̲n̲ P:= -P e̲l̲s̲e̲ Q:= -Q;
+         R:= E; E:= D
+      e̲n̲d̲;
+      i̲f̲ ABS(P) < ABS(Q × R × 0·5) ∧ P > (A - Z) × Q∧ P < (B - Z) × Q t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ D:= P / Q; U:= Z + D;
+         i̲f̲ U - A < T ∨ B - U < T t̲h̲e̲n̲
+           D:= i̲f̲ Z < M t̲h̲e̲n̲ TOL e̲l̲s̲e̲ -TOL
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ E:= (i̲f̲ Z < M t̲h̲e̲n̲ B e̲l̲s̲e̲ A) - Z; D:= C × E
+      e̲n̲d̲;
+      U:= X:= Z + (i̲f̲ ABS(D) ≥ TOL t̲h̲e̲n̲ D e̲l̲s̲e̲ i̲f̲ D > 0
+        t̲h̲e̲n̲ TOL e̲l̲s̲e̲ -TOL); FU:= FX;
+      i̲f̲ FU ≤ FZ t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ U < Z t̲h̲e̲n̲ B:= Z e̲l̲s̲e̲ A:= Z;
+         V:= W; FV:= FW; W:= Z; FW:= FZ; Z:= U; FZ:= FU
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲f̲ U < Z t̲h̲e̲n̲ A:= U e̲l̲s̲e̲ B:= U;
+         i̲f̲ FU ≤ FW t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ V:= W; FV:= FW; W:= U; FW:= FU e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ FU ≤ FV ∨ V = W t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ V:= U; FV:= FU e̲n̲d̲
+      e̲n̲d̲; g̲o̲t̲o̲ LOOP
+   e̲n̲d̲; X:= Z; MININ:= FZ
+e̲n̲d̲ MININ;
+e̲o̲p̲

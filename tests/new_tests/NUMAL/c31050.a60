@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 31050;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEWGRN(N,X,A);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ X,A;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ K;
+   f̲o̲r̲ K:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+        ELMVEC(K,N-1,1,A,A,-X[K]);
+e̲n̲d̲ NEWGRN;
+e̲o̲p̲

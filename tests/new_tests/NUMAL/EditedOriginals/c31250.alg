@@ -1,0 +1,15 @@
+'CODE' 31250;
+'PROCEDURE' LINTFMPOL(P,Q,N,A);
+'VALUE' N,P,Q; 'INTEGER' N; 'REAL' P,Q; 'ARRAY' A;
+'BEGIN'
+    'INTEGER' K;
+    'REAL' PPOWER;
+    NORDERPOL(N,N,Q,A);
+    PPOWER:=P;
+    'FOR' K:=1 'STEP' 1 'UNTIL' N 'DO'
+    'BEGIN'
+        A[K]:=PPOWER*A[K];
+        PPOWER:=P*PPOWER;
+    'END';
+'END' LINTFMPOL;
+        'EOP'

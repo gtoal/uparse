@@ -1,0 +1,13 @@
+c̲o̲d̲e̲ 31371;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲  ALL LAG ZER(N, ALFA, ZER);
+   v̲a̲l̲u̲e̲ N, ALFA     ; i̲n̲t̲e̲g̲e̲r̲N; r̲e̲a̲l̲ ALFA     ; a̲r̲r̲a̲y̲ ZER;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; a̲r̲r̲a̲y̲ A, B[0:N], EM[0:5];
+   B[0]:= 0; A[N - 1]:= N + N + ALFA - 1;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+      b̲e̲g̲i̲n̲ A[I - 1]:= I + I + ALFA - 1;
+         B[I]:= I×(I + ALFA)
+      e̲n̲d̲;
+   EM[0]:=ARREB; EM[2]:= @-10;EM[4]:= 6×N;
+   ALL ZER ORT POL(N, A, B, ZER, EM)
+e̲n̲d̲ ALL LAG ZER;
+e̲o̲p̲

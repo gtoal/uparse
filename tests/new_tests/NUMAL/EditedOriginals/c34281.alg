@@ -1,0 +1,10 @@
+'CODE' 34281;
+'INTEGER' 'PROCEDURE' SOLOVR(A, M, N, X, EM);
+'VALUE' M, N; 'INTEGER' M, N; 'ARRAY' A, X, EM;
+'BEGIN' 'INTEGER' I;
+    'ARRAY' VAL[1:N], V[1:N,1:N];
+
+    SOLOVR:= I:= QRISNGVALDEC(A, M, N, VAL, V, EM);
+    'IF' I = 0 'THEN' SOLSVDOVR(A, VAL, V, M, N, X, EM)
+'END' SOLOVR;
+        'EOP'

@@ -1,0 +1,17 @@
+c̲o̲d̲e̲ 34182;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2412;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAEIGVAL(A, N, EM, VAL); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, VAL;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J; r̲e̲a̲l̲ R;
+   a̲r̲r̲a̲y̲ D[1:N]; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT, INT0[1:N];
+
+   EQILBR(A, N, EM, D, INT0); TFMREAHES(A, N, EM, INT);
+   J:= REAEIGVAL:= REAVALQRI(A, N, EM, VAL);
+   f̲o̲r̲ I:= J + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J:= I + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ VAL[J] > VAL[I] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ R:= VAL[I]; VAL[I]:= VAL[J]; VAL[J]:= R e̲n̲d̲
+         e̲n̲d̲
+e̲n̲d̲ REAEIGVAL
+
+;e̲o̲p̲

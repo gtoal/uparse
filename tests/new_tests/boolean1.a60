@@ -1,0 +1,11 @@
+'BEGIN'
+	'BOOLEAN' bb;
+	
+	'PROCEDURE' outboolean(channel, b); 'INTEGER' channel; 'BOOLEAN' b;
+	'BEGIN'
+		'IF' b 'THEN' outstring (channel, "true ") 'ELSE' outstring (channel, "false ")
+	'END';
+	
+	bb := 'FALSE';
+	outboolean(1, bb); outstring (1, "\n")
+'END'

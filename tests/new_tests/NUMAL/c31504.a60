@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 31504;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SYMRESVEC(LR, UR, LC, UC, A, B, C, X);
+   v̲a̲l̲u̲e̲ LR, UR, LC, UC, B, X; i̲n̲t̲e̲g̲e̲r̲ LR, UR, LC, UC;
+     r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ A, B, C;
+b̲e̲g̲i̲n̲
+   f̲o̲r̲ LR:= LR s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UR d̲o̲
+        C[LR]:= SYMMATVEC(LC, UC, LR, A, B) + C[LR] × X
+e̲n̲d̲ SYMRESVEC;
+e̲o̲p̲

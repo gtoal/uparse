@@ -1,0 +1,16 @@
+'CODE'34342;
+'PROCEDURE' COMDIV(XR,XI,YR,YI,ZR,ZI);
+'VALUE' XR,XI,YR,YI;'REAL' XR,XI,YR,YI,ZR,ZI;
+'BEGIN' 'REAL' H,D;
+'IF' ABS(YI) < ABS(YR) 'THEN'
+'BEGIN' 'IF' YI= 0 'THEN'
+'BEGIN' ZR:= XR/YR; ZI:= XI/YR 'END' 'ELSE'
+'BEGIN' H:= YI/YR; D:= H*YI + YR;
+ZR:= (XR + H * XI)/D; ZI:= (XI-H*XR)/D
+'END'
+'END' 'ELSE'
+'BEGIN' H:= YR/YI; D:= H*YR + YI;
+ZR:= (XR*H + XI)/D; ZI:= (XI*H - XR)/D
+'END'
+'END' COMDIV;
+        'EOP'

@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34610;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSH3ROW2(LA,LB,U,J,A1,A2,A3,A,B);
+   v̲a̲l̲u̲e̲LA,LB,U,J,A1,A2,A3;i̲n̲t̲e̲g̲e̲r̲LA,LB,U,J;r̲e̲a̲l̲A1,A2,A3;a̲r̲r̲a̲y̲A,B;
+   i̲f̲ A2≠0 ∨ A3≠0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R,T,C;a̲r̲r̲a̲y̲ V[J:J+2];
+      R:=i̲f̲ A1<0 t̲h̲e̲n̲ -SQRT(A1×A1+A2×A2+A3×A3)
+      e̲l̲s̲e̲ SQRT(A1×A1+A2×A2+A3×A3);
+      T:=A1+R;C:=-T/R;V[J+2]:=1;V[J+1]:=A2/T;V[J]:=A3/T;
+      HSHVECTAM(LA,U,J,J+2,C,V,A);HSHVECTAM(LB,U,J,J+2,C,V,B)
+   e̲n̲d̲ HSH3ROW2;
+e̲o̲p̲

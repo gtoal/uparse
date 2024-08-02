@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 34310;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLDEC2(A, N, AUX); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, AUX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, J; r̲e̲a̲l̲ R, EPSNORM;
+
+   R:= 0;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        i̲f̲ A[K,K] > R t̲h̲e̲n̲ R:= A[K,K];
+   EPSNORM:= AUX[2] × R;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R:= A[K,K] - TAMMAT(1, K - 1, K, K, A, A);
+         i̲f̲ R ≤ EPSNORM t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AUX[3]:= K - 1; g̲o̲t̲o̲ END e̲n̲d̲;
+         A[K,K]:= R:= SQRT(R);
+         f̲o̲r̲ J:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              A[K,J]:= (A[K,J] - TAMMAT(1, K - 1, J, K, A, A)) / R
+      e̲n̲d̲;
+   AUX[3]:= N;
+   END:
+e̲n̲d̲ CHLDEC2;
+e̲o̲p̲

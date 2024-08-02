@@ -1,0 +1,9 @@
+'BEGIN'
+'COMMENT' array allocation of maximal size;
+	'INTEGER' n;
+	n := 500000000; 'COMMENT' experiment with this number;
+	'BEGIN'
+		'INTEGER' 'ARRAY' nArr[1:n];
+		nArr[n-1] := 2334
+	'END'
+'END'

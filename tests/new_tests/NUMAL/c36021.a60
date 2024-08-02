@@ -1,0 +1,69 @@
+c̲o̲d̲e̲36021;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SNDREMEZ(N,M,S,G,EM);
+   v̲a̲l̲u̲e̲ N,M;i̲n̲t̲e̲g̲e̲r̲ N,M;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ S; a̲r̲r̲a̲y̲ G,EM;
+     c̲o̲m̲m̲e̲n̲t̲ SNDREMEZ EXCHANGES ATMOST N+1 NUMBERS ,GIVEN IN
+     INTEGER ARRAY S[0:N], WITH NUMBERS OUT OF THE
+     REFERENCE SET 0,...M, UNDER THE CONDITIONS:
+     I.   THE ALTERNANCE PROPERTY OF THE FUNCTIONVALUES G[S[J]],
+     J=0,...N IS PRESERVED.
+     II.  !G[S[J]]!>=!EM[0]!,J=0,...N.
+     III. THE FIRST INDEX K , WITH G[K]=INFINITY NORM OF G,
+     IS ONE OF THE RESULTING NUMBERS S[0],...S[N].
+     IN ARRAY G[0:M] ONE MUST GIVE ERROR FUNCTION VALUES.
+     MOREOVER,
+     EM[1]:=INFINITY NORM OF G,
+     THE PROCEDURE INFNRMVEC IS USED;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ S0,SN,SJP1,I,J,K,UP,INDEXMAX,LOW,NM1;
+   r̲e̲a̲l̲ MAX,MSJP1,HI,HJ,HE,ABSE,H;
+   INDEX MAX:=S0:=SJP1:=S[0];
+   HE:=EM[0];LOW:=S0+1;
+   MAX:=MSJP1:=ABSE:=ABS(HE);
+   NM1:=N-1;
+   f̲o̲r̲ J:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NM1 d̲o̲
+      b̲e̲g̲i̲n̲
+         UP:= S[J+1]-1;
+         H:= INFNRMVEC(LOW,UP,I,G);
+         i̲f̲ H > MAX  t̲h̲e̲n̲ b̲e̲g̲i̲n̲ MAX:= H; INDEX MAX:= I e̲n̲d̲;
+         i̲f̲ H > ABSE t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ HE × G[I] > 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ S[J]:= i̲f̲ MSJP1 < H t̲h̲e̲n̲ I e̲l̲s̲e̲ SJP1;
+               SJP1:= S[J+1]; MSJP1:= ABSE
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ S[J]:= SJP1; SJP1:= I; MSJP1:= H e̲n̲d̲
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ S[J]:=SJP1; SJP1:=S[J+1]; MSJP1:= ABSE e̲n̲d̲;
+         HE:=-HE;LOW:=UP+2;
+      e̲n̲d̲ FOR J; SN:= S[N]; S[N]:= SJP1;
+
+   HI:=INFNRMVEC(0,S0-1,I,G);
+   HJ:=INFNRMVEC(SN+1,M,J,G);
+   i̲f̲ J  > M  t̲h̲e̲n̲ J:=M;
+   i̲f̲ HI > HJ t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ HI > MAX t̲h̲e̲n̲ b̲e̲g̲i̲n̲ MAX:= HI; INDEXMAX:= I e̲n̲d̲;
+      i̲f̲ SIGN(G[I]) =  SIGN(G[S[0]]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ HI > ABS(G[S[0]])   t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ S[0]:= I;
+            i̲f̲ G[J]/G[S[N]] > 1 t̲h̲e̲n̲ S[N]:=J
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ HI > ABS(G[S[N]]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ S[N]:= i̲f̲ G[J]/G[S[NM1]] > 1  t̲h̲e̲n̲ J e̲l̲s̲e̲ S[NM1];
+         f̲o̲r̲ K:= NM1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ S[K]:= S[K-1];
+         S[0]:= I
+      e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ HJ > MAX t̲h̲e̲n̲ b̲e̲g̲i̲n̲ MAX:= HJ; INDEXMAX:= J e̲n̲d̲;
+      i̲f̲ SIGN(G[J]) = SIGN(G[S[N]]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ HJ > ABS(G[S[N]])  t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ S[N]:= J; i̲f̲ G[I]/G[S[0]] > 1 t̲h̲e̲n̲S[0]:=I e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ HJ > ABS(G[S[0]]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ S[0]:= i̲f̲ G[I]/G[S[1]] > 1 t̲h̲e̲n̲ I e̲l̲s̲e̲ S[1];
+         f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NM 1 d̲o̲ S[K]:= S[K+1];
+         S[N]:= J
+      e̲n̲d̲
+   e̲n̲d̲ RANDGEBIEDEN;
+   EM[1]:=MAX;
+e̲n̲d̲ SNDREMEZ;
+e̲o̲p̲

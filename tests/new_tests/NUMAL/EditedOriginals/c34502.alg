@@ -1,0 +1,131 @@
+'CODE' 34502;
+'PROCEDURE' BOUNDS(N,A,RE,IM,RELE,ABSE,RECENTRE,IMCENTRE,BOUND);
+  'VALUE' N, RELE, ABSE; 'INTEGER' N; 'REAL' RELE, ABSE;
+  'ARRAY' RE, IM, A, RECENTRE, IMCENTRE, BOUND;
+'BEGIN' 'INTEGER' I, J, K, L, INDEX1, INDEX2; 'BOOLEAN' GOON;
+  'REAL' H, MIN, RECENT, IMCENT, GIA, XK, YK, ZK, CORR;
+  'ARRAY' RC, C, RCE[0:N], CLUST[1:N];
+
+  'REAL''PROCEDURE' G(RAD, RECENT, IMCENT, K, M);
+    'VALUE' RAD, RECENT, IMCENT, K, M; 'REAL' RAD, RECENT, IMCENT;
+    'INTEGER' K, M;
+  'BEGIN' 'REAL' S, H1, H2; 'INTEGER' I;
+    S:= SQRT(RECENT * RECENT + IMCENT * IMCENT) + RAD;
+    H1:= RC[1]; H2:= RC[0];
+    'FOR' I:= 2 'STEP' 1 'UNTIL' N 'DO' H1:= H1*S + RC[I];
+    'FOR' I:= 1 'STEP' 1 'UNTIL' M-1, M+K 'STEP' 1 'UNTIL' N 'DO'
+    H2:= H2 * ABS(SQRT((RE[I]-RECENT)**2 + (IM[I]-IMCENT)**2) - RAD);
+    G:= 'IF' H1=0 'THEN' 0 'ELSE' 'IF' H2=0 'THEN' -10 'ELSE' H1 / H2
+  'END';
+
+  'PROCEDURE' KCLUSTER(K, M);
+    'VALUE' K, M; 'INTEGER' K, M;
+  'BEGIN' 'INTEGER' I, J, STOP, L; 'BOOLEAN' NONZERO;
+    'REAL' RECENT, IMCENT, D, PROD, RAD, GR, R;
+    'ARRAY' DIST[M: M+K-1];
+    RECENT:= RE[M]; IMCENT:= IM[M]; STOP:= M+K-1;
+    L:= SIGN(IMCENT); NONZERO:= L ^= 0;
+    'FOR' I:= M+1 'STEP' 1 'UNTIL' STOP 'DO'
+    'BEGIN' RECENT:= RECENT+RE[I];
+      'IF' NONZERO 'THEN'
+      'BEGIN' NONZERO:= L = SIGN(IM[I]); IMCENT:= IMCENT+IM[I] 'END'
+    'END';
+    RECENT:= RECENT/K; IMCENT:= 'IF' NONZERO 'THEN' IMCENT/K 'ELSE' 0;
+    D:= 0; RAD:= 0;
+    'FOR' I:= M 'STEP' 1 'UNTIL' STOP 'DO'
+    'BEGIN' RECENTRE[I]:= RECENT; IMCENTRE[I]:= IMCENT;
+      DIST[I]:= SQRT((RE[I] -RECENT)**2 + (IM[I]-IMCENT)**2);
+      'IF' D < DIST[I] 'THEN' D:= DIST[I]
+    'END';
+    GR:= ABS(G(0, RECENT, IMCENT, K, M));
+    'IF' GR > 0 'THEN'
+    'BEGIN' 'FOR' J:= 1, 1 'WHILE' PROD <= GR 'DO'
+      'BEGIN' R:= RAD; RAD:= D + EXP(LN(1.1*GR)/K);
+        'IF' RAD = R 'THEN' RAD:= EXP(LN(1.1)/K) * RAD;
+        GR:= G(RAD, RECENT, IMCENT, K, M);
+        PROD:= 1;
+        'FOR' I:= M 'STEP' 1 'UNTIL' STOP 'DO'
+        PROD:= PROD*(RAD-DIST[I])
+      'END'
+    'END';
+    'FOR' I:= M 'STEP' 1 'UNTIL' STOP 'DO'
+    'BEGIN' BOUND[I]:= RAD; CLUST[I]:= K 'END';
+  'END';
+  'PROCEDURE' SHIFT(INDEX, NEW);
+    'VALUE' INDEX, NEW; 'INTEGER' INDEX, NEW;
+  'BEGIN' 'INTEGER' J, PLACE, CLUSTIN;
+    'REAL' BOUNDIN, IMCENT, RECENT;
+    'REAL''ARRAY' WA1, WA2[1:CLUST[INDEX]];
+    CLUSTIN:= CLUST[INDEX]; BOUNDIN:= BOUND[INDEX];
+    IMCENT:= IMCENTRE[INDEX]; RECENT:= RECENTRE[INDEX];
+    'FOR' J:= 1 'STEP' 1 'UNTIL' CLUSTIN 'DO'
+    'BEGIN' PLACE:=INDEX+J-1; WA1[J]:= RE[PLACE]; WA2[J]:= IM[PLACE];
+    'END';
+    'FOR' J:= INDEX-1 'STEP' -1 'UNTIL' NEW 'DO'
+    'BEGIN' PLACE:= J+CLUSTIN;
+      RE[PLACE]:= RE[J]; IM[PLACE]:= IM[J]; CLUST[PLACE]:= CLUST[J];
+      BOUND[PLACE]:= BOUND[J]; RECENTRE[PLACE]:= RECENTRE[J];
+      IMCENTRE[PLACE]:= IMCENTRE[J]
+    'END';
+    'FOR' J:= NEW+CLUSTIN-1 'STEP' -1 'UNTIL' NEW 'DO'
+    'BEGIN' PLACE:= J+1-NEW;
+      RE[J]:= WA1[PLACE]; IM[J]:= WA2[PLACE];
+      BOUND[J]:= BOUNDIN; CLUST[J]:= CLUSTIN;
+      RECENTRE[J]:= RECENT; IMCENTRE[J]:= IMCENT
+    'END'
+  'END';
+
+  GIA:= GIANT;
+  RC[0]:= C[0]:= A[N]; RCE[0]:= ABS(C[0]); K:= 0;
+  'FOR' I:= 1 'STEP' 1 'UNTIL' N 'DO'
+  'BEGIN' RC[I]:= RCE[I]:= 0 ; C[I]:= A[N-I] 'END';
+  'FOR' I:= 0 'WHILE' K < N 'DO'
+  'BEGIN' K:= K+1; XK:= RE[K]; YK:= IM[K]; ZK:= XK*XK+YK*YK;
+    'FOR' J:= K 'STEP' -1 'UNTIL' 1 'DO'
+    RCE[J]:= RCE[J]+RCE[J-1]*SQRT(ZK);
+    'IF' YK = 0 'THEN'
+    'BEGIN' 'FOR' J:= K 'STEP' -1 'UNTIL' 1 'DO'
+       RC[J]:= RC[J]-XK*RC[J-1]
+    'END' 'ELSE'
+    'BEGIN' K:= K+1;
+      'IF' K <= N & XK = RE[K] & YK = -IM[K] 'THEN'
+      'BEGIN' XK:= -2*XK;
+        'FOR' J:= K 'STEP' -1 'UNTIL' 1 'DO'
+        RCE[J]:= RCE[J]+RCE[J-1]*SQRT(ZK);
+        'FOR' J:= K 'STEP' -1 'UNTIL' 2 'DO'
+        RC[J]:= RC[J]+XK*RC[J-1]+ZK*RC[J-2];
+        RC[1]:= RC[1]+XK*RC[0]
+      'END'
+    'END'
+  'END';
+  RC[0]:= RCE[0]; CORR:= 1.06*ARREB;
+  'FOR' I:= 1 'STEP' 1 'UNTIL' N-1 'DO'
+  RC[I]:= ABS(RC[I]-C[I])+RCE[I]*CORR*(N+I-2)+RELE*ABS(C[I])+ABSE;
+  RC[N]:= ABS(RC[N]-C[N])+RCE[N]*CORR*(N-1)+RELE*ABS(C[N])+ABSE;
+  'FOR' I:= 1 'STEP' 1 'UNTIL' N 'DO' KCLUSTER(1, I);
+  GOON:= 'TRUE';
+  'FOR' L:= 1 'WHILE' GOON 'DO'
+  'BEGIN' INDEX1:= INDEX2:= 0; MIN:= GIANT; I:= N-CLUST[N]+1;
+    'FOR' I:= I 'WHILE' I >= 2 'DO'
+    'BEGIN' J:= I; RECENT:= RECENTRE[I]; IMCENT:= IMCENTRE[I];
+      'FOR' J:= J 'WHILE' J >= 2 'DO'
+      'BEGIN' J:= J-CLUST[J-1];
+        H:= SQRT((RECENT-RECENTRE[J])**2 + (IMCENT-IMCENTRE[J])**2);
+        'IF' H < BOUND[I] + BOUND[J] & H <= MIN 'THEN'
+        'BEGIN' INDEX1:= J; INDEX2:= I; MIN:= H 'END'
+      'END'; I:= I-CLUST[I-1]
+    'END';
+    'IF' INDEX1 = 0 'THEN' GOON:= 'FALSE' 'ELSE'
+    'BEGIN' 'IF' IMCENTRE[INDEX1] = 0 'THEN'
+      'BEGIN' 'IF' IMCENTRE[INDEX2] ^= 0 'THEN'
+        CLUST[INDEX2]:= 2*CLUST[INDEX2]
+      'END' 'ELSE' 'IF' IMCENTRE[INDEX2] = 0 'THEN'
+      CLUST[INDEX1]:= 2*CLUST[INDEX1];
+      K:= INDEX1+CLUST[INDEX1];
+      'IF' K ^= INDEX2 'THEN' SHIFT(INDEX2, K);
+      K:= CLUST[INDEX1]+CLUST[K];
+      KCLUSTER(K, INDEX1)
+    'END'
+  'END'
+'END';
+        'EOP'

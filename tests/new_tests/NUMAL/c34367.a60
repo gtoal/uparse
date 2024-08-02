@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 34367;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BAKCOMHES(AR, AI, TR, TI, DEL, VR, VI, N, N1, N2);
+   v̲a̲l̲u̲e̲ N, N1, N2; i̲n̲t̲e̲g̲e̲r̲ N, N1, N2;
+     a̲r̲r̲a̲y̲ AR, AI, TR, TI, DEL, VR, VI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, R, RM1;
+   r̲e̲a̲l̲ H;
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ COMROWCST(N1, N2, I, VR,
+        VI, TR[I], TI[I]); R:= N - 1;
+   f̲o̲r̲ RM1:= N - 2 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ H:= DEL[RM1];
+         i̲f̲ H > 0 t̲h̲e̲n̲ HSHCOMPRD(R, N, N1, N2, RM1, VR, VI,
+           AR, AI, H); R:= RM1
+      e̲n̲d̲
+e̲n̲d̲ BAKCOMHES;
+e̲o̲p̲

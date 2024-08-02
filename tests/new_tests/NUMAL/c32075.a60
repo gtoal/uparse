@@ -1,0 +1,77 @@
+c̲o̲d̲e̲ 32075;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRICUB(XI,YI,XJ,YJ,XK,YK,G,RE,AE);
+   v̲a̲l̲u̲e̲ XI,YI,XJ,YJ,XK,YK,RE,AE;
+   r̲e̲a̲l̲ XI,YI,XJ,YJ,XK,YK,RE,AE; r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ G;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ SURF,SURFMIN,XZ,YZ,GI,GJ,GK;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INT(AX1,AY1,AF1,AX2,AY2,AF2,AX3,AY3,AF3,
+     BX1,BY1,BF1,BX2,BY2,BF2,BX3,BY3,BF3,
+     PX,PY,PF);
+      v̲a̲l̲u̲e̲ BX1,BY1,BF1,BX2,BY2,BF2,BX3,BY3,BF3,PX,PY,PF;
+      r̲e̲a̲l̲  BX1,BY1,BF1,BX2,BY2,BF2,BX3,BY3,BF3,PX,PY,PF,
+        AX1,AY1,AF1,AX2,AY2,AF2,AX3,AY3,AF3;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ E,I3,I4,I5,A,B,C,SX1,SY1,SX2,SY2,SX3,SY3,
+        CX1,CY1,CF1,CX2,CY2,CF2,CX3,CY3,CF3,
+        DX1,DY1,DF1,DX2,DY2,DF2,DX3,DY3,DF3;
+
+      A:= AF1 + AF2 + AF3; B:= BF1 + BF2 + BF3;
+      I3:= 3 × A + 27 × PF + 8 × B;
+      E:= ABS(I3) × RE + AE;
+
+      i̲f̲ SURF < SURFMIN ∨ ABS(5 × A + 45 × PF - I3) < E
+        t̲h̲e̲n̲ INT:= I3 × SURF e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ CX1:= AX1 + PX; CY1:= AY1 + PY; CF1:= G(CX1,CY1);
+         CX2:= AX2 + PX; CY2:= AY2 + PY; CF2:= G(CX2,CY2);
+         CX3:= AX3 + PX; CY3:= AY3 + PY; CF3:= G(CX3,CY3);
+         C:= CF1 + CF2 + CF3;
+         I4:= A + 9 × PF + 4 × B + 12 × C;
+
+         i̲f̲ ABS(I3 - I4) < E t̲h̲e̲n̲ INT:= I4 × SURF e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ SX1:= ·5 × BX1; SY1:= ·5 × BY1;
+            DX1:= AX1 + SX1; DY1:= AY1 + SY1; DF1:= G(DX1,DY1);
+            SX2:=  ·5 × BX2; SY2:=  ·5 × BY2;
+            DX2:= AX2 + SX2; DY2:= AY2 + SY2; DF2:= G(DX2,DY2);
+            SX3:=  ·5 × BX3; SY3:=  ·5 × BY3;
+            DX3:= AX3 + SX3; DY3:= AY3 + SY3; DF3:= G(DX3,DY3);
+
+            I5:= (51 × A + 2187 × PF + 276 × B + 972 × C -
+              768 × (DF1 + DF2 + DF3))/63;
+            i̲f̲ ABS(I4 - I5) < E t̲h̲e̲n̲ INT:= I5 × SURF e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ SURF:= ·25 × SURF;
+
+               INT:=
+
+                 INT(SX1,SY1,BF1,SX2,SY2,BF2,SX3,SY3,BF3,
+                 DX1,DY1,DF1,DX2,DY2,DF2,DX3,DY3,DF3,
+                 PX,PY,PF) +
+
+                 INT(AX1,AY1,AF1,SX3,SY3,BF3,SX2,SY2,BF2,DX1,DY1,DF1,
+                 AX1 + SX2,AY1 + SY2,G(AX1 + SX2,AY1 + SY2),
+                 AX1 + SX3,AY1 + SY3,G(AX1 + SX3,AY1 + SY3),·5 × CX1,·5 × CY1,CF1) +
+                 INT(AX2,AY2,AF2,SX3,SY3,BF3,SX1,SY1,BF1,DX2,DY2,DF2,
+                 AX2 + SX1,AY2 + SY1,G(AX2 + SX1,AY2 + SY1),
+                 AX2 + SX3,AY2 + SY3,G(AX2 + SX3,AY2 + SY3),·5 × CX2,·5 × CY2,CF2) +
+                 INT(AX3,AY3,AF3,SX1,SY1,BF1,SX2,SY2,BF2,DX3,DY3,DF3,
+                 AX3 + SX2,AY3 + SY2,G(AX3 + SX2,AY3 + SY2),
+                 AX3 + SX1,AY3 + SY1,G(AX3 + SX1,AY3 + SY1),·5 × CX3,·5 × CY3,CF3);
+
+               SURF:= 4 × SURF
+            e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ INT;
+
+   SURF:= 0·5 × ABS(XJ × YK - XK × YJ + XI × YJ -
+     XJ × YI + XK × YI - XI × YK);
+   SURFMIN:= SURF×RE; RE:= 30×RE; AE:= 30×AE/SURF;
+   XZ:= (XI + XJ + XK)/3; YZ:= (YI + YJ + YK)/3;
+   GI:= G(XI,YI); GJ:= G(XJ,YJ); GK:= G(XK,YK);
+   XI:= XI×·5; YI:= YI×·5; XJ:= XJ×·5;
+   YJ:= YJ×·5; XK:= XK×·5; YK:= YK×·5;
+
+   TRICUB:= INT(XI,YI,GI,XJ,YJ,GJ,XK,YK,GK,
+     XJ+XK,YJ+YK,G(XJ+XK,YJ+YK),
+     XK+XI,YK+YI,G(XK+XI,YK+YI),
+     XI+XJ,YI+YJ,G(XI+XJ,YI+YJ),·5 × XZ,·5 × YZ,G(XZ,YZ))/60
+e̲n̲d̲ TRICUB;
+e̲o̲p̲

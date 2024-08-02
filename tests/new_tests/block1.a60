@@ -1,0 +1,18 @@
+'BEGIN'
+'COMMENT' variable visibility in blocks;
+	'REAL' x;
+	x := 1.234;
+	
+	'BEGIN'
+		outreal(1,x)
+	'END';
+	
+	'BEGIN'
+		'REAL' x;
+		x := 9.876;
+		outreal(1,x)
+	'END';
+	
+	outreal(1,x)
+
+	'END' 

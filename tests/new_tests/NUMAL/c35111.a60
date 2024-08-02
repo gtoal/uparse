@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 35111;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SINH(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ AX,Y;
+   AX:= ABS(X);
+   i̲f̲ AX < 0·3 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Y:= i̲f̲ AX < 0·1 t̲h̲e̲n̲ X×X e̲l̲s̲e̲ X×X/9;
+      X:=  ((( 0·0001984540     × Y +
+        0·0083333331783 )× Y +
+        0·16666666666675)× Y +
+        1·0             )× X ;
+      SINH:= i̲f̲ AX < 0·1 t̲h̲e̲n̲ X e̲l̲s̲e̲
+        X × ( 1·0 + 0·14814814814815 × X × X )
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ AX < 17·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ AX:= EXP( AX ); SINH:= SIGN(X) × ·5 × ( AX -1/AX ) e̲n̲d̲
+     e̲l̲s̲e̲ i̲f̲ AX > 742·36063037970 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      SINH:= SIGN(X)×GIANT
+   e̲n̲d̲ e̲l̲s̲e̲
+     SINH:= SIGN(X)×EXP(AX- ·69314 71805 59945)
+e̲n̲d̲ SINH;
+e̲o̲p̲

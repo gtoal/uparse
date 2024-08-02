@@ -1,0 +1,125 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>n</u>&lt;
+<u>begin</u>
+   <u>comment</u>
+
+      Find a solution for the N queen problem.
+
+      nqueen18.asc
+
+   N    Solutions       Time
+   4    2               0.30
+   5    10              0.75
+   6    4               2.24
+   7    40              7.84
+   8    92              29.82
+   9    352             121.93
+   10   724             526.09
+   11   2680            2482.02
+
+   No buffer, N=12:
+
+   Time classic:        13968.89
+   Time turbo:          12368.89 11.5pct
+
+   Buffer, N=12:
+
+   Time classic:        14069.38
+   Time turbo:          12469.37 11.4pct
+
+   ;
+
+   <u>integer</u> N, MAXN, nsolutions;
+   <u>boolean</u> empcol;
+   <u>boolean</u> empup;
+   <u>boolean</u> empdo;
+   <u>boolean</u> one,zero;
+   <u>integer</u> i;
+   <u>real</u> clock;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   <u>procedure</u> set(x);
+   <u>value</u> x;
+   <u>integer</u> x;
+   <u>begin</u>
+      <u>integer</u> y;
+      <u>boolean</u> mask;
+      y ≔ 0;
+      mask ≔ empcol ∧ (empdo <u>shift</u> x) ∧ (empup <u>shift</u> (−x));
+      <u>for</u> y ≔  y <u>while</u> 0≠<u>integer</u> mask <u>do</u>
+      <u>begin</u>
+         <u>code</u> mask,y,zero;
+         3, 46;
+         3, 44;
+         2, 46;
+         arn pa1,nk re1
+         tk 1,mb a3
+         gr pa1
+         srn re1,ck 10
+         ar pa2,ar c42
+         gr pa2 V
+e1:      qq
+         <u>e</u>;
+         <u>if</u> x = N <u>then</u>
+            nsolutions ≔ nsolutions+1
+         <u>else</u>
+         <u>begin</u>
+            empcol ≔  empcol ∧ (zero <u>shift</u> (−y));
+            empup ≔  empup ∧ (zero <u>shift</u> (x−y));
+            empdo ≔  empdo ∧ (zero <u>shift</u> (−x−y));
+            set(x+1);
+            empcol ≔  empcol ∨ (one <u>shift</u> (−y));
+            empup ≔  empup ∨ (one <u>shift</u> (x−y));
+            empdo ≔  empdo ∨ (one <u>shift</u> (−x−y))
+         <u>end</u>
+      <u>end</u>
+   <u>end</u> set;
+
+   MAXN ≔  12;    <u>comment</u> maximum size;
+   one ≔  <u>1</u> 1 <u>39</u> 0;
+   zero ≔  <u>1</u> 0 <u>39</u> m;
+   <u>for</u> N ≔ 4 <u>step</u> 1 <u>until</u> MAXN <u>do</u>
+   <u>begin</u>
+      nsolutions ≔ 0;
+      select(17);
+      writecr;
+      writetext(«looking onto a »);
+      writeinteger(«p»,N);
+      writetext(« × »);
+      writeinteger(«p»,N);
+      writetext(« chessboard...»);
+      writecr;
+      clock count;
+      empcol ≔ empup ≔ empdo ≔ <u>false</u>;
+      <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      empcol ≔  empcol ∨ (one <u>shift</u> −i);
+      <u>for</u> i ≔  −N+1 <u>step</u> 1 <u>until</u> N−1 <u>do</u>
+      empup ≔  empup ∨ (one <u>shift</u> −i);
+      <u>for</u> i ≔  2 <u>step</u> 1 <u>until</u> 2×N <u>do</u>
+      empdo ≔  empdo ∨ (one <u>shift</u> −i);
+
+      set(1);
+
+      <u>if</u> nsolutions=0 <u>then</u>
+      writetext(«NO SOLUTION.»)
+      <u>else</u>
+      <u>begin</u>
+         clock ≔  clock count;
+         writeinteger(«p»,nsolutions);
+         writetext(« solutions.»);
+         writecr;
+         writetext(«Time: »);
+         write(«ddddddd.dd»,clock)
+      <u>end</u>;
+      writecr
+   <u>end</u>;
+   writetext(«done.»);
+   writecr;
+   N ≔ N;
+<u>end</u>;
+t&lt;
+</pre></body></html>

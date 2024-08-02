@@ -1,0 +1,8 @@
+c̲o̲d̲e̲ 35121;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ARCSIN(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ U; U:= ABS(X);
+   ARCSIN:= i̲f̲ U<0·8 t̲h̲e̲n̲ ARCTAN(X/SQRT(1-X×X)) e̲l̲s̲e̲
+     SIGN(X) × ( i̲f̲ U=1  t̲h̲e̲n̲ 1·57079632679489 e̲l̲s̲e̲
+     ( 1·57079632679489 - ARCTAN(SQRT(1/(X×X)-1))))
+e̲n̲d̲ ARCSIN;
+e̲o̲p̲

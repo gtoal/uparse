@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT' dynamic memory allocation in inner block;
+	'INTEGER' n;
+	
+	n := 100;
+	'BEGIN'
+		'INTEGER' 'ARRAY' a[1:n];
+		a[n] := n;
+		outinteger (1, a[n])
+	'END'
+
+'END' 

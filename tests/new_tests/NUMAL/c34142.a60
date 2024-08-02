@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34142;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2302;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ TFMPREVEC(A, N); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, J1, K; r̲e̲a̲l̲ AB;
+
+   J1:= 1;
+   f̲o̲r̲ J:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J1 - 1 ,
+           J s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ A[I,J1]:= 0;
+         A[J1,J1]:= 1; AB:= A[J,J];
+         i̲f̲ AB < 0 t̲h̲e̲n̲
+           f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J1 d̲o̲
+              ELMCOL(1, J1, K, J, A, A,
+              TAMMAT(1, J1, J, K, A, A) × AB); J1:= J
+      e̲n̲d̲;
+   f̲o̲r̲ I:= N - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        A[I,N]:= 0; A[N,N]:= 1
+e̲n̲d̲ TFMPREVEC
+
+;e̲o̲p̲

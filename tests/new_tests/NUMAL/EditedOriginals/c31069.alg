@@ -1,0 +1,12 @@
+'CODE' 31069;
+ 'REAL' 'PROCEDURE' ABSMAXMAT(LR, UR, LC, UC, I, J, A);
+ 'VALUE' LR, UR, LC, UC; 'INTEGER' LR, UR, LC, UC, I, J; 'ARRAY' A;
+ 'BEGIN' 'INTEGER' II; 'REAL' MAX, R;
+    MAX:= 0; I:= LR; J:= LC;
+    'FOR' LC:= LC 'STEP' 1 'UNTIL' UC 'DO'
+    'BEGIN' R:= INFNRMCOL(LR, UR, LC, II, A); 'IF' R > MAX 'THEN'
+        'BEGIN' MAX:= R; I:= II; J:= LC 'END'
+    'END';
+    ABSMAXMAT:= MAX
+'END' ABSMAXMAT;
+        'EOP'

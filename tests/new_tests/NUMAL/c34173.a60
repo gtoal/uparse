@@ -1,0 +1,47 @@
+c̲o̲d̲e̲ 34173;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2405;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EQILBR(A, N, EM, D, INT); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, EM, D; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, IM, I1, P, Q, J, T, COUNT, EXPONENT, NI;
+   r̲e̲a̲l̲ C, R, EPS, OMEGA, FACTOR;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ MOVE(K); v̲a̲l̲u̲e̲ K; i̲n̲t̲e̲g̲e̲r̲ K;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ DI;
+      NI:= Q - P; T:= T + 1; i̲f̲ K ≠ I t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ICHCOL(1, N, K, I, A); ICHROW(1, N, K, I, A);
+         DI:= D[I]; D[I]:= D[K]; D[K]:= DI
+      e̲n̲d̲
+   e̲n̲d̲ MOVE;
+
+   FACTOR:= 1 / (2 × LN(2)); c̲o̲m̲m̲e̲n̲t̲ MORE GENERALLY: LN(BASE);
+   EPS:= EM[0]; OMEGA:= 1 / EPS; T:= P:= 1; Q:= NI:= I:= N;
+   COUNT:= (N + 1) × N ÷ 2;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ D[J]:= 1; INT[J]:= 0 e̲n̲d̲;
+   f̲o̲r̲ I:= i̲f̲ I < Q t̲h̲e̲n̲ I + 1 e̲l̲s̲e̲ P
+     w̲h̲i̲l̲e̲ COUNT > 0 ∧ NI > 0 d̲o̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT - 1; IM:= I - 1; I1:= I + 1;
+         C:= SQRT(TAMMAT(P, IM, I, I, A, A) +
+           TAMMAT(I1, Q, I, I, A, A));
+         R:= SQRT(MATTAM(P, IM, I, I, A, A) +
+           MATTAM(I1, Q, I, I, A, A));
+         i̲f̲ C × OMEGA ≤ R × EPS t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ INT[T]:= I; MOVE(P); P:= P + 1 e̲n̲d̲
+           e̲l̲s̲e̲ i̲f̲ R × OMEGA ≤ C × EPS t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ INT[T]:= -I; MOVE(Q); Q:= Q - 1 e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ EXPONENT:= LN(R / C) × FACTOR;
+            i̲f̲ ABS(EXPONENT) > 1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ NI:= Q - P; C:= 2 ⭡ EXPONENT; R:= 1 / C;
+               D[I]:= D[I] × C;
+               f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ IM,
+                 I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ A[J,I]:= A[J,I] × C;
+                     A[I,J]:= A[I,J] × R
+                  e̲n̲d̲
+            e̲n̲d̲ e̲l̲s̲e̲ NI:= NI - 1
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ EQILBR
+
+;e̲o̲p̲

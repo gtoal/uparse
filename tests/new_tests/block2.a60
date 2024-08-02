@@ -1,0 +1,22 @@
+'BEGIN'
+'COMMENT' label visibility in blocks;
+	'REAL' x;
+	x := 1.234;
+	
+	'BEGIN'
+		'GOTO' lbl;
+		outreal(1,x)
+	'END';
+	
+lbl:;
+	'BEGIN'
+		'REAL' x;
+		'GOTO' lbl2;
+		x := 9.876;
+		outreal(1,x);
+		lbl2:
+	'END';
+	
+	outreal(1,x)
+
+	'END' 

@@ -1,0 +1,30 @@
+c̲o̲d̲e̲ 34300;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DEC(A, N, AUX, P); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, AUX; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, K, K1, PK, D;
+   r̲e̲a̲l̲ R, S, EPS;
+   a̲r̲r̲a̲y̲ V[1:N];
+   R:= -1;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ S:= SQRT(MATTAM(1,N,I,I,A,A));
+         i̲f̲ S > R t̲h̲e̲n̲ R:= S; V[I]:= 1/S
+      e̲n̲d̲;
+   EPS:= AUX[2] × R; D:= 1;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R:= - 1; K1:= K - 1;
+         f̲o̲r̲ I:= K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ A[I,K]:= A[I,K] - MATMAT(1, K1, I, K, A, A);
+               S:= ABS(A[I,K]) × V[I]; i̲f̲ S > R t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ R:= S; PK:= I e̲n̲d̲
+            e̲n̲d̲ LOWER;
+         P[K]:= PK; V[PK]:= V[K]; S:= A[PK,K];
+         i̲f̲ ABS(S) < EPS t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+         i̲f̲ S < 0 t̲h̲e̲n̲ D:= -D; i̲f̲ PK ≠ K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ D:= - D; ICHROW(1, N, K, PK, A) e̲n̲d̲;
+         f̲o̲r̲ I:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              A[K,I]:= (A[K,I] - MATMAT(1, K1, K, I, A, A)) / S
+      e̲n̲d̲ LU;
+   K:= N + 1;
+   END: AUX[1]:= D; AUX[3]:= K - 1
+e̲n̲d̲ DEC;
+e̲o̲p̲

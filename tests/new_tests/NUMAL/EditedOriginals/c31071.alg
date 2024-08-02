@@ -1,0 +1,10 @@
+'CODE' 31071;
+'PROCEDURE' HSHCOLMAT(LR, UR, LC, UC, I, X, U, A);
+'VALUE' LR, UR, LC, UC, I, X; 'INTEGER' LR, UR, LC, UC, I;
+'REAL' X; 'ARRAY' U, A;
+'BEGIN'
+    'FOR' LC:= LC 'STEP' 1 'UNTIL' UC 'DO'
+    ELMCOL(LR, UR, LC, I, A, U, TAMMAT(LR, UR, LC, I, A, U) * X)
+'END'
+
+        ;'EOP'

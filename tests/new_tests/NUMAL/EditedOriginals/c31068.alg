@@ -1,0 +1,12 @@
+'CODE' 31068;
+ 'REAL' 'PROCEDURE' ONENRMMAT(LR, UR, LC, UC, KC, A);
+ 'VALUE' LR, UR, LC, UC; 'INTEGER' LR, UR, LC, UC, KC; 'ARRAY' A;
+ 'BEGIN' 'REAL' MAX, R;
+    MAX:= 0; KC:= LC;
+    'FOR' LC:= LC 'STEP' 1 'UNTIL' UC 'DO'
+    'BEGIN' R:= ONENRMCOL(LR, UR, LC, A); 'IF' R > MAX 'THEN'
+        'BEGIN' MAX:= R; KC:= LC 'END'
+    'END';
+    ONENRMMAT:= MAX
+'END' ONENRMMAT;
+        'EOP'

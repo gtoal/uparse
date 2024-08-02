@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34354;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMMATVEC(L, U, I, AR, AI, BR, BI, RR, RI);
+   v̲a̲l̲u̲e̲ L, U, I; i̲n̲t̲e̲g̲e̲r̲ L, U, I; r̲e̲a̲l̲ RR, RI;
+     a̲r̲r̲a̲y̲ AR, AI, BR, BI;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ MV;
+   MV:= MATVEC(L, U, I, AR, BR) - MATVEC(L, U, I, AI, BI);
+   RI:= MATVEC(L, U, I, AI, BR) + MATVEC(L, U, I, AR, BI);
+   RR:=MV
+e̲n̲d̲ COMMATVEC;
+e̲o̲p̲

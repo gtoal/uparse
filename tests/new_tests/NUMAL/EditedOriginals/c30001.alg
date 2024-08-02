@@ -1,0 +1,4 @@
+'CODE' 30001;
+'INTEGER' 'PROCEDURE' MBASE;
+MBASE:= 2;
+        'EOP'

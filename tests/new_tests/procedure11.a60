@@ -1,0 +1,15 @@
+'BEGIN'
+'COMMENT' classic recursive procedure;
+	'INTEGER' nn, nf;
+	
+	'INTEGER' 'PROCEDURE' factorial(n); 'VALUE' n; 'INTEGER' n;
+	'BEGIN'
+		'IF' n = 1 'THEN' factorial := 1
+		'ELSE' factorial := n * factorial(n-1)
+	'END';
+		
+	nn := 5;
+	nf := factorial(nn);
+	outinteger ( 1 , nf)
+	
+'END'

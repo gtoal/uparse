@@ -1,0 +1,4 @@
+'BEGIN'
+	'INTEGER' i;
+	'FOR' i:= 1 'STEP' 1 'UNTIL' 20 'DO' outinteger(1,i)
+'END'

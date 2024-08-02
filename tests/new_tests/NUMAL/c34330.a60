@@ -1,0 +1,26 @@
+c̲o̲d̲e̲ 34330;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLDECBND(A, N, W, AUX); v̲a̲l̲u̲e̲ N, W; i̲n̲t̲e̲g̲e̲r̲ N, W;
+     a̲r̲r̲a̲y̲ A, AUX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, K, JMAX, KK, KJ, W1, START;
+   r̲e̲a̲l̲ R, EPS, MAX;
+   MAX:= 0; KK:= - W; W1:= W + 1;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK + W1; i̲f̲ A[KK] > MAX t̲h̲e̲n̲ MAX:= A[KK]e̲n̲d̲;
+   JMAX:= W; W1:= W + 1; KK:= - W; EPS:= AUX[2] × MAX;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲i̲f̲ K + W > N t̲h̲e̲n̲ JMAX:= JMAX - 1; KK:= KK + W1;
+         START:= KK - K + 1;
+         R:= A[KK] - VECVEC(i̲f̲ K ≤ W1 t̲h̲e̲n̲ START e̲l̲s̲e̲ KK - W,
+           KK - 1, 0, A, A); i̲f̲ R ≤ EPS t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AUX[3]:= K - 1; g̲o̲t̲o̲ END e̲n̲d̲;
+         A[KK]:= R:= SQRT(R); KJ:= KK;
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ JMAX d̲o̲
+            b̲e̲g̲i̲n̲ KJ:= KJ + W;
+               A[KJ]:= (A[KJ] - VECVEC(i̲f̲ K + J ≤ W1 t̲h̲e̲n̲ START
+               e̲l̲s̲e̲ KK - W + J, KK - 1, KJ - KK, A, A)) / R
+            e̲n̲d̲
+      e̲n̲d̲;
+   AUX[3]:= N;
+   END:
+e̲n̲d̲ CHLDECBND;
+e̲o̲p̲

@@ -1,0 +1,12 @@
+'CODE'34344;
+'PROCEDURE'CARPOL(AR,AI,R,C,S);
+'VALUE' AR,AI; 'REAL' AR,AI,R,C,S;
+'IF' AR=0&AI=0 'THEN'
+  'BEGIN' C:=1;R:=S:=0 'END'
+'ELSE' 'BEGIN'
+   R:='IF' ABS(AR)>ABS(AI) 'THEN'
+    ABS(AR)*SQRT(1+(AI/AR)**2)
+   'ELSE' ABS(AI)* SQRT(1+(AR/AI)**2);
+   C:=AR/R;S:=AI/R
+'END'CARPOL;
+        'EOP'

@@ -1,0 +1,7 @@
+'BEGIN'
+'COMMENT' second type of division %  (139%10);
+	'INTEGER' n, m, r;
+	ininteger (0,n); ininteger (0,m);
+	r := n % m ; 
+	outinteger (1,r)
+'END'

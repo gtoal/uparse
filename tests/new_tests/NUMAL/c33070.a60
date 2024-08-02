@@ -1,0 +1,202 @@
+c̲o̲d̲e̲ 33070;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EFRK(T,TE,M0,M,U,SIGMA,PHI,DIAMETER,DERIVATIVE,K,STEP,R,L,
+  BETA,THIRDORDER,TOL,OUTPUT);
+   v̲a̲l̲u̲e̲ R,L;
+   i̲n̲t̲e̲g̲e̲r̲ M0,M,K,R,L;
+     r̲e̲a̲l̲ T,TE,SIGMA,PHI,DIAMETER,STEP,TOL;
+     a̲r̲r̲a̲y̲ U,BETA;
+     b̲o̲o̲l̲e̲a̲n̲ THIRDORDER;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,OUTPUT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N;
+   r̲e̲a̲l̲ THETA0,THETANM1,H,B,B0,PHI0,PHIL,PI,COSPHI,SINPHI,EPS,BETAR;
+   b̲o̲o̲l̲e̲a̲n̲ FIRST,LAST,COMPLEX,CHANGE;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P[1:L];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ MU,LABDA[0:R+L-1],PT[0:R],FAC,BETAC[0:L-1],RL[M0:M],
+     A[1:L,1:L],AUX[0:3];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ FORM CONSTANTS;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+      FIRST:=f̲a̲l̲s̲e̲;
+      FAC[0]:=1;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L-1 d̲o̲ FAC[I]:=I×FAC[I-1];
+      PT[R]:=L×FAC[L-1];
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+           PT[R-I]:=PT[R-I+1]×(L+I)/I
+   e̲n̲d̲ FORM CONSTANTS;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ FORM BETA;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J; r̲e̲a̲l̲ BB,C,D;
+      i̲f̲ FIRST t̲h̲e̲n̲ FORM CONSTANTS;
+      i̲f̲ L=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ C:=1-EXP(-B);
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲ C:=BETA[J]-C/B;
+         BETA[R+1]:=C/B
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ B>40 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=R+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R+L d̲o̲
+            b̲e̲g̲i̲n̲ C:=0;
+               f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+                    C:=BETA[J]×PT[J]/(I-J)-C/B;
+               BETA[I]:=C/B/FAC[L+R-I]/FAC[I-R-1]
+            e̲n̲d̲;
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ D:=C:=EXP(-B); BETAC[L-1]:=D/FAC[L-1];
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L-1 d̲o̲
+            b̲e̲g̲i̲n̲ C:=B×C/I; D:=D+C; BETAC[L-1-I]:=D/FAC[L-1-I] e̲n̲d̲;
+         BB:=1;
+         f̲o̲r̲ I:=R+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R+L d̲o̲
+            b̲e̲g̲i̲n̲ C:=0;
+               f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+                    C:=(BETA[J]-(i̲f̲ J<L t̲h̲e̲n̲ BETAC[J] e̲l̲s̲e̲ 0))×
+                    PT[J]/(I-J)-C/B;
+               BETA[I]:=C/B/FAC[L+R-I]/FAC[I-R-1]+
+                 (i̲f̲ I<L t̲h̲e̲n̲ BB×BETAC[I] e̲l̲s̲e̲ 0);
+               BB:=BB×B
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ FORM BETA;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLUTION OF COMPLEX EQUATIONS;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,C1,C3;
+      r̲e̲a̲l̲ C2,E,B1,ZI,COSIPHI,SINIPHI,COSPHIL;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ D[1:L];
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELEMENTS OF MATRIX;
+      b̲e̲g̲i̲n̲ PHIL:=PHI0;
+         COSPHI:=COS(PHIL); SINPHI:=SIN(PHIL);
+         COSIPHI:=1; SINIPHI:=0;
+         f̲o̲r̲ I:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L-1 d̲o̲
+            b̲e̲g̲i̲n̲ C1:=R+1+I; C2:=1;
+               f̲o̲r̲ J:=L-1 s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ 1 d̲o̲
+                  b̲e̲g̲i̲n̲ A[J,L-I]:=C2×COSIPHI;
+                     A[J+1,L-I]:=C2×SINIPHI;
+                     C2:=C1×C2; C1:=C1-1
+                  e̲n̲d̲;
+               COSPHIL:=COSIPHI×COSPHI-SINIPHI×SINPHI;
+               SINIPHI:=COSIPHI×SINPHI+SINIPHI×COSPHI;
+               COSIPHI:=COSPHIL
+            e̲n̲d̲;
+         AUX[2]:=0; DEC(A,L,AUX,P)
+      e̲n̲d̲ EL OF MAT;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ RIGHTHANDSIDE;
+      b̲e̲g̲i̲n̲ E:=EXP(B×COSPHI);
+         B1:=B×SINPHI-(R+1)×PHIL;
+         COSIPHI:=E×COS(B1); SINIPHI:=E×SIN(B1);
+         B1:=1/B; ZI:=B1⭡R;
+         f̲o̲r̲ J:=L s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ 2 d̲o̲
+            b̲e̲g̲i̲n̲ D[J]:=ZI×SINIPHI;
+               D[J-1]:=ZI×COSIPHI;
+               COSPHIL :=COSIPHI×COSPHI-SINIPHI×SINPHI;
+               SINIPHI:=COSIPHI×SINPHI+SINIPHI×COSPHI;
+               COSIPHI:=COSPHIL;
+               ZI:=ZI×B
+            e̲n̲d̲;
+         COSIPHI:=ZI:=1; SINIPHI:=0;
+         f̲o̲r̲ I:=R s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+            b̲e̲g̲i̲n̲ C1:=I; C2:=BETA[I];
+               C3:=i̲f̲ 2×I>L-2 t̲h̲e̲n̲ 2 e̲l̲s̲e̲ L-2×I;
+               COSPHIL :=COSIPHI×COSPHI-SINIPHI×SINPHI;
+               SINIPHI:=COSIPHI×SINPHI+SINIPHI×COSPHI;
+               COSIPHI:=COSPHIL;
+               f̲o̲r̲ J:=L s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ C3 d̲o̲
+                  b̲e̲g̲i̲n̲ D[J]:=D[J]+ZI×C2×SINIPHI;
+                     D[J-1]:=D[J-1]-ZI×C2×COSIPHI;
+                     C2:=C2×C1; C1:=C1-1
+                  e̲n̲d̲;
+               ZI:=ZI×B1
+            e̲n̲d̲
+      e̲n̲d̲ RIGHT HAND SIDE;
+
+      i̲f̲ PHI0≠PHIL t̲h̲e̲n̲ ELEMENTS OF MATRIX;
+      RIGHTHANDSIDE;
+      SOL(A,L,P,D);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲ BETA[R+I]:=D[L+1-I]×B1
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J,K; r̲e̲a̲l̲ C;
+      B0:=B; PHI0:=PHI;
+      i̲f̲ B≥1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ COMPLEX t̲h̲e̲n̲ SOLUTION OF COMPLEX EQUATIONS
+         e̲l̲s̲e̲ FORM BETA
+      e̲n̲d̲;
+      LABDA[0]:=MU[0]:=0;
+      i̲f̲ THIRDORDER t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ THETA0:=·25; THETANM1:=·75;
+         i̲f̲ B<1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ C:=MU[N-1]:=2/3; LABDA[N-1]:=5/12;
+            f̲o̲r̲ J:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ C:=MU[J]:=C/(C-·25)/(N-J+1);
+                  LABDA[J]:=C-·25
+               e̲n̲d̲
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ C:=MU[N-1]:=BETA[2]×4/3; LABDA[N-1]:=C-·25;
+            f̲o̲r̲ J:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ C:=MU[J]:=C/(C-·25)×BETA[N-J+1]/BETA[N-J]/
+                    (i̲f̲ J<L t̲h̲e̲n̲ B e̲l̲s̲e̲ 1);
+                  LABDA[J]:=C-·25
+               e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ THETA0:=0; THETANM1:=1;
+         i̲f̲ B<1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ J:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                 MU[J]:=LABDA[J]:=1/(N-J+1)
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ LABDA[N-1]:=MU[N-1]:=BETA[2];
+            f̲o̲r̲ J:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                 MU[J]:=LABDA[J]:=BETA[N-J+1]/BETA[N-J]/
+                 (i̲f̲ J<L t̲h̲e̲n̲ B e̲l̲s̲e̲ 1)
+         e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ D,HSTAB,HSTABINT;
+      H:=STEP;
+      D:=ABS(SIGMA×SIN(PHI));
+      COMPLEX:=L÷2×2=L ∧ 2×D>DIAMETER;
+      i̲f̲ DIAMETER>0 t̲h̲e̲n̲
+        HSTAB:=(SIGMA⭡2/(DIAMETER×(DIAMETER×·25+D)))⭡(L×·5/R)/
+        BETAR/SIGMA
+      e̲l̲s̲e̲ HSTAB:=H;
+      D:= i̲f̲ THIRDORDER t̲h̲e̲n̲ (2×TOL/EPS/BETA[R])⭡(1/(N-1))×
+        4⭡((L-1)/(N-1)) e̲l̲s̲e̲ (TOL/EPS)⭡(1/R)/BETAR;
+      HSTABINT:= ABS(D/SIGMA);
+      i̲f̲ H>HSTAB t̲h̲e̲n̲ H:=HSTAB;
+      i̲f̲ H>HSTABINT t̲h̲e̲n̲ H:=HSTABINT;
+      i̲f̲ T+H>TE×(1-K×EPS) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; H:=TE-T e̲n̲d̲;
+      B:=H×SIGMA; D:=DIAMETER×·1×H; D:=D×D;
+      i̲f̲ H<T×EPS  t̲h̲e̲n̲ g̲o̲t̲o̲ ENDOFEFRK;
+      CHANGE:=B0=-1 ∨ ((B-B0)×(B-B0)+B×B0×(PHI-PHI0)×(PHI-PHI0)>D)
+   e̲n̲d̲ STEPSIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCESCHEME ;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J; r̲e̲a̲l̲ MT,LT,THT;
+      I:=-1;
+      NEXTTERM:
+      I:=I+1; MT:=MU[I]×H; LT:=LABDA[I]×H;
+      f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ RL[J]:=U[J]+LT×RL[J];
+      DERIVATIVE(T+MT,RL);
+      i̲f̲ I=0 ∨ I=N-1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ THT:=i̲f̲ I=0 t̲h̲e̲n̲ THETA0×H e̲l̲s̲e̲ THETANM1×H;
+         ELMVEC(M0,M,0,U,RL,THT)
+      e̲n̲d̲;
+      i̲f̲ I<N-1 t̲h̲e̲n̲ g̲o̲t̲o̲ NEXTTERM;
+      T:=T+H
+   e̲n̲d̲ DIFFERENCE SCHEME;
+
+   N:=R+L; FIRST:=t̲r̲u̲e̲; B0:=-1; BETAR:=BETA[R]⭡(1/R);
+   LAST:=f̲a̲l̲s̲e̲; EPS:=2·0⭡(-48); PI:=PHI0:=PHIL:=4×ARCTAN(1);
+   INIVEC(M0, M, RL, 0);
+   NEXTLEVEL:
+   STEPSIZE;
+   i̲f̲ CHANGE t̲h̲e̲n̲ COEFFICIENT;
+   K:=K+1;
+   DIFFERENCE SCHEME;
+   OUTPUT;
+   i̲f̲ ¬ LAST t̲h̲e̲n̲ g̲o̲t̲o̲ NEXTLEVEL;
+   ENDOFEFRK:
+e̲n̲d̲ EXPONENTIALLY FITTED RUNGE KUTTA;
+e̲o̲p̲

@@ -1,0 +1,26 @@
+c̲o̲d̲e̲ 34053;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ INV(A, N, P); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, K, K1;
+   r̲e̲a̲l̲ R;
+   a̲r̲r̲a̲y̲ V[1:N];
+   f̲o̲r̲ K:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ K1:= K + 1;
+         f̲o̲r̲ J:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ K1 d̲o̲
+            b̲e̲g̲i̲n̲ A[J,K1]:= V[J];
+               V[J]:= - MATMAT(K1, N, K, J, A, A)
+            e̲n̲d̲;
+         R:= A[K,K];
+         f̲o̲r̲ J:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ K1 d̲o̲
+            b̲e̲g̲i̲n̲ A[K,J]:= V[J];
+               V[J]:= - MATMAT(K1, N, J, K, A, A) / R
+            e̲n̲d̲;
+         V[K]:= (1 - MATMAT(K1, N, K, K, A, A)) / R
+      e̲n̲d̲;
+   DUPCOLVEC(1, N, 1, A, V);
+   f̲o̲r̲ K:= N - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ K1:= P[K]; i̲f̲ K1 ≠ K t̲h̲e̲n̲
+           ICHCOL(1, N, K, K1, A)
+      e̲n̲d̲
+e̲n̲d̲ INV;
+e̲o̲p̲

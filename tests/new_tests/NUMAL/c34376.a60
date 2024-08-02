@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34376;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELMCOMVECCOL(L,U,J,AR,AI,BR,BI,XR,XI);
+   v̲a̲l̲u̲e̲ L,U,J,XR,XI;
+   i̲n̲t̲e̲g̲e̲r̲ L,U,J;r̲e̲a̲l̲ XR,XI;a̲r̲r̲a̲y̲ AR,AI,BR,BI;
+b̲e̲g̲i̲n̲
+   ELMVECCOL(L,U,J,AR,BR,XR);
+   ELMVECCOL(L,U,J,AR,BI,-XI);
+   ELMVECCOL(L,U,J,AI,BR,XI);
+   ELMVECCOL(L,U,J,AI,BI,XR)
+e̲n̲d̲ ELMCOMVECCOL;
+e̲o̲p̲

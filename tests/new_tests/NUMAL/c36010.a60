@@ -1,0 +1,19 @@
+c̲o̲d̲e̲36010;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEWTON(N,X,F);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ X,F;
+     c̲o̲m̲m̲e̲n̲t̲ NEWTON DETERMINES THE COEFFICIENTS C[J],J=0,...N,
+     OF THE INTERPOLATION POLYNOMIAL C[0] + C[1] *(X-X[0])+...+
+     C[N] * (X-X[0])*...*(X-X[N-1]) OUT OF N+1 LIN. EQUAT.
+     THE ARGUMENTS AND FUNCTION VALUES MUST BE GIVEN IN
+     ARRAY X, F[0:N]. THE ARRAY F IS OVERWRITTEN BY
+     THE COEFFICIENTS C[J],J=0,...N;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K,I,IM1;
+   r̲e̲a̲l̲ XIM1,FIM1;
+   IM1:=0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ FIM1:=F[IM1];XIM1:=X[IM1];
+         f̲o̲r̲ K:= I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ F[K]:= (F[K]-FIM1)/(X[K]-XIM1);
+         IM1:= I
+      e̲n̲d̲
+e̲n̲d̲ NEWTON;
+e̲o̲p̲

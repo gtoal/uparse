@@ -1,0 +1,138 @@
+c̲o̲d̲e̲ 33050;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EXPONENTIALLY FITTED TAYLOR(T,TE,M0,M,U,SIGMA,PHI,DIAMETER,
+  DERIVATIVE,I,K,ALFA,NORM,AETA,RETA,ETA,RHO,HMIN,HSTART,OUTPUT);
+   i̲n̲t̲e̲g̲e̲r̲ M0,M,I,K,NORM;
+     r̲e̲a̲l̲ T,TE,SIGMA,PHI,DIAMETER,ALFA,AETA,RETA,ETA,RHO,HMIN,HSTART;
+     a̲r̲r̲a̲y̲ U;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,OUTPUT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ KL;
+   r̲e̲a̲l̲ Q,EC0,EC1,EC2,H,HI,H0,H1,H2,BETAN,T2,SIGMAL,PHIL;
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ C,RO[M0:M],BETA,BETHA[1:3];
+   b̲o̲o̲l̲e̲a̲n̲ LAST,START;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B,B1,B2,BB,E,BETA2,BETA3;
+      B:=H×SIGMAL; B1:=B×COS(PHIL); BB:=B×B;
+      i̲f̲ ABS(B)<@-3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ BETA2:=·5-BB/24;
+         BETA3:=1/6+B1/12;
+         BETHA[3]:=·5+B1/3
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ B1<-40 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ BETA2:=(-2×B1-4×B1×B1/BB+1)/BB;
+         BETA3:=(1+2×B1/BB)/BB;
+         BETHA[3]:=1/BB
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ E:=EXP(B1)/BB; B2:=B×SIN(PHIL);
+         BETA2:=(-2×B1-4×B1×B1/BB+1)/BB;
+         BETA3:=(1+2×B1/BB)/BB;
+         i̲f̲ ABS(B2/B)<@-5 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ BETA2:=BETA2-E×(B1-3);
+            BETA3:=BETA3+E×(B1-2)/B1;
+            BETHA[3]:=1/BB+E×(B1-1)
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ BETA2:=BETA2-E×SIN(B2-3×PHIL)/B2×B;
+            BETA3:=BETA3+E×SIN(B2-2×PHIL)/B2;
+            BETHA[3]:=1/BB+E×SIN(B2-PHIL)/B2×B;
+         e̲n̲d̲
+      e̲n̲d̲;
+      BETA[1]:=BETHA[1]:=1;
+      BETA[2]:=BETA2; BETA[3]:=BETA3;
+      BETHA[2]:=1-BB×BETA3; B:=ABS(B);
+      Q:=i̲f̲ B<1·5 t̲h̲e̲n̲ 4-2×B/3 e̲l̲s̲e̲ i̲f̲ B<6 t̲h̲e̲n̲ (30-2×B)/9
+      e̲l̲s̲e̲ 2;
+   e̲n̲d̲;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORMFUNCTION(NORM,W);
+      i̲n̲t̲e̲g̲e̲r̲ NORM; a̲r̲r̲a̲y̲ W;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ S,X;
+      S:=0;
+      i̲f̲ NORM=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ X:=ABS(W[J]); i̲f̲ X>S t̲h̲e̲n̲ S:=X e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+        S:=SQRT(VECVEC(M0,M,0,W,W));
+      NORMFUNCTION:=S;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR BOUND;
+      ETA:=AETA+RETA × NORMFUNCTION(NORM,U);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR CONSTRUCTION(I); i̲n̲t̲e̲g̲e̲r̲ I;
+   b̲e̲g̲i̲n̲ i̲f̲ I=1 t̲h̲e̲n̲ INIVEC(M0,M,RO,0);
+      i̲f̲ I<4 t̲h̲e̲n̲ ELMVEC(M0,M,0,RO,C,BETHA[I]×HI);
+      i̲f̲ I=4 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ELMVEC(M0,M,0,RO,C,-H);
+         RHO:=NORMFUNCTION(NORM,RO);
+         EC0:=EC1;EC1:=EC2;EC2:=RHO/H⭡Q;
+      e̲n̲d̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ HACC,HSTAB,HCR,HMAX,A,B,C;
+      i̲f̲ ¬ START t̲h̲e̲n̲ LOCAL ERROR BOUND;
+      i̲f̲ START t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H1:=H2:=HACC:=HSTART;
+         EC2:=EC1:=1; KL:=1; START:=f̲a̲l̲s̲e̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ KL<3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ HACC:=(ETA/RHO)⭡(1/Q)×H2;
+         i̲f̲ HACC>10×H2 t̲h̲e̲n̲ HACC:=10×H2 e̲l̲s̲e̲ KL:=KL+1
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ A:=(H0×(EC2-EC1)-H1×(EC1-EC0))/(H2×H0-H1×H1);
+         H:=H2×(i̲f̲ ETA<RHO t̲h̲e̲n̲ (ETA/RHO)⭡(1/Q) e̲l̲s̲e̲ ALFA);
+         i̲f̲ A>0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ B:=(EC2-EC1-A×(H2-H1))/H1;
+            C:=EC2-A×H2-B×T2; HACC:=0; HMAX:=H;
+            i̲f̲ ¬ZEROIN(HACC,H,HACC⭡Q×(A×HACC+B×T+C)-ETA,@-3×H2) t̲h̲e̲n̲ HACC:=HMAX
+         e̲n̲d̲ e̲l̲s̲e̲ HACC:=H;
+         i̲f̲ HACC<·5×H2 t̲h̲e̲n̲ HACC:=·5×H2;
+      e̲n̲d̲;
+      i̲f̲ HACC<HMIN t̲h̲e̲n̲ HACC:=HMIN; H:=HACC;
+      i̲f̲ H×SIGMAL>1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ A:=ABS(DIAMETER/SIGMAL+@-14)/2; B:=2×ABS(SIN(PHIL));
+         BETAN:=(i̲f̲ A>B t̲h̲e̲n̲ 1/A e̲l̲s̲e̲ 1/B)/A;
+         HSTAB:=ABS(BETAN/SIGMAL);
+         i̲f̲ HSTAB<@-14×T t̲h̲e̲n̲ g̲o̲t̲o̲ ENDOFEFT;
+         i̲f̲ H>HSTAB t̲h̲e̲n̲ H:=HSTAB
+      e̲n̲d̲;
+      HCR:=H2×H2/H1;
+      i̲f̲ KL>2 ∧ ABS(H-HCR)<@-6×HCR t̲h̲e̲n̲
+        H:=i̲f̲ H<HCR t̲h̲e̲n̲ HCR×(1-@-7) e̲l̲s̲e̲ HCR×(1+@-7);
+      i̲f̲ T+H>TE t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; HSTART:=H; H:=TE-T e̲n̲d̲;
+      H0:=H1;H1:=H2;H2:=H;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ HI:=1; SIGMAL:=SIGMA; PHIL:=PHI;
+      STEPSIZE;
+      COEFFICIENT;
+      f̲o̲r̲ I:=1,2,3 d̲o̲
+         b̲e̲g̲i̲n̲ HI:=HI×H;
+            i̲f̲ I>1 t̲h̲e̲n̲ DERIVATIVE(I,C);
+            LOCALERRORCONSTRUCTION(I);
+            ELMVEC(M0,M,0,U,C,BETA[I]×HI)
+         e̲n̲d̲;
+      T2:=T; K:=K+1;
+      i̲f̲ LAST t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ LAST:=f̲a̲l̲s̲e̲; T:=TE; START:=t̲r̲u̲e̲
+      e̲n̲d̲ e̲l̲s̲e̲ T:=T+H;
+      DUPVEC(M0,M,0,C,U);
+      DERIVATIVE(1,C);
+      LOCALERRORCONSTRUCTION(4);
+      OUTPUT;
+   e̲n̲d̲;
+
+   START:=t̲r̲u̲e̲; LAST:=f̲a̲l̲s̲e̲;
+   DUPVEC(M0,M,0,C,U);
+   DERIVATIVE(1,C);
+   i̲f̲ K=0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LOCAL ERROR BOUND; HSTART:=ETA/NORMFUNCTION(NORM,C)
+   e̲n̲d̲;
+   NEXT LEVEL:
+   DIFFERENCE SCHEME;
+   i̲f̲ T≠TE t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT LEVEL;
+   ENDOFEFT:
+e̲n̲d̲ EXPONENTIAL FITTED TAYLOR;
+e̲o̲p̲

@@ -1,0 +1,18 @@
+c̲o̲d̲e̲31362;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ALLZERORTPOL (N, B, C, ZER, EM);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ B, C, ZER, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲I;r̲e̲a̲l̲NRM;a̲r̲r̲a̲y̲BB[1:N];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DUPCEV (L, U, SHIFT, A, B);
+      v̲a̲l̲u̲e̲L,U,SHIFT;i̲n̲t̲e̲g̲e̲r̲L,U,SHIFT;a̲r̲r̲a̲y̲A,B;
+      f̲o̲r̲ U:=U s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ L d̲o̲ A[U]:=B[U+SHIFT];
+   NRM:=ABS(B[0]);
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲N-2d̲o̲i̲f̲C[I]+ABS(B[I])>NRMt̲h̲e̲n̲
+        NRM:=C[I]+ABS(B[I]);
+   i̲f̲N>1t̲h̲e̲n̲NRM:=i̲f̲NRM+1≥C[N-1]+ABS(B[N-1])t̲h̲e̲n̲NRM+1e̲l̲s̲e̲
+     C[N-1]+ABS(B[N-1]);
+   EM[1]:=NRM; DUPCEV(1,N,-1,ZER,B);
+   DUPVEC(1,N-1,0,BB,C);BB[N]:=0;
+   QRIVALSYMTRI(ZER,BB,N,EM)
+e̲n̲d̲ ALLZERORTPOL
+
+;e̲o̲p̲

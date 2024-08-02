@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT' array setting after allocation;
+	'INTEGER' n;
+	n := 500000000;
+	'BEGIN'
+		'INTEGER' 'ARRAY' nArr[1:n];
+		nArr[n-1] := 2334;
+		outinteger(1,nArr[1]);
+		outinteger(1,nArr[n%2]);
+		outinteger(1,nArr[n-1])
+	'END'
+'END'

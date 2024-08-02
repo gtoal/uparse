@@ -1,0 +1,170 @@
+c̲o̲d̲e̲ 33191;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GMS(X, XE, R, Y, H, HMIN, HMAX, DELTA, DERIVATIVE,
+  JACOBIAN, AETA, RETA, N, JEV, LU, NSJEV,
+  LINEAR, OUT);
+   v̲a̲l̲u̲e̲ R;
+   r̲e̲a̲l̲ X, XE, H, HMIN, HMAX, DELTA, AETA, RETA;
+     i̲n̲t̲e̲g̲e̲r̲ R, N, JEV, NSJEV, LU;
+     b̲o̲o̲l̲e̲a̲n̲ LINEAR;
+     a̲r̲r̲a̲y̲ Y;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE, JACOBIAN, OUT;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ I, J, K, L, NSJEV1, COUNT, COUNT1, KCHANGE;
+   r̲e̲a̲l̲ A, A1, ALFA, E, S1, S2, Z1, X0, XL0, XL1,
+     XL2, ETA, H0, H1, Q, Q1, Q2, Q12, Q22, Q1Q2, DISCR;
+   b̲o̲o̲l̲e̲a̲n̲ UPDATE, CHANGE, REEVAL, STRATEGY;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI[1:R];
+   a̲r̲r̲a̲y̲ AUX[1:9], BD1, BD2[1:3,1:3], Y1,
+     Y0[1:R], HJAC, H2JAC2, RQZ[1:R,1:R], YL, FL[1:3 × R];
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INITIALIZATION;
+   b̲e̲g̲i̲n̲ LU:= JEV:= N:= NSJEV1:= KCHANGE:= 0; X0:= X; DISCR:= 0;
+      K:=1; H1:= H0:= H; COUNT:= -2; AUX[2]:= @-14; AUX[4]:= 8;
+      DUPVEC(1, R, 0, YL, Y); REEVAL:= CHANGE:= t̲r̲u̲e̲;
+      STRATEGY:= HMIN ≠ HMAX ∧ ¬LINEAR; Q1:= -1; Q2:= -2;
+      COUNT1:= 0; XL0:= XL1:= XL2:= 0
+   e̲n̲d̲ INITIALIZATION;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ XL2:= XL1; XL1:= XL0; XL0:= X0;
+      i̲f̲ CHANGE t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ N > 2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ Q1:= (XL1 - XL0) / H1;
+            Q2:= (XL2 - XL0) / H1
+         e̲n̲d̲;
+         Q12:= Q1 × Q1; Q22:= Q2 × Q2; Q1Q2:= Q1 × Q2;
+         A:= -(3 × ALFA + 1) / 12;
+         BD1[1,3]:= 1 + (1 / 3 - (Q1 + Q2) × ·5) / Q1Q2;
+         BD1[2,3]:= (1 / 3 - Q2 × ·5) / (Q12 - Q1Q2);
+         BD1[3,3]:= (1 / 3 - Q1 × ·5) / (Q22 - Q1Q2);
+         BD2[1,3]:= -ALFA × ·5 + A × (1 - Q1 - Q2) / Q1Q2;
+         BD2[2,3]:= A × (1 - Q2) / (Q12 - Q1Q2);
+         BD2[3,3]:= A × (1 - Q1) / (Q22 - Q1Q2);
+         i̲f̲ STRATEGY ∨ N ≤ 2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ BD1[2,2]:= 1 / (2 × Q1);
+            BD1[1,2]:= 1 - BD1[2,2];
+            BD2[2,2]:= -(3 × ALFA + 1) / (12 × Q1);
+            BD2[1,2]:= -BD2[2,2] - ALFA × ·5
+         e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ COEFFICIENT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ OPERATOR CONSTRUCTION;
+   b̲e̲g̲i̲n̲ i̲f̲ REEVAL t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ JACOBIAN(HJAC, Y);
+         JEV:= JEV + 1; NSJEV1:= 0;
+         i̲f̲ DELTA ≤ -@15 t̲h̲e̲n̲ ALFA:= 1 / 3 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ Z1:= H1 × DELTA;
+            A:= Z1 × Z1 + 12; A1:= 6 × Z1;
+            i̲f̲ ABS(Z1) < ·1 t̲h̲e̲n̲
+              ALFA:= (Z1 × Z1 / 140 - 1) × Z1 / 30 e̲l̲s̲e̲
+            i̲f̲ Z1 < -33 t̲h̲e̲n̲
+              ALFA:= (A + A1) / (3 × Z1 × (2 + Z1)) e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ E:= EXP(Z1); ALFA:= ((A - A1) ×
+                 E - A - A1) / (((2 - Z1) × E - 2 - Z1) ×
+                 Z1 × 3)
+            e̲n̲d̲
+         e̲n̲d̲;
+         S1:= -(1 + ALFA) × ·5; S2:= (ALFA × 3 + 1) / 12
+      e̲n̲d̲;
+      A:= H1 / H0; A1:= A × A;
+      i̲f̲ REEVAL t̲h̲e̲n̲ A:= H1;
+      i̲f̲ A ≠ 1 t̲h̲e̲n̲
+        f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+           COLCST(1, R, J, HJAC, A);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+               b̲e̲g̲i̲n̲ Q:= H2JAC2[I,J]:= i̲f̲ REEVAL t̲h̲e̲n̲
+                    MATMAT(1, R, I, J, HJAC, HJAC)
+                  e̲l̲s̲e̲ H2JAC2[I,J] × A1;
+                  RQZ[I,J]:= S2 × Q
+               e̲n̲d̲;
+            RQZ[I,I]:= RQZ[I,I] + 1;
+            ELMROW(1, R, I, I, RQZ, HJAC, S1)
+         e̲n̲d̲;
+      GSSELM(RQZ, R, AUX, RI, CI); LU:= LU + 1;
+      REEVAL:= UPDATE:= f̲a̲l̲s̲e̲
+   e̲n̲d̲ OPERATOR CONSTRUCTION;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ i̲f̲ COUNT ≠ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DUPVEC(1, R, 0, FL, YL);
+         DERIVATIVE(FL); N:= N + 1; NSJEV1:= NSJEV1 + 1
+      e̲n̲d̲;
+      MULVEC(1, R, 0, Y0, YL, (1 - ALFA) / 2 - BD1[1,K]);
+      f̲o̲r̲ L:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+           ELMVEC(1, R, R × (L - 1), Y0, YL, -BD1[L,K]);
+      f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+           ELMVEC(1, R, R × (L - 1), Y0, FL, H1 × BD2[L,K]);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+           Y[I]:= MATVEC(1, R, I, HJAC, Y0);
+      MULVEC(1, R, 0, Y0, YL, (1 - 3 × ALFA) / 12 - BD2[1,K]);
+      f̲o̲r̲ L:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+           ELMVEC(1, R, R × (L - 1), Y0, YL, -BD2[L,K]);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+           Y[I]:= Y[I] + MATVEC(1, R, I, H2JAC2, Y0);
+      DUPVEC(1, R, 0, Y0, YL);
+      f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+           ELMVEC(1, R, R × (L - 1), Y0, FL, H1 × BD1[L,K]);
+      ELMVEC(1, R, 0, Y, Y0, 1); SOLELM(RQZ, R, RI, CI, Y)
+   e̲n̲d̲ DIFFERENCE SCHEME;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEXT INTEGRATION STEP;
+   b̲e̲g̲i̲n̲ f̲o̲r̲ L:= 2, 1 d̲o̲
+         b̲e̲g̲i̲n̲ DUPVEC(L × R + 1, (L + 1) × R, -R, YL, YL);
+            DUPVEC(L × R + 1, (L + 1) × R, -R, FL, FL)
+         e̲n̲d̲;
+      DUPVEC(1, R, 0, YL, Y)
+   e̲n̲d̲ NEXT INTEGRATION STEP;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ TEST ACCURACY;
+   b̲e̲g̲i̲n̲ K:= 2;
+      DUPVEC(1, R, 0, Y1, Y); DIFFERENCE SCHEME; K:= 3;
+      ETA:= AETA + RETA × SQRT(VECVEC(1, R, 0, Y1, Y1));
+      ELMVEC(1, R, 0, Y, Y1, -1);
+      DISCR:= SQRT(VECVEC(1, R, 0, Y, Y));
+      DUPVEC(1, R, 0, Y, Y1)
+   e̲n̲d̲ TEST ACCURACY;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ X0:= X; H0:= H1;
+      i̲f̲ N ≤ 2 ∧ ¬LINEAR t̲h̲e̲n̲ K:= K + 1;
+      i̲f̲ COUNT = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ A:= ETA / (·75 × (ETA + DISCR)) + ·33;
+         H1:= i̲f̲ A ≤ ·9 ∨ A ≥ 1·1 t̲h̲e̲n̲ A × H0
+         e̲l̲s̲e̲ H0; COUNT:= 0;
+         REEVAL:= A ≤ ·9 ∧ NSJEV1 ≠ 1;
+         COUNT1:= i̲f̲ A ≥ 1 ∨ REEVAL t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+           COUNT1 + 1; i̲f̲ COUNT1 = 10 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ COUNT1:= 0; REEVAL:= t̲r̲u̲e̲;
+            H1:= A × H0
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ H1:= H; REEVAL:= NSJEV = NSJEV1 ∧¬STRATEGY ∧ ¬LINEAR
+      e̲n̲d̲;
+      i̲f̲ STRATEGY t̲h̲e̲n̲ H1:= i̲f̲ H1 > HMAX
+        t̲h̲e̲n̲ HMAX e̲l̲s̲e̲ i̲f̲ H1 < HMIN t̲h̲e̲n̲ HMIN e̲l̲s̲e̲ H1;
+      X:= X + H1; i̲f̲ X ≥ XE t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H1:= XE - X0; X:= XE e̲n̲d̲;
+      i̲f̲ N ≤ 2 ∧ ¬LINEAR t̲h̲e̲n̲ REEVAL:= t̲r̲u̲e̲;
+      i̲f̲ H1 ≠ H0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ UPDATE:= t̲r̲u̲e̲; KCHANGE:= 3 e̲n̲d̲;
+      i̲f̲ REEVAL t̲h̲e̲n̲ UPDATE:= t̲r̲u̲e̲;
+      CHANGE:= KCHANGE > 0 ∧ ¬LINEAR;
+      KCHANGE:= KCHANGE - 1
+   e̲n̲d̲ STEPSIZE;
+
+   INITIALIZATION; OUT; X:= X + H1;
+   OPERATOR CONSTRUCTION;
+   BD1[1,1]:= 1; BD2[1,1]:= -ALFA × ·5;
+   i̲f̲ ¬LINEAR t̲h̲e̲n̲ COEFFICIENT;
+   NEXT STEP: DIFFERENCE SCHEME;
+   i̲f̲ STRATEGY t̲h̲e̲n̲ COUNT:= COUNT + 1;
+   i̲f̲ COUNT = 1 t̲h̲e̲n̲ TEST ACCURACY;
+   OUT; i̲f̲ X ≥ XE t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+   STEPSIZE; i̲f̲ UPDATE t̲h̲e̲n̲ OPERATOR CONSTRUCTION;
+   i̲f̲ ¬LINEAR t̲h̲e̲n̲ COEFFICIENT;
+   NEXT INTEGRATION STEP; g̲o̲t̲o̲ NEXT STEP;
+   END:
+e̲n̲d̲ GMS;
+e̲o̲p̲

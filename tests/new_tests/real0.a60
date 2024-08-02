@@ -1,0 +1,6 @@
+'BEGIN'
+'COMMENT' standard notation of real numbers;
+	'REAL' x;
+	x := 1.23456789;
+	outreal(1,x)
+'END'

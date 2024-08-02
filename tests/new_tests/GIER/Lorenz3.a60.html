@@ -1,0 +1,308 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>n</u>&lt;
+<u>begin</u>
+   <u>comment</u>
+
+        GC7J6KQ
+
+   Time buffer:     2427.59s = 40m 27.59s
+   Time nonbuffer:  2403.38s = 40m 03.38s
+
+   No buffer:
+
+   Time classic:        2402.93
+   Time turbo:          2295.14 4.5pct
+
+   Buffer:
+
+   Time classic:        2427.87
+   Time turbo:          2274.49 6.3pct
+
+   ;
+   <u>comment</u> PERM code taken from APL/360 ADVANCEDEX PERM function;
+   <u>procedure</u> PERM(Z,a,b);
+   <u>value</u> a,b;
+   <u>integer</u> a,b;
+   <u>integer</u> <u>array</u> Z;
+   <u>begin</u>
+      <u>integer</u> i,j,rem;
+      rem ≔ b−1;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> a <u>do</u>
+      <u>begin</u>
+         Z[a−i+1] ≔ 1+rem <u>mod</u> i;
+         rem ≔ rem÷i
+      <u>end</u>;
+      <u>for</u> i ≔ a−1 <u>step</u> −1 <u>until</u> 1 <u>do</u>
+      <u>for</u> j ≔ i+1 <u>step</u> 1 <u>until</u> a <u>do</u>
+      <u>if</u> Z[i]&LessSlantEqual;Z[j] <u>then</u> Z[j] ≔ Z[j]+1
+   <u>end</u> PERM;
+   <u>integer</u> <u>procedure</u> ord(s);
+   <u>string</u> s;
+   <u>begin</u>
+      <u>integer</u> c1,c2,c3;
+      <u>boolean</u> b;
+      b ≔ <u>boolean</u> s;
+      c1 ≔  <u>integer</u> (b∧<u>40</u> 63);
+      c2 ≔  <u>integer</u> ((b <u>shift</u> −6)∧<u>40</u> 63);
+      c3 ≔  <u>integer</u> ((b <u>shift</u> −12)∧<u>40</u> 63);
+      ord ≔  <u>if</u> c1=60 <u>then</u> c2+128 <u>else</u> c1
+   <u>end</u>;
+   <u>integer</u> <u>procedure</u> xor(a,b);
+   <u>value</u> a,b;
+   <u>integer</u> a,b;
+   xor ≔ <u>integer</u> (¬((<u>boolean</u> a) ≡ (<u>boolean</u> b)));
+   <u>integer</u> <u>procedure</u> fetch char(A,offset);
+   <u>value</u> offset;
+   <u>integer</u> <u>array</u> A;
+   <u>integer</u> offset;
+   <u>begin</u>
+      <u>integer</u> i,j;
+      i ≔ <u>integer</u> (((<u>boolean</u> offset)<u>shift</u> −3)∧<u>3</u> 0 <u>37</u> m);
+      j ≔ (<u>integer</u>((<u>boolean</u> offset)∧<u>37</u> 0 <u>3</u> m))×5;
+      fetch char ≔  <u>integer</u> (((<u>boolean</u> A[i])<u>shift</u> −j)
+            ∧ <u>35</u> 0 <u>5</u> m)
+   <u>end</u> fetch char;
+   <u>procedure</u> WRITE CHAR(c);
+   <u>value</u> c;
+   <u>integer</u> c;
+   <u>begin</u>
+      <u>if</u> ¬((c&gt;127) ≡ (case&gt;127)) <u>then</u>
+      <u>begin</u>
+         case ≔ 128−case;
+         writechar(58+case÷64)
+      <u>end</u> change case;
+      writechar(c <u>mod</u> 128)
+   <u>end</u> WRITECHAR;
+   <u>integer</u> <u>array</u> cipher[0:285];
+   <u>integer</u> <u>array</u> lookfor[0:2];
+   <u>integer</u> cipherlen,lookforlen;
+   <u>integer</u> <u>array</u> baudot[0:31];
+   <u>integer</u> case,iperm;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   select(32);
+   clock count;
+   baudot[0] ≔ ord(«/»);
+   baudot[0] ≔ ord(«2»);
+   baudot[1] ≔ ord(«T»);
+   baudot[2] ≔ ord(«3»);
+   baudot[3] ≔ ord(«O»);
+   baudot[4] ≔ ord(«9»);
+   baudot[5] ≔ ord(«H»);
+   baudot[6] ≔ ord(«N»);
+   baudot[7] ≔ ord(«M»);
+   baudot[8] ≔ ord(«4»);
+   baudot[9] ≔ ord(«L»);
+   baudot[10] ≔ ord(«R»);
+   baudot[11] ≔ ord(«G»);
+   baudot[12] ≔ ord(«I»);
+   baudot[13] ≔ ord(«P»);
+   baudot[14] ≔ ord(«C»);
+   baudot[15] ≔ ord(«V»);
+   baudot[16] ≔ ord(«E»);
+   baudot[17] ≔ ord(«Z»);
+   baudot[18] ≔ ord(«D»);
+   baudot[19] ≔ ord(«B»);
+   baudot[20] ≔ ord(«S»);
+   baudot[21] ≔ ord(«Y»);
+   baudot[22] ≔ ord(«F»);
+   baudot[23] ≔ ord(«X»);
+   baudot[24] ≔ ord(«A»);
+   baudot[25] ≔ ord(«W»);
+   baudot[26] ≔ ord(«J»);
+   baudot[27] ≔ ord(«+»);
+   baudot[27] ≔ ord(«5»);
+   baudot[28] ≔ ord(«U»);
+   baudot[29] ≔ ord(«Q»);
+   baudot[30] ≔ ord(«K»);
+   baudot[31] ≔ ord(«8»);
+   <u>begin</u> <u>comment</u> read baudot;
+      <u>integer</u> i;
+      <u>integer</u> <u>array</u> revbaudot[0:255];
+      <u>integer</u> <u>procedure</u> LYN;
+      <u>begin</u>
+         <u>integer</u> c;
+   again:c ≔ lyn;
+         <u>if</u> c=58 ∨ c=60 <u>then</u>
+         <u>begin</u>
+            case ≔ (c−58)×64;
+            <u>goto</u> again
+         <u>end</u>;
+         LYN ≔ c+case
+      <u>end</u> LYN;
+      <u>integer</u> <u>procedure</u> read baudot(A);
+      <u>integer</u> <u>array</u> A;
+      <u>begin</u>
+         <u>integer</u> len,c,i,j;
+         len ≔ 0;
+again:   c ≔ LYN;
+         <u>if</u> c=64 ∨ c=192 <u>then</u> <u>goto</u> out;
+         i ≔ len÷8;
+         j ≔ (len <u>mod</u> 8)×5;
+         c ≔ revbaudot[c];
+         <u>if</u> c=−1 <u>then</u>
+         <u>begin</u>
+            writecr;
+            writetext(«BAD»);
+            write(«ddddd»,len);
+            <u>goto</u> exit
+         <u>end</u>;
+         A[i] ≔ <u>integer</u> (((((<u>boolean</u> A[i]) <u>shift</u> −j)
+               ∧ <u>35</u> m <u>5</u> 0)
+               ∨ <u>boolean</u> c) <u>shift</u> j);
+         len ≔ len+1;
+         <u>goto</u> again;
+out:     read baudot ≔ len;
+         writecr;
+         writetext(«Read: »);
+         writeinteger(«p»,len);
+      <u>end</u>;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> 255 <u>do</u> revbaudot[i] ≔ −1;
+      <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> 31 <u>do</u> revbaudot[baudot[i]] ≔ i;
+      case ≔ 0;
+      LYN;
+      cipherlen ≔ read baudot(cipher);
+      lookforlen ≔ read baudot(lookfor)
+   <u>end</u>;
+   <u>for</u> iperm ≔ 1 <u>step</u> 1 <u>until</u> 24 <u>do</u>
+   <u>begin</u>
+      <u>integer</u> <u>array</u> wheellen[1:5],perm[1:4];
+      <u>integer</u> <u>array</u> wheel1,wheel2,wheel3,wheel4,wheel5[0:12];
+      <u>integer</u> offset,i;
+      <u>boolean</u> <u>procedure</u> genwheel(offset,bit,wheel);
+      <u>value</u> offset,bit;
+      <u>integer</u> offset,bit;
+      <u>integer</u> <u>array</u> wheel;
+      <u>begin</u>
+         <u>integer</u> i,j,k,c1,c2,b,len;
+         <u>boolean</u> c3,mask;
+         genwheel ≔ <u>false</u>;
+         mask ≔ <u>40</u> 1 <u>shift</u> (5−bit);
+         len ≔ wheellen[bit];
+         k ≔ offset <u>mod</u> len;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> lookforlen−1 <u>do</u>
+         <u>begin</u>
+            j ≔ i+offset;
+            c1 ≔ fetch char(cipher,j);
+            c2 ≔ fetch char(lookfor,i);
+            c3 ≔ <u>boolean</u> xor(c1,c2);
+            b ≔ <u>integer</u> ((c3 ∧ mask)<u>shift</u> (bit−5));
+            <u>if</u> wheel[k]=−1 <u>then</u>
+               wheel[k] ≔  b
+            <u>else</u>
+               <u>if</u> wheel[k] ≠ b <u>then</u> <u>goto</u> bad;
+            k ≔ k+1;
+            <u>if</u> k=len <u>then</u> k ≔ 0
+         <u>end</u>;
+         genwheel ≔ <u>true</u>;
+bad:
+      <u>end</u> genwheel;
+      <u>integer</u> <u>procedure</u> getwheel(offset);
+      <u>value</u> offset;
+      <u>integer</u> offset;
+      getwheel ≔ 
+         wheel1[offset <u>mod</u> wheellen[1]]×16 +
+         wheel2[offset <u>mod</u> wheellen[2]]× 8 +
+         wheel3[offset <u>mod</u> wheellen[3]]× 4 +
+         wheel4[offset <u>mod</u> wheellen[4]]× 2 +
+         wheel5[offset <u>mod</u> wheellen[5]];
+      <u>procedure</u> printclear;
+      <u>begin</u>
+         <u>integer</u> i,c1,c2,c3,ding,pos,c,clast;
+         clast ≔ −1;
+         writecr;
+         pos ≔ 0;
+         ding ≔ 60;
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> cipherlen−1 <u>do</u>
+         <u>begin</u>
+            c1 ≔ fetch char(cipher,i);
+            c2 ≔ getwheel(i);
+            c3 ≔ xor(c1,c2);
+            c ≔ baudot[c3];
+            <u>if</u> clast=−1 <u>then</u> clast ≔ c
+            <u>else</u>
+            <u>begin</u>
+               <u>if</u> clast≠9 <u>then</u>
+               <u>begin</u>
+                  WRITE CHAR(clast);
+                  pos ≔ pos+1;
+                  clast ≔ c
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>if</u> c=9 <u>then</u>
+                  <u>begin</u>
+                     <u>if</u> pos&gt;ding <u>then</u>
+                     <u>begin</u>
+                        writecr;
+                        pos ≔ 0
+                     <u>end</u> CR
+                     <u>else</u>
+                     <u>begin</u>
+                        writechar(0);
+                        pos ≔ pos+1
+                     <u>end</u> space;
+                     clast ≔ −1
+                  <u>end</u>
+                  <u>else</u>
+                  <u>begin</u>
+                     WRITE CHAR(clast);
+                     pos ≔ pos+1;
+                     clast ≔ c
+                  <u>end</u>
+               <u>end</u>
+            <u>end</u>
+         <u>end</u> for i;
+         <u>if</u> clast≠−1 <u>then</u> WRITE CHAR(clast)
+      <u>end</u> printclear;
+      PERM(perm,4,iperm);
+      wheellen[1] ≔ 3;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> 4 <u>do</u>
+      wheellen[i+1] ≔ <u>case</u> perm[i] <u>of</u> (5,7,11,13);
+      writecr;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> 5 <u>do</u>
+      writeinteger(«ddd»,wheellen[i]);
+      <u>for</u> offset ≔ cipherlen−lookforlen <u>step</u> −1 <u>until</u> 0 <u>do</u>
+      <u>begin</u>
+         <u>for</u> i ≔ 0 <u>step</u> 1 <u>until</u> 12 <u>do</u>
+         wheel1[i] ≔ wheel2[i] ≔ wheel3[i] ≔ wheel4[i] ≔ wheel5[i] ≔ −1;
+         <u>if</u> genwheel(offset,1,wheel1) <u>then</u>
+         <u>begin</u>
+            <u>if</u> genwheel(offset,2,wheel2) <u>then</u>
+            <u>begin</u>
+               <u>if</u> genwheel(offset,3,wheel3) <u>then</u>
+               <u>begin</u>
+                  <u>if</u> genwheel(offset,4,wheel4) <u>then</u>
+                  <u>begin</u>
+                     <u>if</u> genwheel(offset,5,wheel5) <u>then</u>
+                     <u>begin</u>
+                        writecr;
+                        writechar(58);
+                        case ≔ 0;
+                        write(«ddddd»,wheellen[1],wheellen[2],wheellen[3],wheellen[4]
+                        writetext(«  »);
+                        printclear;
+                        writechar(58);
+                        <u>goto</u> done
+                     <u>end</u> found5
+                  <u>end</u> found4
+               <u>end</u> found3
+            <u>end</u> found2
+         <u>end</u> found1
+      <u>end</u> offset;
+   <u>end</u> inner loop;
+done:
+   writecr;
+   writetext(«Time: »);
+   write(«ddddddd.dd»,clock count);
+   writecr;
+exit:
+<u>end</u>;
+run&lt;
+ANBQVWYFLAK2PJ48N5EU3EGGXVSACBGNZ54RSVW5RM5OFSM4R2W3LL5U95PCZDRUEUBPV2TYKG28WJXRPGCUJ
+NORTH99FIFTYFIVE99FORTY
+</pre></body></html>

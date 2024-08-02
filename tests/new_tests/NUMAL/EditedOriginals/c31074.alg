@@ -1,0 +1,9 @@
+'CODE' 31074;
+'PROCEDURE' HSHCOLTAM(LR, UR, LC, UC, I, X, U, A);
+'VALUE' LR, UR, LC, UC, I, X; 'INTEGER' LR, UR, LC, UC, I;
+'REAL' X; 'ARRAY' U, A;
+'BEGIN'
+    'FOR' LR:= LR 'STEP' 1 'UNTIL' UR 'DO'
+    ELMROWCOL(LC, UC, LR, I, A, U, MATMAT(LC, UC, LR, I, A, U) * X)
+'END';
+        'EOP'

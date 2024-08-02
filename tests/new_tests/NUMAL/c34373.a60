@@ -1,0 +1,136 @@
+c̲o̲d̲e̲ 34373;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRICOM(A1, A2, B, N, EM, VAL1, VAL2, VEC1,
+  VEC2); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A1, A2, B, EM, VAL1, VAL2, VEC1, VEC2;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M, NM1, I, I1, J, Q, Q1, MAX, COUNT;
+   r̲e̲a̲l̲ R, Z1, Z2, DD1, DD2, CC, P1, P2, T1, T2, DELTA1,
+     DELTA2, MV1, MV2, H, H1, H2, G1, G2, K1, K2, HC,
+     AIJ12, AIJ22, A1NN, A2NN, AIJ1, AIJ2, AI1I, KAPPA,
+     NUI, MUI1, MUI2, MUIM11, MUIM12, NUIM1, TOL, MACHTOL;
+   a̲r̲r̲a̲y̲ TF1, TF2[1:N];
+   TOL:= EM[1] × EM[2]; MACHTOL:= EM[0] × EM[1];
+   MAX:= EM[4]; COUNT:= 0; R:= 0; M:= N;
+   i̲f̲ N > 1 t̲h̲e̲n̲ HC:= B[N - 1];
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ VEC1[I,I]:= 1; VEC2[I,I]:= 0;
+         f̲o̲r̲ J:= I + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC1[I,J]:=
+              VEC1[J,I]:= VEC2[I,J]:= VEC2[J,I]:= 0
+      e̲n̲d̲;
+   IN: NM1:= N - 1;
+   f̲o̲r̲ I:= N, I - 1 w̲h̲i̲l̲e̲ (i̲f̲ I ≥ 1 t̲h̲e̲n̲ ABS(B[I]) > TOL
+   e̲l̲s̲e̲ f̲a̲l̲s̲e̲) d̲o̲ Q:= I; i̲f̲ Q > 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(B[Q - 1]) > R t̲h̲e̲n̲ R:= ABS(B[Q - 1]) e̲n̲d̲;
+   i̲f̲ Q = N t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ VAL1[N]:= A1[N,N]; VAL2[N]:= A2[N,N]; N:= NM1;
+      i̲f̲ N > 1 t̲h̲e̲n̲ HC:= B[N - 1];
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ DD1:= A1[N,N]; DD2:= A2[N,N]; CC:= B[NM1];
+      P1:= (A1[NM1,NM1] - DD1) × ·5;
+      P2:= (A2[NM1,NM1] - DD2) × ·5;
+      COMKWD(P1, P2, CC × A1[NM1,N], CC × A2[NM1,N], G1,
+        G2, K1, K2); i̲f̲ Q = NM1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ A1[N,N]:= VAL1[N]:= G1 + DD1;
+         A2[N,N]:= VAL2[N]:= G2 + DD2;
+         A1[Q,Q]:= VAL1[Q]:= K1 + DD1;
+         A2[Q,Q]:= VAL2[Q]:= K2 + DD2;
+         KAPPA:= SQRT(K1 ⭡ 2 + K2 ⭡ 2 + CC ⭡ 2);
+         NUI:= CC / KAPPA; MUI1:= K1 / KAPPA;
+         MUI2:= K2 / KAPPA; AIJ1:= A1[Q,N];
+         AIJ2:= A2[Q,N]; H1:= MUI1 ⭡ 2 - MUI2 ⭡ 2;
+         H2:= 2 × MUI1 × MUI2; H:= - NUI × 2;
+         A1[Q,N]:= H × (P1 × MUI1 + P2 × MUI2) - NUI ×
+           NUI × CC + AIJ1 × H1 + AIJ2 × H2;
+         A2[Q,N]:= H × (P2 × MUI1 - P1 × MUI2) + AIJ2 ×
+           H1 - AIJ1 × H2;
+         ROTCOMROW(Q + 2, M, Q, N, A1, A2, MUI1, MUI2,
+           NUI);
+         ROTCOMCOL(1, Q - 1, Q, N, A1, A2, MUI1, -
+           MUI2, - NUI);
+         ROTCOMCOL(1, M, Q, N, VEC1, VEC2, MUI1, -
+           MUI2, - NUI); N:= N - 2;
+         i̲f̲ N > 1 t̲h̲e̲n̲ HC:= B[N - 1]; B[Q]:= 0
+      e̲n̲d̲
+
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT + 1;
+         i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ OUT; Z1:= K1 + DD1;
+         Z2:= K2 + DD2;
+         i̲f̲ ABS(CC) > ABS(HC) t̲h̲e̲n̲ Z1:= Z1 + ABS(CC);
+         HC:= CC / 2; Q1:= Q + 1; AIJ1:= A1[Q,Q] - Z1;
+         AIJ2:= A2[Q,Q] - Z2; AI1I:= B[Q];
+         KAPPA:= SQRT(AIJ1 ⭡ 2 + AIJ2 ⭡ 2 + AI1I ⭡ 2);
+         MUI1:= AIJ1 / KAPPA; MUI2:= AIJ2 / KAPPA;
+         NUI:= AI1I / KAPPA; A1[Q,Q]:= KAPPA;
+         A2[Q,Q]:= 0; A1[Q1,Q1]:= A1[Q1,Q1] - Z1;
+         A2[Q1,Q1]:= A2[Q1,Q1] - Z2;
+         ROTCOMROW(Q1, M, Q, Q1, A1, A2, MUI1, MUI2,
+           NUI);
+         ROTCOMCOL(1, Q, Q, Q1, A1, A2, MUI1, - MUI2, -
+           NUI); A1[Q,Q]:= A1[Q,Q] + Z1;
+         A2[Q,Q]:= A2[Q,Q] + Z2;
+         ROTCOMCOL(1, M, Q, Q1, VEC1, VEC2, MUI1, -
+           MUI2, - NUI);
+         f̲o̲r̲ I:= Q1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NM1 d̲o̲
+            b̲e̲g̲i̲n̲ I1:= I + 1; AIJ1:= A1[I,I]; AIJ2:= A2[I,I];
+               AI1I:= B[I];
+               KAPPA:= SQRT(AIJ1 ⭡ 2 + AIJ2 ⭡ 2 + AI1I ⭡
+                 2); MUIM11:= MUI1; MUIM12:= MUI2;
+               NUIM1:= NUI; MUI1:= AIJ1 / KAPPA;
+               MUI2:= AIJ2 / KAPPA; NUI:= AI1I / KAPPA;
+               A1[I1,I1]:= A1[I1,I1] - Z1;
+               A2[I1,I1]:= A2[I1,I1] - Z2;
+               ROTCOMROW(I1, M, I, I1, A1, A2, MUI1,
+                 MUI2, NUI); A1[I,I]:= MUIM11 × KAPPA;
+               A2[I,I]:= - MUIM12 × KAPPA;
+               B[I - 1]:= NUIM1 × KAPPA;
+               ROTCOMCOL(1, I, I, I1, A1, A2, MUI1, -
+                 MUI2, - NUI); A1[I,I]:= A1[I,I] + Z1;
+               A2[I,I]:= A2[I,I] + Z2;
+               ROTCOMCOL(1, M, I, I1, VEC1, VEC2, MUI1, -
+                 MUI2, - NUI);
+            e̲n̲d̲;
+         AIJ1:= A1[N,N]; AIJ2:= A2[N,N]; AIJ12:= AIJ1 ⭡ 2;
+         AIJ22:= AIJ2 ⭡ 2; KAPPA:= SQRT(AIJ12 + AIJ22);
+         i̲f̲ (i̲f̲ KAPPA < TOL t̲h̲e̲n̲ t̲r̲u̲e̲ e̲l̲s̲e̲ AIJ22 ≤
+           EM[0] × AIJ12) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ B[NM1]:= NUI × AIJ1;
+            A1[N,N]:= AIJ1 × MUI1 + Z1;
+            A2[N,N]:= - AIJ1 × MUI2 + Z2
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ B[NM1]:= NUI × KAPPA; A1NN:= MUI1 × KAPPA;
+            A2NN:= - MUI2 × KAPPA; MUI1:= AIJ1 / KAPPA;
+            MUI2:= AIJ2 / KAPPA;
+            COMCOLCST(1, NM1, N, A1, A2, MUI1, MUI2);
+            COMCOLCST(1, NM1, N, VEC1, VEC2, MUI1,
+              MUI2);
+            COMROWCST(N + 1, M, N, A1, A2, MUI1, -
+              MUI2);
+            COMCOLCST(N, M, N, VEC1, VEC2, MUI1, MUI2);
+            A1[N,N]:= MUI1 × A1NN - MUI2 × A2NN + Z1;
+            A2[N,N]:= MUI1 × A2NN + MUI2 × A1NN + Z2;
+         e̲n̲d̲;
+      e̲n̲d̲;
+   e̲n̲d̲;
+   i̲f̲ N > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   f̲o̲r̲ J:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 2 d̲o̲
+      b̲e̲g̲i̲n̲ TF1[J]:= 1; TF2[J]:= 0; T1:= A1[J,J]; T2:= A2[J,J];
+         f̲o̲r̲ I:= J - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ DELTA1:= T1 - A1[I,I]; DELTA2:= T2 - A2[I,I];
+               COMMATVEC(I + 1, J, I, A1, A2, TF1, TF2, MV1,
+                 MV2);
+               i̲f̲ ABS(DELTA1) < MACHTOL ∧ ABS(DELTA2) <
+                 MACHTOL t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ TF1[I]:= MV1 / MACHTOL;
+                  TF2[I]:= MV2 / MACHTOL
+               e̲n̲d̲
+               e̲l̲s̲e̲ COMDIV(MV1, MV2, DELTA1, DELTA2, TF1[I],
+                 TF2[I]);
+            e̲n̲d̲;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ COMMATVEC(1, J, I,
+              VEC1, VEC2, TF1, TF2, VEC1[I,J], VEC2[I,J]);
+      e̲n̲d̲;
+   OUT: EM[3]:= R; EM[5]:= COUNT; QRICOM:= N;
+e̲n̲d̲ QRICOM;
+e̲o̲p̲

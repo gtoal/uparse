@@ -1,0 +1,27 @@
+'BEGIN'
+	'COMMENT' Pascal Triangle array;
+	
+	'INTEGER' 'ARRAY' nPT[1:101, 1:101];
+	'INTEGER' n, i, j ;
+	n := 20;
+	nPT[1,1] := 1; nPT[1,2] := 1;
+	
+	'FOR' i := 2 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN' 
+		nPT[i, 1] := 1;
+		nPT[i, i+1] := 1;
+		'FOR' j := 2 'STEP' 1 'UNTIL' i 'DO'
+		'BEGIN'
+			nPT[i,j] := nPT[i-1,j-1] + nPT[i-1,j]
+		'END'
+	'END' ; 
+	
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN' 
+		'FOR' j := 1 'STEP' 1 'UNTIL' (i+1) 'DO'
+		'BEGIN'
+			outinteger (1, nPT[i,j])
+		'END' ;
+		outstring (1,"\n")
+	'END' 
+'END'

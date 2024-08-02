@@ -1,0 +1,13 @@
+c̲o̲d̲e̲ 31045;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ALLORTPOL(N,X,B,C)RESULTS:(P);
+   v̲a̲l̲u̲e̲ N,X; i̲n̲t̲e̲g̲e̲r̲ N;r̲e̲a̲l̲ X;a̲r̲r̲a̲y̲ B,C,P;
+   i̲f̲ N=0 t̲h̲e̲n̲ P[0]:=1e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K,K1; r̲e̲a̲l̲ R,S,H;
+      R:=P[1]:=X-B[0]; S:=P[0]:=1;K:=1;
+      f̲o̲r̲ K1:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ H:=R;  P[K1]:=R:=(X-B[K])×R-C[K]×S;
+            S:=H; K:=K1;
+         e̲n̲d̲;
+   e̲n̲d̲ ALLORTPOL
+
+;e̲o̲p̲

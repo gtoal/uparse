@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 31202;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNG INT MULT(U,V,PRODUCT);
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ U,V,PRODUCT;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ LU,LV,LUV,I,J,CARRY,T;
+   LU:=U[0]; LV:=V[0]; LUV:=LU + LV;
+   f̲o̲r̲ I:=LU + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LUV d̲o̲ PRODUCT[I]:=0;
+   f̲o̲r̲ J:=LU s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ CARRY:=0;
+         f̲o̲r̲ I:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ T:=U[J] × V[I] + PRODUCT[J+I] + CARRY;
+               CARRY:=T÷10 000 000; PRODUCT[J+I]:=T - CARRY × 10 000 000
+            e̲n̲d̲; PRODUCT[J]:=CARRY
+      e̲n̲d̲;
+   i̲f̲ PRODUCT[1]=0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LUV d̲o̲
+           PRODUCT[I-1]:=PRODUCT[I]; LUV:=LUV - 1
+   e̲n̲d̲; PRODUCT[0]:=LUV
+e̲n̲d̲ LNG INT MULT
+
+;e̲o̲p̲

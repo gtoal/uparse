@@ -1,0 +1,24 @@
+c̲o̲d̲e̲ 35150;
+c̲o̲m̲m̲e̲n̲t̲ SPHERICAL BESSEL FUNCTIONS J[.5](X),  , J[N+.5](X);
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SPHER BESS J(X, N, J); v̲a̲l̲u̲e̲ X, N;
+   r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ J;
+   i̲f̲ X = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ J[0]:= 1;
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ J[N]:=0
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ N = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X2;
+      i̲f̲ ABS(X) < ·015 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X2:= X × X / 6; J[0]:= 1 + X2 × (X2 × ·3 - 1) e̲n̲d̲ e̲l̲s̲e̲
+        J[0]:= SIN(X)/X
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M; r̲e̲a̲l̲ R, S;
+      R:= 0; M:= START(X,N,0);
+      f̲o̲r̲ M:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ R:= 1 / ((M + M + 1) / X - R); i̲f̲ M ≤ N t̲h̲e̲n̲ J[M]:= R
+         e̲n̲d̲; i̲f̲ X < ·015  t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ S:= X × X / 6;
+         J[0]:= R:= S × (S × ·3 - 1) + 1 e̲n̲d̲ e̲l̲s̲e̲
+        J[0]:= R:= SIN(X) / X;
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ J[M]:= R:= J[M] × R;
+   e̲n̲d̲ SPHER BESS J;
+e̲o̲p̲

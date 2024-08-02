@@ -1,0 +1,5 @@
+'BEGIN'
+	outstring (1,"abcd1234");
+	'COMMENT' just add space;
+	outterminator (1)
+'END'

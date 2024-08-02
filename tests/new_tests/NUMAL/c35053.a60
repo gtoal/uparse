@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 35053;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ IXQFIX(X,P,Q,NMAX,EPS,I); v̲a̲l̲u̲e̲ X,P,Q,NMAX,EPS;
+   r̲e̲a̲l̲ X,P,Q,EPS; i̲n̲t̲e̲g̲e̲r̲ NMAX; a̲r̲r̲a̲y̲ I;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,MMAX; r̲e̲a̲l̲ S,IQ0,IQ1,Q0;
+
+   M:= ENTIER(Q); S:= Q-M; Q0:= i̲f̲ S>0 t̲h̲e̲n̲ S e̲l̲s̲e̲ S+1;
+   MMAX:= i̲f̲ S>0 t̲h̲e̲n̲ M e̲l̲s̲e̲ M-1;
+   IQ0:= INCBETA(X,P,Q0,EPS);
+   i̲f̲ MMAX>0 t̲h̲e̲n̲ IQ1:= INCBETA(X,P,Q0+1,EPS);
+   b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ IQ[0:MMAX];
+      FORWARD(X,P,Q0,IQ0,IQ1,MMAX,IQ);
+      BACKWARD(X,P,Q,IQ[MMAX],NMAX,EPS,I)
+   e̲n̲d̲
+e̲n̲d̲ IXQFIX
+
+;e̲o̲p̲

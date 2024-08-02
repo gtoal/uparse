@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 35052;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ IBQPLUSN(X,P,Q,NMAX,EPS,I); v̲a̲l̲u̲e̲ X,P,Q,NMAX,EPS;
+   i̲n̲t̲e̲g̲e̲r̲ NMAX; r̲e̲a̲l̲ X,P,Q,EPS; a̲r̲r̲a̲y̲ I;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N;
+
+   i̲f̲ X=0 ∨ X=1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ N:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NMAX d̲o̲ I[N]:= X e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ X ≤·5 t̲h̲e̲n̲ IXPFIX(X,P,Q,NMAX,EPS,I) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ IXQFIX(1-X,Q,P,NMAX,EPS,I);
+         f̲o̲r̲ N:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NMAX d̲o̲ I[N]:= 1-I[N]
+      e̲n̲d̲
+   e̲n̲d̲
+e̲n̲d̲ IBQPLUSN;
+e̲o̲p̲

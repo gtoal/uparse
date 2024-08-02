@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 32010;
+r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ EULER(AI, I, EPS, TIM);
+   v̲a̲l̲u̲e̲ EPS, TIM; i̲n̲t̲e̲g̲e̲r̲ I, TIM; r̲e̲a̲l̲ AI, EPS;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ K, N, T; r̲e̲a̲l̲ MN, MP, DS, SUM; a̲r̲r̲a̲y̲ M[0:15];
+   N:= T:= 0; I:= 0; M[0]:= AI; SUM:= M[0] / 2;
+   NEXT TERM: I:= I + 1; MN:= AI;
+   f̲o̲r̲ K:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ MP:= (MN + M[K]) / 2; M[K]:= MN; MN:= MP e̲n̲d̲;
+   i̲f̲ ABS(MN) < ABS(M[N]) ∧ N < 15 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ DS:= MN / 2; N:= N + 1; M[N]:= MN e̲n̲d̲ e̲l̲s̲e̲ DS:= MN;
+   SUM:= SUM + DS; T:= i̲f̲ ABS(DS) < EPS t̲h̲e̲n̲ T + 1 e̲l̲s̲e̲ 0;
+   i̲f̲ T < TIM t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT TERM;
+   EULER:= SUM
+e̲n̲d̲ EULER;
+e̲o̲p̲

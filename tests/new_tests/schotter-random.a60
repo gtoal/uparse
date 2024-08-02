@@ -1,0 +1,30 @@
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲ ZUFALLSFOLGE1;
+   i̲n̲t̲e̲g̲e̲r̲ JI,JS;
+   r̲e̲a̲l̲ JA,JE;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ J;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ ZUFALLS-GENERATOR J;
+      Jl := 5×JI;
+      i̲f̲ J1 ≥ 8589934592 t̲h̲e̲n̲ JI := JI - 8589934592;
+      i̲f̲ JI ≥ 4294967296 t̲h̲e̲n̲ JI := JI - 4294967296;
+      i̲f̲ JI ≥ 2147483648 t̲h̲e̲n̲ JI := JI - 2147483648;
+      J := JI/2147483648×(JE-JA) + JA
+   e̲n̲d̲ ZUFALLS GENERATOR J;
+   JS := 1306859721;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ U;
+      JI := JS;
+      OPEN(0,0);
+      JA := 0;
+      JE := 90;
+      f̲o̲r̲ U := 0 s̲t̲e̲p̲ 2 u̲n̲t̲i̲l̲ 258 d̲o̲
+         b̲e̲g̲i̲n̲
+            LEER(U+·5,0);
+            LINE(U+·5,J);
+            LEER(U+1·5,J);
+            LINE(U+1·5,0)
+         e̲n̲d̲;
+      CLOSE
+   e̲n̲d̲
+e̲n̲d̲ ZUFALLSFOLGE 1.

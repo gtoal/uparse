@@ -1,0 +1,43 @@
+c̲o̲d̲e̲ 34194;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2424;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMEIG1(A, N, EM, RE, IM, VEC);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, EM, RE, IM, VEC;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K, PJ, ITT;
+   r̲e̲a̲l̲ X, Y, MAX, NEPS;
+   a̲r̲r̲a̲y̲ AB[1:N,1:N], D, U, V[1:N];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT, INT0[1:N];
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRANSFER;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           f̲o̲r̲ J:= (i̲f̲ I = 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ I - 1) s̲t̲e̲p̲ 1
+           u̲n̲t̲i̲l̲ N d̲o̲ AB[I,J]:= A[I,J]
+   e̲n̲d̲ TRANSFER;
+
+   EQILBR(A, N, EM, D, INT0); TFMREAHES(A, N, EM, INT); TRANSFER;
+   K:= COMEIG1:= COMVALQRI(AB, N, EM, RE, IM);
+   NEPS:= EM[0] × EM[1]; MAX:= 0; ITT:= 0;
+   f̲o̲r̲ I:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ X:= RE[I]; Y:= IM[I]; PJ:= 0;
+         AGAIN: f̲o̲r̲ J:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I - 1 d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ ((X - RE[J]) ⭡ 2 +
+                 (Y - IM[J]) ⭡ 2 ≤ NEPS ⭡ 2) t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲f̲ PJ = J t̲h̲e̲n̲ NEPS:= EM[2] × EM[1]
+                  e̲l̲s̲e̲ PJ:= J; X:= X + 2 × NEPS; g̲o̲t̲o̲ AGAIN
+               e̲n̲d̲
+            e̲n̲d̲;
+         RE[I]:= X; TRANSFER; i̲f̲ Y ≠ 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ COMVECHES(AB, N, RE[I], IM[I], EM, U, V);
+            f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[J,I]:= U[J];
+            I:= I + 1; RE[I]:= X
+         e̲n̲d̲
+         e̲l̲s̲e̲ REAVECHES(AB, N, X, EM, V);
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[J,I]:= V[J];
+         i̲f̲ EM[7] > MAX t̲h̲e̲n̲ MAX:= EM[7];
+         ITT:= i̲f̲ ITT > EM[9] t̲h̲e̲n̲ ITT e̲l̲s̲e̲ EM[9]
+      e̲n̲d̲;
+   EM[7]:= MAX; EM[9]:= ITT; BAKREAHES2(A, N, K + 1, N, INT, VEC);
+   BAKLBR(N, K + 1, N, D, INT0, VEC); COMSCL(VEC, N, K + 1, N, IM)
+e̲n̲d̲ COMEIG1;
+e̲o̲p̲

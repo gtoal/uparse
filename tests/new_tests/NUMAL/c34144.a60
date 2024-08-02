@@ -1,0 +1,19 @@
+c̲o̲d̲e̲ 34144;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2306;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BAKSYMTRI1(A, N, N1, N2, VEC); v̲a̲l̲u̲e̲ N, N1, N2;
+   i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ A, VEC;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, J1, K, TI, TJ;
+   r̲e̲a̲l̲ W; a̲r̲r̲a̲y̲ AUXVEC[1:N];
+
+   f̲o̲r̲ K:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              AUXVEC[J]:= VEC[J,K]; TJ:= J1:= 1;
+         f̲o̲r̲ J:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ TI:= TJ + J; W:= A[TI];
+               i̲f̲ W < 0 t̲h̲e̲n̲ ELMVEC(1, J1, TJ, AUXVEC,A,VECVEC(1,
+                 J1, TJ, AUXVEC, A) × W); J1:= J; TJ:= TI
+            e̲n̲d̲;
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[J,K]:= AUXVEC[J]
+      e̲n̲d̲
+e̲n̲d̲ BAKSYMTRI1;
+e̲o̲p̲

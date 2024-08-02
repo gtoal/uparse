@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34286;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ PSDINVSVD(U, VAL, V, M, N, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ U, VAL, V, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J;
+   r̲e̲a̲l̲ MIN, VALI;
+   a̲r̲r̲a̲y̲ X[1:N];
+   MIN:= EM[6];
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        i̲f̲ VAL[I] > MIN t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ VALI:= 1 / VAL[I];
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ U[J,I]:= U[J,I] × VALI
+      e̲n̲d̲
+      e̲l̲s̲e̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ U[J,I]:= 0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[J]:= U[I,J];
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              U[I,J]:= MATVEC(1, N, J, V, X)
+      e̲n̲d̲
+e̲n̲d̲ PSDINVSVD;
+e̲o̲p̲

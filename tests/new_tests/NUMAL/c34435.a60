@@ -1,0 +1,45 @@
+c̲o̲d̲e̲34435;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MININDER(X, Y, FX, DFX, TOLX);
+   r̲e̲a̲l̲ X, Y, FX, DFX, TOLX;
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ THE FUNCTION IS APPROXIMATED BY A CUBIC AS
+     GIVEN BY DAVIDON, 1958, THE STRUCTURE IS SIMILAR TO THE
+     STRUCTURE OF THE PROGRAM GIVEN BY BRENT, 1973, THIS IS
+     A REVISION OF 760407;
+
+   i̲n̲t̲e̲g̲e̲r̲ SGN;
+   r̲e̲a̲l̲ A, B, C, FA, FB, FU, DFA, DFB, DFU, E, D, TOL, BA,
+     Z, P, Q, S;
+
+   i̲f̲ X ≤ Y t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ A:= X; FA:= FX; DFA:= DFX;
+      B:= X:= Y; FB:= FX; DFB:= DFX
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ B:= X; FB:= FX; DFB:= DFX;
+      A:= X:= Y; FA:= FX; DFA:= DFX
+   e̲n̲d̲;
+   C:= (3 - SQRT(5)) / 2; D:= B - A; E:= D × 2; Z:= E × 2;
+   LOOP: BA:= B - A; TOL:= TOLX; i̲f̲ BA ≥ TOL × 3 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(DFA) ≤ ABS(DFB) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X:=A; SGN:= 1 e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ X:= B; SGN:= -1 e̲n̲d̲;
+      i̲f̲ DFA ≤ 0 ∧ DFB ≥ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ Z:= (FA - FB) × 3 / BA + DFA + DFB;
+         S:= SQRT(Z ⭡ 2 - DFA × DFB);
+         P:= i̲f̲ SGN = 1 t̲h̲e̲n̲ DFA - S - Z e̲l̲s̲e̲
+           DFB + S - Z; P:= P × BA;
+         Q:= DFB - DFA + S × 2; Z:= E; E:= D;
+         D:= i̲f̲ ABS(P) ≤ ABS(Q) × TOL t̲h̲e̲n̲ TOL × SGN
+         e̲l̲s̲e̲ -P / Q
+      e̲n̲d̲ e̲l̲s̲e̲ D:= BA;
+      i̲f̲ ABS(D) ≥ ABS(Z × 0·5) ∨ ABS(D) > BA × 0·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ E:= BA; D:= C × BA × SGN e̲n̲d̲;
+      X:= X + D; FU:= FX; DFU:= DFX;
+      i̲f̲ DFU ≥ 0 ∨ (FU ≥ FA ∧ DFA ≤ 0) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ B:= X; FB:= FU; DFB:= DFU e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ A:= X; FA:= FU; DFA:= DFU e̲n̲d̲;
+      g̲o̲t̲o̲ LOOP
+   e̲n̲d̲; i̲f̲ FA ≤ FB t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ X:= A; Y:= B; MININDER:= FA e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ X:= B; Y:= A; MININDER:= FB e̲n̲d̲
+e̲n̲d̲ MININDER;
+e̲o̲p̲

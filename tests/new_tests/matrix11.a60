@@ -1,0 +1,51 @@
+'BEGIN'
+'COMMENT' matrix2x2 and 3x3 norms;
+	'REAL' 'ARRAY' aa[1:2,1:2];
+	'REAL' 'ARRAY' bb[1:3,1:3];
+	'INTEGER' i, j;
+	
+	'PROCEDURE' outmatrix(channel, a, dim);
+	'INTEGER' channel; 'REAL' 'ARRAY' a; 'INTEGER' dim;
+	'BEGIN'
+		'INTEGER' i, j;
+		outinteger (channel, dim); outstring(channel,"\n");
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' outreal (channel, a[i,j]);
+			outstring(channel,"\n")
+		'END'		
+	'END' ;
+	
+	'REAL' 'PROCEDURE' matr2determ(a);	'REAL' 'ARRAY' a;
+	'BEGIN'
+		matr2determ := a[1,1]*a[2,2] - a[1,2]*a[2,1]
+	'END' ;
+	
+	'REAL' 'PROCEDURE' matr3determ(a);	'REAL' 'ARRAY' a;
+	'BEGIN'
+		matr3determ := a[1,1]*a[2,2]*a[3,3] + a[1,2]*a[2,3]*a[3,1] + a[1,3]*a[2,1]*a[3,2] 
+		             - a[1,3]*a[2,2]*a[3,1] - a[1,2]*a[2,1]*a[3,3] - a[1,1]*a[2,3]*a[3,2] 
+	'END' ;
+	
+	'COMMENT' matrix generation;
+	'FOR' i := 1 'STEP' 1 'UNTIL' 2 'DO'
+	'BEGIN'
+		'FOR' j := 1 'STEP' 1 'UNTIL' 2 'DO' 
+		'BEGIN'
+			aa[i,j] := i + j
+		'END'
+	'END' ;
+	'FOR' i := 1 'STEP' 1 'UNTIL' 3 'DO'
+	'BEGIN'
+		'FOR' j := 1 'STEP' 1 'UNTIL' 3 'DO' 
+		'BEGIN'
+			bb[i,j] := i + j
+		'END'
+	'END' ;
+	
+	outmatrix(1, aa, 2);
+	outstring(1,"determinant="); outreal(1,matr2determ(aa));outstring(1,"\n");
+	outmatrix(1, bb, 3);
+	outstring(1,"determinant="); outreal(1,matr3determ(bb));outstring(1,"\n")
+		
+'END'

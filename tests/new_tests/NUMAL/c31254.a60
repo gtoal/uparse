@@ -1,0 +1,30 @@
+c̲o̲d̲e̲ 31254;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RECCOF(N,M,X,WX,B,C,L,SYM);
+   v̲a̲l̲u̲e̲ N,M,SYM;i̲n̲t̲e̲g̲e̲r̲ N,M; b̲o̲o̲l̲e̲a̲n̲ SYM;
+     r̲e̲a̲l̲ X,WX;a̲r̲r̲a̲y̲ B,C,L;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,UP;r̲e̲a̲l̲ R,S,PIM,H,HH,ARG,SA;
+   PIM:=4×ARCTAN(1)/M;
+   i̲f̲ SYM t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+      f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ Nd̲o̲
+         b̲e̲g̲i̲n̲ R:=B[J]:=0;UP:=M ÷ 2;
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPd̲o̲
+               b̲e̲g̲i̲n̲ ARG:=(I-·5)×PIM;X:=COS(ARG);
+                  R:=R+SIN(ARG)×WX×ORTPOL(J,X,B,C)⭡2;
+               e̲n̲d̲;i̲f̲ UP×2=M t̲h̲e̲n̲ L[J]:=2×R×PIM e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ X:=0;L[J]:=(2×R+WX×ORTPOL(J,0,B,C)⭡2)×PIM e̲n̲d̲;
+            C[J]:=i̲f̲ J=0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ L[J]/L[J-1];
+         e̲n̲d̲ e̲n̲d̲ e̲l̲s̲e̲
+     f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R:=S:=0;UP:=M÷ 2;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP d̲o̲
+            b̲e̲g̲i̲n̲ ARG:=(I-·5)×PIM;SA:=SIN(ARG);X:=COS(ARG);
+               H:=WX×ORTPOL(J,X,B,C)⭡2;X:=-X;HH:=WX×ORTPOL(J,X,B,C)⭡2;
+               R:=R+(H+HH)×SA;S:=S+(HH-H)×X×SA;
+            e̲n̲d̲;B[J]:=S×PIM;
+         i̲f̲ UP×2=M t̲h̲e̲n̲ L[J]:=R×PIMe̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ X:=0;L[J]:=(R+WX×ORTPOL(J,0,B,C)⭡2)×PIM e̲n̲d̲;
+         C[J]:=i̲f̲ J=0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ L[J]/L[J-1];
+      e̲n̲d̲;
+e̲n̲d̲ RECCOF
+
+;e̲o̲p̲

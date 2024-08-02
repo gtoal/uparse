@@ -1,0 +1,4 @@
+'BEGIN'
+'COMMENT' using library procedure fault;
+	
+'END'

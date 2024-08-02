@@ -1,0 +1,4 @@
+'CODE' 30003;
+'REAL' 'PROCEDURE' DWARF;
+DWARF:= 2**48*2**(-1022);
+        'EOP'

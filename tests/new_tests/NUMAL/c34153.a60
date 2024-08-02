@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34153;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2313;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EIGVALSYM2(A, N, NUMVAL, VAL, EM); v̲a̲l̲u̲e̲ N, NUMVAL;
+   i̲n̲t̲e̲g̲e̲r̲ N, NUMVAL; a̲r̲r̲a̲y̲ A, VAL, EM;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ B, BB, D[1:N];
+
+   TFMSYMTRI2(A, N, D, B, BB, EM);
+   VALSYMTRI(D, BB, N, 1, NUMVAL, VAL, EM)
+e̲n̲d̲ EIGVALSYM2;
+e̲o̲p̲

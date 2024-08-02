@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 31065;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ONENRMVEC(L, U, A); v̲a̲l̲u̲e̲ L, U;
+   i̲n̲t̲e̲g̲e̲r̲ L, U; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ SUM;
+   SUM:= 0; f̲o̲r̲ L:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+        SUM:= SUM + ABS(A[L]);
+   ONENRMVEC:= SUM
+e̲n̲d̲ ONENRMVEC;
+e̲o̲p̲

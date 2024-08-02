@@ -1,0 +1,26 @@
+'CODE' 31092;
+'REAL''PROCEDURE'FOUSER (N,THETA,A);
+'VALUE'N,THETA;'INTEGER'N;'REAL'THETA;'ARRAY'A;
+'BEGIN''INTEGER'K;'REAL'C,CC,LAMBDA,H,DUN,UN,UN1,C2,S2;
+   C:=COS(THETA);
+   'IF'C<-.5'THEN'
+   'BEGIN'C2:=COS(THETA/2);LAMBDA:=4*C2**2;UN:=DUN:=0;
+          'FOR'K:=N'STEP'-1'UNTIL'0'DO'
+          'BEGIN'UN:=DUN-UN;
+                 DUN:=LAMBDA*UN-DUN+A[K]
+          'END';FOUSER :=DUN+2*C2*(SIN(THETA/2)-C2)*UN
+   'END''ELSE''IF'C> .5'THEN'
+   'BEGIN'S2:=SIN(THETA/2);LAMBDA:=-4*S2*S2;UN:=DUN:=0;
+          'FOR'K:=N'STEP'-1'UNTIL'0'DO'
+          'BEGIN'UN:=DUN+UN;
+                 DUN:=LAMBDA*UN+DUN+A[K]
+          'END';FOUSER :=DUN+2*S2*(S2+COS(THETA/2))*UN
+   'END''ELSE'
+   'BEGIN'CC:=C+C;UN:=UN1:=0;
+          'FOR'K:=N'STEP'-1'UNTIL'1'DO'
+          'BEGIN'H:=CC*UN-UN1+A[K];
+                 UN1:=UN;UN:=H
+          'END';FOUSER :=A[0]-UN1+(C+SIN(THETA))*UN
+   'END'
+'END'FOUSER;
+        'EOP'

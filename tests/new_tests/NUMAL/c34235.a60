@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 34235;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INV1(A, N, RI, CI, WITHNORM);
+   v̲a̲l̲u̲e̲ N, WITHNORM; i̲n̲t̲e̲g̲e̲r̲ N; b̲o̲o̲l̲e̲a̲n̲ WITHNORM;
+     a̲r̲r̲a̲y̲ A; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ L, K, K1;
+   r̲e̲a̲l̲ AID, NRMINV;
+   INV(A, N, RI); NRMINV:= 0; i̲f̲ WITHNORM t̲h̲e̲n̲
+     f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        NRMINV:= NRMINV + ABS(A[L,N]);
+   f̲o̲r̲ K:= N - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ WITHNORM t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AID:= 0;
+            f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 AID:= AID + ABS(A[L,K]);
+            i̲f̲ NRMINV < AID t̲h̲e̲n̲ NRMINV:= AID
+         e̲n̲d̲;
+         K1:= CI[K]; i̲f̲ K1 ≠ K t̲h̲e̲n̲ ICHROW(1, N, K, K1, A)
+      e̲n̲d̲;
+   INV1:= NRMINV
+e̲n̲d̲ INV1;
+e̲o̲p̲

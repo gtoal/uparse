@@ -1,0 +1,5 @@
+c̲o̲d̲e̲ 31012;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ INIMATD(LR, UR, SHIFT, A, X); v̲a̲l̲u̲e̲ LR,UR,SHIFT,X;
+   i̲n̲t̲e̲g̲e̲r̲ LR,UR,SHIFT; r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ A;
+   f̲o̲r̲ LR:= LR s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UR d̲o̲ A[LR, LR + SHIFT]:= X;
+e̲o̲p̲

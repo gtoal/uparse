@@ -1,0 +1,55 @@
+c̲o̲d̲e̲ 34322;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECSOLBND(A, N, LW, RW, AUX, B); v̲a̲l̲u̲e̲ N, LW, RW;
+   i̲n̲t̲e̲g̲e̲r̲ N, LW, RW; a̲r̲r̲a̲y̲ A, B, AUX;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ I, J, K, KK, KK1, PK, IK, LW1, F, Q, W, W1, W2,IW,
+     NRW, SHIFT, SDET;
+   r̲e̲a̲l̲ R, S, EPS, MIN; a̲r̲r̲a̲y̲ M[0:LW], V[1:N];
+
+   F:= LW; SDET:= 1; W1:= LW + RW; W:= W1 + 1; W2:= W - 2; IW:= 0;
+   NRW:= N - RW; LW1:= LW + 1; Q:= LW - 1;
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LW d̲o̲
+      b̲e̲g̲i̲n̲ Q:= Q - 1; IW:= IW + W1;
+         f̲o̲r̲ J:= IW - Q s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ IW d̲o̲ A[J]:= 0
+      e̲n̲d̲;
+   IW:= - W2; Q:= - LW;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ IW:= IW + W; i̲f̲ I ≤ LW1 t̲h̲e̲n̲ IW:= IW - 1;
+         Q:= Q + W; i̲f̲ I > NRW t̲h̲e̲n̲ Q:= Q - 1;
+         V[I]:= SQRT(VECVEC(IW, Q, 0, A, A))
+      e̲n̲d̲;
+   EPS:= AUX[2]; MIN:= 1; KK:= - W1;
+   i̲f̲ F > NRW t̲h̲e̲n̲ W2:= W2 + NRW - F;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲i̲f̲ F < N t̲h̲e̲n̲ F:= F + 1; IK:= KK:= KK + W;
+         S:= ABS(A[KK]) / V[K]; PK:= K; KK1:= KK + 1;
+         f̲o̲r̲ I:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ F d̲o̲
+            b̲e̲g̲i̲n̲ IK:= IK + W1; M[I - K]:= R:= A[IK]; A[IK]:= 0;
+               R:= ABS(R) / V[I]; i̲f̲ R > S t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ S:= R; PK:= I e̲n̲d̲
+            e̲n̲d̲;
+         i̲f̲ S < MIN t̲h̲e̲n̲ MIN:= S; i̲f̲ S < EPS t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AUX[3]:= K - 1; AUX[5]:= S; g̲o̲t̲o̲ END e̲n̲d̲;
+         i̲f̲ K + W2 ≥ N t̲h̲e̲n̲ W2:= W2 - 1; i̲f̲ PK ≠ K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ V[PK]:= V[K];
+            PK:= PK - K; ICHVEC(KK1, KK1 + W2, PK × W1, A);
+            SDET:= - SDET; R:= B[K]; B[K]:= B[PK + K];
+            B[PK + K]:= R; R:= M[PK]; M[PK]:= A[KK]; A[KK]:= R
+         e̲n̲d̲
+         e̲l̲s̲e̲ R:= A[KK]; IW:= KK1; LW1:= F - K;
+         i̲f̲ R < 0 t̲h̲e̲n̲ SDET:= - SDET;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LW1 d̲o̲
+            b̲e̲g̲i̲n̲ M[I]:= S:= M[I] / R; IW:= IW + W1;
+               ELMVEC(IW, IW + W2, KK1 - IW, A, A, - S);
+               B[K + I]:= B[K + I] - B[K] × S
+            e̲n̲d̲
+      e̲n̲d̲;
+   AUX[3]:= N; AUX[5]:= MIN;
+   KK:= (N + 1) × W - W1; W2:= - 1; SHIFT:= N × W1;
+   f̲o̲r̲ K:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK - W; SHIFT:= SHIFT - W1;
+         i̲f̲ W2 < W1 t̲h̲e̲n̲ W2:= W2 + 1;
+         B[K]:= (B[K] - VECVEC(K + 1, K + W2, SHIFT, B, A)) / A[KK]
+      e̲n̲d̲;
+   END: AUX[1]:= SDET
+e̲n̲d̲ DECSOLBND;
+e̲o̲p̲

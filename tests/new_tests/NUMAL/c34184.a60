@@ -1,0 +1,41 @@
+c̲o̲d̲e̲ 34184;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2414;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAEIG1(A, N, EM, VAL, VEC); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, VAL, VEC;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, K, MAX, J, L;
+   r̲e̲a̲l̲ RESIDU, R, MACHTOL;
+   a̲r̲r̲a̲y̲ D, V[1:N], B[1:N,1:N];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT, INT0[1:N];
+
+   RESIDU:= 0; MAX:= 0; EQILBR(A, N, EM, D, INT0);
+   TFMREAHES(A, N, EM, INT);
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J:= (i̲f̲ I = 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ I - 1)
+        s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ B[I,J]:= A[I,J];
+   K:= REAEIG1:= REAVALQRI(B, N, EM, VAL);
+   f̲o̲r̲ I:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J:= I + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ VAL[J] > VAL[I] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ R:= VAL[I]; VAL[I]:= VAL[J]; VAL[J]:= R e̲n̲d̲
+         e̲n̲d̲;
+   MACHTOL:= EM[0] × EM[1];
+   f̲o̲r̲ L:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ L > 1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ VAL[L - 1] - VAL[L] < MACHTOL t̲h̲e̲n̲
+              VAL[L]:= VAL[L - 1] - MACHTOL
+         e̲n̲d̲;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              f̲o̲r̲ J:= (i̲f̲ I = 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ I - 1)
+              s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ B[I,J]:= A[I,J];
+         REAVECHES(B, N, VAL[L], EM, V);
+         i̲f̲ EM[7] > RESIDU t̲h̲e̲n̲ RESIDU:= EM[7];
+         i̲f̲ EM[9] > MAX t̲h̲e̲n̲ MAX:= EM[9];
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[J,L]:= V[J]
+      e̲n̲d̲;
+   EM[7]:= RESIDU; EM[9]:= MAX;
+   BAKREAHES2(A, N, K + 1, N, INT, VEC);
+   BAKLBR(N, K + 1, N, D, INT0, VEC);
+   REASCL(VEC, N, K + 1, N)
+e̲n̲d̲ REAEIG1
+
+;e̲o̲p̲

@@ -1,0 +1,9 @@
+'CODE' 31050;
+'PROCEDURE' NEWGRN(N,X,A);
+'VALUE' N; 'INTEGER' N; 'ARRAY' X,A;
+'BEGIN'
+    'INTEGER' K;
+    'FOR' K:=N-1 'STEP' -1 'UNTIL' 0 'DO'
+    ELMVEC(K,N-1,1,A,A,-X[K]);
+'END' NEWGRN;
+        'EOP'

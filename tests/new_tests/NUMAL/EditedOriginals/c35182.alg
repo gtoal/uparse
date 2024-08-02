@@ -1,0 +1,10 @@
+'CODE' 35182;
+  'PROCEDURE' BESS YAPLUSN(A, X, NMAX, YAN); 'VALUE' A, X, NMAX;
+  'REAL' A, X; 'INTEGER' NMAX; 'ARRAY' YAN;
+  'BEGIN' 'INTEGER' N; 'REAL' Y1;
+    BESS YA01(A, X, YAN[0], Y1); A:= A-1; X:= 2/X;
+    'IF' NMAX > 0 'THEN' YAN[1]:= Y1;
+    'FOR' N:= 2 'STEP' 1 'UNTIL' NMAX 'DO'
+    YAN[N]:= -YAN[N-2] + (A+N)*X*YAN[N-1]
+  'END' BESS YAPLUSN;
+        'EOP'

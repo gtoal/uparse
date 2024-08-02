@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 34360;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SCLCOM(AR, AI, N, N1, N2); v̲a̲l̲u̲e̲ N, N1, N2;
+   i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ AR, AI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K;
+   r̲e̲a̲l̲ S, R;
+   f̲o̲r̲ J:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ S:= 0;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ R:= AR[I,J] ⭡ 2 + AI[I,J] ⭡ 2; i̲f̲ R > S t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ S:= R; K:= I e̲n̲d̲
+            e̲n̲d̲;
+         i̲f̲ S ≠ 0 t̲h̲e̲n̲ COMCOLCST(1, N, J, AR, AI, AR[K,J] /
+           S, - AI[K,J] / S)
+      e̲n̲d̲
+e̲n̲d̲ SCLCOM;
+e̲o̲p̲

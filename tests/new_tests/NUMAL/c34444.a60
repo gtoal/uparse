@@ -1,0 +1,443 @@
+c̲o̲d̲e̲ 34444;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ PEIDE(N,M,NOBS,NBP,PAR,RES,BP,JTJINV,IN,OUT,DERIV,JAC DFDY,
+  JAC DFDP, CALL YSTART,DATA,MONITOR);
+   v̲a̲l̲u̲e̲ N,M,NOBS; i̲n̲t̲e̲g̲e̲r̲ N,M,NOBS,NBP;
+     a̲r̲r̲a̲y̲ PAR,RES,JTJINV,IN,OUT;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ BP;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲  CALL YSTART,DATA,MONITOR;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIV,JAC DFDY,JACDFDP;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,EXTRA,WEIGHT,NCOL,NROW,AWAY,NPAR,II,JJ,MAX,
+     NFE,NIS;
+   r̲e̲a̲l̲ EPS,EPS1,XEND,C,X,T,HMIN,HMAX,RES1,IN3,IN4,FAC3,FAC4;
+   a̲r̲r̲a̲y̲ AUX[1:3],OBS[1:NOBS],SAVE[-38:6×N],TOBS[0:NOBS],
+     YP[1:NBP+NOBS,1:NBP+M],YMAX[1:N],Y[1:6×N×(NBP+M+1)],FY[1:N,1:N],
+     FP[1:N,1:M+NBP];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ COBS[1:NOBS];
+   b̲o̲o̲l̲e̲a̲n̲ FIRST,SEC,CLEAN;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTERPOL(STARTINDEX,JUMP,K,TOBSDIF);
+      v̲a̲l̲u̲e̲ STARTINDEX,JUMP,K,TOBSDIF;
+      i̲n̲t̲e̲g̲e̲r̲ STARTINDEX,JUMP,K; r̲e̲a̲l̲ TOBSDIF;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ S,R; S:=Y[STARTINDEX]; R:=TOBSDIF;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+         b̲e̲g̲i̲n̲ STARTINDEX:=STARTINDEX+JUMP;
+            S:=S+Y[STARTINDEX]×R; R:=R×TOBSDIF
+         e̲n̲d̲; INTERPOL:=S
+   e̲n̲d̲ INTERPOL;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ JAC DYDP(NROW,NCOL,PAR,RES,JAC,LOCFUNCT);
+      v̲a̲l̲u̲e̲ NROW,NCOL; i̲n̲t̲e̲g̲e̲r̲ NROW,NCOL;
+        a̲r̲r̲a̲y̲ PAR,RES,JAC; p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCFUNCT;
+   b̲e̲g̲i̲n̲
+      DUPMAT(1,NROW,1,NCOL,JAC,YP)
+   e̲n̲d̲ JACOBIAN;
+
+   b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT(NROW,NCOL,PAR,RES);
+      v̲a̲l̲u̲e̲ NROW,NCOL; i̲n̲t̲e̲g̲e̲r̲ NROW,NCOL; a̲r̲r̲a̲y̲ PAR,RES;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ L,K,KNEW,FAILS,SAME,KPOLD,N6,NNPAR,J5N,
+        COBSII;
+      r̲e̲a̲l̲ XOLD,HOLD,A0,TOLUP,TOL,TOLDWN,TOLCONV,H,CH,CHNEW,
+        ERROR,DFI,TOBSDIF;
+      b̲o̲o̲l̲e̲a̲n̲ EVALUATE,EVALUATED,DECOMPOSE,CONV;
+      a̲r̲r̲a̲y̲ A[0:5],DELTA,LAST DELTA,DF,Y0[1:N],JACOB[1:N,1:N];
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P[1:N];
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORM2(AI); r̲e̲a̲l̲ AI;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S,A; S:= @-100;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ A:= AI/YMAX[I]; S:= S + A × A e̲n̲d̲;
+         NORM2:= S
+      e̲n̲d̲ NORM2;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ RESET;
+      b̲e̲g̲i̲n̲ i̲f̲ CH < HMIN/HOLD t̲h̲e̲n̲ CH:= HMIN/HOLD e̲l̲s̲e̲
+         i̲f̲ CH > HMAX/HOLD t̲h̲e̲n̲ CH:= HMAX/HOLD;
+         X:= XOLD; H:= HOLD × CH; C:= 1;
+         f̲o̲r̲ J:= 0 s̲t̲e̲p̲ N u̲n̲t̲i̲l̲ K×N d̲o̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    Y[J+I]:= SAVE[J+I] × C;
+               C:= C × CH
+            e̲n̲d̲;
+         DECOMPOSE:=t̲r̲u̲e̲
+      e̲n̲d̲ RESET;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ORDER;
+      b̲e̲g̲i̲n̲ C:= EPS × EPS; J:= (K-1) × (K + 8)/2 - 38;
+         f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲ A[I]:= SAVE[I+J];
+         J:= J + K + 1;
+         TOLUP  := C × SAVE[J];
+         TOL    := C × SAVE[J + 1];
+         TOLDWN := C × SAVE[J + 2];
+         TOLCONV:= EPS/(2 × N × (K + 2));
+         A0:= A[0];  DECOMPOSE:= t̲r̲u̲e̲;
+      e̲n̲d̲ ORDER;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVALUATE JACOBIAN;
+      b̲e̲g̲i̲n̲ EVALUATE:= f̲a̲l̲s̲e̲;
+         DECOMPOSE:= EVALUATED:= t̲r̲u̲e̲;
+         i̲f̲ ¬ JAC DFDY(PAR,Y,X,FY) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SAVE[-3]:=4; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+      e̲n̲d̲ EVALUATE JACOBIAN
+
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECOMPOSE JACOBIAN;
+      b̲e̲g̲i̲n̲ DECOMPOSE:= f̲a̲l̲s̲e̲;
+         C:= -A0 × H;
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    JACOB[I,J]:= FY[I,J] × C;
+               JACOB[J,J]:= JACOB[J,J] + 1
+            e̲n̲d̲;
+         DEC(JACOB,N,AUX,P)
+      e̲n̲d̲ DECOMPOSE JACOBIAN;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ CALCULATE STEP AND ORDER;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A1,A2,A3;
+         A1:= i̲f̲ K ≤ 1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+           0·75 × (TOLDWN/NORM2(Y[K×N+I])) ⭡ (0·5/K);
+         A2:= 0·80 × (TOL/ERROR) ⭡ (0·5/(K + 1));
+         A3:= i̲f̲ K ≥ 5 ∨ FAILS ≠ 0
+           t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+           0·70 × (TOLUP/NORM2(DELTA[I] - LAST DELTA[I]))⭡
+           (0·5/(K+2));
+
+         i̲f̲ A1 > A2 ∧ A1 > A3 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ KNEW:= K-1; CHNEW:= A1 e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ A2 > A3 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ KNEW:= K  ; CHNEW:= A2 e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ KNEW:= K+1; CHNEW:= A3 e̲n̲d̲
+      e̲n̲d̲ CALCULATE STEP AND ORDER;
+
+      i̲f̲ SEC t̲h̲e̲n̲ b̲e̲g̲i̲n̲ SEC:=f̲a̲l̲s̲e̲; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+      NPAR:=M; EXTRA:=NIS:=0; II:=1;
+      JJ:=i̲f̲ NBP=0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+      N6:=N×6;
+      INIVEC(-3,-1,SAVE,0);
+      INIVEC(N6+1,(6+M)×N,Y,0);
+      INIMAT(1,NOBS+NBP,1,M+NBP,YP,0);
+      T:=TOBS[1]; X:=TOBS[0];
+      CALL YSTART(PAR,Y,YMAX);
+      HMAX:=TOBS[1]-TOBS[0]; HMIN:=HMAX×IN[1];
+      EVALUATE JACOBIAN; NNPAR:=N×NPAR;
+
+      NEW START:
+      K:= 1; KPOLD:=0; SAME:= 2; ORDER;
+      i̲f̲ ¬ DERIV(PAR,Y,X,DF) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ SAVE[-3]:=3; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+      H:=SQRT(2 × EPS/SQRT(NORM2 (MATVEC(1,N,I,FY,DF))));
+      i̲f̲ H > HMAX t̲h̲e̲n̲ H:= HMAX e̲l̲s̲e̲
+      i̲f̲ H < HMIN t̲h̲e̲n̲ H:= HMIN;
+      XOLD:= X; HOLD:= H; CH:= 1;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ SAVE[I]:=Y[I]; SAVE[N+I]:=Y[N+I]:=DF[I]×H e̲n̲d̲;
+      FAILS:= 0;
+      f̲o̲r̲ L:= 0 w̲h̲i̲l̲e̲ X < XEND d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ X + H ≤ XEND t̲h̲e̲n̲ X:= X + H e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ H:= XEND-X; X:= XEND; CH:= H/HOLD; C:= 1;
+               f̲o̲r̲ J:= N s̲t̲e̲p̲ N u̲n̲t̲i̲l̲ K×N d̲o̲
+                  b̲e̲g̲i̲n̲ C:= C× CH;
+                     f̲o̲r̲ I:= J+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J+N d̲o̲
+                          Y[I]:= Y[I] × C
+                  e̲n̲d̲;
+               SAME:= i̲f̲ SAME<3 t̲h̲e̲n̲ 3 e̲l̲s̲e̲ SAME+1;
+            e̲n̲d̲;
+
+            c̲o̲m̲m̲e̲n̲t̲ PREDICTION;
+            f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ I:= L s̲t̲e̲p̲ N u̲n̲t̲i̲l̲ (K-1)×N+L d̲o̲
+                       f̲o̲r̲ J:= (K-1)×N+L s̲t̲e̲p̲ -N u̲n̲t̲i̲l̲ I d̲o̲
+                          Y[J]:= Y[J] + Y[J+N];
+                  DELTA[L]:= 0
+               e̲n̲d̲;  EVALUATED:= f̲a̲l̲s̲e̲;
+
+            c̲o̲m̲m̲e̲n̲t̲ CORRECTION AND ESTIMATION LOCAL ERROR;
+            f̲o̲r̲ L:= 1,2,3 d̲o̲
+               b̲e̲g̲i̲n̲ i̲f̲ ¬ DERIV(PAR,Y,X,DF) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ SAVE[-3]:=3; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+                  f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       DF[I]:= DF[I] × H - Y[N+I];
+                  i̲f̲ EVALUATE t̲h̲e̲n̲ EVALUATE JACOBIAN;
+                  i̲f̲ DECOMPOSE t̲h̲e̲n̲ DECOMPOSE JACOBIAN;
+                  SOL(JACOB,N,P,DF);
+
+                  CONV:= t̲r̲u̲e̲;
+                  f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                     b̲e̲g̲i̲n̲ DFI:= DF[I];
+                        Y[  I]:= Y[  I] + A0 × DFI;
+                        Y[N+I]:= Y[N+I] +      DFI;
+                        DELTA[I]:= DELTA[I] +  DFI;
+                        CONV:= CONV ∧ ABS(DFI) < TOLCONV × YMAX[I]
+                     e̲n̲d̲;
+                  i̲f̲ CONV t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ ERROR:= NORM2(DELTA[I]);
+                     g̲o̲t̲o̲ CONVERGENCE
+                  e̲n̲d̲
+               e̲n̲d̲;
+
+            c̲o̲m̲m̲e̲n̲t̲ ACCEPTANCE OR REJECTION;
+            i̲f̲ ¬ CONV t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ i̲f̲ ¬ EVALUATED t̲h̲e̲n̲ EVALUATE:= t̲r̲u̲e̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ CH:=CH/4; i̲f̲ H<4×HMIN t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ SAVE[-1]:= SAVE[-1]+10;
+                     HMIN:=HMIN/10;
+                     i̲f̲ SAVE[-1]>40 t̲h̲e̲n̲ g̲o̲t̲o̲ RETURN
+                  e̲n̲d̲
+               e̲n̲d̲;
+               RESET
+            e̲n̲d̲ e̲l̲s̲e̲ CONVERGENCE:
+
+            i̲f̲ ERROR > TOL t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ FAILS:= FAILS + 1;
+               i̲f̲ H > 1·1 × HMIN t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲f̲ FAILS > 2 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲  RESET; g̲o̲t̲o̲ NEW START
+                  e̲n̲d̲ e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲ CALCULATE STEP AND ORDER;
+                     i̲f̲ KNEW ≠ K t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ K:= KNEW; ORDER e̲n̲d̲;
+                     CH:= CH × CHNEW; RESET
+                  e̲n̲d̲
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ i̲f̲ K = 1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ VIOLATE EPS CRITERION;
+                     SAVE[-2]:= SAVE[-2] + 1;
+                     SAME:= 4; g̲o̲t̲o̲ ERROR TEST OK
+                  e̲n̲d̲;
+                  K:=1; RESET; ORDER; SAME:= 2
+               e̲n̲d̲
+            e̲n̲d̲ e̲l̲s̲e̲ ERROR TEST OK:
+
+            b̲e̲g̲i̲n̲ FAILS:= 0;
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ C:= DELTA[I];
+                     f̲o̲r̲ L:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                          Y[L×N+I]:= Y[L×N+I] + A[L] × C;
+                     i̲f̲ ABS(Y[I]) > YMAX[I] t̲h̲e̲n̲
+                       YMAX[I]:=  ABS(Y[I])
+                  e̲n̲d̲;
+
+               SAME:= SAME-1;
+               i̲f̲ SAME= 1 t̲h̲e̲n̲
+                 DUPVEC(1,N,0,LAST DELTA,DELTA) e̲l̲s̲e̲
+               i̲f̲ SAME= 0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ CALCULATE STEP AND ORDER;
+                  i̲f̲ CHNEW > 1·1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲
+                     i̲f̲ K ≠ KNEW t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ i̲f̲ KNEW > K t̲h̲e̲n̲
+                          MULVEC(KNEW×N+1,KNEW×N+N,-KNEW×N,Y,DELTA,
+                          A[K]/KNEW);
+                        K:= KNEW; ORDER
+                     e̲n̲d̲;
+                     SAME:= K+1;
+                     i̲f̲ CHNEW × H > HMAX
+                       t̲h̲e̲n̲ CHNEW:= HMAX/H;
+                     H:= H × CHNEW; C:= 1;
+                     f̲o̲r̲ J:= N s̲t̲e̲p̲ N u̲n̲t̲i̲l̲ K×N d̲o̲
+                        b̲e̲g̲i̲n̲ C:= C × CHNEW;
+                           MULVEC(J+1,J+N,0,Y,Y,C)
+                        e̲n̲d̲; DECOMPOSE:=t̲r̲u̲e̲
+                  e̲n̲d̲
+                  e̲l̲s̲e̲ SAME:= 10
+               e̲n̲d̲ OF A SINGLE INTEGRATION STEP OF Y;
+               NIS:=NIS+1;
+
+               c̲o̲m̲m̲e̲n̲t̲ START OF A INTEGRATION STEP OF YP;
+               i̲f̲ CLEAN t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ HOLD:=H; XOLD:=X; KPOLD:=K; CH:=1;
+                  DUPVEC(1,K×N+N,0,SAVE,Y)
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ i̲f̲ H≠HOLD t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ CH:=H/HOLD; C:=1;
+                     f̲o̲r̲ J:=N6+NNPAR s̲t̲e̲p̲ NNPAR u̲n̲t̲i̲l̲
+                       KPOLD×NNPAR+N6 d̲o̲
+                        b̲e̲g̲i̲n̲ C:=C×CH;
+                           f̲o̲r̲ I:=J+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J+NNPAR d̲o̲
+                                Y[I]:=Y[I]×C
+                        e̲n̲d̲; HOLD:=H
+                  e̲n̲d̲;
+                  i̲f̲ K>KPOLD t̲h̲e̲n̲
+                    INIVEC(N6+K×NNPAR+1,N6+K×NNPAR+NNPAR,Y,0);
+                  XOLD:= X; KPOLD:= K; CH:= 1;
+                  DUPVEC(1,K×N+N,0,SAVE,Y);
+                  EVALUATE JACOBIAN;
+                  DECOMPOSE JACOBIAN;
+                  i̲f̲ ¬ JAC DFDP(PAR,Y,X,FP) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ SAVE[-3]:=5; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+                  i̲f̲ NPAR>M t̲h̲e̲n̲ INIMAT(1,N,M+1,NPAR,FP,0);
+
+                  c̲o̲m̲m̲e̲n̲t̲ PREDICTION;
+                  f̲o̲r̲ L:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K-1 d̲o̲
+                       f̲o̲r̲ J:=K-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ L d̲o̲
+                          ELMVEC(J×NNPAR+N6+1,J×NNPAR+N6+NNPAR,NNPAR,Y,Y,1);
+
+                  c̲o̲m̲m̲e̲n̲t̲ CORRECTION;
+                  f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NPAR d̲o̲
+                     b̲e̲g̲i̲n̲ J5N:=(J+5)×N;
+                        DUPVEC(1,N,J5N,Y0,Y);
+                        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ DF[I]:=
+                             H×(FP[I,J]+MATVEC(1,N,I,FY,Y0))-Y[NNPAR+J5N+I];
+                        SOL(JACOB,N,P,DF);
+                        f̲o̲r̲ L:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                           b̲e̲g̲i̲n̲ I:=L×NNPAR+J5N;
+                              ELMVEC(I+1,I+N,-I,Y,DF,A[L])
+                           e̲n̲d̲
+                     e̲n̲d̲
+               e̲n̲d̲;
+               f̲o̲r̲ L:=0 w̲h̲i̲l̲e̲ X≥T d̲o̲
+                  b̲e̲g̲i̲n̲
+                     c̲o̲m̲m̲e̲n̲t̲ CALCULATION OF A ROW OF THE JACOBIAN
+                       MATRIX AND AN ELEMENT OF THE RESIDUAL
+                       VECTOR;
+                     TOBSDIF:=(TOBS[II]-X)/H; COBSII:=COBS[II];
+                     RES[II]:=INTERPOL(COBSII,N,K,TOBSDIF)-OBS[II];
+                     i̲f̲ ¬ CLEAN t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NPAR d̲o̲
+                             YP[II,I]:=INTERPOL(COBSII+(I+5)×N,NNPAR,K,
+                             TOBSDIF);
+
+                        c̲o̲m̲m̲e̲n̲t̲ INTRODUCING OF BREAK-POINTS;
+                        i̲f̲ BP[JJ]≠II t̲h̲e̲n̲ e̲l̲s̲e̲
+                        i̲f̲ FIRST ∧ ABS(RES[II])<EPS1 t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲ NBP:=NBP-1; c̲o̲m̲m̲e̲n̲t̲ DUPVEC(BP) ;
+                           f̲o̲r̲ I:= JJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NBP d̲o̲
+                                BP[I]:= BP[I + 1]; BP[NBP+1]:=0
+                        e̲n̲d̲ e̲l̲s̲e̲
+                        b̲e̲g̲i̲n̲ EXTRA:=EXTRA+1;
+                           i̲f̲ FIRST t̲h̲e̲n̲ PAR[M+JJ]:=OBS[II];
+                           c̲o̲m̲m̲e̲n̲t̲ INTRODUCING A JACOBIAN ROW AND A
+                             RESIDUAL VECTOR ELEMENT FOR
+                             CONTINUITY REQUIREMENTS;
+                           YP[NOBS+JJ,M+JJ]:=-WEIGHT;
+                           MULROW(1,NPAR,NOBS+JJ,II,YP,YP,WEIGHT);
+                           RES[NOBS+JJ]:=WEIGHT×(RES[II]+OBS[II]-
+                             PAR[M+JJ])
+                        e̲n̲d̲
+                     e̲n̲d̲;
+
+                     i̲f̲ II=NOBS t̲h̲e̲n̲ g̲o̲t̲o̲ RETURN e̲l̲s̲e̲
+                     b̲e̲g̲i̲n̲ T:=TOBS[II+1];
+                        i̲f̲ BP[JJ]=II ∧ JJ<NBP t̲h̲e̲n̲ JJ:=JJ+1;
+                        HMAX:=T-TOBS[II]; HMIN:=HMAX×IN[1]; II:=II+1
+                     e̲n̲d̲;
+                  e̲n̲d̲;
+
+               c̲o̲m̲m̲e̲n̲t̲ BREAK-POINTS INTRODUCE NEW INITIAL VALUES
+                 FOR Y AND YP;
+               i̲f̲ EXTRA>0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                     b̲e̲g̲i̲n̲ Y[I]:=INTERPOL(I,N,K,TOBSDIF);
+                        f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NPAR d̲o̲
+                             Y[I+(J+5)×N]:=INTERPOL(I+(J+5)×N,NNPAR,K,
+                             TOBSDIF)
+                     e̲n̲d̲;
+                  f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ EXTRA d̲o̲
+                     b̲e̲g̲i̲n̲  COBSII:=COBS[BP[NPAR-M+L]];
+                        Y[COBSII]:=PAR[NPAR+L];
+                        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NPAR+EXTRA d̲o̲
+                             Y[COBSII+(5+I)×N]:=0;
+                        INIVEC(1+NNPAR+(L+5)×N,NNPAR+(L+6)×N,Y,0);
+                        Y[COBSII+(5+NPAR+L)×N]:=1
+                     e̲n̲d̲;
+                  NPAR:=NPAR+EXTRA; EXTRA:=0;
+                  X:=TOBS[II-1]; EVALUATE JACOBIAN; NNPAR:=N×NPAR;
+                  g̲o̲t̲o̲ NEW START
+               e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲ STEP;
+
+      RETURN:
+      i̲f̲ SAVE[-2]>MAX t̲h̲e̲n̲ MAX:=SAVE[-2];
+      FUNCT:=SAVE[-1]≤40 ∧ SAVE[-3]=0;
+      i̲f̲ ¬ FIRST t̲h̲e̲n̲
+        MONITOR(1,NCOL,NROW,PAR,RES,WEIGHT,NIS)
+   e̲n̲d̲ FUNCT;
+
+   I:= -39;
+   f̲o̲r̲ C:= 1,1,9,4,0,2/3,1,1/3,36,20·25,1,6/11,
+     1,6/11,1/11,84·028,53·778,0·25,·48,1,·7,·2,·02,
+     156·25, 108·51, ·027778, 120/274, 1, 225/274,
+     85/274, 15/274, 1/274, 0, 187·69, ·0047361
+     d̲o̲ b̲e̲g̲i̲n̲ I:= I + 1; SAVE[I]:= C e̲n̲d̲;
+
+   DATA(NOBS,TOBS,OBS,COBS); WEIGHT:=1;
+   FIRST:=SEC:=f̲a̲l̲s̲e̲; CLEAN:=NBP>0;
+   AUX[2]:=@-12; EPS:=IN[2]; EPS1:=@10;
+   XEND:=TOBS[NOBS]; OUT[1]:=0; BP[0]:=MAX:=0;
+
+   c̲o̲m̲m̲e̲n̲t̲ SMOOTH INTEGRATION WITHOUT BREAK-POINTS;
+   i̲f̲ ¬ FUNCT(NOBS,M,PAR,RES) t̲h̲e̲n̲ g̲o̲t̲o̲ ESCAPE;
+   RES1:=SQRT(VECVEC(1,NOBS,0,RES,RES)); NFE:=1;
+   i̲f̲ IN[5]=1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ OUT[1]:=1; g̲o̲t̲o̲ ESCAPE e̲n̲d̲;
+
+   i̲f̲ CLEAN t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:=t̲r̲u̲e̲; CLEAN:=f̲a̲l̲s̲e̲;
+      FAC3:=SQRT(SQRT(IN[3]/RES1)); FAC4:=SQRT(SQRT(IN[4]/RES1));
+      EPS1:=RES1×FAC4;
+      i̲f̲ ¬ FUNCT(NOBS,M,PAR,RES) t̲h̲e̲n̲ g̲o̲t̲o̲ ESCAPE;
+      FIRST:=f̲a̲l̲s̲e̲
+   e̲n̲d̲ e̲l̲s̲e̲ NFE:=0;
+
+   NCOL:=M+NBP; NROW:=NOBS+NBP;
+   SEC:=t̲r̲u̲e̲;
+   IN3:=IN[3]; IN4:=IN[4]; IN[3]:=RES1;
+
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ W; a̲r̲r̲a̲y̲ AID[1:NCOL,1:NCOL];
+      WEIGHT:=AWAY:=0;
+      OUT[4]:=OUT[5]:=W:=0;
+      f̲o̲r̲ WEIGHT:=(SQRT(WEIGHT)+1)⭡2 w̲h̲i̲l̲e̲
+        WEIGHT≠16 ∧ NBP>0 d̲o̲
+
+         b̲e̲g̲i̲n̲ i̲f̲ AWAY=0 ∧ W≠0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ IF NO BREAK-POINTS WERE OMITTED THEN ONE
+                 FUNCTION EVALUATION IS SAVED;
+               W:=WEIGHT/W;
+               f̲o̲r̲ I:=NOBS+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NROW d̲o̲
+                  b̲e̲g̲i̲n̲ f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NCOL d̲o̲
+                          YP[I,J]:=W×YP[I,J];
+                     RES[I]:=W×RES[I]
+                  e̲n̲d̲; SEC:=t̲r̲u̲e̲; NFE:=NFE-1
+            e̲n̲d̲;
+
+            IN[3]:=IN[3]×FAC3×WEIGHT; IN[4]:=EPS1;
+            MONITOR(2,NCOL,NROW,PAR,RES,WEIGHT,NIS);
+            MARQUARDT(NROW,NCOL,PAR,RES,AID,FUNCT,JAC DYDP,IN,OUT);
+            i̲f̲ OUT[1]>0 t̲h̲e̲n̲ g̲o̲t̲o̲ ESCAPE;
+
+            c̲o̲m̲m̲e̲n̲t̲ THE RELATIVE STARTING VALUE OF LAMBDA IS
+              ADJUSTED TO THE LAST VALUE OF LAMBDA USED;
+            AWAY:=OUT[4]-OUT[5]-1;
+            IN[6]:=IN[6] × 5⭡AWAY × 2⭡(AWAY-OUT[5]);
+
+            NFE:=NFE+OUT[4];
+            W:=WEIGHT; EPS1:=(SQRT(WEIGHT)+1)⭡2×IN[4]×FAC4;
+            AWAY:=0;
+
+            c̲o̲m̲m̲e̲n̲t̲ USELESS BREAK-POINTS ARE OMITTED;
+            J:= 0; f̲o̲r̲ J:= J + 1 w̲h̲i̲l̲e̲ J ≤ NBP d̲o̲
+               b̲e̲g̲i̲n̲ i̲f̲ ABS(OBS[BP[J]]+RES[BP[J]]-PAR[J+M])<EPS1
+                    t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ NBP:=NBP-1; c̲o̲m̲m̲e̲n̲t̲ DUPVEC (BP) ;
+                     f̲o̲r̲ I:= J s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NBP d̲o̲
+                          BP[I]:= BP[I + 1];
+                     DUPVEC(J+M,NBP+M,1,PAR,PAR);
+                     J:=J-1; AWAY:=AWAY+1; BP[NBP+1]:=0
+                  e̲n̲d̲
+               e̲n̲d̲;
+            NCOL:=NCOL-AWAY; NROW:=NROW-AWAY
+         e̲n̲d̲;
+
+      IN[3]:=IN3; IN[4]:=IN4; NBP:=0; WEIGHT:=1;
+      MONITOR(2,M,NOBS,PAR,RES,WEIGHT,NIS);
+      MARQUARDT(NOBS,M,PAR,RES,JTJINV,FUNCT,JAC DYDP,IN,OUT);
+      NFE:=OUT[4]+NFE
+   e̲n̲d̲;
+   ESCAPE: i̲f̲ OUT[1]=3 t̲h̲e̲n̲ OUT[1]:=2 e̲l̲s̲e̲
+   i̲f̲ OUT[1]=4 t̲h̲e̲n̲ OUT[1]:=6;
+   i̲f̲ SAVE[-3]≠0 t̲h̲e̲n̲ OUT[1]:=SAVE[-3];
+   OUT[3]:=RES1;
+   OUT[4]:=NFE;
+   OUT[5]:=MAX
+e̲n̲d̲ PEIDE;
+e̲o̲p̲

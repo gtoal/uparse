@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 35173;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS K01(X, K0, K1); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X, K0, K1;
+   i̲f̲ X ≤ 1·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ C, D, R, S, SUM0, SUM1, T,
+        TERM, T0, T1;
+      SUM0:= D:= LN(2/X) -·5772156649015328606;
+      SUM1:=    C:= -1 -2    × D; R:= TERM:= 1; T:= X × X/4;
+      f̲o̲r̲ K:= 1,K+1 w̲h̲i̲l̲e̲ ABS(T0/SUM0) + ABS(T1/SUM1) >@-15 d̲o̲
+         b̲e̲g̲i̲n̲  TERM:= T × TERM × R × R; D:= D + R;
+            C:= C - R; R:= 1/(K+1); C:= C - R;
+            T0:= TERM × D; T1:= TERM × C × R;
+            SUM0:= SUM0 + T0; SUM1:= SUM1 + T1
+         e̲n̲d̲;
+      K0:= SUM0; K1:= (1 + T × SUM1) / X
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ EXPX;
+      EXPX:= EXP(- X);
+      NONEXP BESS K01(X, K0, K1); K1:= EXPX × K1; K0:= K0 × EXPX
+   e̲n̲d̲ BESS K01;
+e̲o̲p̲

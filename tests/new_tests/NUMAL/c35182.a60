@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 35182;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS YAPLUSN(A, X, NMAX, YAN); v̲a̲l̲u̲e̲ A, X, NMAX;
+   r̲e̲a̲l̲ A, X; i̲n̲t̲e̲g̲e̲r̲ NMAX; a̲r̲r̲a̲y̲ YAN;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ Y1;
+   BESS YA01(A, X, YAN[0], Y1); A:= A-1; X:= 2/X;
+   i̲f̲ NMAX > 0 t̲h̲e̲n̲ YAN[1]:= Y1;
+   f̲o̲r̲ N:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NMAX d̲o̲
+        YAN[N]:= -YAN[N-2] + (A+N)×X×YAN[N-1]
+e̲n̲d̲ BESS YAPLUSN;
+e̲o̲p̲

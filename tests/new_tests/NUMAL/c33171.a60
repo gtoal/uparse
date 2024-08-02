@@ -1,0 +1,35 @@
+c̲o̲d̲e̲33171;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELIMINATION(U,LJ,UJ,LL,UL,RESIDUAL,A,B,N,DISCR,K,
+  RATECONV,DOMEIGVAL,OUT);
+   v̲a̲l̲u̲e̲ LJ,UJ,LL,UL,A,B; i̲n̲t̲e̲g̲e̲r̲ LJ,UJ,LL,UL,N,K;
+     r̲e̲a̲l̲ A,B,RATECONV,DOMEIGVAL; a̲r̲r̲a̲y̲ U,DISCR;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ RESIDUAL,OUT;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ PI,AUXCOS,C,D;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ OPTPOL(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ W,Y;
+      W:= (B × COS(·5×PI/X) + DOMEIGVAL) / (B - DOMEIGVAL);
+      i̲f̲ W < -1 t̲h̲e̲n̲ W:= -1;
+      i̲f̲ ABS(W) ≤ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ Y:= ARCCOS(W);
+         OPTPOL:= 2 × SQRT(A/B) + TAN(X×Y) ×
+           (Y - B×PI×SIN(·5×PI/X)×·5 / (X × (B-DOMEIGVAL) ×
+           SQRT(ABS(1-W×W))))
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ Y:= LN(W + SQRT(ABS(W×W-1)));
+         OPTPOL:= 2 × SQRT(A/B) - TANH(X×Y) × (Y + B×PI×SIN(·5×PI/X)×·5/(X×(B-DOMEIGVAL)×SQRT(ABS(W×W-1))))
+      e̲n̲d̲
+   e̲n̲d̲ OPTPOL;
+   PI:= 3·1415 92653 58979;
+   C:= 1;
+   i̲f̲ OPTPOL(C) < 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ D:= ·5 × PI × SQRT(ABS(B/DOMEIGVAL));
+      M: D:= D + D;
+      i̲f̲ ZEROIN(C,D,OPTPOL(C),C×@-3) t̲h̲e̲n̲ N:= ENTIER(C+·5)
+      e̲l̲s̲e̲ g̲o̲t̲o̲ M;
+   e̲n̲d̲ e̲l̲s̲e̲ N:= 1;
+   AUXCOS:= COS(·5×PI/N);
+   RICHARDSON(U,LJ,UJ,LL,UL,t̲r̲u̲e̲,RESIDUAL,
+     (2×DOMEIGVAL + B×(AUXCOS-1))/(AUXCOS+1),B,N,DISCR,K,RATECONV,
+     DOMEIGVAL,OUT)
+e̲n̲d̲ ELIMINATION;
+e̲o̲p̲

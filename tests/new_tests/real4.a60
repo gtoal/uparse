@@ -1,0 +1,8 @@
+'BEGIN'
+	'COMMENT' maxreal;
+
+	'REAL' x;
+	x := maxreal;
+	outreal(1,x)
+	
+'END'

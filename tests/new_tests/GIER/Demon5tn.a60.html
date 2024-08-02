@@ -1,0 +1,1922 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>i</u>,<u>n</u>&lt;
+This program was made by my father, Jørgen Kjær,
+while he worked for Haldor Topsøe.
+
+This is Service Pack 1; a few bugs have been corrected:
+
+1: Call of where moved out of show loop.
+2: Error in shift code in LONGMULT.
+3: Calculation of asize in ASSIGN has been changed.
+
+ASSIGN and SQRT are now called after reading the number with read real.
+
+2011−Jul−27 22.21 / TN: Experimenting with shifting, LONGMULT performance, and LONGDI
+
+Timing (in seconds), 380 decimals, buffer GIER, no index check:
+
+                Classic GA4     Turbo GA4       Save, pct.
+sqrt(r):        5331.8          4923.3           7.7
+sqrt2(r):       1247.6          1077.9          13.6
+sqrt3(r):        389.2           365.0           6.2
+sqrt(B):         388.1           363.9           6.2
+
+Timing (in seconds), 380 decimals, no buffer GIER, no index check:
+
+                Classic GA4     Turbo GA4       Save, pct.
+sqrt(r):        8195.6          7892.0           3.7
+sqrt2(r):       2147.2          2008.1           6.5
+sqrt3(r):        379.9           364.9           3.9
+sqrt(B):         377.6           361.5           4.3
+
+Program DEMON−5. Calculation of large numbers.
+<u>begin</u>
+   <u>boolean</u> first, empty, show, large;
+   <u>boolean</u> showAll;
+   <u>integer</u> linerest, lang, decimals, limit, carry, count, MODUL, cell,
+   cell2, asize, bsize, csize, type, TYPE, D, E, FREE, ftrack, step, c39;
+   <u>procedure</u> NEW PAGE;
+   <u>begin</u>
+      <u>for</u> linerest ≔  linerest − 1 <u>while</u> linerest &GreaterSlantEqual; 0, 69 <u>do</u> writecr;
+      writechar(72)
+   <u>end</u> NEW PAGE;
+   <u>procedure</u> LINE;
+   <u>if</u> linerest &lt; 8 <u>then</u> NEW PAGE
+   <u>else</u>
+   <u>begin</u>
+      <u>comment</u> linerest := linerest − 1;
+      writecr
+   <u>end</u> LINE;
+   <u>procedure</u> WRITE TEXT(dan, eng, fr, ger);
+   <u>string</u> dan, eng, fr, ger;
+   writetext(<u>case</u> lang <u>of</u> (dan, eng, fr, ger));
+   <u>procedure</u> SELECT LANGUAGE;
+   <u>begin</u>
+      LINE;
+      writetext(
+      «Select language: d: danish, e: english, f: french, g: german.: »);
+      lang ≔  lyn − 51;
+      <u>if</u> lang &lt; 1 <u>then</u> lang ≔  1;
+      <u>if</u> lang &gt; 4 <u>then</u> lang ≔  4;
+      LINE;
+      WRITE TEXT(
+      «Dansk»,
+      «English»,
+      «Francais»,
+      «Deutsch»);
+      LINE
+   <u>end</u> SELECT LANGUAGE;
+   <u>integer</u> <u>procedure</u> ASK NUMBER(dan, eng, fr, ger);
+   <u>string</u> dan, eng, fr, ger;
+   <u>begin</u>
+      LINE;
+      WRITE TEXT(dan, eng, fr, ger);
+      writetext(«: »);
+      ASK NUMBER ≔  read integer
+   <u>end</u> ASK NUMBER;
+   <u>procedure</u> ACCEPT(cond);
+   <u>value</u> cond;
+   <u>boolean</u> cond;
+   <u>if</u> ¬ cond <u>then</u>
+   <u>begin</u>
+      LINE;
+      WRITE TEXT(
+      «Brug flere heltalscifre»,
+      «Use more integer digits»,
+      «Le nombre de chiffres entiers est trop petit»,
+      «Zu wenig Ganzzahlstellen»);
+      <u>go</u>_<u>to</u> <u>if</u> show <u>then</u> E1 <u>else</u> E2
+   <u>end</u> ACCEPT;
+   <u>procedure</u> ALARM(text);
+   <u>string</u> text;
+   <u>begin</u>
+      LINE;
+      writetext(«Error in: »);
+      writetext(text);
+      <u>go</u>_<u>to</u> <u>if</u> show <u>then</u> E1 <u>else</u> E2
+   <u>end</u> ALARM;
+   <u>integer</u> stat TO REAL get A;
+   <u>integer</u> stat COMPARE get A;
+   <u>integer</u> stat COMPARE get B;
+   <u>integer</u> stat LONGMULT2 get A;
+   <u>integer</u> stat LONGMULT2 get B;
+   <u>integer</u> stat LONGMULT2 get C 1;
+   <u>integer</u> stat LONGMULT2 get C 2;
+   <u>integer</u> stat LONGMULT2 put A;
+   <u>integer</u> stat LONGMULT2 put B;
+   <u>integer</u> stat LONGMULT2 put C 1;
+   <u>integer</u> stat LONGMULT2 put C 2;
+   <u>integer</u> stat LONGMULT2 put C 3;
+   <u>integer</u> stat LONGDIVIDE2 get A 1;
+   <u>integer</u> stat LONGDIVIDE2 get A 2;
+   <u>integer</u> stat LONGDIVIDE2 get A 3;
+   <u>integer</u> stat LONGDIVIDE2 get A 4;
+   <u>integer</u> stat LONGDIVIDE2 get A 5;
+   <u>integer</u> stat LONGDIVIDE2 get B 1;
+   <u>integer</u> stat LONGDIVIDE2 get B 2;
+   <u>integer</u> stat LONGDIVIDE2 get B 3;
+   <u>integer</u> stat LONGDIVIDE2 put A 1;
+   <u>integer</u> stat LONGDIVIDE2 put A 2;
+   <u>integer</u> stat LONGDIVIDE2 put A 3;
+   <u>integer</u> stat LONGDIVIDE2 put A 4;
+   <u>integer</u> stat LONGDIVIDE2 put A 5;
+   <u>integer</u> stat LONGDIVIDE2 put C 1;
+   <u>integer</u> stat LONGDIVIDE2 put C 2;
+   <u>integer</u> stat LONGMULT get B 1;
+   <u>integer</u> stat LONGMULT get B 2;
+   <u>integer</u> stat LONGMULT get RES 1;
+   <u>integer</u> stat LONGMULT get RES 2;
+   <u>integer</u> stat LONGMULT put RES;
+   <u>procedure</u> STATISTICS PROCESS(p);
+   <u>procedure</u> p;
+   <u>begin</u>
+      <u>integer</u> stat counter;
+      p(stat counter, «TO REAL get A », stat TO REAL get A);
+      p(stat counter, «COMPARE get A », stat COMPARE get A);
+      p(stat counter, «COMPARE get B », stat COMPARE get B);
+      p(stat counter, «LONGMULT2 get A », stat LONGMULT2 get A);
+      p(stat counter, «LONGMULT2 get B », stat LONGMULT2 get B);
+      p(stat counter, «LONGMULT2 get C 1 », stat LONGMULT2 get C 1);
+      p(stat counter, «LONGMULT2 get C 2 », stat LONGMULT2 get C 2);
+      p(stat counter, «LONGMULT2 put A », stat LONGMULT2 put A);
+      p(stat counter, «LONGMULT2 put B », stat LONGMULT2 put B);
+      p(stat counter, «LONGMULT2 put C 1 », stat LONGMULT2 put C 1);
+      p(stat counter, «LONGMULT2 put C 2 », stat LONGMULT2 put C 2);
+      p(stat counter, «LONGMULT2 put C 3 », stat LONGMULT2 put C 3);
+      p(stat counter, «LONGDIVIDE2 get A 1», stat LONGDIVIDE2 get A 1);
+      p(stat counter, «LONGDIVIDE2 get A 2», stat LONGDIVIDE2 get A 2);
+      p(stat counter, «LONGDIVIDE2 get A 3», stat LONGDIVIDE2 get A 3);
+      p(stat counter, «LONGDIVIDE2 get A 4», stat LONGDIVIDE2 get A 4);
+      p(stat counter, «LONGDIVIDE2 get A 5», stat LONGDIVIDE2 get A 5);
+      p(stat counter, «LONGDIVIDE2 get B 1», stat LONGDIVIDE2 get B 1);
+      p(stat counter, «LONGDIVIDE2 get B 2», stat LONGDIVIDE2 get B 2);
+      p(stat counter, «LONGDIVIDE2 get B 3», stat LONGDIVIDE2 get B 3);
+      p(stat counter, «LONGDIVIDE2 put A 1», stat LONGDIVIDE2 put A 1);
+      p(stat counter, «LONGDIVIDE2 put A 2», stat LONGDIVIDE2 put A 2);
+      p(stat counter, «LONGDIVIDE2 put A 3», stat LONGDIVIDE2 put A 3);
+      p(stat counter, «LONGDIVIDE2 put A 4», stat LONGDIVIDE2 put A 4);
+      p(stat counter, «LONGDIVIDE2 put A 5», stat LONGDIVIDE2 put A 5);
+      p(stat counter, «LONGDIVIDE2 put C 1», stat LONGDIVIDE2 put C 1);
+      p(stat counter, «LONGDIVIDE2 put C 2», stat LONGDIVIDE2 put C 2);
+      p(stat counter, «LONGMULT get B 1 », stat LONGMULT get B 1);
+      p(stat counter, «LONGMULT get B 2 », stat LONGMULT get B 2);
+      p(stat counter, «LONGMULT get RES 1», stat LONGMULT get RES 1);
+      p(stat counter, «LONGMULT get RES 2», stat LONGMULT get RES 2);
+      p(stat counter, «LONGMULT put RES », stat LONGMULT put RES);
+   <u>end</u> STATISTICS PROCESS;
+   <u>procedure</u> STATISTICS INIT;
+   <u>begin</u>
+      <u>procedure</u> init( c, t, s );
+      <u>value</u> c;
+      <u>integer</u> c, s;
+      <u>string</u> t;
+      <u>begin</u>
+         s ≔  0
+      <u>end</u> init;
+      STATISTICS PROCESS( init )
+   <u>end</u> STATISTICS INIT;
+   <u>integer</u> <u>procedure</u> STATISTICS PRINT;
+   <u>begin</u>
+      <u>procedure</u> print( c, t, s );
+      <u>value</u> c;
+      <u>integer</u> c, s;
+      <u>string</u> t;
+      <u>begin</u>
+         LINE;
+         writetext( t );
+         writetext( «: » );
+         writeinteger( «−dddddd», s )
+      <u>end</u> init;
+      STATISTICS PROCESS( print )
+   <u>end</u> STATISTICS INIT;
+   <u>integer</u> <u>procedure</u> ASSIGN(x, A, asize, na);
+   <u>value</u> x, na;
+   <u>integer</u> asize, na;
+   <u>real</u> x;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> c1, c2, t1, t2, cell1, cell2;
+      x ≔  abs(x);
+      c1 ≔  c39;
+      <u>for</u> count ≔  0 <u>step</u> 1 <u>until</u> c1 <u>do</u> A[count] ≔  0;
+      <u>if</u> x = 0 <u>then</u>
+      <u>begin</u>
+         asize ≔  c1 ≔  c2 ≔  cell1 ≔  cell2 ≔  0;
+         <u>go</u>_<u>to</u> L1
+      <u>end</u> if x = 0;
+      <u>comment</u> Normalize x so that 1@10 &gt; x &GreaterSlantEqual; 1;
+      asize ≔  0;
+      <u>if</u> x &GreaterSlantEqual; MODUL <u>then</u>
+      <u>begin</u>
+  <u>for</u> x ≔  x <u>while</u> x &GreaterSlantEqual; MODUL <u>do</u>
+  <u>begin</u>
+     asize ≔  asize+1;
+     x ≔  x/MODUL
+  <u>end</u>
+      <u>end</u>
+      <u>else</u> <u>if</u> x &lt; 1 <u>then</u>
+      <u>for</u> x ≔  x <u>while</u> x &lt; 1 <u>do</u>
+      <u>begin</u>
+         asize ≔  asize−1;
+  x ≔  x×MODUL
+      <u>end</u>;
+      <u>if</u> asize &gt; limit <u>then</u> ALARM(«ASSIGN»);
+      cell1 ≔  entier(x);
+      cell2 ≔  (x − cell1)×MODUL;
+      c1 ≔  asize − decimals;
+      c2 ≔  c1 − 1;
+      <u>if</u> c2 &lt; 0 <u>then</u>
+      <u>begin</u>
+         c2 ≔  c1;
+         cell2 ≔  cell1
+      <u>end</u> if c2 &lt; 0;
+      <u>if</u> c1 &lt; 0 <u>then</u> c1 ≔  c2 ≔  cell1 ≔  cell2 ≔  0;
+L1: <u>if</u> large <u>then</u>
+      <u>begin</u>
+         t1 ≔  1 + c1÷40;
+         t2 ≔  1 + c2÷40;
+         c1 ≔  c1 <u>mod</u> 40;
+         c2 ≔  c2 <u>mod</u> 40;
+         <u>for</u> count ≔  1 <u>step</u> 1 <u>until</u> step <u>do</u>
+         <u>begin</u>
+            <u>if</u> count = t1 <u>then</u>
+            <u>begin</u>
+               A[c1] ≔  cell1;
+               <u>if</u> t1 ≠ t2 <u>then</u>
+               <u>begin</u>
+                  put(A, FREE, na×step + t1);
+                  A[c1] ≔  0;
+                  A[c2] ≔  cell2;
+                  put(A, FREE, na×step + t2)
+               <u>end</u> different track
+               <u>else</u>
+               <u>begin</u>
+                  A[c2] ≔  cell2;
+                  put(A, FREE, na×step + t1)
+               <u>end</u> same track;
+               A[c1] ≔  A[c2] ≔  0
+            <u>end</u> this track
+            <u>else</u>
+            put(A, FREE, na×step + count)
+         <u>end</u> for count
+      <u>end</u> if large
+      <u>else</u>
+      <u>begin</u>
+         A[c1] ≔  cell1;
+         A[c2] ≔  cell2
+      <u>end</u> core
+   <u>end</u> ASSIGN;
+   <u>integer</u> <u>procedure</u> MULT(A, asize, na, n);
+   <u>value</u> na, n;
+   <u>integer</u> asize, na, n;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> c, ta, c1, asize0;
+      asize0 ≔  asize;
+      carry ≔  c ≔  0;
+      ta ≔  na×step + 1;
+      <u>if</u> large <u>then</u> get(A, FREE, ta);
+      c1 ≔  limit − decimals;
+      <u>for</u> count ≔  0 <u>step</u> 1 <u>until</u> c1 <u>do</u>
+      <u>begin</u>
+         cell ≔  <u>if</u> count &gt; asize0 − decimals <u>then</u> 0 <u>else</u> A[c];
+         <u>code</u> cell, MODUL, carry, n;
+         2, 44;
+         2, 44;
+         2, 44;
+         3, 44;
+         arn a3, pm a1 ; R ≔  carry, M ≔  cell
+         ml p+a4,dl a2 ; RM ≔  (carry+cell×n)/MODUL
+         gr a3, gm a1 ; carry ≔  quotient, cell ≔  rem.
+         <u>e</u> ;
+         A[c] ≔  cell;
+         c ≔  c + 1;
+         <u>if</u> large <u>then</u>
+         <u>begin</u>
+            <u>if</u> c = 40 <u>then</u>
+            <u>begin</u>
+               c ≔  0;
+               put(A, FREE, ta);
+               ta ≔  ta + 1;
+               get(A, FREE, ta)
+            <u>end</u> if c = 40
+         <u>end</u> if large;
+         <u>if</u> count = asize − decimals <u>then</u>
+         <u>begin</u>
+            <u>if</u> carry = 0 <u>then</u> <u>go</u>_<u>to</u> EX
+            <u>else</u>
+            <u>if</u> count &lt; c1 <u>then</u> asize ≔  asize + 1
+            <u>else</u> ALARM(«MULT»)
+         <u>end</u> if asize
+      <u>end</u> for count;
+EX: <u>if</u> large <u>then</u> put(A, FREE, ta)
+   <u>end</u> MULT;
+   <u>integer</u> <u>procedure</u> DIVIDE(A, asize, na, n, empty);
+   <u>value</u> na, n;
+   <u>integer</u> asize, na, n;
+   <u>boolean</u> empty;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> c, ta;
+      first ≔  <u>true</u>;
+      carry ≔  0;
+      c ≔  asize − decimals;
+      ta ≔  1 + c÷40 + na×step;
+      c ≔  c <u>mod</u> 40;
+      <u>if</u> large <u>then</u> get(A, FREE, ta);
+      <u>for</u> count ≔  asize <u>step</u> −1 <u>until</u> decimals <u>do</u>
+      <u>begin</u>
+         cell ≔  A[c];
+         <u>code</u> cell, MODUL, carry, n;
+         2, 44;
+         2, 44;
+         2, 44;
+         3, 44;
+         arn a1, pm a3 ; R ≔  cell, M ≔  carry
+         ml a2, dl p+a4; RM ≔  (cell+carry×MODUL)/n
+         gr a1, gm a3 ; cell ≔  quotient, carry ≔  rem.
+         <u>e</u> ;
+         A[c] ≔  cell;
+         c ≔  c − 1;
+         <u>if</u> large <u>then</u>
+         <u>begin</u>
+            <u>if</u> c &lt; 0 <u>then</u>
+            <u>begin</u>
+               c ≔  39;
+               put(A, FREE, ta);
+               ta ≔  ta − 1;
+               get(A, FREE, ta)
+            <u>end</u> if c &lt; 0
+         <u>end</u> if large;
+         <u>if</u> first <u>then</u>
+         <u>begin</u>
+            <u>if</u> cell &gt; 0 <u>then</u> first ≔  <u>false</u>
+            <u>else</u>
+            <u>if</u> asize &gt; decimals <u>then</u> asize ≔  asize − 1
+         <u>end</u> if first
+      <u>end</u> for count;
+      <u>if</u> large <u>then</u> put(A, FREE, ta);
+      empty ≔  first ∧ cell = 0
+   <u>end</u> DIVIDE;
+   <u>integer</u> <u>procedure</u> PRINT(A, asize, na);
+   <u>value</u> asize, na;
+   <u>integer</u> asize, na;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>boolean</u> first;
+      <u>integer</u> DIVISOR, digit, i, space, group, ta, c;
+      <u>integer</u> asize0;
+      <u>procedure</u> GROUP(n);
+      <u>value</u> n;
+      <u>integer</u> n;
+      <u>begin</u>
+         DIVISOR ≔  MODUL÷10;
+         space ≔  <u>if</u> first <u>then</u> 0 <u>else</u> 16;
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> 10 <u>do</u>
+         <u>begin</u>
+            digit ≔  n÷DIVISOR;
+            n ≔  n <u>mod</u> DIVISOR;
+            <u>if</u> digit ≠ 0 <u>then</u>
+            <u>begin</u>
+               writechar(digit);
+               first ≔  <u>false</u>;
+               space ≔  16
+            <u>end</u>
+            <u>else</u> writechar(space);
+            <u>if</u> i = 5 <u>then</u> writechar(0);
+            DIVISOR ≔  DIVISOR÷10
+         <u>end</u> for i
+      <u>end</u> GROUP;
+      <u>if</u> kbon ∨ <u>true</u> <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «asize: » );
+         writeinteger( «−d», asize )
+      <u>end</u>;
+      first ≔  <u>true</u>;
+      group ≔  0;
+      LINE;
+      <u>comment</u> i̲f̲ asize &lt; 0 t̲h̲e̲n̲ asize := 0;
+      asize0 ≔  <u>if</u> asize &lt; 0 <u>then</u> 0 <u>else</u> asize;
+      c ≔  asize0 − decimals;
+      ta ≔  1 + c÷40;
+      c ≔  c <u>mod</u> 40;
+      <u>if</u> large <u>then</u> get(A, FREE, na×step + ta);
+      <u>for</u> count ≔  asize0 <u>step</u> −1 <u>until</u> decimals <u>do</u>
+      <u>begin</u>
+         GROUP(<u>if</u> count &LessSlantEqual; asize <u>then</u> A[c] <u>else</u> 0);
+         <u>if</u> count = 0 ∧ decimals &lt; 0 <u>then</u>
+         <u>begin</u>
+            writechar(59);
+            first ≔  <u>false</u>
+         <u>end</u>
+         <u>else</u> writechar(0);
+         group ≔  group + 1;
+         <u>if</u> (group <u>mod</u> 6 = 0) ∧ count ≠ decimals <u>then</u> LINE;
+         c ≔  c − 1;
+         <u>if</u> large <u>then</u>
+         <u>begin</u>
+            <u>if</u> c &lt; 0 <u>then</u>
+            <u>begin</u>
+               c ≔  39;
+               ta ≔  ta − 1;
+               get(A, FREE, na×step + ta)
+            <u>end</u> if c &lt; 0
+         <u>end</u> if large
+      <u>end</u> for count
+   <u>end</u> PRINT;
+   <u>integer</u> <u>procedure</u> COPY(A, asize, na, B, bsize, nb);
+   <u>value</u> na, nb;
+   <u>integer</u> asize, na, bsize, nb;
+   <u>integer</u> <u>array</u> A, B;
+   <u>begin</u>
+      <u>integer</u> c, c1, t1, t2;
+      c1 ≔  c39;
+      <u>if</u> large <u>then</u>
+      <u>begin</u>
+         t1 ≔  na×step;
+         t2 ≔  nb×step;
+         <u>for</u> count ≔  1 <u>step</u> 1 <u>until</u> step <u>do</u>
+         <u>begin</u>
+            t1 ≔  t1 + 1;
+            t2 ≔  t2 + 1;
+            get(A, FREE, t1);
+            put(A, FREE, t2)
+         <u>end</u> for count
+      <u>end</u> if large
+      <u>else</u>
+      <u>for</u> c ≔  0 <u>step</u> 1 <u>until</u> c1 <u>do</u> B[c] ≔  A[c];
+      bsize ≔  asize
+   <u>end</u> COPY;
+   <u>integer</u> <u>procedure</u> ADD(B, bsize, nb, factor, A, asize, na);
+   <u>value</u> bsize, nb, factor, na;
+   <u>integer</u> bsize, nb, factor, asize, na;
+   <u>integer</u> <u>array</u> A, B;
+   <u>begin</u>
+      <u>integer</u> ta, tb, c;
+      <u>if</u> large <u>then</u>
+      <u>begin</u>
+         ta ≔  tb ≔  1;
+         get(A, FREE, na×step + ta);
+         get(B, FREE, nb×step + tb)
+      <u>end</u> if large;
+      c ≔  − 1;
+      carry ≔  0;
+      <u>for</u> count ≔  decimals <u>step</u> 1 <u>until</u> limit <u>do</u>
+      <u>begin</u>
+         c ≔  c + 1;
+         <u>if</u> c = 40 <u>then</u>
+         <u>begin</u>
+            c ≔  0;
+            put(A, FREE, na×step + ta);
+            ta ≔  tb ≔  ta + 1;
+            get(A, FREE, na×step + ta);
+            get(B, FREE, nb×step + tb)
+         <u>end</u> if c = 40;
+         <u>comment</u> cell := A[c] + factor×B[c] + carry;
+         cell ≔  (<u>if</u> count &LessSlantEqual; asize <u>then</u> A[c] <u>else</u> 0) + (<u>if</u> count &LessSlantEqual; bsize <u>then</u> factor×
+         carry ≔  1;
+         <u>for</u> carry ≔  carry −1 <u>while</u> cell &lt; 0 <u>do</u>
+         cell ≔  cell + MODUL;
+         cell2 ≔  cell÷MODUL;
+         A[c] ≔  cell − cell2×MODUL;
+         carry ≔  carry + cell2;
+         <u>if</u> count &GreaterSlantEqual; bsize ∧ carry = 0 <u>then</u> <u>go</u>_<u>to</u> L1
+      <u>end</u> for count;
+L1: <u>if</u> carry ≠ 0 <u>then</u> ALARM(«ADD»);
+      <u>if</u> large <u>then</u> put(A, FREE, na×step + ta);
+      asize ≔  limit + 1;
+      c ≔  limit − decimals;
+      ta ≔  1 + c÷40;
+      c ≔  c <u>mod</u> 40;
+      <u>if</u> large <u>then</u> get(A, FREE, na×step + ta);
+      <u>for</u> asize ≔  asize −1 <u>while</u> asize &gt; decimals <u>do</u>
+      <u>begin</u>
+         <u>if</u> A[c] ≠ 0 <u>then</u> <u>go</u>_<u>to</u> L2;
+         c ≔  c − 1;
+         <u>if</u> c &lt; 0 <u>then</u>
+         <u>begin</u>
+            c ≔  39;
+            ta ≔  ta − 1;
+            get(A, FREE, na×step + ta)
+         <u>end</u> if c &lt; 0
+      <u>end</u> for asize;
+L2:<u>end</u> ADD;
+   <u>real</u> <u>procedure</u> TO REAL( A, asize, na );
+   <u>value</u> asize, na;
+   <u>integer</u> asize, na;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> xa, ca, sa;
+      <u>real</u> r, r0;
+      r ≔  0.0;
+      sa ≔  −1;
+      <u>for</u> xa ≔  asize <u>step</u> −1 <u>until</u> decimals <u>do</u>
+      <u>begin</u>
+         <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u> <u>begin</u> sa
+         r0 ≔  r + A[ca] × MODUL ⭡ xa;
+         <u>if</u> r ≠ 0.0 ∧ r = r0 <u>then</u> <u>goto</u> TO REAL LOOP END;
+         r ≔  r0
+      <u>end</u>;
+      TO REAL LOOP END:
+      TO REAL ≔  r
+   <u>end</u> TO REAL;
+   <u>integer</u> <u>procedure</u> COMPARE(A, asize, na, B, bsize, nb, size, acell, bcell );
+   <u>comment</u> Compare A and B. Return:
+         size: The index of the most significant differing cell
+         acell and bcell: The actual differing cells
+      If identical, size = decimals−1 and cells are zero;
+   <u>value</u> asize, na, bsize, nb;
+   <u>integer</u> asize, na, bsize, nb, size, acell, bcell;
+   <u>integer</u> <u>array</u> A, B;
+   <u>begin</u>
+      <u>integer</u> xa, ca, sa, xb, cb, sb;
+      sa ≔  sb ≔  −1;
+      <u>for</u> size ≔  <u>if</u> asize &gt; bsize <u>then</u> asize <u>else</u> bsize <u>step</u> −1 <u>until</u> decimals <u>do</u>
+      <u>begin</u>
+         xa ≔  size;
+         <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u> <u>begin</u> sa
+         acell ≔  <u>if</u> xa &gt; asize <u>then</u> 0 <u>else</u> A[ca];
+         xb ≔  size;
+         <u>begin</u> cb ≔  xb − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cb ÷ 40 ≠ sb <u>then</u> <u>begin</u> sb
+         bcell ≔  <u>if</u> xb &gt; bsize <u>then</u> 0 <u>else</u> B[cb];
+         <u>if</u> acell ≠ bcell <u>then</u>
+         <u>begin</u>
+            <u>goto</u> COMPARE LOOP END
+         <u>end</u>
+      <u>end</u>;
+      size ≔  decimals − 1;
+      acell ≔  bcell ≔  0;
+      COMPARE LOOP END:
+      <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «COMPARE: size = » );
+         writeinteger( «−d», size );
+         writetext( «, acell = » );
+         writeinteger( «−d», acell );
+         writetext( «, bcell = » );
+         writeinteger( «−d», bcell );
+         writetext( «, A = » );
+         PRINT( A, asize, na );
+         LINE;
+         writetext( « B = » );
+         PRINT( B, bsize, nb )
+      <u>end</u>
+   <u>end</u> COMPARE;
+   <u>integer</u> <u>procedure</u> LONGMULT2(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> asize, na, bsize, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> xa, ca, sa, acell, xb, cb, sb, bcell, xc, cc, sc, ccell, xcmin;
+      csize ≔  decimals − 1; <u>comment</u> C := 0;
+      sa ≔  −1; <u>comment</u> No data in A buffer;
+      sb ≔  −1;
+      sc ≔  −1;
+      <u>for</u> xb ≔  decimals <u>step</u> 1 <u>until</u> bsize <u>do</u>
+      <u>begin</u>
+         <u>begin</u> cb ≔  xb − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cb ÷ 40 ≠ sb <u>then</u> <u>begin</u> sb
+         bcell ≔  B[cb];
+         <u>comment</u> Ready to multiply A by bcell;
+         carry ≔  0;
+         <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «B[» );
+            writeinteger( «−d», xb );
+            writetext( «] = » );
+            writeinteger( «−d», bcell );
+         <u>end</u>;
+         <u>for</u> xa ≔  <u>if</u> xb &lt; 0 <u>then</u> decimals − xb − 1 <u>else</u> decimals <u>step</u> 1 <u>until</u> asize
+         <u>begin</u>
+            <u>if</u> xa &gt; asize ∨ xa &lt; decimals <u>then</u>
+            <u>begin</u>
+               acell ≔  0
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u> <u>be</u>
+               acell ≔  A[ca]
+            <u>end</u>;
+            xc ≔  xa + xb;
+            <u>if</u> xc &gt; csize ∨ xc &lt; decimals <u>then</u>
+            <u>begin</u>
+               xcmin ≔  csize + 1;
+               ccell ≔  0;
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               xcmin ≔  xc;
+               <u>begin</u> cc ≔  xc − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cc ÷ 40 ≠ sc <u>then</u> <u>be</u>
+               ccell ≔  C[cc]
+            <u>end</u>;
+            <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+            <u>begin</u>
+               LINE;
+               writetext( « A[» );
+               writeinteger( «−d», xa );
+               writetext( «] = » );
+               writeinteger( «−d», acell );
+               writetext( «, C[» );
+               writeinteger( «−d», xc );
+               writetext( «] = » );
+               writeinteger( «−d», ccell );
+            <u>end</u>;
+            <u>code</u> acell, bcell, carry, ccell, MODUL;
+            3, 44;
+            3, 44;
+            2, 44;
+            3, 44;
+            2, 44;
+            arn a3 , ar p+a4 ; R ≔  carry + ccell;
+            pm p+a1, ml p+a2 ; RM ≔  acell×bcell + carry + ccell;
+            dl a5 , gr a3 ; RM ≔  RM/MODUL; carry ≔  quotient;
+            gm p+a4 ; ccell ≔  remainder
+            <u>e</u> ;
+            <u>if</u> (ccell ≠ 0 ∨ csize &GreaterSlantEqual; xc) ∧ xc &GreaterSlantEqual; decimals <u>then</u>
+            <u>begin</u>
+               <u>if</u> xc &gt; csize <u>then</u>
+               <u>begin</u>
+                  csize ≔  xc
+               <u>end</u>;
+               <u>for</u> xc ≔  xcmin <u>step</u> 1 <u>until</u> xa + xb <u>do</u>
+               <u>begin</u>
+                  <u>begin</u> cc ≔  xc − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cc ÷ 40 ≠ sc <u>then</u>
+                  C[cc] ≔  <u>if</u> xc &lt; xa + xb <u>then</u> 0 <u>else</u> ccell;
+                  <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+                  <u>begin</u>
+                     LINE;
+                     writetext( « C[» );
+                     writeinteger( «−d», xc );
+                     writetext( «/» );
+                     writeinteger( «−d», cc );
+                     writetext( «] = » );
+                     writeinteger( «−d», C[cc] );
+                  <u>end</u>
+               <u>end</u>
+            <u>end</u>
+         <u>end</u>;
+         <u>if</u> carry ≠ 0 <u>then</u>
+         <u>begin</u>
+            ALARM(«LONGMULT2»)
+         <u>end</u>
+      <u>end</u>;
+      <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> sc &GreaterSlantEqual; 0 <u>then</u> <u>begin</u> put( C, FREE, nc×step + 1 + sc ); stat
+   <u>end</u> LONGMULT2;
+   <u>integer</u> <u>procedure</u> LONGDIVIDE(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>comment</u> ( C, A ) := ( A ÷ B, A m̲o̲d̲ B );
+   <u>value</u> na, bsize, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      LONGDIVIDE2(A, asize, na, B, bsize, nb, C, csize, nc, decimals);
+   <u>end</u> LONGDIVIDE;
+   <u>integer</u> <u>procedure</u> LONGDIVIDE2(A, asize, na, B, bsize, nb, C, csize, nc, decs);
+   <u>comment</u> ( C, A ) := ( A ÷ B, A m̲o̲d̲ B );
+   <u>value</u> na, bsize, nb, nc, decs;
+   <u>integer</u> asize, na, bsize, nb, csize, nc, decs;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> xa, ca, sa, xb, cb, sb, xc, cc, sc, bn, bn2, acell, bcell;
+      <u>integer</u> an1, an, q, q0, digit, carry2, xamin, asize2, normfactor;
+      <u>if</u> bsize &lt; decs <u>then</u>
+      <u>begin</u>
+         ALARM(«LONGDIVIDE2 1»)
+      <u>end</u>;
+      normfactor ≔  1;
+      NORMALIZE LOOP START:
+         xb ≔  bsize;
+         sb ≔  −1;
+         <u>begin</u> cb ≔  xb − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cb ÷ 40 ≠ sb <u>then</u> <u>begin</u> sb
+         bn ≔  B[cb];
+         <u>if</u> bn = 0 <u>then</u>
+         <u>begin</u>
+            ALARM(«LONGDIVIDE2 2»)
+         <u>end</u>;
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «LONG DIVIDE: A:» );
+            PRINT( A, asize, na );
+            LINE;
+            writetext( « B:» );
+            PRINT( B, bsize, nb );
+            LINE;
+            writetext( « bn = » );
+            writeinteger( «−d», bn )
+         <u>end</u>;
+         <u>if</u> bn &GreaterSlantEqual; MODUL ÷ 2 <u>then</u> <u>goto</u> NORMALIZE LOOP END;
+         normfactor ≔  MODUL ÷ (bn + 1);
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «LONG DIVIDE: normfactor = » );
+            writeinteger( «−d», normfactor )
+         <u>end</u>;
+         MULT( A, asize, na, normfactor );
+         MULT( B, bsize, nb, normfactor );
+         <u>goto</u> NORMALIZE LOOP START;
+      NORMALIZE LOOP END:
+      bn2 ≔  bn + 2;
+      sa ≔  sc ≔  −1;
+      csize ≔  decs − 1;
+      <u>for</u> xc ≔  asize − bsize <u>step</u> −1 <u>until</u> decs <u>do</u>
+      <u>begin</u>
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «LONG DIVIDE: xc = » );
+            writeinteger( «−d», xc )
+         <u>end</u>;
+         q ≔  0;
+         <u>comment</u> Outline of the loop between QLOOPSTART and QLOOPEND:
+            while A[xa..] &GreaterSlantEqual; B[xb..] do
+              q0 := guess at A[xa..]/B[xb..] which is not too large
+              A[xa..] := A[xa..] − q0×B[xb..]
+              q := q + q0;
+         QLOOPSTART:
+            xa ≔  xc + bsize + 1;
+            <u>if</u> xa &gt; asize <u>then</u>
+            <u>begin</u>
+               an1 ≔  0
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u> <u>be</u>
+               an1 ≔  A[ca]
+            <u>end</u>;
+            <u>if</u> an1 &gt; 0 <u>then</u> <u>goto</u> QMORE;
+            <u>if</u> xc + bsize &lt; decs <u>then</u> <u>goto</u> QLOOPEND;
+            <u>for</u> xa ≔  xc + bsize <u>step</u> −1 <u>until</u> decs <u>do</u>
+            <u>begin</u>
+               <u>if</u> xa &gt; asize <u>then</u>
+               <u>begin</u>
+                  acell ≔  0
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u>
+                  acell ≔  A[ca]
+               <u>end</u>;
+               xb ≔  xa − xc;
+               <u>if</u> xb &lt; decs <u>then</u>
+               <u>begin</u>
+                  bcell ≔  0
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>begin</u> cb ≔  xb − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cb ÷ 40 ≠ sb <u>then</u>
+                  bcell ≔  B[cb]
+               <u>end</u>;
+               <u>if</u> acell &gt; bcell <u>then</u> <u>goto</u> QMORE;
+               <u>if</u> acell &lt; bcell <u>then</u> <u>goto</u> QLOOPEND;
+            <u>end</u>;
+            QMORE:
+            xa ≔  xc + bsize;
+            <u>if</u> xa &gt; asize ∨ xa &lt; decs <u>then</u>
+            <u>begin</u>
+               an ≔  0
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u> <u>be</u>
+               an ≔  A[ca]
+            <u>end</u>;
+            <u>code</u> an1, an, bn2, q0, MODUL;
+            3, 44;
+            3, 44;
+            3, 44;
+            3, 44;
+            2, 44;
+            ; arn p+a2, ar p+a3 ; R ≔  an + bn − 1;
+            ; sr c42 , pm p+a1 ;
+            arn p+a2, pm p+a1 ; R ≔  an; M ≔  an1;
+            ml a5 , dl p+a3 ; q0 ≔  (an1×MODUL + an) ÷ bn2;
+            gr p+a4 ;
+            <u>e</u> ;
+            <u>comment</u> q0 := q0 − 2;
+            <u>if</u> kbon <u>then</u>
+            <u>begin</u>
+               LINE;
+               writetext( « QMORE: (» );
+               writeinteger( «−d», an1 );
+               writetext( «,» );
+               writeinteger( «−d», an );
+               writetext( «, ... ) ÷ » );
+               writeinteger( «−d», bn );
+               writetext( « ... estimate: » );
+               writeinteger( «−d», q0 );
+            <u>end</u>;
+            <u>if</u> q0 = 0 <u>then</u>
+            <u>begin</u>
+               q0 ≔  1;
+               <u>if</u> kbon <u>then</u>
+               <u>begin</u>
+                  writetext( «, increased to » );
+                  writeinteger( «−d», q0 );
+               <u>end</u>
+            <u>end</u>;
+            <u>if</u> q0 &lt; 0 <u>then</u>
+            <u>begin</u>
+               ALARM( «LONG DIVIDE 3» )
+            <u>end</u>;
+            <u>if</u> q0 &GreaterSlantEqual; MODUL <u>then</u>
+            <u>begin</u>
+               q0 ≔  MODUL − 1;
+               <u>if</u> kbon <u>then</u>
+               <u>begin</u>
+                  writetext( «, reduced to » );
+                  writeinteger( «−d», q0 );
+               <u>end</u>
+            <u>end</u>;
+            carry ≔  digit ≔  carry2 ≔  0;
+            asize2 ≔  decs − 1;
+            <u>for</u> xb ≔  <u>if</u> xc &lt; 0 <u>then</u> decs − xc − 1 <u>else</u> decs <u>step</u> 1 <u>until</u> bsize + 1 <u>d</u>
+            <u>begin</u>
+               <u>if</u> xb &gt; bsize <u>then</u>
+               <u>begin</u>
+                  bcell ≔  0
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  <u>begin</u> cb ≔  xb − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> cb ÷ 40 ≠ sb <u>then</u>
+                  bcell ≔  B[cb]
+               <u>end</u>;
+               <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+               <u>begin</u>
+                  LINE;
+                  writetext( « (» );
+                  writeinteger( «−d», carry );
+                  writetext( «,» );
+                  writeinteger( «−d», bcell );
+                  writetext( «) × » );
+                  writeinteger( «−d», q0 );
+               <u>end</u>;
+               <u>code</u> bcell, q0, carry, digit, MODUL;
+               3, 44;
+               3, 44;
+               2, 44;
+               3, 44;
+               2, 44;
+               arn a3 , pm p+a1 ; R ≔  carry; M ≔  bcell;
+               ml p+a2, dl a5 ; (carry,digit) ≔ 
+               gr a3 , gm p+a4 ; (bcell×q0 + carry) ÷ / <u>mod</u> MODUL;
+               <u>e</u> ;
+               <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+               <u>begin</u>
+                  writetext( « −&gt; (» );
+                  writeinteger( «−d», carry );
+                  writetext( «,» );
+                  writeinteger( «−d», digit );
+                  writetext( «)» );
+               <u>end</u>;
+               xa ≔  xc + xb;
+               <u>if</u> xa &gt; asize ∨ xa &lt; decs <u>then</u>
+               <u>begin</u>
+                  xamin ≔  asize + 1;
+                  acell ≔  0
+               <u>end</u>
+               <u>else</u>
+               <u>begin</u>
+                  xamin ≔  xa;
+                  <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>then</u>
+                  acell ≔  A[ca]
+               <u>end</u>;
+               acell ≔  acell − digit + carry2 + MODUL;
+               carry2 ≔  acell ÷ MODUL − 1;
+               acell ≔  acell <u>mod</u> MODUL;
+               <u>if</u> acell ≠ 0 <u>then</u>
+               <u>begin</u>
+                  asize2 ≔  xa
+               <u>end</u>;
+               <u>if</u> (acell ≠ 0 ∨ asize &GreaterSlantEqual; xa) ∧ xa &GreaterSlantEqual; decs <u>then</u>
+               <u>begin</u>
+                  <u>if</u> xa &gt; asize <u>then</u>
+                  <u>begin</u>
+                     ALARM( «LONG DIVIDE 4» )
+                  <u>end</u>;
+                  <u>for</u> xa ≔  xamin <u>step</u> 1 <u>until</u> xc + xb <u>do</u>
+                  <u>begin</u>
+                     <u>begin</u> ca ≔  xa − decimals; <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> ca ÷ 40 ≠ sa <u>t</u>
+                     A[ca] ≔  <u>if</u> xa &lt; xc + xb <u>then</u> 0 <u>else</u> acell;
+                     <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+                     <u>begin</u>
+                        LINE;
+                        writetext( « A[» );
+                        writeinteger( «−d», xa );
+                        writetext( «] ≔  » );
+                        writeinteger( «−d», A[ca] );
+                     <u>end</u>
+                  <u>end</u>
+               <u>end</u>
+            <u>end</u>;
+            <u>if</u> carry ≠ 0 <u>then</u>
+            <u>begin</u>
+               ALARM( «LONG DIVIDE 5» )
+            <u>end</u>;
+            <u>if</u> carry2 ≠ 0 <u>then</u>
+            <u>begin</u>
+               ALARM( «LONG DIVIDE 6» )
+            <u>end</u>;
+            q ≔  q + q0;
+            <u>if</u> kbon <u>then</u>
+            <u>begin</u>
+               LINE;
+               writetext( « q += » );
+               writeinteger( «−d», q0 );
+               writetext( « −&gt; » );
+               writeinteger( «−d», q );
+               LINE;
+               writetext( « asize » );
+               writeinteger( «−d», asize );
+               writetext( « −&gt; » );
+               writeinteger( «−d», asize2 );
+            <u>end</u>;
+            asize ≔  asize2;
+            <u>goto</u> QLOOPSTART;
+         QLOOPEND:
+         <u>if</u> q ≠ 0 ∧ csize &lt; xc <u>then</u>
+         <u>begin</u>
+            csize ≔  xc
+         <u>end</u>;
+         <u>if</u> csize &GreaterSlantEqual; xc <u>then</u>
+         <u>begin</u>
+            cc ≔  xc − decimals;
+            <u>if</u> large <u>then</u>
+            <u>begin</u>
+               <u>if</u> cc ÷ 40 ≠ sc <u>then</u>
+               <u>begin</u>
+                  <u>if</u> sc &GreaterSlantEqual; 0 <u>then</u> <u>begin</u> put( C, FREE, nc×step + 1 + sc ); stat LONGDIV
+                  sc ≔  cc ÷ 40
+               <u>end</u>;
+               cc ≔  cc <u>mod</u> 40
+            <u>end</u>;
+            C[cc] ≔  q;
+            <u>if</u> kbon <u>then</u>
+            <u>begin</u>
+               LINE;
+               writetext( « C[» );
+               writeinteger( «−d», xc );
+               writetext( «] ≔  » );
+               writeinteger( «−d», q );
+            <u>end</u>;
+         <u>end</u>
+      <u>end</u>;
+      <u>if</u> large <u>then</u> <u>begin</u> <u>if</u> sc &GreaterSlantEqual; 0 <u>then</u> <u>begin</u> put( C, FREE, nc×step + 1 + sc ); stat
+      <u>if</u> normfactor ≠ 1 <u>then</u>
+      <u>begin</u>
+         DIVIDE( A, asize, na, normfactor, empty );
+         DIVIDE( B, bsize, nb, normfactor, empty )
+      <u>end</u>
+   <u>end</u> LONGDIVIDE2;
+   <u>integer</u> <u>procedure</u> LONGMULT(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> asize, na, bsize, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> c, factor, rsize, nr, s, shift, cb, tb, c1, t1, c2, t2, s1,
+      s2, s3;
+      <u>integer</u> <u>array</u> RES[0:c39];
+      nr ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      <u>if</u> kbon <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «LONGMULT: A:» );
+         PRINT( A, asize, na );
+         LINE;
+         writetext( « B:» );
+         PRINT( B, bsize, nb );
+      <u>end</u> kbon;
+      ASSIGN(0, C, csize, nc);
+      tb ≔  1 + nb×step;
+      cb ≔  0;
+      <u>if</u> large <u>then</u>
+      <u>begin</u>
+         get(B, FREE, tb);
+         stat LONGMULT get B 1 ≔  stat LONGMULT get B 1 + 1
+      <u>end</u>;
+      <u>for</u> c ≔  0 <u>step</u> 1 <u>until</u> bsize − decimals <u>do</u>
+      <u>begin</u>
+         shift ≔  c + decimals;
+         <u>if</u> large <u>then</u>
+         <u>begin</u>
+            factor ≔  B[cb];
+            cb ≔  cb + 1;
+            <u>if</u> cb = 40 <u>then</u>
+            <u>begin</u>
+               cb ≔  0;
+               tb ≔  tb + 1;
+               get(B, FREE, tb);
+               stat LONGMULT get B 2 ≔  stat LONGMULT get B 2 + 1
+            <u>end</u> new B track
+         <u>end</u> large
+         <u>else</u>
+         factor ≔  B[c];
+         COPY(A, asize, na, RES, rsize, nr);
+         MULT(RES, rsize, nr, factor);
+         <u>if</u> shift ≠ 0 <u>then</u>
+         <u>begin</u>
+            s1 ≔  <u>if</u> shift &lt; 0 <u>then</u> −c <u>else</u> limit − decimals;
+            s2 ≔  − sign(shift);
+            <u>comment</u> MK: Next line changed from limit − decimals − c;
+            s3 ≔  <u>if</u> shift &lt; 0 <u>then</u> limit − decimals <u>else</u> − c;
+            <u>for</u> s ≔  s1 <u>step</u> s2 <u>until</u> s3 <u>do</u>
+            <u>begin</u>
+               <u>if</u> s &lt; 0 ∨ s &gt; limit − decimals <u>then</u>
+               cell ≔  0
+               <u>else</u>
+               <u>if</u> large <u>then</u>
+               <u>begin</u>
+                  t1 ≔  nr×step + 1 + s÷40;
+                  c1 ≔  s <u>mod</u> 40;
+                  get(RES, FREE, t1);
+                  stat LONGMULT get RES 1 ≔  stat LONGMULT get RES 1 + 1;
+                  cell ≔  RES[c1]
+               <u>end</u> large
+               <u>else</u>
+               cell ≔  RES[s];
+               c2 ≔  s + shift;
+               <u>if</u> c2 &gt; limit − decimals <u>then</u>
+               <u>begin</u>
+                 <u>if</u> cell ≠ 0 <u>then</u> ALARM(«LONGMULT»)
+               <u>end</u> if too big
+               <u>else</u>
+               <u>if</u> c2 &GreaterSlantEqual; 0 <u>then</u>
+               <u>begin</u>
+                  <u>if</u> large <u>then</u>
+                  <u>begin</u>
+                     t2 ≔  nr×step + 1 + c2÷40;
+                     c2 ≔  c2 <u>mod</u> 40;
+                     get(RES, FREE, t2);
+                     stat LONGMULT get RES 2 ≔  stat LONGMULT get RES 2 + 1;
+                     RES[c2] ≔  cell;
+                     put(RES, FREE, t2);
+                     stat LONGMULT put RES ≔  stat LONGMULT put RES + 1
+                  <u>end</u> if large
+                  <u>else</u>
+                  RES[c2] ≔  cell
+               <u>end</u> if not c2 &gt; limit − decimals
+            <u>end</u> for s
+         <u>end</u> if shift ≠ 0;
+         rsize ≔  rsize + shift;
+         ADD(RES, rsize, nr, 1, C, csize, nc)
+      <u>end</u> for c;
+      ftrack ≔  ftrack − 1
+   <u>end</u> LONGMULT;
+   <u>integer</u> <u>procedure</u> EXP(X, xsize, nx, A, asize, na, XN, xnsize, nxn);
+   <u>value</u> xsize, nx, na, nxn;
+   <u>integer</u> xsize, nx, asize, na, xnsize, nxn;
+   <u>integer</u> <u>array</u> X, A, XN;
+   <u>begin</u>
+      <u>boolean</u> out;
+      <u>integer</u> tsize, nt, m;
+      <u>integer</u> <u>array</u> TERM[0:c39];
+      nt ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      ASSIGN(1, A, asize, na);
+      COPY(X, xsize, nx, TERM, tsize, nt);
+      ADD(X, xsize, nx, 1, A, asize, na);
+      out ≔  <u>false</u>;
+      m ≔  1;
+      <u>for</u> m ≔  m + 1 <u>while</u> ¬ out <u>do</u>
+      <u>begin</u>
+         LONGMULT(X, xsize, nx, TERM, tsize, nt, XN, xnsize, nxn);
+         COPY(XN, xnsize, nxn, TERM, tsize, nt);
+         DIVIDE(TERM, tsize, nt, m, out);
+         ADD(TERM, tsize, nt, 1, A, asize, na)
+      <u>end</u> for m;
+      ftrack ≔  ftrack − 1
+   <u>end</u> EXP;
+   <u>integer</u> <u>procedure</u> PI TO(A, asize, na, T2, t2size, n2, T3, t3size, n3);
+   <u>value</u> na, n2, n3;
+   <u>integer</u> asize, na, t2size, n2, t3size, n3;
+   <u>integer</u> <u>array</u> A, T2, T3;
+   <u>begin</u>
+      <u>boolean</u> out1, out2, out3, out;
+      <u>integer</u> factor, m, ns, n1, ssize, t1size;
+      <u>integer</u> <u>array</u> SUM, T1[0:c39];
+      ns ≔  ftrack;
+      n1 ≔  ns + 1;
+      ftrack ≔  ftrack + 2;
+      ASSIGN(0, A, asize, na);
+      ASSIGN(3, T1, t1size, n1);
+      out1 ≔  <u>false</u>;
+      ASSIGN(24, T2, t2size, n2);
+      DIVIDE(T2, t2size, n2, 171, out2);
+      ASSIGN(24, T3, t3size, n3);
+      DIVIDE(T3, t3size, n3, 1434, out3);
+      factor ≔  m ≔  − 1;
+      <u>for</u> m ≔  m + 2 <u>while</u> ¬ out1 <u>do</u>
+      <u>begin</u>
+         ASSIGN(0, SUM, ssize, ns);
+         ADD(T1, t1size, n1, 1, SUM, ssize, ns);
+         <u>if</u> ¬ out2 <u>then</u>
+         ADD(T2, t2size, n2, 1, SUM, ssize, ns);
+         <u>if</u> ¬ out3 <u>then</u>
+         ADD(T3, t3size, n3, 1, SUM, ssize, ns);
+         DIVIDE(SUM, ssize, ns, m, out);
+         factor ≔  − factor;
+         ADD(SUM, ssize, ns, factor, A, asize, na);
+         DIVIDE(T1, t1size, n1, 64, out1);
+         <u>if</u> ¬ out2 <u>then</u>
+         DIVIDE(T2, t2size, n2, 3249, out2);
+         <u>if</u> ¬ out3 <u>then</u>
+         DIVIDE(T3, t3size, n3, 57121, out3)
+      <u>end</u> for m;
+      ftrack ≔  ftrack − 2
+   <u>end</u> PI TO;
+   <u>integer</u> <u>procedure</u> SQRT(x, A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> x, na, nb, nc;
+   <u>real</u> x;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>boolean</u> empty;
+      <u>integer</u> xsize, zsize, nx, nz, i, imax;
+      <u>integer</u> <u>array</u> X, Z[0:c39];
+      nx ≔  ftrack;
+      nz ≔  nx + 1;
+      ftrack ≔  ftrack + 2;
+      ASSIGN(x, X, xsize, nx);
+      ASSIGN(sqrt(x), A, asize, na);
+      ASSIGN(1/sqrt(x), Z, zsize, nz);
+      imax ≔  <u>if</u> asize &gt; zsize <u>then</u> asize <u>else</u> zsize;
+      imax ≔  imax − decimals + 1;
+      <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> imax <u>do</u>
+      <u>begin</u>
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «SQRT: i = » );
+            writeinteger( «p», i );
+            writetext( «, A =» );
+            PRINT( A, asize, na )
+         <u>end</u>;
+         LONGMULT(A, asize, na, Z, zsize, nz, B, bsize, nb);
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( « B =» );
+            PRINT( B, bsize, nb )
+         <u>end</u>;
+         ASSIGN(2, C, csize, nc);
+         ADD(B, bsize, nb, −1, C, csize, nc);
+         LONGMULT(Z, zsize, nz, C, csize, nc, B, bsize, nb);
+         LONGMULT(B, bsize, nb, X, xsize, nx, C, csize, nc);
+         COPY(B, bsize, nb, Z, zsize, nz);
+         ADD(C, csize, nc, 1, A, asize, na);
+         DIVIDE(A, asize, na, 2, empty);
+  <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+  <u>begin</u>
+            LINE;
+            writetext(«i: »);
+            write integer(«−ddddd», i);
+            writetext(«, A: »);
+            PRINT(A, asize, na)
+  <u>end</u>
+      <u>end</u> for i;
+      <u>if</u> kbon <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «SQRT end A = » );
+         PRINT( A, asize, na )
+      <u>end</u>;
+      ftrack ≔  ftrack − 2
+   <u>end</u> SQRT;
+   <u>integer</u> <u>procedure</u> SQUARE(A, asize, na, B, bsize, nb);
+   <u>comment</u> B := A×A;
+   <u>value</u> na, nb;
+   <u>integer</u> asize, na, bsize, nb;
+   <u>integer</u> <u>array</u> A, B;
+   <u>begin</u>
+      <u>integer</u> xsize, nx;
+      <u>integer</u> <u>array</u> X[0:c39];
+      nx ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      COPY( A, asize, na, X, xsize, nx );
+      LONGMULT2( A, asize, na, X, xsize, nx, B, bsize, nb );
+      ftrack ≔  ftrack − 1
+   <u>end</u> SQUARE;
+   <u>integer</u> <u>procedure</u> SQRT2(x, A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> x, na, nb, nc;
+   <u>real</u> x;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>boolean</u> empty;
+      <u>integer</u> xsize, zsize, nx, nz, i, imax;
+      <u>integer</u> <u>array</u> X, Z[0:c39];
+      nx ≔  ftrack;
+      nz ≔  nx + 1;
+      ftrack ≔  ftrack + 2;
+      ASSIGN(x, X, xsize, nx);
+      ASSIGN(sqrt(x), A, asize, na);
+      ASSIGN(1/sqrt(x), Z, zsize, nz);
+      imax ≔  <u>if</u> asize &gt; zsize <u>then</u> asize <u>else</u> zsize;
+      imax ≔  imax − decimals + 1;
+      <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> imax <u>do</u>
+      <u>begin</u>
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «SQRT2: i = » );
+            writeinteger( «p», i );
+            writetext( «, A =» );
+            PRINT( A, asize, na )
+         <u>end</u>;
+         LONGMULT2(A, asize, na, Z, zsize, nz, B, bsize, nb);
+         <u>if</u> kbon <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( « B =» );
+            PRINT( B, bsize, nb )
+         <u>end</u>;
+         ASSIGN(2, C, csize, nc);
+         ADD(B, bsize, nb, −1, C, csize, nc);
+         LONGMULT2(Z, zsize, nz, C, csize, nc, B, bsize, nb);
+         LONGMULT2(B, bsize, nb, X, xsize, nx, C, csize, nc);
+         COPY(B, bsize, nb, Z, zsize, nz);
+         ADD(C, csize, nc, 1, A, asize, na);
+         DIVIDE(A, asize, na, 2, empty);
+  <u>if</u> kbon ∧ <u>false</u> <u>then</u>
+  <u>begin</u>
+            LINE;
+            writetext(«i: »);
+            write integer(«−ddddd», i);
+            writetext(«, A: »);
+            PRINT(A, asize, na)
+  <u>end</u>
+      <u>end</u> for i;
+      <u>if</u> kbon <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «SQRT2 end A = » );
+         PRINT( A, asize, na )
+      <u>end</u>;
+      ftrack ≔  ftrack − 2
+   <u>end</u> SQRT2;
+   <u>integer</u> <u>procedure</u> SQRT3(x, A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> x, na, nb, nc;
+   <u>real</u> x;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      ASSIGN( x, B, bsize, nb );
+      SQRT4( A, asize, na, B, bsize, nb, C, csize, nc )
+   <u>end</u> SQRT3;
+   <u>integer</u> <u>procedure</u> SQRT4(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>comment</u> A := sqrt(B);
+   <u>value</u> na, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      ASSIGN(sqrt(TO REAL( B, bsize, nb )), A, asize, na);
+      SQRT5(A, asize, na, B, bsize, nb, C, csize, nc)
+   <u>end</u> SQRT4;
+   <u>integer</u> <u>procedure</u> SQRT5(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>comment</u> A := sqrt(B) using A as starting value;
+   <u>value</u> na, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> xsize, nx, prevsize, size, acell, ccell;
+      <u>integer</u> <u>array</u> X[0:c39];
+      <u>boolean</u> empty;
+      <u>integer</u> i, sd;
+      <u>boolean</u> kbonSQRT5;
+      kbonSQRT5 ≔  <u>false</u>;
+      nx ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      sd ≔  7;
+      prevsize ≔  decimals + 1;
+      <u>for</u> i ≔  1, i + 1 <u>while</u> <u>true</u> <u>do</u>
+      <u>begin</u>
+         <u>if</u> kbon ∨ kbonSQRT5 <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «SQRT5: i = » );
+            writeinteger( «p», i );
+            writetext( «, sd = » );
+            writeinteger( «p», sd );
+            writetext( «, A =» );
+            PRINT( A, asize, na )
+         <u>end</u>;
+         COPY( B, bsize, nb, X, xsize, nx );
+         LONGDIVIDE( X, xsize, nx, A, asize, na, C, csize, nc );
+         COMPARE( A, asize, na, C, csize, nc, size, acell, ccell );
+         <u>if</u> kbon ∨ kbonSQRT5 <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( « prevsize = » );
+            writeinteger( «−d», prevsize );
+            writetext( «, size = » );
+            writeinteger( «−d», size );
+            writetext( «, acell = » );
+            writeinteger( «−d», acell );
+            writetext( «, ccell = » );
+            writeinteger( «−d», ccell );
+            writetext( «, C =» );
+            PRINT( C, csize, nc )
+         <u>end</u>;
+         <u>if</u> prevsize &LessSlantEqual; decimals ∨ size &lt; decimals ∨ size = decimals ∧ <u>abs</u> (acell − cc
+         <u>begin</u>
+            <u>goto</u> SQRT5 LOOP END
+         <u>end</u>;
+         prevsize ≔  size;
+         ADD(C, csize, nc, 1, A, asize, na);
+         DIVIDE(A, asize, na, 2, empty);
+         sd ≔  sd + sd
+      <u>end</u> for i;
+      SQRT5 LOOP END:
+      <u>if</u> kbon <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «SQRT5 end A = » );
+         PRINT( A, asize, na )
+      <u>end</u>;
+      ftrack ≔  ftrack − 1
+   <u>end</u> SQRT5;
+   <u>integer</u> <u>procedure</u> SQRT6(A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>comment</u> A := sqrt(B) using A as starting value;
+   <u>value</u> na, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> xsize, nx, prevsize, size, acell, ccell;
+      <u>integer</u> <u>array</u> X[0:c39];
+      <u>boolean</u> empty;
+      <u>integer</u> i, sd, decs;
+      <u>boolean</u> kbonSQRT6;
+      kbonSQRT6 ≔  <u>false</u>;
+      nx ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      sd ≔  7;
+      prevsize ≔  decimals + 1;
+      decs ≔  decimals;
+      <u>for</u> i ≔  1, i + 1 <u>while</u> <u>true</u> <u>do</u>
+      <u>begin</u>
+         <u>if</u> kbon ∨ kbonSQRT6 <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «SQRT6: i = » );
+            writeinteger( «p», i );
+            writetext( «, sd = » );
+            writeinteger( «p», sd );
+            writetext( «, decs = » );
+            writeinteger( «−d», decs );
+            writetext( «, A =» );
+            PRINT( A, asize, na )
+         <u>end</u>;
+         COPY( B, bsize, nb, X, xsize, nx );
+         LONGDIVIDE2( X, xsize, nx, A, asize, na, C, csize, nc, <u>if</u> decs &lt; decimals <u>th</u>
+         COMPARE( A, asize, na, C, csize, nc, size, acell, ccell );
+         <u>if</u> kbon ∨ kbonSQRT6 <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( « prevsize = » );
+            writeinteger( «−d», prevsize );
+            writetext( «, size = » );
+            writeinteger( «−d», size );
+            writetext( «, acell = » );
+            writeinteger( «−d», acell );
+            writetext( «, ccell = » );
+            writeinteger( «−d», ccell );
+            writetext( «, C =» );
+            PRINT( C, csize, nc )
+         <u>end</u>;
+         <u>if</u> prevsize &LessSlantEqual; decimals ∨ size &lt; decimals ∨ size = decimals ∧ <u>abs</u> (acell − cc
+         <u>begin</u>
+            <u>goto</u> SQRT6 LOOP END
+         <u>end</u>;
+         prevsize ≔  size;
+         ADD(C, csize, nc, 1, A, asize, na);
+         DIVIDE(A, asize, na, 2, empty);
+         sd ≔  sd + sd;
+         decs ≔  <u>if</u> size &lt; 0 <u>then</u> 3×size <u>else</u> decimals
+      <u>end</u> for i;
+      SQRT6 LOOP END:
+      <u>if</u> kbon <u>then</u>
+      <u>begin</u>
+         LINE;
+         writetext( «SQRT6 end A = » );
+         PRINT( A, asize, na )
+      <u>end</u>;
+      ftrack ≔  ftrack − 1
+   <u>end</u> SQRT6;
+   <u>integer</u> <u>procedure</u> AGM( A, asize, na, B, bsize, nb, C, csize, nc );
+   <u>comment</u> (A,B) := agm(A,B) and C := sum( 2 ⭡ (j+1) × C[j] ). See
+         Eugene Salamin,  Computation of pi Using Arithmetic− Geometric Mean ,
+         Math. Comp., vol. 30, no 135, July 1976, pp. 565−570;
+   <u>value</u> na, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> w1size, nw1, w2size, nw2, twoPower, i, prevw1size, size, acell, bcell,
+      <u>integer</u> <u>array</u> W1, W2[0:c39];
+      <u>boolean</u> kbonAGM;
+      kbonAGM ≔  <u>false</u>;
+      nw1 ≔  ftrack; ftrack ≔  ftrack + 1;
+      nw2 ≔  ftrack; ftrack ≔  ftrack + 1;
+      ASSIGN( 0, C, csize, nc );
+      twoPower ≔  1;
+      prevw1size ≔  decimals + 1;
+      <u>comment</u> End loop by g̲o̲t̲o̲ AGM LOOP END;
+      <u>for</u> i ≔  1, i + 1 <u>while</u> <u>true</u> <u>do</u>
+      <u>begin</u>
+         COPY( A, asize, na, W1, w1size, nw1 );
+         ADD( B, bsize, nb, −1, W1, w1size, nw1 );
+         COMPARE( A, asize, na, B, bsize, nb, size, acell, bcell );
+         idcount ≔  (<u>if</u> asize &gt; bsize <u>then</u> asize <u>else</u> bsize) − size;
+         <u>if</u> kbon ∨ kbonAGM <u>then</u>
+         <u>begin</u>
+            LINE;
+            writetext( «AGM: i = » );
+            writeinteger( «−d», i );
+            writetext( «, twoPower = » );
+            writeinteger( «−d», twoPower );
+            writetext( «, w1size = » );
+            writeinteger( «−d», w1size );
+            writetext( «, prevw1size = » );
+            writeinteger( «−d», prevw1size );
+            writetext( «, A =» );
+            PRINT( A, asize, na );
+            LINE;
+            writetext( « compare size = » );
+            writeinteger( «−d», size );
+            writetext( «, idcount = » );
+            writeinteger( «−d», idcount );
+            writetext( «, B =» );
+            PRINT( B, bsize, nb )
+         <u>end</u>;
+         <u>if</u> prevw1size &LessSlantEqual; decimals <u>then</u> <u>goto</u> AGM LOOP END;
+         prevw1size ≔  w1size;
+         SQUARE( W1, w1size, nw1, W2, w2size, nw2 );
+         MULT( W2, w2size, nw2, twoPower );
+         DIVIDE( W2, w2size, nw2, 4, empty );
+         ADD( W2, w2size, nw2, 1, C, csize, nc );
+         twoPower ≔  twoPower + twoPower;
+         COPY( A, asize, na, W1, w1size, nw1 );
+         ADD( B, bsize, nb, 1, W1, w1size, nw1 );
+         LONGMULT2( A, asize, na, B, bsize, nb, W2, w2size, nw2 );
+         COPY( W1, w1size, nw1, A, asize, na );
+         DIVIDE( A, asize, na, 2, empty );
+         <u>if</u> idcount &LessSlantEqual; 0 <u>then</u>
+         <u>begin</u>
+            SQRT4( B, bsize, nb, W2, w2size, nw2, W1, w1size, nw1 )
+         <u>end</u>
+         <u>else</u>
+         <u>begin</u>
+            COPY( A, asize, na, B, bsize, nb );
+            SQRT5( B, bsize, nb, W2, w2size, nw2, W1, w1size, nw1 )
+         <u>end</u>
+      <u>end</u>;
+      AGM LOOP END:
+      ftrack ≔  ftrack − 2
+   <u>end</u> EXPISQN;
+   <u>integer</u> <u>procedure</u> PI TO 2( A, asize, na, B, bsize, nb, C, csize, nc );
+   <u>comment</u> A := pi using AGM;
+   <u>value</u> na, nb, nc;
+   <u>integer</u> asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      SQRT3( 0.5, B, bsize, nb, A, asize, na, C, csize, nc );
+      ASSIGN( 1.0, A, asize, na );
+      AGM( A, asize, na, B, bsize, nb, C, csize, nc );
+      MULT( C, csize, nc, 4 );
+      ASSIGN( 1.0, B, bsize, nb );
+      ADD( C, csize, nc, −1, B, bsize, nb );
+      MULT( A, asize, na, 2 );
+      SQUARE( A, asize, na, C, csize, nc );
+      LONGDIVIDE( C, csize, nc, B, bsize, nb, A, asize, na )
+   <u>end</u> PI TO 2;
+   <u>integer</u> <u>procedure</u> EXPISQN(N, A, asize, na, B, bsize, nb, C, csize, nc);
+   <u>value</u> N, na, nb, nc;
+   <u>integer</u> N, asize, na, bsize, nb, csize, nc;
+   <u>integer</u> <u>array</u> A, B, C;
+   <u>begin</u>
+      <u>integer</u> xsize, nx;
+      <u>integer</u> <u>array</u> X[0:c39];
+      nx ≔  ftrack;
+      ftrack ≔  ftrack + 1;
+      PI TO(A, asize, na, B, bsize, nb, C, csize, nc);
+      SQRT(N, B, bsize, nb, C, csize, nc, X, xsize, nx);
+      LONGMULT(A, asize, na, B, bsize, nb, C, csize, nc);
+      EXP(C, csize, nc, A, asize, na, B, bsize, nb);
+      ftrack ≔  ftrack − 1
+   <u>end</u> EXPISQN;
+   <u>integer</u> <u>procedure</u> FACTAB(from, step, to, A, asize, na);
+   <u>value</u> from, step, to, na;
+   <u>integer</u> from, step, to, asize, na;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> N, n;
+      ACCEPT(limit &gt; 1 + 0.05×to×ln(to));
+      ASSIGN(1, A, asize, na);
+      <u>for</u> N ≔  2 <u>step</u> 1 <u>until</u> from −1 <u>do</u>
+      MULT(A, asize, na, N);
+      n ≔  step −1;
+      <u>for</u> N ≔  from <u>step</u> 1 <u>until</u> to <u>do</u>
+      <u>begin</u>
+         MULT(A, asize, na, N);
+         n ≔  n + 1;
+         <u>if</u> n = step <u>then</u>
+         <u>begin</u>
+            n ≔  0;
+            LINE;
+            writetext(«N: »);
+            write integer(«−ddddd», N);
+            writetext(«, FAC(N): »);
+            PRINT(A, asize, na)
+         <u>end</u> if n
+      <u>end</u> for N
+   <u>end</u> FACTAB;
+   <u>integer</u> <u>procedure</u> POWTAB1(from, step, to, a, A, asize, na);
+   <u>value</u> from, step, to, a, na;
+   <u>integer</u> from, step, to, a, asize, na;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> N, n;
+      ACCEPT(limit &gt; 1 + 0.05×to×ln(a));
+      LINE;
+      writetext(«a: »);
+      write integer(«−dddddddddd», a);
+      ASSIGN(1, A, asize, na);
+      <u>for</u> N ≔  1 <u>step</u> 1 <u>until</u> from −1 <u>do</u>
+      MULT(A, asize, na, a);
+      n ≔  step −1;
+      <u>for</u> N ≔  from <u>step</u> 1 <u>until</u> to <u>do</u>
+      <u>begin</u>
+         MULT(A, asize, na, a);
+         n ≔  n + 1;
+         <u>if</u> n = step <u>then</u>
+         <u>begin</u>
+            n ≔  0;
+            LINE;
+            writetext(«N : »);
+            write integer(«−ddddd», N);
+            writetext(«, a⭡N: »);
+            PRINT(A, asize, na)
+         <u>end</u> if n
+      <u>end</u> for N
+   <u>end</u> POWTAB1;
+   <u>integer</u> <u>procedure</u> POWTAB2(from, step, to, b, A, asize, na);
+   <u>value</u> from, step, to, b, na;
+   <u>integer</u> from, step, to, b, asize, na;
+   <u>integer</u> <u>array</u> A;
+   <u>begin</u>
+      <u>integer</u> N, n;
+      ACCEPT(limit &gt; 1 + 0.05×b×ln(to));
+      LINE;
+      writetext(«b: »);
+      write integer(«−dddddddddd», b);
+      <u>for</u> N ≔  from <u>step</u> step <u>until</u> to <u>do</u>
+      <u>begin</u>
+         ASSIGN(1, A, asize, na);
+         <u>for</u> n ≔  1 <u>step</u> 1 <u>until</u> b <u>do</u>
+         MULT(A, asize, na, N);
+         LINE;
+         writetext(«N: »);
+         write integer(«−dddddddddd», N);
+         writetext(«, N⭡b: »);
+         PRINT(A, asize, na)
+      <u>end</u> for N
+   <u>end</u> POWTAB2;
+   <u>integer</u> <u>procedure</u> ISOM(N, PRI, psize, np, SEC, ssize,
+   ns, TER, tsize, nt);
+   <u>value</u> N, np, ns, nt;
+   <u>integer</u> N, psize, np, ssize, ns, tsize, nt;
+   <u>integer</u> <u>array</u> PRI, SEC, TER;
+   <u>begin</u>
+      <u>integer</u> sbase, nu, nv, usize, vsize, k, n, m, i, j, si, sj, q, sk, f;
+      <u>boolean</u> empty;
+      <u>integer</u> <u>array</u> U, V[0:c39];
+      <u>integer</u> <u>procedure</u> size(n);
+      <u>value</u> n;
+      <u>integer</u> n;
+      <u>begin</u>
+         get(U, FREE, sbase + n÷40);
+         size ≔  U[n <u>mod</u> 40]
+      <u>end</u> size;
+      <u>procedure</u> store(n, size);
+      <u>value</u> n, size;
+      <u>integer</u> n, size;
+      <u>begin</u>
+         get(U, FREE, sbase + n÷40);
+         U[n <u>mod</u> 40] ≔  size;
+         put(U, FREE, sbase + n÷40)
+      <u>end</u> store;
+      large ≔  <u>true</u>;
+      nu ≔  ftrack;
+      nv ≔  nu + 1;
+      f ≔ nv+1;
+      sbase ≔ 1+step×(1+f+N);
+      ftrack ≔ f+1+N+1+N÷40;
+      ASSIGN(1, PRI, psize, f);
+      store(0, psize);
+      <u>for</u> n ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      <u>begin</u>
+         ASSIGN(0, SEC, ssize, ns);
+         ASSIGN(0, TER, tsize, nt);
+         m ≔  (n − 1)÷2;
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> m <u>do</u>
+         <u>begin</u>
+            j ≔  n − 1 − i;
+            si ≔  size(i);
+            sj ≔  size(j);
+            <u>if</u> i &lt; j <u>then</u>
+            LONGMULT(PRI, si,
+            f + i, U, sj, f + j, V, vsize, nv)
+            <u>else</u>
+            <u>begin</u>
+               ASSIGN(1, U, usize, nu);
+               ADD(V, sj, f+ j, 1,
+               U, usize, nu);
+               LONGMULT(PRI, si,
+               f + i, U, usize, nu, V, vsize, nv);
+               DIVIDE(V, vsize, nv, 2, empty)
+            <u>end</u> i &GreaterSlantEqual; j;
+            ADD(V, vsize, nv, 1, SEC, ssize, ns)
+         <u>end</u> for i;
+         m ≔  (n − 2)÷2;
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> m <u>do</u>
+         <u>begin</u>
+            j ≔  n − 1 − 2×i;
+            si ≔  size(i);
+            sj ≔  size(j);
+            ASSIGN(<u>if</u> i ≠ j <u>then</u> 0 <u>else</u> 2, U, usize, nu);
+            ADD(PRI, sj, f + j, 1,
+            U, usize, nu);
+            LONGMULT(PRI, si,
+            f + i, U, usize, nu, V, vsize, nv);
+            ADD(U, usize, nu, 1, V, vsize, nv);
+            LONGMULT(V, vsize, nv,
+            PRI, si, f + i, U, usize, nu);
+            DIVIDE(U, usize, nu, <u>if</u> i ≠ j <u>then</u>
+            2 <u>else</u> 6, empty);
+            ADD(U, usize, nu, 1, TER, tsize, nt)
+         <u>end</u> for i;
+         m ≔  (n − 4)÷3;
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> m <u>do</u>
+         <u>begin</u>
+            q ≔  (n − 2 − i)÷2;
+            <u>for</u> j ≔  i + 1 <u>step</u> 1 <u>until</u> q <u>do</u>
+            <u>begin</u>
+               k ≔  n − 1 − i − j;
+               si ≔  size(i);
+               sj ≔  size(j);
+               sk ≔  size(k);
+               LONGMULT(PRI,
+               sj, f + j, U, sk, f + k, V, vsize, nv);
+               LONGMULT(V, vsize,
+               nv, PRI, si, f + i, U, usize, nu);
+               ADD(U, usize, nu, 1, TER, tsize, nt)
+            <u>end</u> for j
+         <u>end</u> for i;
+         LINE;
+         writetext(«N: »);
+         write integer(«−ddddddd», n);
+         LINE;
+         writetext(«PRI(N):»);
+         PRINT(PRI, size(n − 1), f + n − 1);
+         LINE;
+         writetext(«SEC(N):»);
+         PRINT(SEC, ssize, ns);
+         LINE;
+         writetext(«TER(N):»);
+         PRINT(TER, tsize, nt);
+         LINE;
+         ADD(TER, tsize, nt, 1, SEC, ssize, ns);
+         ADD(PRI, size(n − 1), f + n − 1, 1,
+         SEC, ssize, ns);
+         COPY(SEC, ssize, ns, U, usize, f + n);
+         store(n, usize)
+      <u>end</u> for n;
+      ftrack ≔  ftrack − (4 + N + N÷40)
+   <u>end</u> IOSM;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl , grf p−1 ; RF ≔ clock count; clock count ≔ 0; stack[p−1] ≔ RF;
+   <u>e</u>;
+   <u>procedure</u> CALCULATE;
+   <u>begin</u>
+      <u>integer</u> <u>array</u> A, B, C[0:c39];
+      <u>integer</u> <u>procedure</u> next;
+      <u>begin</u>
+         <u>integer</u> x;
+         <u>if</u> show <u>then</u> LINE;
+         writetext(«r ≔  »);
+         x ≔  read integer;
+         <u>if</u> show ∨ showAll <u>then</u> write(«ddddddddd», x);
+         next ≔  x
+      <u>end</u> next;
+      <u>real</u> <u>procedure</u> next real;
+      <u>begin</u>
+         <u>real</u> x;
+         <u>if</u> show <u>then</u> LINE;
+         writetext(«r ≔  »);
+         x ≔  read real;
+         <u>if</u> show ∨ showAll <u>then</u> write(«d.dddddd&#9192;−ddd», x);
+         next real ≔  x
+      <u>end</u> next real;
+      <u>integer</u> <u>procedure</u> STOP;
+      <u>go</u>_<u>to</u> EX;
+      <u>procedure</u> ORDER(text, command);
+      <u>string</u> text;
+      <u>integer</u> command;
+      <u>begin</u>
+         <u>integer</u> dummy;
+         type ≔  type + 1;
+         <u>if</u> type = TYPE <u>then</u>
+         <u>begin</u>
+            writetext(text);
+            clock count;
+            dummy ≔  command;
+            LINE;
+            writetext( «clock count: » );
+            write(«ddddddd.d», clock count);
+            <u>go</u>_<u>to</u> NEW
+         <u>end</u> if this type
+      <u>end</u> ORDER;
+      ftrack ≔  4;
+NEW: LINE;
+      LINE;
+      writetext(«No: »);
+      TYPE ≔  read integer;
+      <u>if</u> show ∨ showAll <u>then</u> write («dd», TYPE);
+      type ≔  0;
+      ORDER(« A ≔  r;», ASSIGN(next real, A, asize, 1));
+      ORDER(« write(A);», PRINT(A, asize, 1));
+      ORDER(« B ≔  A;», COPY(A, asize, 1, B, bsize, 2));
+      ORDER(« C ≔  A;», COPY(A, asize, 1, C, csize, 3));
+      ORDER(« A ≔  B;», COPY(B, bsize, 2, A, asize, 1));
+      ORDER(« C ≔  B;», COPY(B, bsize, 2, C, csize, 3));
+      ORDER(« A ≔  C;», COPY(C, csize, 3, A, asize, 1));
+      ORDER(« B ≔  C;», COPY(C, csize, 3, B, bsize, 2));
+      ORDER(« A ≔  A + B;», ADD(B, bsize, 2, 1, A, asize, 1));
+      ORDER(« A ≔  A − B;», ADD(B, bsize, 2, −1, A, asize, 1));
+      ORDER(« A ≔  A×r;», MULT(A, asize, 1, next));
+      ORDER(« A ≔  A/r;», DIVIDE(A, asize, 1, next, empty));
+      ORDER(« C ≔  A×B;», LONGMULT(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« A ≔  PI;», PI TO(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« A ≔  exp(B);», EXP(B, bsize, 2, A, asize, 1, C, csize, 3));
+      ORDER(« A ≔  sqrt(r);», SQRT(next real, A, asize, 1, B, bsize, 2, C, csize, 3)
+      ORDER(« A ≔  exp(PI×sqrt(r));»,
+      EXPISQN(next, A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« FACTORIAL TABLE(r, r, r);»,
+      FACTAB(next, next, next, A, asize, 1));
+      ORDER(« POWER TABLE(r, r, r, r⭡variable);»,
+      POWTAB1(next, next, next, next, A, asize, 1));
+      ORDER(« POWER TABLE(r, r, r, variable⭡r);»,
+      POWTAB2(next, next, next, next, A, asize, 1));
+      ORDER(« ISOMER TABLE(r);»,
+      ISOM(next, A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« stop», STOP);
+      ORDER(« PRINT STATISTICS», STATISTICS PRINT);
+      ORDER(« C ≔  A&lt;×2&gt;B;», LONGMULT2(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« (C,A) ≔  (A÷B,A <u>mod</u> B);», LONGDIVIDE(A, asize, 1, B, bsize, 2, C, csiz
+      ORDER(« A ≔  sqrt2(r);», SQRT2(next real, A, asize, 1, B, bsize, 2, C, csize,
+      ORDER(« A ≔  sqrt3(r);», SQRT3(next real, A, asize, 1, B, bsize, 2, C, csize,
+      ORDER(« A ≔  TO REAL(A);», ASSIGN(TO REAL( A, asize, 1), A, asize, 1));
+      ORDER(« A ≔  sqrt(B);», SQRT4(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« (A,B,C) ≔  AGM(A,B);», AGM(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« A ≔  PI 2;», PI TO 2(A, asize, 1, B, bsize, 2, C, csize, 3));
+      ORDER(« A ≔  sqrt5(B) starting at A;», SQRT5(A, asize, 1, B, bsize, 2, C, csiz
+      ORDER(« (C,A) ≔  (A÷B,A <u>mod</u> B) with r decimals;», LONGDIVIDE2(A, asize, 1, B,
+      ORDER(« A ≔  sqrt6(B) starting at A;», SQRT6(A, asize, 1, B, bsize, 2, C, csiz
+      <u>go</u>_<u>to</u> NEW;
+EX:<u>end</u> CALCULATE;
+   STATISTICS INIT;
+   linerest ≔  69;
+   MODUL ≔  10000000000;
+   select(17);
+   LINE;
+   writetext( «2011−Aug−03 18.09 / TN» );
+   SELECT LANGUAGE;
+   LINE;
+   WRITE TEXT(
+   «PROGRAM DEMON−5. Beregning af store tal. Programmet simulerer en maskine med
+3 registre, A, B og C, som har D decimaler og E cifre før kommaet.
+Der anvendes følgende ordresystem:»,
+   «PROGRAM DEMON−5. Calculation of large number. The program simulates a computer
+with 3 registers, A, B, and C, with D decimals and E integer digits.
+The following command system is used:»,
+   «PROGRAMME DEMON−5. Calcul des nombres eleves. Le programme simule une machine a
+3 registres, A, B, et C, avec D decimales et E chiffres entiers.
+On utilise les commandes suivantes:»,
+   «PROGRAMM DEMON−5. Berechnung von grossen Zahlen. Das Programm simuliert eine
+Maschine mit 3 Registern, A, B, und C, mit D dezimalstellen und E Ganzzahlstellen.
+Man verwendet die folgende Befehle:»);
+   linerest ≔  linerest − 2;
+   LINE;
+   LINE;
+   writetext(«
+  No:
+   1: A ≔  typein; 13: C ≔  A×B;
+   2: write(A); 14: A ≔  PI;
+   3: B ≔  A; 15: A ≔  exp(B);
+   4: C ≔  A; 16: A ≔  sqrt(typein);
+   5: A ≔  B; 17: A ≔  exp(PI×sqrt(r));
+   6: C ≔  B; 18: A ≔  table of factorial function;
+   7: A ≔  C; 19: A ≔  table of a⭡N;
+   8: B ≔  C; 20: A ≔  table of N⭡b;
+   9: A ≔  A + B; 21: A ≔  table of alcohol isomers;
+  10: A ≔  A − B; 22: STOP;
+  11: A ≔  A×typein; 23: print statistics
+  12: A ≔  A/typein; 24: C ≔  A&lt;×2&gt;B;
+                          25: (C,A) ≔  (A÷B,A <u>mod</u> B)
+                          26: A ≔  sqrt2(typein);
+                          27: A ≔  sqrt3(typein);
+                          28: A ≔  TO REAL(A);
+                          29: A ≔  sqrt(B);
+                          30: (A,B,C) ≔  AGM(A,B);
+                          31: A ≔  PI 2;
+                          32: A ≔  sqrt5(B); starting at A
+                          33: (C,A) ≔  (A÷B,A <u>mod</u> B) with typein decimals
+                          34: A ≔  sqrt6(B); starting at A
+»);
+   linerest ≔  linerest − 14;
+   LINE;
+   WRITE TEXT(
+   «Vi lader først maskinen demonstrere nogle eksempler:»,
+   «We first let the computer show some examples:»,
+   «La machine nous donne d abord quelques examples:»,
+   «Zuerst zeigt die Maschine einige Beispiele:»);
+   show ≔  <u>true</u>;
+   showAll ≔  <u>true</u>;
+   <u>comment</u> MK: where moved;
+   where(«free», FREE);
+   <u>if</u> <u>true</u> <u>then</u>
+   <u>begin</u>
+   select(16);
+   <u>for</u> D ≔  read integer <u>while</u> D &GreaterSlantEqual; 0 <u>do</u>
+   <u>begin</u>
+      LINE;
+      writetext(«D:»);
+      writeinteger(«−ddddddd», D);
+      decimals ≔  D;
+      <u>if</u> decimals &gt; 0 <u>then</u>
+      decimals ≔  −((decimals−1)÷10+1);
+      E ≔  read integer;
+      LINE;
+      writetext(«E:»);
+      writeinteger(«−ddddddd», E);
+      limit ≔  (E−1)÷10;
+      step ≔  (limit − decimals)÷40 + 1;
+      large ≔  step &gt; 1;
+      c39 ≔  <u>if</u> large <u>then</u> 39 <u>else</u> limit − decimals;
+      CALCULATE;
+E1:<u>end</u> for decimals;
+   LINE
+   <u>end</u>;
+   LINE;
+   show ≔  <u>false</u>;
+   select(17);
+   WRITE TEXT(
+   «Nu kan De forsøge:»,
+   «Now you may try:»,
+   «Maintenant vous pouvez essaier:»,
+   «Jetzt koennen Sie versuchen:»);
+   <u>for</u> D ≔  ASK NUMBER(
+   «Opgiv antal decimaler, D. −1 er stop»,
+   «Specify number of decimals, D. −1 is stop»,
+   «Specifiez le nombre de decimales, D. −1 est termination»,
+   «Bitte, die Anzahl von Dezimalstellen, D, angeben. −1 is Schluss»)
+   <u>while</u> D &GreaterSlantEqual; 0 <u>do</u>
+   <u>begin</u>
+      <u>if</u> showAll <u>then</u>
+      <u>begin</u>
+         writeinteger( «−d», D )
+      <u>end</u>;
+      decimals ≔  D;
+      <u>if</u> decimals &gt; 0 <u>then</u>
+      decimals ≔  −((decimals−1)÷10 + 1);
+      E ≔  ASK NUMBER(
+      «Og antallet af heltalscifre, E»,
+      «And the number of integer digits, E»,
+      «Et le nombre de chiffres entiers, E»,
+      «Und die Anzahl der Ganzzahlstellen, E»);
+      <u>if</u> showAll <u>then</u>
+      <u>begin</u>
+         writeinteger( «−d», E )
+      <u>end</u>;
+      limit ≔  (E−1)÷10;
+      step ≔  (limit − decimals)÷40 + 1;
+      large ≔  step &gt; 1;
+      c39 ≔  <u>if</u> large <u>then</u> 39 <u>else</u> limit − decimals;
+      CALCULATE;
+E2:<u>end</u> for decimals
+<u>end</u>
+t&lt;
+Ff
+380, 20
+16, 2, 2
+26, 2, 2
+27, 2, 2
+1, 2
+29, 2, 2
+22, −1,
+</pre></body></html>

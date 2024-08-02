@@ -1,0 +1,59 @@
+c̲o̲d̲e̲ 34231;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSELM(A, N, AUX, RI, CI); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, AUX;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, P, Q, R, R1, JPIV, RANK, SIGNDET;
+   r̲e̲a̲l̲ CRIT, PIVOT, RGROW, MAX, AID, MAX1, EPS;
+   b̲o̲o̲l̲e̲a̲n̲ PARTIAL;
+   AUX[5]:= RGROW:= ABSMAXMAT(1, N, 1, N, I, J, A);
+   CRIT:= N × RGROW × AUX[4]; EPS:= RGROW × AUX[2]; MAX:= 0;
+   RANK:= N; SIGNDET:= 1; PARTIAL:= RGROW ≠ 0;
+   f̲o̲r̲ Q:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ i̲f̲ Q ≠ J t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ AID:= ABS(A[I,Q]);
+         i̲f̲ AID > MAX t̲h̲e̲n̲ MAX:= AID
+      e̲n̲d̲;
+   RGROW:= RGROW + MAX;
+   f̲o̲r̲ R:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R1:= R + 1; i̲f̲ I ≠ R t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SIGNDET:= - SIGNDET; ICHROW(1, N, R, I, A) e̲n̲d̲;
+         i̲f̲ J ≠ R t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SIGNDET:= - SIGNDET; ICHCOL(1, N, R, J, A) e̲n̲d̲;
+         RI[R]:= I; CI[R]:= J; PIVOT:= A[R,R];
+         i̲f̲ PIVOT < 0 t̲h̲e̲n̲ SIGNDET:= - SIGNDET;
+         i̲f̲ PARTIAL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MAX:= MAX1:= 0; J:= R1;
+            ROWCST(R1, N, R, A, 1 / PIVOT);
+            f̲o̲r̲ P:= R1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ ELMROW(R1, N, P, R, A, A, - A[P,R]);
+                  AID:= ABS(A[P,R1]); i̲f̲ MAX < AID t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ MAX:= AID; I:= P e̲n̲d̲;
+               e̲n̲d̲;
+            f̲o̲r̲ Q:= R1 + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ AID:= ABS(A[I,Q]);
+                  i̲f̲ MAX1 < AID t̲h̲e̲n̲ MAX1:= AID
+               e̲n̲d̲;
+            AID:= RGROW; RGROW:= RGROW + MAX1;
+            i̲f̲ RGROW > CRIT ∨ MAX < EPS t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ PARTIAL:= f̲a̲l̲s̲e̲; RGROW:= AID;
+               MAX:= ABSMAXMAT(R1, N, R1, N, I, J, A)
+            e̲n̲d̲
+         e̲n̲d̲ PARTIAL PIVOTINGSTEP
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ i̲f̲ MAX ≤ EPS t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ RANK:= R - 1;
+               i̲f̲ PIVOT < 0 t̲h̲e̲n̲ SIGNDET:= - SIGNDET;g̲o̲t̲o̲OUT
+            e̲n̲d̲;
+            MAX:= - 1;
+            ROWCST(R1, N, R, A, 1 / PIVOT);
+            f̲o̲r̲ P:= R1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ JPIV:= MAXELMROW(R1, N, P, R, A, A, - A[P,R]);
+                  AID:= ABS(A[P,JPIV]); i̲f̲ MAX < AID t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ MAX:= AID; I:= P; J:= JPIV e̲n̲d̲
+               e̲n̲d̲;
+            i̲f̲ RGROW < MAX t̲h̲e̲n̲ RGROW:= MAX
+         e̲n̲d̲ COMPLETE PIVOTINGSTEP
+      e̲n̲d̲ ELIMINATIONSTEP;
+   OUT: AUX[1]:= SIGNDET; AUX[3]:= RANK; AUX[7]:= RGROW
+e̲n̲d̲ GSSELM
+
+;e̲o̲p̲

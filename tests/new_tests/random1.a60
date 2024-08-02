@@ -1,0 +1,20 @@
+'BEGIN'
+'COMMENT' pseudo random number generator;
+	'INTEGER' m, a, b;
+	'INTEGER' n, i, s, r;
+	
+	m := 32768;
+	a := 805;
+	b := 6925;
+	
+	ininteger(0,n); 'COMMENT' : count of random numbers;
+	ininteger(0,s); 'COMMENT' : seed for generator ;
+	
+	'FOR' i :=1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		s := s*a+b;
+		r := entier(s/m); s := s - r*m;
+		'COMMENT' : for debug purposes : outinteger(1, s);
+		outreal(1, (entier((s+1)/(m+1)*1000)) / 1000 )
+	'END'
+'END'

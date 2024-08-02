@@ -1,0 +1,16 @@
+'CODE' 35130;
+'REAL' 'PROCEDURE' LOG ONE PLUS X(X); 'VALUE' X; 'REAL' X;
+'COMMENT' COMPUTES LN(1+X) FOR X > -1;
+'IF' X = 0 'THEN' LOG ONE PLUS X:= 0 'ELSE'
+'IF' X < -0.2928 'OR' X > 0.4142 'THEN' LOG ONE PLUS X:= LN(1+X) 'ELSE'
+'BEGIN' 'REAL' Y,Z;
+    Z:= X/(X+2); Y:= Z*Z;
+    LOG ONE PLUS X:= Z*(2+ Y*
+    ( .66666 66666 63366 + Y*
+    ( .40000 00012 06045 + Y*
+    ( .28571 40915 90488 + Y*
+    ( .22223 82333 2791  + Y*
+    ( .18111 36267 967   + Y*
+      .16948 21248 8))))))
+'END' LOG ONE PLUS X;
+       'EOP'

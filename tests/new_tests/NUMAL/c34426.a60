@@ -1,0 +1,45 @@
+c̲o̲d̲e̲ 34426;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECTRIPIV(SUB, DIAG, SUPER, N, AID, AUX, PIV);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ SUB, DIAG, SUPER, AID, AUX;
+     b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ PIV;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, I1, N1, N2;
+   r̲e̲a̲l̲ D, R, S, U, T, Q, V, W, NORM, NORM1, NORM2, TOL;
+   TOL:= AUX[2]; D:= DIAG[1]; R:= SUPER[1];
+   NORM:= NORM2:= ABS(D) + ABS(R); N2:= N - 2;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1; S:= SUB[I]; T:= DIAG[I1]; Q:= SUPER[I1];
+         NORM1:= NORM2; NORM2:= ABS(S) + ABS(T) + ABS(Q);
+         i̲f̲ NORM2 > NORM t̲h̲e̲n̲ NORM:= NORM2;
+         i̲f̲ ABS(D) × NORM2 < ABS(S) × NORM1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ ABS(S) ≤ TOL × NORM2 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ AUX[3]:= I - 1; AUX[5]:= S; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+            DIAG[I]:= S; U:= SUPER[I]:= T / S;
+            V:= AID[I]:= Q / S; SUB[I]:= D;
+            W:= SUPER[I1]:= -V × D; D:= DIAG[I1]:= R - U × D;
+            R:= W; NORM2:= NORM1; PIV[I]:= t̲r̲u̲e̲
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ i̲f̲ ABS(D) ≤ TOL × NORM1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ AUX[3]:= I - 1; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+            U:= SUPER[I]:= R / D; D:= DIAG[I1]:= T - U × S;
+            AID[I]:= 0; PIV[I]:= f̲a̲l̲s̲e̲; R:= Q
+         e̲n̲d̲
+      e̲n̲d̲;
+   N1:= N - 1; S:= SUB[N1]; T:= DIAG[N]; NORM1:= NORM2;
+   NORM2:= ABS(S) + ABS(T); i̲f̲ NORM2 > NORM t̲h̲e̲n̲ NORM:= NORM2;
+   i̲f̲ ABS(D) × NORM2 < ABS(S) × NORM1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(S) ≤ TOL × NORM2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ AUX[3]:= N2; AUX[5]:= S; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+      DIAG[N1]:= S; U:= SUPER[N1]:= T / S; SUB[N1]:= D;
+      D:= DIAG[N]:= R - U × D; NORM2:= NORM1; PIV[N1]:= t̲r̲u̲e̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(D) ≤ TOL × NORM1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ AUX[3]:= N2; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+      U:= SUPER[N1]:= R / D; D:= DIAG[N]:= T - U × S;
+      PIV[N1]:= f̲a̲l̲s̲e̲
+   e̲n̲d̲;
+   i̲f̲ ABS(D) ≤ TOL × NORM2 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ AUX[3]:= N1; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+   AUX[3]:= N; AUX[5]:= NORM;
+   EXIT:
+e̲n̲d̲ DECTRIPIV;
+e̲o̲p̲

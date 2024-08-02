@@ -1,0 +1,16 @@
+'BEGIN'
+'COMMENT' straightforward loop;
+	'INTEGER' n;
+	n := 0;
+start:;
+	'IF' n = 20 'THEN' 'GOTO' finish
+	'ELSE' 
+	'BEGIN'
+		n := n + 1;
+		outinteger(1, n);
+		'GOTO' start
+	'END';
+finish:;
+	outstring(1,"\n")
+	
+'END'

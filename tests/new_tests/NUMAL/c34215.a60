@@ -1,0 +1,64 @@
+c̲o̲d̲e̲ 34215;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FLEMIN(N, X, G, H, FUNCT, IN, OUT);
+   v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ X, G, H, IN, OUT;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, IT, CNTL, EVL, EVLMAX;
+   r̲e̲a̲l̲ F,F0,FMIN,MU,DG,DG0,NRMDELTA,ALFA,RELTOL,ABSTOL,
+     EPS, TOLG, AID;
+   a̲r̲r̲a̲y̲ V, DELTA, S[1:N];
+
+   RELTOL:= IN[1]; ABSTOL:= IN[2]; MU:= IN[3];
+   TOLG:= IN[4]; FMIN:= IN[5]; ALFA:= IN[6];
+   EVLMAX:= IN[7]; OUT[4]:= 0; IT := 0;
+   F:= FUNCT(N, X, G); EVL:= 1; CNTL:= 0;i̲f̲ ALFA > 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ INIVEC(1, N × (N + 1) ÷ 2, H, 0);
+      INISYMD(1, N, 0, H, ALFA)
+   e̲n̲d̲;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        DELTA[I]:= - SYMMATVEC(1, N, I, H, G);
+   DG:= SQRT(VECVEC(1, N, 0, G, G));
+   NRMDELTA:= SQRT(VECVEC(1, N, 0, DELTA, DELTA));
+   EPS:= SQRT(VECVEC(1, N, 0, X, X)) × RELTOL + ABSTOL;
+   DG0:= VECVEC(1, N, 0, DELTA, G);
+   f̲o̲r̲ IT := IT +1  w̲h̲i̲l̲e̲
+     (NRMDELTA > EPS ∨ DG > TOLG ) ∧ EVL < EVLMAX d̲o̲
+      b̲e̲g̲i̲n̲ DUPVEC(1, N, 0, S, X); DUPVEC(1, N, 0, V, G);
+         i̲f̲ IT ≥ N t̲h̲e̲n̲ ALFA:= 1 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ i̲f̲ IT ≠ 1 t̲h̲e̲n̲ ALFA:= ALFA / NRMDELTA e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ ALFA:= 2 × (FMIN - F) / DG0;
+               i̲f̲ ALFA > 1 t̲h̲e̲n̲ ALFA:= 1
+            e̲n̲d̲
+         e̲n̲d̲;
+         ELMVEC(1, N, 0, X, DELTA, ALFA);
+         F0:= F; F:= FUNCT(N, X, G); EVL:= EVL +1 ;
+         DG:= VECVEC(1, N, 0, DELTA, G);
+         i̲f̲ IT = 1 ∨ F0 - F < - MU × DG0 × ALFA t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ I:= EVLMAX - EVL; CNTL:= CNTL +1 ;
+            LINEMIN(N, S, DELTA, NRMDELTA, ALFA, G, FUNCT, F0, F,
+              DG0, DG, I, f̲a̲l̲s̲e̲, IN); EVL:= EVL + I;
+            DUPVEC(1, N, 0, X, S);
+         e̲n̲d̲ LINEMINIMIZATION;
+         i̲f̲ ALFA ≠ 1 t̲h̲e̲n̲ MULVEC(1, N, 0, DELTA, DELTA, ALFA);
+         MULVEC(1, N, 0, V, V, -1); ELMVEC(1, N, 0, V, G, 1);
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              S[I]:= SYMMATVEC(1, N, I, H, V);
+         AID:= VECVEC(1, N, 0, V, S); DG:= (DG - DG0) × ALFA;
+         i̲f̲ DG > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ DG ≥ AID t̲h̲e̲n̲
+              FLEUPD(H, N, DELTA, S, 1 / DG, (1 + AID / DG) / DG)
+            e̲l̲s̲e̲ DAVUPD(H, N, DELTA, S, 1 / DG, 1 / AID)
+         e̲n̲d̲ UPDATING;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              DELTA[I]:= -SYMMATVEC(1, N, I, H, G);
+         ALFA:= NRMDELTA × ALFA;
+         NRMDELTA:= SQRT(VECVEC(1, N, 0, DELTA, DELTA));
+         EPS:= SQRT(VECVEC(1, N, 0, X, X)) × RELTOL + ABSTOL;
+         DG:= SQRT(VECVEC(1, N, 0, G, G));
+         DG0:= VECVEC(1, N, 0, DELTA, G); i̲f̲ DG0 > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ OUT[4]:= -1 ; g̲o̲t̲o̲ EXIT e̲n̲d̲
+      e̲n̲d̲ ITERATION;
+   EXIT: OUT[0]:= NRMDELTA; OUT[1]:= DG; OUT[2]:= EVL;
+   OUT[3]:= CNTL; FLEMIN:= F
+e̲n̲d̲ FLEMIN;
+e̲o̲p̲

@@ -1,0 +1,48 @@
+c̲o̲d̲e̲ 35087;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXPENX(X, N1, N2, A);
+   v̲a̲l̲u̲e̲ X, N1, N2;
+   r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N1, N2; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, N; r̲e̲a̲l̲ W, AN;
+   N:= i̲f̲ X≤1·5 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ ENTIER(X+·5);
+   i̲f̲ N≤10 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      a̲r̲r̲a̲y̲ B[N:N];
+      ENX(X, N, N, B);
+      W:= B[N] × EXP(X)
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ K, K1;
+      r̲e̲a̲l̲ UE, VE, WE, WE1, UO, VO, WO, WO1, R, S;
+      UE:=1; VE:= WE:= 1/(X+N); WE1:=0;
+      UO:=1; VO:= -N/(X × (X + N + 1)); WO1:= 1/X; WO:= VO + WO1;
+      W:= (WE + WO)/2;
+      K1:=1;
+      f̲o̲r̲ K:=K1 w̲h̲i̲l̲e̲ WO-WE>@-15 × W ∧ WE>WE1 ∧ WO<WO1 d̲o̲
+         b̲e̲g̲i̲n̲
+            WE1:= WE; WO1:=WO;
+            R:= N+K; S:= R + X + K;
+            UE:= 1/(1-K×(R-1)×UE/((S-2)×S));
+            UO:= 1/(1-K×  R  ×UO/( S × S-1));
+            VE:= VE × (UE-1);
+            VO:= VO × (UO-1);
+            WE:= WE + VE;
+            WO:= WO + VO;
+            W:= (WE + WO)/2;
+            K1:= K1 + 1
+         e̲n̲d̲
+   e̲n̲d̲;
+   AN:=W;
+   i̲f̲ N≤N2 ∧ N≥N1 t̲h̲e̲n̲ A[N]:=W;
+   f̲o̲r̲ I:= N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ N1 d̲o̲
+      b̲e̲g̲i̲n̲
+         W:= (1 - I × W)/X;
+         i̲f̲ I≤ N2 t̲h̲e̲n̲ A[I]:=W
+      e̲n̲d̲;
+   W:=AN;
+   f̲o̲r̲ I:= N+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲
+         W:= (1 - X × W)/(I - 1);
+         i̲f̲ I≥N1 t̲h̲e̲n̲ A[I]:=W
+      e̲n̲d̲
+e̲n̲d̲ EXPENX;
+e̲o̲p̲

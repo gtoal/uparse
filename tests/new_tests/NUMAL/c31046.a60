@@ -1,0 +1,16 @@
+c̲o̲d̲e̲31046;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHEPOLSUM(N,X,A);
+   v̲a̲l̲u̲e̲ N,X;i̲n̲t̲e̲g̲e̲r̲ N;r̲e̲a̲l̲ X;a̲r̲r̲a̲y̲ A;
+   i̲f̲ N=0 t̲h̲e̲n̲ CHEPOLSUM:=A[0] e̲l̲s̲e̲
+   i̲f̲ N=1 t̲h̲e̲n̲ CHEPOLSUM:=A[0]+A[1]×X e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;r̲e̲a̲l̲ H,R,S,TX;
+      TX:=X+X;R:=A[N];
+      H:=A[N-1]+R×TX;
+      f̲o̲r̲ K:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ S:=R;R:=H;
+            H:=A[K]+R×TX-S
+         e̲n̲d̲K;
+      CHEPOLSUM:=A[0]-R+H×X
+   e̲n̲d̲ CHEPOLSUM
+
+;e̲o̲p̲

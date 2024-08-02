@@ -1,0 +1,34 @@
+c̲o̲d̲e̲ 35180;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS JAPLUSN(A, X, N, JA); v̲a̲l̲u̲e̲ A, X, N;
+   i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ X, A; a̲r̲r̲a̲y̲ JA;
+   i̲f̲ X = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ JA[0]:= i̲f̲ A = 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0;
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ JA[N]:= 0
+   e̲n̲d̲ e̲l̲s̲e̲
+   i̲f̲ A = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      BESS J(X, N, JA)
+   e̲n̲d̲ e̲l̲s̲e̲
+   i̲f̲ A = ·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S;
+      S:= SQRT(X) × ·797 884 560 802 865; c̲o̲m̲m̲e̲n̲t̲ S = SQRT(2X / PI);
+      SPHER BESS J(X, N, JA);
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 0 d̲o̲ JA[N]:= JA[N] × S
+   e̲n̲d̲
+
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A2, X2, R, S, L, LABDA; i̲n̲t̲e̲g̲e̲r̲ K, M, NU;
+      L:= 1; NU:= START(X,N,0);
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NU d̲o̲
+           L:= L × (M+A) / (M+1); R:= S:= 0; X2:= 2 / X; K:= -1; A2:= A + A;
+      f̲o̲r̲ M:= NU+NU s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ R:= 1 / (X2 × (A + M)    - R);
+            i̲f̲ K = 1 t̲h̲e̲n̲ LABDA:= 0 e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ L:= L × (M + 2) / (M + A2); LABDA:= L × (M + A) e̲n̲d̲;
+            S:= R × (LABDA + S); K:= -K;
+            i̲f̲ M≤ N t̲h̲e̲n̲ JA[M]:= R
+         e̲n̲d̲;
+      JA[0]:= R:= 1 / GAMMA(1 + A) / (1 + S) / X2 ⭡ A;
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ JA[M]:= R:= R × JA[M];
+   e̲n̲d̲ BESS JAPLUSN;
+e̲o̲p̲

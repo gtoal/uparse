@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 36404;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ VECPERM(PERM,LOW,UPP,VECTOR);v̲a̲l̲u̲e̲ LOW,UPP;
+   i̲n̲t̲e̲g̲e̲r̲ LOW,UPP;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PERM;r̲e̲a̲l̲ a̲r̲r̲a̲y̲ VECTOR;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ T,J,K;r̲e̲a̲l̲ A;b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ TODO[LOW:UPP];
+   f̲o̲r̲ T:=LOW s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲ TODO[T]:=t̲r̲u̲e̲;
+   f̲o̲r̲ T:=LOW s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ TODO[T] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ K:=T;A:=VECTOR[K];
+            f̲o̲r̲ J:=PERM[K] w̲h̲i̲l̲e̲ J≠T d̲o̲
+               b̲e̲g̲i̲n̲ VECTOR[K]:=VECTOR[J];TODO[K]:=f̲a̲l̲s̲e̲;K:=J
+               e̲n̲d̲;VECTOR[K]:=A;TODO[K]:=f̲a̲l̲s̲e̲
+         e̲n̲d̲ CYCLE;
+      e̲n̲d̲ FOR T;
+e̲n̲d̲ VECPERM;
+
+e̲o̲p̲

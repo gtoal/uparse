@@ -1,0 +1,36 @@
+'CODE'33171;
+  'PROCEDURE' ELIMINATION(U,LJ,UJ,LL,UL,RESIDUAL,A,B,N,DISCR,K,
+      RATECONV,DOMEIGVAL,OUT);
+  'VALUE' LJ,UJ,LL,UL,A,B; 'INTEGER' LJ,UJ,LL,UL,N,K;
+  'REAL' A,B,RATECONV,DOMEIGVAL; 'ARRAY' U,DISCR;
+  'PROCEDURE' RESIDUAL,OUT;
+  'BEGIN' 'REAL' PI,AUXCOS,C,D;
+    'REAL' 'PROCEDURE' OPTPOL(X); 'VALUE' X; 'REAL' X;
+    'BEGIN' 'REAL' W,Y;
+      W:= (B * COS(.5*PI/X) + DOMEIGVAL) / (B - DOMEIGVAL);
+      'IF' W < -1 'THEN' W:= -1;
+      'IF' ABS(W) <= 1 'THEN'
+      'BEGIN' Y:= ARCCOS(W);
+        OPTPOL:= 2 * SQRT(A/B) + TAN(X*Y) *
+        (Y - B*PI*SIN(.5*PI/X)*.5 / (X * (B-DOMEIGVAL) *
+        SQRT(ABS(1-W*W))))
+      'END' 'ELSE'
+      'BEGIN' Y:= LN(W + SQRT(ABS(W*W-1)));
+        OPTPOL:= 2 * SQRT(A/B) - TANH(X*Y) * (Y + B*PI*SIN(.5*PI/X)*
+        .5/(X*(B-DOMEIGVAL)*SQRT(ABS(W*W-1))))
+      'END'
+    'END' OPTPOL;
+    PI:= 3.1415 92653 58979;
+    C:= 1;
+    'IF' OPTPOL(C) < 0 'THEN'
+   'BEGIN' D:= .5 * PI * SQRT(ABS(B/DOMEIGVAL));
+    M: D:= D + D;
+     'IF' ZEROIN(C,D,OPTPOL(C),C*@-3) 'THEN' N:= ENTIER(C+.5)
+      'ELSE' 'GOTO' M;
+    'END' 'ELSE' N:= 1;
+    AUXCOS:= COS(.5*PI/N);
+    RICHARDSON(U,LJ,UJ,LL,UL,'TRUE',RESIDUAL,
+    (2*DOMEIGVAL + B*(AUXCOS-1))/(AUXCOS+1),B,N,DISCR,K,RATECONV,
+    DOMEIGVAL,OUT)
+  'END' ELIMINATION;
+        'EOP'

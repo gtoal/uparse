@@ -1,0 +1,38 @@
+c̲o̲d̲e̲ 35030;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ INCOMGAM(X,A,KLGAM,GRGAM,GAM,EPS);
+   v̲a̲l̲u̲e̲ X,A,EPS; r̲e̲a̲l̲ X,A,KLGAM,GRGAM,GAM,EPS;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C0,C1,C2,D0,D1,D2,X2,AX,P,Q,R,S,R1,R2,SCF;
+   i̲n̲t̲e̲g̲e̲r̲ N;
+   S:= EXP(-X + A × LN(X)); SCF:= @+300;
+   i̲f̲ X ≤ (i̲f̲ A < 3 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ A) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ X2:= X × X; AX:= A × X; D0:= 1; P:= A; C0:= S;
+      D1:=(A+1)×(A+2-X); C1:=((A+1) × (A+2)+X) × S;
+      R2:= C1/D1;
+      f̲o̲r̲ N:= 1, N+1 w̲h̲i̲l̲e̲ ABS((R2-R1)/R2) > EPS d̲o̲
+         b̲e̲g̲i̲n̲ P:= 2+P; Q:= (P+1) × (P×(P+2)-AX);
+            R:= N × (N+A) × (P+2) × X2;
+            C2:= (Q×C1 + R×C0)/P; D2:= (Q×D1 + R×D0)/P;
+            R1:=R2; R2:=C2/D2;
+            C0:=C1; C1:=C2; D0:=D1; D1:=D2;
+            i̲f̲ ABS(C1) > SCF ∨ ABS(D1) > SCF t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ C0:= C0/SCF; C1:= C1/SCF;
+               D0:= D0/SCF; D1:= D1/SCF
+            e̲n̲d̲
+         e̲n̲d̲; KLGAM:= R2/A; GRGAM:= GAM - KLGAM
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ C0:=A×S; C1:=(1+X)× C0; Q:= X +2  - A;
+      D0:= X; D1:= X × Q; R2:= C1/D1;
+      f̲o̲r̲ N:=1, N+1 w̲h̲i̲l̲e̲ ABS((R2-R1)/R2)>EPS d̲o̲
+         b̲e̲g̲i̲n̲     Q:= 2 + Q; R:= N × (N+1-A);
+            C2:= Q×C1-R×C0; D2:= Q×D1-R×D0;
+            R1:=R2; R2:=C2/D2;
+            C0:=C1; C1:=C2; D0:=D1; D1:=D2;
+            i̲f̲ ABS(C1) > SCF ∨ ABS(D1) > SCF t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ C0:= C0/SCF; C1:= C1/SCF;
+               D0:= D0/SCF; D1:= D1/SCF
+            e̲n̲d̲
+         e̲n̲d̲; GRGAM:= R2/A; KLGAM:= GAM - GRGAM
+   e̲n̲d̲
+e̲n̲d̲ INCOMGAM;
+
+e̲o̲p̲

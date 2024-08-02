@@ -1,0 +1,185 @@
+b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ testprogramma voor qrivalsym2, 080268, R1089, W.
+     Hoffmann;
+   i̲n̲t̲e̲g̲e̲r̲ i, n;
+   r̲e̲a̲l̲ eps;
+   a̲r̲r̲a̲y̲ em[0:5];
+   c̲o̲m̲m̲e̲n̲t̲ mca 2011;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ elmveccol(l, u, i, a, b, x); v̲a̲l̲u̲e̲ l, u, i, x;
+      i̲n̲t̲e̲g̲e̲r̲ l, u, i; r̲e̲a̲l̲ x; a̲r̲r̲a̲y̲ a, b;
+      f̲o̲r̲ l:= l s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ u d̲o̲ a[l]:= a[l] + b[l,i] × x;
+   c̲o̲m̲m̲e̲n̲t̲ mca 2012;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ elmcolvec(l, u, i, a, b, x); v̲a̲l̲u̲e̲ l, u, i, x;
+      i̲n̲t̲e̲g̲e̲r̲ l, u, i; r̲e̲a̲l̲ x; a̲r̲r̲a̲y̲ a, b;
+      f̲o̲r̲ l:= l s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ u d̲o̲ a[l,i]:= a[l,i] + b[l] × x;
+   c̲o̲m̲m̲e̲n̲t̲ mca 2013;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ elmcol(l, u, i, j, a, b, x); v̲a̲l̲u̲e̲ l, u, i, j, x;
+      i̲n̲t̲e̲g̲e̲r̲ l, u, i, j; r̲e̲a̲l̲ x; a̲r̲r̲a̲y̲ a, b;
+      f̲o̲r̲ l:= l s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ u d̲o̲ a[l,i]:= a[l,i] + b[l,j] × x;
+   c̲o̲m̲m̲e̲n̲t̲ mca 2300;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ tfmsymtri2(a, n, d, b, bb, em); v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+        a̲r̲r̲a̲y̲ a, b, bb, d, em;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, r, r1;
+      r̲e̲a̲l̲ w, x, a1, b0, bb0, d0, machtol, norm;
+      norm:= 0;
+      f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ w:= 0;
+            f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ j d̲o̲ w:= abs(a[i,j]) + w;
+            f̲o̲r̲ i:= j + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ w:= abs(a[j,i]) + w;
+            i̲f̲ w > norm t̲h̲e̲n̲ norm:= w
+         e̲n̲d̲;
+      machtol:= em[0] × norm; em[1]:= norm; r:= n;
+      f̲o̲r̲ r1:= n - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ d[r]:= a[r,r]; x:= tammat(1, r - 2, r, r, a, a);
+            a1:= a[r1,r]; i̲f̲ sqrt(x) ≤ machtol t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ b0:= b[r1]:= a1; bb[r1]:= b0 × b0; a[r,r]:= 1 e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ bb0:= bb[r1]:= a1 × a1 + x;
+               b0:= i̲f̲ a1 > 0 t̲h̲e̲n̲ - sqrt(bb0) e̲l̲s̲e̲ sqrt(bb0);
+               a1:= a[r1,r]:= a1 - b0; w:= a[r,r]:= 1 / (a1 × b0);
+               f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ r1 d̲o̲ b[j]:= (tammat(1, j, j, r,
+                    a, a) + matmat(j + 1, r1, j, r, a, a)) × w;
+               elmveccol(1, r1, r, b, a, tamvec(1, r1, r, a, b) × w ×·5);
+               f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ r1 d̲o̲
+                  b̲e̲g̲i̲n̲ elmcol(1, j, j, r, a, a, b[j]);
+                     elmcolvec(1, j, j, a, b, a[j,r])
+                  e̲n̲d̲;
+               b[r1]:= b0
+            e̲n̲d̲;
+            r:= r1
+         e̲n̲d̲;
+      d[1]:= a[1,1]; a[1,1]:= 1; b[n]:= bb[n]:= 0
+   e̲n̲d̲ tfmsymtri2;
+   c̲o̲m̲m̲e̲n̲t̲ mca 2320;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ qrivalsymtri(d, bb, n, em); v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+        a̲r̲r̲a̲y̲ d, bb, em;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ count, max, n1, k, k1;
+      r̲e̲a̲l̲ tol, tol2, macheps2, bbmax, t, r, w, c, s, shift, u, g, t2,
+        w2, p2, dk, cos2, sin2, oldcos2;
+      tol:= em[2] × em[1]; tol2:= tol × tol; macheps2:= em[0] ⭡ 2;
+      count:= 0; bbmax:= 0; max:= em[4];
+      in: k:= n; n1:= n - 1;
+      next: k:= k - 1; i̲f̲ k > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ bb[k] ≥ tol2 t̲h̲e̲n̲ g̲o̲t̲o̲ next;
+         i̲f̲ bb[k] > bbmax t̲h̲e̲n̲ bbmax:= bb[k]
+      e̲n̲d̲;
+      i̲f̲ k = n1 t̲h̲e̲n̲ n:= n1 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         twoby2: t:= d[n] - d[n1]; r:= bb[n1]; i̲f̲ k < n - 2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ w:= bb[n - 2]; c:= t × t; s:= r / (c + w);
+            g:= (w + s × c) × s; i̲f̲ g < tol2 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ n:= n - 1; n1:= n - 1; i̲f̲ g > bbmax t̲h̲e̲n̲ bbmax:= g;
+               g̲o̲t̲o̲ twoby2
+            e̲n̲d̲
+         e̲n̲d̲ negligible bb;
+         i̲f̲ abs(t) < tol t̲h̲e̲n̲ s:= sqrt(r) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ w:= 2 / t; s:= w × r / (sqrt(w × w × r + 1) + 1) e̲n̲d̲;
+         i̲f̲ k = n - 2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ d[n]:= d[n] + s; d[n1]:= d[n1] - s; n:= n - 2 e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ count:= count + 1; i̲f̲ count > max t̲h̲e̲n̲ g̲o̲t̲o̲ end;
+            shift:= d[n] + s; i̲f̲ abs(t) < tol t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ w:= d[n1] - s;
+               i̲f̲ abs(w) < abs(shift) t̲h̲e̲n̲ shift:= w
+            e̲n̲d̲;
+            k:= k + 1; g:= d[k] - shift; t2:= g × g; w2:= bb[k];
+            p2:= t2 + w2; oldcos2:= 1;
+            f̲o̲r̲ k:= k + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+               b̲e̲g̲i̲n̲ k1:= k - 1; sin2:= w2 / p2; cos2:= t2 / p2;
+                  dk:= d[k] - shift; u:= (g + dk) × sin2;
+                  d[k1]:= g + u + shift; g:= dk - u;
+                  t2:= i̲f̲ cos2 < macheps2 t̲h̲e̲n̲ w2 × oldcos2 e̲l̲s̲e̲ g × g
+                    / cos2; w2:= bb[k]; p2:= w2 + t2; bb[k1]:= sin2 × p2;
+                  oldcos2:= cos2
+               e̲n̲d̲;
+            d[n]:= g + shift
+         e̲n̲d̲ sweep
+      e̲n̲d̲;
+      i̲f̲ n > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ in;
+      end: em[3]:= sqrt(bbmax); em[5]:= count; qrivalsymtri:= n
+   e̲n̲d̲ qrivalsymtri;
+   c̲o̲m̲m̲e̲n̲t̲ mca2322;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ qrivalsym2(a, n, val, em); v̲a̲l̲u̲e̲ n; i̲n̲t̲e̲g̲e̲r̲ n;
+        a̲r̲r̲a̲y̲ a, val, em;
+   b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ b, bb[1:n];
+      tfmsymtri2(a, n, val, b, bb, em);
+      qrivalsym2:= qrivalsymtri(val, bb, n, em)
+   e̲n̲d̲ qrivalsym2;
+   c̲o̲m̲m̲e̲n̲t̲ Van een matrix a worden de elementen aldus bepaald: a[i,
+     j]:= SUM(k, 1, n, ar(i, k, n) × labda[k] × ar(k, j, n))/n. De
+     eigenwaarden van a zijn de elementen van een willekeurig te vullen
+     array labda[1 : n] en de elementen van de matrix van
+     eigenvectoren X zijn aldus bepaald: X[i, j] = ar(i, j, n)/sqrt(n).
+     n mag alleen een macht van 2 zijn, bij voorkeur een macht van 4;
+   i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ar(i, j, n); v̲a̲l̲u̲e̲ i, j, n; i̲n̲t̲e̲g̲e̲r̲ i, j, n;
+        c̲o̲m̲m̲e̲n̲t̲ ar(i, j, n) krijgt het teken van eigenvectorelement X[i, j];
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ sig;
+      sig:= 1; g̲o̲t̲o̲ in;
+      dev: i̲f̲ i > n ∧ j > n t̲h̲e̲n̲ sig:= - sig; i̲f̲ n = 1 t̲h̲e̲n̲ g̲o̲t̲o̲ end;
+      i:= REMAINDER(i, n); j:= REMAINDER(j, n); i̲f̲ i = 0 t̲h̲e̲n̲ i:= n;
+      i̲f̲ j = 0 t̲h̲e̲n̲ j:= n;
+      in: n:= n / 2; g̲o̲t̲o̲ dev;
+      end: ar:= sig
+   e̲n̲d̲ ar;
+   c̲o̲m̲m̲e̲n̲t̲ Procedure om een symmetrische matrix te genereren met
+     eigenwaarde mu[1] t/m mu[n], de procedure gebruikt integer
+     procedure ar(i, j, n);
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ symtestmx(a, mu, n); v̲a̲l̲u̲e̲ n; a̲r̲r̲a̲y̲ a, mu; i̲n̲t̲e̲g̲e̲r̲ n;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, k;
+      r̲e̲a̲l̲ s;
+      i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ col(i, j, n); v̲a̲l̲u̲e̲ i, j, n; i̲n̲t̲e̲g̲e̲r̲ i, j, n;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ k;
+         k:= j;
+         down: n:= n / 2; i̲f̲ i > n t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i:= i - n; j:= i̲f̲ k > n t̲h̲e̲n̲ j - n e̲l̲s̲e̲ j + n e̲n̲d̲;
+         i̲f̲ k > n t̲h̲e̲n̲ k:= k - n; i̲f̲ i > 1 t̲h̲e̲n̲ g̲o̲t̲o̲ down; col:= j
+      e̲n̲d̲ col;
+      f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ s:= 0;
+            f̲o̲r̲ k:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ s:= ar(1, k, n) × ar(k, j, n) ×
+                 mu[k] / n + s; a[1,j]:= s; a[j,j]:= a[1,1]
+         e̲n̲d̲;
+      f̲o̲r̲ j:= 3 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+           f̲o̲r̲ i:= j - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 2 d̲o̲ a[i,j]:= a[1,col(i,j,n)]
+   e̲n̲d̲ symtestmx;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ primat(A, labda, n, numval, p, s); v̲a̲l̲u̲e̲ n, numval;
+      i̲n̲t̲e̲g̲e̲r̲ n, numval, p; a̲r̲r̲a̲y̲ A, labda; s̲t̲r̲i̲n̲g̲ s;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ i, j, a, b;
+      NLCR; PRINTTEXT(s); a:= 1; b:= (i̲f̲ numval > 6 t̲h̲e̲n̲ 6 e̲l̲s̲e̲ numval);
+      NLCR;
+      AA: NLCR; NLCR; NLCR; i̲f̲ p = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ j:= a s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ b d̲o̲ print(labda[j]); NLCR e̲n̲d̲;
+      f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ NLCR;
+            f̲o̲r̲ j:= a s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ b d̲o̲ print(A[i,j])
+         e̲n̲d̲;
+      i̲f̲ b ≠ numval t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ a:= b + 1; b:= (i̲f̲ (b + 6) > numval t̲h̲e̲n̲ numval e̲l̲s̲e̲ b + 6);
+         g̲o̲t̲o̲ AA
+      e̲n̲d̲;
+      NLCR
+   e̲n̲d̲ primat;
+   start: NLCR; PRINTTEXT(“ mach. precisie qr precisie max. iter”); NLCR;
+   f̲o̲r̲ i:= 0, 2, 4 d̲o̲
+      b̲e̲g̲i̲n̲ eps:= em[i]:= read; PRINT(eps) e̲n̲d̲;
+   n:= read;
+   next: b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ l, j;
+      r̲e̲a̲l̲ t, sqinvn;
+      a̲r̲r̲a̲y̲ ar, vec[1:n,1:n], val[1:n];
+      NLCR; PRINTTEXT(“order”); ABSFIXT(2, 0, n); NLCR;
+      f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ val[i]:= read; symtestmx(vec, val, n);
+      f̲o̲r̲ j:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+           f̲o̲r̲ i:= j s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲ ar[i,j]:= ar[j,i]:= vec[j,i];
+      sqinvn:= 1 / sqrt(n); primat(ar, val, n, n, 0, “input”); NLCR;
+      NLCR; PRINTTEXT(“time”); t:= time;
+      l:= qrivalsym2(vec, n, val, em); ABSFIXT(3, 2, time - t); NLCR;
+      NLCR; PRINTTEXT(“number of calculated eigenvalues =”);
+      ABSFIXT(2, 0, n - l); NLCR; NLCR; PRINTTEXT(“eigenvalues are”);
+      NLCR;
+      f̲o̲r̲ i:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲ PRINT(val[i]); NLCR e̲n̲d̲;
+      NLCR; PRINTTEXT(“ norm max negl. codiag. element number of qr steps”
+        ); NLCR;
+      f̲o̲r̲ i:= 1, 3, 5 d̲o̲ PRINT(em[i]); NLCR; n:= read; i̲f̲ n ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ NEWPAGE; g̲o̲t̲o̲ next e̲n̲d̲
+   e̲n̲d̲
+e̲n̲d̲

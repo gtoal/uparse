@@ -1,0 +1,64 @@
+c̲o̲d̲e̲ 33180;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFSYS(X,XE,N,Y,DERIVATIVE,AETA,RETA,S,H0,OUTPUT);
+   v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N;
+     r̲e̲a̲l̲ X,XE,AETA,RETA,H0;
+     a̲r̲r̲a̲y̲ Y,S;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,OUTPUT;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A,B,B1,C,G,H,U,V,TA,FC; i̲n̲t̲e̲g̲e̲r̲ I,J,K,KK,JJ,L,M,R,SR;
+   a̲r̲r̲a̲y̲ YA,YL,YM,DY,DZ[1:N],DT[1:N,0:6],D[0:6],YG,YH[0:7,1:N];
+   b̲o̲o̲l̲e̲a̲n̲ KONV,B0,BH,LAST;
+   LAST:=f̲a̲l̲s̲e̲; H:=H0;
+   NEXT: i̲f̲ H×1·1≥XE-X t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; H0:=H; H:=XE-X+@-13 e̲n̲d̲;
+   DERIVATIVE(X,Y,DZ); BH:=f̲a̲l̲s̲e̲;
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ YA[I]:=Y[I];
+   ANF: A:=H+X; FC:=1·5; B0:=f̲a̲l̲s̲e̲; M:=1; R:=2; SR:=3; JJ:=-1;
+   f̲o̲r̲ J:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 9 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ B0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ D[1]:=16/9; D[3]:=64/9; D[5]:=256/9 e̲n̲d̲
+         e̲l̲s̲e̲ b̲e̲g̲i̲n̲ D[1]:=9/4; D[3]:=9; D[5]:=36 e̲n̲d̲;
+         KONV:=t̲r̲u̲e̲;
+         i̲f̲ J>6 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ L:=6; D[6]:=64; FC:=·6×FC e̲n̲d̲
+         e̲l̲s̲e̲ b̲e̲g̲i̲n̲ L:=J; D[L]:=M×M e̲n̲d̲;
+         M:=M×2; G:=H/M; B:=G×2;
+         i̲f̲ BH ∧ J<8 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ YM[I]:=YH[J,I]; YL[I]:=YG[J,I] e̲n̲d̲
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲
+            KK:=(M-2)/2; M:=M-1;
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ YL[I]:=YA[I]; YM[I]:=YA[I]+G×DZ[I] e̲n̲d̲;
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+               b̲e̲g̲i̲n̲ DERIVATIVE(X+K×G,YM,DY);
+                  f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                     b̲e̲g̲i̲n̲ U:=YL[I]+B×DY[I]; YL[I]:=YM[I]; YM[I]:=U;
+                        U:=ABS(U); i̲f̲ U>S[I] t̲h̲e̲n̲ S[I]:=U
+                     e̲n̲d̲;
+                  i̲f̲ K=KK ∧ K≠2 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ JJ:=JJ+1; f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                        b̲e̲g̲i̲n̲ YH[JJ,I]:=YM[I]; YG[JJ,I]:=YL[I] e̲n̲d̲
+                  e̲n̲d̲
+               e̲n̲d̲
+         e̲n̲d̲;
+         DERIVATIVE(A,YM,DY);
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ V:=DT[I,0]; TA:=C:=DT[I,0]:=(YM[I]+YL[I]+G×DY[I])/2;
+               f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+                  b̲e̲g̲i̲n̲ B1:=D[K]×V; B:=B1-C; U:=V;
+                     i̲f̲ B≠0 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ B:=(C-V)/B; U:=C×B; C:=B1×B e̲n̲d̲;
+                     V:=DT[I,K]; DT[I,K]:=U; TA:=U+TA
+                  e̲n̲d̲;
+               i̲f̲ ABS(Y[I]-TA)>RETA×S[I]+AETA t̲h̲e̲n̲ KONV:=f̲a̲l̲s̲e̲;
+               Y[I]:=TA
+            e̲n̲d̲;
+         i̲f̲ KONV t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+         D[2]:=4; D[4]:=16; B0:=¬B0; M:=R; R:=SR; SR:=M×2
+      e̲n̲d̲;
+   BH:=¬BH; LAST:=f̲a̲l̲s̲e̲; H:=H/2; g̲o̲t̲o̲ ANF;
+   END: H:=FC×H; X:=A; OUTPUT; i̲f̲ ¬ LAST t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT;
+e̲n̲d̲ DIFFSYS;
+e̲o̲p̲

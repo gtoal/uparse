@@ -1,0 +1,129 @@
+b̲e̲g̲i̲n̲
+
+   r̲e̲a̲l̲ X, Y;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ OPEN(X, Y);
+      v̲a̲l̲u̲e̲ X, Y;
+      r̲e̲a̲l̲ X, Y;
+   b̲e̲g̲i̲n̲
+   e̲n̲d̲ OPEN;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CLOSE;
+   b̲e̲g̲i̲n̲
+   e̲n̲d̲ CLOSE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LEER(X, Y);
+      v̲a̲l̲u̲e̲ X, Y;
+      r̲e̲a̲l̲ X, Y;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ MOVETO;
+   e̲n̲d̲ LEER;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LINE(X, Y);
+      v̲a̲l̲u̲e̲ X, Y;
+      r̲e̲a̲l̲ X, Y;
+   b̲e̲g̲i̲n̲
+   e̲n̲d̲ LINE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SONK(X);
+      v̲a̲l̲u̲e̲ X;
+      i̲n̲t̲e̲g̲e̲r̲ X;
+   b̲e̲g̲i̲n̲
+   e̲n̲d̲ SONK;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ COS(A);
+      v̲a̲l̲u̲e̲ A;
+      r̲e̲a̲l̲ A;
+   b̲e̲g̲i̲n̲
+      COS := 0·0;
+   e̲n̲d̲ COS;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SIN(A);
+      v̲a̲l̲u̲e̲ A;
+      r̲e̲a̲l̲ A;
+   b̲e̲g̲i̲n̲
+      SIN := 0·0;
+   e̲n̲d̲ SIN;
+
+
+
+   i̲n̲t̲e̲g̲e̲r̲ JI;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ J(JA, JE);
+      v̲a̲l̲u̲e̲ JA, JE;
+      r̲e̲a̲l̲ JA, JE;
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲ ZUFALLS-GENERATOR J;
+      JI := 5×JI;
+      i̲f̲ JI ≥ 8589934592 t̲h̲e̲n̲ JI := JI - 8589934592;
+      i̲f̲ JI ≥ 4294967296 t̲h̲e̲n̲ JI := JI - 4294967296;
+      i̲f̲ JI ≥ 2147483648 t̲h̲e̲n̲ JI := JI - 2147483648;
+      J := JI/2147483648×(JE-JA) + JA
+   e̲n̲d̲ ZUFALLS GENERATOR J;
+
+   c̲o̲m̲m̲e̲n̲t̲ SCHOTTER;
+
+   r̲e̲a̲l̲    R, PIHALB, PI4T;
+   r̲e̲a̲l̲    P, Q, P1, Q1, XM, YM, HOR, VER, JLI, JRE, JUN, JOB;
+   i̲n̲t̲e̲g̲e̲r̲ I, M, T;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SERIE(QUER, HOCH, XMAL, YMAL, FIGUR);
+      v̲a̲l̲u̲e̲   QUER, HOCH, XMAL, YMAL;
+      r̲e̲a̲l̲    QUER, HOCH;
+      i̲n̲t̲e̲g̲e̲r̲ XMAL, YMAL;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ FIGUR;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲    YANF;
+      i̲n̲t̲e̲g̲e̲r̲ COUNTX, COUNTY;
+
+      P := -QUER×XMAL×·5;
+      Q := YANF := -HOCH×YMAL×·5;
+      f̲o̲r̲ COUNTX := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ XMAL d̲o̲
+         b̲e̲g̲i̲n̲
+            Q := YANF;
+            f̲o̲r̲ COUNTY := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ YMAL d̲o̲
+               b̲e̲g̲i̲n̲
+                  FIGUR;
+                  Q := Q+HOCH
+               e̲n̲d̲;
+            P := P+QUER
+         e̲n̲d̲;
+
+      LEER(-148·0, -105·0);
+      CLOSE;
+      SONK(11);
+      OPEN(X, Y);
+   e̲n̲d̲ SERIE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ QUAD;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ P1, Q1, PSI, JA1, JE1, JA2, JE2;
+      i̲n̲t̲e̲g̲e̲r̲ S;
+
+      JE1 := 5×1/264;
+      JA1 := -JE1;
+      JE2 := PI4T×(1+I/264);
+      JA2 := PI4T×(1-I/264);
+      P1  := P+5+J(JA1, JE1);
+      Q1  := Q+5+J(JA1, JE1);
+      PSI := J(JA2, JE2);
+      LEER(P1+R×COS(PSI), Q1+R×SIN(PSI));
+      f̲o̲r̲ S := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+         b̲e̲g̲i̲n̲
+            PSI := PSI+PIHALB;
+            LINE(P1+R×COS(PSI), Q1+R×SIN(PSI));
+         e̲n̲d̲;
+      I   := I+1
+   e̲n̲d̲ QUAD;
+
+   X := Y := 0;
+   OPEN(X, Y);
+
+   JI     := 1306859721;
+   R      := 5×1·4142;
+   PIHALB := 3·14159×·5;
+   PI4T   := PIHALB×·5;
+   I      := 0;
+   SERIE(10·0, 10·0, 22, 12, QUAD)
+
+   CLOSE;
+
+e̲n̲d̲ SCHOTTER;

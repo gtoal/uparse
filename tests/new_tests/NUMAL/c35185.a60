@@ -1,0 +1,13 @@
+c̲o̲d̲e̲ 35185;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ START(X,N,T); v̲a̲l̲u̲e̲ X,N,T; r̲e̲a̲l̲ X;
+     i̲n̲t̲e̲g̲e̲r̲ N,T;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲P,Q,R,Y;   i̲n̲t̲e̲g̲e̲r̲ S;
+   S:= 2×T-1; P:= 36/X-T; R:= N/X; i̲f̲ R>1 ∨ T=1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Q:= SQRT(R×R+S); R:= R×LN(Q+R)-Q e̲n̲d̲ e̲l̲s̲e̲ R:= 0;
+   Q:= 18/X+R; R:= i̲f̲ P>Q t̲h̲e̲n̲ P e̲l̲s̲e̲ Q;
+   P:= SQRT(2×(T+R)); P:= X×((1+R)+P)/(1+P); Y:= 0;
+   f̲o̲r̲ Q:= Y, Y w̲h̲i̲l̲e̲ P>Q ∨ P<Q-1 d̲o̲
+      b̲e̲g̲i̲n̲ Y:=P; P:= P/X; Q:= SQRT(P×P+S); P:= X×(R+Q)/LN(P+Q) e̲n̲d̲;
+   START:= i̲f̲ T=1 t̲h̲e̲n̲ ENTIER(P+1) e̲l̲s̲e̲ -ENTIER(-P/2)×2
+e̲n̲d̲ START;
+e̲o̲p̲

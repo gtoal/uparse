@@ -1,0 +1,82 @@
+c̲o̲d̲e̲36022;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ MINMAXPOL(N,M,Y,FY,CO,EM);
+   v̲a̲l̲u̲e̲ N,M;i̲n̲t̲e̲g̲e̲r̲ N,M;
+     a̲r̲r̲a̲y̲ Y,FY,CO,EM;
+     c̲o̲m̲m̲e̲n̲t̲ MINMAXPOL CALCULATES THE COEFFICIENTS,
+     CO[I],I=,.....N OF THE POLYNOMIAL
+     P(Y)=CO[0]+CO[1]*Y+...+CO[N]*Y**N,
+     THAT APPROXIMATES THE DISCRETE FUNCTION FY[I],I=0,...M,
+     GIVEN FOR THE ARGUMENTS Y[I],I=0,...M,
+     IN THE MINIMAX NORM.
+     THE ARGUMENTS MUST BE GIVEN IN MONOTONE INCREASING ORDER.
+     IN ARRAY EM[0:3], ONE MUST GIVE THE MAXIMUM ALLOWED NUMBER OF
+     ITERATIONS,EM[2].
+     MOREOVER,
+     EM[0]:=THE DIFFERENCE OF THE GIVEN FUNCTION AND THE POLYNOMIAL
+     IN THE FIRST APPROXIMATION POINT,
+     EM[1]:=THE MAXIMUM OF ! P(Y[I])-FY[I]!  FOR I=0,...M,
+     EM[3]:=THE NUMBER OF ITERATIONS PERFORMED.
+     THE PROCEDURES ELMVEC,DUPVEC,POL,NEWTON,NEWGRN,
+     INI,SNDREMEZ
+     ARE USED.
+     REFERENCE:MEINARDUS,G.(1964,CH.7),
+     APPROXIMATION VON FUNKTIONEN UND IHRE NUMERISCHE BEHANDLUNG;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ NP1,K,POMK,COUNT,CNT,J,MI;
+   r̲e̲a̲l̲ E,ABSE,ABSEH;
+   NP1:=N+1;
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ S[0:NP1];
+      a̲r̲r̲a̲y̲ X,B,COEF[0:NP1]
+        ,G[0:M];
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERRPOL(N,M,E,CO,S,Y,FY,G);
+         v̲a̲l̲u̲e̲ N,M,E;i̲n̲t̲e̲g̲e̲r̲ N,M;
+           r̲e̲a̲l̲ E;
+           i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ S;a̲r̲r̲a̲y̲ CO,Y,FY,G;
+           c̲o̲m̲m̲e̲n̲t̲ERRPOL DELIVERS THE VALUE OF
+           CO[0]+CO[1]*Y[I]+...+CO[N]*Y[I]**N - FY[I]
+           IN G[I] FOR I=0,1,...M AND I NOT EQUAL S[J],J=0,1,...N+1.
+           FOR J=0,1,...N+1 THEN G[S[J]]:=(-1)**J*E.
+           THE INTEGERS S[J],FOR J=0,1,...N+1 ARE A SUBSET OF 0,1,...M;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J,K,NP1,SJM1,SJ,S0,UP;
+         NP1:=N+1;S0:=SJM1:=S[0];
+         G[S0]:=E;
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NP1 d̲o̲
+            b̲e̲g̲i̲n̲ SJ:=S[J];UP:=SJ-1;
+               f̲o̲r̲ K:= SJM1+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UP d̲o̲
+                    G[K]:=FY[K]-POL(N,Y[K],CO);
+               G[SJ]:=E:=-E;
+               SJM1:=SJ;
+            e̲n̲d̲ J;
+         f̲o̲r̲ K:= S0-1 s̲t̲e̲p̲-1 u̲n̲t̲i̲l̲ 0 d̲o̲
+              G[K]:=FY[K]-POL(N,Y[K],CO);
+         f̲o̲r̲ K:= SJ+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+              G[K]:=FY[K]-POL(N,Y[K],CO);
+      e̲n̲d̲ ERRPOL;
+
+      INI(NP1,M,S);
+      MI:=EM[2];
+      ABSE:= 0;
+      f̲o̲r̲ COUNT:= 1, COUNT + 1 w̲h̲i̲l̲e̲ COUNT ≤ MI ∧ ABSE > ABSEH d̲o̲
+         b̲e̲g̲i̲n̲
+            POMK:=1;
+            f̲o̲r̲ K:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NP1 d̲o̲
+               b̲e̲g̲i̲n̲ X[K]:= Y[S[K]]; COEF[K]:= FY[S[K]]; B[K]:= POMK;
+                  POMK:=-POMK e̲n̲d̲;
+            NEWTON(NP1,X,COEF); NEWTON(NP1,X,B);
+            EM[0]:=
+              E:= COEF[NP1]/B[NP1];
+            ELMVEC(0,N,0,COEF,B,-E);
+            NEWGRN(N,X,COEF);
+            ERRPOL(N,M,E,COEF,S,Y,FY,G);
+            SNDREMEZ(NP1,M,S,G,EM);
+            ABSEH:=ABSE;     ABSE:=ABS(E);
+            CNT:=COUNT;
+         e̲n̲d̲ WHILE COUNT;
+      EM[2]:=MI;
+      EM[3]:=CNT;
+      DUPVEC(0,N,0,CO,COEF);
+   e̲n̲d̲;
+e̲n̲d̲ MINMAXPOL
+
+;e̲o̲p̲

@@ -1,0 +1,9 @@
+'CODE' 34368;
+    'PROCEDURE' EIGVALHRM(A, N, NUMVAL, VAL, EM); 'VALUE' N, NUMVAL;
+    'INTEGER' N, NUMVAL; 'ARRAY' A, VAL, EM;
+    'BEGIN' 'ARRAY' D[1:N], BB[1:N - 1];
+        HSHHRMTRIVAL(A, N, D, BB, EM);
+        VALSYMTRI(D, BB, N, 1, NUMVAL, VAL, EM)
+    'END' EIGVALHRM
+
+        ;'EOP'

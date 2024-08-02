@@ -1,0 +1,10 @@
+'CODE' 34285;
+'INTEGER' 'PROCEDURE' HOMSOL(A, M, N, V, EM);
+'VALUE' M, N; 'INTEGER' M, N; 'ARRAY' A, V, EM;
+'BEGIN' 'INTEGER' I;
+    'ARRAY' VAL[1:N];
+
+    HOMSOL:= I:= QRISNGVALDEC(A, M, N, VAL, V, EM);
+    'IF' I = 0 'THEN' HOMSOLSVD(A, VAL, V, M, N)
+'END' HOMSOL;
+        'EOP'

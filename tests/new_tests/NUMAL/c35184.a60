@@ -1,0 +1,95 @@
+c̲o̲d̲e̲ 35184;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS ZEROS(A,N,Z,D); v̲a̲l̲u̲e̲ A,N,D; r̲e̲a̲l̲ A;a̲r̲r̲a̲y̲ Z;
+     i̲n̲t̲e̲g̲e̲r̲ N,D;
+     c̲o̲m̲m̲e̲n̲t̲ COMPUTES Z[1],...Z[N],THE FIRST N ZEROS OF A BESSEL FUNCTION.
+     THE CHOICE OF D DETERMINES THE TYPE OF THE BESSEL FUNCTION :
+     IF D=1 THEN JA       ELSE
+     IF D=2 THEN YA       ELSE
+     IF D=3 THEN JA-PRIME ELSE
+     IF D=4 THEN YA-PRIME.
+     A IS THE ORDER OF THE BESSEL FUNCTION, IT MUST BE NON-NEGATIVE.;
+b̲e̲g̲i̲n̲r̲e̲a̲l̲ AA,A2,B,BB,C,CHI,CO,MU,MU2,MU3,MU4,P,PI,PA,PA1,P0,P1,PP1,
+     Q,QA,QA1,Q1,QQ1,RO,SI,T,TT,U,V,W,X,XX,X4,Y; i̲n̲t̲e̲g̲e̲r̲ J,S;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FI(Y); v̲a̲l̲u̲e̲ Y; r̲e̲a̲l̲ Y;
+        c̲o̲m̲m̲e̲n̲t̲ COMPUTES FI FROM THE EQUATION
+        TAN(FI)-FI=Y , WHERE Y>=0.
+        THE RELATIVE ACCURACY IS AT LEAST 5 DIGITS;
+      i̲f̲ Y=0  t̲h̲e̲n̲ FI:=0         e̲l̲s̲e̲
+      i̲f̲ Y>@5 t̲h̲e̲n̲ FI:=1·570796  e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R,P,PP;
+         i̲f̲ Y<1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ P:=(3×Y)⭡(1/3); PP:=P×P;
+            P:=P×(1+PP×(-210+PP×(27-2×PP))/1575)
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ P:=1/(Y+1·570796); PP:=P×P;
+            P:= 1·570796-P×(1+PP×(2310+PP×(3003+PP×(4818+PP×
+              (8591+PP×16328))))/3465)
+         e̲n̲d̲;
+         PP:=(Y+P)×(Y+P); R:=(P-ARCTAN(P+Y))/PP;
+         FI:=P-(1+PP)×R×(1+R/(P+Y))
+      e̲n̲d̲ FI;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ R;
+   b̲e̲g̲i̲n̲ BESS PQA01(A,X,PA,QA,PA1,QA1);
+      CHI:=X-PI×(A/2+0·25);
+      SI :=SIN(CHI); CO:=COS(CHI);
+      R:= i̲f̲ D=1 t̲h̲e̲n̲ (PA×CO-QA×SI)/(PA1×SI+QA1×CO) e̲l̲s̲e̲
+        i̲f̲ D=2 t̲h̲e̲n̲ (PA×SI+QA×CO)/(QA1×SI-PA1×CO) e̲l̲s̲e̲
+        i̲f̲ D=3 t̲h̲e̲n̲ A/X-(PA1×SI+QA1×CO)/(PA×CO-QA×SI) e̲l̲s̲e̲
+        A/X-(QA1×SI-PA1×CO)/(PA×SI+QA×CO)
+   e̲n̲d̲ R;
+   PI:=4×ARCTAN(1); AA:=A×A; MU:=4×AA; MU2:=MU×MU;
+   MU3:=MU×MU2; MU4:=MU2×MU2;
+   i̲f̲ D<3 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ P:=7×MU-31; P0:=MU-1;
+      P1:=4×(253×MU2-3722×MU+17869)/15/P×P0;
+      Q1:=8×( 83×MU2- 982×MU+ 3779)/ 5/P
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ P:=7×MU2+82×MU-9; P0:=MU+3;
+      P1:=(4048×MU4+131264×MU3-221984×MU2-417600×MU+1012176)/60/P;
+      Q1:=1·6×(83×MU3+2075×MU2-3039×MU+3537)/P
+   e̲n̲d̲;
+   T:=i̲f̲ D=1∨D=4 t̲h̲e̲n̲ 0·25 e̲l̲s̲e̲ 0·75; TT:=4×T;
+   i̲f̲ D<3 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ PP1:= 5/48; QQ1:= -5/36  e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ PP1:=-7/48; QQ1:= 35/288 e̲n̲d̲;
+   Y:= 3×PI/8; BB:= i̲f̲ A≥3 t̲h̲e̲n̲ A ⭡(-2/3) e̲l̲s̲e̲ 0·0 ;
+   f̲o̲r̲ S:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ A=0∧S=1∧D=3 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ X:=0; J:=0 e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ i̲f̲ S ≥ 3×A -8  t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ B:=(S+A/2-T)×PI; C:=1/B/B/64;
+               X:=B-1/B/8×(P0-P1×C)/(1-Q1×C)
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ i̲f̲ S=1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ X:= i̲f̲ D=1 t̲h̲e̲n̲ -2·33811 e̲l̲s̲e̲
+                    i̲f̲ D=2 t̲h̲e̲n̲ -1·17371 e̲l̲s̲e̲
+                    i̲f̲ D=3 t̲h̲e̲n̲ -1·01879 e̲l̲s̲e̲ -2·29444
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ X:= Y×(4×S-TT); V:= 1/X/X;
+                  X:= -X⭡(2/3)×(1+V×(PP1+QQ1×V))
+               e̲n̲d̲;
+               U:=X×BB; V:=FI(2/3×(-U)⭡1·5);
+               W:=1/COS(V); XX:=1-W×W; C:=SQRT(U/XX);
+               X:=W×(A+C/A/U×
+                 (i̲f̲ D<3 t̲h̲e̲n̲ -5/48/U-C×(-5/24/XX+1/8)
+               e̲l̲s̲e̲  7/48/U+C×(-7/24/XX+3/8)))
+            e̲n̲d̲;  J:=0;
+            L1: XX:=X×X; X4:=XX×XX; A2:=AA-XX; RO:=R; J:=J+1;
+            i̲f̲ D<3 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ U:=RO; P:=(1-4×A2)/6/X/(2×A+1);
+               Q:=(2×(XX-MU)-1-6×A)/3/X/(2×A+1)
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ U:=-XX×RO/A2; V:=2×X×A2/(AA+XX)/3;
+               W:=A2×A2×A2;
+               Q:=V×(1+( MU2+32×MU×XX+48×X4)/32/W);
+               P:=V×(1+(-MU2+40×MU×XX+48×X4)/64/W)
+            e̲n̲d̲;
+            W:=U×(1+P×RO)/(1+Q×RO); X:=X+W;
+            i̲f̲ ABS(W/X)>@-13 ∧J<5 t̲h̲e̲n̲ g̲o̲t̲o̲ L1
+         e̲n̲d̲; Z[S]:=X
+      e̲n̲d̲
+e̲n̲d̲ BESS ZEROS;
+
+e̲o̲p̲

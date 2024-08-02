@@ -1,0 +1,95 @@
+c̲o̲d̲e̲ 34190;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2420;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMVALQRI(A, N, EM, RE, IM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, RE, IM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, P, Q, MAX, COUNT, N1, P1, P2, IMIN1,
+     I1, I2, I3;
+   r̲e̲a̲l̲ DISC, SIGMA, RHO, G1, G2, G3, PSI1, PSI2, AA, E, K,
+     S, NORM, MACHTOL2, TOL, W;
+   b̲o̲o̲l̲e̲a̲n̲ B;
+
+   NORM:= EM[1]; MACHTOL2:= (EM[0] × NORM) ⭡ 2;
+   TOL:= EM[2] × NORM; MAX:= EM[4]; COUNT:= 0; W:= 0;
+   IN: f̲o̲r̲ I:= N, I - 1 w̲h̲i̲l̲e̲
+     (i̲f̲ I ≥ 1 t̲h̲e̲n̲ ABS(A[I + 1,I]) > TOL e̲l̲s̲e̲ f̲a̲l̲s̲e̲)
+     d̲o̲ Q:= I; i̲f̲ Q > 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(A[Q,Q - 1]) > W t̲h̲e̲n̲ W:= ABS(A[Q,Q - 1])
+   e̲n̲d̲;
+   i̲f̲ Q ≥ N - 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ N1:= N - 1; i̲f̲ Q = N t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ RE[N]:= A[N,N]; IM[N]:= 0; N:= N1 e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ SIGMA:= A[N,N] - A[N1,N1];
+         RHO:= -A[N,N1] × A[N1,N];
+         DISC:= SIGMA ⭡ 2 - 4 × RHO; i̲f̲ DISC > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ DISC:= SQRT(DISC);
+            S:= -2 × RHO / (SIGMA + (i̲f̲ SIGMA ≥ 0
+              t̲h̲e̲n̲ DISC e̲l̲s̲e̲ -DISC));
+            RE[N]:= A[N,N] + S;
+            RE[N1]:= A[N1,N1] - S; IM[N]:= IM[N1]:= 0
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ RE[N]:= RE[N1]:= (A[N1,N1] + A[N,N]) / 2;
+            IM[N1]:= SQRT( -DISC) / 2; IM[N]:= -IM[N1]
+         e̲n̲d̲;
+         N:= N - 2
+      e̲n̲d̲
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ COUNT:= COUNT + 1; i̲f̲ COUNT > MAX t̲h̲e̲n̲
+        g̲o̲t̲o̲ OUT; N1:= N - 1;
+      SIGMA:= A[N,N] + A[N1,N1] + SQRT(ABS(A[N1,N - 2] × A[N,N1])× EM[0]); RHO:= A[N,N] × A[N1,N1] - A[N,N1] × A[N1,N];
+      f̲o̲r̲ I:= N - 1, I - 1 w̲h̲i̲l̲e̲
+        (i̲f̲ I - 1 ≥ Q t̲h̲e̲n̲ ABS(A[I,I - 1] ×
+        A[I1,I] × (ABS(A[I,I] + A[I1,I1] - SIGMA) +
+        ABS(A[I + 2,I1]))) > ABS(A[I,I] × ((A[I,I] - SIGMA) +
+        A[I,I1] × A[I1,I] + RHO)) × TOL
+      e̲l̲s̲e̲ f̲a̲l̲s̲e̲) d̲o̲ P1:= I1:= I; P:= P1 - 1;
+      P2:= P + 2;
+      f̲o̲r̲ I:= P s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+         b̲e̲g̲i̲n̲ IMIN1:= I - 1; I1:= I + 1; I2:= I + 2;
+            i̲f̲ I = P t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ G1:= A[P,P] × (A[P,P] - SIGMA) + A[P,P1] ×
+                 A[P1,P] + RHO;
+               G2:= A[P1,P] × (A[P,P] + A[P1,P1] - SIGMA);
+               i̲f̲ P1 ≤ N1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ G3:= A[P1,P] × A[P2,P1]; A[P2,P]:= 0 e̲n̲d̲
+               e̲l̲s̲e̲ G3:= 0
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ G1:= A[I,IMIN1]; G2:= A[I1,IMIN1];
+               G3:= i̲f̲ I2 ≤ N t̲h̲e̲n̲ A[I2,IMIN1] e̲l̲s̲e̲ 0
+            e̲n̲d̲;
+            K:= i̲f̲ G1 ≥ 0 t̲h̲e̲n̲
+              SQRT(G1 ⭡ 2 + G2 ⭡ 2 + G3 ⭡ 2) e̲l̲s̲e̲-SQRT(G1 ⭡ 2 + G2 ⭡ 2 + G3 ⭡ 2);
+            B:= ABS(K) > MACHTOL2;
+            AA:= i̲f̲ B t̲h̲e̲n̲ G1 / K + 1 e̲l̲s̲e̲ 2;
+            PSI1:= i̲f̲ B t̲h̲e̲n̲ G2 / (G1 + K) e̲l̲s̲e̲ 0;
+            PSI2:= i̲f̲ B t̲h̲e̲n̲ G3 / (G1 + K) e̲l̲s̲e̲ 0;
+            i̲f̲ I ≠ Q t̲h̲e̲n̲ A[I,IMIN1]:= i̲f̲ I = P t̲h̲e̲n̲-A[I,IMIN1] e̲l̲s̲e̲ -K;
+            f̲o̲r̲ J:= I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ E:= AA × (A[I,J] + PSI1 × A[I1,J] +
+                    (i̲f̲ I2 ≤ N t̲h̲e̲n̲ PSI2 × A[I2,J] e̲l̲s̲e̲ 0));
+                  A[I,J]:= A[I,J] - E; A[I1,J]:= A[I1,J] - PSI1 × E;
+                  i̲f̲ I2 ≤ N t̲h̲e̲n̲ A[I2,J]:= A[I2,J] - PSI2 × E
+               e̲n̲d̲;
+            f̲o̲r̲ J:= Q s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲
+              (i̲f̲ I2 ≤ N t̲h̲e̲n̲ I2 e̲l̲s̲e̲ N) d̲o̲
+               b̲e̲g̲i̲n̲ E:= AA × (A[J,I] + PSI1 × A[J,I1] +
+                    (i̲f̲ I2 ≤ N t̲h̲e̲n̲ PSI2 × A[J,I2] e̲l̲s̲e̲ 0));
+                  A[J,I]:= A[J,I] - E; A[J,I1]:= A[J,I1] - PSI1 × E;
+                  i̲f̲ I2 ≤ N t̲h̲e̲n̲ A[J,I2]:= A[J,I2] - PSI2 × E
+               e̲n̲d̲;
+            i̲f̲ I2 ≤ N1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ I3:= I + 3; E:= AA × PSI2 × A[I3,I2];
+               A[I3,I]:= -E;
+               A[I3,I1]:= -PSI1 × E;
+               A[I3,I2]:= A[I3,I2] - PSI2 × E
+            e̲n̲d̲
+         e̲n̲d̲
+   e̲n̲d̲;
+   i̲f̲ N > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   OUT: EM[3]:= W; EM[5]:= COUNT; COMVALQRI:= N
+e̲n̲d̲ COMVALQRI
+
+;e̲o̲p̲

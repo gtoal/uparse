@@ -1,0 +1,26 @@
+c̲o̲d̲e̲ 34220;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CONJ GRAD( MATVEC, X, R, L, N, GO ON, ITERATE, NORM2);
+   v̲a̲l̲u̲e̲ L, N; p̲r̲o̲c̲e̲d̲u̲r̲e̲ MATVEC; a̲r̲r̲a̲y̲ X, R; b̲o̲o̲l̲e̲a̲n̲ GO ON;
+     i̲n̲t̲e̲g̲e̲r̲ L, N, ITERATE; r̲e̲a̲l̲ NORM2;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ P, AP[ L: N];
+   i̲n̲t̲e̲g̲e̲r̲ I;
+   r̲e̲a̲l̲  A, B, PRR, RRP;
+   f̲o̲r̲ ITERATE:= 0, ITERATE + 1 w̲h̲i̲l̲e̲ GO ON d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ ITERATE = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MATVEC( X, P);
+            f̲o̲r̲ I:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 P[ I]:= R[ I]:= R[ I] - P[ I];
+            PRR:= VECVEC( L, N, 0, R, R)
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ B:= RRP / PRR; PRR:= RRP;
+            f̲o̲r̲ I:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 P[ I]:= R[ I] + B × P[ I]
+         e̲n̲d̲;
+         MATVEC( P, AP);
+         A:= PRR / VECVEC( L, N, 0, P, AP);
+         ELMVEC( L, N, 0, X, P, A);
+         ELMVEC( L, N, 0, R, AP, -A);
+         NORM2:= RRP:= VECVEC( L, N, 0, R, R)
+      e̲n̲d̲
+e̲n̲d̲ CONJ GRAD;
+e̲o̲p̲

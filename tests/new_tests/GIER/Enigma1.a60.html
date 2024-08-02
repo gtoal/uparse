@@ -1,0 +1,168 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>n</u>&lt;
+<u>begin</u>
+   <u>comment</u>
+
+   GC84BA2
+
+   Time: 9583.05s
+
+   No buffer GIER:
+
+   Time classic:        9439.92
+   Time turbo:          8811.91 6.7pct
+
+   Buffer GIER:
+
+   Time classic:        9583.25
+   Time turbo:          8912.39 7.0pct
+
+   ;
+   <u>integer</u> alen,alen1,cipher len;
+   <u>integer</u> initial shift,shift,plugchar1,plugchar2;
+   <u>integer</u> i,c1,c2,c3,c4,c5,c6;
+   <u>boolean</u> found;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   select(32);
+   clock count;
+   alen ≔ read integer;
+   alen1 ≔ alen−1;
+   cipher len ≔ read integer;
+   <u>begin</u>
+      <u>integer</u> <u>array</u> alphabet,rotor,delta1,delta2,reflector[0:alen1];
+      <u>integer</u> <u>array</u> reverse alphabet[0:63];
+      <u>integer</u> <u>array</u> cipher,clear[1:cipher len];
+      <u>procedure</u> read alphabet;
+      <u>begin</u>
+         <u>integer</u> i,c;
+         i ≔ 0;
+again:
+         c ≔ lyn;
+         <u>if</u> c=60 ∨ c=58 <u>then</u> <u>goto</u> again;
+         <u>if</u> c=64 <u>then</u> <u>goto</u> exit;
+         alphabet[i] ≔ c;
+         reverse alphabet[c] ≔ i;
+         i ≔ i+1;
+         <u>goto</u> again;
+exit:
+      <u>end</u> read alphabet;
+      <u>procedure</u> read rotor;
+      <u>begin</u>
+         <u>integer</u> i,j,c,c2;
+         i ≔ 0;
+again:
+         c ≔ lyn;
+         <u>if</u> c=60 ∨ c=58 <u>then</u> <u>goto</u> again;
+         <u>if</u> c=64 <u>then</u> <u>goto</u> exit;
+         c2 ≔ reverse alphabet[c];
+         rotor[i] ≔ c2;
+         i ≔ i+1;
+         <u>goto</u> again;
+exit:
+         <u>for</u> j ≔ 0 <u>step</u> 1 <u>until</u> alen1 <u>do</u>
+         <u>begin</u>
+            i ≔ rotor[j];
+            delta1[j] ≔ (i−j+alen)<u>mod</u> alen;
+            delta2[i] ≔ (j−i+alen)<u>mod</u> alen
+         <u>end</u> delta
+      <u>end</u> read rotor;
+      <u>procedure</u> read reflector;
+      <u>begin</u>
+         <u>integer</u> i,c,c2;
+         i ≔ 0;
+again:
+         c ≔ lyn;
+         <u>if</u> c=60 ∨ c=58 <u>then</u> <u>goto</u> again;
+         <u>if</u> c=64 <u>then</u> <u>goto</u> exit;
+         c2 ≔ reverse alphabet[c];
+         reflector[i] ≔ c2;
+         i ≔ i+1;
+         <u>goto</u> again;
+exit:
+      <u>end</u> read reflector;
+      <u>procedure</u> read cipher;
+      <u>begin</u>
+         <u>integer</u> i,c,c2;
+         i ≔ 0;
+again:
+         c ≔ lyn;
+         <u>if</u> c=60 ∨ c=58 <u>then</u> <u>goto</u> again;
+         <u>if</u> c=64 <u>then</u> <u>goto</u> exit;
+         c2 ≔ reverse alphabet[c];
+         i ≔ i+1;
+         cipher[i] ≔ c2;
+         <u>goto</u> again;
+exit:
+      <u>end</u> read cipher;
+      <u>integer</u> <u>procedure</u> plugboard(c1);
+      <u>value</u> c1;
+      <u>integer</u> c1;
+      plugboard ≔  <u>if</u> c1=plugchar1 <u>then</u> plugchar2 <u>else</u>
+         <u>if</u> c1=plugchar2 <u>then</u> plugchar1 <u>else</u> c1;
+      <u>integer</u> <u>procedure</u> replace delta(c1,delta);
+      <u>value</u> c1;
+      <u>integer</u> c1;
+      <u>integer</u> <u>array</u> delta;
+      replace delta ≔ (c1+delta[(c1−shift+1000×alen)<u>mod</u> alen])<u>mod</u> alen;
+      read alphabet;
+      read rotor;
+      read reflector;
+      read cipher;
+      <u>for</u> initial shift ≔ 0 <u>step</u> 1 <u>until</u> 3 <u>do</u>
+      <u>for</u> plugchar1 ≔ 0 <u>step</u> 1 <u>until</u> alen1 <u>do</u>
+      <u>for</u> plugchar2 ≔ 0 <u>step</u> 1 <u>until</u> alen1 <u>do</u>
+      <u>begin</u>
+         shift ≔ initial shift;
+         <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> cipher len <u>do</u>
+         <u>begin</u>
+            c1 ≔ cipher[i];
+            c2 ≔ plugboard(c1);
+            shift ≔ shift+1;
+            c3 ≔ replace delta(c2,delta1);
+            c4 ≔ reflector[c3];
+            c5 ≔ replace delta(c4,delta2);
+            c6 ≔ plugboard(c5);
+            clear[i] ≔ c6
+         <u>end</u> cipher len;
+         found ≔ <u>false</u>;
+         <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> cipher len−2 <u>do</u>
+         <u>begin</u>
+            <u>comment</u>
+                Look for FEM:
+
+                012345678901234567890123456789
+                ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ
+                ;
+            <u>if</u> clear[i]=5 ∧
+               clear[i+1]=4 ∧
+               clear[i+2]=12 <u>then</u> found ≔ <u>true</u>
+         <u>end</u>;
+         <u>if</u> found <u>then</u>
+         <u>begin</u>
+            writecr;
+            write(«ddd»,initial shift,plugchar1,plugchar2);
+            writetext(«  »);
+            writechar(60);
+            <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> cipher len <u>do</u>
+            writechar(alphabet[clear[i]]);
+            writechar(58)
+         <u>end</u>
+      <u>end</u> for plugchar2 plugchar1 initial shift
+   <u>end</u> inner loop;
+   writecr;
+   writetext(«Time: »);
+   write(«ddddddd.dd»,clock count)
+<u>end</u>;
+run&lt;
+28
+76
+ABCDEFGHIJKLMNOPQRSTUVXYZÆØÅ
+DBPEMGZALRNKØYTJXÆOÅFUHCQVSI
+OHVFMDXBÅNSTEJAUZØKLPCGÆQYRI
+ÅLNPSGÅJDRØMYUHÅBXUUOUKVQGLTBÅJVXZISFTØZFHAIELDFLÅKHÅDHIYZZÅXZISFTØVPPVVIQGD
+</pre></body></html>

@@ -1,0 +1,10 @@
+'BEGIN'
+'COMMENT' block in main block;
+	
+	'BEGIN'
+		'REAL' x;
+		x := 1.234;
+		outreal(1,x); outstring (1,"\n")
+	'END'
+	
+'END' 

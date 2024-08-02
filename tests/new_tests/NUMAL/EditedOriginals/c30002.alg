@@ -1,0 +1,4 @@
+'CODE' 30002;
+'REAL' 'PROCEDURE' ARREB;
+ARREB:= 2**(-47);
+        'EOP'

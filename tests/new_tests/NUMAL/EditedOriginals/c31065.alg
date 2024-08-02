@@ -1,0 +1,9 @@
+'CODE' 31065;
+ 'REAL' 'PROCEDURE' ONENRMVEC(L, U, A); 'VALUE' L, U;
+ 'INTEGER' L, U; 'ARRAY' A;
+ 'BEGIN' 'REAL' SUM;
+    SUM:= 0; 'FOR' L:= L 'STEP' 1 'UNTIL' U 'DO'
+    SUM:= SUM + ABS(A[L]);
+    ONENRMVEC:= SUM
+'END' ONENRMVEC;
+        'EOP'

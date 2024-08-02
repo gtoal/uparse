@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 31052;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHSPOL(N,A);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+   i̲f̲ N>1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ K,L,TWOPOW;
+      f̲o̲r̲ K:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-2 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ L:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ K d̲o̲
+                 A[L]:=A[L]-A[L+2]; A[K+1]:=A[K+1]/2;
+         e̲n̲d̲;
+      TWOPOW:=2;
+      f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-2 d̲o̲
+         b̲e̲g̲i̲n̲
+            A[K]:=A[K]×TWOPOW; TWOPOW:=TWOPOW×2;
+         e̲n̲d̲;
+      A[N-1]:=TWOPOW×A[N-1];
+      A[N]:=TWOPOW×A[N];
+   e̲n̲d̲ CHSPOL
+
+;e̲o̲p̲

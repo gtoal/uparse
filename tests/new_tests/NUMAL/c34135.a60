@@ -1,0 +1,13 @@
+c̲o̲d̲e̲ 34135;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQORTDECSOL(A, N, M, AUX, DIAG, B); v̲a̲l̲u̲e̲ N, M;
+   i̲n̲t̲e̲g̲e̲r̲ N, M; a̲r̲r̲a̲y̲ A, AUX, DIAG, B;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ AID[1:M];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ CI[1:M];
+
+   LSQORTDEC(A, N, M, AUX, AID, CI);
+   i̲f̲ AUX[3] = M t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LSQDGLINV(A, M, AID, CI, DIAG);
+      LSQSOL(A, N, M, AID, CI, B)
+   e̲n̲d̲
+e̲n̲d̲ LSQORTDECSOL;
+e̲o̲p̲

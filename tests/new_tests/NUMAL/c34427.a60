@@ -1,0 +1,24 @@
+c̲o̲d̲e̲ 34427;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLTRIPIV(SUB, DIAG, SUPER, N, AID, PIV, B);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ SUB, DIAG, SUPER, AID, B;
+     b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ PIV;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, N1;
+   r̲e̲a̲l̲ BI, BI1, R, S, T;
+   N1:= N - 1;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ PIV[I] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ BI:= B[I+1]; BI1:= B[I] e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ BI:= B[I]; BI1:= B[I+1] e̲n̲d̲;
+         R:= B[I]:= BI / DIAG[I];
+         B[I+1]:= BI1 - SUB[I] × R
+      e̲n̲d̲;
+   R:= B[N]:= B[N] / DIAG[N];
+   T:= B[N1]:= B[N1] - SUPER[N1] × R;
+   f̲o̲r̲ I:= N - 2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ S:= R; R:= T; T:= B[I]:= B[I] - SUPER[I] × R -
+           (i̲f̲ PIV[I] t̲h̲e̲n̲ AID[I] × S e̲l̲s̲e̲ 0)
+      e̲n̲d̲
+e̲n̲d̲ SOLTRIPIV
+
+;e̲o̲p̲

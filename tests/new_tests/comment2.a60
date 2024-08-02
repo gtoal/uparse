@@ -1,0 +1,4 @@
+'BEGIN'
+	outstring(1,"comment demo...\n");
+'COMMENT' gives warning;
+'END'

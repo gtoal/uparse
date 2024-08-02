@@ -1,0 +1,236 @@
+c̲o̲d̲e̲ 34432;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ PRAXIS(N, X, FUNCT, IN, OUT);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ X, IN, OUT;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲
+   c̲o̲m̲m̲e̲n̲t̲THIS PROCEDURE MINIMIZES FUNCT(N,X),WITH THE
+     PRINCIPAL AXIS METHOD (SEE BRENT,R.P, 1973, ALGORITHMS
+     FOR MINIMIZATION WITHOUT DERIVATIVES,CH.7);
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SORT;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K; r̲e̲a̲l̲ S;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+         b̲e̲g̲i̲n̲ K:= I; S:= D[I];
+            f̲o̲r̲ J:= I+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ i̲f̲ D[J]>S t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ K:= J; S:= D[J] e̲n̲d̲;
+            i̲f̲ K>I t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ D[K]:= D[I]; D[I]:= S;
+               f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ S:=V[J,I]; V[J,I]:= V[J,K]; V[J,K]:= S
+                  e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲
+   e̲n̲d̲ SORT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ MIN(J, NITS, D2, X1, F1, FK); v̲a̲l̲u̲e̲ J, NITS, FK;
+      i̲n̲t̲e̲g̲e̲r̲ J, NITS; r̲e̲a̲l̲ D2, X1, F1; b̲o̲o̲l̲e̲a̲n̲ FK;
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FLIN(L); v̲a̲l̲u̲e̲ L; r̲e̲a̲l̲ L;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; a̲r̲r̲a̲y̲ T[1:N];
+         i̲f̲ J > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 T[I]:= X[I] + L × V[I,J]
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ SEARCH ALONG PARABOLIC SPACE CURVE;
+            QA:= L × (L - QD1) / (QD0 × (QD0 + QD1));
+            QB:= (L + QD0) × (QD1 - L) /(QD0 × QD1);
+            QC:= L × (L + QD0) / (QD1 × (QD0 + QD1));
+            f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 T[I]:= QA × Q0[I] +QB × X[I] + QC × Q1[I]
+         e̲n̲d̲;
+         NF:= NF + 1; FLIN:= FUNCT(N, T)
+      e̲n̲d̲ FLIN;
+
+      i̲n̲t̲e̲g̲e̲r̲ K; b̲o̲o̲l̲e̲a̲n̲ DZ;
+      r̲e̲a̲l̲ X2, XM, F0, F2, FM, D1, T2, S, SF1, SX1;
+      SF1:= F1; SX1:= X1;
+      K:= 0; XM:= 0; F0:= FM:= FX; DZ:= D2 < RELTOL;
+      S:= SQRT(VECVEC(1,N,0,X,X));
+      T2:= M4 × SQRT(ABS(FX) / (i̲f̲ DZ t̲h̲e̲n̲ DMIN e̲l̲s̲e̲ D2)
+        + S × LDT) + M2 × LDT; S:= S × M4 + ABSTOL;
+      i̲f̲ DZ ∧ T2 > S t̲h̲e̲n̲ T2:= S;
+      i̲f̲T2<SMALLt̲h̲e̲n̲T2:= SMALL;
+      i̲f̲T2>0·01×H t̲h̲e̲n̲T2:= 0·01×H;
+      i̲f̲FK∧F1≤FM t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲XM:=X1; FM:= F1 e̲n̲d̲;
+      i̲f̲ ¬ FK∨ABS(X1)<T2t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲X1:=i̲f̲X1>0 t̲h̲e̲n̲T2e̲l̲s̲e̲-T2;
+         F1:= FLIN(X1)
+      e̲n̲d̲;
+      i̲f̲F1≤ FMt̲h̲e̲n̲
+      b̲e̲g̲i̲n̲XM:= X1; FM:= F1 e̲n̲d̲;
+      L0: i̲f̲ DZ t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲EVALUATE FLIN AT ANOTHER POINT
+           AND ESTIMATE THE SECOND DERIVATIVE;
+         X2:= i̲f̲ F0 < F1 t̲h̲e̲n̲ -X1 e̲l̲s̲e̲ X1 × 2;
+         F2:= FLIN(X2); i̲f̲F2 ≤ FM t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ XM:= X2; FM:= F2 e̲n̲d̲;
+         D2:=(X2×(F1-F0)-X1×(F2-F0))/(X1×X2×(X1-X2))
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ESTIMATE FIRST DERIVATIVE AT 0;
+      D1:=(F1-F0)/X1-X1×D2; DZ:=t̲r̲u̲e̲;
+      X2:= i̲f̲D2≤SMALLt̲h̲e̲n̲
+        (i̲f̲D1<0t̲h̲e̲n̲He̲l̲s̲e̲-H)
+      e̲l̲s̲e̲-0·5×D1/D2;
+      i̲f̲ABS(X2)>Ht̲h̲e̲n̲X2:=i̲f̲X2>0t̲h̲e̲n̲He̲l̲s̲e̲-H;
+      L1: F2:=FLIN(X2);
+      i̲f̲K<NITS∧F2>F0t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲K:=K+1;
+         i̲f̲F0<F1∧X1×X2>0t̲h̲e̲n̲ g̲o̲t̲o̲L0;
+         X2:= 0·5×X2; g̲o̲t̲o̲L1
+      e̲n̲d̲;
+      NL:= NL+1;
+      i̲f̲F2>FMt̲h̲e̲n̲X2:=XMe̲l̲s̲e̲FM:=F2;
+      D2:=i̲f̲ABS(X2×(X2-X1))>SMALLt̲h̲e̲n̲
+        (X2×(F1-F0)-X1×(FM-F0))/(X1×X2×(X1-X2))
+      e̲l̲s̲e̲ i̲f̲K>0t̲h̲e̲n̲0e̲l̲s̲e̲D2;
+      i̲f̲D2≤SMALLt̲h̲e̲n̲D2:=SMALL;
+      X1:=X2; FX:=FM;
+      i̲f̲SF1<FXt̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ FX:=SF1; X1:=SX1 e̲n̲d̲;
+      i̲f̲J>0t̲h̲e̲n̲ELMVECCOL(1,N,J,X,V,X1)
+   e̲n̲d̲ MIN;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲QUAD;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ L, S;
+      S:= FX; FX:= QF1; QF1:= S; QD1:= 0;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲S:=X[I]; X[I]:= L:= Q1[I]; Q1[I]:= S;
+            QD1:= QD1 + (S - L) ⭡ 2
+         e̲n̲d̲;
+      L:=QD1:=SQRT(QD1); S:= 0;
+      i̲f̲(QD0×QD1>DWARF)∧NL≥3×N×Nt̲h̲e̲n̲
+      b̲e̲g̲i̲n̲MIN(0,2,S,L,QF1,t̲r̲u̲e̲);
+         QA:= L×(L-QD1)/(QD0×(QD0+QD1));
+         QB:=(L+QD0)×(QD1-L)/(QD0×QD1);
+         QC:= L×(L+QD0)/(QD1×(QD0+QD1))
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ FX:= QF1; QA:= QB:= 0; QC:= 1 e̲n̲d̲;
+      QD0:= QD1;f̲o̲r̲I:= 1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+         b̲e̲g̲i̲n̲S:=Q0[I]; Q0[I]:=X[I];
+            X[I]:= QA×S + QB×X[I]+QC×Q1[I]
+         e̲n̲d̲
+   e̲n̲d̲ QUAD;
+
+   b̲o̲o̲l̲e̲a̲n̲ ILLC;
+   i̲n̲t̲e̲g̲e̲r̲ I, J, K, K2, NL, MAXF, NF, KL, KT, KTM;
+   r̲e̲a̲l̲ S, SL, DN, DMIN, FX, F1, LDS, LDT, SF, DF, QF1, QD0,
+     QD1, QA, QB, QC, M2, M4, SMALL, VSMALL, LARGE, VLARGE, SCBD,
+     LDFAC,T2, MACHEPS, RELTOL, ABSTOL, H;
+   a̲r̲r̲a̲y̲ V[1:N,1:N], D, Y, Z, Q0, Q1[1:N];
+
+   MACHEPS:= IN[0]; RELTOL:= IN[1]; ABSTOL:= IN[2]; MAXF:= IN[5];
+   H:= IN[6]; SCBD:= IN[7]; KTM:= IN[8]; ILLC:= IN[9] < 0;
+   SMALL:= MACHEPS ⭡ 2; VSMALL:= SMALL ⭡ 2;
+   LARGE:= 1/SMALL; VLARGE:= 1/VSMALL;
+   M2:= RELTOL; M4:= SQRT(M2); SETRANDOM(0·5);
+   LDFAC:= i̲f̲ ILLC t̲h̲e̲n̲ 0·1 e̲l̲s̲e̲ 0·01;
+   KT:=NL:=0; NF:=1; OUT[3]:= QF1:=FX:=FUNCT(N,X);
+   ABSTOL:=T2:= SMALL+ABS(ABSTOL); DMIN:= SMALL;
+   i̲f̲ H<ABSTOL×100t̲h̲e̲n̲H:=ABSTOL×100; LDT:=H;
+   INIMAT(1,N,1,N,V,0);
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲V[I,I]:= 1;
+   D[1]:= QD0:= 0; DUPVEC(1,N,0,Q1,X);
+   INIVEC(1,N,Q0,0);
+
+   c̲o̲m̲m̲e̲n̲t̲MAIN LOOP;
+   L0: SF:=D[1]; D[1]:= S:= 0;
+   MIN(1,2,D[1],S,FX,f̲a̲l̲s̲e̲);
+   i̲f̲ S ≤ 0 t̲h̲e̲n̲ MULCOL(1, N, 1, 1, V, V, -1);
+   i̲f̲ SF ≤ 0·9 × D[1] ∨ 0·9 × SF ≥ D[1] t̲h̲e̲n̲
+     INIVEC(2,N,D,0);
+   f̲o̲r̲ K:= 2s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+      b̲e̲g̲i̲n̲ DUPVEC(1,N,0,Y,X); SF:=FX;
+         ILLC:= ILLC ∨ KT>0;
+         L1: KL:=K; DF:= 0; i̲f̲ ILLC t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲RANDOM STOP TO GET OFF
+              RESULTION VALLEY;
+            f̲o̲r̲I:= 1 s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+               b̲e̲g̲i̲n̲S:=Z[I]:=(0·1×LDT+T2×10⭡KT)×(RANDOM-0·5);
+                  ELMVECCOL(1,N,I,X,V,S)
+               e̲n̲d̲;
+            FX:= FUNCT(N,X); NF:= NF+1
+         e̲n̲d̲;
+         f̲o̲r̲K2:= K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ SL:=FX; S:= 0;
+               MIN (K2, 2, D[K2], S, FX, f̲a̲l̲s̲e̲);
+               S:=i̲f̲ ILLC t̲h̲e̲n̲ D[K2] × (S + Z[K2]) ⭡ 2
+               e̲l̲s̲e̲SL-FX;i̲f̲DF<St̲h̲e̲n̲
+               b̲e̲g̲i̲n̲DF:=S;KL:= K2e̲n̲d̲;
+            e̲n̲d̲;
+         i̲f̲ ¬ILLC ∧ DF < ABS(100 × MACHEPS × FX) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ ILLC:= t̲r̲u̲e̲; g̲o̲t̲o̲ L1 e̲n̲d̲;
+         f̲o̲r̲ K2:= 1s̲t̲e̲p̲ 1u̲n̲t̲i̲l̲K-1d̲o̲
+            b̲e̲g̲i̲n̲ S:= 0; MIN(K2, 2, D[K2], S, FX, f̲a̲l̲s̲e̲) e̲n̲d̲;
+         F1:= FX; FX:= SF; LDS:= 0;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ SL:= X[I]; X[I]:= Y[I]; SL:= Y[I]:= SL - Y[I];
+               LDS:= LDS + SL × SL
+            e̲n̲d̲; LDS:= SQRT(LDS);
+         i̲f̲ LDS > SMALL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= KL - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       V[J, I + 1]:= V[J,I]; D[I + 1]:= D[I]
+               e̲n̲d̲;
+            D[K]:= 0; DUPCOLVEC(1, N, K, V, Y);
+            MULCOL(1, N, K, K, V, V, 1 / LDS);
+            MIN(K, 4, D[K], LDS, F1, t̲r̲u̲e̲); i̲f̲ LDS ≤ 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ LDS:= LDS; MULCOL(1, N, K, K, V, V, -1) e̲n̲d̲
+         e̲n̲d̲;
+         LDT:= LDFAC × LDT; i̲f̲ LDT < LDS t̲h̲e̲n̲ LDT:= LDS;
+         T2:= M2 × SQRT(VECVEC(1, N, 0, X, X)) + ABSTOL;
+         KT:= i̲f̲ LDT > 0·5 × T2 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ KT + 1;
+         i̲f̲ KT > KTM t̲h̲e̲n̲ b̲e̲g̲i̲n̲ OUT[1]:= 0; g̲o̲t̲o̲ L2 e̲n̲d̲
+      e̲n̲d̲;
+   QUAD;
+   DN:= 0; f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ D[I] := 1/SQRT(D[I]);
+         i̲f̲ DN<D[I] t̲h̲e̲n̲ DN:=D[I]
+      e̲n̲d̲;
+   f̲o̲r̲ J := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ S := D[J]/DN; MULCOL(1,N,J,J,V,V,S) e̲n̲d̲;
+   i̲f̲ SCBD>1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ S:=VLARGE; f̲o̲r̲ I :=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ SL:= Z[I]:= SQRT(MATTAM(1, N, I, I, V, V));
+            i̲f̲ SL<M4 t̲h̲e̲n̲ Z[I]:= M4;
+            i̲f̲ S>SL t̲h̲e̲n̲ S:= SL
+         e̲n̲d̲;
+      f̲o̲r̲ I :=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ SL := S/Z[I]; Z[I] := 1/SL;
+            i̲f̲ Z[I]>SCBD t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ SL:=1/SCBD; Z[I]:= SCBD e̲n̲d̲;
+            MULROW(1, N, I, I, V, V, SL)
+         e̲n̲d̲
+   e̲n̲d̲;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        ICHROWCOL(I + 1, N, I, I, V);
+   b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ A[1:N,1:N], EM[0:7];
+      EM[0] := EM[2] := MACHEPS;
+      EM[4] := 10 × N; EM[6]:= VSMALL;
+      DUPMAT(1, N, 1, N, A, V);
+      i̲f̲ QRISNGVALDEC(A, N, N, D, V, EM) ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ OUT[1]:= 2; g̲o̲t̲o̲ L2 e̲n̲d̲;
+   e̲n̲d̲;
+   i̲f̲ SCBD>1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           MULROW(1,N,I,I,V,V,Z[I]);
+      f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ S := SQRT(TAMMAT(1,N,I,I,V,V));
+            D[I]:= S×D[I]; S:= 1/S;
+            MULCOL(1,N,I,I,V,V,S)
+         e̲n̲d̲
+   e̲n̲d̲;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ S:= DN × D[I];
+         D[I]:= i̲f̲ S > LARGE t̲h̲e̲n̲ VSMALL e̲l̲s̲e̲
+           i̲f̲ S < SMALL t̲h̲e̲n̲ VLARGE e̲l̲s̲e̲ S ⭡ (-2)
+      e̲n̲d̲;
+   SORT;
+   DMIN:= D[N]; i̲f̲ DMIN < SMALL t̲h̲e̲n̲ DMIN:= SMALL;
+   ILLC:= (M2 × D[1]) > DMIN;
+   i̲f̲ NF < MAXF t̲h̲e̲n̲ g̲o̲t̲o̲ L0 e̲l̲s̲e̲ OUT[1]:= 1;
+   L2: OUT[2]:= FX;
+   OUT[4]:= NF; OUT[5]:= NL; OUT[6]:= LDT
+e̲n̲d̲ PRAXIS;
+e̲o̲p̲

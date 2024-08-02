@@ -1,0 +1,118 @@
+'CODE' 33301;
+ 'PROCEDURE' FEM LAG(X, Y, N, R, F, ORDER, E);
+ 'VALUE' N, ORDER; 'INTEGER' N, ORDER;
+ 'REAL' 'PROCEDURE' R, F;
+ 'ARRAY' X, Y, E;
+ 'BEGIN' 'INTEGER' L, L1;
+   'REAL' XL1, XL, H, A12, B1, B2, TAU1, TAU2, CH, TL, G, YL, PP,
+    E1, E2, E3, E4, E5, E6;
+   'ARRAY' T, SUB, CHI, GI[0: N-1];
+
+   'PROCEDURE' ELEMENT MAT VEC EVALUATION 1;
+   'BEGIN' 'OWN' 'REAL' F2, R2; 'REAL' R1, F1, H2;
+     'IF' L=1 'THEN'
+     'BEGIN' F2:= F(XL1); R2:= R(XL1) 'END';
+     A12:= - 1/H; H2:= H/2;
+     R1:= R2; R2:= R(XL); F1:= F2; F2:= F(XL);
+     B1:= H2*F1; B2:= H2*F2; TAU1:= H2*R1; TAU2:= H2*R2
+   'END' ELEMENT MAT VEC EVALUATION 1
+   'PROCEDURE' ELEMENT MAT VEC EVALUATION 2;
+    'BEGIN' 'OWN' 'REAL' R3, F3;
+     'REAL' R1, R2, F1, F2, X2, H6, H15,
+     B3, TAU3, C12, A13, A22, A23;
+     'IF' L=1 'THEN'
+     'BEGIN' R3:= R(XL1); F3:= F(XL1) 'END';
+     X2:= (XL1 + XL)/2; H6:= H/6; H15:= H/1.5;
+     R1:= R3; R2:= R(X2); R3:= R(XL);
+     F1:= F3; F2:= F(X2); F3:= F(XL);
+     B1:= H6*F1; B2:= H15*F2; B3:= H6*F3;
+     TAU1:= H6*R1; TAU2:= H15*R2; TAU3:= R3*H6;
+     A12:= A23:= -8/H/3; A13:= - A12/8; A22:= -2*A12 + TAU2;
+     'COMMENT' STATIC CONDENSATION;
+     C12:= - A12/A22; A12:= A13 + C12*A12;
+     B2:= C12*B2; B1:= B1 + B2; B2:= B3 + B2;
+     TAU2:= C12*TAU2; TAU1:= TAU1 + TAU2; TAU2:= TAU3 + TAU2
+   'END' ELEMENT MAT VEC EVALUATION2;
+
+   'PROCEDURE' ELEMENT MAT VEC EVALUATION 3;
+   'BEGIN' 'OWN' 'REAL' R4, F4;
+     'REAL' R1, R2, R3, F1, F2, F3, X2, X3, H12, H24,
+     DET, C12, C13, C42, C43, A13, A14, A22, A23, A24,
+     A33, A34, B3, B4, TAU3, TAU4;
+     'IF' L=1 'THEN'
+     'BEGIN' R4:= R(XL1); F4:= F(XL1) 'END';
+     X2:= XL1 + 0.27639320225*H; X3:= XL - X2 + XL1;
+     R1:= R4; R2:= R(X2); R3:= R(X3); R4:= R(XL);
+     F1:= F4; F2:= F(X2); F3:= F(X3); F4:= F(XL);
+     H12:= H/12; H24:= H/2.4;
+     B1:= F1*H12; B2:= F2*H24; B3:= F3*H24; B4:= F4*H12;
+     TAU1:= R1*H12; TAU2:= R2*H24; TAU3:= R3*H24; TAU4:= R4*H12;
+     A12:= A34:= -4.8784183052078/H; A13:= A24:= 0.7117516385412/H;
+     A14:= -0.16666666666667/H; A23:= 25*A14;
+     A22:= -2*A23 + TAU2; A33:= -2*A23 + TAU3;
+     'COMMENT' STATIC CONDENSATION;
+     DET:= A22*A33 - A23*A23;
+     C12:= (A13*A23 - A12*A33)/DET;
+     C13:= (A12*A23 - A13*A22)/DET;
+     C42:= (A23*A34 - A24*A33)/DET;
+     C43:= (A24*A23 - A34*A22)/DET;
+     TAU1:= TAU1 + C12*TAU2 + C13*TAU3;
+     TAU2:= TAU4 + C42*TAU2 + C43*TAU3;
+     A12:= A14 + C42*A12 + C43*A13;
+     B1:= B1 + C12*B2 + C13*B3;
+     B2:= B4 + C42*B2 + C43*B3
+   'END' ELEMENT MAT VEC EVALUATION3
+   'PROCEDURE' BOUNDARY CONDITIONS;
+   'IF' L=1 'AND' E2 = 0 'THEN'
+   'BEGIN' TAU1:= 1; B1:= E3/E1; B2:= B2 - A12*B1;
+     TAU2:= TAU2 - A12; A12:= 0 'END'
+   'ELSE' 'IF' L=1 'AND' E2 ^= 0 'THEN'
+   'BEGIN' TAU1:= TAU1 - E1/E2;
+     B1:= B1 - E3/E2
+   'END' 'ELSE' 'IF' L=N 'AND' E5 = 0 'THEN'
+   'BEGIN' TAU2:= 1; B2:= E6/E4; B1:= B1 - A12*B2;
+     TAU1:= TAU1 - A12; A12:= 0
+   'END' 'ELSE' 'IF' L=N 'AND' E5 ^= 0 'THEN'
+   'BEGIN' TAU2:= TAU2 + E4/E5;
+     B2:= B2 + E6/E5
+   'END' BOUNDARY CONDITIONS;
+
+   'PROCEDURE' FORWARD BABUSHKA;
+   'IF' L=1 'THEN'
+   'BEGIN' CHI[0]:= CH:= TL:= TAU1; T[0]:= TL;
+     GI[0]:= G:= YL:= B1; Y[0]:= YL;
+     SUB[0]:= A12; PP:= A12/(CH - A12); CH:= TAU2 - CH*PP;
+     G:= B2 - G*PP; TL:= TAU2; YL:= B2
+   'END' 'ELSE'
+   'BEGIN' CHI[L1]:= CH:= CH + TAU1;
+     GI[L1]:= G:= G + B1; SUB[L1]:= A12; PP:= A12/(CH - A12);
+     CH:= TAU2 - CH*PP; G:= B2 - G*PP;
+     T[L1]:= TL + TAU1; TL:= TAU2;
+     Y[L1]:= YL +   B1; YL:=   B2
+   'END' FORWARD BABUSHKA 1;
+
+   'PROCEDURE' BACKWARD BABUSHKA;
+   'BEGIN' PP:= YL; Y[N]:= G/CH;
+     G:= PP; CH:= TL; L:= N;
+     'FOR' L:= L - 1 'WHILE' L >= 0 'DO'
+     'BEGIN' PP:= SUB[L]; PP:= PP/(CH - PP);
+         TL:= T[L]; CH:= TL - CH*PP;
+         YL:= Y[L]; G:= YL - G*PP;
+         Y[L]:=((GI[L] + G) - YL)/((CHI[L] + CH) - TL)
+     'END'
+   'END' BACKWARD BABUSHKA;
+
+   L:= 0; XL:= X[0];
+   E1:= E[1]; E2:= E[2]; E3:= E[3]; E4:= E[4]; E5:= E[5]; E6:= E[6];
+   'FOR' L:= L + 1 'WHILE' L <= N 'DO'
+   'BEGIN' L1:= L - 1; XL1:= XL; XL:= X[L]; H:= XL - XL1;
+     'IF' ORDER = 2 'THEN' ELEMENT MAT VEC EVALUATION 1 'ELSE'
+     'IF' ORDER = 4 'THEN' ELEMENT MAT VEC EVALUATION 2 'ELSE'
+                           ELEMENT MAT VEC EVALUATION 3;
+     'IF' L=1 'OR' L=N 'THEN' BOUNDARY CONDITIONS;
+     FORWARD BABUSHKA
+   'END';
+   BACKWARD BABUSHKA;
+ 'END' FEM LAGR
+
+      ;'EOP'

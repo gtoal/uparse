@@ -1,0 +1,19 @@
+c̲o̲d̲e̲ 34132;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQDGLINV(A, M, AID, CI, DIAG); v̲a̲l̲u̲e̲ M; i̲n̲t̲e̲g̲e̲r̲ M;
+     a̲r̲r̲a̲y̲ A, AID, DIAG; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ CI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, K, CIK;
+   r̲e̲a̲l̲ W;
+
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ DIAG[K]:= 1 / AID[K];
+         f̲o̲r̲ J:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+              DIAG[J]:= - TAMVEC(K, J - 1, J, A, DIAG) / AID[J];
+         DIAG[K]:= VECVEC(K, M, 0, DIAG, DIAG)
+      e̲n̲d̲;
+   f̲o̲r̲ K:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ CIK:= CI[K]; i̲f̲ CIK ≠ K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= DIAG[K]; DIAG[K]:= DIAG[CIK]; DIAG[CIK]:= W
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ LSQDGLINV;
+e̲o̲p̲

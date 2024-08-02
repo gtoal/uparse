@@ -1,0 +1,10 @@
+'CODE' 34370;
+    'INTEGER' 'PROCEDURE' QRIVALHRM(A, N, VAL, EM); 'VALUE' N;
+    'INTEGER' N; 'ARRAY' A, VAL, EM;
+    'BEGIN' 'ARRAY' B,BB[1:N];
+        'INTEGER' I;
+        HSHHRMTRIVAL(A, N, VAL, BB, EM); B[N]:=BB[N]:= 0;
+        'FOR' I:=1 'STEP' 1 'UNTIL' N-1 'DO' B[I]:=SQRT(BB[I]);
+        QRIVALHRM:=QRIVALSYMTRI(VAL, BB, N, EM)
+    'END' QRIVALHRM;
+        'EOP'

@@ -1,0 +1,84 @@
+c̲o̲d̲e̲33170;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RICHARDSON(U,LJ,UJ,LL,UL,INAP,RESIDUAL,A,B,N,DISCR,K,
+  RATECONV,DOMEIGVAL,OUT); v̲a̲l̲u̲e̲ LJ,UJ,LL,UL,A,B;
+   i̲n̲t̲e̲g̲e̲r̲ N,K,LJ,UJ,LL,UL; r̲e̲a̲l̲ A,B,RATECONV,DOMEIGVAL; b̲o̲o̲l̲e̲a̲n̲
+     INAP; a̲r̲r̲a̲y̲ U,DISCR; p̲r̲o̲c̲e̲d̲u̲r̲e̲ RESIDUAL,OUT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J,L; r̲e̲a̲l̲ X,Y,Z,Y0,C,D,ALFA,OMEGA,OMEGA0,
+     EIGMAX,EIGEUCL,EUCLRES,MAXRES,RCMAX,RCEUCL,MAXRES0,EUCLRES0;
+   a̲r̲r̲a̲y̲ V,RES[LJ:UJ,LL:UL];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CALPAR;
+      c̲o̲m̲m̲e̲n̲t̲ CALPAR CALCULATES THE PARAMETERS ALFA AND OMEGA FOR
+        EACH ITERATION;
+   b̲e̲g̲i̲n̲ ALFA:= Z/(Z - ALFA);
+      OMEGA:= 1/(X - OMEGA × Y)
+   e̲n̲d̲ CALPAR;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ITERATION;
+      c̲o̲m̲m̲e̲n̲t̲ FIRST THE ITERATION FORMULA IS CONSTRUCTED;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ AUXV,AUXU,AUXRES,EUCLUV,MAXUV;
+      EUCLUV:= EUCLRES:= MAXUV:= MAXRES:= 0;
+      f̲o̲r̲ J:= LJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UJ d̲o̲
+           f̲o̲r̲ L:= LL s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UL d̲o̲ RES[J,L]:= V[J,L];
+      RESIDUAL(RES);
+      f̲o̲r̲ J:= LJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UJ d̲o̲
+           f̲o̲r̲ L:= LL s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UL d̲o̲
+            b̲e̲g̲i̲n̲ AUXV:= U[J,L]; AUXU:= V[J,L]; AUXRES:= RES[J,L];
+               AUXV:= ALFA × AUXU - OMEGA × AUXRES + (1 - ALFA) × AUXV;
+               V[J,L]:= AUXV; U[J,L]:= AUXU;
+               c̲o̲m̲m̲e̲n̲t̲ THE NORMS OF THE K-TH RESIDUAL AND THE DIFFERENCE
+                 BETWEEN THE (K+1)-TH AND K-TH ITERAND ARE CALCULATED;
+               AUXU:= ABS(AUXU - AUXV); AUXRES:= ABS(AUXRES);
+               MAXUV:= i̲f̲ MAXUV < AUXU t̲h̲e̲n̲ AUXU e̲l̲s̲e̲ MAXUV;
+               MAXRES:= i̲f̲ MAXRES < AUXRES t̲h̲e̲n̲ AUXRES e̲l̲s̲e̲ MAXRES;
+               EUCLUV:= EUCLUV + AUXU × AUXU;
+               EUCLRES:= EUCLRES + AUXRES × AUXRES;
+            e̲n̲d̲;
+      EUCLUV:= SQRT(EUCLUV); EUCLRES:= SQRT(EUCLRES);
+      DISCR[1]:= EUCLRES; DISCR[2]:= MAXRES;
+      c̲o̲m̲m̲e̲n̲t̲ DOMEIGVAL IS EVALUATED;
+      MAXUV:= MAXRES/MAXUV; EUCLUV:= EUCLRES/EUCLUV;
+      EIGMAX:= MAXUV × (C - MAXUV)/(·25 × D - MAXUV);
+      EIGEUCL:= EUCLUV × (C - EUCLUV)/(·25 × D - EUCLUV);
+      DOMEIGVAL:= ·5 × (EIGMAX + EIGEUCL);
+      c̲o̲m̲m̲e̲n̲t̲ FINALLY THE RATE OF CONVERGENCE IS CALCULATED;
+      RCEUCL:= -LN(EUCLRES/EUCLRES0)/K;
+      RCMAX:= -LN(MAXRES/MAXRES0)/K;
+      RATECONV:= ·5 × (RCEUCL + RCMAX);
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ THE CONSTANTS FOR STARTING CALPAR ARE CALCULATED;
+   ALFA:= 2; OMEGA:= 4/(B + A); Y0:= (B + A)/(B - A);
+   X:= ·5 × (B + A); Y:= (B - A) × (B - A)/16; Z:= 4 × Y0 × Y0;
+   c̲o̲m̲m̲e̲n̲t̲ THE CONSTANTS NEEDED FOR DOMEIGVAL ARE CALCULATED;
+   C:= A × B; C:= SQRT(C); D:= SQRT(A) + SQRT(B); D:= D × D;
+   c̲o̲m̲m̲e̲n̲t̲ THE INITIAL APPROXIMATION IS PUT INTO ARRAY U;
+   i̲f̲ ¬INAP t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ J:= LJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UJ d̲o̲
+           f̲o̲r̲ L:= LL s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UL d̲o̲ U[J,L]:= 1
+   e̲n̲d̲;
+   c̲o̲m̲m̲e̲n̲t̲ THE ZEROTH ITERATION IS NOW PERFORMED;
+   K:= 0;
+   f̲o̲r̲ J:= LJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UJ d̲o̲
+        f̲o̲r̲ L:= LL s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UL d̲o̲ RES[J,L]:= U[J,L];
+   RESIDUAL(RES);
+   OMEGA0:= 2/(B+A);
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ AUXRES0;
+      MAXRES0:= EUCLRES0:= 0;
+      f̲o̲r̲ J:= LJ s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UJ d̲o̲
+           f̲o̲r̲ L:= LL s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UL d̲o̲
+            b̲e̲g̲i̲n̲ AUXRES0:= RES[J,L];
+               V[J,L]:= U[J,L] - OMEGA0 × AUXRES0;
+               AUXRES0:= ABS(AUXRES0);
+               MAXRES0:= i̲f̲ MAXRES0 < AUXRES0 t̲h̲e̲n̲ AUXRES0 e̲l̲s̲e̲ MAXRES0;
+               EUCLRES0:= EUCLRES0 + AUXRES0 × AUXRES0
+            e̲n̲d̲;
+      EUCLRES0:= SQRT(EUCLRES0)
+   e̲n̲d̲;
+   DISCR[1]:= EUCLRES0; DISCR[2]:= MAXRES0;
+   OUT(K);
+   i̲f̲ K ≥ N t̲h̲e̲n̲ g̲o̲t̲o̲ FINALLY;
+   NEXT STEP:
+   K:= K + 1; CALPAR; ITERATION; OUT(K);
+   i̲f̲ K < N t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT STEP;
+   FINALLY:
+e̲n̲d̲ RICHARDSON;
+
+e̲o̲p̲

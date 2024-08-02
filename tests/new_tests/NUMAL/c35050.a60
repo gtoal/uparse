@@ -1,0 +1,26 @@
+c̲o̲d̲e̲ 35050;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INCBETA(X,P,Q,EPS);
+   v̲a̲l̲u̲e̲ X,P,Q,EPS; r̲e̲a̲l̲ X,P,Q,EPS;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,N; r̲e̲a̲l̲ G,F,FN,FN1,FN2,GN,GN1,GN2,DN,PQ;
+   b̲o̲o̲l̲e̲a̲n̲ N EVEN,RECUR;
+
+   i̲f̲ X=0 ∨ X=1 t̲h̲e̲n̲ INCBETA:= X e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ X>·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ F:= P; P:= Q; Q:= F; X:= 1-X; RECUR:= t̲r̲u̲e̲e̲n̲d̲
+      e̲l̲s̲e̲ RECUR:= f̲a̲l̲s̲e̲;
+      G:= FN2:= 0; M:= 0; PQ:= P+Q; F:= FN1:= GN1:= GN2:= 1;
+      N EVEN:= f̲a̲l̲s̲e̲;
+      f̲o̲r̲ N:= 1,N+1 w̲h̲i̲l̲e̲ ABS((F-G)/F) > EPS d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ N EVEN t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ M:= M+1; DN:= M×X×(Q-M)/(P+N-1)/(P+N) e̲n̲d̲
+            e̲l̲s̲e̲ DN:= -X×(P+M)×(PQ+M)/(P+N-1)/(P+N);
+            G:= F; FN:= FN1+DN×FN2; GN:= GN1+DN×GN2;
+            N EVEN:= ¬ N EVEN; F:= FN/GN;
+            FN2:= FN1; FN1:= FN; GN2:= GN1; GN1:= GN
+         e̲n̲d̲;
+      F:= F×X⭡P×(1-X)⭡Q×GAMMA(P+Q)/GAMMA(P+1)/GAMMA(Q);
+      i̲f̲ RECUR t̲h̲e̲n̲ F:= 1-F;
+      INCBETA:= F
+   e̲n̲d̲
+e̲n̲d̲ INCBETA;
+e̲o̲p̲

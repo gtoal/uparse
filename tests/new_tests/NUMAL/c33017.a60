@@ -1,0 +1,144 @@
+c̲o̲d̲e̲ 33017 ;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RK4NA(X, XA, B, FXJ, J, E, D, FI, N, L, POS);
+   v̲a̲l̲u̲e̲ FI, N, L, POS; i̲n̲t̲e̲g̲e̲r̲ J, N, L; b̲o̲o̲l̲e̲a̲n̲ FI, POS;
+     r̲e̲a̲l̲ B, FXJ; a̲r̲r̲a̲y̲ X, XA, E, D;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, IV, IV0;
+   b̲o̲o̲l̲e̲a̲n̲ FIR, FIRST, REJ;
+   r̲e̲a̲l̲ H, COND0, COND1, FHM, ABSH, TOL, FH, MAX, X0,
+     X1, S, HMIN, HL, MU, MU1;
+   a̲r̲r̲a̲y̲ XL, DISCR, Y[0:N], K[0:5,0:N], E1[1:2];
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RKSTEP(H, D); v̲a̲l̲u̲e̲ H, D; i̲n̲t̲e̲g̲e̲r̲ D; r̲e̲a̲l̲ H;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ F(T); v̲a̲l̲u̲e̲ T; i̲n̲t̲e̲g̲e̲r̲ T;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+         r̲e̲a̲l̲ P;
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[J]:= FXJ;
+         P:= H / Y[IV];
+         f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ K[T,I]:= Y[I] × P e̲n̲d̲
+      e̲n̲d̲ F;
+
+      i̲f̲ D = 2 t̲h̲e̲n̲ g̲o̲t̲o̲ INTEGRATE; i̲f̲ D = 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I];
+         F(0)
+      e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ D = 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ P;
+         P:= H / Y[IV];
+         f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ K[0,I]:= P × Y[I] e̲n̲d̲
+      e̲n̲d̲
+      e̲l̲s̲e̲
+        f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ K[0,I]:= K[0,I] × MU e̲n̲d̲;
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I] + (i̲f̲ I= IV t̲h̲e̲n̲ H e̲l̲s̲e̲ K[0,I]) / 4·5; F(1);
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I] + (i̲f̲ I= IV t̲h̲e̲n̲ H × 4 e̲l̲s̲e̲ (K[0,I] + K[1,I] × 3)) / 12;
+      F(2);
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I] + (i̲f̲ I= IV t̲h̲e̲n̲ H × ·5 e̲l̲s̲e̲ (K[0,I] + K[2,I] × 3) / 8);
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I] + (i̲f̲ I= IV t̲h̲e̲n̲ H × ·8 e̲l̲s̲e̲ (K[0,I] × 53 - K[1,I] × 135
+           + K[2,I] × 126 + K[3,I] × 56) / 125); F(4);
+      i̲f̲ D ≤ 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I] +
+              (i̲f̲ I = IV t̲h̲e̲n̲ H e̲l̲s̲e̲ (K[0,I] × 133 -
+              K[1,I] × 378 + K[2,I] × 276 + K[3,I] × 112 +
+              K[4,I] × 25) / 168); F(5);
+         f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ DISCR[I]:= ABS(K[0,I] × 21- K[2,I] × 162 + K[3,I] × 224 - K[4,I] ×
+                 125 + K[5,I] × 42) / 14
+            e̲n̲d̲;
+         g̲o̲t̲o̲ END
+      e̲n̲d̲;
+      INTEGRATE: f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I]
+           + (i̲f̲ I = IV t̲h̲e̲n̲ H e̲l̲s̲e̲ ( - K[0,I] × 63 + K[1,I]× 189 - K[2,I] × 36 - K[3,I] × 112 + K[4,I] × 50)
+           / 28); F(5);
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ X[I]:= XL[I] + (K[0,I] × 35
+              + K[2,I] × 162 + K[4,I] × 125 + K[5,I] × 14) / 336
+         e̲n̲d̲;
+      END: 
+     e̲n̲d̲ RKSTEP ;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FZERO;
+   b̲e̲g̲i̲n̲ i̲f̲ S = X0 t̲h̲e̲n̲ FZERO:= COND0 e̲l̲s̲e̲ i̲f̲ S = X1
+        t̲h̲e̲n̲ FZERO:= COND1 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ RKSTEP(S - XL[IV], 3); FZERO:= B e̲n̲d̲
+   e̲n̲d̲ FZERO;
+
+   i̲f̲ FI t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I + 3]:= XA[I];
+      D[0]:= D[2]:= 0
+   e̲n̲d̲;
+   D[1]:= 0;
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= XL[I]:= D[I + 3];
+   IV:= D[0]; H:= D[2]; FIRST:= FIR:= t̲r̲u̲e̲; Y[0]:= 1;
+   g̲o̲t̲o̲ CHANGE;
+   AGAIN: ABSH:= ABS(H); i̲f̲ ABSH < HMIN t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ H:= i̲f̲ H > 0 t̲h̲e̲n̲ HMIN e̲l̲s̲e̲ - HMIN;
+      ABSH:= ABS(H)
+   e̲n̲d̲;
+   RKSTEP(H, I); REJ:= f̲a̲l̲s̲e̲; FHM:= 0;
+
+   c̲o̲m̲m̲e̲n̲t̲ by GT: extraneous b̲e̲g̲i̲n̲ below after the d̲o̲ removed!: ;
+
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        i̲f̲ I ≠ IV t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ TOL:= E[2 × I] × ABS(K[0,I]) + E[2 × I + 1]× ABSH; REJ:= TOL < DISCR[I] ∨ REJ;
+         FH:= DISCR[I] / TOL; i̲f̲ FH > FHM t̲h̲e̲n̲ FHM:= FH
+      e̲n̲d̲
+        MU:= 1 / (1 + FHM) + .45; i̲f̲ REJ t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABSH ≤ HMIN t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ I ≠ IV t̲h̲e̲n̲ X[I]:= XL[I] + K[0,I]
+               e̲l̲s̲e̲ X[I]:= XL[I] + H
+            e̲n̲d̲;
+         D[1]:= D[1] + 1; FIRST:= t̲r̲u̲e̲; g̲o̲t̲o̲ NEXT
+      e̲n̲d̲;
+      H:= H × MU; I:= 0; g̲o̲t̲o̲ AGAIN
+   e̲n̲d̲;
+   i̲f̲ FIRST t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:= FIR; HL:= H; H:= MU × H; g̲o̲t̲o̲ ACCEPT
+   e̲n̲d̲;
+   FH:= MU × H / HL + MU - MU1; HL:= H; H:= FH × H;
+   ACCEPT: RKSTEP(HL, 2); MU1:= MU;
+   NEXT: i̲f̲ FIR t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIR:= f̲a̲l̲s̲e̲; COND0:= B;
+      i̲f̲ ¬(FI ∨ REJ) t̲h̲e̲n̲ H:= D[2]
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ D[2]:= H; COND1:= B;
+      i̲f̲ COND0 × COND1 ≤ 0 t̲h̲e̲n̲ g̲o̲t̲o̲ ZERO;
+      COND0:= COND1
+   e̲n̲d̲;
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I + 3]:= XL[I]:= X[I];
+   CHANGE: IV0:= IV;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[J]:= FXJ;
+   MAX:= ABS(Y[IV]);
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ ABS(Y[I]) > MAX t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MAX:= ABS(Y[I]); IV:= I e̲n̲d̲
+      e̲n̲d̲;
+   i̲f̲ IV0 ≠ IV t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:= t̲r̲u̲e̲; D[0]:= IV;
+      D[2]:= H:= Y[IV] / Y[IV0] × H
+   e̲n̲d̲;
+   X0:= XL[IV]; i̲f̲ FIR t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ HMIN:= E[0] + E[1];
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ H:= E[2 × I] + E[2 × I + 1];
+            i̲f̲ H < HMIN t̲h̲e̲n̲ HMIN:= H
+         e̲n̲d̲;
+      H:= E[2 × IV] + E[2 × IV + 1];
+      i̲f̲ (FI ∧ (Y[L]/Y[IV]×H<0 ≡ POS)) ∨
+        (¬ FI ∧ D[2]×H<0) t̲h̲e̲n̲ H:= -H
+   e̲n̲d̲;
+   I:= 1; g̲o̲t̲o̲ AGAIN;
+   ZERO: E1[1]:= E[2 × N + 2]; E1[2]:= E[2 × N + 3];
+   X1:=X[IV] ; S:=X0 ;
+   ZEROIN(S,X1,FZERO,ABS(E1[1]×S) + ABS(E1[2])) ; X0:=S ; X1:=X[IV];
+   RKSTEP(X0 - XL[IV], 3);
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I + 3]:= X[I]
+e̲n̲d̲ RK4NA;
+
+e̲o̲p̲

@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34285;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ HOMSOL(A, M, N, V, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ A, V, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+   a̲r̲r̲a̲y̲ VAL[1:N];
+
+   HOMSOL:= I:= QRISNGVALDEC(A, M, N, VAL, V, EM);
+   i̲f̲ I = 0 t̲h̲e̲n̲ HOMSOLSVD(A, VAL, V, M, N)
+e̲n̲d̲ HOMSOL;
+e̲o̲p̲

@@ -1,0 +1,7 @@
+c̲o̲d̲e̲34340;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMABS(XR,XI);v̲a̲l̲u̲e̲ XR,XI;r̲e̲a̲l̲ XR,XI;
+b̲e̲g̲i̲n̲ XR:= ABS(XR); XI:= ABS(XI);
+   COMABS:= i̲f̲ XI > XR t̲h̲e̲n̲ SQRT((XR/XI)⭡2+1)×XI
+   e̲l̲s̲e̲ i̲f̲ XI= 0 t̲h̲e̲n̲ XR e̲l̲s̲e̲ SQRT((XI/XR)⭡2+1)×XR
+e̲n̲d̲ COMABS;
+e̲o̲p̲

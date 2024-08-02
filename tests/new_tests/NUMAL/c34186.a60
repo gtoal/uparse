@@ -1,0 +1,84 @@
+c̲o̲d̲e̲ 34186;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2416;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAQRI(A, N, EM, VAL, VEC); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, VAL, VEC;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M1, I, I1, M, J, Q, MAX, COUNT;
+   r̲e̲a̲l̲ W, SHIFT, KAPPA, NU, MU, R, TOL, S, MACHTOL,
+     ELMAX, T, DELTA, DET;
+   a̲r̲r̲a̲y̲ TF[1:N];
+
+   MACHTOL:= EM[0] × EM[1]; TOL:= EM[1] × EM[2]; MAX:= EM[4];
+   COUNT:= 0; ELMAX:= 0; M:= N;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ VEC[I,I]:= 1;
+         f̲o̲r̲ J:= I + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              VEC[I,J]:= VEC[J,I]:= 0
+      e̲n̲d̲;
+   IN: M1:= M - 1;
+   f̲o̲r̲ I:= M, I - 1 w̲h̲i̲l̲e̲ (i̲f̲ I ≥ 1 t̲h̲e̲n̲
+     ABS(A[I + 1,I]) > TOL e̲l̲s̲e̲ f̲a̲l̲s̲e̲) d̲o̲ Q:= I;
+   i̲f̲ Q > 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(A[Q,Q - 1]) > ELMAX t̲h̲e̲n̲
+        ELMAX:= ABS(A[Q, Q - 1])
+   e̲n̲d̲;
+   i̲f̲ Q = M t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ VAL[M]:= A[M,M]; M:= M1 e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ DELTA:= A[M,M] - A[M1,M1]; DET:= A[M,M1] × A[M1,M];
+      i̲f̲ ABS(DELTA) < MACHTOL t̲h̲e̲n̲ S:= SQRT(DET) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ W:= 2 / DELTA; S:= W × W × DET + 1;
+         S:= i̲f̲ S ≤ 0 t̲h̲e̲n̲ -DELTA × ·5 e̲l̲s̲e̲
+           W × DET / (SQRT(S) + 1)
+      e̲n̲d̲;
+      i̲f̲ Q = M1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ A[M,M]:= VAL[M]:= A[M,M] + S;
+         A[Q,Q]:= VAL[Q]:= A[Q,Q] - S;
+         T:= i̲f̲ ABS(S) < MACHTOL t̲h̲e̲n̲
+           (S + DELTA) / A[M,Q] e̲l̲s̲e̲ A[Q,M] / S;
+         R:= SQRT(T × T + 1); NU:= 1 / R;
+         MU:= -T × NU; A[Q,M]:= A[Q,M] - A[M,Q];
+         ROTROW(Q + 2, N, Q, M, A, MU, NU);
+         ROTCOL(1, Q - 1, Q, M, A, MU, NU);
+         ROTCOL(1, N, Q, M, VEC, MU, NU); M:= M - 2
+      e̲n̲d̲
+
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT + 1;
+         i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+         SHIFT:= A[M,M] + S; i̲f̲ ABS(DELTA) < TOL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= A[M1,M1] - S;
+            i̲f̲ ABS(W) < ABS(SHIFT) t̲h̲e̲n̲ SHIFT:= W
+         e̲n̲d̲;
+         A[Q,Q]:= A[Q,Q] - SHIFT;
+         f̲o̲r̲ I:= Q s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲
+            b̲e̲g̲i̲n̲ I1:= I + 1; A[I1,I1]:= A[I1,I1] - SHIFT;
+               KAPPA:= SQRT(A[I,I] ⭡ 2 + A[I1,I] ⭡ 2);
+               i̲f̲ I > Q t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ A[I,I - 1]:= KAPPA × NU;
+                  W:= KAPPA × MU
+               e̲n̲d̲
+               e̲l̲s̲e̲ W:= KAPPA; MU:= A[I,I] / KAPPA;
+               NU:= A[I1,I] / KAPPA; A[I,I]:= W;
+               ROTROW(I1, N, I, I1, A, MU, NU);
+               ROTCOL(1, I, I, I1, A, MU, NU);
+               A[I,I]:= A[I,I] + SHIFT;
+               ROTCOL(1, N, I, I1, VEC, MU, NU)
+            e̲n̲d̲;
+         A[M,M1]:= A[M,M] × NU; A[M,M]:= A[M,M] × MU + SHIFT
+      e̲n̲d̲
+   e̲n̲d̲;
+   i̲f̲ M > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   f̲o̲r̲ J:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 2 d̲o̲
+      b̲e̲g̲i̲n̲ TF[J]:= 1; T:= A[J,J];
+         f̲o̲r̲ I:= J - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ DELTA:= T - A[I,I];
+               TF[I]:= MATVEC(I + 1, J, I, A, TF) /
+                 (i̲f̲ ABS(DELTA) < MACHTOL t̲h̲e̲n̲ MACHTOL e̲l̲s̲e̲ DELTA)
+            e̲n̲d̲;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              VEC[I,J]:= MATVEC(1, J, I, VEC, TF)
+      e̲n̲d̲;
+   END: EM[3]:= ELMAX; EM[5]:= COUNT; REAQRI:= M
+e̲n̲d̲ REAQRI
+
+;e̲o̲p̲

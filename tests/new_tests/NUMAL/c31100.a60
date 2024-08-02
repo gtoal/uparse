@@ -1,0 +1,30 @@
+c̲o̲d̲e̲31100;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲LNGREATODECI(X,XX,S,MANT,EXPO);
+   v̲a̲l̲u̲e̲X,XX,S;i̲n̲t̲e̲g̲e̲r̲S,EXPO;r̲e̲a̲l̲X,XX;i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲MANT;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲I,K;
+   r̲e̲a̲l̲P,PP;
+   MANT[0]:=SIGN(X);i̲f̲X<0t̲h̲e̲n̲b̲e̲g̲i̲n̲X:=-X;XX:=-XXe̲n̲d̲;
+   i̲f̲X=0t̲h̲e̲n̲EXPO:=0
+   e̲l̲s̲e̲EXPO:=ENTIER(LN(X)/LN(10))+1;
+   DP POW(10,-EXPO,P,PP);
+   LNG MUL(X,XX,P,PP,X,XX);
+   f̲o̲r̲I:=0w̲h̲i̲l̲e̲ENTIER(X)=0 ∧ X≠0 d̲o̲
+      b̲e̲g̲i̲n̲LNG MUL(X,XX,10,0,X,XX);EXPO:=EXPO-1e̲n̲d̲;
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Sd̲o̲
+      b̲e̲g̲i̲n̲K:=ENTIER(X);i̲f̲K>9t̲h̲e̲n̲K:=9;MANT[I]:=K;
+         LNG SUB(X,XX,K,0,P,PP);LNG MUL(P,PP,10,0,X,XX)
+      e̲n̲d̲;
+   i̲f̲ENTIER(X)≥5
+     t̲h̲e̲n̲b̲e̲g̲i̲n̲f̲o̲r̲I:=Ss̲t̲e̲p̲-1u̲n̲t̲i̲l̲1d̲o̲
+         b̲e̲g̲i̲n̲K:=MANT[I]+1;
+            i̲f̲K<10t̲h̲e̲n̲b̲e̲g̲i̲n̲MANT[I]:=K;g̲o̲t̲o̲READY
+            e̲n̲d̲;
+            MANT[I]:=0
+         e̲n̲d̲;
+      EXPO:=EXPO+1;
+      i̲f̲S>0t̲h̲e̲n̲MANT[1]:=1;
+      READY:
+   e̲n̲d̲;
+   EXPO:=EXPO+1
+e̲n̲d̲ LNGREATODECI;
+e̲o̲p̲

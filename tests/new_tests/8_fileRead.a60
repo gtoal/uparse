@@ -1,0 +1,7 @@
+'BEGIN'
+'COMMENT' reading from file  FILE_2;
+	'INTEGER' n;
+	n := 0;
+	ininteger(2,n);
+	outinteger(1,n)
+'END'

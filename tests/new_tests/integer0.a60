@@ -1,0 +1,6 @@
+'BEGIN'
+	'COMMENT' by experiment find min and max integer;
+	'INTEGER' n;
+	ininteger (0,n);
+	outinteger( 1,n)
+'END'

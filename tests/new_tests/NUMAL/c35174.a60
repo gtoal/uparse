@@ -1,0 +1,12 @@
+c̲o̲d̲e̲ 35174;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS K(X, N, K); v̲a̲l̲u̲e̲ X, N;
+   r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ K;
+b̲e̲g̲i̲n̲  i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ K0, K1, K2;
+   BESS K01(X, K0, K1); K[0]:= K0; i̲f̲ N > 0 t̲h̲e̲n̲ K[1]:= K1;
+   X:= 2 / X;
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ K[I]:= K2:= K0 + X × (I-1)× K1;
+         K0:= K1; K1:= K2
+      e̲n̲d̲
+e̲n̲d̲ BESS K;
+e̲o̲p̲

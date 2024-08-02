@@ -1,0 +1,43 @@
+c̲o̲d̲e̲ 34137;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQDECOMP( A, N ,M ,N1 ,AUX ,AID ,CI );
+   v̲a̲l̲u̲e̲ N , M ,N1;i̲n̲t̲e̲g̲e̲r̲ N,M,N1;a̲r̲r̲a̲y̲ A,AUX, AID;
+     i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ CI;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲J,K,KPIV,NR,S;b̲o̲o̲l̲e̲a̲n̲ FSUM;
+   r̲e̲a̲l̲ BETA,SIGMA,NORM,AIDK,AKK,W,EPS;
+   a̲r̲r̲a̲y̲ SUM[1:M];
+
+   NORM:=0 ; AUX[3]:=M;NR:=N1;FSUM:=t̲r̲u̲e̲;
+   f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ K=N1+1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ FSUM:=t̲r̲u̲e̲; NR:=N e̲n̲d̲;
+         i̲f̲ FSUM t̲h̲e̲n̲
+           f̲o̲r̲ J:=K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ W:=SUM[J]:= TAMMAT(K ,NR ,J ,J ,A ,A);
+               i̲f̲ W>NORM t̲h̲e̲n̲ NORM:=W
+            e̲n̲d̲; FSUM:=f̲a̲l̲s̲e̲;EPS:=AUX[2]×SQRT(NORM);
+         SIGMA:=SUM[K]; KPIV:=K;
+         f̲o̲r̲ J:=K+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+              i̲f̲ SUM[J]>SIGMA t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ SIGMA:=SUM[J]; KPIV:=J e̲n̲d̲;
+         i̲f̲ KPIV≠K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SUM[KPIV]:=SUM[K]; ICHCOL( 1 ,N ,K ,KPIV ,A) e̲n̲d̲;
+         CI[K]:=KPIV; AKK:=A[K,K];
+         SIGMA:=TAMMAT(K ,NR ,K ,K ,A ,A); W:=SQRT(SIGMA);
+         AIDK:=AID[K]:=i̲f̲ AKK<0 t̲h̲e̲n̲ W e̲l̲s̲e̲ -W;
+         i̲f̲ W<EPS t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AUX[3]:=K-1;g̲o̲t̲o̲ ENDDEC e̲n̲d̲;
+         BETA:= 1/(SIGMA-AKK×AIDK); A[K,K]:=AKK-AIDK;
+         f̲o̲r̲ J:=K+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ ELMCOL(K ,NR ,J ,K ,A ,A ,-BETA×TAMMAT(K ,NR ,
+                 K ,J ,A ,A)); SUM[J]:=SUM[J]-A[K,J]⭡2
+            e̲n̲d̲;
+         i̲f̲ K=N1 t̲h̲e̲n̲
+           f̲o̲r̲ J:=N1+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              f̲o̲r̲ S:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+               b̲e̲g̲i̲n̲ NR:=i̲f̲ S>N1 t̲h̲e̲n̲ N1 e̲l̲s̲e̲ S-1;
+                  W:=A[J,S]-MATMAT(1 ,NR , J ,S ,A ,A);
+                  A[J,S]:=i̲f̲ S>N1 t̲h̲e̲n̲ W e̲l̲s̲e̲ W/AID[S]
+               e̲n̲d̲
+      e̲n̲d̲ FOR K;
+   ENDDEC:
+e̲n̲d̲ LSQDECOMP;
+e̲o̲p̲

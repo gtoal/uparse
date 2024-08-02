@@ -1,0 +1,37 @@
+c̲o̲d̲e̲ 31200;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNG INT ADD(U,V,SUM); i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ U,V,SUM;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ LU,LV,DIFF,CARRY,I,T,MAX;
+   LU:=U[0]; LV:=V[0];
+   i̲f̲ LU ≥ LV t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ MAX:=LU; DIFF:=LU - LV + 1; CARRY:=0;
+      f̲o̲r̲ I:=LU s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ DIFF d̲o̲
+         b̲e̲g̲i̲n̲ T:=U[I] + V[I-DIFF+1] + CARRY;
+            CARRY:=i̲f̲ T<10 000 000 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+            SUM[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲;
+      f̲o̲r̲ I:=DIFF - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ T:=U[I] + CARRY;
+            CARRY:=i̲f̲ T<10 000 000 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+            SUM[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ MAX:=LV; DIFF:=LV - LU + 1; CARRY:=0;
+      f̲o̲r̲ I:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ DIFF d̲o̲
+         b̲e̲g̲i̲n̲ T:=V[I] + U[I-DIFF+1] + CARRY;
+            CARRY:=i̲f̲ T<10 000 000 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+            SUM[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲;
+      f̲o̲r̲ I:=DIFF - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ T:=V[I] + CARRY;
+            CARRY:=i̲f̲ T<10 000 000 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+            SUM[I]:=T - CARRY × 10 000 000
+         e̲n̲d̲
+   e̲n̲d̲;
+   i̲f̲ CARRY=1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ I:=MAX s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+           SUM[I+1]:=SUM[I]; SUM[1]:=1; MAX:=MAX + 1
+   e̲n̲d̲;
+   SUM[0]:=MAX
+e̲n̲d̲ LNG INT ADD
+
+;e̲o̲p̲

@@ -1,0 +1,17 @@
+c̲o̲d̲e̲ 35113;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TANH(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲AX; AX:= ABS(X);
+   i̲f̲ AX < 0·005 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ Y; Y:= X×X; TANH:= X × ( 1 - Y ×
+        (·33333333333333 - Y ×
+        (·13333333333333 - Y ×·05396825396825   )))
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ AX < 0·3 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ SH;
+      SH:= SINH(X);
+      TANH:= SH/SQRT(1+SH×SH)
+   e̲n̲d̲ e̲l̲s̲e̲
+   i̲f̲ AX > 17·5 t̲h̲e̲n̲ TANH:= SIGN(X) e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ AX:= EXP(-2×AX); TANH:= SIGN(X)×(1-AX)/(1+AX) e̲n̲d̲
+e̲n̲d̲
+
+;e̲o̲p̲

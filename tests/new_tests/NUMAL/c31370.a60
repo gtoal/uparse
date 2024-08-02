@@ -1,0 +1,44 @@
+c̲o̲d̲e̲ 31370;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ALL JAC ZER(N, ALFA, BETA, ZER);
+   v̲a̲l̲u̲e̲ N, ALFA, BETA     ; i̲n̲t̲e̲g̲e̲r̲ N;
+     r̲e̲a̲l̲ ALFA, BETA     ; a̲r̲r̲a̲y̲ ZER;
+   i̲f̲ ALFA = BETA t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, M;
+      a̲r̲r̲a̲y̲ A, B[0:N÷2], EM[0:5];
+      r̲e̲a̲l̲ MIN, GAMMA, SUM, ZERI;
+      M:= N÷2; i̲f̲ N ≠ 2×M t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ GAMMA:= + 0·5; ZER[M + 1]:= 0 e̲n̲d̲
+      e̲l̲s̲e̲ GAMMA:= - 0·5;
+      MIN:= 0·25 - ALFA×ALFA; SUM:= ALFA + GAMMA + 2;
+      A[0]:= (GAMMA - ALFA)/SUM; A[1]:= MIN/SUM/(SUM + 2);
+      B[1]:= 4×(1 + ALFA)×(1 + GAMMA)/SUM/SUM/(SUM + 1);
+      f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M - 1 d̲o̲
+         b̲e̲g̲i̲n̲ SUM:= I + I + ALFA + GAMMA;
+            A[I]:= MIN/SUM/(SUM + 2); SUM := SUM×SUM;
+            B[I]:= 4×I×(I + ALFA + GAMMA)×(I + ALFA)×(I + GAMMA)/
+              SUM/(SUM - 1)
+         e̲n̲d̲;
+      EM[0]:=ARREB; EM[2]:=@-10; EM[4]:= 6×M;
+      ALL ZER ORT POL (M, A, B, ZER, EM);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ ZER[I]:= ZERI:= - SQRT((1 + ZER[I])/2);
+            ZER[N + 1 - I]:= - ZERI
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ SUM, MIN;
+      a̲r̲r̲a̲y̲ A, B[0:N], EM[0:5];
+      MIN:= (BETA - ALFA)×(BETA + ALFA);
+      SUM:= ALFA + BETA + 2; B[0]:= 0;
+      A[0]:= (BETA - ALFA)/SUM;
+      A[1]:= MIN/SUM/(SUM + 2);
+      B[1]:= 4×(1 + ALFA)×(1 + BETA)/SUM/SUM/(SUM + 1);
+      f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+         b̲e̲g̲i̲n̲ SUM:= I + I + ALFA + BETA;
+            A[I]:= MIN/SUM/(SUM + 2); SUM:= SUM×SUM;
+            B[I]:= 4×I×(I + ALFA + BETA)×(I + ALFA)×(I + BETA)/
+              (SUM - 1)/SUM
+         e̲n̲d̲;
+      EM[0]:=ARREB; EM[2]:= 1·0@-8; EM[4]:= 6×N;
+      ALL ZER ORT POL(N, A, B, ZER, EM)
+   e̲n̲d̲ ALL JAC ZER;
+e̲o̲p̲

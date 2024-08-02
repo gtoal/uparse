@@ -1,0 +1,12 @@
+'BEGIN'
+	'INTEGER' n, m, i, s;
+	'REAL' sum;
+	ininteger(0,n);
+	
+	'FOR' i:=1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		sum := sum + i
+	'END'
+	outinteger(1, s); 
+	outstring(1,"\n")
+'END'

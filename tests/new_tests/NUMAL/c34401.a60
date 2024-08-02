@@ -1,0 +1,19 @@
+c̲o̲d̲e̲ 34401;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLINV1(A, N); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, II, I1, J, IJ; r̲e̲a̲l̲ R;
+   a̲r̲r̲a̲y̲ U[1:N];
+
+   II:= (N + 1) × N ÷ 2;
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ R:= 1 / A[II]; I1:= I + 1; IJ:= II + I;
+         f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ U[J]:= A[IJ]; IJ:= IJ + J e̲n̲d̲;
+         f̲o̲r̲ J:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+            b̲e̲g̲i̲n̲ IJ:= IJ - J; A[IJ]:= -SYMMATVEC(I1, N, J, A, U) × R
+            e̲n̲d̲;
+         A[II]:= (R - SEQVEC(I1, N, II + I, 0, A, U)) × R;
+         II:= II - I
+      e̲n̲d̲
+e̲n̲d̲ CHLINV1
+
+;e̲o̲p̲

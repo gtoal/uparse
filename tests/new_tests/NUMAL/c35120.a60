@@ -1,0 +1,7 @@
+c̲o̲d̲e̲ 35120;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TAN(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ U;
+   U:= SIN(X)/COS(X);
+   TAN:= i̲f̲ OVERFLOW(U) t̲h̲e̲n̲ GIANT e̲l̲s̲e̲ U
+e̲n̲d̲ TAN;
+e̲o̲p̲

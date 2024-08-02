@@ -1,0 +1,4 @@
+'CODE' 30004;
+'REAL' 'PROCEDURE' GIANT;
+GIANT:= (2**48-1)*2**1022;
+        'EOP'

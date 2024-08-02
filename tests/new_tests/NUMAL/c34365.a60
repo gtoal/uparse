@@ -1,0 +1,31 @@
+c̲o̲d̲e̲ 34365;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BAKHRMTRI(A, N, N1, N2, VECR, VECI, TR, TI);
+   v̲a̲l̲u̲e̲ N, N1, N2; i̲n̲t̲e̲g̲e̲r̲ N, N1, N2;
+     a̲r̲r̲a̲y̲ A, VECR, VECI, TR, TI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, R, RM1;
+   r̲e̲a̲l̲ C, S, T, QR, QI;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲ VECI[I,J]:= 0; C:= 1;
+   S:= 0;
+   f̲o̲r̲ J:= N - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ COMMUL(C, S, TR[J], TI[J], C, S);
+         COMROWCST(N1, N2, J, VECR, VECI, C, S)
+      e̲n̲d̲ J;
+   RM1:= 2;
+   f̲o̲r̲ R:= 3 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ T:= A[R,R]; i̲f̲ T > 0 t̲h̲e̲n̲
+           f̲o̲r̲ J:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+            b̲e̲g̲i̲n̲ QR:= (TAMMAT(1, RM1, R, J, A, VECR) -
+                 MATMAT(1, RM1, R, J, A, VECI)) / T;
+               QI:= (TAMMAT(1, RM1, R, J, A, VECI) +
+                 MATMAT(1, RM1, R, J, A, VECR)) / T;
+               ELMCOL(1, RM1, J, R, VECR, A, - QR);
+               ELMCOLROW(1, RM1, J, R, VECR, A, - QI);
+               ELMCOLROW(1, RM1, J, R, VECI, A, QR);
+               ELMCOL(1, RM1, J, R, VECI, A, - QI)
+            e̲n̲d̲;
+         RM1:= R;
+      e̲n̲d̲ R
+e̲n̲d̲ BAKHRMTRI
+
+;e̲o̲p̲

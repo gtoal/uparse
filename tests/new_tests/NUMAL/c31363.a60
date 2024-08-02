@@ -1,0 +1,78 @@
+c̲o̲d̲e̲31363;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LUPZERORTPOL (N, M, B, C, ZER, EM);
+   v̲a̲l̲u̲e̲ N, M; i̲n̲t̲e̲g̲e̲r̲ N, M; a̲r̲r̲a̲y̲ B, C, ZER, EM;
+b̲e̲g̲i̲n̲
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RATQR(N,M,POSDEF,DLAM,EPS)TRANS:(D,B2);
+      v̲a̲l̲u̲e̲ N,M,POSDEF,DLAM,EPS;
+      i̲n̲t̲e̲g̲e̲r̲ N,M;
+        b̲o̲o̲l̲e̲a̲n̲ POSDEF;
+        r̲e̲a̲l̲ DLAM,EPS;
+        a̲r̲r̲a̲y̲ D,B2;
+        c̲o̲m̲m̲e̲n̲t̲ QR ALGORITHM FOR THE COMPUTATION OF THE LOWEST EIGENVALUES
+        OF A SYMMETRIC TRIDIAGONAL MATRIX. A RATIONAL VARIANT OF THE
+        QR TRANSFORMATION IS USED, CONSISTING OF TWO SUCCESSIVE QD STEPS
+        PER ITERATION.
+        A SHIFT OF THE SPECTRUM AFTER EACH ITERATION GIVES AN ACCELERATED
+        RATE OF CONVERGENCE. A NEWTON CORRECTION,DERIVED FROM THE
+        CHARACTERISTIC POLYNOMIAL,IS USED AS SHIFT.
+        RATQR IS IMPLEMENTED BY REINSCH AND BAUER, SEE WILKINSON AND REINSCH
+        ,1971, CONTR. II-6.
+        FORMATS: D,B2[1:N];
+   b̲e̲g̲i̲n̲
+      i̲n̲t̲e̲g̲e̲r̲ I,J,K,T; r̲e̲a̲l̲ DELTA,E,EP,ERR,P,Q,QP,R,S,TOT;
+      c̲o̲m̲m̲e̲n̲t̲ LOWER BOUND FOR EIGENVALUES FROM GERSHGORIN, INITIAL SHIFT;
+      B2[1]:= ERR:= Q:= S:= 0; TOT:= D[1];
+      f̲o̲r̲ I:= N s̲t̲e̲p̲ -1   u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            P:= Q; Q:= SQRT(B2[I]); E:= D[I]-P-Q;
+            i̲f̲ E < TOT t̲h̲e̲n̲ TOT:= E
+         e̲n̲d̲ I;
+      i̲f̲ POSDEF ∧ TOT < 0 t̲h̲e̲n̲ TOT:= 0 e̲l̲s̲e̲
+        f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I]:= D[I]-TOT;
+      T:= 0;
+      f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲
+            NEXT QR TRANSFORMATION:  T:= T + 1;
+            TOT:= TOT + S; DELTA:= D[N]-S; I:= N;
+            E:= ABS(EPS×TOT); i̲f̲ DLAM < E t̲h̲e̲n̲ DLAM:= E;
+            i̲f̲ DELTA ≤ DLAM t̲h̲e̲n̲ g̲o̲t̲o̲ CONVERGENCE;
+            E:= B2[N]/DELTA; QP:= DELTA+E; P:= 1;
+            f̲o̲r̲ I:= N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲
+                  Q:= D[I]-S-E; R:= Q/QP; P:= P×R+1;
+                  EP:= E×R; D[I+1]:= QP+EP; DELTA:= Q-EP;
+                  i̲f̲ DELTA ≤ DLAM t̲h̲e̲n̲ g̲o̲t̲o̲ CONVERGENCE;
+                  E:= B2[I]/Q;QP:= DELTA+E; B2[I+1]:= QP×EP
+               e̲n̲d̲ I;
+            D[K]:= QP; S:= QP/P;
+            i̲f̲ TOT+S > TOT t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT QR TRANSFORMATION;
+            c̲o̲m̲m̲e̲n̲t̲ IRREGULAR END OF ITERATION,
+              DEFLATE MINIMUM DIAGONAL ELEMENT;
+            S:= 0; I:= K; DELTA:= QP;
+            f̲o̲r̲ J:= K+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 i̲f̲ D[J] < DELTA t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ I:= J; DELTA:= D[J] e̲n̲d̲;
+            CONVERGENCE:
+            i̲f̲ I < N t̲h̲e̲n̲ B2[I+1]:= B2[I]×E/QP;
+            f̲o̲r̲ J:= I-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ K d̲o̲
+               b̲e̲g̲i̲n̲ D[J+1]:= D[J]-S; B2[J+1]:= B2[J] e̲n̲d̲ J;
+            D[K]:= TOT; B2[K]:= ERR:= ERR+ABS(DELTA)
+         e̲n̲d̲ K;
+      EM[5]:=T;EM[3]:=INFNRMVEC(1,M,T,B2);
+   e̲n̲d̲ RATQR;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DUPCEV (L, U, SHIFT, A, B);
+      v̲a̲l̲u̲e̲L,U,SHIFT;i̲n̲t̲e̲g̲e̲r̲L,U,SHIFT;a̲r̲r̲a̲y̲A,B;
+      f̲o̲r̲ U:=U s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ L d̲o̲ A[U]:=B[U+SHIFT];
+   i̲n̲t̲e̲g̲e̲r̲ I;r̲e̲a̲l̲NRM;
+   NRM:=ABS(B[0]);
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲N-2d̲o̲i̲f̲C[I]+ABS(B[I])>NRMt̲h̲e̲n̲
+        NRM:=C[I]+ABS(B[I]);
+   i̲f̲N>1t̲h̲e̲n̲NRM:=i̲f̲NRM+1≥C[N-1]+ABS(B[N-1])t̲h̲e̲n̲NRM+1e̲l̲s̲e̲
+     C[N-1]+ABS(B[N-1]);
+   EM[1]:=NRM;
+   DUPCEV(1,N,-1,B,B);
+   DUPCEV(2,N,-1,C,C);
+   RATQR (N, M, EM[6] = 1, EM[2], EM[0], B, C);
+   DUPVEC (1, M, 0, ZER, B)
+e̲n̲d̲ LUPZERORTPOL;
+e̲o̲p̲

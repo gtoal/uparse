@@ -1,0 +1,4 @@
+'BEGIN'
+	'INTEGER' n, i;
+	'FOR' i:=1 'STEP' 1 'UNTIL' 10 'DO' outinteger (1,i)
+'END'

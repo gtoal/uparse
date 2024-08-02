@@ -1,0 +1,11 @@
+'BEGIN'
+	'COMMENT' abs function heviside parabola;
+	'REAL' x, y;
+	
+	'FOR' x:= -3.0 'STEP' 0.2 'UNTIL' 3.0 'DO'
+	'BEGIN'
+		y := ( abs (x-1) + abs (x+1) - 2.0 ) / 2.0;
+		outreal (1, x); outreal (1, y); outstring (1,"\n")
+	'END' 
+
+'END'

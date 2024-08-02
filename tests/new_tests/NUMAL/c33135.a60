@@ -1,0 +1,240 @@
+c̲o̲d̲e̲ 33135;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ IMPEX (N, T0, TEND, Y0, DERIV, AVAILABLE, H0, HMAX,
+  PRESCH, EPS, WEIGHTS, UPDATE, FAIL, CONTROL);
+   v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N;
+     r̲e̲a̲l̲ T0,TEND,H0,HMAX,EPS;
+     b̲o̲o̲l̲e̲a̲n̲ PRESCH,FAIL;
+     a̲r̲r̲a̲y̲ Y0,WEIGHTS;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ AVAILABLE;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIV,UPDATE,CONTROL;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,K,ECI;
+   r̲e̲a̲l̲ T,T1,T2,T3,TP,H,H2,HNEW,ALF,LQ;
+   a̲r̲r̲a̲y̲ Y,Z,S1,S2,S3,U1,U3,W1,W2,W3,EHR[1:N],R,RF[1:5,1:N],
+     ERR[1:3],A1,A2[1:N,1:N];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PS1,PS2[1:N];
+   b̲o̲o̲l̲e̲a̲n̲ START,TWO,HALV;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DFDY(T,Y,A); r̲e̲a̲l̲ T; a̲r̲r̲a̲y̲ Y,A;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J; r̲e̲a̲l̲ SL; a̲r̲r̲a̲y̲ F1,F2[1:N];
+      DERIV(T,Y,F1,N);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            SL:=@-6×Y[I]; i̲f̲ ABS(SL)<@-6 t̲h̲e̲n̲ SL:=@-6;
+            Y[I]:=Y[I]+SL; DERIV(T,Y,F2,N);
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 A[J,I]:=(F2[J]-F1[J])/SL;
+            Y[I]:=Y[I]-SL;
+         e̲n̲d̲
+   e̲n̲d̲ DFDY;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STARTV(Y,T); v̲a̲l̲u̲e̲ T; r̲e̲a̲l̲ T; a̲r̲r̲a̲y̲ Y;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A,B,C;
+      A:=(T-T1)/(T1-T2); B:=(T-T2)/(T1-T3);
+      C:=(T-T1)/(T2-T3)×B; B:=A×B;
+      A:=1+A+B; B:=A+C-1;
+      MULVEC(1,N,0,Y,S1,A); ELMVEC(1,N,0,Y,S2,-B);
+      ELMVEC(1,N,0,Y,S3,C)
+   e̲n̲d̲ STARTV;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ITERATE(Z,Y,A,H,T,WEIGHTS,FAIL,PS);
+      a̲r̲r̲a̲y̲ Z,Y,A,WEIGHTS; r̲e̲a̲l̲ H,T; l̲a̲b̲e̲l̲ FAIL;
+        i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PS;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ IT,LIT; r̲e̲a̲l̲ MAX,MAX1,CONV; a̲r̲r̲a̲y̲ DZ,F1[1:N];
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Z[I]:=(Z[I]+Y[I])/2;
+      IT:=LIT:=1; CONV:=1;
+      ATER: DERIV(T,Z,F1,N);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           F1[I]:=DZ[I]:=Z[I]-H×F1[I]/2-Y[I];
+      SOL(A,N,PS,DZ);
+      ELMVEC(1,N,0,Z,DZ,-1);
+      MAX:=0;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           MAX:=MAX+(WEIGHTS[I]×DZ[I])⭡2;
+      MAX:=SQRT(MAX);
+      i̲f̲ MAX×CONV<EPS/10 t̲h̲e̲n̲ g̲o̲t̲o̲ OUT;
+      IT:=IT+1; i̲f̲ IT=2 t̲h̲e̲n̲ g̲o̲t̲o̲ ASS;
+      CONV:=MAX/MAX1;
+      i̲f̲ CONV>·2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ LIT=0 t̲h̲e̲n̲ g̲o̲t̲o̲ FAIL;
+         LIT:=0; CONV:=1; IT:=1;
+         RECOMP(A,H,T,Z,FAIL,PS);
+      e̲n̲d̲;
+      ASS: MAX1:=MAX;
+      g̲o̲t̲o̲ ATER;
+      OUT: f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Z[I]:=2×Z[I]-Y[I];
+   e̲n̲d̲ ITERATE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RECOMP(A,H,T,Y,FAIL,PS);
+      r̲e̲a̲l̲ H,T; a̲r̲r̲a̲y̲ A,Y; l̲a̲b̲e̲l̲ FAIL; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PS;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ SL; a̲r̲r̲a̲y̲ AUX[1:3];
+      SL:=H/2;
+      i̲f̲ ¬ AVAILABLE(T,Y,A,N) t̲h̲e̲n̲ DFDY(T,Y,A);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ MULROW(1,N,I,I,A,A,-SL); A[I,I]:=1+A[I,I]
+         e̲n̲d̲;
+      AUX[2]:=@-14;
+      DEC(A,N,AUX,PS);
+      i̲f̲ AUX[3]<N t̲h̲e̲n̲ g̲o̲t̲o̲ FAIL
+   e̲n̲d̲ RECOMP;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INITIALIZATION;
+   b̲e̲g̲i̲n̲ H2:=HNEW; H:=H2/2;
+      DUPVEC(1,N,0,S1,Y0); DUPVEC(1,N,0,S2,Y0); DUPVEC(1,N,0,S3,Y0);
+      DUPVEC(1,N,0,W1,Y0); DUPROWVEC(1,N,1,R,Y0);
+      INIVEC(1,N,U1,0); INIVEC(1,N,W2,0);
+      INIMAT(2,5,1,N,R,0); INIMAT(1,5,1,N,RF,0);
+      T:=T1:=T0; T2:=T0-2×H-@6; T3:=2×T2+1;
+      RECOMP(A1,H,T,S1,MISS,PS1);RECOMP(A2,H2,T,W1,MISS,PS2);
+   e̲n̲d̲
+
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ ONE LARGE STEP;
+   b̲e̲g̲i̲n̲ STARTV(Z,T+H);
+      ITERATE(Z,S1,A1,H,T+H/2,WEIGHTS,MISS,PS1);
+      DUPVEC(1,N,0,Y,Z);
+      STARTV(Z,T+H2);
+      ITERATE(Z,Y,A1,H,T+3×H/2,WEIGHTS,MISS,PS1);
+      DUPVEC(1,N,0,U3,U1); DUPVEC(1,N,0,U1,Y);
+      DUPVEC(1,N,0,S3,S2); DUPVEC(1,N,0,S2,S1);
+      DUPVEC(1,N,0,S1,Z);
+      ELMVEC(1,N,0,Z,W1,1); ELMVEC(1,N,0,Z,S2,-1);
+      ITERATE(Z,W1,A2,H2,T+H,WEIGHTS,MISS,PS2);
+      T3:=T2; T2:=T1; T1:=T+H2;
+      DUPVEC(1,N,0,W3,W2); DUPVEC(1,N,0,W2,W1); DUPVEC(1,N,0,W1,Z);
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHANGE OF INFORMATION;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ALF1,C1,C2,C3; a̲r̲r̲a̲y̲ KOF[2:4,2:4],E,D[1:4];
+      i̲n̲t̲e̲g̲e̲r̲ I, K;
+      C1:=HNEW/H2; C2:=C1×C1; C3:=C2×C1;
+      KOF[2,2]:=C1; KOF[2,3]:=(C1-C2)/2; KOF[2,4]:=C3/6-C2/2+C1/3;
+      KOF[3,3]:=C2; KOF[3,4]:=C2-C3; KOF[4,4]:=C3;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           U1[I]:=R[2,I]+R[3,I]/2+R[4,I]/3;
+      ALF1:=MATVEC(1,N,1,RF,U1)/VECVEC(1,N,0,U1,U1);
+      ALF:=(ALF+ALF1)×C1;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲
+            E[1]:=RF[1,I]-ALF1×U1[I];
+            E[2]:=RF[2,I]-ALF1×2×R[3,I];
+            E[3]:=RF[3,I]-ALF1×4×R[4,I];
+            E[4]:=RF[4,I];
+            D[1]:=R[1,I]; RF[1,I]:=E[1]:=E[1]×C2;
+            f̲o̲r̲ K:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+               b̲e̲g̲i̲n̲ R[K,I]:=D[K]:=MATMAT(K,4,K,I,KOF,R);
+                  RF[K,I]:=E[K]:=C2×MATVEC(K,4,K,KOF,E)
+               e̲n̲d̲ K;
+            S1[I]:=D[1]+E[1];W1[I]:=D[1]+4×E[1];
+            S2[I]:=S1[I]-(D[2]+E[2]/2);
+            S3[I]:=S2[I]-(D[2]+E[2])+(D[3]+E[3]/2);
+         e̲n̲d̲ I;
+      T3:=T-HNEW; T2:=T-HNEW/2; T1:=T;
+      H2:=HNEW; H:=H2/2; ERR[1]:=0;
+      i̲f̲ HALV t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ PS2[I]:= PS1[I];
+         DUPMAT(1,N,1,N,A2,A1) e̲n̲d̲;
+      i̲f̲ TWO t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ PS1[I]:= PS2[I];
+         DUPMAT(1,N,1,N,A1,A2)
+      e̲n̲d̲ e̲l̲s̲e̲ RECOMP(A1,HNEW/2,T,S1,MISS,PS1);
+      i̲f̲ ¬HALV t̲h̲e̲n̲ RECOMP(A2,HNEW,T,W1,MISS,PS2);
+   e̲n̲d̲ HNEW^=H2
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ BACKWARD DIFFERENCES;
+   f̲o̲r̲I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B0,B1,B2,B3;
+         B1:=(U1[I]+2×S2[I]+U3[I])/4;
+         B2:=(W1[I]+2×W2[I]+W3[I])/4;
+         B3:=(S3[I]+2×U3[I]+S2[I])/4;
+         B2:=(B2-B1)/3; B0:=B1-B2;
+         B2:=B2-(S1[I]-2×S2[I]+S3[I])/16;
+         B1:=2×B3-(B2+RF[1,I])-(B0+R[1,I])/2;
+         B3:=0;
+         f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+            b̲e̲g̲i̲n̲ B1:=B1-B3; B3:=R[K,I]; R[K,I]:=B0; B0:=B0-B1
+            e̲n̲d̲; R[5,I]:=B0;
+         f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 d̲o̲
+            b̲e̲g̲i̲n̲ B3:=RF[K,I]; RF[K,I]:=B2; B2:=B2-B3 e̲n̲d̲;
+         RF[5,I]:=B2;
+      e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERROR ESTIMATES;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C0,C1,C2,C3,B0,B1,B2,B3,W,SL1,SN,LR;
+      C0:=C1:=C2:=C3:=0;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ W:=WEIGHTS[I]⭡2;
+            B0:=RF[4,I]/36; C0:=C0+B0×B0×W; LR:=ABS(B0);
+            B1:=RF[1,I]+ALF×R[2,I]; C1:=C1+B1×B1×W;
+            B2:=RF[3,I]; C2:=C2+B2×B2×W;
+            SL1:=ABS(RF[1,I]-RF[2,I]);
+            SN:=i̲f̲ SL1<@-10 t̲h̲e̲n̲1e̲l̲s̲e̲ABS(RF[1,I]-R[4,I]/6)/SL1;
+            i̲f̲ SN>1 t̲h̲e̲n̲ SN:=1;
+            i̲f̲ START t̲h̲e̲n̲ b̲e̲g̲i̲n̲ SN:=SN⭡4; LR:=LR×4 e̲n̲d̲;
+            EHR[I]:=B3:=SN×EHR[I]+LR; C3:=C3+B3×B3×W;
+         e̲n̲d̲ I;
+      B0:=ERR[1];
+      ERR[1]:=B1:=SQRT(C0); ERR[2]:=SQRT(C1);
+      ERR[3]:=SQRT(C3)+SQRT(C2)/2;
+      LQ:=EPS/(i̲f̲ B0<B1 t̲h̲e̲n̲ B1e̲l̲s̲e̲ B0);
+      i̲f̲ B0<B1 ∧ LQ≥80 t̲h̲e̲n̲ LQ:=10;
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ REJECT;
+      i̲f̲ START t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ HNEW:=LQ⭡(1/5)×H/2; g̲o̲t̲o̲ INIT
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ K:=1,2,3,4,1,2,3 d̲o̲ ELMROW(1,N,K,K+1,R,R,-1);
+         f̲o̲r̲ K:=1,2,3,4 d̲o̲ ELMROW(1,N,K,K+1,RF,RF,-1);
+         T:=T-H2; HALV:=t̲r̲u̲e̲; HNEW:=H; g̲o̲t̲o̲ MSTP
+      e̲n̲d̲
+
+        p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   i̲f̲ LQ<2 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ HALV:=t̲r̲u̲e̲; HNEW:=H e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ LQ>80 t̲h̲e̲n̲
+        HNEW:=(i̲f̲ LQ>5120 t̲h̲e̲n̲ (LQ/5)⭡(1/5) e̲l̲s̲e̲ 2)×H2;
+      i̲f̲ HNEW>HMAX t̲h̲e̲n̲ HNEW:=HMAX;
+      i̲f̲ TEND>T ∧ TEND-T<HNEW t̲h̲e̲n̲ HNEW:=TEND-T;
+      TWO:=HNEW=2×H2;
+   e̲n̲d̲;
+
+   i̲f̲ PRESCH t̲h̲e̲n̲ H:=H0 e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲f̲ H0>HMAX t̲h̲e̲n̲ H:=HMAX e̲l̲s̲e̲ H:=H0;
+      i̲f̲ H>(TEND-T0)/4 t̲h̲e̲n̲ H:=(TEND-T0)/4;
+   e̲n̲d̲;
+   HNEW:=H;
+   ALF:=0; T:=TP:=T0;
+   INIVEC(1,3,ERR,0); INIVEC(1,N,EHR,0);
+   DUPROWVEC(1,N,1,R,Y0); INIMAT(2, 5, 1, N, R, 0·0);
+   CONTROL(TP,T,H,HNEW,R,ERR,N);
+   INIT: INITIALIZATION; START:=t̲r̲u̲e̲;
+   f̲o̲r̲ ECI:=0,1,2,3 d̲o̲
+      b̲e̲g̲i̲n̲ ONE LARGE STEP; T:=T+H2;
+         i̲f̲ ECI>0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ BACKWARD DIFFERENCES; UPDATE(WEIGHTS,S2,N) e̲n̲d̲
+      e̲n̲d̲;
+   ECI:=4;
+   MSTP: i̲f̲ HNEW≠H2 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ ECI:=1; CHANGE OF INFORMATION;
+      ONE LARGE STEP; T:=T+H2; ECI:=2;
+   e̲n̲d̲;
+   ONE LARGE STEP;
+   BACKWARD DIFFERENCES;
+   UPDATE(WEIGHTS,S2,N);
+   ERROR ESTIMATES;
+   i̲f̲ ECI<4 ∧ LQ>80 t̲h̲e̲n̲ LQ:=20;
+   HALV:=TWO:=f̲a̲l̲s̲e̲;
+   i̲f̲ PRESCH t̲h̲e̲n̲ g̲o̲t̲o̲ TRYCK;
+   i̲f̲ LQ<1 t̲h̲e̲n̲ REJECT e̲l̲s̲e̲ STEPSIZE;
+   TRYCK: i̲f̲ TP≤T t̲h̲e̲n̲ CONTROL(TP,T,H,HNEW,R,ERR,N);
+   i̲f̲ START t̲h̲e̲n̲ START:=f̲a̲l̲s̲e̲;
+   i̲f̲ HNEW=H2 t̲h̲e̲n̲ T:=T+H2; ECI:=ECI+1;
+   i̲f̲ T<TEND+H2 t̲h̲e̲n̲ g̲o̲t̲o̲ MSTP e̲l̲s̲e̲ g̲o̲t̲o̲ END;
+   MISS: FAIL:=PRESCH;
+   i̲f̲ ¬ FAIL t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ECI>1 t̲h̲e̲n̲ T:=T-H2;
+      HALV:=TWO:=f̲a̲l̲s̲e̲; HNEW:=H2/2;
+      i̲f̲ START t̲h̲e̲n̲ g̲o̲t̲o̲ INIT e̲l̲s̲e̲ g̲o̲t̲o̲ TRYCK
+   e̲n̲d̲;
+   END:
+e̲n̲d̲ IMPEX;
+e̲o̲p̲

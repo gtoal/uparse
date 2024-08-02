@@ -1,0 +1,33 @@
+!begin
+!library A0, A1, A4, A5, A12, A15;
+
+!integer !procedure next (n); !value n; !integer n;
+   next := !if x ÷ 2 * 2 ± x !then 3×x + 1 !else x ÷ 2;
+
+!integer start, x, count, max, layout;
+
+open(30);
+open(20);
+
+layout := format({nnnnnnnnnnndc});
+start := read(20);
+close(20);
+
+x := start;
+count := 1;
+max := x;
+
+!for x := next(x) !while x ± 1 !do
+   !begin
+   count := count + 1;
+   !if max < x !then max := x;
+   !end;
+
+open(30);
+writetext(30, {starting$at});   write(30, layout, start);
+writetext(30, {largest$$=$});   write(30, layout, max);
+writetext(30, {iterations$});   write(30, layout, count);
+close(30);
+
+!end
+|

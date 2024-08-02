@@ -1,0 +1,45 @@
+c̲o̲d̲e̲ 34143;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2305;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ TFMSYMTRI1(A, N, D, B, BB, EM); v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, B, BB, D, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, R, R1, P, Q, TI, TJ;
+   r̲e̲a̲l̲ S, W, X, A1, B0, BB0, D0, NORM, MACHTOL;
+
+   NORM:= 0; TJ:= 0;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ W:= 0;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J d̲o̲ W:= ABS(A[I + TJ]) +W;
+         TJ:= TJ + J; TI:= TJ + J;
+         f̲o̲r̲ I:= J + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ W:= ABS(A[TI]) + W; TI:= TI + I e̲n̲d̲;
+         i̲f̲ W > NORM t̲h̲e̲n̲ NORM:= W
+      e̲n̲d̲;
+   MACHTOL:= EM[0] × NORM; EM[1]:= NORM; Q:= (N + 1) × N ÷ 2;
+   R:= N; f̲o̲r̲ R1:= N - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ P:= Q - R; D[R]:= A[Q];
+         X:= VECVEC(P + 1, Q - 2, 0, A, A);
+         A1:= A[Q - 1]; i̲f̲ SQRT(X) ≤ MACHTOL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ B0:= B[R1]:= A1; BB[R1]:= B0 × B0; A[Q]:= 1 e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ BB0:= BB[R1]:= A1 × A1 + X;
+            B0:= i̲f̲ A1 > 0 t̲h̲e̲n̲ -SQRT(BB0) e̲l̲s̲e̲ SQRT(BB0);
+            A1:= A[Q - 1]:= A1 - B0; W:= A[Q]:= 1 / (A1 × B0);
+            TJ:= 0; f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R1 d̲o̲
+               b̲e̲g̲i̲n̲ TI:= TJ + J; S:= VECVEC(TJ + 1, TI, P - TJ,
+                    A, A); TJ:= TI + J;
+                  B[J]:= (SEQVEC(J + 1, R1, TJ, P, A, A) + S) × W;
+                  TJ:= TI
+               e̲n̲d̲;
+            ELMVEC(1, R1, P, B, A, VECVEC(1,R1,P,B,A)× W ×·5);
+            TJ:= 0; f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R1 d̲o̲
+               b̲e̲g̲i̲n̲ TI:= TJ + J; ELMVEC(TJ + 1, TI, P - TJ, A, A,
+                    B[J]);ELMVEC(TJ + 1, TI, -TJ, A, B, A[J + P]);
+                  TJ:= TI
+               e̲n̲d̲; B[R1]:= B0
+         e̲n̲d̲;
+         Q:= P; R:= R1
+      e̲n̲d̲;
+   D[1]:= A[1]; A[1]:= 1; B[N]:= BB[N]:= 0
+e̲n̲d̲ TFMSYMTRI1
+
+;e̲o̲p̲

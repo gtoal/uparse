@@ -1,0 +1,128 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <wchar.h>
+
+// this code uses chars, but should be changed to wchar_t.
+// It *sort of* appears to work because of UTF8 but the extra
+// bytes in UTF8 glyphs cause the columns to be wrong.
+// wchar_t *fgetws(wchar_t *ws, size_t n, FILE *stream);
+
+int overlap(int a, int b) {
+  if (a > b) {int tmp = a; a = b; b = a;} // asset a <= b
+  // if (a == '=' && b == '_') return EQUIV;
+  if (a == '_') return b; // there is Unicode for underlined alpha but not other symbols which will have to be handled specifically 
+  if (b == '_') return a;
+  if (a == '<' && b == '|') return '{'; // will be replaced by L'' chevrons
+  if (a == '>' && b == '|') return '}';
+  //fprintf(stdout, "[%c%c]", a, b);
+  return a;
+}
+
+int main(int argc, char **qargv)
+{
+  /*
+6.6 x units per character, 12 y units
+
+This should allow a C program to rebuild the indentation correctly.
+
+This data was extracted by using firefox and converting to HTML with the
+help of some external site that firefox uses, and extracting the text and
+positioning info from the html with ecce...
+
+Should probably also determine blank lines from the y offset, but
+remember to reset it as we go from page to page.
+
+
+36 48 "_"
+36 48 "b_"
+42.6 48 "e_"
+49.2 48 "g_"
+55.800000000000004 48 "i_"
+62.4 48 "n"
+55.800000000000004 60 "_"
+55.800000000000004 60 "c_"
+62.4 60 "o_"
+69 60 "m_"
+75.6 60 "m_"
+82.19999999999999 60 "e_"
+88.79999999999998 60 "n_"
+95.39999999999998 60 "t"
+88.79999999999998 84 "GC7J6KQ"
+55.800000000000004 108 "Time buffer:"
+167.99999999999991 108 "3397.02s = 56m"
+266.9999999999999 108 "37.02s"
+
+   */
+
+  #define DX 6.6
+  #define DY 12
+  int rc;
+  float x;
+  int ix, y, lasty, lineno, col;
+  char *s, buff[1024], line[1024];
+  lineno = 0;
+  lasty = -1;
+  for (rc = 0; rc < 1024; rc++) line[rc] = ' ';
+  for (;;) {
+    rc = fscanf(stdin, "%f %d ", &x, &y);
+    if (rc != 2) {
+      fprintf(stderr, "rc = %d\n", rc);
+      break;
+    }
+    s = fgets(buff, 1023, stdin);
+    if (s == NULL) {
+      fprintf(stderr, "Exit at line %d\n", __LINE__);
+      exit(1);
+    }
+    s = strchr(buff, '\n');
+    if (s == NULL) {
+      fprintf(stderr, "Exit at line %d\n", __LINE__);
+      exit(2);
+    }
+    *s = '\0';
+    s -= 1; // line ends in "...", tailing spaces already deleted.
+    if (*s != '"') {
+      fprintf(stderr, "Exit at line %d\n", __LINE__);
+      exit(3);
+    }
+    *s = '\0';
+    s = strchr(buff, '"');
+    if (!s) {
+      fprintf(stderr, "Exit at line %d\n", __LINE__);
+      exit(3);
+    }
+    s += 1;
+    // s is now the text.
+    //fprintf(stderr, "%s\n", s);
+    if (y < lasty) {
+      fprintf(stderr, "\nEnd of page.\n");
+      break;
+    } else if (y > lasty) {
+      // flush previous line first
+      rc = 1023; while ((rc >= 0) && (line[rc] == ' ')) rc -= 1; line[rc+1] = '\0';
+      fprintf(stdout, "%s\n", line);
+      if (y - lasty > 20) fprintf(stdout, "\n");
+      // reinitialise line
+      for (rc = 0; rc < 1024; rc++) line[rc] = ' ';
+    }
+    lasty = y;
+    // append the buffer to the line at the appropriate offset
+    col = (int)trunc((x+(DX/2)) / DX);
+    lineno = (y+(DY/2))/DY;
+    //fprintf(stderr, "line %d, col %d\n", lineno, col);
+    if (col >= 0 && col < 1022-strlen(buff)) {
+      s = buff;
+      while (*s != '\0') {
+        if (line[col] != ' ') line[col] = overlap(line[col], *s); else line[col] = *s;
+        col += 1; s += 1;
+      }
+    }
+  }
+  // flush previous line first
+  rc = 1023; while ((rc >= 0) && (line[rc] == ' ')) rc -= 1; line[rc+1] = '\0';
+  fprintf(stdout, "%s\n", line);
+  fprintf(stderr, "Done\n");
+  exit(0); return(0);
+}

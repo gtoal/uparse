@@ -1,0 +1,17 @@
+c̲o̲d̲e̲ 34375;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EIGCOM(AR, AI, N, EM, VALR, VALI, VR, VI);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ AR, AI, EM, VALR, VALI, VR, VI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT[1:N];
+   a̲r̲r̲a̲y̲ D, B, DEL, TR, TI[1:N];
+   EQILBRCOM(AR, AI, N, EM, D, INT);
+   EM[1]:= COMEUCNRM(AR, AI, N - 1, N);
+   HSHCOMHES(AR, AI, N, EM, B, TR, TI, DEL);
+   I:= EIGCOM:= QRICOM(AR, AI, B, N, EM, VALR, VALI, VR,
+     VI); i̲f̲ I = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ BAKCOMHES(AR, AI, TR, TI, DEL, VR, VI, N, 1, N);
+      BAKLBRCOM(N, 1, N, D, INT, VR, VI);
+      SCLCOM(VR, VI, N, 1, N)
+   e̲n̲d̲
+e̲n̲d̲ EIGCOM;
+e̲o̲p̲

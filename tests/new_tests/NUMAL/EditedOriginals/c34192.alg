@@ -1,0 +1,12 @@
+'CODE' 34192;
+    'COMMENT' MCA 2422;
+    'INTEGER' 'PROCEDURE' COMEIGVAL(A, N, EM, RE, IM); 'VALUE' N;
+    'INTEGER' N; 'ARRAY' A, EM, RE, IM;
+    'BEGIN' 'INTEGER' 'ARRAY' INT, INT0[1:N];
+        'ARRAY' D[1:N];
+
+        EQILBR(A, N, EM, D, INT0); TFMREAHES(A, N, EM, INT);
+        COMEIGVAL:= COMVALQRI(A, N, EM, RE, IM)
+    'END' COMEIGVAL
+
+        ;'EOP'

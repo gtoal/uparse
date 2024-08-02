@@ -1,0 +1,24 @@
+c̲o̲d̲e̲ 31051;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ POLCHS(N,A);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+   i̲f̲ N>1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      c̲o̲m̲m̲e̲n̲t̲  SCALING;
+      i̲n̲t̲e̲g̲e̲r̲ K,L,TWOPOW;
+      TWOPOW:=2;
+      f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-2 d̲o̲
+         b̲e̲g̲i̲n̲
+            A[K]:=A[K]/TWOPOW; TWOPOW:=TWOPOW×2;
+         e̲n̲d̲;
+      A[N-1]:=2×A[N-1]/TWOPOW;
+      A[N]:=A[N]/TWOPOW;
+      A[N-2]:=A[N-2]+A[N];
+      c̲o̲m̲m̲e̲n̲t̲ N<=2 READY;
+      f̲o̲r̲ K:=N-2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲
+            A[K-1]:=A[K-1]+A[K+1]; A[K]:=A[K]×2 + A[K+2];
+            f̲o̲r̲ L:=K+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-2 d̲o̲
+                 A[L]:=A[L]+A[L+2];
+         e̲n̲d̲;
+   e̲n̲d̲ POLCHS;
+e̲o̲p̲

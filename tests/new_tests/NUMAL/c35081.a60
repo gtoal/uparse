@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 35081;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EIALPHA(X,N,ALPHA);
+   v̲a̲l̲u̲e̲ X,N;r̲e̲a̲l̲ X;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ ALPHA;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A,B,C;i̲n̲t̲e̲g̲e̲r̲ K;
+   C:=1/X;A:=EXP(-X);
+   B:=ALPHA[0]:=A×C;
+   f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        ALPHA[K]:=B:=(A+K×B)×C
+e̲n̲d̲ EIALPHA;
+e̲o̲p̲

@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 34280;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLSVDOVR(U, VAL, V, M, N, X, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ U, VAL, V, X, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+   r̲e̲a̲l̲ MIN;
+   a̲r̲r̲a̲y̲ X1[1:N];
+   MIN:= EM[6];
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        X1[I]:= i̲f̲ VAL[I] ≤ MIN t̲h̲e̲n̲ 0 e̲l̲s̲e̲ TAMVEC(1, M, I, U, X) /
+        VAL[I];
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        X[I]:= MATVEC(1, N, I, V, X1)
+e̲n̲d̲ SOLSVDOVR;
+e̲o̲p̲

@@ -1,0 +1,161 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>n</u>&lt;
+<u>begin</u>
+   <u>comment</u>
+
+        no buffer N=20:
+        Time classic:   14.112
+        Time turbo:     14.004 0.8pct
+
+        buffer N=20:
+        Time classic:   12.920
+        Time turbo:     12.783 1.1pct
+
+        buffer N=60:
+        Time classic:   262.368
+        Time turbo:     261.448 0.4pct
+   ;
+   <u>integer</u> <u>procedure</u> LEQ1(N, M, A, eps);
+   <u>value</u> N, M, eps;
+   <u>integer</u> N, M;
+   <u>array</u> A;
+   <u>real</u> eps;
+   <u>begin</u>
+      <u>integer</u> i, j, k, i1, j1;
+      <u>real</u> max, f2, factor;
+      <u>integer</u> <u>array</u> p[1:N];
+      M ≔  N + M;
+      LEQ1 ≔  0;
+      <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      <u>begin</u>
+         max ≔  0;
+         <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         max ≔  max + A[i,j]⭡2;
+         <u>if</u> max &gt; 1 ∨ max &lt; 0.25 <u>then</u>
+         <u>begin</u>
+            f2 ≔  2⭡(−entier(ln(max)/1.3863 + 1));
+            <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> M <u>do</u>
+            A[i,j] ≔  A[i,j]×f2
+         <u>end</u> if max
+      <u>end</u> for i: equilibration;
+      <u>for</u> k ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      <u>begin</u>
+         max ≔  0;
+         <u>for</u> i ≔  k <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>for</u> j ≔  k <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>begin</u>
+            factor ≔  abs(A[i,j]);
+            <u>if</u> max &LessSlantEqual; factor <u>then</u>
+            <u>begin</u>
+               max ≔  factor;
+               i1 ≔  i;
+               j1 ≔  j
+            <u>end</u> if larger
+         <u>end</u> <u>for</u>;
+         <u>if</u> max &lt; eps <u>then</u>
+         <u>begin</u>
+            LEQ1 ≔  1;
+            <u>go</u>_<u>to</u> EX
+         <u>end</u> error exit;
+         max ≔  A[i1,j1];
+         <u>if</u> i1 ≠ k <u>then</u>
+         <u>for</u> j ≔  k <u>step</u> 1 <u>until</u> M <u>do</u>
+         <u>begin</u>
+            factor ≔  A[k,j];
+            A[k,j] ≔  A[i1,j];
+            A[i1,j] ≔  factor
+         <u>end</u> for j: row interchange;
+         p[k] ≔  k;
+         <u>if</u> j1 ≠ k <u>then</u>
+         <u>begin</u>
+            p[k] ≔  j1;
+            <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> N <u>do</u>
+            <u>begin</u>
+               factor ≔  A[i,k];
+               A[i,k] ≔  A[i,j1];
+               A[i,j1] ≔  factor
+            <u>end</u> for i
+         <u>end</u> interchange of columns;
+         <u>for</u> i ≔  k + 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>begin</u>
+            factor ≔  A[i,k]/max;
+            <u>for</u> j ≔  k + 1 <u>step</u> 1 <u>until</u> M <u>do</u>
+            A[i,j] ≔  A[i,j] − A[k,j]×factor
+         <u>end</u> <u>for</u>
+      <u>end</u> for k;
+      <u>for</u> k ≔  N + 1 <u>step</u> 1 <u>until</u> M <u>do</u>
+      <u>for</u> i ≔  N <u>step</u> −1 <u>until</u> 1 <u>do</u>
+      <u>begin</u>
+         factor ≔  A[i,k];
+         <u>for</u> j ≔  i + 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         factor ≔  factor − A[i,j]×A[j,k];
+         A[i,k] ≔  factor/A[i,i]
+      <u>end</u> solving;
+      <u>if</u> M ≠ N <u>then</u>
+      <u>for</u> i ≔  N − 1 <u>step</u> −1 <u>until</u> 1 <u>do</u>
+      <u>begin</u>
+         i1 ≔  p[i];
+         <u>if</u> i1 ≠ i <u>then</u>
+         <u>for</u> k ≔  N + 1 <u>step</u> 1 <u>until</u> M <u>do</u>
+         <u>begin</u>
+            factor ≔  A[i,k];
+            A[i,k] ≔  A[i1,k];
+            A[i1,k] ≔  factor
+         <u>end</u> for k
+      <u>end</u> for i and solution interchange;
+EX:<u>end</u> LEQ1;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   <u>real</u> <u>procedure</u> RANDOM;
+   <u>begin</u>
+      <u>integer</u> new,mod;
+      mod ≔  2796203;
+      new ≔  125×oldrand;
+      oldrand ≔  new − mod×entier(new/mod);
+      RANDOM ≔  oldrand/mod−0.5
+   <u>end</u> RANDOM;
+   <u>integer</u> oldrand,N;
+   <u>real</u> time,maxerror;
+
+   select(17);
+   oldrand ≔ 100001;
+   writecr;
+   writetext(«N: »);
+   N ≔ 60;
+   writeinteger(«p»,N);
+   <u>begin</u>
+      <u>array</u> A[1:N,1:N+1];
+      <u>integer</u> i,j;
+      <u>real</u> sum;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      <u>begin</u>
+         sum ≔ 0;
+         <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>begin</u>
+            A[i,j] ≔ RANDOM;
+            sum ≔ sum+A[i,j]
+         <u>end</u>;
+         A[i,N+1] ≔ sum
+      <u>end</u>;
+      writecr;
+      clock count;
+      <u>if</u> LEQ1(N, 1, A, 1&#9192;−12)=1 <u>then</u>
+      writetext(«Error.»);
+      time ≔ clock count;
+      write(«ddddd.ddd»,time);
+      writecr;
+      maxerror ≔ 0;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+      <u>begin</u>
+         sum ≔ abs(A[i,N+1]−1);
+         <u>if</u> sum&gt;maxerror <u>then</u> maxerror ≔ sum
+      <u>end</u> <u>for</u>;
+      write(«d.ddddd&#9192;−dd»,maxerror)
+   <u>end</u> inner block
+<u>end</u>
+t&lt;
+</pre></body></html>

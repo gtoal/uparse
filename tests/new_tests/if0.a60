@@ -1,0 +1,10 @@
+'BEGIN'
+'COMMENT' comparison of integer with 0;
+	'INTEGER' n;
+	
+	ininteger(0,n);
+	'IF' n < 0 'THEN' outstring(1,"negative")
+	'ELSE' outstring(1, "0 'OR' positive");
+	outstring(1,"\n")
+	
+'END'

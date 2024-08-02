@@ -1,0 +1,6 @@
+'BEGIN' 
+	'COMMENT' no such library procedure outboolean(1,b);
+	'BOOLEAN' b;
+	b := 'TRUE' ;
+	'IF' b 'THEN' outstring (1,'TRUE') 'ELSE' outstring (1,'FALSE')
+'END'

@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 35154;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXP SPHER BESS I(X, N, I); v̲a̲l̲u̲e̲ X, N;
+   r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ I;
+   i̲f̲ X= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ I[0]:=1;
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ I[N]:= 0
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X2, R, S; i̲n̲t̲e̲g̲e̲r̲ M;
+      X2:= X+X;
+      I[0]:= X2:= i̲f̲ X = 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ i̲f̲ X2 < 0·7 t̲h̲e̲n̲
+        SINH(X) / (X × EXP(X)) e̲l̲s̲e̲ (1-EXP(-X2))/X2;
+      i̲f̲ N= 0 t̲h̲e̲n̲ g̲o̲t̲o̲ EXIT;
+      R:= 0; M:= START(X,N,1);
+      f̲o̲r̲ M:= M s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ R:= 1/((M+M+1)/X+R);
+            i̲f̲ M  ≤  N t̲h̲e̲n̲ I[M]:= R
+         e̲n̲d̲;
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           I[M]:= X2:= X2 × I[M];       EXIT:
+   e̲n̲d̲;
+e̲o̲p̲

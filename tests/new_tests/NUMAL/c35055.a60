@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 35055;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ FORWARD(X,P,Q,I0,I1,NMAX,I);
+   v̲a̲l̲u̲e̲ X,P,Q,I0,I1,NMAX; i̲n̲t̲e̲g̲e̲r̲ NMAX; r̲e̲a̲l̲ X,P,Q,I0,I1;
+     a̲r̲r̲a̲y̲ I;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,N; r̲e̲a̲l̲ Y,R,S;
+   I[0]:= I0; i̲f̲ NMAX > 0 t̲h̲e̲n̲ I[1]:= I1;
+   M:= NMAX-1; R:= P+Q-1; Y:= 1-X;
+   f̲o̲r̲ N:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ S:= (N+R)×Y;
+         I[N+1]:= ((N+Q+S)×I[N]-S×I[N-1])/(N+Q)
+      e̲n̲d̲
+e̲n̲d̲ FORWARD
+
+;e̲o̲p̲

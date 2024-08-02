@@ -1,0 +1,117 @@
+c̲o̲d̲e̲ 33131;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LINIGER2(X,XE,M,Y,SIGMA1,SIGMA2,F,EVALUATE,J,
+  JACOBIAN,K,ITMAX,STEP,AETA,RETA,OUTPUT);
+   i̲n̲t̲e̲g̲e̲r̲ M,K,ITMAX;
+     r̲e̲a̲l̲ X,XE,SIGMA1,SIGMA2,STEP,AETA,RETA;
+     a̲r̲r̲a̲y̲ Y,J;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVALUATE;
+     r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ F;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ JACOBIAN,OUTPUT;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+   r̲e̲a̲l̲ H,HL,B1,B2,P,Q,C0,C1,C2,C3,C4;
+   b̲o̲o̲l̲e̲a̲n̲ LAST;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PI[1:M];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ DY,YL,FL[1:M],A[1:M,1:M],AUX[1:3];
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ H:=STEP;
+      i̲f̲ 1·1×H≥XE-X t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; H:=XE-X; X:=XE
+      e̲n̲d̲ e̲l̲s̲e̲ X:=X+H
+   e̲n̲d̲ STEPSIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R1,R2,EX,ZETA,ETA,SINL,COSL,SINH,COSH,D;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ R(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+         i̲f̲ X>40 t̲h̲e̲n̲ R:=X/(X-2) e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ EX:=EXP(-X); R:=X×(1-EX)/(X-2+(X+2)×EX) e̲n̲d̲;
+
+      B1:=H×SIGMA1;
+      B2:=H×SIGMA2;
+      i̲f̲ B1<·1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ P:=0; Q:=1/3; g̲o̲t̲o̲ OUT e̲n̲d̲;
+      i̲f̲ B2<0 t̲h̲e̲n̲ g̲o̲t̲o̲ COMPLEX;
+      i̲f̲ B1<1 ∨ B2<·1 t̲h̲e̲n̲ g̲o̲t̲o̲ THIRDORDER;
+      i̲f̲ ABS(B1-B2)<B1×B1×@-6 t̲h̲e̲n̲ g̲o̲t̲o̲ DOUBLEFIT;
+
+      R1:=R(B1)×B1; R2:=R(B2)×B2;
+      D:=B2×R1-B1×R2;
+      P:=2×(R2-R1)/D;
+      Q:=2×(B2-B1)/D;
+      THIRDORDER: Q:=1/3;
+      P:=R(B1)/3-2/B1;
+      g̲o̲t̲o̲ OUT;
+      DOUBLEFIT: B1:=·5×(B1+B2);
+      R1:=R(B1);
+      i̲f̲ B1>40 t̲h̲e̲n̲ EX:=0;
+      R2:=B1/(1-EX); R2:=1-EX×R2×R2;
+      Q:=1/(R1×R1×R2);
+      P:=R1×Q-2/B1;
+      g̲o̲t̲o̲ OUT;
+      COMPLEX: ETA:=ABS(B1×SIN(SIGMA2));
+      ZETA:=ABS(B1×COS(SIGMA2));
+      i̲f̲ ETA<B1×B1×@-6 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ B1:=B2:=ZETA; g̲o̲t̲o̲ DOUBLEFIT e̲n̲d̲;
+      i̲f̲ ZETA>40 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ P:=1-4×ZETA/B1/B1; Q:=4×(1-ZETA)/B1/B1+1 e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ EX:=EXP(ZETA);
+         SINL:=SIN(ETA); COSL:=COS(ETA);
+         SINH:=·5×(EX-1/EX); COSH:=·5×(EX+1/EX);
+         D:=ETA×(COSH-COSL)-·5×B1×B1×SINL;
+         P:=(ZETA×SINL+ETA×SINH-4×ZETA×ETA/B1/B1×(COSH-COSL))/D;
+         Q:=ETA×((COSH-COSL-ZETA×SINH-ETA×SINL)×4/B1/B1+COSH+COSL)/D
+      e̲n̲d̲;
+      OUT:    C0:=·25×H×H×(P+Q);
+      C1:=·5×H×(1+P);
+      C2:=H-C1;
+      C3:=·25×H×H×(Q-P);
+      C4:=·5×H×P;
+      ELEMENTS OF MATRIX
+   e̲n̲d̲ COEFFICIENT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELEMENTS OF MATRIX;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 A[I,K]:=C0×MATMAT(1,M,I,K,J,J)-C1×J[I,K];
+            A[I,I]:=A[I,I]+1
+         e̲n̲d̲;
+      AUX[2]:=0; DEC(A,M,AUX,PI)
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ NEWTON ITERATION;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ ITNUM; r̲e̲a̲l̲ JFL,ETA,DISCR;
+      ITNUM:=0;
+      NEXT:   ITNUM:=ITNUM+1;
+      i̲f̲ EVALUATE(ITNUM) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ JACOBIAN(J,Y); COEFFICIENT e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ ITNUM=1 ∧ H≠HL t̲h̲e̲n̲ COEFFICIENT;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ FL[I]:=F(I);
+      i̲f̲ ITNUM=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ JFL:=MATVEC(1,M,I,J,FL);
+               DY[I]:=H×(FL[I]-C4×JFL);
+               YL[I]:=Y[I]+C2×FL[I]+C3×JFL
+            e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+           DY[I]:=YL[I]-Y[I]+C1×FL[I]-C0×MATVEC(1,M,I,J,FL);
+      SOL(A,M,PI,DY);
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ Y[I]:=Y[I]+DY[I];
+      i̲f̲ ITNUM<ITMAX t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ETA:=SQRT(VECVEC(1,M,0,Y,Y))×RETA+AETA;
+         DISCR:=SQRT(VECVEC(1,M,0,DY,DY));
+         i̲f̲ ETA<DISCR t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT
+      e̲n̲d̲
+   e̲n̲d̲ NEWTON;
+
+   LAST:=f̲a̲l̲s̲e̲; K:=0; HL:=0;
+   NEXT LEVEL:
+   K:=K+1;
+   STEPSIZE;
+   NEWTON ITERATION;
+   HL:=H;
+   OUTPUT;
+   i̲f̲ ¬ LAST t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT LEVEL
+e̲n̲d̲ LINIGER2;
+e̲o̲p̲

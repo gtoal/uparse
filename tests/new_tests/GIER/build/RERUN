@@ -1,0 +1,19 @@
+#!/bin/sh
+cc -o makealg makealg.c -lm
+./makealg < Demon5tn.txt > Demon5tn.alg
+./makealg < Enigma1.txt > Enigma1.alg
+./makealg < Inv1ga3.txt > Inv1ga3.alg
+./makealg < Inv1.txt > Inv1.alg
+./makealg < Lorenz2.txt > Lorenz2.alg
+./makealg < Lorenz3.txt > Lorenz3.alg
+./makealg < Nqueen18.txt > Nqueen18.alg
+./makealg < Pc1b.txt > Pc1b.alg
+./makealg < Pc1.txt > Pc1.alg
+./makealg < Pc3.txt > Pc3.alg
+./makealg < Pc4.txt > Pc4.alg
+./makealg < Pc5.txt > Pc5.alg
+./makealg < Pc6.txt > Pc6.alg
+./makealg < Pc7.txt > Pc7.alg
+./makealg < Pc8.txt > Pc8.alg
+./makealg < Pentomino4.txt > Pentomino4.alg
+./makealg < Sudoku7.txt > Sudoku7.alg

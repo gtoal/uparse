@@ -1,0 +1,11 @@
+'BEGIN'
+	'COMMENT' array with square numbers ;
+	'INTEGER' 'ARRAY' nArr[1:100];
+	'INTEGER' i;
+	'FOR' i := 1 'STEP' 1 'UNTIL' 100 'DO'
+	'BEGIN' 
+		nArr[i] := i*i;
+		outinteger (1, nArr[i])
+	'END' ;
+	outstring (1,"\n")
+'END'

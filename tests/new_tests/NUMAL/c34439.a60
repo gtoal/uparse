@@ -1,0 +1,18 @@
+c̲o̲d̲e̲ 34439;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ JACOBNBNDF(N, LW, RW, X, F, JAC, I, DI, FUNCT);
+   v̲a̲l̲u̲e̲ N, LW, RW; i̲n̲t̲e̲g̲e̲r̲ I, N, LW, RW; r̲e̲a̲l̲ DI;
+     a̲r̲r̲a̲y̲ X, F, JAC; p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J, K, L, U, T, B; r̲e̲a̲l̲ AID, STEPI;
+   L:= 1; U:= LW + 1; T:= RW + 1; B:= LW + RW;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ F1[L:U];
+         STEPI:= DI; AID:= X[I]; X[I]:= AID + STEPI;
+         FUNCT(N, L, U, X, F1); X[I]:= AID;
+         K:= I + (i̲f̲ I ≤ T t̲h̲e̲n̲ 0 e̲l̲s̲e̲ I - T) × B;
+         f̲o̲r̲ J:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲
+            b̲e̲g̲i̲n̲ JAC[K]:= (F1[J] - F[J]) / STEPI; K:=K + B e̲n̲d̲;
+         i̲f̲ I ≥ T t̲h̲e̲n̲ L:= L + 1;
+         i̲f̲ U < N t̲h̲e̲n̲ U:= U + 1
+      e̲n̲d̲
+e̲n̲d̲ JACOBNBNDF;
+e̲o̲p̲

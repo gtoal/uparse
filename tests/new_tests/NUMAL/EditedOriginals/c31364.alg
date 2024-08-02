@@ -1,0 +1,18 @@
+'CODE'31364;
+'PROCEDURE' SELZERORTPOL (N, N1, N2, B, C, ZER, EM);
+'VALUE' N, N1, N2; 'INTEGER' N, N1, N2; 'ARRAY' B, C, ZER, EM;
+'BEGIN' 'INTEGER'I;'REAL'NRM;'ARRAY'D[1:N];
+    'PROCEDURE' DUPCEV (L, U, SHIFT, A, B);
+    'VALUE'L,U,SHIFT;'INTEGER'L,U,SHIFT;'ARRAY'A,B;
+    'FOR' U:=U 'STEP' -1 'UNTIL' L 'DO' A[U]:=B[U+SHIFT];
+    NRM:=ABS(B[0]);
+    'FOR'I:=N-2'STEP'-1'UNTIL'1'DO''IF'C[I]+ABS(B[I])>NRM'THEN'
+         NRM:=C[I]+ABS(B[I]);
+     'IF'N>1'THEN'NRM:='IF'NRM+1>=C[N-1]+ABS(B[N-1])'THEN'NRM+1'ELSE'
+                       C[N-1]+ABS(B[N-1]);
+     EM[1]:=NRM;
+    DUPCEV(1,N,-1,D,B);
+    VALSYMTRI (D, C, N, N1, N2, ZER, EM);
+    EM[5]:=EM[3]
+'END' SELZERORTPOL;
+        'EOP'

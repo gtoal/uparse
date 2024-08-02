@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 34252;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSNRI(A, N, AUX, RI, CI); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, AUX;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI;
+b̲e̲g̲i̲n̲
+   GSSELM(A, N, AUX, RI, CI);
+   i̲f̲ AUX[3] = N t̲h̲e̲n̲ AUX[9]:= ONENRMINV(A, N)
+e̲n̲d̲ GSSNRI;
+e̲o̲p̲

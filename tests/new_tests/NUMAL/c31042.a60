@@ -1,0 +1,12 @@
+c̲o̲d̲e̲31042;
+r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲CHEPOL(N,X);
+   v̲a̲l̲u̲e̲N,X;i̲n̲t̲e̲g̲e̲r̲N;r̲e̲a̲l̲X;
+   i̲f̲ N = 0 t̲h̲e̲n̲ CHEPOL :=1 e̲l̲s̲e̲
+   i̲f̲ N = 1 t̲h̲e̲n̲ CHEPOL :=X e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲I;r̲e̲a̲l̲T1,T2,H,X2;
+      T2:=X;T1:=1;X2:=X+X;
+      f̲o̲r̲I:=2s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+         b̲e̲g̲i̲n̲H:=X2×T2-T1;T1:=T2;T2:=He̲n̲d̲;
+      CHEPOL:=H
+   e̲n̲d̲CHEPOL;
+e̲o̲p̲

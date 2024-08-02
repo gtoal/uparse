@@ -1,0 +1,39 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol,<u>n</u>&lt;
+<u>begin</u>
+   <u>comment</u>
+        Orig GA4:   184.573
+        Turbo GA4:  179.735
+
+        No buffer:
+
+        Time classic:   184.573
+        Time turbo:     180.017 2.5pct
+
+        Buffer:
+
+        Time classic:   184.588
+        Time turbo:     180.031 2.5pct
+
+   ;
+   <u>integer</u> N,i;
+   <u>real</u> a,b,time;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   writecr;
+   clock count;
+   N ≔ 10000;
+   <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+   <u>begin</u>
+      a ≔ sin(0.1)+exp(0.1)+sqrt(0.1)+arctan(0.1)
+   <u>end</u> for i;
+   time ≔ clock count;
+   write(«ddddd.ddd»,time);
+   writecr
+<u>end</u>
+t&lt;
+</pre></body></html>

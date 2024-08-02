@@ -1,0 +1,64 @@
+c̲o̲d̲e̲ 34138;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQREFSOL(A, QR, N, M, N1, AUX, AID, CI, B,LDX,X,RES);
+   v̲a̲l̲u̲e̲N,M,N1;i̲n̲t̲e̲g̲e̲r̲N,M,N1;i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲CI;r̲e̲a̲l̲LDX;
+     a̲r̲r̲a̲y̲QR,A,AID,AUX,X,RES,B;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲I,J,K,S;
+   r̲e̲a̲l̲C1,NEXVE,NDX,NDR,D,DD,OP,OPL,CORRNORM;
+   a̲r̲r̲a̲y̲F[1:N],G[1:M];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ HOUSEHOLDER(P, Q, R, E);
+      v̲a̲l̲u̲e̲ P,Q,R,E;i̲n̲t̲e̲g̲e̲r̲ P,Q,R,E;
+   b̲e̲g̲i̲n̲ f̲o̲r̲ S:=P s̲t̲e̲p̲ Q u̲n̲t̲i̲l̲ R d̲o̲
+           ELMVECCOL(S, E, S, F, QR,TAMVEC(S, E, S,QR, F)/(QR[S,S]×
+           AID[S]))
+   e̲n̲d̲;
+   f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ S:=CI[J];i̲f̲ S≠Jt̲h̲e̲n̲ ICHCOL(1,N,J,S,A) e̲n̲d̲;
+   f̲o̲r̲J:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲X[J]:=G[J]:=0;
+   f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+      b̲e̲g̲i̲n̲RES[I]:=0;F[I]:=B[I]e̲n̲d̲;
+   f̲o̲r̲K:=0,1,K+1
+     w̲h̲i̲l̲e̲ (CORRNORM>AUX[2]×NEXVE ∧ K≤AUX[6])
+     d̲o̲
+      b̲e̲g̲i̲n̲NDX:=NDR:=0;
+         i̲f̲K≠0t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲RES[I]:=RES[I]+F[I];
+            f̲o̲r̲S:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Md̲o̲
+               b̲e̲g̲i̲n̲ X[S]:=X[S]+G[S];
+                  LNGTAMVEC(1,N,S,A,RES,0,0,D,DD);
+                  G[S]:=(-D-TAMVEC(1,S-1,S,QR,G))/AID[S]
+               e̲n̲d̲;
+            f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲
+               b̲e̲g̲i̲n̲ LNGMATVEC(1, M, I, A, X,
+                    i̲f̲ I>N1 t̲h̲e̲n̲ RES[I] e̲l̲s̲e̲ 0, 0, D, DD);
+                  LNG SUB(B[I],0,D,DD,OP,OPL);
+                  F[I]:=OP
+               e̲n̲d̲
+         e̲n̲d̲;
+         NEXVE:=SQRT(VECVEC(1,M,0,X,X)+VECVEC(1,N,0,RES,RES));
+         HOUSEHOLDER(1, 1, N1, N1);
+         f̲o̲r̲ I:=N1+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              F[I]:=F[I]-MATVEC(1,N1, I, QR, F);
+         HOUSEHOLDER(N1+1, 1, M, N);
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ C1:=F[I];F[I]:=G[I];
+               G[I]:=i̲f̲ I>N1 t̲h̲e̲n̲ C1-G[I] e̲l̲s̲e̲ C1
+            e̲n̲d̲;
+         f̲o̲r̲S:=Ms̲t̲e̲p̲-1u̲n̲t̲i̲l̲1d̲o̲
+            b̲e̲g̲i̲n̲G[S]:=(G[S]-MATVEC(S+1,M,S,QR,G))/AID[S];
+               NDX:=NDX+G[S]⭡2
+            e̲n̲d̲;
+         HOUSEHOLDER(M, -1, N1+1, N);
+         f̲o̲r̲ S:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+              F[S]:=F[S]-TAMVEC(N1+1, N, S, QR, F);
+         HOUSEHOLDER(N1, -1, 1, N1);
+         AUX[7]:=K;
+         f̲o̲r̲I:=1s̲t̲e̲p̲1u̲n̲t̲i̲l̲Nd̲o̲NDR:=NDR+F[I]⭡2;
+         CORRNORM:=SQRT(NDX+NDR)
+      e̲n̲d̲FOR K;
+   LDX:=SQRT(NDX);
+   f̲o̲r̲ S:=M s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ J:=CI[S];i̲f̲ J≠S t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ C1:=X[J];X[J]:=X[S];X[S]:=C1;ICHCOL(1,N,J,S,A)e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ LSQREFSOL;
+e̲o̲p̲

@@ -1,0 +1,14 @@
+'BEGIN'
+'COMMENT' while loop;
+	'INTEGER' n;
+	
+	n := 0;
+whileLabel:;
+		'IF' n = 20 'THEN' 'GOTO' finish;
+		n := n + 1;
+		outinteger(1, n);
+		'GOTO' whileLabel;
+finish:;
+	outstring(1,"\n")
+	
+'END'

@@ -1,0 +1,50 @@
+c̲o̲d̲e̲ 31425;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSS JAC WGHTS(N, ALFA, BETA, X, W);
+   v̲a̲l̲u̲e̲ N, ALFA, BETA; i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ ALFA, BETA;
+     a̲r̲r̲a̲y̲ X, W;
+   i̲f̲ ALFA = BETA t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, M;
+      a̲r̲r̲a̲y̲ B[1:N - 1]; r̲e̲a̲l̲ R0, R1, R2, S, H0, ALFA2, XI;
+
+      ALL JAC ZER(N, ALFA, ALFA, X); ALFA2:= 2×ALFA;
+      H0:= 2⭡(ALFA2 + 1)×GAMMA(1 + ALFA)⭡2/GAMMA(ALFA2 + 2);
+      B[1]:= 1/SQRT(3 + ALFA2); M:= N - (N÷2);
+      f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+           B[I]:= SQRT(I×(I + ALFA2)/(4×(I + ALFA)⭡2 - 1));
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ XI:= ABS(X[I]); R0:= 1; R1:= XI/B[1];
+            S:= 1 + R1×R1;
+            f̲o̲r̲ J:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+               b̲e̲g̲i̲n̲ R2:= (XI×R1 - B[J - 1]×R0)/B[J];
+                  R0:= R1; R1:= R2; S:= S + R2×R2
+               e̲n̲d̲;
+            W[I]:= W[N + 1 - I]:= H0/S
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J; a̲r̲r̲a̲y̲ A, B[0:N];
+      r̲e̲a̲l̲ MIN, SUM, H0, R0, R1, R2, XI, ALFABETA;
+      ALFABETA:= ALFA + BETA; MIN:= (BETA - ALFA)×ALFABETA;
+      B[0]:= 0; SUM:= ALFABETA + 2; A[0]:= (BETA - ALFA)/SUM;
+      A[1]:= MIN /SUM/(SUM + 2);
+      B[1]:= 2×SQRT((1 + ALFA)×(1 + BETA)/(SUM + 1))/SUM;
+      f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+         b̲e̲g̲i̲n̲ SUM:= I + I + ALFABETA;
+            A[I]:= MIN/SUM/(SUM + 2);
+            B[I]:= (2/SUM)×
+              SQRT(I×(SUM - I)×(I + ALFA)×(I + BETA)/(SUM×SUM - 1))
+         e̲n̲d̲;
+      H0:= 2⭡(ALFABETA + 1)×GAMMA(1 + ALFA)×GAMMA(1 + BETA)/
+        GAMMA(2 + ALFABETA);
+      ALL JAC ZER(N, ALFA, BETA, X);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ XI:= X[I]; R0:= 1; R1:= (XI - A[0])/B[1];
+            SUM:= 1 + R1×R1;
+            f̲o̲r̲ J:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+               b̲e̲g̲i̲n̲ R2:= ((XI - A[J - 1])×R1 - B[J - 1]×R0)/B[J];
+                  SUM:= SUM + R2×R2; R0:= R1; R1:= R2
+               e̲n̲d̲;
+            W[I]:= H0/SUM
+         e̲n̲d̲
+   e̲n̲d̲ GSS JAC WGHTS
+
+;e̲o̲p̲

@@ -1,0 +1,12 @@
+'CODE' 31064;
+ 'REAL' 'PROCEDURE' INFNRMMAT(LR, UR, LC, UC, KR, A);
+ 'VALUE' LR, UR, LC, UC; 'INTEGER' LR, UR, LC, UC, KR; 'ARRAY' A;
+ 'BEGIN' 'REAL' R, MAX;
+    MAX:= 0; KR:= LR;
+    'FOR' LR:= LR 'STEP' 1 'UNTIL' UR 'DO'
+    'BEGIN' R:= ONENRMROW(LC, UC, LR, A); 'IF' R > MAX 'THEN'
+        'BEGIN' MAX:= R; KR:= LR 'END'
+    'END';
+    INFNRMMAT:= MAX
+'END' INFNRMMAT;
+        'EOP'

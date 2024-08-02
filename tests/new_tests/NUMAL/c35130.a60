@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 35130;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOG ONE PLUS X(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+     c̲o̲m̲m̲e̲n̲t̲ COMPUTES LN(1+X) FOR X > -1;
+   i̲f̲ X = 0 t̲h̲e̲n̲ LOG ONE PLUS X:= 0 e̲l̲s̲e̲
+   i̲f̲ X < -0·2928 ∨ X > 0·4142 t̲h̲e̲n̲ LOG ONE PLUS X:= LN(1+X) e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ Y,Z;
+      Z:= X/(X+2); Y:= Z×Z;
+      LOG ONE PLUS X:= Z×(2+ Y×
+        ( ·66666 66666 63366 + Y×
+        ( ·40000 00012 06045 + Y×
+        ( ·28571 40915 90488 + Y×
+        ( ·22223 82333 2791  + Y×
+        ( ·18111 36267 967   + Y×·16948 21248 8))))))
+   e̲n̲d̲ LOG ONE PLUS X;
+e̲o̲p̲

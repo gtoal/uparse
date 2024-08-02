@@ -1,0 +1,8 @@
+'CODE' 34333;
+'PROCEDURE' CHLDECSOLBND(A, N, W, AUX, B); 'VALUE' N, W;
+'INTEGER' N, W; 'ARRAY' A, AUX, B;
+'BEGIN'
+        CHLDECBND(A, N, W, AUX);
+        'IF' AUX[3] = N 'THEN' CHLSOLBND(A, N, W, B)
+    'END' CHLDECSOLBND;
+        'EOP'

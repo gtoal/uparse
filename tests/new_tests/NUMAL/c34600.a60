@@ -1,0 +1,152 @@
+c̲o̲d̲e̲ 34600;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ QZIVAL(N,A,B,ALFR,ALFI,BETA,ITER,EM);
+   v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ A,B,ALFR,ALFI,BETA,EM;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ITER;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ DWARF,EPS,EPSA,EPSB;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ QZIT(N,A,B,EPS,EPSA,EPSB,ITER);v̲a̲l̲u̲e̲N,EPS;
+      r̲e̲a̲l̲ EPS,EPSA,EPSB;i̲n̲t̲e̲g̲e̲r̲ N;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ ITER;a̲r̲r̲a̲y̲ A,B;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ANORM,BNORM,ANI,BNI,CONST,A10,A20,A30,B11,
+        B22,B33,B44,A11,A12,A21,A22,A33,A34,A43,A44,B12,B34,OLD1,OLD2;
+      i̲n̲t̲e̲g̲e̲r̲ I,Q,M,M1,Q1,J,K,K1,K2,K3,KM1;b̲o̲o̲l̲e̲a̲n̲ STATIONARY;
+      ANORM:=BNORM:=0;f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ BNI:=0;ITER[I]:=0;ANI:=i̲f̲ I>1t̲h̲e̲n̲ABS(A[I,I-1])e̲l̲s̲e̲ 0;
+            f̲o̲r̲ J:=I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ ANI:=ANI+ABS(A[I,J]);BNI:=BNI+ABS(B[I,J])
+               e̲n̲d̲;i̲f̲ ANI>ANORM t̲h̲e̲n̲ ANORM:=ANI;i̲f̲ BNI>BNORMt̲h̲e̲n̲
+              BNORM:=BNI
+         e̲n̲d̲;i̲f̲ ANORM=0 t̲h̲e̲n̲ ANORM:=EPS;i̲f̲BNORM=0 t̲h̲e̲n̲ BNORM:=EPS;
+      EPSA:=EPS×ANORM;EPSB:=EPS×BNORM;
+      f̲o̲r̲ M:=N,M w̲h̲i̲l̲e̲ M≥3 d̲o̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ I:=M+1,I-1 w̲h̲i̲l̲e̲(i̲f̲ I>1 t̲h̲e̲n̲ABS(A[I,I-1])>EPSA e̲l̲s̲e̲
+              f̲a̲l̲s̲e̲) d̲o̲ Q:=I-1;
+            i̲f̲ Q>1 t̲h̲e̲n̲ A[Q,Q-1]:=0;
+            L: i̲f̲ Q≥M-1 t̲h̲e̲n̲ M:=Q-1 e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ ABS(B[Q,Q])≤EPSB t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ B[Q,Q]:=0;Q1:=Q+1;
+                  HSH2COL(Q,Q,M,Q,A[Q,Q],A[Q1,Q],A,B);A[Q1,Q]:=0;
+                  Q:=Q1;g̲o̲t̲o̲ L
+               e̲n̲d̲ e̲l̲s̲e̲ M1:=M-1;Q1:=Q+1;CONST:=0·75;ITER[M]:=ITER[M]+1;
+               STATIONARY:=i̲f̲ ITER[M]=1 t̲h̲e̲n̲ t̲r̲u̲e̲ e̲l̲s̲e̲
+                 ABS(A[M,M-1])≥CONST×OLD1∧ABS(A[M-1,M-2])≥CONST×OLD2;
+               i̲f̲ ITER[M]>30∧STATIONARY t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ ITER[I]:=-1;
+                  g̲o̲t̲o̲ OUT
+               e̲n̲d̲;
+               i̲f̲ ITER[M]=10∧STATIONARY t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ A10:=0;A20:=1;A30:=1·1605
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ B11:=B[Q,Q];B22:=i̲f̲ ABS(B[Q1,Q1])<EPSB t̲h̲e̲n̲EPSB
+                  e̲l̲s̲e̲ B[Q1,Q1];
+                  B33:=i̲f̲ ABS(B[M1,M1])<EPSB t̲h̲e̲n̲ EPSB e̲l̲s̲e̲B[M1,M1];
+                  B44:=i̲f̲ ABS(B[M,M])<EPSB t̲h̲e̲n̲ EPSB e̲l̲s̲e̲ B[M,M] ;
+                  A11:=A[Q,Q]/B11;A12:=A[Q,Q1]/B22;A21:=A[Q1,Q]/B11;
+                  A22:=A[Q1,Q1]/B22;A33:=A[M1,M1]/B33;A34:=A[M1,M]/B44;
+                  A43:=A[M,M1]/B33;A44:=A[M,M]/B44;B12:=B[Q,Q1]/B22;
+                  B34:=B[M1,M]/B44;
+                  A10:=((A33-A11)×(A44-A11)-A34×A43+A43×B34×A11)/A21
+                    +A12-A11×B12;
+                  A20:=(A22-A11-A21×B12)-(A33-A11)-(A44-A11)+A43×B34;
+                  A30:=A[Q+2,Q1]/B22
+               e̲n̲d̲;OLD1:=ABS(A[M,M-1]);OLD2:=ABS(A[M-1,M-2]);
+               f̲o̲r̲ K:=Q s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲
+                  b̲e̲g̲i̲n̲ K1:=K+1;K2:=K+2;K3:=i̲f̲ K+3>M t̲h̲e̲n̲ M e̲l̲s̲e̲ K+3;
+                     KM1:=i̲f̲ K-1<Q t̲h̲e̲n̲ Q e̲l̲s̲e̲ K-1;
+                     i̲f̲ K≠M1 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ i̲f̲ K=Q t̲h̲e̲n̲
+                          HSH3COL(KM1,KM1,M,K,A10,A20,A30,A,B) e̲l̲s̲e̲
+                        b̲e̲g̲i̲n̲
+                           HSH3COL(KM1,KM1,M,K,A[K,KM1],A[K1,KM1],A[K2,KM1],A,B);
+                           A[K1,KM1]:=A[K2,KM1]:=0
+                        e̲n̲d̲;
+                        HSH3ROW2(Q,Q,K3,K,B[K2,K2],B[K2,K1],B[K2,K],A,B);
+                        B[K2,K]:=B[K2,K1]:=0 ;
+                     e̲n̲d̲ e̲l̲s̲e̲
+                     b̲e̲g̲i̲n̲ HSH2COL(KM1,KM1,M,K,A[K,KM1],A[K1,KM1],A,B);
+                        A[K1,KM1]:=0
+                     e̲n̲d̲;
+                     HSH2ROW2(Q,Q,K3,K3,K,B[K1,K1],B[K1,K],A,B);B[K1,K]:=0
+                  e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲;
+      OUT:
+   e̲n̲d̲ QZIT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ QZVAL(N,A,B,EPSA,EPSB,ALFR,ALFI,BETA);v̲a̲l̲u̲e̲ N;
+      r̲e̲a̲l̲ EPSA,EPSB;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ ALFR,ALFI,BETA,A,B;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,L,J;r̲e̲a̲l̲ AN,BN,A11,A12,A21,A22,B11,B12,B22,E,C,D,
+        ER,EI,A11R,A11I,A12R,A12I,A21R,A21I,A22R,A22I,CZ,SZR,SZI,
+        CQ,SQR,SQI,SSR,SSI,TR,TI,BDR,BDI,R;
+      f̲o̲r̲ M:=N,M w̲h̲i̲l̲e̲ M>0 d̲o̲
+           i̲f̲(i̲f̲ M>1 t̲h̲e̲n̲ A[M,M-1]=0 e̲l̲s̲e̲ t̲r̲u̲e̲) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ ALFR[M]:=A[M,M];BETA[M]:=B[M,M];ALFI[M]:=0;M:=M-1
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ L:=M-1;i̲f̲ ABS(B[L,L])≤EPSB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ B[L,L]:=0;HSH2COL(L,L,N,L,A[L,L],A[M,L],A,B);
+               A[M,L]:=B[M,L]:=0;ALFR[L]:=A[L,L];ALFR[M]:=A[M,M];
+               BETA[L]:=B[L,L];BETA[M]:=B[M,M];ALFI[M]:=ALFI[L]:=0;
+            e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ ABS(B[M,M])≤EPSB t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲B[M,M]:=0;HSH2ROW2(1,1,M,M,L,A[M,M],A[M,L],A,B);
+               A[M,L]:=B[M,L]:=0;ALFR[L]:=A[L,L];ALFR[M]:=A[M,M];
+               BETA[L]:=B[L,L];BETA[M]:=B[M,M];ALFI[M]:=ALFI[L]:=0;
+            e̲n̲d̲e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               AN:=ABS(A[L,L])+ABS(A[L,M])+ABS(A[M,L])+ABS(A[M,M]);
+               BN:=ABS(B[L,L])+ABS(B[L,M])+ABS(B[M,M]);
+               A11:=A[L,L]/AN;A12:=A[L,M]/AN;A21:=A[M,L]/AN;A22:=A[M,M]/AN;
+               B11:=B[L,L]/BN;B12:=B[L,M]/BN;B22:=B[M,M]/BN;
+               E:=A11/B11;
+               C:=((A22-E×B22)/B22-(A21×B12)/(B11×B22))/2;
+               D:=C×C+(A21×(A12-E×B12))/(B11×B22);
+               i̲f̲ D≥0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲E:=E+(i̲f̲C<0t̲h̲e̲n̲C-SQRT(D)e̲l̲s̲e̲C+SQRT(D));
+                  A11:=A11-E×B11;A12:=A12-E×B12;A22:=A22-E×B22;
+                  i̲f̲ ABS(A11)+ABS(A12)≥ABS(A21)+ABS(A22) t̲h̲e̲n̲
+                    HSH2ROW2(1,1,M,M,L,A12,A11,A,B)e̲l̲s̲e̲
+                    HSH2ROW2(1,1,M,M,L,A22,A21,A,B);
+                  i̲f̲AN≥ABS(E)×BNt̲h̲e̲n̲
+                    HSH2COL(L,L,N,L,B[L,L],B[M,L],A,B) e̲l̲s̲e̲
+                    HSH2COL(L,L,N,L,A[L,L],A[M,L],A,B);
+                  A[M,L]:=B[M,L]:=0;
+                  ALFR[L]:=A[L,L];ALFR[M]:=A[M,M];BETA[L]:=B[L,L];
+                  BETA[M]:=B[M,M];ALFI[M]:=ALFI[L]:=0;
+               e̲n̲d̲e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  ER:=E+C;EI:=SQRT(-D);A11R:=A11-ER×B11;A11I:=EI×B11;
+                  A12R:=A12-ER×B12;A12I:=EI×B12;A21R:=A21;A21I:=0;
+                  A22R:=A22-ER×B22;A22I:=EI×B22;
+                  i̲f̲ABS(A11R)+ABS(A11I)+ABS(A12R)+ABS(A12I)≥
+                    ABS(A21R)+ABS(A22R)+ABS(A22I)t̲h̲e̲n̲
+                    CHSH2(A12R,A12I,-A11R,-A11I,CZ,SZR,SZI)e̲l̲s̲e̲
+                    CHSH2(A22R,A22I,-A21R,-A21I,CZ,SZR,SZI);
+                  i̲f̲AN≥(ABS(ER)+ABS(EI))×BNt̲h̲e̲n̲
+                    CHSH2(CZ×B11+SZR×B12,SZI×B12,SZR×B22,SZI×B22,CQ,SQR,SQI)
+                  e̲l̲s̲e̲CHSH2(CZ×A11+SZR×A12,SZI×A12,CZ×A21+SZR×A22,SZI×A22,
+                    CQ,SQR,SQI);SSR:=SQR×SZR+SQI×SZI;SSI:=SQR×SZI-SQI×SZR;
+                  TR:=CQ×CZ×A11+CQ×SZR×A12+SQR×CZ×A21+SSR×A22;
+                  TI:=CQ×SZI×A12-SQI×CZ×A21+SSI×A22;
+                  BDR:=CQ×CZ×B11+CQ×SZR×B12+SSR×B22;
+                  BDI:=CQ×SZI×B12+SSI×B22;
+                  R:=SQRT(BDR×BDR+BDI×BDI);BETA[L]:=BN×R;
+                  ALFR[L]:=AN×(TR×BDR+TI×BDI)/R;
+                  ALFI[L]:=AN×(TR×BDI-TI×BDR)/R;
+                  TR:=SSR×A11-SQR×CZ×A12-CQ×SZR×A21+CQ×CZ×A22;
+                  TI:=-SSI×A11-SQI×CZ×A12+CQ×SZI×A21;
+                  BDR:=SSR×B11-SQR×CZ×B12+CQ×CZ×B22;
+                  BDI:=-SSI×B11-SQI×CZ×B12;
+                  R:=SQRT(BDR×BDR+BDI×BDI);BETA[M]:=BN×R;
+                  ALFR[M]:=AN×(TR×BDR+TI×BDI)/R;
+                  ALFI[M]:=AN×(TR×BDI-TI×BDR)/R;
+               e̲n̲d̲
+            e̲n̲d̲;M:=M-2
+         e̲n̲d̲
+   e̲n̲d̲ QZVAL;
+   DWARF:=EM[0];EPS:=EM[1];
+   HSHDECMUL(N,A,B,DWARF);
+   HESTGL2(N,A,B);
+   QZIT(N,A,B,EPS,EPSA,EPSB,ITER);
+   QZVAL(N,A,B,EPSA,EPSB,ALFR,ALFI,BETA);
+e̲n̲d̲ QZIVAL
+
+;e̲o̲p̲

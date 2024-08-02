@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 34431;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ QUANEWBND1(N, LW, RW, X, F, FUNCT, IN, OUT);
+   v̲a̲l̲u̲e̲ N, LW, RW; i̲n̲t̲e̲g̲e̲r̲ N, LW, RW; a̲r̲r̲a̲y̲ X, F, IN, OUT;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, K; r̲e̲a̲l̲ S;
+   a̲r̲r̲a̲y̲ JAC[1:(LW + RW) × (N - 1) + N];
+   FUNCT(N, 1, N, X, F); S:= IN[5];
+   K:= (LW + RW)×(N - 1) + N×2 - ((LW - 1)×LW + (RW - 1)×RW) ÷ 2;
+   IN[4]:= IN[4] - K;
+   JACOBNBNDF(N, LW, RW, X, F, JAC, I, S, FUNCT);
+   QUANEWBND(N, LW, RW, X, F, JAC, FUNCT, IN, OUT);
+   IN[4]:= IN[4] + K; OUT[3]:= OUT[3] + K
+e̲n̲d̲ QUANEWBND1;
+e̲o̲p̲

@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 31253;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSWTS(N,ZER,B,C)RESULTS:(W);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ ZER,B,C,W;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ J,K; r̲e̲a̲l̲ S; a̲r̲r̲a̲y̲ P[0:N-1];
+   f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲
+         ALLORTPOL(N-1,ZER[J],B,C,P);
+         S:=0·0;
+         f̲o̲r̲ K:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+              S:=(S+P[K]⭡2)/C[K];
+         W[J]:=1/(1+S);
+      e̲n̲d̲
+e̲n̲d̲ GSSWTS;
+e̲o̲p̲

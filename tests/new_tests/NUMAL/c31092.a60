@@ -1,0 +1,26 @@
+c̲o̲d̲e̲ 31092;
+r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲FOUSER (N,THETA,A);
+   v̲a̲l̲u̲e̲N,THETA;i̲n̲t̲e̲g̲e̲r̲N;r̲e̲a̲l̲THETA;a̲r̲r̲a̲y̲A;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲K;r̲e̲a̲l̲C,CC,LAMBDA,H,DUN,UN,UN1,C2,S2;
+   C:=COS(THETA);
+   i̲f̲C<-·5t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲C2:=COS(THETA/2);LAMBDA:=4×C2⭡2;UN:=DUN:=0;
+      f̲o̲r̲K:=Ns̲t̲e̲p̲-1u̲n̲t̲i̲l̲0d̲o̲
+         b̲e̲g̲i̲n̲UN:=DUN-UN;
+            DUN:=LAMBDA×UN-DUN+A[K]
+         e̲n̲d̲;FOUSER :=DUN+2×C2×(SIN(THETA/2)-C2)×UN
+   e̲n̲d̲e̲l̲s̲e̲i̲f̲C> ·5t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲S2:=SIN(THETA/2);LAMBDA:=-4×S2×S2;UN:=DUN:=0;
+      f̲o̲r̲K:=Ns̲t̲e̲p̲-1u̲n̲t̲i̲l̲0d̲o̲
+         b̲e̲g̲i̲n̲UN:=DUN+UN;
+            DUN:=LAMBDA×UN+DUN+A[K]
+         e̲n̲d̲;FOUSER :=DUN+2×S2×(S2+COS(THETA/2))×UN
+   e̲n̲d̲e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲CC:=C+C;UN:=UN1:=0;
+      f̲o̲r̲K:=Ns̲t̲e̲p̲-1u̲n̲t̲i̲l̲1d̲o̲
+         b̲e̲g̲i̲n̲H:=CC×UN-UN1+A[K];
+            UN1:=UN;UN:=H
+         e̲n̲d̲;FOUSER :=A[0]-UN1+(C+SIN(THETA))×UN
+   e̲n̲d̲
+e̲n̲d̲FOUSER;
+e̲o̲p̲

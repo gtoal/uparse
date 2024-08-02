@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT'  bit presentation from left to right;
+	'INTEGER' n, m, r;
+	ininteger(0,n);
+	'FOR' m :=1 'STEP' 1 'UNTIL' 31 'DO'
+	'BEGIN'
+		r := n % 2;	
+		r := n - r*2;
+		outinteger(1,r); 'COMMENT' outstring(1,"\n");
+		n := n % 2
+	'END'
+'END'

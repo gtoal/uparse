@@ -1,0 +1,6 @@
+'PROCEDURE' Print1(m);
+'VALUE' m; 'INTEGER' m;
+'BEGIN'
+	'INTEGER' i;
+	'FOR' i:=1 'STEP' 1 'UNTIL' m 'DO' outinteger(1,i)
+'END';

@@ -1,0 +1,14 @@
+'CODE' 31055;
+'PROCEDURE' GRNNEW(N,X,A);
+'VALUE' N; 'INTEGER' N; 'ARRAY' X,A;
+'BEGIN'
+    'PROCEDURE' ELMCEV(L,U,SHIFT,A,B,X);
+    'VALUE' L,U,SHIFT,X; 'INTEGER' L,U,SHIFT;
+    'REAL' X; 'ARRAY' A,B;
+    'FOR' L:=L 'STEP' -1 'UNTIL' U 'DO' A[L]:=A[L]+B[L+SHIFT]*X;
+    'INTEGER' K;
+    'FOR' K:=N-1 'STEP' -1 'UNTIL' 0 'DO'
+    ELMCEV(N-1,N-1-K,1,A,A,X[N-1-K]);
+'END' GRNNEW
+
+        ;'EOP'

@@ -1,0 +1,20 @@
+c̲o̲d̲e̲36020;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ INI(N,M,S);
+   v̲a̲l̲u̲e̲ N,M;i̲n̲t̲e̲g̲e̲r̲ N,M;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ S;
+     c̲o̲m̲m̲e̲n̲t̲ INI DELIVERS (MONOTONE) THE ROUNDED VALUES
+     OF THE ARGUMENTS,WHERE THE CHEBYSHEV POLYNOMIAL
+     OF DEGREE N(TRANSFORMED TO THE INTERVAL [0,M],M>=N)
+     ATTAINS ITS MAXIMUM VALUES,
+     IN INTEGER ARRAY S[0:N];
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲I,J,K,L;r̲e̲a̲l̲PIN2;
+   PIN2:=ARCTAN(1)×2/N;
+   K:=0;L:=N-1;J:=S[0]:=0;S[N]:=M;
+   f̲o̲r̲ K:=K+1 w̲h̲i̲l̲e̲ K <  L d̲o̲
+      b̲e̲g̲i̲n̲I:=SIN(K×PIN2)⭡2×M;
+         J:=S[K]:=i̲f̲I≤Jt̲h̲e̲n̲J+1e̲l̲s̲e̲I;
+         S[L]:=M-J;L:=L-1
+      e̲n̲d̲K;
+   i̲f̲L×2=Nt̲h̲e̲n̲S[L]:=M/2;
+e̲n̲d̲ INI;
+e̲o̲p̲

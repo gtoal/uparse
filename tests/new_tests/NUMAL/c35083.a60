@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 35083;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ JFRAC(N,A,B);
+   v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ A,B;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ D;i̲n̲t̲e̲g̲e̲r̲ I;
+   D:=0;
+   f̲o̲r̲ I:=N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ D:=A[I]/(B[I]+D);
+   JFRAC:=D+B[0]
+e̲n̲d̲ JFRAC;
+e̲o̲p̲

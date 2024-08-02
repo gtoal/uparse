@@ -1,0 +1,4 @@
+'CODE' 30005;
+'INTEGER' 'PROCEDURE' INTCAP;
+INTCAP:= 2**48-2;
+        'EOP'

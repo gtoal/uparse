@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT' do-while loop;
+	'INTEGER' n;
+	
+	n := 0;
+doLabel:;
+		n := n + 1;
+		outinteger(1, n);
+		'IF' n < 20 'THEN' 'GOTO' doLabel;
+	outstring(1,"\n")
+	
+'END'

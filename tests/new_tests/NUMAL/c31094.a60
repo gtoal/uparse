@@ -1,0 +1,8 @@
+c̲o̲d̲e̲ 31094;
+r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲FOUSER2(N,THETA,A,B);
+   v̲a̲l̲u̲e̲N,THETA;i̲n̲t̲e̲g̲e̲r̲N;r̲e̲a̲l̲THETA;a̲r̲r̲a̲y̲A,B;
+b̲e̲g̲i̲n̲
+   FOUSER2:=COSSER(N,THETA,A)+SINSER(N,THETA,B);
+e̲n̲d̲FOUSER2
+
+;e̲o̲p̲

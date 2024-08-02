@@ -1,0 +1,3 @@
+'BEGIN'
+	outstring(1,"Hi Adam!\n")
+'END'

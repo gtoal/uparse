@@ -1,0 +1,39 @@
+c̲o̲d̲e̲ 35194;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXP BESS KA01(A, X, KA, KA1); v̲a̲l̲u̲e̲ A, X;
+   r̲e̲a̲l̲ A, X, KA, KA1;
+   i̲f̲ A = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      NONEXP BESS K01(X,KA,KA1)
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ F, G, H, PI; i̲n̲t̲e̲g̲e̲r̲ N, NA; b̲o̲o̲l̲e̲a̲n̲ REC, REV;
+      PI:= 4 × ARCTAN(1);
+      REV:= A < -·5; i̲f̲ REV t̲h̲e̲n̲ A:= -A-1;
+      REC:= A ≥  ·5; i̲f̲ REC t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ NA:=ENTIER(A+·5); A:= A - NA e̲n̲d̲;
+      i̲f̲ A = -·5 t̲h̲e̲n̲ F:= G:= SQRT(PI / X / 2) e̲l̲s̲e̲
+      i̲f̲ X < 1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         r̲e̲a̲l̲ EXPON;
+         EXPON:= EXP(X); BESS KA01(A, X, KA, KA1);
+         F:= EXPON × KA; G:= EXPON × KA1
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B, C, E, P, Q;
+         C:=·25-A×A;B:=X+X;G:=1;F:=0;E:=COS(A×PI)/PI×X×@15;
+         f̲o̲r̲ N:=1,N+1 w̲h̲i̲l̲e̲ H×N<E d̲o̲
+            b̲e̲g̲i̲n̲ H:=(2×(N+X)×G-(N-1+C/N)×F)/(N+1);F:=G;
+               G:=H
+            e̲n̲d̲;
+         P:= Q:= F / G; E:= B - 2;
+         f̲o̲r̲ N:=N,N-1 w̲h̲i̲l̲e̲ N>0 d̲o̲
+            b̲e̲g̲i̲n̲ P:=(N-1+C/N)/(E+(N+1)×(2-P));Q:=P×(1+Q) e̲n̲d̲;
+         F:=SQRT(PI/B)/(1+Q);G:=F×(A+X+·5-P)/X
+      e̲n̲d̲;
+      i̲f̲ REC t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X:= 2 / X;
+         f̲o̲r̲ N:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NA d̲o̲
+            b̲e̲g̲i̲n̲ H:= F + (A + N) × X × G; F:= G; G:= H e̲n̲d̲
+      e̲n̲d̲;
+      i̲f̲ REV t̲h̲e̲n̲ b̲e̲g̲i̲n̲ KA1:= F; KA:= G e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ KA:= F; KA1:= G e̲n̲d̲
+   e̲n̲d̲ NONEXP BESS KA01;
+e̲o̲p̲

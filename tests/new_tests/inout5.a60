@@ -1,0 +1,16 @@
+'BEGIN'
+'COMMENT': FILE_5 with real numbers reading;
+	'INTEGER' n;
+	'INTEGER' i, j ;
+	'REAL' 'ARRAY' a[1:100,1:100];
+	n := 10;
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		'FOR' j := 1 'STEP' 1 'UNTIL' n 'DO'
+		'BEGIN'
+			inreal (5, a[i,j]);
+			outreal (1,a[i,j])
+		'END';
+		outstring (1,"\n")
+	'END'
+'END'

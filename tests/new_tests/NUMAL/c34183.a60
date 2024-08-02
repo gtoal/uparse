@@ -1,0 +1,14 @@
+c̲o̲d̲e̲ 34183;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2413;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ REASCL(A, N, N1, N2); v̲a̲l̲u̲e̲ N, N1, N2;
+   i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J; r̲e̲a̲l̲ S;
+   f̲o̲r̲ J:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ S:= 0;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              i̲f̲ ABS(A[I,J]) > ABS(S) t̲h̲e̲n̲ S:= A[I,J];
+         i̲f̲ S ≠ 0 t̲h̲e̲n̲
+           f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ A[I,J]:= A[I,J] / S
+      e̲n̲d̲
+e̲n̲d̲ REASCL;
+e̲o̲p̲

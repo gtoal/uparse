@@ -1,0 +1,11 @@
+'BEGIN'
+	'INTEGER' i, n;
+	outstring(1,"for-'WHILE'\n");
+	n := 0;
+	'FOR' i:=1 'WHILE' n<=10 'DO' 
+	'BEGIN'
+		outinteger(1,n);
+		n := n+1;
+	'END';
+finish:;
+'END'

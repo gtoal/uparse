@@ -1,0 +1,46 @@
+c̲o̲d̲e̲ 35145;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ AIRYZEROS(N,D,ZAI,VAI);
+   v̲a̲l̲u̲e̲ N,D; i̲n̲t̲e̲g̲e̲r̲ N,D; a̲r̲r̲a̲y̲ ZAI,VAI;
+b̲e̲g̲i̲n̲ b̲o̲o̲l̲e̲a̲n̲ A, FOUND; i̲n̲t̲e̲g̲e̲r̲ I;
+   r̲e̲a̲l̲ C,E,R,ZAJ,ZAK,VAJ,DAJ,KAJ,ZZ;
+
+   A :=  D = 0 ∨ D = 2;
+   R := i̲f̲ D = 0 ∨ D = 3 t̲h̲e̲n̲ -1·1780 97245 09617
+   e̲l̲s̲e̲ -3·5342 91735 28852;
+   c̲o̲m̲m̲e̲n̲t̲  R := i̲f̲ D = 0 o̲r̲ D = 3 t̲h̲e̲n̲ -3 * PI / 8
+     e̲l̲s̲e̲ -9 * PI / 8;
+   AIRY(0,ZAJ,VAJ,DAJ,KAJ,ZZ,t̲r̲u̲e̲);
+   f̲o̲r̲ I := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R := R + 4·7123 88980 38469; c̲o̲m̲m̲e̲n̲t̲ R := R + 3 * PI / 2;
+         ZZ := R × R;
+         ZAJ := i̲f̲ I = 1 ∧ D = 1 t̲h̲e̲n̲ -1·01879 297 e̲l̲s̲e̲
+           i̲f̲ I = 1 ∧ D = 2 t̲h̲e̲n̲ -1·17371 322 e̲l̲s̲e̲
+           R ⭡ 0·66666 66666 66667 × ( i̲f̲ A t̲h̲e̲n̲- ( 1 + ( 5/48 - ( 5/36 - ( 77125/82944 - (
+           1080 56875 / 69 67296 - (16 23755 96875 / 3344 30208)
+           /ZZ)/ZZ)/ZZ)/ZZ)/ZZ)
+         e̲l̲s̲e̲- ( 1 - ( 7/48 - ( 35/288 - ( 1 81223 / 2 07360 - (
+           186 83371 / 12 44160 - ( 9 11458 84361 / 1911 02976 )
+           /ZZ)/ZZ)/ZZ)/ZZ)/ZZ));
+         i̲f̲  D ≤ 1 t̲h̲e̲n̲ AIRY(ZAJ,VAJ,DAJ,C,E,ZZ,f̲a̲l̲s̲e̲)
+         e̲l̲s̲e̲ AIRY(ZAJ,C,E,VAJ,DAJ,ZZ,f̲a̲l̲s̲e̲);
+         FOUND := ABS( i̲f̲ A t̲h̲e̲n̲ VAJ e̲l̲s̲e̲ DAJ ) < @-12;
+         f̲o̲r̲ C := C w̲h̲i̲l̲e̲ ¬ FOUND d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ A t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ KAJ := VAJ / DAJ;
+                  ZAK := ZAJ - KAJ × (1 + ZAJ × KAJ × KAJ)
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ KAJ := DAJ / (ZAJ × VAJ);
+                  ZAK := ZAJ - KAJ × (1 + KAJ × (KAJ × ZAJ + 1 / ZAJ))
+               e̲n̲d̲;
+               i̲f̲  D ≤ 1 t̲h̲e̲n̲ AIRY(ZAK,VAJ,DAJ,C,E,ZZ,f̲a̲l̲s̲e̲)
+               e̲l̲s̲e̲ AIRY(ZAK,C,E,VAJ,DAJ,ZZ,f̲a̲l̲s̲e̲);
+               FOUND := ABS(ZAK - ZAJ) < @-14 × ABS(ZAK) ∨
+                 ABS(i̲f̲ A t̲h̲e̲n̲ VAJ e̲l̲s̲e̲ DAJ) < @-12;
+               ZAJ := ZAK
+            e̲n̲d̲;
+         VAI[I] := i̲f̲ A t̲h̲e̲n̲ DAJ e̲l̲s̲e̲ VAJ;
+         ZAI[I] := ZAJ;
+      e̲n̲d̲;
+   AIRYZEROS := ZAI[N];
+e̲n̲d̲ AIRYZEROS;
+e̲o̲p̲

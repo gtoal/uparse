@@ -1,0 +1,4 @@
+'BEGIN'
+	'REAL' r;
+	'FOR' r := 0 'STEP' 0.2 'UNTIL' 5 'DO' outreal (1,r)
+'END'

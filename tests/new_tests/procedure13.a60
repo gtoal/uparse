@@ -1,0 +1,22 @@
+'BEGIN'
+'COMMENT' pass procedure as argument to another procedure;
+	
+	'REAL' 'PROCEDURE' sqr (x); 'REAL' x;
+	'BEGIN'
+		sqr := x*x
+	'END';
+	
+	'PROCEDURE' table ( f ); 'REAL' 'PROCEDURE' f;
+	'BEGIN' 
+		'REAL' x;
+		'FOR' x := 0 'STEP' 0.01 'UNTIL' 1 'DO' 
+		'BEGIN'
+		outreal (1,x); outreal (1,f(x)); outstring(1,"\n")
+		'END'
+	'END';
+		
+	table(sqr);
+	outstring(1,"\n");
+	table(sqrt)
+	
+'END'

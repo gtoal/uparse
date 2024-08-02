@@ -1,0 +1,71 @@
+c̲o̲d̲e̲ 34291;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECSYM2(A,N,TOL,AUX,P,DETAUX);
+   v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;r̲e̲a̲l̲ TOL;
+     a̲r̲r̲a̲y̲ A,DETAUX;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P,AUX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,K,M,IP1,IP2,DUMMY;b̲o̲o̲l̲e̲a̲n̲ ONEBYONE,SYM;
+   r̲e̲a̲l̲ DET,S,T,ALPHA,LAMBDA,SIGMA,AII,AIP1,AIP1I;
+   AUX[3]:=AUX[4]:=0;SYM:=t̲r̲u̲e̲;I:=0;
+   f̲o̲r̲ DUMMY:=0 w̲h̲i̲l̲e̲ SYM ∧ (I<N) d̲o̲
+      b̲e̲g̲i̲n̲ I:=I+1;J:=I;
+         f̲o̲r̲ M:=0 w̲h̲i̲l̲e̲ SYM ∧ (J<N) d̲o̲
+            b̲e̲g̲i̲n̲ J:=J+1;SYM:=SYM ∧ (A[I,J]=A[J,I]) e̲n̲d̲;
+      e̲n̲d̲;
+   i̲f̲ SYM t̲h̲e̲n̲ AUX[2]:=1
+   e̲l̲s̲e̲ b̲e̲g̲i̲n̲ AUX[2]:=0;g̲o̲t̲o̲ ENDDEC e̲n̲d̲;
+   ALPHA:=(1+SQRT(17))/8;P[N]:=N;I:=1;
+   f̲o̲r̲ DUMMY:=0 w̲h̲i̲l̲e̲ I<N d̲o̲
+      b̲e̲g̲i̲n̲ IP1:=I+1;IP2:=I+2;AII:=ABS(A[I,I]);P[I]:=I;
+         LAMBDA:=ABS(A[I,IP1]);J:=IP1;
+         f̲o̲r̲ M:=IP2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              i̲f̲ ABS(A[I,M])>LAMBDA t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ J:=M;LAMBDA:=ABS(A[I,M]) e̲n̲d̲;
+         T:=ALPHA×LAMBDA;ONEBYONE:=t̲r̲u̲e̲;
+         i̲f̲ AII<T t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SIGMA:=LAMBDA;
+            f̲o̲r̲ M:=IP1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J-1 d̲o̲
+                 i̲f̲ ABS(A[M,J])>SIGMA t̲h̲e̲n̲ SIGMA:=ABS(A[M,J]);
+            f̲o̲r̲ M:=J+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 i̲f̲ ABS(A[J,M])>SIGMA t̲h̲e̲n̲ SIGMA:=ABS(A[J,M]);
+            i̲f̲ SIGMA×AII<LAMBDA t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ i̲f̲ ALPHA×SIGMA<ABS(A[J,J]) t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ ICHROW(J+1,N,I,J,A);ICHROWCOL(IP1,J-1,I,J,A);
+                  T:=A[I,I];A[I,I]:=A[J,J];A[J,J]:=T;P[I]:=J
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ i̲f̲ J>IP1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ ICHROW(J+1,N,IP1,J,A);ICHROWCOL(IP2,J-1,IP1,J,A);
+                     T:=A[I,I];A[I,I]:=A[J,J];A[J,J]:=T;
+                     T:=A[I,J];A[I,J]:=A[I,IP1];A[I,IP1]:=T
+                  e̲n̲d̲;
+                  DET:=A[I,I]×A[IP1,IP1]-A[I,IP1]⭡2;AIP1I:=A[I,IP1]/DET;
+                  AII:=A[I,I]/DET;AIP1:=A[IP1,IP1]/DET;P[I]:=J;P[IP1]:=0;
+                  DETAUX[I]:=1;DETAUX[IP1]:=DET;
+                  f̲o̲r̲ J:=IP2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                     b̲e̲g̲i̲n̲ S:=AIP1I×A[IP1,J]-AIP1×A[I,J];
+                        T:=AIP1I×A[I,J]-AII×A[IP1,J];ELMROW(J,N,J,I,A,A,S);
+                        ELMROW(J,N,J,IP1,A,A,T);A[I,J]:=S;A[IP1,J]:=T
+                     e̲n̲d̲;
+                  AUX[3]:=AUX[3]+1;AUX[4]:=AUX[4]+1;I:=IP2;
+                  ONEBYONE:=f̲a̲l̲s̲e̲
+               e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲;
+         i̲f̲ ONEBYONE t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ TOL<ABS(A[I,I]) t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ AII:=A[I,I];DETAUX[I]:=A[I,I];
+               i̲f̲ AII>0 t̲h̲e̲n̲ AUX[3]:=AUX[3]+1 e̲l̲s̲e̲ AUX[4]:=AUX[4]+1;
+               f̲o̲r̲ J:=IP1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ S:=-A[I,J]/AII;ELMROW(J,N,J,I,A,A,S);A[I,J]:=S e̲n̲d̲
+            e̲n̲d̲;I:=IP1
+         e̲n̲d̲
+      e̲n̲d̲ WHILE I;
+   i̲f̲ I=N t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ TOL<ABS(A[N,N]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ A[N,N]>0 t̲h̲e̲n̲ AUX[3]:=AUX[3]+1
+         e̲l̲s̲e̲ AUX[4]:=AUX[4]+1
+      e̲n̲d̲;DETAUX[N]:=A[N,N]
+   e̲n̲d̲;
+   ENDDEC:
+   AUX[5]:=N-AUX[3]-AUX[4]
+e̲n̲d̲ DECSYM2;
+e̲o̲p̲

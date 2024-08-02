@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34356;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHCOMPRD(I, II, L, U, J, AR, AI, BR, BI, T);
+   v̲a̲l̲u̲e̲ I, II, L, U, J, T; i̲n̲t̲e̲g̲e̲r̲ I, II, L, U, J; r̲e̲a̲l̲ T;
+     a̲r̲r̲a̲y̲ AR, AI, BR, BI;
+b̲e̲g̲i̲n̲
+   f̲o̲r̲ L:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲ ELMCOMCOL(I, II, L, J, AR, AI,
+        BR, BI, ( - TAMMAT(I, II, J, L, BR, AR) - TAMMAT(I, II, J,
+        L, BI, AI)) / T, (TAMMAT(I, II, J, L, BI, AR) - TAMMAT(I,
+        II, J, L, BR, AI)) / T);
+e̲n̲d̲ HSHCOMPRD;
+e̲o̲p̲

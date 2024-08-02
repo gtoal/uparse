@@ -1,0 +1,8 @@
+'BEGIN'
+'COMMENT' addition overflow (max int = 2147483647) ;
+
+	'INTEGER' n, m, rp;
+	ininteger(0,n); ininteger(0,m);
+	rp := n+m;
+	outinteger(1,rp)
+'END'

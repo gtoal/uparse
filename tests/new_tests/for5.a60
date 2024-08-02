@@ -1,0 +1,16 @@
+'BEGIN'
+'COMMENT' integral of 1/(1-x*x) from 0 to 1;
+	'REAL' r, rr, s;
+	'INTEGER' n;
+	
+	ininteger (0,n);
+	rr := 1.0 / n;
+	
+	s := 0;
+	'FOR' r := 0 'STEP' rr 'UNTIL' (1.0 - rr) 'DO' 
+	'BEGIN'
+		s := s + (1.0 / sqrt(1 - r*r)) * rr
+	'END';
+	outreal (1,s); outstring (1,"\n")
+	
+'END'

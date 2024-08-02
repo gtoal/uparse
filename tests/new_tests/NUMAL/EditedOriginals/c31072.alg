@@ -1,0 +1,9 @@
+'CODE' 31072;
+'PROCEDURE' HSHROWMAT(LR, UR, LC, UC, I, X, U, A);
+'VALUE' LR, UR, LC, UC, I, X; 'INTEGER' LR, UR, LC, UC, I;
+'REAL' X; 'ARRAY' U, A;
+'BEGIN'
+    'FOR' LC:= LC 'STEP' 1 'UNTIL' UC 'DO'
+    ELMCOLROW(LR, UR, LC, I, A, U, MATMAT(LR, UR, I, LC, U, A) * X)
+'END';
+        'EOP'

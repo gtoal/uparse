@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34370;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRIVALHRM(A, N, VAL, EM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, VAL, EM;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ B,BB[1:N];
+   i̲n̲t̲e̲g̲e̲r̲ I;
+   HSHHRMTRIVAL(A, N, VAL, BB, EM); B[N]:=BB[N]:= 0;
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N-1 d̲o̲ B[I]:=SQRT(BB[I]);
+   QRIVALHRM:=QRIVALSYMTRI(VAL, BB, N, EM)
+e̲n̲d̲ QRIVALHRM;
+e̲o̲p̲

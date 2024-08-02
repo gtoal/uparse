@@ -1,0 +1,47 @@
+c̲o̲d̲e̲ 34361;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EQILBRCOM(A1, A2, N, EM, D, INT); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A1, A2, EM, D; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, P, Q, J, T, COUNT, EXPONENT, NI, IM, I1;
+   r̲e̲a̲l̲ C, R, EPS;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ MOVE(K); v̲a̲l̲u̲e̲ K; i̲n̲t̲e̲g̲e̲r̲ K;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ DI;
+      NI:= Q - P; T:= T + 1; i̲f̲ K ≠ I t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ICHCOL(1, N, K, I, A1); ICHROW(1, N, K, I, A1);
+         ICHCOL(1, N, K, I, A2); ICHROW(1, N, K, I, A2);
+         DI:= D[I]; D[I]:= D[K]; D[K]:= DI
+      e̲n̲d̲
+   e̲n̲d̲ MOVE;
+   EPS:= EM[0] ⭡ 4; T:= P:= 1; Q:= NI:= I:= N;
+   COUNT:= EM[6];
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ D[J]:= 1; INT[J]:= 0 e̲n̲d̲;
+   f̲o̲r̲ I:= i̲f̲ I < Q t̲h̲e̲n̲ I + 1 e̲l̲s̲e̲ P w̲h̲i̲l̲e̲ COUNT > 0∧ NI > 0 d̲o̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT - 1; IM:= I - 1; I1:= I + 1;
+         C:= TAMMAT(P, IM, I, I, A1, A1) + TAMMAT(I1, Q, I,
+           I, A1, A1) + TAMMAT(P, IM, I, I, A2, A2) +
+           TAMMAT(I1, Q, I, I, A2, A2);
+         R:= MATTAM(P, IM, I, I, A1, A1) + MATTAM(I1, Q, I,
+           I, A1, A1) + MATTAM(P, IM, I, I, A2, A2) +
+           MATTAM(I1, Q, I, I, A2, A2); i̲f̲ C / EPS ≤ R t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ INT[T]:= I; MOVE(P); P:= P + 1 e̲n̲d̲
+           e̲l̲s̲e̲ i̲f̲ R / EPS ≤ C t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ INT[T]:= - I; MOVE(Q); Q:= Q - 1 e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ EXPONENT:= LN(R / C) × 0·36067;
+            i̲f̲ ABS(EXPONENT) > 1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ NI:= Q - P; C:= 2 ⭡ EXPONENT;
+               D[I]:= D[I] × C;
+               f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ IM, I1 s̲t̲e̲p̲ 1
+                 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ A1[J,I]:= A1[J,I] × C;
+                     A1[I,J]:= A1[I,J] / C;
+                     A2[J,I]:= A2[J,I] × C;
+                     A2[I,J]:= A2[I,J] / C
+                  e̲n̲d̲
+            e̲n̲d̲
+            e̲l̲s̲e̲ NI:= NI - 1
+         e̲n̲d̲
+      e̲n̲d̲;
+   EM[7]:= EM[6] - COUNT
+e̲n̲d̲ EQILBRCOM;
+e̲o̲p̲

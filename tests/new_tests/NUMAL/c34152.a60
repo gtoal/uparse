@@ -1,0 +1,89 @@
+c̲o̲d̲e̲ 34152;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2312;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ VECSYMTRI(D, B, N, N1, N2, VAL, VEC, EM);
+   v̲a̲l̲u̲e̲ N, N1, N2;
+   i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ D, B, VAL, VEC, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K, COUNT, MAXCOUNT, COUNTLIM, ORTH, IND;
+   r̲e̲a̲l̲ BI, BI1, U, W, Y, MI1, LAMBDA, OLDLAMBDA, ORTHEPS,
+     VALSPREAD, SPR, RES, MAXRES, OLDRES, NORM, NEWNORM, OLDNORM,
+     MACHTOL, VECTOL;
+   a̲r̲r̲a̲y̲ M, P, Q, R, X[1:N];
+   b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ INT[1:N];
+
+   NORM:= EM[1]; MACHTOL:= EM[0] × NORM; VALSPREAD:= EM[4] × NORM;
+   VECTOL:= EM[6] × NORM; COUNTLIM:= EM[8]; ORTHEPS:= SQRT(EM[0]);
+   MAXCOUNT:= IND:= 0; MAXRES:= 0;
+   i̲f̲ N1 > 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ ORTH:= EM[5]; OLDLAMBDA:= VAL[N1 - ORTH];
+      f̲o̲r̲ K:= N1 - ORTH + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 - 1  d̲o̲
+         b̲e̲g̲i̲n̲ LAMBDA:= VAL[K]; SPR:= OLDLAMBDA - LAMBDA;
+            i̲f̲ SPR < MACHTOL t̲h̲e̲n̲ LAMBDA:= OLDLAMBDA - MACHTOL;
+            OLDLAMBDA:= LAMBDA
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲ ORTH:= 1;
+   f̲o̲r̲ K:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ LAMBDA:= VAL[K]; i̲f̲ K > 1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ SPR:= OLDLAMBDA - LAMBDA;
+            i̲f̲ SPR < VALSPREAD t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ i̲f̲ SPR < MACHTOL t̲h̲e̲n̲
+                 LAMBDA:= OLDLAMBDA - MACHTOL;
+               ORTH:= ORTH +1
+            e̲n̲d̲ e̲l̲s̲e̲ ORTH:= 1
+         e̲n̲d̲;
+         COUNT:= 0; U:= D[1] - LAMBDA; BI:= W:= B[1];
+         i̲f̲ ABS(BI) < MACHTOL t̲h̲e̲n̲ BI:= MACHTOL;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1  d̲o̲
+            b̲e̲g̲i̲n̲ BI1:= B[I + 1];
+               i̲f̲ ABS(BI1) < MACHTOL t̲h̲e̲n̲ BI1:= MACHTOL;
+               i̲f̲ ABS(BI) ≥ ABS(U) t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ MI1:= M[I + 1]:= U / BI; P[I]:= BI;
+                  Y:= Q[I]:= D[I + 1] - LAMBDA; R[I]:= BI1;
+                  U:= W - MI1 × Y; W:= - MI1 × BI1; INT[I]:= t̲r̲u̲e̲
+               e̲n̲d̲
+               e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ MI1:= M[I + 1]:= BI / U; P[I]:= U; Q[I]:= W;
+                  R[I]:= 0; U:= D[I + 1] - LAMBDA - MI1 × W;W:= BI1;
+                  INT[I]:= f̲a̲l̲s̲e̲
+               e̲n̲d̲;
+               X[I]:= 1; BI:= BI1
+            e̲n̲d̲ TRANSFORM;
+         P[N]:= i̲f̲ ABS(U) < MACHTOL t̲h̲e̲n̲ MACHTOL e̲l̲s̲e̲ U;
+         Q[N]:= R[N]:= 0; X[N]:= 1; g̲o̲t̲o̲ ENTRY;
+         ITERATE: W:= X[1];
+         f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ i̲f̲ INT[I - 1] t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ U:= W; W:= X[I - 1]:= X[I] e̲n̲d̲
+               e̲l̲s̲e̲ U:= X[I]; W:= X[I]:= U - M[I] × W
+            e̲n̲d̲ ALTERNATE;
+         ENTRY: U:= W:= 0;
+         f̲o̲r̲ I:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ Y:= U; U:= X[I]:= (X[I] - Q[I] × U - R[I] × W) /
+                 P[I]; W:= Y
+            e̲n̲d̲ NEXT ITERATION;
+         NEWNORM:= SQRT(VECVEC(1, N, 0, X, X)); i̲f̲ ORTH > 1t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ OLDNORM:= NEWNORM;
+            f̲o̲r̲ J:= K - ORTH + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K - 1 d̲o̲
+                 ELMVECCOL(1, N, J, X, VEC, -TAMVEC(1, N, J, VEC, X));
+            NEWNORM:= SQRT(VECVEC(1, N, 0, X, X));
+            i̲f̲ NEWNORM < ORTHEPS × OLDNORM t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ IND:= IND + 1; COUNT:= 1;
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ IND - 1,
+                 IND + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ X[I]:= 0;
+               X[IND]:= 1; i̲f̲ IND = N t̲h̲e̲n̲ IND:= 0;
+               g̲o̲t̲o̲ ITERATE
+            e̲n̲d̲ NEW START
+         e̲n̲d̲ ORTHOGONALISATION;
+         RES:= 1 / NEWNORM; i̲f̲ RES > VECTOL ∨ COUNT = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ COUNT:= COUNT + 1; i̲f̲ COUNT ≤ COUNTLIM t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    X[I]:= X[I] × RES; g̲o̲t̲o̲ ITERATE
+            e̲n̲d̲
+         e̲n̲d̲;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[I,K]:= X[I] × RES;
+         i̲f̲ COUNT > MAXCOUNT t̲h̲e̲n̲ MAXCOUNT:= COUNT;
+         i̲f̲ RES > MAXRES t̲h̲e̲n̲ MAXRES:= RES; OLDLAMBDA:= LAMBDA
+      e̲n̲d̲;
+   EM[5]:= ORTH; EM[7]:= MAXRES; EM[9]:= MAXCOUNT
+e̲n̲d̲ VECSYMTRI;
+
+e̲o̲p̲

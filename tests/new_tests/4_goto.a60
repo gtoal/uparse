@@ -1,0 +1,9 @@
+'BEGIN'
+'COMMENT' stop execution by CTRL+C;
+	'INTEGER' n;
+	n := 1;
+	startlabel:;
+		outinteger (1,n);
+		n := n+1;
+	'GOTO' startlabel
+'END'

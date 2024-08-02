@@ -1,0 +1,19 @@
+'BEGIN'
+'COMMENT' qualifier own in procedure;
+	'INTEGER' nn;
+	
+	'INTEGER' 'PROCEDURE' counter;
+	'BEGIN'
+		'OWN' 'INTEGER' n;
+		n := n + 1;
+		counter := n
+	'END';
+		
+	nn := counter;
+	outinteger ( 1 ,nn);
+	nn := counter;
+	outinteger ( 1 ,nn);
+	nn := counter;
+	outinteger ( 1 ,nn)
+	
+'END'

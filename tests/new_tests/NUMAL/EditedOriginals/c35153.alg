@@ -1,0 +1,12 @@
+'CODE' 35153;
+  'COMMENT' MODIFIED SPHERICAL BESSEL FUNCTIONS
+      K[.5](X),   , K[N+.5](X);
+  'PROCEDURE' SPHER BESS K(X, N, K); 'VALUE' X, N;
+  'INTEGER' N; 'REAL' X; 'ARRAY' K;
+  'BEGIN' 'REAL' EXPX;
+    EXPX:= EXP(-X);
+    NONEXP SPHER BESS K(X, N, K);
+    'FOR' N:= N 'STEP' -1 'UNTIL' 0 'DO' K[N]:= K[N] * EXPX
+  'END'
+
+        ;'EOP'

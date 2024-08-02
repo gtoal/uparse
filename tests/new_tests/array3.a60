@@ -1,0 +1,24 @@
+'BEGIN'
+	'COMMENT' function z = x*y in rectangle (0-1,0-1);
+	
+	'REAL' 'ARRAY' ra[0:100, 0:100];
+	'INTEGER' i, j , n;
+	
+	n := 20;
+	'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN' 
+		'FOR' j := 0 'STEP' 1 'UNTIL' n 'DO'
+		'BEGIN'
+			ra[i,j] := (i/n)*(j/n)
+		'END'
+	'END' ; 
+	
+	'FOR' i := 0 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN' 
+		'FOR' j := 0 'STEP' 1 'UNTIL' n 'DO'
+		'BEGIN'
+			outreal (1, entier(ra[i,j]*100)/100.0)
+		'END' ;
+		outstring (1,"\n")
+	'END' 
+'END'

@@ -1,0 +1,9 @@
+'CODE' 34352;
+    'PROCEDURE' COMCOLCST(L,U,J,AR,AI,XR,XI);
+    'VALUE' L,U,J,XR,XI;'INTEGER' L,U,J;'REAL' XR,XI;
+    'ARRAY' AR,AI;
+    'BEGIN'
+    'FOR' L:=L 'STEP' 1 'UNTIL' U 'DO'
+    COMMUL(AR[L,J],AI[L,J],XR,XI,AR[L,J],AI[L,J]);
+    'END' COMCOLCST;
+        'EOP'

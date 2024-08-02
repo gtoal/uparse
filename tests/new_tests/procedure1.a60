@@ -1,0 +1,13 @@
+'BEGIN'
+	'INTEGER' n;
+	
+	'PROCEDURE' myPrint(m);
+	'VALUE' m; 'INTEGER' m;
+	'BEGIN'
+		outinteger(1,m)
+	'END';
+	
+	n :=776;
+	myPrint(n)
+	
+'END'

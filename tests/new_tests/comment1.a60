@@ -1,0 +1,4 @@
+'COMMENT' gives warning, not recommend;
+'BEGIN'
+	outstring(1,"comment demo...\n")
+'END'

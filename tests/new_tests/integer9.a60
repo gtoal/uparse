@@ -1,0 +1,8 @@
+'BEGIN'
+'COMMENT'  library function maxint ;
+
+	'INTEGER' n;
+	n := maxint;
+	outinteger(1,n); outstring(1,"\n")
+	
+'END'

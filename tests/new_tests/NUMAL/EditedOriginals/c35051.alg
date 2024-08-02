@@ -1,0 +1,16 @@
+'CODE' 35051;
+'PROCEDURE' IBPPLUSN(X,P,Q,NMAX,EPS,I); 'VALUE' X,P,Q,NMAX,EPS;
+'INTEGER' NMAX; 'REAL' X,P,Q,EPS; 'ARRAY' I;
+'BEGIN' 'INTEGER' N;
+
+    'IF' X=0 'OR' X=1 'THEN'
+    'BEGIN' 'FOR' N:= 0 'STEP' 1 'UNTIL' NMAX 'DO' I[N]:= X 'END'
+    'ELSE'
+    'BEGIN' 'IF' X <=.5 'THEN' IXQFIX(X,P,Q,NMAX,EPS,I) 'ELSE'
+        'BEGIN' IXPFIX(1-X,Q,P,NMAX,EPS,I);
+            'FOR' N:= 0 'STEP' 1 'UNTIL' NMAX 'DO' I[N]:= 1-I[N]
+        'END'
+    'END'
+'END' IBPPLUSN
+
+        ;'EOP'

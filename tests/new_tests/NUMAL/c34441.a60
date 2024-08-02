@@ -1,0 +1,93 @@
+c̲o̲d̲e̲ 34441;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSNEWTON(M, N, PAR, RV, JJINV, FUNCT, JACOBIAN,
+  IN, OUT);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N;
+     a̲r̲r̲a̲y̲ PAR, RV, JJINV, IN, OUT;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ JACOBIAN;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, INR, MIT, TEXT,
+     IT, ITMAX, INRMAX, TIM, FEVAL, FEVALMAX;
+   r̲e̲a̲l̲ RHO, RES1, RES2, RN, RELTOLPAR, ABSTOLPAR, ABSTOLRES,
+     STAP, NORMX;
+   b̲o̲o̲l̲e̲a̲n̲ CONV, TESTTHF, DAMPING ON;
+   a̲r̲r̲a̲y̲ JAC[1:M + 1,1:N], PR, AID, SOL[1 : N], FU2[1 : M],
+     AUX[2 : 5];
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ CI[1:N];
+
+   b̲o̲o̲l̲e̲a̲n̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOC FUNCT(M, N, PAR, RV);
+      v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ PAR, RV;
+   b̲e̲g̲i̲n̲ LOC FUNCT:= TEST THF:= FUNCT(M, N, PAR, RV)∧ TEST THF; FEVAL:= FEVAL + 1
+   e̲n̲d̲ LOC FUNCT;
+
+   ITMAX:= FEVALMAX:= IN[5]; AUX[2]:= N × IN[0]; TIM:= IN[7];
+   RELTOLPAR:= IN[1] ⭡ 2; ABSTOLPAR:= IN[2] ⭡ 2;
+   ABSTOLRES:= IN[4] ⭡ 2; INRMAX:= IN[6];
+   DUPVEC(1, N, 0, PR, PAR);
+   i̲f̲ M < N t̲h̲e̲n̲
+     f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ JAC[M + 1, I]:= 0;
+   TEXT:= 4; MIT:= 0; TEST THF:= t̲r̲u̲e̲;
+   RES2:= STAP:= OUT[5]:= OUT[6]:= OUT[7]:= 0;
+   FUNCT(M, N, PAR, FU2); RN:= VECVEC(1, M, 0, FU2, FU2);
+   OUT[3]:= SQRT(RN); FEVAL:= 1; DAMPING ON:= f̲a̲l̲s̲e̲;
+   f̲o̲r̲ IT:= 1, IT + 1 w̲h̲i̲l̲e̲ IT ≤ ITMAX ∧
+     FEVAL < FEVALMAX d̲o̲
+      b̲e̲g̲i̲n̲ OUT[5]:= IT; JACOBIAN(M, N, PAR, FU2, JAC, LOCFUNCT);
+         i̲f̲ ¬ TEST THF t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ TEXT:= 7; g̲o̲t̲o̲ FAIL e̲n̲d̲;
+         LSQORTDEC(JAC, M, N, AUX, AID, CI);
+         i̲f̲ AUX[3] ≠ N t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ TEXT:= 5; g̲o̲t̲o̲ FAIL e̲n̲d̲;
+         LSQSOL(JAC, M, N, AID, CI, FU2); DUPVEC(1, N, 0, SOL, FU2);
+         STAP:= VECVEC(1, N, 0, SOL, SOL);
+         RHO:= 2; NORMX:= VECVEC(1, N, 0, PAR, PAR);
+         i̲f̲ STAP > RELTOLPAR × NORMX + ABSTOLPAR∨ IT = 1 ∧ STAP > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲f̲o̲r̲ INR:= 0, INR + 1
+              w̲h̲i̲l̲e̲i̲f̲ INR = 1 t̲h̲e̲n̲ DAMPING ON ∨ RES2 ≥ RN
+            e̲l̲s̲e̲¬ CONV ∧ (RN ≤ RES1 ∨ RES2 < RES1) d̲o̲
+               b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲ DAMPING STOPS WHEN
+                    R0 > R1 a̲n̲d̲ R1 <= R2 (BEST RESULT IS X1, R1)
+                    WITH  X1 = X0 + I * DX, I:= 1, .5, .25, .125, ETC.  ;
+                  RHO:= RHO / 2; i̲f̲ INR > 0 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ RES1:= RES2; DUPVEC(1, M, 0, RV, FU2);
+                     DAMPING ON:= INR > 1
+                  e̲n̲d̲;
+                  f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       PR[I]:= PAR[I] - SOL[I] × RHO;
+                  FEVAL:= FEVAL + 1;
+                  i̲f̲ ¬ FUNCT(M, N, PR, FU2) t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ TEXT:= 6; g̲o̲t̲o̲ FAIL e̲n̲d̲;
+                  RES2:= VECVEC(1, M, 0, FU2, FU2); CONV:= INR ≥ INRMAX
+               e̲n̲d̲ DAMPING OF STEP VECTOR;
+            i̲f̲ CONV t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲ RESIDUE CONSTANT; MIT:= MIT + 1;
+               i̲f̲ MIT < TIM t̲h̲e̲n̲ CONV:= f̲a̲l̲s̲e̲
+            e̲n̲d̲ e̲l̲s̲e̲ MIT:= 0;
+            i̲f̲ INR > 1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ RHO:= RHO × 2; ELMVEC(1, N, 0, PAR, SOL, - RHO);
+               RN:= RES1; i̲f̲ INR > 2 t̲h̲e̲n̲ OUT[7]:= IT
+            e̲n̲d̲e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ DUPVEC(1, N, 0, PAR, PR); RN:= RES2;
+               DUPVEC(1, M, 0, RV, FU2)
+            e̲n̲d̲;
+
+            i̲f̲ RN ≤ ABSTOLRES t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ TEXT:= 1; ITMAX:= IT e̲n̲d̲e̲l̲s̲e̲
+            i̲f̲ CONV ∧ INRMAX > 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ TEXT:= 3; ITMAX:= IT e̲n̲d̲
+            e̲l̲s̲e̲ DUPVEC(1, M, 0, FU2, RV)
+         e̲n̲d̲ ITERATION WITH DAMPING AND TESTS e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ TEXT:= 2; RHO:= 1; ITMAX:= IT e̲n̲d̲
+      e̲n̲d̲ OF ITERATIONS;
+
+   LSQINV(JAC, N, AID, CI);
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ JJINV[I,I]:= JAC[I,I];
+         f̲o̲r̲ J:= I + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              JJINV[I,J]:= JJINV[J,I]:= JAC[I,J]
+      e̲n̲d̲ CALCULATION OF INVERSE MATRIX OF NORMAL EQUATIONS;
+   FAIL :
+   OUT[6]:= SQRT(STAP) × RHO; OUT[2]:= SQRT(RN); OUT[4]:= FEVAL;
+   OUT[1]:= TEXT; OUT[8]:= AUX[3]; OUT[9]:= AUX[5]
+e̲n̲d̲ GSSNEWTON;
+e̲o̲p̲

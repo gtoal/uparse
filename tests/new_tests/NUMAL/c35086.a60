@@ -1,0 +1,66 @@
+c̲o̲d̲e̲ 35086;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ENX(X, N1, N2, A);
+   v̲a̲l̲u̲e̲ X, N1, N2;
+   r̲e̲a̲l̲ X; i̲n̲t̲e̲g̲e̲r̲ N1, N2; a̲r̲r̲a̲y̲ A;
+   i̲f̲ X≤ 1·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      r̲e̲a̲l̲ W, E; i̲n̲t̲e̲g̲e̲r̲ I;
+      W:= -EI(-X);
+      i̲f̲ N1=1 t̲h̲e̲n̲ A[1]:=W;
+      i̲f̲ N2>1 t̲h̲e̲n̲ E:= EXP(-X);
+      f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+         b̲e̲g̲i̲n̲
+            W:= (E - X × W)/(I - 1);
+            i̲f̲ I≥ N1 t̲h̲e̲n̲ A[I]:=W
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, N; r̲e̲a̲l̲ W, E, AN;
+      N:=ENTIER(X+·5);
+      i̲f̲ N≤10 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ F, W1, T, H;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ P[2:19];
+         P[ 2]:=·37534261820491@-1; P[11]:=·135335283236613   ;
+         P[ 3]:=·89306465560228@-2; P[12]:=·497870683678639@-1;
+         P[ 4]:=·24233983686581@-2; P[13]:=·183156388887342@-1;
+         P[ 5]:=·70576069342458@-3; P[14]:=·673794699908547@-2;
+         P[ 6]:=·21480277819013@-3; P[15]:=·247875217666636@-2;
+         P[ 7]:=·67375807781018@-4; P[16]:=·911881965554516@-3;
+         P[ 8]:=·21600730159975@-4; P[17]:=·335462627902512@-3;
+         P[ 9]:=·70411579854292@-5; P[18]:=·123409804086680@-3;
+         P[10]:=·23253026570282@-5; P[19]:=·453999297624848@-4;
+         F:= W:= P[N];
+         E:= P[N+9];
+         W1:= T:= 1;
+         H:= X-N;
+         f̲o̲r̲ I:=N-1, I-1 w̲h̲i̲l̲e̲ ABS(W1)>@-15 × W d̲o̲
+            b̲e̲g̲i̲n̲
+               F:= (E - I × F)/N;
+               T:= -H × T / (N-I);
+               W1:= T × F; W:= W + W1
+            e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         a̲r̲r̲a̲y̲ B[N:N];
+         NONEXPENX(X, N, N, B);
+         W:= B[N] × EXP(-X)
+      e̲n̲d̲;
+      i̲f̲ N1=N2 ∧ N1=N t̲h̲e̲n̲ A[N]:=W e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         E:= EXP(-X);
+         AN:=W;
+         i̲f̲ N≤N2 ∧ N≥N1 t̲h̲e̲n̲ A[N]:=W;
+         f̲o̲r̲ I:= N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ N1 d̲o̲
+            b̲e̲g̲i̲n̲
+               W:= (E - I × W)/X;
+               i̲f̲ I≤ N2 t̲h̲e̲n̲ A[I]:= W
+            e̲n̲d̲;
+         W:=AN;
+         f̲o̲r̲ I:=N+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+            b̲e̲g̲i̲n̲
+               W:= (E - X × W)/(I - 1);
+               i̲f̲ I≥N1 t̲h̲e̲n̲ A[I]:=W
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ ENX;
+
+e̲o̲p̲

@@ -1,0 +1,14 @@
+'BEGIN'
+'COMMENT' visibility of outside variables;
+	'INTEGER' nn;
+	
+	'PROCEDURE' test;
+	'BEGIN'
+		nn := nn+2
+	'END';
+		
+	nn := 2;
+	test;
+	outinteger ( 1 ,nn)
+	
+'END'

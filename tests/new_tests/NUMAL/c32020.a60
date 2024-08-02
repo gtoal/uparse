@@ -1,0 +1,65 @@
+c̲o̲d̲e̲ 32020;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUMPOSSERIES(AI, I, MAXADDUP, MAXZERO,MAXRECURS,
+  MACHEXP, TIM);
+   v̲a̲l̲u̲e̲ MAXADDUP, MAXZERO, MAXRECURS, MACHEXP, TIM;
+   r̲e̲a̲l̲ AI, I, MAXZERO; i̲n̲t̲e̲g̲e̲r̲ MAXADDUP, MAXRECURS, MACHEXP, TIM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ RECURS, VL, VL2, VL4;
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUMUP(AI, I); r̲e̲a̲l̲ AI, I;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ SUM, NEXTTERM;
+      I:= MAXADDUP + 1; J:= 1;
+      CHECK ADD: i̲f̲ AI ≤ MAXZERO t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲i̲f̲ J < TIM t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ J:= J + 1; I:= I + 1; g̲o̲t̲o̲ CHECK ADD e̲n̲d̲
+      e̲n̲d̲e̲l̲s̲e̲
+      i̲f̲ RECURS ≠ MAXRECURS t̲h̲e̲n̲g̲o̲t̲o̲ TRANSFORMSERIES;
+      SUM:= 0; I:= 0; J:= 0;
+      ADD LOOP: I:= I + 1; NEXTTERM:= AI;
+      J:= i̲f̲ NEXTTERM ≤ MAXZERO t̲h̲e̲n̲ J + 1 e̲l̲s̲e̲ 0;
+      SUM:= SUM + NEXTTERM;
+      i̲f̲ J < TIM t̲h̲e̲n̲g̲o̲t̲o̲ ADD LOOP;
+      SUMUP:= SUM; g̲o̲t̲o̲ GOTSUM;
+      TRANSFORMSERIES:
+      b̲e̲g̲i̲n̲b̲o̲o̲l̲e̲a̲n̲ JODD; i̲n̲t̲e̲g̲e̲r̲ J2; a̲r̲r̲a̲y̲ V[1:VL];
+
+         r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ BJK(J, K); v̲a̲l̲u̲e̲ J, K; r̲e̲a̲l̲ K;
+              i̲n̲t̲e̲g̲e̲r̲ J;
+         b̲e̲g̲i̲n̲r̲e̲a̲l̲ COEFF;
+            i̲f̲ K > MACHEXP t̲h̲e̲n̲ BJK:= 0 e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ COEFF:= 2 ⭡ (K - 1); I:= J × COEFF;
+               BJK:= COEFF × AI
+            e̲n̲d̲
+         e̲n̲d̲ BJK;
+         r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ VJ(J); v̲a̲l̲u̲e̲ J; i̲n̲t̲e̲g̲e̲r̲ J;
+         b̲e̲g̲i̲n̲r̲e̲a̲l̲ TEMP, K;
+            i̲f̲ JODD t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ JODD:= f̲a̲l̲s̲e̲; RECURS:= RECURS + 1;
+               TEMP:= VJ:= SUMUP(BJK(J, K), K);
+               RECURS:= RECURS - 1;
+               i̲f̲ J ≤ VL t̲h̲e̲n̲ V[J]:= TEMP e̲l̲s̲e̲
+               i̲f̲ J ≤ VL2 t̲h̲e̲n̲ V[J - VL]:= TEMP
+            e̲n̲d̲e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ JODD:= t̲r̲u̲e̲; i̲f̲ J > VL4 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ RECURS:= RECURS + 1;
+                  VJ:= - SUMUP(BJK(J, K), K); RECURS:= RECURS - 1
+               e̲n̲d̲e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ J2:= J2 + 1; I:= J2;
+                  i̲f̲ J > VL2 t̲h̲e̲n̲ VJ:= - (V[J2 - VL] - AI) / 2
+                  e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲ TEMP:= V[i̲f̲ J ≤ VL t̲h̲e̲n̲ J e̲l̲s̲e̲
+                       J - VL]:= (V[J2] - AI) / 2; VJ:= - TEMP
+                  e̲n̲d̲
+               e̲n̲d̲
+            e̲n̲d̲
+         e̲n̲d̲ VJ;
+
+         J2:= 0;
+         JODD:= t̲r̲u̲e̲; SUMUP:= EULER(VJ(J + 1), J, MAXZERO, TIM)
+      e̲n̲d̲ TRANSFORMSERIES;
+      GOTSUM:
+   e̲n̲d̲ SUMUP;
+
+   RECURS:= 0; VL:= 1000; VL2:= 2 × VL; VL4:= 2 × VL2;
+   SUMPOSSERIES:= SUMUP(AI, I)
+e̲n̲d̲ SUMPOSSERIES;
+e̲o̲p̲

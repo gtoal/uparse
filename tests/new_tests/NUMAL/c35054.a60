@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 35054;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ IXPFIX(X,P,Q,NMAX,EPS,I); v̲a̲l̲u̲e̲ X,P,Q,NMAX,EPS;
+   r̲e̲a̲l̲ X,P,Q,EPS; i̲n̲t̲e̲g̲e̲r̲ NMAX; a̲r̲r̲a̲y̲ I;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,MMAX; r̲e̲a̲l̲ S,P0,I0,I1,IQ0,IQ1;
+
+   M:= ENTIER(P); S:= P-M; P0:= i̲f̲ S>0 t̲h̲e̲n̲ S e̲l̲s̲e̲ S+1;
+   MMAX:= i̲f̲ S>0 t̲h̲e̲n̲ M e̲l̲s̲e̲ M-1;
+   I0:= INCBETA(X,P0,Q,EPS);
+   I1:= INCBETA(X,P0,Q+1,EPS);
+   b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ IP[0:MMAX];
+      BACKWARD(X,P0,Q,I0,MMAX,EPS,IP); IQ0:= IP[MMAX];
+      BACKWARD(X,P0,Q+1,I1,MMAX,EPS,IP); IQ1:= IP[MMAX]
+   e̲n̲d̲;
+   FORWARD(X,P,Q,IQ0,IQ1,NMAX,I)
+e̲n̲d̲ IXPFIX;
+e̲o̲p̲

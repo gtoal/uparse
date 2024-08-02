@@ -1,0 +1,195 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+<u>begin</u>
+   <u>comment</u>
+
+   Time, N=21: 60.49s
+   ;
+   <u>procedure</u> INVERT2(n, a, eps, ERROR);
+   <u>value</u> n, eps;
+   <u>integer</u> n;
+   <u>real</u> eps;
+   <u>array</u> a;
+   <u>label</u> ERROR;
+   <u>begin</u>
+      <u>integer</u> i, j, k;
+      <u>real</u> pivot, z;
+      <u>integer</u> <u>array</u> p, q[1:n];
+      <u>array</u> b, c[1:n];
+      <u>for</u> k ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+      <u>begin</u>
+         pivot ≔  0;
+         <u>for</u> i ≔  k <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>for</u> j ≔  k <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>if</u> abs(a[i,j]) &gt; abs(pivot) <u>then</u>
+         <u>begin</u>
+            pivot ≔  a[i,j];
+            p[k] ≔  i;
+            q[k] ≔  j
+         <u>end</u>;
+         <u>if</u> abs(pivot) &LessSlantEqual; eps <u>then</u> <u>go</u>_<u>to</u> ERROR;
+         <u>if</u> p[k] ≠ k <u>then</u>
+         <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            z ≔  a[p[k], j];
+            a[p[k], j] ≔  a[k,j];
+            a[k,j] ≔  z
+         <u>end</u> for j;
+         <u>if</u> q[k] ≠ k <u>then</u>
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            z ≔  a[i, q[k]];
+            a[i, q[k]] ≔  a[i,k];
+            a[i,k] ≔  z
+         <u>end</u> for i;
+         <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            <u>if</u> j = k <u>then</u>
+            <u>begin</u>
+               b[j] ≔  1/pivot;
+               c[j] ≔  1
+            <u>end</u>
+            <u>else</u>
+            <u>begin</u>
+               b[j] ≔  − a[k,j]/pivot;
+               c[j] ≔  a[j,k]
+            <u>end</u>;
+            a[k,j] ≔  a[j,k] ≔  0
+         <u>end</u> for j;
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         a[i,j] ≔  a[i,j] + c[i]×b[j]
+      <u>end</u> for k;
+      <u>for</u> k ≔  n <u>step</u> −1 <u>until</u> 1 <u>do</u>
+      <u>begin</u>
+         <u>if</u> p[k] ≠ k <u>then</u>
+         <u>for</u> i ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            z ≔  a[i, p[k]];
+            a[i, p[k]] ≔  a[i,k];
+            a[i,k] ≔  z
+         <u>end</u>;
+         <u>if</u> q[k] ≠ k <u>then</u>
+         <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+         <u>begin</u>
+            z ≔  a[q[k], j];
+            a[q[k], j] ≔  a[k,j];
+            a[k,j] ≔  z
+         <u>end</u> j
+      <u>end</u> k
+   <u>end</u> INVERT2;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>begin</u>
+      <u>real</u> clock;
+      <u>boolean</u> code;
+      <u>comment</u>
+      Pack the following instruction into code:
+
+      zl,  hr s1
+      62   17
+      ;
+      pack(code,
+            0, 41,  0,
+            0,  9,  0,
+           10, 19,  1,
+           20, 25, 62,
+           30, 35, 17,
+           39, 39,  1,
+           40, 40,  1);
+      clock count ≔ gier(code)
+   <u>end</u>;
+   <u>integer</u> Nmin,Nmax;
+   <u>integer</u> oldrand,N,mod,new;
+   Nmin ≔  19;
+   Nmax ≔  21;
+   mod ≔  2796203;
+   writecr;
+   writetext(«oldrand: »);
+   oldrand ≔ typein;
+   <u>begin</u>
+      <u>real</u> time,maxerror,det;
+      <u>array</u> xy[Nmin:Nmax,1:2];
+
+      <u>for</u> N ≔ Nmin <u>step</u> 1 <u>until</u> Nmax <u>do</u>
+      <u>begin</u>
+         <u>array</u> A[1:N,1:N];
+         <u>integer</u> i,j;
+         <u>real</u> sum;
+         writecr;
+         write(«dd»,N);
+         <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+         <u>begin</u>
+            sum ≔ 0;
+            <u>for</u> j ≔ 1 <u>step</u> 1 <u>until</u> N <u>do</u>
+            <u>begin</u>
+               new ≔  125×oldrand;
+               oldrand ≔  new−new÷mod×mod;
+               A[i,j] ≔  oldrand/mod−0.5;
+            <u>end</u> <u>for</u>;
+         <u>end</u>;
+         clock count;
+         INVERT2(N, A, 1&#9192;−12, ERROR);
+         <u>goto</u> OK;
+ERROR:   writetext(«Error.»);
+OK:      xy[N,2] ≔ clock count;
+         xy[N,1] ≔ N;
+         write(«dddddd.dd»,xy[N,2]);
+      <u>end</u> for N;
+      <u>begin</u>
+         <u>procedure</u> FIT1(n, meanerror, a, b, x, y);
+         <u>value</u> n;
+         <u>integer</u> n;
+         <u>real</u> meanerror, a, b;
+         <u>array</u> x, y;
+         <u>begin</u>
+            <u>integer</u> j;
+            <u>real</u> SX, SX2, SY, SXY, SY2, DEN;
+            SX ≔  SX2 ≔  SY ≔  SXY ≔  SY2 ≔  0;
+            <u>for</u> j ≔  1 <u>step</u> 1 <u>until</u> n <u>do</u>
+            <u>begin</u>
+               SX ≔  SX + x[j];
+               SX2 ≔  SX2 + x[j]⭡2;
+               SY ≔  SY + y[j];
+               SXY ≔  SXY + x[j]×y[j];
+               SY2 ≔  SY2 + y[j]⭡2
+            <u>end</u>;
+            DEN ≔  n×SX2 − SX⭡2;
+            a ≔  (SX2×SY−SX×SXY)/DEN;
+            b ≔  (n×SXY−SX×SY)/DEN;
+            meanerror ≔  sqrt((SY2+(2×SX×SY×SXY−n×SXY⭡2−SX2×SY⭡2)/DEN)/(n−1))
+         <u>end</u> of FIT−1;
+         <u>array</u> X,Y[1:Nmax−Nmin+1];
+         <u>real</u> a,b,meanerror,x1,y1,e1,meanerror2;
+         <u>integer</u> i;
+         <u>for</u> i ≔ Nmax−Nmin+1 <u>step</u> −1 <u>until</u> 1 <u>do</u>
+         <u>begin</u>
+            X[i] ≔ ln(xy[i+Nmin−1,1]);
+            Y[i] ≔ ln(xy[i+Nmin−1,2])
+         <u>end</u>;
+         FIT1(Nmax−Nmin+1, meanerror, a, b, X, Y);
+         writecr;
+         write(«−nddddd.dddddd»,meanerror,a,b);
+         writecr;
+         writetext(«Time: »);
+         write(«−n.ddd&#9192;−d»,exp(a));
+         writetext(«×n⭡»);
+         write(«n.ddd»,b);
+         <u>if</u> <u>false</u> <u>then</u>
+         <u>begin</u>
+            <u>for</u> i ≔ Nmin <u>step</u> 1 <u>until</u> Nmax <u>do</u>
+            <u>begin</u>
+               x1 ≔  xy[i,1];
+               y1 ≔  exp(a)×x1⭡b;
+               e1 ≔  y1−xy[i,2];
+               writecr;
+               write(«ndd»,x1);
+               write(«−nddddd.ddd»,xy[i,2],y1,e1);
+               meanerror2 ≔ meanerror2+e1×e1
+            <u>end</u>;
+            writecr;
+            write(«−nddddd.ddd»,sqrt(meanerror2/(Nmax−Nmin)))
+         <u>end</u>
+      <u>end</u> fit
+   <u>end</u> Nmin max
+<u>end</u>;
+</pre></body></html>

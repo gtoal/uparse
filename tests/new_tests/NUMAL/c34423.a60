@@ -1,0 +1,29 @@
+c̲o̲d̲e̲ 34423;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECTRI(SUB, DIAG, SUPER, N, AUX);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ SUB, DIAG, SUPER, AUX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, N1;
+   r̲e̲a̲l̲ D, R, S, U, NORM, NORM1, TOL;
+   TOL:= AUX[2]; D:= DIAG[1]; R:= SUPER[1];
+   NORM:= NORM1:= ABS(D) + ABS(R);
+   i̲f̲ ABS(D) ≤ NORM1 × TOL t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ AUX[3]:= 0; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+   U:= SUPER[1]:= R / D; S:= SUB[1]; N1:= N - 1;
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+      b̲e̲g̲i̲n̲ D:= DIAG[I]; R:= SUPER[I];
+         NORM1:= ABS(S) + ABS(D) + ABS(R);
+         D:= DIAG[I]:= D - U × S;
+         i̲f̲ ABS(D) ≤ NORM1 × TOL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ AUX[3]:= I - 1; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+         U:= SUPER[I]:= R / D; S:= SUB[I];
+         i̲f̲ NORM1 > NORM t̲h̲e̲n̲ NORM:= NORM1
+      e̲n̲d̲;
+   D:= DIAG[N]; NORM1:= ABS(D) + ABS(S);
+   D:= DIAG[N]:= D - U × S;
+   i̲f̲ ABS(D) ≤ NORM1 × TOL t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ AUX[3]:= N1; AUX[5]:= D; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+   i̲f̲ NORM1 > NORM t̲h̲e̲n̲ NORM:= NORM1;
+   AUX[3]:= N; AUX[5]:= NORM;
+   EXIT:
+e̲n̲d̲ DECTRI
+
+;e̲o̲p̲

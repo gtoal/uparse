@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34313;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLDETERM1(A, N); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, KK; r̲e̲a̲l̲ D;
+   D:= 1; KK:= 0;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK + K; D:= A[KK] × D e̲n̲d̲;
+   CHLDETERM1:= D × D
+e̲n̲d̲ CHLDETERM1;
+e̲o̲p̲

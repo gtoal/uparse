@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT': if inside if using begin...end;
+
+	'INTEGER' n, m;
+	ininteger(0,n);
+	'IF' n < 0 'THEN' 
+	'BEGIN'
+		'IF' n>= -100	'THEN' m := -n 'ELSE' m := -100
+	'END'
+	'ELSE' m := 0; 
+	outinteger(1, m); outstring(1,"\n")
+'END'

@@ -1,0 +1,15 @@
+'BEGIN'
+'COMMENT' passing parameter by value;
+	'INTEGER' n, nn;
+	
+	'COMMENT' by value;
+	'PROCEDURE' proc1(m); 'VALUE' m; 'INTEGER' m;
+	'BEGIN'
+		m := m+1
+	'END';
+		
+	n := 1;
+	proc1(n);
+	outinteger( 1 , n)
+	
+'END'

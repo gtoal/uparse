@@ -1,0 +1,21 @@
+'BEGIN'
+'COMMENT' biconditional operation;
+	'BOOLEAN' ba, bb, br;
+	'INTEGER' i, j;
+	
+	'PROCEDURE' outboolean(channel, b); 'INTEGER' channel; 'BOOLEAN' b;
+	'BEGIN'
+		'IF' b 'THEN' outstring (channel, "true  ") 'ELSE' outstring (channel, "false ")
+	'END';
+	
+	'FOR' i := 0 , 1 'DO'
+	'BEGIN'
+		'IF' i=1 'THEN' ba := 'TRUE' 'ELSE' ba := 'FALSE' ;
+		'FOR' j := 0 , 1 'DO'
+		'BEGIN'
+			'IF' j=1 'THEN' bb := 'TRUE' 'ELSE' bb := 'FALSE' ;
+			br := ba == bb ;
+			outboolean(1, ba); outboolean(1, bb);outboolean(1, br); outstring (1, "\n")
+		'END'
+	'END'
+'END'

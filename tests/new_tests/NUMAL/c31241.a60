@@ -1,0 +1,19 @@
+c̲o̲d̲e̲ 31241;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ TAYPOL(N,K,X,A);
+   v̲a̲l̲u̲e̲ N,K,X;
+   i̲n̲t̲e̲g̲e̲r̲ N,K;r̲e̲a̲l̲ X;a̲r̲r̲a̲y̲ A;
+   i̲f̲ X≠ 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,J,NM1;
+      r̲e̲a̲l̲ XJ,AA,H;
+      XJ:=1;
+      f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ XJ:=XJ×X;A[J]:=A[J]×XJ e̲n̲d̲;
+      AA:=A[N];NM1:=N-1;
+      f̲o̲r̲ J:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+         b̲e̲g̲i̲n̲ H:=AA;
+            f̲o̲r̲ I:= NM1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ J d̲o̲
+                 H:= A[ I]:=A[I]+H
+         e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+     f̲o̲r̲ K:= K s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ A[K]:=0;
+e̲o̲p̲

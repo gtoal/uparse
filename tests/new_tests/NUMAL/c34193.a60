@@ -1,0 +1,32 @@
+c̲o̲d̲e̲ 34193;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2423;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMSCL(A, N, N1, N2, IM); v̲a̲l̲u̲e̲ N, N1, N2;
+   i̲n̲t̲e̲g̲e̲r̲ N, N1, N2; a̲r̲r̲a̲y̲ A, IM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K;
+   r̲e̲a̲l̲ S, U, V, W;
+
+   f̲o̲r̲ J:= N1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N2 d̲o̲
+      b̲e̲g̲i̲n̲ S:= 0; i̲f̲ IM[J] ≠ 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ U:= A[I,J] ⭡ 2 + A[I,J + 1] ⭡ 2;
+                  i̲f̲ U > S t̲h̲e̲n̲ b̲e̲g̲i̲n̲ S:= U; K:= I e̲n̲d̲
+               e̲n̲d̲;
+            i̲f̲ S ≠ 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ V:= A[K,J] / S; W:= - A[K,J + 1] / S;
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ U:= A[I,J]; S:= A[I,J + 1];
+                     A[I,J]:= U × V - S × W;
+                     A[I,J + 1]:= U × W + S × V
+                  e̲n̲d̲
+            e̲n̲d̲;
+            J:= J + 1
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 i̲f̲ ABS(A[I,J]) > ABS(S) t̲h̲e̲n̲ S:= A[I,J];
+            i̲f̲ S ≠ 0 t̲h̲e̲n̲
+              f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ A[I,J]:= A[I,J] / S
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ COMSCL;
+e̲o̲p̲

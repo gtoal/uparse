@@ -1,0 +1,10 @@
+'CODE' 34287;
+'INTEGER' 'PROCEDURE' PSDINV(A, M, N, EM);
+'VALUE' M, N; 'INTEGER' M, N; 'ARRAY' A, EM;
+'BEGIN' 'INTEGER' I;
+    'ARRAY' VAL[1:N], V[1:N,1:N];
+
+    PSDINV:= I:= QRISNGVALDEC(A, M, N, VAL, V, EM);
+    'IF' I = 0 'THEN' PSDINVSVD(A, VAL, V, M, N, EM)
+'END' PSDINV;
+        'EOP'

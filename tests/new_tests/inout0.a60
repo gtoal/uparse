@@ -1,0 +1,9 @@
+'BEGIN'
+	'COMMENT': FILE_3 creation with output of integer vector;
+	'INTEGER' n, i;	
+	n := 123;
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		outinteger ( 3 , i)
+	'END'
+'END'

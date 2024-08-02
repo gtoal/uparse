@@ -1,0 +1,14 @@
+'BEGIN'
+'COMMENT' variable declarations must be before procedures definitions!;
+	'BOOLEAN' b;
+	
+	'PROCEDURE' outBoolean(x); 'BOOLEAN' x;
+	'BEGIN'
+		'IF' x 'THEN' outstring(1, "true ") 'ELSE' outstring(1, "false ")
+	'END';
+	
+	b := 'FALSE';
+	outBoolean(b);
+	b := 'TRUE';
+	outBoolean(b)
+'END'

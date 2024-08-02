@@ -1,0 +1,14 @@
+'BEGIN'
+	'INTEGER' n, nn;
+	
+	'INTEGER' 'PROCEDURE' sqr(m);
+	'VALUE' m; 'INTEGER' m;
+	'BEGIN'
+		sqr := m * m
+	'END';
+		
+	n := 123;
+	nn := sqr(n);
+	outinteger (1,nn)
+	
+'END'

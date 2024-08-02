@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 34187;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2417;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAEIG3(A, N, EM, VAL, VEC); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, VAL, VEC;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I; r̲e̲a̲l̲ S;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ INT, INT0[1:N]; a̲r̲r̲a̲y̲ D[1:N];
+
+   EQILBR(A, N, EM, D, INT0); TFMREAHES(A, N, EM, INT);
+   I:= REAEIG3:= REAQRI(A, N, EM, VAL, VEC);
+   i̲f̲ I = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ BAKREAHES2(A, N, 1, N, INT, VEC);
+      BAKLBR(N, 1, N, D, INT0, VEC); REASCL(VEC, N, 1, N)
+   e̲n̲d̲
+e̲n̲d̲ REAEIG3;
+e̲o̲p̲

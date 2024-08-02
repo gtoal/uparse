@@ -1,0 +1,5 @@
+c̲o̲d̲e̲ 31131;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COLCST(L, U, J, A, X); v̲a̲l̲u̲e̲ L,U,J,X;
+   i̲n̲t̲e̲g̲e̲r̲ L,U,J; r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ A;
+   f̲o̲r̲ L:= L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲ A[L,J]:= A[L,J] × X;
+e̲o̲p̲

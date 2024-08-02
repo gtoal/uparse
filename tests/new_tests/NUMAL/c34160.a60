@@ -1,0 +1,53 @@
+c̲o̲d̲e̲ 34160;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRIVALSYMTRI(D, BB, N, EM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ D, BB, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, I1, LOW, OLDLOW, N1, COUNT, MAX;
+   r̲e̲a̲l̲ BBTOL, BBMAX, BBI, BBN1, MACHTOL, DN, DELTA, F, NUM,
+     SHIFT, G, H, T, P, R, S, C, OLDG;
+   BBTOL:= (EM[2] × EM[1]) ⭡ 2; MACHTOL:= EM[0] × EM[1];
+   MAX:= EM[4]; BBMAX:= 0; COUNT:= 0; OLDLOW:= N;
+   f̲o̲r̲ N1:= N - 1 w̲h̲i̲l̲e̲ N > 0 d̲o̲
+      b̲e̲g̲i̲n̲
+         f̲o̲r̲ I:= N, I - 1 w̲h̲i̲l̲e̲ (i̲f̲ I ≥ 1 t̲h̲e̲n̲
+           BB[I] > BBTOL e̲l̲s̲e̲ f̲a̲l̲s̲e̲) d̲o̲ LOW:= I;
+         i̲f̲ LOW > 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ i̲f̲ BB[LOW-1] > BBMAX t̲h̲e̲n̲
+              BBMAX:= BB[LOW-1] e̲n̲d̲;
+         i̲f̲ LOW = N t̲h̲e̲n̲ N:= N1 e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ DN:= D[N]; DELTA:= D[N1] - DN;
+            BBN1:= BB[N1];
+            i̲f̲ ABS(DELTA) < MACHTOL t̲h̲e̲n̲ R:= SQRT(BBN1) e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲
+               F:= 2 / DELTA; NUM:= BBN1 × F;
+               R:= -NUM / (SQRT(NUM × F + 1) + 1)
+            e̲n̲d̲;
+            i̲f̲ LOW = N1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ D[N]:= DN + R; D[N1]:= D[N1] - R; N:= N - 2
+            e̲n̲d̲
+            e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ COUNT:= COUNT + 1;
+               i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+               i̲f̲ LOW < OLDLOW t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ SHIFT:= 0; OLDLOW:= LOW e̲n̲d̲
+               e̲l̲s̲e̲  SHIFT:= DN + R;
+               H:= D[LOW] - SHIFT;
+               i̲f̲ ABS(H) < MACHTOL t̲h̲e̲n̲ H:= i̲f̲ H ≤ 0 t̲h̲e̲n̲-MACHTOL e̲l̲s̲e̲ MACHTOL;
+               G:= H; T:= G × H;
+               BBI:= BB[LOW]; P:= T + BBI; I1:= LOW;
+               f̲o̲r̲ I:= LOW + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ S:= BBI / P; C:= T / P;
+                     H:= D[I] - SHIFT - BBI / H;
+                     i̲f̲ ABS(H) < MACHTOL t̲h̲e̲n̲ H:= i̲f̲ H ≤ 0
+                       t̲h̲e̲n̲ -MACHTOL e̲l̲s̲e̲ MACHTOL;
+                     OLDG:= G; G:= H × C; T:= G × H;
+                     D[I1]:= OLDG - G + D[I];
+                     BBI:= i̲f̲ I = N t̲h̲e̲n̲ 0 e̲l̲s̲e̲ BB[I];
+                     P:= T + BBI; BB[I1]:= S × P; I1:= I
+                  e̲n̲d̲;
+               D[N]:= G + SHIFT
+            e̲n̲d̲ QRSTEP
+         e̲n̲d̲
+      e̲n̲d̲;
+   END: EM[3]:= SQRT(BBMAX); EM[5]:= COUNT; QRIVALSYMTRI:= N
+e̲n̲d̲ QRIVALSYMTRI
+
+;e̲o̲p̲

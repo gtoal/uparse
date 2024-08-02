@@ -1,0 +1,82 @@
+c̲o̲d̲e̲ 34191;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2421;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMVECHES(A, N, LAMBDA, MU, EM, U, V);
+   v̲a̲l̲u̲e̲ N, LAMBDA, MU;
+   i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ LAMBDA, MU; a̲r̲r̲a̲y̲ A, EM, U, V;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, I1, J, COUNT, MAX;
+   r̲e̲a̲l̲ AA, BB, D, M, R, S, W, X, Y, NORM, MACHTOL, TOL;
+   a̲r̲r̲a̲y̲ G, F[1:N];
+   b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ P[1:N];
+
+   NORM:= EM[1]; MACHTOL:= EM[0] × NORM; TOL:= EM[6] × NORM;
+   MAX:= EM[8];
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ F[I - 1]:= A[I,I - 1]; A[I,1]:= 0 e̲n̲d̲;
+   AA:= A[1,1] - LAMBDA; BB:= -MU;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1; M:= F[I];
+         i̲f̲ ABS(M) < MACHTOL t̲h̲e̲n̲ M:= MACHTOL;
+         A[I,I]:= M; D:= AA ⭡ 2 + BB ⭡ 2; P[I]:= ABS(M) < SQRT(D);
+         i̲f̲ P[I] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ A[I,J] * FACTOR AND A[I1,J] - A[I,J];
+            F[I]:= R:= M × AA / D; G[I]:= S:= -M × BB / D;
+            W:= A[I1,I]; X:= A[I,I1]; A[I1,I]:= Y:= X × S + W × R;
+            A[I,I1]:= X:= X × R - W × S;
+            AA:= A[I1,I1] - LAMBDA - X; BB:= -(MU + Y);
+            f̲o̲r̲ J:= I + 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ W:= A[J,I]; X:= A[I,J];
+                  A[J,I]:= Y:= X × S + W × R;
+                  A[I,J]:= X:= X × R - W × S; A[J,I1]:= -Y;
+                  A[I1,J]:= A[I1,J] - X
+               e̲n̲d̲
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ INTERCHANGE A[I1,J] AND
+              A[I,J] - A[I1,J] * FACTOR;
+            F[I]:= R:= AA / M; G[I]:= S:= BB / M;
+            W:= A[I1,I1] - LAMBDA; AA:= A[I,I1] - R × W - S × MU;
+            A[I,I1]:= W; BB:= A[I1,I] - S × W + R × MU;
+            A[I1,I]:= -MU;
+            f̲o̲r̲ J:= I + 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ W:= A[I1,J]; A[I1,J]:= A[I,J] - R × W;
+                  A[I,J]:= W;
+                  A[J,I1]:= A[J,I] - S × W; A[J,I]:= 0
+               e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲
+        P[N]:= t̲r̲u̲e̲; D:= AA ⭡ 2 + BB ⭡ 2; i̲f̲ D < MACHTOL ⭡ 2
+     t̲h̲e̲n̲ b̲e̲g̲i̲n̲ AA:= MACHTOL; BB:= 0; D:= MACHTOL ⭡ 2 e̲n̲d̲;
+   A[N,N]:= D; F[N]:= AA; G[N]:= -BB;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ U[I]:= 1; V[I]:= 0 e̲n̲d̲;
+   COUNT:= 0;
+   FORWARD: i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ OUTM;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ P[I] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= V[I]; V[I]:= G[I] × U[I] + F[I] × W;
+            U[I]:= F[I] × U[I] - G[I] × W; i̲f̲ I < N t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ V[I + 1]:= V[I + 1] - V[I];
+               U[I + 1]:= U[I + 1] - U[I]
+            e̲n̲d̲
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ AA:= U[I + 1]; BB:= V[I + 1];
+            U[I + 1]:= U[I] - (F[I] × AA - G[I] × BB); U[I]:= AA;
+            V[I + 1]:= V[I] - (G[I] × AA + F[I] × BB); V[I]:= BB
+         e̲n̲d̲
+      e̲n̲d̲ FORWARD;
+   BACKWARD: f̲o̲r̲ I:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1;
+         U[I]:= (U[I] - MATVEC(I1, N, I, A, U) + (i̲f̲ P[I] t̲h̲e̲n̲
+           TAMVEC(I1, N, I, A, V) e̲l̲s̲e̲ A[I1,I] × V[I1])) / A[I,I];
+         V[I]:= (V[I] - MATVEC(I1, N, I, A, V) - (i̲f̲ P[I] t̲h̲e̲n̲
+           TAMVEC(I1, N, I, A, U) e̲l̲s̲e̲ A[I1,I] × U[I1])) / A[I,I]
+      e̲n̲d̲ BACKWARD;
+   NORMALISE: W:= 1 / SQRT(VECVEC(1, N, 0, U, U) +
+     VECVEC(1, N, 0, V, V));
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ U[J]:= U[J] × W; V[J]:= V[J] × W e̲n̲d̲;
+   COUNT:= COUNT + 1; i̲f̲ W > TOL t̲h̲e̲n̲ g̲o̲t̲o̲ FORWARD;
+   OUTM: EM[7]:= W; EM[9]:= COUNT
+e̲n̲d̲ COMVECHES;
+e̲o̲p̲

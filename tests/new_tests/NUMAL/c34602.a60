@@ -1,0 +1,17 @@
+c̲o̲d̲e̲ 34602;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHDECMUL(N,A,B,DWARF);v̲a̲l̲u̲e̲N,DWARF;i̲n̲t̲e̲g̲e̲r̲N;
+     r̲e̲a̲l̲ DWARF;a̲r̲r̲a̲y̲ A,B;
+b̲e̲g̲i̲n̲  a̲r̲r̲a̲y̲ V[1:N];i̲n̲t̲e̲g̲e̲r̲ J,K,K1,N1;r̲e̲a̲l̲ R,T,C;
+   K:=1;N1:=N+1;
+   f̲o̲r̲ K1:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+      b̲e̲g̲i̲n̲ R:=TAMMAT(K1,N,K,K,B,B);
+         i̲f̲ R>DWARF t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ R:=i̲f̲ B[K,K]<0 t̲h̲e̲n̲ -SQRT(R+B[K,K]×B[K,K])
+            e̲l̲s̲e̲ SQRT(R+B[K,K]×B[K,K]);T:=B[K,K]+R;C:=-T/R;
+            B[K,K]:=-R;V[K]:=1;
+            f̲o̲r̲ J:=K1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ V[J]:=B[J,K]/T;
+            HSHVECMAT(K,N,K1,N,C,V,B);HSHVECMAT(K,N,1,N,C,V,A)
+         e̲n̲d̲;K:=K1
+      e̲n̲d̲
+e̲n̲d̲ HSHDECMUL;
+e̲o̲p̲

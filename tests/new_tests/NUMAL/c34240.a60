@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34240;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ONENRMINV(A, N); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J;
+   r̲e̲a̲l̲ NORM, MAX, AID;
+   a̲r̲r̲a̲y̲ Y[1:N];
+   NORM:= 0;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[I]:= i̲f̲ I < J
+              t̲h̲e̲n̲ 0 e̲l̲s̲e̲ i̲f̲ I = J t̲h̲e̲n̲ 1 / A[I,I] e̲l̲s̲e̲- MATVEC(J, I - 1, I, A, Y) / A[I,I];
+         MAX:= 0;
+         f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ AID:= Y[I]:= Y[I] - MATVEC(I + 1, N, I, A, Y);
+               MAX:= MAX + ABS(AID)
+            e̲n̲d̲;
+         i̲f̲ NORM < MAX t̲h̲e̲n̲ NORM:= MAX
+      e̲n̲d̲;
+   ONENRMINV:= NORM
+e̲n̲d̲ ONENRMINV;
+e̲o̲p̲

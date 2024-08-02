@@ -1,0 +1,9 @@
+'CODE' 31013;
+    'PROCEDURE' INISYMD(LR, UR, SHIFT, A, X); 'VALUE' LR,UR,SHIFT,X;
+    'INTEGER' LR,UR,SHIFT; 'REAL' X; 'ARRAY' A;
+    'BEGIN' SHIFT:= ABS(SHIFT); UR:= UR + SHIFT + 1; SHIFT:=LR + SHIFT;
+        LR := (SHIFT - 3) * SHIFT // 2 + LR;
+        'FOR' LR := SHIFT + LR 'WHILE' SHIFT < UR 'DO'
+        'BEGIN' A[LR]:= X; SHIFT:= SHIFT + 1 'END'
+    'END' INISYMD;
+        'EOP'

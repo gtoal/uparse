@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34262;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ PRETFMMAT(A, M, N, D);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ A, D;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, I1, J;
+   r̲e̲a̲l̲ G, H;
+
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1; G:= D[I]; H:= G × A[I,I];
+         f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ A[I,J]:= 0;
+         i̲f̲ H < 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 ELMCOL(I, M, J, I, A, A, TAMMAT(I1, M, I, J, A, A) / H);
+            f̲o̲r̲ J:= I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ A[J,I]:= A[J,I] / G
+         e̲n̲d̲
+         e̲l̲s̲e̲
+           f̲o̲r̲ J:= I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ A[J,I]:= 0;
+         A[I,I]:= A[I,I] + 1
+      e̲n̲d̲
+e̲n̲d̲ PRETFMMAT;
+e̲o̲p̲

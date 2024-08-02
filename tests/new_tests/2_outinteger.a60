@@ -1,0 +1,5 @@
+'BEGIN'
+	'INTEGER' n;
+	n := 123;
+	outinteger ( 1, n);
+'END'

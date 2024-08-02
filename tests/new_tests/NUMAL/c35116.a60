@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 35116;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ARCTANH(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+   i̲f̲ ABS(X) ≥ 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      ARCTANH:= SIGN(X)×GIANT
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ AX;
+      AX:= ABS(X); ARCTANH:= SIGN(X)×·5×LOG ONE PLUS X(2×AX/(1-AX))
+   e̲n̲d̲ ARCTANH;
+e̲o̲p̲

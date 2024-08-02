@@ -1,0 +1,4 @@
+'BEGIN'
+'COMMENT' string means string constant;
+	outstring(1,"abcd1234")
+'END'

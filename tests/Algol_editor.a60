@@ -144,7 +144,7 @@ the maximal number of positions on the line:}
       pos[0]:= 0; proc:= - 1; RUNOUT; sym(119);
   start: symbol:= RESYM;
       i̲f̲ i > 1 ∧ (symbol = 93 ∨ symbol = 119) t̲h̲e̲n̲
-      b̲e̲g̲i̲n̲ i̲f̲ buffer[i - 1] > 63 t̲h̲e̲n̲ goto start e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲f̲ buffer[i - 1] > 63 t̲h̲e̲n̲ g̲o̲t̲o̲ start e̲l̲s̲e̲
          b̲e̲g̲i̲n̲ f̲o̲r̲ symbol:= RESYM w̲h̲i̲l̲e̲ symbol = 93 ∨ symbol = 119
             d̲o̲ ; i̲f̲ symbol < 63 t̲h̲e̲n̲
             b̲e̲g̲i̲n̲ buffer[i]:= 93; buffer[i + 1]:= symbol; i:= i + 2;

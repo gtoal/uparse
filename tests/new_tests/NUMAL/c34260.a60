@@ -1,0 +1,37 @@
+c̲o̲d̲e̲ 34260;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHREABID(A, M, N, D, B, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ A, D, B, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, I1;
+   r̲e̲a̲l̲ NORM, MACHTOL, W, S, F, G, H;
+
+   NORM:= 0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ W:= 0;
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ W:= ABS(A[I,J]) + W;
+         i̲f̲ W > NORM t̲h̲e̲n̲ NORM:= W
+      e̲n̲d̲;
+   MACHTOL:= EM[0] × NORM; EM[1]:= NORM;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ I1:= I + 1; S:= TAMMAT(I1, M, I, I, A, A);
+         i̲f̲ S < MACHTOL t̲h̲e̲n̲ D[I]:= A[I,I] e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ F:= A[I,I]; S:= F × F + S;
+            D[I]:= G:= i̲f̲ F < 0 t̲h̲e̲n̲ SQRT(S) e̲l̲s̲e̲ - SQRT(S);
+            H:= F × G - S; A[I,I]:= F - G;
+            f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 ELMCOL(I, M, J, I, A, A, TAMMAT(I, M, I, J, A, A) / H)
+         e̲n̲d̲;
+         i̲f̲ I < N t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ S:= MATTAM(I1 + 1, N, I, I, A, A);
+            i̲f̲ S < MACHTOL t̲h̲e̲n̲ B[I]:= A[I,I1] e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ F:= A[I,I1]; S:= F × F + S;
+               B[I]:= G:= i̲f̲ F < 0 t̲h̲e̲n̲ SQRT(S) e̲l̲s̲e̲ - SQRT(S);
+               H:= F × G - S; A[I,I1]:= F - G;
+               f̲o̲r̲ J:= I1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                    ELMROW(I1, N, J, I, A, A, MATTAM(I1, N, I, J, A, A) /
+                    H)
+            e̲n̲d̲
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ HSHREABID
+
+;e̲o̲p̲

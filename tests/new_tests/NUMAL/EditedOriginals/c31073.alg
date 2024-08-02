@@ -1,0 +1,9 @@
+'CODE' 31073;
+'PROCEDURE' HSHVECTAM(LR, UR, LC, UC, X, U, A);
+'VALUE' LR, UR, LC, UC, X; 'INTEGER' LR, UR, LC, UC;
+'REAL' X; 'ARRAY' U, A;
+'BEGIN'
+    'FOR' LR:= LR 'STEP' 1 'UNTIL' UR 'DO'
+    ELMROWVEC(LC, UC, LR, A, U, MATVEC(LC, UC, LR, A, U) * X)
+'END';
+        'EOP'

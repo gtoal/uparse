@@ -1,0 +1,19 @@
+c̲o̲d̲e̲34343;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMSQRT(AR,AI,PR,PI);
+   v̲a̲l̲u̲e̲ AR,AI; r̲e̲a̲l̲ AR,AI,PR,PI;
+   i̲f̲ AR=0 ∧ AI= 0 t̲h̲e̲n̲ PR:= PI:=0 e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ BR,BI,H;
+      BR:= ABS(AR); BI:= ABS(AI);
+      H:= i̲f̲ BI < BR t̲h̲e̲n̲
+        (i̲f̲ BR<1 t̲h̲e̲n̲ SQRT((SQRT((BI/BR)⭡2+1)×·5+·5)×BR)
+      e̲l̲s̲e̲ SQRT((SQRT((BI/BR)⭡2+1)×·125+·125)×BR)×2)
+      e̲l̲s̲e̲ i̲f̲ BI<1 t̲h̲e̲n̲ SQRT((SQRT((BR/BI)⭡2+1)×BI+BR)×2)×·5
+      e̲l̲s̲e̲ i̲f̲ BR+1= 1 t̲h̲e̲n̲ SQRT(BI×·5)
+      e̲l̲s̲e̲ SQRT(SQRT((BR/BI)⭡2+1)×BI×·125+BR×·125)×2;
+      i̲f̲ AR ≥ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ PR:= H; PI:= AI/H×·5 e̲n̲d̲
+      e̲l̲s̲e̲ b̲e̲g̲i̲n̲ PI:= i̲f̲ AI ≥ 0 t̲h̲e̲n̲ H e̲l̲s̲e̲ -H;
+         PR:= BI/H×·5
+      e̲n̲d̲
+   e̲n̲d̲ COMSQRT;
+e̲o̲p̲

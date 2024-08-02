@@ -1,0 +1,11 @@
+'CODE' 34369;
+    'PROCEDURE' EIGHRM(A, N, NUMVAL, VAL, VECR, VECI, EM);
+    'VALUE' N, NUMVAL; 'INTEGER' N, NUMVAL;
+    'ARRAY' A, VAL, VECR, VECI, EM;
+    'BEGIN' 'ARRAY' BB, TR, TI[1:N - 1], D, B[1:N];
+        HSHHRMTRI(A, N, D, B, BB, EM, TR, TI);
+        VALSYMTRI(D, BB, N, 1, NUMVAL, VAL, EM); B[N]:= 0;
+        VECSYMTRI(D, B, N, 1, NUMVAL, VAL, VECR, EM);
+        BAKHRMTRI(A, N, 1, NUMVAL, VECR, VECI, TR, TI)
+    'END' EIGHRM;
+        'EOP'

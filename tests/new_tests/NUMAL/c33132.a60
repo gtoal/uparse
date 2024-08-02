@@ -1,0 +1,171 @@
+c̲o̲d̲e̲ 33132;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LINIGER1VS(X,XE,M,Y,SIGMA,DERIVATIVE,J,
+  JACOBIAN,ITMAX,HMIN,HMAX,AETA,RETA,INFO,OUTPUT);
+   v̲a̲l̲u̲e̲ M;
+   i̲n̲t̲e̲g̲e̲r̲ M,ITMAX;
+     r̲e̲a̲l̲ X,XE,SIGMA,AETA,RETA,HMIN,HMAX;
+     a̲r̲r̲a̲y̲ Y,J,INFO;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,JACOBIAN,OUTPUT;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,ST,LASTJAC;
+   r̲e̲a̲l̲ H,HNEW,MU,MU1,BETA,P,E,E1,ETA,ETA1,DISCR;
+   b̲o̲o̲l̲e̲a̲n̲ LAST,FIRST,EVALJAC,EVALCOEF;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PI[1:M];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ DY,YL,YR,F[1:M],A[1:M,1:M],AUX[1:3];
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORM(A); a̲r̲r̲a̲y̲ A;
+      NORM:=SQRT(VECVEC(1,M,0,A,A));
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B,E; B:=ABS(H×SIGMA);
+      i̲f̲ B>40 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ MU:=1/B; BETA:=1; P:=2+2/(B-2)
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ B<·04 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ E:=B×B/30; P:=3-E;
+         MU:=·5-B/12×(1-E/2);
+         BETA:=·5+B/6×(1-E)
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ E:=EXP(B)-1;
+         MU:=1/B-1/E;
+         BETA:=(1-B/E)×(1+1/E);
+         P:=(BETA-MU)/(·5-MU)
+      e̲n̲d̲;
+      MU1:=H×(1-MU);
+      LUDECOMP
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LUDECOMP;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+         b̲e̲g̲i̲n̲ MULROW(1,M,I,I,A,J,-MU1);
+            A[I,I]:=A[I,I]+1
+         e̲n̲d̲;
+      AUX[2]:=0; DEC(A,M,AUX,PI)
+   e̲n̲d̲ LUDECOMP;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+      i̲f̲ ETA<0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ HL; HL:=H;
+         H:=HNEW:=HMAX; INFO[5]:=INFO[5]+1;
+         i̲f̲ 1·1×HNEW>XE-X t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; H:=HNEW:=XE-X
+         e̲n̲d̲;
+         EVALCOEF:=H≠HL;
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ FIRST t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H:=HNEW:=HMIN; FIRST:=f̲a̲l̲s̲e̲; INFO[4]:=INFO[4]+1
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B,HL;
+         B:=DISCR/ETA; HL:=H; i̲f̲ B<·01 t̲h̲e̲n̲ B:=·01;
+         HNEW:= i̲f̲ B>0 t̲h̲e̲n̲ H×B⭡(-1/P) e̲l̲s̲e̲ HMAX;
+         i̲f̲ HNEW<HMIN t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ HNEW:=HMIN; INFO[4]:=INFO[4]+1
+         e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ HNEW>HMAX t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ HNEW:=HMAX; INFO[5]:=INFO[5]+1 e̲n̲d̲;
+         i̲f̲ 1·1×HNEW≥XE-X t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ LAST:=t̲r̲u̲e̲; H:=HNEW:=XE-X
+         e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ ABS(H/HNEW-1)>·1 t̲h̲e̲n̲ H:=HNEW;
+         EVALCOEF:=H≠HL
+      e̲n̲d̲ STEPSIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LINEARITY(ERROR); r̲e̲a̲l̲ ERROR;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;
+      f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+           DY[K]:=Y[K]-MU1×F[K];
+      SOL(A,M,PI,DY);
+      ELMVEC(1,M,0,DY,Y,-1);
+      ERROR:=NORM(DY)
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ITERATION(I); i̲n̲t̲e̲g̲e̲r̲ I;
+      i̲f̲ RETA<0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;
+         i̲f̲ I=1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MULVEC(1,M,0,DY,F,H);
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ YL[K]:=Y[K]+MU×DY[K];
+            SOL(A,M,PI,DY); E:=1;
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 DY[K]:=YL[K]-Y[K]+MU1×F[K];
+            i̲f̲ E×NORM(Y)>E1×E1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ EVALJAC:=I≥3;
+               i̲f̲ I>3 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ INFO[3]:=INFO[3]+1; JACOBIAN(J,Y);
+                  LUDECOMP
+               e̲n̲d̲;
+            e̲n̲d̲;
+            SOL(A,M,PI,DY)
+         e̲n̲d̲;
+         E1:=E; E:=NORM(DY);
+         ELMVEC(1,M,0,Y,DY,1);
+         ETA:=NORM(Y)×RETA+AETA;
+         DISCR:=0;
+         DUPVEC(1,M,0,F,Y);
+         DERIVATIVE(F);
+         INFO[2]:=INFO[2]+1;
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;
+         i̲f̲ I=1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ LINEARITY(E);
+            i̲f̲ E×(ST-LASTJAC)>ETA t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ JACOBIAN(J,Y); LASTJAC:=ST;
+               INFO[3]:=INFO[3]+1;
+               H:=HNEW; COEFFICIENT;
+               LINEARITY(E)
+            e̲n̲d̲;
+            EVALJAC:= E×(ST+1-LASTJAC)>ETA;
+            MULVEC(1,M,0,DY,F,H);
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ YL[K]:=Y[K]+MU×DY[K];
+            SOL(A,M,PI,DY);
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 YR[K]:=H×BETA×MATVEC(1,M,K,J,DY);
+            SOL(A,M,PI,YR);
+            ELMVEC(1,M,0,YR,DY,1);
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 DY[K]:=YL[K]-Y[K]+MU1×F[K];
+            i̲f̲ E>ETA1 ∧ DISCR>ETA1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ INFO[3]:=INFO[3]+1; JACOBIAN(J,Y);
+               LUDECOMP
+            e̲n̲d̲;
+            SOL(A,M,PI,DY);
+            E:=NORM(DY)
+         e̲n̲d̲;
+         ELMVEC(1,M,0,Y,DY,1);
+         ETA:=NORM(Y)×RETA+AETA;
+         ETA1:=ETA/SQRT(RETA);
+         DUPVEC(1,M,0,F,Y);
+         DERIVATIVE(F);
+         INFO[2]:=INFO[2]+1;
+         f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ DY[K]:=YR[K]-H×F[K];
+         DISCR:=NORM(DY)/2
+      e̲n̲d̲ ITERATION;
+
+   FIRST:=EVALJAC:=t̲r̲u̲e̲; LAST:=EVALCOEF:=f̲a̲l̲s̲e̲;
+   INIVEC(1,9,INFO,0);
+   ETA:=RETA×NORM(Y)+AETA;
+   ETA1:=ETA/SQRT(ABS(RETA));
+   DUPVEC(1,M,0,F,Y);
+   DERIVATIVE(F);
+   INFO[2]:=1;
+   f̲o̲r̲ ST:=1,ST+1 w̲h̲i̲l̲e̲ ¬LAST d̲o̲
+      b̲e̲g̲i̲n̲ STEPSIZE; INFO[1]:=INFO[1]+1;
+         i̲f̲ EVALJAC t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ JACOBIAN(J,Y);
+            INFO[3]:=INFO[3]+1;
+            H:=HNEW;
+            COEFFICIENT;
+            EVALJAC:=f̲a̲l̲s̲e̲; LASTJAC:=ST
+         e̲n̲d̲ e̲l̲s̲e̲
+         i̲f̲ EVALCOEF t̲h̲e̲n̲ COEFFICIENT;
+         f̲o̲r̲ I:=1,I+1 w̲h̲i̲l̲e̲ E>ABS(ETA) ∧ DISCR>1·3×ETA∧ I≤ITMAX d̲o̲
+            b̲e̲g̲i̲n̲ ITERATION(I); i̲f̲ I>INFO[6] t̲h̲e̲n̲ INFO[6]:=I;
+            e̲n̲d̲; INFO[7]:=ETA; INFO[8]:=DISCR;
+         X:=X+H;
+         i̲f̲ DISCR>INFO[9] t̲h̲e̲n̲ INFO[9]:=DISCR;
+         OUTPUT;
+      e̲n̲d̲;
+e̲n̲d̲ LINIGER1VS;
+e̲o̲p̲

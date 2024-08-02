@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 31506;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNGFULTAMVEC(LR, UR, LC, UC, A, B, C);
+   v̲a̲l̲u̲e̲ LR, UR, LC, UC; i̲n̲t̲e̲g̲e̲r̲ LR, UR, LC, UC;
+     a̲r̲r̲a̲y̲ A, B, C;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ D, DD;
+   f̲o̲r̲ LC:= LC s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UC d̲o̲
+      b̲e̲g̲i̲n̲ LNGTAMVEC(LR, UR, LC, A, B, 0, 0, D, DD); C[LC]:= D + DD
+      e̲n̲d̲
+e̲n̲d̲ LNGFULTAMVEC
+
+;e̲o̲p̲

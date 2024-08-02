@@ -1,0 +1,97 @@
+'CODE' 35140;
+ 'PROCEDURE' AIRY(Z,AI,AID,BI,BID,EXPON,FIRST);
+ 'VALUE' Z,FIRST; 'BOOLEAN' FIRST;
+ 'REAL' Z,AI,AID,BI,BID,EXPON;
+ 'BEGIN' 'REAL' S,T,U,V,SC,TC,UC,VC,X,K1,K2,K3,K4,
+     C,ZT,SI,CO,EXPZT,SQRTZ,WWL,PL,PL1,PL2,PL3;
+     'OWN' 'REAL' C1,C2,SQRT3,SQRT1OPI,PIO4;
+     'OWN' 'REAL' 'ARRAY' XX,WW[1:10];
+     'INTEGER' N,L;
+
+     'IF' FIRST 'THEN'
+     'BEGIN' SQRT3:=    1.73205080756887729;
+             SQRT1OPI:= 0.56418958354775629;
+             PIO4:=     0.78539816339744831;
+             C1:=       0.35502 80538 87817;
+             C2:=       0.25881 94037 92807;
+             XX[ 1]:=   1.40830 81072 180964 @+1;
+             XX[ 2]:=   1.02148 85479 197331 @+1;
+             XX[ 3]:=   7.44160 18450 450930    ;
+             XX[ 4]:=   5.30709 43061 781927    ;
+             XX[ 5]:=   3.63401 35029 132462    ;
+             XX[ 6]:=   2.33106 52303 052450    ;
+             XX[ 7]:=   1.34479 70824 609268    ;
+             XX[ 8]:=   6.41888 58369 567296 @-1;
+             XX[ 9]:=   2.01003 45998 121046 @-1;
+             XX[10]:=   8.05943 59172 052833 @-3;
+             WW[ 1]:=   3.15425 15762 964787@-14;
+             WW[ 2]:=   6.63942 10819 584921@-11;
+             WW[ 3]:=   1.75838 89061 345669@- 8;
+             WW[ 4]:=   1.37123 92370 435815@- 6;
+             WW[ 5]:=   4.43509 66639 284350@- 5;
+             WW[ 6]:=   7.15550 10917 718255@- 4;
+             WW[ 7]:=   6.48895 66103 335381@- 3;
+             WW[ 8]:=   3.64404 15875 773282@- 2;
+             WW[ 9]:=   1.43997 92418 590999@- 1;
+             WW[10]:=   8.12311 41336 261486@- 1;
+     'END';
+
+     EXPON:= 0;
+     'IF' Z >= -5.0 'AND' Z <= 8 'THEN'
+     'BEGIN' U:= V:= T:= UC:= VC:= TC:= 1;
+         S:= SC:= 0.5; N:= 0; X:= Z*Z*Z;
+         'FOR' N:= N+3 'WHILE' ABS(U)+ABS(V)+ABS(S)+ABS(T)
+                                > @-18 'DO'
+         'BEGIN' U:=U*X/(N*(N-1)); V:= V*X/(N*(N+1));
+                 S:=S*X/(N*(N+2)); T:= T*X/(N*(N-2));
+                 UC:= UC+U; VC:= VC+V; SC:= SC+S; TC:= TC+T
+         'END';
+         BI:= SQRT3 * (C1*UC + C2*Z*VC);
+         BID:=SQRT3 * (C1*Z*Z*SC +C2*TC);
+         'IF' Z<2.5 'THEN'
+         'BEGIN' AI:= C1*UC - C2*Z*VC;
+                 AID:= C1*SC*Z*Z - C2*TC;
+                 'GOTO' END
+         'END'
+     'END';
+
+     K1:= K2:= K3:= K4:= 0;
+     SQRTZ:= SQRT(ABS(Z));
+     ZT:= 0.66666 66666 66667 * ABS(Z)*SQRTZ;
+     C:= SQRT1OPI/SQRT(SQRTZ);
+     'IF' Z<0 'THEN'
+     'BEGIN' Z:= -Z; CO:= COS(ZT-PIO4); SI:= SIN(ZT-PIO4);
+         'FOR' L:= 1 'STEP' 1 'UNTIL' 10 'DO'
+         'BEGIN' WWL:= WW[L]; PL:= XX[L]/ZT;
+             PL2:=PL*PL; PL1:= 1+PL2; PL3:= PL1*PL1;
+             K1:= K1 + WWL/PL1;
+             K2:= K2 + WWL*PL/PL1;
+             K3:= K3 + WWL*PL*(1+PL*(2/ZT+PL))/PL3;
+             K4:= K4 + WWL*(-1-PL*(1+PL*(ZT-PL))/ZT)/PL3;
+         'END';
+         AI:= C*(CO*K1+SI*K2);
+         AID:= 0.25*AI/Z - C*SQRTZ*(CO*K3+SI*K4);
+         BI:= C*(CO*K2-SI*K1);
+         BID:= 0.25*BI/Z - C*SQRTZ*(CO*K4-SI*K3);
+     'END' 'ELSE'
+     'BEGIN' 'IF' Z < 9 'THEN' EXPZT:= EXP(ZT) 'ELSE'
+         'BEGIN' EXPZT:= 1; EXPON:= ZT 'END';
+         'FOR' L:= 1 'STEP' 1 'UNTIL' 10 'DO'
+         'BEGIN' WWL:= WW[L]; PL:= XX[L]/ZT;
+             PL1:= 1+PL; PL2:= 1-PL;
+             K1:= K1 + WWL/PL1;
+             K2:= K2 + WWL*PL/(ZT*PL1*PL1);
+             K3:= K3 + WWL/PL2;
+             K4:= K4 + WWL*PL/(ZT*PL2*PL2);
+         'END';
+         AI:= 0.5*C*K1/EXPZT;
+         AID:= AI*(-.25/Z-SQRTZ) + 0.5*C*SQRTZ*K2/EXPZT;
+         'IF' Z >= 8 'THEN'
+         'BEGIN' BI:= C*K3*EXPZT;
+                 BID:= BI*(SQRTZ-0.25/Z) - C*K4*SQRTZ*EXPZT;
+         'END';
+     'END';
+  END:
+ 'END' AIRY;
+
+        'EOP'

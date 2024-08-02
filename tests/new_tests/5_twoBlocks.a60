@@ -1,0 +1,15 @@
+'BEGIN'
+'COMMENT' nested block;
+	'INTEGER' n;
+	n := 0;
+	'BEGIN'
+		'INTEGER' m;
+		m := n+3;
+		outinteger(1,n);
+		outinteger(1,m);
+		n := m+5;
+		outinteger(1,n)
+	'END';
+	n := 12345;
+	outinteger(1,n)
+'END'

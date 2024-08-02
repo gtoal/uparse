@@ -1,0 +1,16 @@
+'CODE'31046;
+'REAL' 'PROCEDURE' CHEPOLSUM(N,X,A);
+'VALUE' N,X;'INTEGER' N;'REAL' X;'ARRAY' A;
+'IF' N=0 'THEN' CHEPOLSUM:=A[0] 'ELSE'
+'IF' N=1 'THEN' CHEPOLSUM:=A[0]+A[1]*X 'ELSE'
+'BEGIN' 'INTEGER' K;'REAL' H,R,S,TX;
+   TX:=X+X;R:=A[N];
+   H:=A[N-1]+R*TX;
+   'FOR' K:=N-2 'STEP' -1 'UNTIL' 1 'DO'
+   'BEGIN' S:=R;R:=H;
+      H:=A[K]+R*TX-S
+   'END'K;
+   CHEPOLSUM:=A[0]-R+H*X
+'END' CHEPOLSUM
+
+        ;'EOP'

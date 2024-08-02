@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34418;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNGSYMMATVEC(L, U, I, A, B, C, CC, D, DD);
+   v̲a̲l̲u̲e̲ L, U, I, C, CC;
+   i̲n̲t̲e̲g̲e̲r̲ L, U, I; r̲e̲a̲l̲ C, CC, D, DD; a̲r̲r̲a̲y̲ A, B;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, M;
+   M:= i̲f̲ L > I t̲h̲e̲n̲ L e̲l̲s̲e̲ I; K:= M × (M - 1) ÷ 2;
+   LNGVECVEC(L, i̲f̲ I ≤ U t̲h̲e̲n̲ I - 1 e̲l̲s̲e̲ U,
+     K, B, A, C, CC, C, CC);
+   LNGSEQVEC(M, U, K + I, 0, A, B, C, CC, D, DD)
+e̲n̲d̲ LNGSYMMATVEC;
+e̲o̲p̲

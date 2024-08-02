@@ -1,0 +1,34 @@
+c̲o̲d̲e̲ 34366;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHCOMHES(AR, AI, N, EM, B, TR, TI, DEL); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ AR, AI, EM, B, TR, TI, DEL;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ R, RM1, I, J, NM1;
+   r̲e̲a̲l̲ TOL, T, XR, XI;
+   NM1:= N - 1; TOL:= (EM[0] × EM[1]) ⭡ 2; RM1:= 1;
+   f̲o̲r̲ R:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NM1 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ HSHCOMCOL(R, N, RM1, AR, AI, TOL, B[RM1],
+           TR[R], TI[R], T) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ XR:= (MATMAT(R, N, I, RM1, AI, AI) -
+                    MATMAT(R, N, I, RM1, AR, AR)) / T;
+                  XI:= ( - MATMAT(R, N, I, RM1, AR, AI) -
+                    MATMAT(R, N, I, RM1, AI, AR)) / T;
+                  ELMROWCOL(R, N, I, RM1, AR, AR, XR);
+                  ELMROWCOL(R, N, I, RM1, AR, AI, XI);
+                  ELMROWCOL(R, N, I, RM1, AI, AR, XI);
+                  ELMROWCOL(R, N, I, RM1, AI, AI, - XR)
+               e̲n̲d̲;
+            HSHCOMPRD(R, N, R, N, RM1, AR, AI, AR, AI, T);
+         e̲n̲d̲;
+         DEL[RM1]:= T; RM1:= R
+      e̲n̲d̲ FORR;
+   i̲f̲ N > 1 t̲h̲e̲n̲ CARPOL(AR[N,NM1], AI[N,NM1], B[NM1],
+     TR[N], TI[N]); RM1:= 1; TR[1]:= 1; TI[1]:= 0;
+   f̲o̲r̲ R:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ COMMUL(TR[RM1], TI[RM1], TR[R], TI[R], TR[R],
+           TI[R]); COMCOLCST(1, RM1, R, AR, AI, TR[R], TI[R]);
+         COMROWCST(R + 1, N, R, AR, AI, TR[R], - TI[R]);
+         RM1:= R
+      e̲n̲d̲;
+e̲n̲d̲ HSHCOMHES
+
+;e̲o̲p̲

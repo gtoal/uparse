@@ -1,0 +1,113 @@
+c̲o̲d̲e̲ 31203;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNG INT DIVIDE(U,V,QUOTIENT,REMAINDER); v̲a̲l̲u̲e̲ U;
+   i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ U,V,QUOTIENT,REMAINDER;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ LU,LV,V1,DIFF,I,T,SCALE,D,Q1,J,CARRY;
+   LU:=U[0]; LV:=V[0]; V1:=V[1]; DIFF:=LU - LV;
+
+   i̲f̲ LV=1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ CARRY:=0;
+      f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LU d̲o̲
+         b̲e̲g̲i̲n̲ T:=CARRY × 10 000 000 + U[I]; QUOTIENT[I]:=T÷V1;
+            CARRY:=T - QUOTIENT[I] × V1
+         e̲n̲d̲; REMAINDER[0]:=1; REMAINDER[1]:=CARRY;
+      i̲f̲ QUOTIENT[1]=0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LU d̲o̲
+              QUOTIENT[I-1]:=QUOTIENT[I];
+         QUOTIENT[0]:=LU - (i̲f̲ LU=1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1)
+      e̲n̲d̲ e̲l̲s̲e̲ QUOTIENT[0]:=LU
+   e̲n̲d̲ LV=1
+     e̲l̲s̲e̲
+
+   i̲f̲ LU<LV t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ QUOTIENT[0]:=1; QUOTIENT[1]:=0;
+      f̲o̲r̲ I:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LU d̲o̲ REMAINDER[I]:=U[I]
+   e̲n̲d̲ LU<LV
+   e̲l̲s̲e̲
+
+   b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ A[0:LV];
+      SCALE:=10 000 000÷(V1+1);
+      i̲f̲ SCALE>1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲c̲o̲m̲m̲e̲n̲t̲ NORMALIZE U; CARRY:=0;
+         f̲o̲r̲ I:=LU s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ T:=SCALE × U[I] + CARRY; CARRY:=T÷10 000 000;
+               U[I]:=T - CARRY × 10 000 000
+            e̲n̲d̲; U[0]:=CARRY;
+         c̲o̲m̲m̲e̲n̲t̲ NORMALIZE V; CARRY:=0;
+         f̲o̲r̲ I:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ T:=SCALE × V[I] + CARRY; CARRY:=T÷10 000 000;
+               V[I]:=T - CARRY × 10 000 000
+            e̲n̲d̲; V1:=V[1]
+      e̲n̲d̲ NORMALIZATION
+        c̲o̲m̲m̲e̲n̲t̲ COMPUTE QUOTIENT AND REMAINDER;
+      f̲o̲r̲ I:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ DIFF d̲o̲
+         b̲e̲g̲i̲n̲ D:=U[I] × 10 000 000 + U[I+1];
+            Q1:=i̲f̲ U[I]=V1 t̲h̲e̲n̲ 9 999 999 e̲l̲s̲e̲ D÷V1;
+            i̲f̲ V[2] × Q1 > (D-Q1×V1) × 10 000 000 + U[I+2] t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ Q1:=Q1 - 1;
+               i̲f̲ V[2]×Q1>(D-Q1×V1)×10 000 000+U[I+2] t̲h̲e̲n̲ Q1:=Q1-1
+            e̲n̲d̲;
+
+            c̲o̲m̲m̲e̲n̲t̲ U[I:I+LV]:=U[I:I+LV] - Q1 * V[1:LV];
+            CARRY:=0;
+            f̲o̲r̲ J:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+               b̲e̲g̲i̲n̲ T:=Q1 × V[J] + CARRY; CARRY:=T÷10 000 000;
+                  A[J]:=T - CARRY × 10 000 000
+               e̲n̲d̲; A[0]:=CARRY;
+            CARRY:=0;
+            f̲o̲r̲ J:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+               b̲e̲g̲i̲n̲ T:=U[I+J] - A[J] + CARRY; CARRY:=i̲f̲ T<0 t̲h̲e̲n̲ -1
+                  e̲l̲s̲e̲ 0; U[I+J]:=T - CARRY × 10 000 000
+               e̲n̲d̲;
+
+            c̲o̲m̲m̲e̲n̲t̲ IF CARRY=-1 THEN Q1 IS ONE TOO LARGE,
+              AND V MUST BE ADDED BACK TO U[I:I+LV];
+            i̲f̲ CARRY=-1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ Q1:=Q1 - 1; CARRY:=0;
+               f̲o̲r̲ J:=LV s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                  b̲e̲g̲i̲n̲ T:=U[I+J] + V[J] + CARRY; CARRY:=i̲f̲ T<10 000 000
+                       t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1; U[I+J]:=T - CARRY × 10 000 000
+                  e̲n̲d̲
+            e̲n̲d̲; QUOTIENT[I]:=Q1
+         e̲n̲d̲ I;
+
+      c̲o̲m̲m̲e̲n̲t̲ CORRECT STORAGE OF QUOTIENT;
+      i̲f̲ QUOTIENT[0] ≠ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=DIFF s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+              QUOTIENT[I+1]:=QUOTIENT[I]; QUOTIENT[0]:=DIFF + 1
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ DIFF < 2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ QUOTIENT[0]:= 1; i̲f̲ DIFF = 0 t̲h̲e̲n̲ QUOTIENT[1]:= 0
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ QUOTIENT[1] ≠ 0 t̲h̲e̲n̲ QUOTIENT[0]:=DIFF e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ DIFF - 1 d̲o̲
+              QUOTIENT[I]:=QUOTIENT[I+1]; QUOTIENT[0]:=DIFF - 1
+      e̲n̲d̲;
+      c̲o̲m̲m̲e̲n̲t̲ REMAINDER := U[DIFF+1:LU]//SCALE;
+      i̲f̲ SCALE>1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ CARRY:=0;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LV d̲o̲
+            b̲e̲g̲i̲n̲ T:=CARRY × 10 000 000 + U[DIFF+I];
+               REMAINDER[I]:=T÷SCALE; CARRY:=T - REMAINDER[I] × SCALE
+            e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LV d̲o̲ REMAINDER[I]:=U[DIFF+I];
+
+      c̲o̲m̲m̲e̲n̲t̲ CORRECT STORAGE OF REMAINDER;
+      I:=0; J:=LV;
+      f̲o̲r̲ I:=I+1 w̲h̲i̲l̲e̲ REMAINDER[I]=0 ∧ J>1 d̲o̲ J:=J-1;
+      REMAINDER[0]:=J;
+      i̲f̲ J<LV t̲h̲e̲n̲
+        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J d̲o̲
+           REMAINDER[I]:=REMAINDER[LV + I - J];
+
+      c̲o̲m̲m̲e̲n̲t̲ UNNORMALIZE THE DIVISOR V;
+      i̲f̲ SCALE>1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ CARRY:=0;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ LV d̲o̲
+            b̲e̲g̲i̲n̲ T:=CARRY × 10 000 000 + V[I];
+               V[I]:=T÷SCALE; CARRY:=T - V[I] × SCALE
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲
+e̲n̲d̲ LNG INT DIVIDE;
+e̲o̲p̲

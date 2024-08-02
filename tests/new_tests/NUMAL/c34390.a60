@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34390;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLSOL2(A, N, B); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, B;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I;
+
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        B[I]:= (B[I] - TAMVEC(1, I - 1, I, A, B)) / A[I,I];
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        B[I]:= (B[I] - MATVEC(I + 1, N, I, A, B)) / A[I,I]
+e̲n̲d̲ CHLSOL2;
+e̲o̲p̲

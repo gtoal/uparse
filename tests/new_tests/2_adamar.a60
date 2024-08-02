@@ -1,0 +1,4 @@
+'BEGIN'
+	'INTEGER' n;
+	n := 1
+'END'

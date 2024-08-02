@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 34603;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HESTGL3(N,A,B,X);v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ A,B,X;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ NM1,K,L,K1,L1;
+   i̲f̲ N>2 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ f̲o̲r̲ K:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+           f̲o̲r̲ L:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K-1 d̲o̲ B[K,L]:=0;
+      NM1:=N-1;K:=1;
+      f̲o̲r̲ K1:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NM1 d̲o̲
+         b̲e̲g̲i̲n̲ L1:=N;
+            f̲o̲r̲ L:=N-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ K1 d̲o̲
+               b̲e̲g̲i̲n̲
+                  HSH2COL(K,L,N,L,A[L,K],A[L1,K],A,B);A[L1,K]:=0;
+                  HSH2ROW3(1,N,L1,N,L,B[L1,L1],B[L1,L],A,B,X);
+                  B[L1,L]:=0;L1:=L
+               e̲n̲d̲;K:=K1
+         e̲n̲d̲
+   e̲n̲d̲
+e̲n̲d̲ HESTGL3
+
+;e̲o̲p̲

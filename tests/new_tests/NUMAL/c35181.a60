@@ -1,0 +1,51 @@
+c̲o̲d̲e̲ 35181;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS YA01(A,X,YA,YA1);v̲a̲l̲u̲e̲ A,X; r̲e̲a̲l̲ A,X,YA,YA1;
+   i̲f̲ A = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      BESS Y01(X,YA,YA1)
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B,C,D,E,F,G,H,P,PI,Q,R,S;i̲n̲t̲e̲g̲e̲r̲ N,NA;
+      b̲o̲o̲l̲e̲a̲n̲ REC,REV;
+      PI:=4×ARCTAN(1);NA:=ENTIER(A+·5);REC:=A≥·5;
+      REV:=A<-·5;i̲f̲ REV ∨ REC t̲h̲e̲n̲ A:=A-NA;
+      i̲f̲ A=-·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ P:=SQRT(2/PI/X);F:=P×SIN(X);G:=-P×COS(X) e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ X<3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲
+         B:=X/2;D:=-LN(B);E:=A×D;
+         C:=i̲f̲ ABS(A)<@-8  t̲h̲e̲n̲ 1/PI e̲l̲s̲e̲ A/SIN(A×PI);
+         S:=i̲f̲ ABS(E)<@-8  t̲h̲e̲n̲ 1 e̲l̲s̲e̲ SINH(E)/E;
+         E:=EXP(E);G:=RECIP GAMMA(A,P,Q)×E;E:=(E+1/E)/2;
+         F:=2×C×(P×E+Q×S×D);E:=A×A;
+         P:=G×C;Q:=1/G/PI;C:=A×PI/2;
+         R:=i̲f̲ ABS(C)<@-8  t̲h̲e̲n̲ 1 e̲l̲s̲e̲ SIN(C)/C;R:=PI×C×R×R;
+         C:=1;D:=-B×B;YA:=F+R×Q;YA1:=P;
+         f̲o̲r̲ N:=1,N+1 w̲h̲i̲l̲e̲
+           ABS(G/(1+ABS(YA)))+ABS(H/(1+ABS(YA1)))>@-15 d̲o̲
+            b̲e̲g̲i̲n̲ F:=(F×N+P+Q)/(N×N-E);C:=C×D/N;
+               P:=P/(N-A);Q:=Q/(N+A);
+               G:=C×(F+R×Q);H:=C×P-N×G;
+               YA:=YA+G;YA1:=YA1+H;
+            e̲n̲d̲;
+         F:=-YA;G:=-YA1/B
+      e̲n̲d̲
+
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲
+         B:=X-PI×(A+·5)/2;C:=COS(B);S:=SIN(B);
+         D:=SQRT(2/X/PI);
+         BESS PQA01(A,X,P,Q,B,H);
+         F:=D×(P×S+Q×C);G:=D×(H×S-B×C)
+      e̲n̲d̲;
+      i̲f̲ REV t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X:=2/X;NA:=-NA-1;
+         f̲o̲r̲ N:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NA d̲o̲
+            b̲e̲g̲i̲n̲ H:=X×(A-N)×F-G;G:=F;F:=H e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ REC t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X:=2/X;
+         f̲o̲r̲ N:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NA d̲o̲
+            b̲e̲g̲i̲n̲ H:=X×(A+N)×G-F;F:=G;G:=H e̲n̲d̲
+      e̲n̲d̲;
+      YA:=F;YA1:=G
+   e̲n̲d̲ BESS YA01;
+e̲o̲p̲

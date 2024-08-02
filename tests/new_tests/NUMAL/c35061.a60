@@ -1,0 +1,21 @@
+c̲o̲d̲e̲ 35061;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ GAMMA(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ Y, S, F, G, ODD, EVEN;
+   b̲o̲o̲l̲e̲a̲n̲ INV;
+   i̲f̲ X < ·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ Y:= X - ENTIER(X / 2) × 2; S:= 3·14159 26535 8979;
+      i̲f̲ Y ≥ 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ S:= - S; Y:= 2 - Y e̲n̲d̲;
+      i̲f̲ Y ≥ ·5 t̲h̲e̲n̲ Y:= 1 - Y; INV:= t̲r̲u̲e̲; X:= 1 - X;
+      F:= S / SIN(3·14159 26535 8979 × Y)
+   e̲n̲d̲
+   e̲l̲s̲e̲ INV:= f̲a̲l̲s̲e̲;
+   i̲f̲ X > 22 t̲h̲e̲n̲ G:= EXP(LOG GAMMA(X)) e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ S:= 1;
+      NEXT: i̲f̲ X > 1·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ X:= X - 1; S:= S × X; g̲o̲t̲o̲ NEXT e̲n̲d̲;
+      G:= S / RECIP GAMMA(1 - X, ODD, EVEN)
+   e̲n̲d̲;
+   GAMMA:= i̲f̲ INV t̲h̲e̲n̲ F / G e̲l̲s̲e̲ G
+e̲n̲d̲ GAMMA
+
+;e̲o̲p̲

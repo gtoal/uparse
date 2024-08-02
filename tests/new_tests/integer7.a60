@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT'  computer memory experimental estimation;
+	'INTEGER' n;
+start: ;
+	ininteger(0,n); 
+	'BEGIN'
+		'INTEGER' 'ARRAY' a[1:n];
+		a[n] := 1;
+		outstring(1, "done\n")
+	'END';
+	'GO' 'TO' start
+'END'

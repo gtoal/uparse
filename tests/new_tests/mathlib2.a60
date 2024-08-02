@@ -1,0 +1,11 @@
+'BEGIN'
+	'COMMENT' function sqrt;
+	'REAL' x, y;
+	
+	'FOR' x:= 0 'STEP' 0.1 'UNTIL' 3.0 'DO'
+	'BEGIN'
+		y := sqrt (x);
+		outreal (1, x); outreal (1, y); outstring (1,"\n")
+	'END' 
+
+'END'

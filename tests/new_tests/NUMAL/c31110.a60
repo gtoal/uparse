@@ -1,0 +1,15 @@
+c̲o̲d̲e̲31110;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲LNG POW(A,AA,EXPON,C,CC);
+   v̲a̲l̲u̲e̲A,AA,EXPON;i̲n̲t̲e̲g̲e̲r̲EXPON;r̲e̲a̲l̲A,AA,C,CC;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲OLDEX,NEWEX;r̲e̲a̲l̲D,DD;
+   D:=A;DD:=AA;C:=1;CC:=0;NEWEX:=ABS(EXPON);
+   f̲o̲r̲OLDEX:=NEWEXw̲h̲i̲l̲e̲NEWEX≠0d̲o̲
+      b̲e̲g̲i̲n̲NEWEX:=OLDEX÷2;
+         i̲f̲NEWEX+NEWEX≠OLDEX
+           t̲h̲e̲n̲LNG MUL(C,CC,D,DD,C,CC);
+         i̲f̲NEWEX≠0
+           t̲h̲e̲n̲LNG MUL(D,DD,D,DD,D,DD)
+      e̲n̲d̲;
+   i̲f̲EXPON<0t̲h̲e̲n̲LNG DIV(1,0,C,CC,C,CC)
+e̲n̲d̲ LNG POW;
+e̲o̲p̲

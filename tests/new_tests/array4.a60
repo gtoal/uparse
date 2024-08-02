@@ -1,0 +1,9 @@
+'BEGIN'
+'COMMENT' dynamical array allocation;
+	'INTEGER' n;
+	n := 50;
+	'BEGIN'
+		'INTEGER' 'ARRAY' nArr[1:n];
+		nArr[n-1] := 234
+	'END'
+'END'

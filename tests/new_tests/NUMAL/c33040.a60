@@ -1,0 +1,118 @@
+c̲o̲d̲e̲ 33040;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ MODIFIED TAYLOR(T,TE,M0,M,U,SIGMA,TAUMIN,I,DERIVATIVE,K,
+  DATA,ALFA,NORM,AETA,RETA,ETA,RHO,OUT);
+   i̲n̲t̲e̲g̲e̲r̲ M0,M,I,K,NORM;
+     r̲e̲a̲l̲ T,TE,SIGMA,TAUMIN,ALFA,AETA,RETA,ETA,RHO;
+     a̲r̲r̲a̲y̲ U,DATA;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,OUT;
+
+b̲e̲g̲i̲n̲ I:=0;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N,P,Q;
+      o̲w̲n̲ r̲e̲a̲l̲ EC0,EC1,EC2,TAU0,TAU1,TAU2,TAUS,T2;
+      r̲e̲a̲l̲ T0,TAU,TAUI,TAUEC,ECL,BETAN,GAMMA;
+      r̲e̲a̲l̲ a̲r̲r̲a̲y̲ C[M0:M],BETA,BETHA[1:DATA[-2]];
+      b̲o̲o̲l̲e̲a̲n̲ START,STEP1,LAST;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J;r̲e̲a̲l̲ IFAC;
+         IFAC:=1; GAMMA:=·5; N:=DATA[-2]; P:=DATA[-1];
+         BETAN:=DATA[0]; Q:= i̲f̲ P<N t̲h̲e̲n̲ P+1 e̲l̲s̲e̲ N;
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ BETA[J]:=DATA[J]; IFAC:=IFAC/J;
+               BETHA[J]:=IFAC-BETA[J]
+            e̲n̲d̲;
+         i̲f̲ P=N t̲h̲e̲n̲ BETHA[N]:=IFAC
+      e̲n̲d̲;
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORMFUNCTION(NORM,W);
+         i̲n̲t̲e̲g̲e̲r̲ NORM; a̲r̲r̲a̲y̲ W;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ S,X;
+         S:=0;
+         i̲f̲ NORM=1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+               b̲e̲g̲i̲n̲  X:=ABS(W[J]); i̲f̲ X>S t̲h̲e̲n̲ S:=X e̲n̲d̲
+         e̲n̲d̲ e̲l̲s̲e̲
+           S:=SQRT(VECVEC(M0,M,0,W,W));
+         NORMFUNCTION:=S
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR BOUND;
+         ETA:=AETA+RETA × NORMFUNCTION(NORM,U);
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR CONSTRUCTION(I);i̲n̲t̲e̲g̲e̲r̲ I;
+      b̲e̲g̲i̲n̲ i̲f̲ I=P t̲h̲e̲n̲ b̲e̲g̲i̲n̲ ECL:=0;TAUEC:=1 e̲n̲d̲;
+         i̲f̲ I>P+1 t̲h̲e̲n̲ TAUEC:=TAUEC×TAU;
+         ECL:=ECL+ABS(BETHA[I])×TAUEC×NORMFUNCTION(NORM,C);
+         i̲f̲ I=N t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ EC0:=EC1;EC1:=EC2;EC2:=ECL;
+            RHO:=ECL×TAU⭡Q
+         e̲n̲d̲
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ TAUACC,TAUSTAB,AA,BB,CC,EC;
+         LOCAL ERROR BOUND;
+         i̲f̲ ETA>0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ START t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ i̲f̲ K=0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J;
+                  f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ C[J]:=U[J];
+                  I:=1; DERIVATIVE(I,C);
+                  TAUACC:=ETA/NORMFUNCTION(NORM,C);
+                  STEP1:=t̲r̲u̲e̲
+               e̲n̲d̲ e̲l̲s̲e̲
+               i̲f̲ STEP1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ TAUACC:=(ETA/RHO)⭡(1/Q)×TAU2;
+                  i̲f̲ TAUACC>10×TAU2 t̲h̲e̲n̲
+                    TAUACC:=10×TAU2 e̲l̲s̲e̲ STEP1:=f̲a̲l̲s̲e̲
+               e̲n̲d̲ e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲ BB:=(EC2-EC1)/TAU1; CC:=EC2-BB×T2;
+                  EC:=BB×T+CC;
+                  TAUACC:=i̲f̲ EC<0 t̲h̲e̲n̲ TAU2 e̲l̲s̲e̲
+                    (ETA/EC)⭡(1/Q);
+                  START:=f̲a̲l̲s̲e̲
+               e̲n̲d̲
+
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ AA:=((EC0-EC1)/TAU0+(EC2-EC1)/TAU1)/
+                 (TAU1+TAU0);
+               BB:=(EC2-EC1)/TAU1-AA×(2×T2-TAU1);
+               CC:=EC2-T2×(BB+AA×T2); EC:=CC+T×(BB+T×AA);
+               TAUACC:=i̲f̲ EC<0 t̲h̲e̲n̲ TAUS
+               e̲l̲s̲e̲ (ETA/EC)⭡(1/Q);
+               i̲f̲ TAUACC>ALFA×TAUS t̲h̲e̲n̲ TAUACC:=ALFA×TAUS;
+               i̲f̲ TAUACC<GAMMA×TAUS t̲h̲e̲n̲ TAUACC:=GAMMA×TAUS;
+            e̲n̲d̲
+         e̲n̲d̲ e̲l̲s̲e̲ TAUACC:=TE-T;
+         i̲f̲ TAUACC<TAUMIN t̲h̲e̲n̲ TAUACC:=TAUMIN;
+         TAUSTAB:=BETAN/SIGMA;
+         i̲f̲ TAUSTAB<@-12 × (T-T0) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ OUT;g̲o̲t̲o̲ END OF MODIFIED TAYLOR e̲n̲d̲;
+         TAU:=i̲f̲ TAUACC>TAUSTAB t̲h̲e̲n̲ TAUSTAB e̲l̲s̲e̲ TAUACC;
+         TAUS:=TAU; i̲f̲ TAU≥TE-T t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ TAU:=TE-T;LAST:= t̲r̲u̲e̲ e̲n̲d̲;
+         TAU0:=TAU1;TAU1:=TAU2;TAU2:=TAU
+      e̲n̲d̲;
+
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ B;
+         f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ C[J]:=U[J]; TAUI:=1;
+         NEXT TERM:
+         I:=I+1; DERIVATIVE(I,C); TAUI:=TAUI×TAU;
+         B:=BETA[I]×TAUI;
+         i̲f̲ ETA>0 ∧ I≥P t̲h̲e̲n̲ LOCAL ERROR CONSTRUCTION(I);
+         f̲o̲r̲ J:=M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ U[J]:=U[J]+B×C[J];
+         i̲f̲ I<N t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT TERM;
+         T2:=T; i̲f̲ LAST t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ LAST:= f̲a̲l̲s̲e̲; T:= TE e̲n̲d̲
+         e̲l̲s̲e̲ T:= T + TAU
+      e̲n̲d̲;
+
+      START:= K=0; T0:=T;
+      COEFFICIENT; LAST:= f̲a̲l̲s̲e̲;
+      NEXT LEVEL:
+      STEPSIZE; K:=K+1; I:=0; DIFFERENCE SCHEME; OUT;
+      i̲f̲ T ≠ TE t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT LEVEL
+   e̲n̲d̲;
+   END OF MODIFIED TAYLOR:
+e̲n̲d̲ MODIFIED TAYLOR;
+e̲o̲p̲

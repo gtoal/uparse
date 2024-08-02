@@ -1,0 +1,13 @@
+c̲o̲d̲e̲ 34400;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLINV2(A, N); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ R; i̲n̲t̲e̲g̲e̲r̲ I, J, I1;
+   a̲r̲r̲a̲y̲ U[1:N];
+
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ R:= 1 / A[I,I]; I1:= I + 1;
+         DUPVECROW(I1, N, I, U, A);
+         f̲o̲r̲ J:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ I1 d̲o̲ A[I,J]:=- (TAMVEC(I1, J, J, A, U) + MATVEC(J + 1, N, J, A, U)) × R;
+         A[I,I]:= (R - MATVEC(I1, N, I, A, U)) × R
+      e̲n̲d̲
+e̲n̲d̲ CHLINV2;
+e̲o̲p̲

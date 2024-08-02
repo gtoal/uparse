@@ -1,0 +1,8 @@
+c̲o̲d̲e̲ 34236;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ GSSINV(A, N, AUX); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A, AUX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ RI, CI[1:N];
+   GSSELM(A, N, AUX, RI, CI);
+   i̲f̲ AUX[3] = N t̲h̲e̲n̲ AUX[9]:= INV1(A, N, RI, CI, t̲r̲u̲e̲)
+e̲n̲d̲ GSSINV;
+e̲o̲p̲

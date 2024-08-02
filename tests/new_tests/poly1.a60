@@ -1,0 +1,33 @@
+'REAL' 'PROCEDURE' cputime;
+
+'BEGIN'
+
+	'COMMENT' fast calculation of tetric polynomial;
+	
+	'REAL' 'ARRAY' a[0:4];
+	'REAL' x, f;
+	'INTEGER' i;
+	
+	outstring (1,"coefficients a0,a1,a2,a3,a4 = ");
+	'FOR' i :=0 'STEP' 1 'UNTIL' 4 'DO' inreal (0,a[i]);
+	
+	'COMMENT' standard calculation;
+	outreal (1, cputime); outstring(1,"\n");
+	
+	'FOR' i := 0 'STEP' 1 'UNTIL' 10000000 'DO'
+	'BEGIN'
+		x := i*0.0001;
+		f := a[0] + a[1]*x + a[2]*x*x + a[3]*x*x*x + a[4]*x*x*x*x
+	'END' ;
+	
+	'COMMENT' fast calculation;
+	outreal (1, cputime); outstring(1,"\n");
+	
+	'FOR' i := 0 'STEP' 1 'UNTIL' 10000000 'DO'
+	'BEGIN'
+		x := i*0.0001;
+		f := a[0] + x*(a[1] + x*(a[2] + x*(a[3] + x*a[4])))
+	'END' ;
+	
+	outreal (1, cputime); outstring(1,"\n")
+'END';

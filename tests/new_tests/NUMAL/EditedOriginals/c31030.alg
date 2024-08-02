@@ -1,0 +1,5 @@
+'CODE' 31030;
+    'PROCEDURE' DUPVEC(L, U, SHIFT, A, B); 'VALUE' L,U,SHIFT;
+    'INTEGER' L,U,SHIFT; 'ARRAY' A,B;
+    'FOR' L:= L 'STEP' 1 'UNTIL' U 'DO' A[L]:= B[L+SHIFT];
+        'EOP'

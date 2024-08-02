@@ -1,0 +1,5 @@
+'BEGIN' 
+	'REAL' x;
+	inreal (0,x);
+	outreal (1,x)
+'END'

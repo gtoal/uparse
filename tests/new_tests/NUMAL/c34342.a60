@@ -1,0 +1,16 @@
+c̲o̲d̲e̲34342;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMDIV(XR,XI,YR,YI,ZR,ZI);
+   v̲a̲l̲u̲e̲ XR,XI,YR,YI;r̲e̲a̲l̲ XR,XI,YR,YI,ZR,ZI;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ H,D;
+   i̲f̲ ABS(YI) < ABS(YR) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ YI= 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ ZR:= XR/YR; ZI:= XI/YR e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ H:= YI/YR; D:= H×YI + YR;
+         ZR:= (XR + H × XI)/D; ZI:= (XI-H×XR)/D
+      e̲n̲d̲
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ H:= YR/YI; D:= H×YR + YI;
+      ZR:= (XR×H + XI)/D; ZI:= (XI×H - XR)/D
+   e̲n̲d̲
+e̲n̲d̲ COMDIV;
+e̲o̲p̲

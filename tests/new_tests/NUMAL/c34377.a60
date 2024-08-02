@@ -1,0 +1,11 @@
+c̲o̲d̲e̲ 34377;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELMCOMCOL(L,U,I,J,AR,AI,BR,BI,XR,XI);
+   v̲a̲l̲u̲e̲ L,U,I,J,XR,XI;
+   i̲n̲t̲e̲g̲e̲r̲ L,U,I,J;r̲e̲a̲l̲ XR,XI;a̲r̲r̲a̲y̲ AR,AI,BR,BI;
+b̲e̲g̲i̲n̲
+   ELMCOL(L,U,I,J,AR,BR,XR);
+   ELMCOL(L,U,I,J,AR,BI,-XI);
+   ELMCOL(L,U,I,J,AI,BR,XI);
+   ELMCOL(L,U,I,J,AI,BI,XR)
+e̲n̲d̲ ELMCOMCOL;
+e̲o̲p̲

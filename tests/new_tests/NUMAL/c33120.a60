@@ -1,0 +1,203 @@
+c̲o̲d̲e̲ 33120;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ EFERK(X,XE,M,Y,SIGMA,PHI,DERIVATIVE,J,JACOBIAN,
+  K,L,AUT,AETA,RETA,HMIN,HMAX,LINEAR,OUTPUT);
+   v̲a̲l̲u̲e̲ L; i̲n̲t̲e̲g̲e̲r̲ M,K,L;
+     r̲e̲a̲l̲ X,XE,SIGMA,PHI,AETA,RETA,HMIN,HMAX; a̲r̲r̲a̲y̲ Y,J;
+     b̲o̲o̲l̲e̲a̲n̲ AUT,LINEAR; p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE,JACOBIAN,OUTPUT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M1,I;
+   r̲e̲a̲l̲ H,B,B0,PHI0,COSPHI,SINPHI,ETA,DISCR,FAC,PI;
+   b̲o̲o̲l̲e̲a̲n̲ CHANGE,LAST;
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P[1:L];
+   r̲e̲a̲l̲ a̲r̲r̲a̲y̲ BETA,BETHA[0:L],BETAC[0:L+3],K0,D,D1,D2[1:M],
+     A[1:L,1:L],AUX[1:3];
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUM(I,L,U,T); v̲a̲l̲u̲e̲ L,U; i̲n̲t̲e̲g̲e̲r̲ I,L,U;
+        r̲e̲a̲l̲ T;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S; S:=0;
+      f̲o̲r̲ I:=L s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ U d̲o̲ S:=S+T;
+      SUM:=S
+   e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ FORMBETA;
+      i̲f̲ L=1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ BETHA[1]:=(·5-(1-(1-EXP(-B))/B)/B)/B;
+         BETA[1]:=(1/6-BETHA[1])/B
+      e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ L=2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ E,EMIN1; E:=EXP(-B); EMIN1:=E-1;
+         BETHA[1]:=(1-(3+E+4×EMIN1/B)/B)/B;
+         BETHA[2]:=(·5-(2+E+3×EMIN1/B)/B)/B/B;
+         BETA[2]:=(1/6-BETHA[1])/B/B;
+         BETA[1]:=(1/3-(1·5-(4+E+5×EMIN1/B)/B)/B)/B
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ B0,B1,B2,A0,A1,A2,A3,C,D;
+         BETAC[L-1]:=C:=D:=EXP(-B)/FAC;
+         f̲o̲r̲ I:=L-1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+            b̲e̲g̲i̲n̲ C:=I×B×C/(L-I); BETAC[I-1]:=D:=D×I+C e̲n̲d̲;
+         B2:=·5-BETAC[2];
+         B1:=(1-BETAC[1])×(L+1)/B;
+         B0:=(1-BETAC[0])×(L+2)×(L+1)×·5/B/B;
+         A3:=1/6-BETAC[3];
+         A2:=B2×(L+1)/B;
+         A1:=B1×(L+2)×·5/B;
+         A0:=B0×(L+3)/3/B;
+         D:=L/B;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+            b̲e̲g̲i̲n̲BETA[I]:=(A3/I-A2/(I+1)+A1/(I+2)-A0/(I+3))×D+BETAC[I+3];
+               BETHA[I]:=(B2/I-B1/(I+1)+B0/(I+2))×D+BETAC[I+2];
+               D:=D×(L-I)/I/B;
+            e̲n̲d̲
+      e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLUTIONOFCOMPLEXEQUATIONS;
+      i̲f̲ L=2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ COS2PHI,COSA,SINA,E,ZI;
+         PHI0:=PHI; COSPHI:=COS(PHI0); SINPHI:=SIN(PHI0);
+         E:=EXP(B×COSPHI); ZI:=B×SINPHI-3×PHI0;
+         SINA:=(i̲f̲ ABS(SINPHI)<@-6 t̲h̲e̲n̲ -E×(B+3)
+         e̲l̲s̲e̲ E×SIN(ZI)/SINPHI);
+         COS2PHI:=2×COSPHI×COSPHI-1;
+         BETHA[2]:=(·5+(2×COSPHI+(1+2×COS2PHI+SINA)/B)/B)/B/B;
+         SINA:=(i̲f̲ ABS(SINPHI)<@-6 t̲h̲e̲n̲ E×(B+4)
+         e̲l̲s̲e̲ SINA×COSPHI-E×COS(ZI));
+         BETHA[1]:=-(COSPHI+(1+2×COS2PHI+(4×COSPHI×COS2PHI+SINA)
+           /B)/B)/B;
+         BETA[1]:=BETHA[2]+2×COSPHI×(BETHA[1]-1/6)/B;
+         BETA[2]:=(1/6-BETHA[1])/B/B
+      e̲n̲d̲ e̲l̲s̲e̲
+
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J,C1;
+         r̲e̲a̲l̲ C2,E,ZI,COSIPHI,SINIPHI,COSPHIL;
+         r̲e̲a̲l̲ a̲r̲r̲a̲y̲ D[1:L];
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ ELEMENTS OF MATRIX;
+         b̲e̲g̲i̲n̲ PHI0:=PHI;
+            COSPHI:=COS(PHI0); SINPHI:=SIN(PHI0);
+            COSIPHI:=1; SINIPHI:=0;
+            f̲o̲r̲ I:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L-1 d̲o̲
+               b̲e̲g̲i̲n̲ C1:=4+I; C2:=1;
+                  f̲o̲r̲ J:=L-1 s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ 1 d̲o̲
+                     b̲e̲g̲i̲n̲  A[J,L-I]:=C2×COSIPHI;
+                        A[J+1,L-I]:=C2×SINIPHI;
+                        C2:=C2×C1; C1:=C1-1
+                     e̲n̲d̲;
+                  COSPHIL:=COSIPHI×COSPHI-SINIPHI×SINPHI;
+                  SINIPHI:=COSIPHI×SINPHI+SINIPHI×COSPHI;
+                  COSIPHI:=COSPHIL
+               e̲n̲d̲;
+            AUX[2]:=0; DEC(A,L,AUX,P)
+         e̲n̲d̲ EL OF MAT;
+         p̲r̲o̲c̲e̲d̲u̲r̲e̲ RIGHT HAND SIDE;
+         b̲e̲g̲i̲n̲ E:=EXP(B×COSPHI);
+            ZI:=B×SINPHI-4×PHI0;
+            COSIPHI:=E×COS(ZI); SINIPHI:=E×SIN(ZI);
+            ZI:=1/B/B/B;
+            f̲o̲r̲ J:=L s̲t̲e̲p̲ -2 u̲n̲t̲i̲l̲ 2 d̲o̲
+               b̲e̲g̲i̲n̲ D[J]:=ZI×SINIPHI;
+                  D[J-1]:=ZI×COSIPHI;
+                  COSPHIL:=COSIPHI×COSPHI-SINIPHI×SINPHI;
+                  SINIPHI:=COSIPHI×SINPHI+SINIPHI×COSPHI;
+                  COSIPHI:=COSPHIL; ZI:=ZI×B
+               e̲n̲d̲;
+            SINIPHI:=2×SINPHI×COSPHI;
+            COSIPHI:=2×COSPHI×COSPHI-1;
+            COSPHIL:=COSPHI×(2×COSIPHI-1);
+            D[L]:=D[L]+SINPHI×(1/6+(COSPHI+(1+2×COSIPHI×(1+2×COSPHI/B))
+              /B)/B);
+            D[L-1]:=D[L-1]-COSPHI/6-(·5×COSIPHI+(COSPHIL+(2×COSIPHI×
+              COSIPHI-1)/B)/B)/B;
+            D[L-2]:=D[L-2]+SINPHI×(·5+(2×COSPHI+(2×COSIPHI+1)/B)/B);
+            D[L-3]:=D[L-3]-·5×COSPHI-(COSIPHI+COSPHIL/B)/B;
+            i̲f̲ L<5 t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+            D[L-4]:=D[L-4]+SINPHI+SINIPHI/B;
+            D[L-5]:=D[L-5]-COSPHI-COSIPHI/B;
+            i̲f̲ L<7 t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+            D[L-6]:=D[L-6]+SINPHI;
+            D[L-7]:=D[L-7]-COSPHI;
+            END:
+         e̲n̲d̲ RHS;
+         i̲f̲ PHI0≠PHI t̲h̲e̲n̲ ELEMENTS OF MATRIX;
+         RIGHT HAND SIDE;
+         SOL(A,L,P,D);
+         ZI:=1/B;
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+            b̲e̲g̲i̲n̲ BETA[I]:=D[L+1-I]×ZI;
+               BETHA[I]:=(I+3)×BETA[I];
+               ZI:=ZI/B
+            e̲n̲d̲
+      e̲n̲d̲ SOLOFEQCOM;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ COEFFICIENT;
+   b̲e̲g̲i̲n̲ B0:=B:=ABS(H×SIGMA);
+      i̲f̲ B≥·1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ PHI≠PI ∧ L=2 ∨ ABS(PHI-PI)>·01 t̲h̲e̲n̲
+           SOLUTION OF COMPLEX EQUATIONS e̲l̲s̲e̲ FORMBETA
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+            b̲e̲g̲i̲n̲ BETHA[I]:=BETA[I-1];
+               BETA[I]:=BETA[I-1]/(I+3);
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ COEFFICIENT;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR BOUND;
+      ETA:=AETA+RETA×SQRT(VECVEC(1,M1,0,Y,Y));
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ LOCAL ERROR BOUND;
+      i̲f̲ K=0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DISCR:=SQRT(VECVEC(1,M1,0,D,D)); H:=ETA/DISCR
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ DISCR:=H×SQRT(SUM(I,1,M1,(D[I]-D2[I])⭡2))/ETA;
+         H:=H×(i̲f̲ LINEAR t̲h̲e̲n̲ 4/(4+DISCR)+·5
+         e̲l̲s̲e̲ 4/(3+DISCR)+1/3)
+      e̲n̲d̲;
+      i̲f̲ H<HMIN t̲h̲e̲n̲ H:=HMIN;
+      i̲f̲ H>HMAX t̲h̲e̲n̲ H:=HMAX;
+      B:=ABS(H×SIGMA);
+      CHANGE:=ABS(1-B/B0)>·05 ∨ PHI≠PHI0;
+      i̲f̲ 1·1×H≥XE-X t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ CHANGE:=LAST:=t̲r̲u̲e̲; H:=XE-X e̲n̲d̲;
+      i̲f̲ ¬ CHANGE t̲h̲e̲n̲ H:=H×B0/B
+   e̲n̲d̲ STEPSIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K;
+      r̲e̲a̲l̲ BETAI,BETHAI;
+      i̲f̲ M1<M t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ D2[M]:=1; K0[M]:=Y[M]+2×H/3; Y[M]:=Y[M]+·25×H e̲n̲d̲;
+      f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲
+         b̲e̲g̲i̲n̲ K0[K]:=Y[K]+2×H/3×D[K];
+            Y[K]:=Y[K]+·25×H×D[K];
+            D1[K]:=H×MATVEC(1,M,K,J,D);
+            D2[K]:=D1[K]+D[K]
+         e̲n̲d̲;
+      f̲o̲r̲ I:=0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L d̲o̲
+         b̲e̲g̲i̲n̲ BETAI:=4×BETA[I]/3; BETHAI:=BETHA[I];
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲ D[K]:=H×D1[K];
+            f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲
+               b̲e̲g̲i̲n̲ K0[K]:=K0[K]+BETAI×D[K];
+                  D1[K]:=MATVEC(1,M1,K,J,D);
+                  D2[K]:=D2[K]+BETHAI×D1[K]
+               e̲n̲d̲
+         e̲n̲d̲;
+      DERIVATIVE(K0);
+      f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ Y[K]:=Y[K]+·75×H×K0[K]
+   e̲n̲d̲ DIFF SCHEME;
+
+   B0:=PHI0:=-1; PI:=4×ARCTAN(1);
+   BETAC[L]:=BETAC[L+1]:=BETAC[L+2]:=BETAC[L+3]:=0;
+   BETA[0]:=1/6; BETHA[0]:=·5;
+   FAC:=1; f̲o̲r̲ I:=2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ L-1 d̲o̲ FAC:=I×FAC;
+   M1:= i̲f̲ AUT t̲h̲e̲n̲ M e̲l̲s̲e̲ M-1;
+   K:=0; LAST:=f̲a̲l̲s̲e̲;
+   NEXT LEVEL:
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ D[I]:=Y[I];
+   DERIVATIVE(D);
+   i̲f̲ ¬ LINEAR ∨ K=0 t̲h̲e̲n̲ JACOBIAN(J,Y);
+   STEPSIZE;
+   i̲f̲ CHANGE t̲h̲e̲n̲ COEFFICIENT;
+   OUTPUT;
+   DIFFERENCE SCHEME;
+   K:=K+1;
+   X:=X+H;
+   i̲f̲ ¬ LAST t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT LEVEL;
+   END OF EFERK: OUTPUT;
+e̲n̲d̲ EFERK;
+e̲o̲p̲

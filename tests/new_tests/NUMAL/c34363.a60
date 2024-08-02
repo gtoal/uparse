@@ -1,0 +1,65 @@
+c̲o̲d̲e̲ 34363;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHHRMTRI(A, N, D, B, BB, EM, TR, TI); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, D, B, BB, EM, TR, TI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, J1, JM1, R, RM1;
+   r̲e̲a̲l̲ NRM, W, TOL2, X, AR, AI, MOD, C, S, H, K, T, Q,
+     AJR, ARJ, BJ, BBJ;
+   NRM:= 0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ W:= ABS(A[I,I]);
+         f̲o̲r̲ J:= I - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1, I + 1 s̲t̲e̲p̲ 1
+           u̲n̲t̲i̲l̲ N d̲o̲ W:= W + ABS(A[I,J]) + ABS(A[J,I]);
+         i̲f̲ W > NRM t̲h̲e̲n̲ NRM:= W
+      e̲n̲d̲ I;
+   TOL2:= (EM[0] × NRM) ⭡ 2; EM[1]:= NRM; R:= N;
+   f̲o̲r̲ RM1:= N - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ X:= TAMMAT(1, R - 2, R, R, A, A) + MATTAM(1, R -
+           2, R, R, A, A); AR:= A[RM1,R]; AI:= - A[R,RM1];
+         D[R]:= A[R,R]; CARPOL(AR, AI, MOD, C, S);
+         i̲f̲ X < TOL2 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ A[R,R]:= - 1; B[RM1]:= MOD;
+            BB[RM1]:= MOD × MOD
+         e̲n̲d̲
+
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ H:= MOD × MOD + X; K:= SQRT(H);
+            T:= A[R,R]:= H + MOD × K;
+            i̲f̲ AR = 0 ∧ AI = 0 t̲h̲e̲n̲ A[RM1,R]:= K e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ A[RM1,R]:= AR + C × K;
+               A[R,RM1]:= - AI - S × K; S:= - S
+            e̲n̲d̲;
+            C:= - C; J:= 1; JM1:= 0;
+            f̲o̲r̲ J1:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+               b̲e̲g̲i̲n̲ B[J]:= (TAMMAT(1, J, J, R, A, A) +
+                    MATMAT(J1, RM1, J, R, A, A) + MATTAM(1,
+                    JM1, J, R, A, A) - MATMAT(J1, RM1, R, J,
+                    A, A)) / T;
+                  BB[J]:= (MATMAT(1, JM1, J, R, A, A) -
+                    TAMMAT(J1, RM1, J, R, A, A) - MATMAT(1, J,
+                    R, J, A, A) - MATTAM(J1, RM1, J, R, A, A))
+                    / T; JM1:= J; J:= J1
+               e̲n̲d̲ J1;
+            Q:= (TAMVEC(1, RM1, R, A, B) - MATVEC(1, RM1,
+              R, A, BB)) / T / 2;
+            ELMVECCOL(1, RM1, R, B, A, - Q);
+            ELMVECROW(1, RM1, R, BB, A, Q); J:= 1;
+            f̲o̲r̲ J1:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ R d̲o̲
+               b̲e̲g̲i̲n̲ AJR:= A[J,R]; ARJ:= A[R,J]; BJ:= B[J];
+                  BBJ:= BB[J];
+                  ELMROWVEC(J, RM1, J, A, B, - AJR);
+                  ELMROWVEC(J, RM1, J, A, BB, ARJ);
+                  ELMROWCOL(J, RM1, J, R, A, A, - BJ);
+                  ELMROW(J, RM1, J, R, A, A, BBJ);
+                  ELMCOLVEC(J1, RM1, J, A, B, - ARJ);
+                  ELMCOLVEC(J1, RM1, J, A, BB, - AJR);
+                  ELMCOL(J1, RM1, J, R, A, A, BBJ);
+                  ELMCOLROW(J1, RM1, J, R, A, A, BJ); J:= J1;
+               e̲n̲d̲ J1;
+            BB[RM1]:= H; B[RM1]:= K;
+         e̲n̲d̲;
+         TR[RM1]:= C; TI[RM1]:= S; R:= RM1;
+      e̲n̲d̲ RM1;
+   D[1]:= A[1,1];
+e̲n̲d̲ HSHHRMTRI
+
+;e̲o̲p̲

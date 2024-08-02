@@ -1,0 +1,58 @@
+c̲o̲d̲e̲ 35183;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ BESS PQA01(A,X,PA,QA,PA1,QA1);v̲a̲l̲u̲e̲ A,X;
+   r̲e̲a̲l̲ A,X,PA,PA1,QA,QA1;
+   i̲f̲ A = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      BESS PQ0(X,PA,QA); BESS PQ1(X,PA1,QA1)
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N,NA;  r̲e̲a̲l̲ B, PI, P0, Q0 ; b̲o̲o̲l̲e̲a̲n̲ REC, REV;
+      PI:= 4 × ARCTAN(1);
+      REV:=A<-·5;i̲f̲ REV t̲h̲e̲n̲ A:=-A-1;
+      REC:=A≥·5;i̲f̲ REC t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ NA:=ENTIER(A+·5);A:=A-NA e̲n̲d̲;
+      i̲f̲ A=-·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ PA:=PA1:=1;QA:=QA1:=0 e̲n̲d̲
+
+        e̲l̲s̲e̲ i̲f̲ X ≥ 3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C,D,E,F,G,H,P,Q,R,S;
+         C:=·25 - A×A; B:= X + X; F:= R:= 1; G:= -X; S:= 0;
+         E:=(X×COS(A×PI)/PI×@15)⭡2;
+         f̲o̲r̲ N:=2,N+1 w̲h̲i̲l̲e̲ (P×P + Q×Q)×N×N<E d̲o̲
+            b̲e̲g̲i̲n̲ D:=(N-1+C/N);
+               P:= (2 × N × F + B × G - D × R) / (N + 1);
+               Q:= (2 × N × G - B × F - D × S) / (N + 1);
+               R:= F; F:= P; S:= G; G:= Q
+            e̲n̲d̲;
+         E:= F × F + G × G;
+         P:= (R × F + S × G) / E;
+         Q:= (S × F - R × G) / E;
+         F:= P; G:= Q;
+         f̲o̲r̲ N:=N-1 w̲h̲i̲l̲e̲ N>0 d̲o̲
+            b̲e̲g̲i̲n̲ R:=(N+1)×(2-P)-2;S:=B+(N+1)×Q;D:=(N-1+C/N)/
+                 (R×R+S×S);P:=D×R;Q:=D×S;E:=F;
+               F:=P×(E+1)-G×Q;G:=Q×(E+1)+P×G
+            e̲n̲d̲;
+         F:=1+F; D:=F×F + G×G;
+         PA:=F/D;QA:=-G/D;D:=A+·5-P;Q:=Q+X;
+         PA1:=(PA×Q-QA×D)/X; QA1:=(QA×Q+PA×D)/X
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C, S, CHI, YA, YA1; a̲r̲r̲a̲y̲ JA[0:1];
+         B:= SQRT(PI × X / 2);
+         CHI:= X - PI × (A / 2 + ·25); C:= COS(CHI); S:= SIN(CHI);
+         BESS YA01(A, X, YA, YA1); BESS JAPLUSN(A, X, 1, JA);
+         PA:= B × (YA × S + C × JA[0]); QA:= B × (C × YA - S × JA[0]);
+         PA1:= B × (S × JA[1] - C × YA1);
+         QA1:= B × (JA[1] × C + YA1 × S)
+      e̲n̲d̲;
+      i̲f̲ REC t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲  X:=2/X;B:=(A+1)×X;
+         f̲o̲r̲ N:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NA d̲o̲
+            b̲e̲g̲i̲n̲ P0:=PA-QA1×B; Q0:=QA+PA1×B;
+               PA:=PA1;PA1:=P0; QA:=QA1; QA1:=Q0; B:=B+X
+            e̲n̲d̲
+      e̲n̲d̲;
+      i̲f̲ REV t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ P0:=PA1;PA1:=PA;PA:=P0;Q0:=QA1;QA1:=QA;QA:=Q0 e̲n̲d̲
+   e̲n̲d̲ BESS PQA01;
+
+e̲o̲p̲

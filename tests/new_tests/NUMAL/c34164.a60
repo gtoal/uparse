@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34164;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2327;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRIVALSYM1(A, N, VAL, EM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, VAL, EM;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ B, BB[1 : N];
+
+   TFMSYMTRI1(A, N, VAL, B, BB, EM);
+   QRIVALSYM1:= QRIVALSYMTRI(VAL, BB, N, EM)
+e̲n̲d̲ QRIVALSYM1;
+e̲o̲p̲

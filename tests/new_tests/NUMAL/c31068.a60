@@ -1,0 +1,12 @@
+c̲o̲d̲e̲ 31068;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ONENRMMAT(LR, UR, LC, UC, KC, A);
+   v̲a̲l̲u̲e̲ LR, UR, LC, UC; i̲n̲t̲e̲g̲e̲r̲ LR, UR, LC, UC, KC; a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲ r̲e̲a̲l̲ MAX, R;
+   MAX:= 0; KC:= LC;
+   f̲o̲r̲ LC:= LC s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UC d̲o̲
+      b̲e̲g̲i̲n̲ R:= ONENRMCOL(LR, UR, LC, A); i̲f̲ R > MAX t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ MAX:= R; KC:= LC e̲n̲d̲
+      e̲n̲d̲;
+   ONENRMMAT:= MAX
+e̲n̲d̲ ONENRMMAT;
+e̲o̲p̲

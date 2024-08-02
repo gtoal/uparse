@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 36403;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ROWPERM(PERM,LOW,UPP,I,MAT);v̲a̲l̲u̲e̲ LOW,UPP,I;
+   i̲n̲t̲e̲g̲e̲r̲ LOW,UPP,I;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PERM;r̲e̲a̲l̲ a̲r̲r̲a̲y̲ MAT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ T,J,K;r̲e̲a̲l̲ A;b̲o̲o̲l̲e̲a̲n̲ a̲r̲r̲a̲y̲ TODO[LOW:UPP];
+   f̲o̲r̲ T:=LOW s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲ TODO[T]:=t̲r̲u̲e̲;
+   f̲o̲r̲ T:=LOW s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UPP d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ TODO[T] t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ K:=T;A:=MAT[I,K];
+            f̲o̲r̲ J:=PERM[K] w̲h̲i̲l̲e̲ J≠T d̲o̲
+               b̲e̲g̲i̲n̲ MAT[I,K]:=MAT[I,J];TODO[K]:=f̲a̲l̲s̲e̲;K:=J
+               e̲n̲d̲;MAT[I,K]:=A;TODO[K]:=f̲a̲l̲s̲e̲
+         e̲n̲d̲ CYCLE;
+      e̲n̲d̲ FOR T;
+e̲n̲d̲ ROWPERM;
+e̲o̲p̲

@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34163;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2323;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRISYM(A, N, VAL, EM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, VAL, EM;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ B, BB[1:N];
+
+   TFMSYMTRI2(A, N, VAL, B, BB, EM); TFMPREVEC(A, N);
+   QRISYM:= QRISYMTRI(A, N, VAL, B, BB, EM)
+e̲n̲d̲ QRISYM;
+e̲o̲p̲

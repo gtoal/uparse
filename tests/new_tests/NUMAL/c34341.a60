@@ -1,0 +1,7 @@
+c̲o̲d̲e̲34341;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ COMMUL(AR,AI,BR,BI,RR,RI);
+   v̲a̲l̲u̲e̲ AR,AI,BR,BI; r̲e̲a̲l̲ AR,AI,BR,BI,RR,RI;
+b̲e̲g̲i̲n̲ RR:= AR × BR - AI × BI;
+   RI:= AR × BI + AI × BR
+e̲n̲d̲ COMMUL;
+e̲o̲p̲

@@ -1,0 +1,17 @@
+c̲o̲d̲e̲ 34136;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQINV(A, M, AID, C); v̲a̲l̲u̲e̲ M; i̲n̲t̲e̲g̲e̲r̲ M;
+     a̲r̲r̲a̲y̲ A, AID; i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ C;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ I, CI;
+   r̲e̲a̲l̲ W;
+
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ A[I,I]:= AID[I];
+   CHLINV2(A, M);
+   f̲o̲r̲ I:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ CI:= C[I]; i̲f̲ CI ≠ I t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ ICHCOL(1, I - 1, I, CI, A); ICHROWCOL(I + 1, CI - 1,
+              I, CI, A); ICHROW(CI + 1, M, I, CI, A);
+            W:= A[I,I]; A[I,I]:= A[CI,CI]; A[CI,CI]:= W
+         e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ LSQINV;
+e̲o̲p̲

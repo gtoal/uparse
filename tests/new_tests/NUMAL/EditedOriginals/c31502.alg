@@ -1,0 +1,9 @@
+'CODE' 31502;
+   'PROCEDURE' FULSYMMATVEC(LR, UR, LC, UC, A, B, C);
+   'VALUE' LR, UR, LC, UC, B; 'INTEGER' LR, UR, LC, UC;
+   'ARRAY' A, B, C;
+   'BEGIN'
+       'FOR' LR:= LR 'STEP' 1 'UNTIL' UR 'DO'
+       C[LR]:= SYMMATVEC(LC, UC, LR, A, B)
+   'END' FULSYMMATVEC;
+        'EOP'

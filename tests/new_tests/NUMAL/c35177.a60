@@ -1,0 +1,22 @@
+c̲o̲d̲e̲ 35177;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXP BESS I(X, N, I); v̲a̲l̲u̲e̲ X, N;
+   i̲n̲t̲e̲g̲e̲r̲ N; r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ I;
+   i̲f̲ X = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ I[0]:= 1; f̲o̲r̲ N:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+           I[N]:= 0
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K; r̲e̲a̲l̲ X2, R, S; b̲o̲o̲l̲e̲a̲n̲ NEGATIVE;
+      NEGATIVE:= X < 0; X:= ABS(X);
+      R:= S:= 0; X2:= 2/X; K:= START(X,N,1);
+      f̲o̲r̲ K:= K s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ R:= 1 / (R + X2 × K); S:= R × (2 + S);
+            i̲f̲ K ≤ N t̲h̲e̲n̲ I[K]:= R
+         e̲n̲d̲;
+      I[0]:= R:= 1 / (1 + S);
+      i̲f̲ NEGATIVE t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              I[K]:= R:= - R × I[K]
+      e̲n̲d̲ e̲l̲s̲e̲
+        f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ I[K]:= R:= R × I[K];
+   e̲n̲d̲ NONEXP BESS I;
+e̲o̲p̲

@@ -1,0 +1,105 @@
+c̲o̲d̲e̲ 33015 ;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ RK3N(X, A, B, Y, YA, Z, ZA, FXYJ, J, E, D,
+  FI, N); v̲a̲l̲u̲e̲ B, FI, N; i̲n̲t̲e̲g̲e̲r̲ J, N; r̲e̲a̲l̲ X, A, B, FXYJ;
+     b̲o̲o̲l̲e̲a̲n̲ FI; a̲r̲r̲a̲y̲ Y, YA, Z, ZA, E, D;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ JJ;
+   r̲e̲a̲l̲ XL, H, HMIN, INT, HL, ABSH, FHM, DISCRY, DISCRZ,
+     TOLY, TOLZ, MU, MU1, FHY, FHZ;
+   b̲o̲o̲l̲e̲a̲n̲ LAST, FIRST, REJECT;
+   a̲r̲r̲a̲y̲ YL, ZL, K0, K1, K2, K3, K4, K5[1:N], EE[1:4 ×
+     N];
+   i̲f̲ FI t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ D[3]:= A;
+      f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ D[JJ + 3]:= YA[JJ]; D[N + JJ + 3]:= ZA[JJ]
+         e̲n̲d̲
+   e̲n̲d̲;
+   D[1]:= 0; XL:= D[3];
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ YL[JJ]:= D[JJ + 3]; ZL[JJ]:= D[N + JJ + 3] e̲n̲d̲;
+   i̲f̲ FI t̲h̲e̲n̲ D[2]:= B - D[3]; ABSH:= H:= ABS(D[2]);
+   i̲f̲ B - XL < 0 t̲h̲e̲n̲ H:= - H; INT:= ABS(B - XL);
+   HMIN:= INT × E[1] + E[2];
+   f̲o̲r̲ JJ:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 2 × N d̲o̲
+      b̲e̲g̲i̲n̲ HL:= INT × E[2 × JJ - 1] + E[2 × JJ];
+         i̲f̲ HL < HMIN t̲h̲e̲n̲ HMIN:= HL
+      e̲n̲d̲;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 4 × N d̲o̲ EE[JJ]:= E[JJ] / INT;
+   FIRST:= REJECT:= t̲r̲u̲e̲; i̲f̲ FI t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ LAST:= t̲r̲u̲e̲; g̲o̲t̲o̲ STEP e̲n̲d̲;
+   TEST: ABSH:= ABS(H); i̲f̲ ABSH < HMIN t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ H:= i̲f̲ H > 0 t̲h̲e̲n̲ HMIN e̲l̲s̲e̲ - HMIN; ABSH:= HMIN
+   e̲n̲d̲;
+   i̲f̲ H ≥ B - XL ≡ H ≥ 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ D[2]:= H; LAST:= t̲r̲u̲e̲; H:= B - XL;
+      ABSH:= ABS(H)
+   e̲n̲d̲
+   e̲l̲s̲e̲ LAST:= f̲a̲l̲s̲e̲;
+   STEP: i̲f̲ REJECT t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ X:= XL;
+      f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ];
+      f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K0[J]:= FXYJ × H
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ FHY:= H / HL;
+      f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K0[JJ]:= K5[JJ] × FHY
+   e̲n̲d̲;
+   X:= XL + ·27639 3202250021 × H;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ] + (ZL[JJ]× ·276393202250021 + K0[JJ] × ·038196601125011) × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K1[J]:= FXYJ × H;
+   X:= XL + ·723606797749979 × H;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ] + (ZL[JJ]× ·723606797749979 + K1[JJ] × ·261803398874989) × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K2[J]:= FXYJ × H;
+   X:= XL + H × ·5;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ] + (ZL[JJ]× ·5 + K0[JJ] × ·046875 + K1[JJ] × ·079824155839840- K2[JJ] × ·00169 9155839840) × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K4[J]:= FXYJ × H;
+   X:= i̲f̲ LAST t̲h̲e̲n̲ B e̲l̲s̲e̲ XL + H;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ] + (ZL[JJ]
+        + K0[JJ] × ·309016994374947 + K2[JJ] ×·190983005625053) × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K3[J]:= FXYJ × H;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Y[JJ]:= YL[JJ] + (ZL[JJ]
+        + K0[JJ] × ·083333333333333 + K1[JJ] × ·30150
+        2832395825 + K2[JJ] × ·115163834270842) × H;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ K5[J]:= FXYJ × H;
+   REJECT:= f̲a̲l̲s̲e̲; FHM:= 0;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ DISCRY:= ABS(( - K0[JJ] × ·5 + K1[JJ] ×
+           1·809016994374947 + K2[JJ] × ·690983005625053 -
+           K4[JJ] × 2) × H);
+         DISCRZ:= ABS((K0[JJ] - K3[JJ]) × 2 - (K1[JJ] +
+           K2[JJ]) × 10 + K4[JJ] × 16 + K5[JJ] × 4);
+         TOLY:= ABSH × (ABS(ZL[JJ]) × EE[2 × JJ - 1] +
+           EE[2 × JJ]);
+         TOLZ:= ABS(K0[JJ]) × EE[2 × (JJ + N) - 1] + ABSH× EE[2 × (JJ + N)];
+         REJECT:= DISCRY > TOLY ∨ DISCRZ > TOLZ ∨ REJECT;
+         FHY:= DISCRY / TOLY; FHZ:= DISCRZ / TOLZ;
+         i̲f̲ FHZ > FHY t̲h̲e̲n̲ FHY:= FHZ;
+         i̲f̲ FHY > FHM t̲h̲e̲n̲ FHM:= FHY
+      e̲n̲d̲;
+   MU:= 1 / (1 + FHM) + ·45; i̲f̲ REJECT t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABSH ≤ HMIN t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ D[1]:= D[1] + 1;
+         f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ Y[JJ]:= YL[JJ]; Z[JJ]:= ZL[JJ] e̲n̲d̲;
+         FIRST:= t̲r̲u̲e̲; g̲o̲t̲o̲ NEXT
+      e̲n̲d̲;
+      H:= MU × H; g̲o̲t̲o̲ TEST
+   e̲n̲d̲ REJ;
+   i̲f̲ FIRST t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:= f̲a̲l̲s̲e̲; HL:= H; H:= MU × H; g̲o̲t̲o̲ ACC
+   e̲n̲d̲;
+   FHY:= MU × H / HL + MU - MU1; HL:= H; H:= FHY × H;
+   ACC: MU1:= MU;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ Z[JJ]:= ZL[JJ] + (K0[JJ]
+        + K3[JJ]) × ·083333333333333 + (K1[JJ] + K2[JJ]) ×·416666666666667;
+   NEXT: i̲f̲ B ≠ X t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ XL:= X;
+      f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ YL[JJ]:= Y[JJ]; ZL[JJ]:= Z[JJ] e̲n̲d̲;
+      g̲o̲t̲o̲ TEST
+   e̲n̲d̲;
+   i̲f̲ ¬LAST t̲h̲e̲n̲ D[2]:= H; D[3]:= X;
+   f̲o̲r̲ JJ:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ D[JJ + 3]:= Y[JJ]; D[N + JJ + 3]:= Z[JJ] e̲n̲d̲
+e̲n̲d̲ RK3N;
+e̲o̲p̲

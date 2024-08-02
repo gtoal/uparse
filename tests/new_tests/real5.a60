@@ -1,0 +1,8 @@
+'BEGIN'
+	'COMMENT' minreal - positive;
+
+	'REAL' x;
+	x := minreal;
+	outreal(1,x)
+	
+'END'

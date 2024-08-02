@@ -1,0 +1,125 @@
+c̲o̲d̲e̲ 36401;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SYMEIGIMP(N,A,VEC,VAL1,VAL2,LBOUND,UBOUND,AUX);
+   v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;a̲r̲r̲a̲y̲ A,VEC,VAL1,VAL2,LBOUND,UBOUND,AUX;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ K,I,J,I0,I1,ITER,MAXITP1;r̲e̲a̲l̲ S,HEAD,TAIL,MAX,TOL,
+     MATEPS,RELERRA,RELTOLR,NORMA;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ PERM[1:N];
+   a̲r̲r̲a̲y̲ R,P,Y[1:N,1:N],RQ,RQT,EPS,Z,VAL3,ETA[1:N];
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ BOUNDS(I0,I1,N,LBOUND,UBOUND);v̲a̲l̲u̲e̲ I0,I1,N;
+      i̲n̲t̲e̲g̲e̲r̲ I0,I1,N;a̲r̲r̲a̲y̲ LBOUND,UBOUND;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K,I,J,I01;r̲e̲a̲l̲ EPS2,DL,DR;
+      f̲o̲r̲ I:=I0,I01 w̲h̲i̲l̲e̲ I≤I1 d̲o̲
+         b̲e̲g̲i̲n̲ J:=I01:=I;
+            f̲o̲r̲ J:=J+1 w̲h̲i̲l̲e̲ i̲f̲ J>I1 t̲h̲e̲n̲ f̲a̲l̲s̲e̲ e̲l̲s̲e̲
+              RQ[J]-RQ[J-1]≤EPS[J]+EPS[J-1] d̲o̲ I01:=J;
+            i̲f̲ I = I01 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲
+               i̲f̲ I<N t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ I=1 t̲h̲e̲n̲ DL:=DR:=RQ[I+1]-RQ[I]-EPS[I+1]
+                  e̲l̲s̲e̲ b̲e̲g̲i̲n̲ DL:=RQ[I]-RQ[I-1]-EPS[I-1];
+                     DR:=RQ[I+1]-RQ[I]-EPS[I+1]
+                  e̲n̲d̲
+               e̲n̲d̲ e̲l̲s̲e̲ DL:=DR:=RQ[I]-RQ[I-1]-EPS[I-1];
+               EPS2:=EPS[I]×EPS[I];LBOUND[I]:=EPS2/DR+MATEPS;
+               UBOUND[I]:=EPS2/DL+MATEPS
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ K:=I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I01 d̲o̲
+                    LBOUND[K]:=UBOUND[K]:=EPS[K]+MATEPS
+            e̲n̲d̲;I01:=I01+1
+         e̲n̲d̲
+   e̲n̲d̲ BOUNDS;
+   b̲o̲o̲l̲e̲a̲n̲ STOP;STOP:=f̲a̲l̲s̲e̲;NORMA:=INFNRMMAT(1,N,1,N,J,A);
+   RELERRA:=AUX[0];RELTOLR:=AUX[2];MAXITP1:=AUX[4]+1;
+   MATEPS:=RELERRA×NORMA;TOL:=RELTOLR×NORMA;
+   f̲o̲r̲ ITER:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ MAXITP1 d̲o̲
+      b̲e̲g̲i̲n̲ STOP:=t̲r̲u̲e̲;MAX:=0;
+         f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲
+                  LNGMATVEC(J,J,I,VEC,VAL1,0,0,HEAD,TAIL);
+                  LNGMATMAT(1,N,I,J,A,VEC,-HEAD,-TAIL,R[I,J],TAIL);
+                  i̲f̲ABS(R[I,J])>MAX t̲h̲e̲n̲ MAX:=ABS(R[I,J])
+               e̲n̲d̲;i̲f̲ MAX > TOL t̲h̲e̲n̲ STOP:=f̲a̲l̲s̲e̲;
+         i̲f̲ ¬ STOP ∧ ITER<MAXITP1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 LNGTAMMAT(1,N,I,I,VEC,R,VAL1[I],0,RQ[I],RQT[I]);
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       ETA[I]:=R[I,J]-(RQ[J]-VAL1[J])×VEC[I,J];
+                  Z[J]:=SQRT(VECVEC(1,N,0,ETA,ETA))
+               e̲n̲d̲;
+            MERGESORT(RQ,PERM,1,N);VECPERM(PERM,1,N,RQ);
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ EPS[I]:=Z[PERM[I]];VAL3[I]:=VAL1[PERM[I]];
+                  ROWPERM(PERM,1,N,I,VEC);ROWPERM(PERM,1,N,I,R)
+               e̲n̲d̲;
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ J:=I s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    P[I,J]:=P[J,I]:=TAMMAT(1,N,I,J,VEC,R);
+         e̲n̲d̲;
+         f̲o̲r̲I0:=1,I1+1 w̲h̲i̲l̲e̲ I0≤N d̲o̲
+            b̲e̲g̲i̲n̲ J:=I1:=I0;
+               f̲o̲r̲ J:=J+1 w̲h̲i̲l̲e̲ i̲f̲ J>N t̲h̲e̲n̲ f̲a̲l̲s̲e̲ e̲l̲s̲e̲
+                 RQ[J]-RQ[J-1]≤SQRT((EPS[J]+EPS[J-1])×NORMA) d̲o̲ I1:=J;
+               i̲f̲ STOP ∨ ITER=MAXITP1 t̲h̲e̲n̲
+                 BOUNDS(I0,I1,N,LBOUND,UBOUND) e̲l̲s̲e̲
+               b̲e̲g̲i̲n̲
+                  i̲f̲ I0=I1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ f̲o̲r̲ K:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                          i̲f̲ K=I0 t̲h̲e̲n̲ Y[K,I0]:=1 e̲l̲s̲e̲
+                          R[K,I0]:=P[K,I0];
+                     VAL1[I0]:=RQ[I0];VAL2[I0]:=RQT[PERM[I0]]
+                  e̲n̲d̲ e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ N1,I0M1,I1P1;r̲e̲a̲l̲ M1;a̲r̲r̲a̲y̲EM[0:5];
+                     N1:=I1-I0+1;EM[0]:=EM[2]:=@-14;EM[4]:=10×N1;
+                     b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ PP[1:N1,1:N1],VAL4[1:N1];M1:=0;
+                        f̲o̲r̲ K:=I0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+                             M1:=M1+VAL3[K];M1:=M1/N1;
+                        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+                             f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+                              b̲e̲g̲i̲n̲ PP[I,J]:=P[I+I0-1,J+I0-1];
+                                 i̲f̲ I=J t̲h̲e̲n̲
+                                   PP[I,J]:=PP[I,J]+VAL3[J+I0-1]-M1
+                              e̲n̲d̲;f̲o̲r̲ I:=I0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+                           b̲e̲g̲i̲n̲ VAL3[I]:=M1;VAL1[I]:=RQ[I];
+                              VAL2[I]:=RQT[PERM[I]]
+                           e̲n̲d̲;
+                        QRISYM(PP,N1,VAL4,EM);
+                        MERGESORT(VAL4,PERM,1,N1);
+                        f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+                             f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+                                P[I+I0-1,J+I0-1]:=PP[I,PERM[J]];
+                        I0M1:=I0-1;I1P1:=I1+1;
+                        f̲o̲r̲ J:=I0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+                           b̲e̲g̲i̲n̲ f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I0M1,
+                                I1P1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                                 b̲e̲g̲i̲n̲ S:=0;
+                                    f̲o̲r̲ K:=I0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+                                         S:=S+P[I,K]×P[K,J];
+                                    R[I,J]:=S
+                                 e̲n̲d̲;f̲o̲r̲ I:=I0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I1 d̲o̲
+                                   Y[I,J]:=P[I,J]
+                           e̲n̲d̲ FOR J
+                     e̲n̲d̲ INNERBLOCK
+                  e̲n̲d̲ I1>I0
+               e̲n̲d̲ NOT STOP
+            e̲n̲d̲ FOR I0;
+         i̲f̲ ¬ STOP ∧ ITER<MAXITP1 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲
+            f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    i̲f̲ VAL3[I]≠VAL3[J] t̲h̲e̲n̲
+                    Y[I,J]:=R[I,J]/(VAL3[J]-VAL3[I]);
+            f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       Z[J]:=MATMAT(1,N,I,J,VEC,Y);
+                  f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ VEC[I,J]:=Z[J]
+               e̲n̲d̲;ORTHOG(N,1,N,VEC)
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ AUX[5]:=ITER-1;g̲o̲t̲o̲ EXIT e̲n̲d̲
+      e̲n̲d̲ FOR ITER;
+   EXIT: AUX[1]:=NORMA;AUX[3]:=MAX
+e̲n̲d̲ SYMEIGIMP;
+e̲o̲p̲

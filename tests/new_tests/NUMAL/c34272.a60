@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 34272;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRISNGVAL(A, M, N, VAL, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ A, VAL, EM;
+b̲e̲g̲i̲n̲ a̲r̲r̲a̲y̲ B[1:N];
+
+   HSHREABID(A, M, N, VAL, B, EM);
+   QRISNGVAL:= QRISNGVALBID(VAL, B, N, EM)
+e̲n̲d̲ QRISNGVAL;
+e̲o̲p̲

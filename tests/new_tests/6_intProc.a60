@@ -1,0 +1,13 @@
+'BEGIN'
+	'INTEGER' n;
+	
+	'INTEGER' 'PROCEDURE' myInInteger;
+	'BEGIN'
+		'REAL' r;
+		inreal(0,r);
+		myInInteger := entier(r)
+	'END';
+	
+	n := myInInteger;
+	outinteger(1, n*n)
+'END'

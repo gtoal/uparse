@@ -1,0 +1,10 @@
+c̲o̲d̲e̲ 34331;
+r̲e̲a̲l̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLDETERMBND(A, N, W); v̲a̲l̲u̲e̲ N, W; i̲n̲t̲e̲g̲e̲r̲ N,W;
+     a̲r̲r̲a̲y̲ A;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ J, KK, W1; r̲e̲a̲l̲ P;
+   W1:= W + 1; KK:= - W; P:= 1;
+   f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK + W1; P:= A[KK] × P e̲n̲d̲;
+   CHLDETERMBND:= P × P
+e̲n̲d̲ CHLDETERMBND;
+e̲o̲p̲

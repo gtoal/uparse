@@ -1,0 +1,24 @@
+c̲o̲d̲e̲ 35021;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ERRORFUNCTION(X, ERF, ERFC);
+   v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X, ERF, ERFC;
+   i̲f̲ X > 26   t̲h̲e̲n̲ b̲e̲g̲i̲n̲ ERF:=  1; ERFC:= 0 e̲n̲d̲ e̲l̲s̲e̲
+   i̲f̲ X < -5·5 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ ERF:= -1; ERFC:= 2 e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ ABSX, C, P, Q;
+
+      ABSX:= ABS(X);
+      i̲f̲ ABSX ≤ 0·5 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ C:= X × X;         P:= ((-0·35609 84370 18154@-1  × C +
+           0·69963 83488 61914@+1) × C + 0·21979 26161 82942@+2) × C +
+           0·24266 79552 30532@+3;
+         Q:= ((C +
+           0·15082 79763 04078@+2) × C + 0·91164 90540 45149@+2) × C +
+           0·21505 88758 69861@+3;
+         ERF:=  X × P / Q; ERFC:= 1 - ERF
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ ERFC:= EXP(-X × X) × NONEXPERFC(ABSX);
+         ERF:= 1 - ERFC;
+         i̲f̲ X < 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ ERF:= -ERF; ERFC:= 2 - ERFC e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ ERRORFUNCTION;
+e̲o̲p̲

@@ -1,0 +1,44 @@
+'BEGIN'
+'COMMENT' matrix copying;
+	'REAL' 'ARRAY' aa[1:100,1:100];
+	'REAL' 'ARRAY' bb[1:100,1:100];
+	'INTEGER' n, i, j;
+	
+	'PROCEDURE' outmatrix(channel, a, dim);
+	'INTEGER' channel; 'REAL' 'ARRAY' a; 'INTEGER' dim;
+	'BEGIN'
+		'INTEGER' i, j;
+		outinteger (channel, dim); outstring(channel,"\n");
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' outreal (channel, a[i,j]);
+			outstring(channel,"\n")
+		'END'		
+	'END' ;
+	
+	'PROCEDURE' matrCopy(a, b, dim);
+	'REAL' 'ARRAY' a; 'REAL' 'ARRAY' b; 'INTEGER' dim;
+	'BEGIN'
+		'INTEGER' i, j;
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' b[i,j] := a[i,j]
+		'END'		
+	'END' ;
+	
+	'COMMENT' matrix generation;
+	n := 10;
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		'FOR' j := 1 'STEP' 1 'UNTIL' n 'DO' 
+		'BEGIN'
+			aa[i,j] := entier ( 100000 /i/j) / 100000
+		'END'
+	'END' ;
+	
+	outmatrix(1, aa, n);
+	outmatrix(1, bb, n);
+	matrCopy(aa, bb, n);
+	outmatrix(1, bb, n)
+		
+'END'

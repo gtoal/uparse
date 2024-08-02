@@ -1,0 +1,36 @@
+'BEGIN'
+'COMMENT': trigonometric form of complex numbers ;
+	'REAL' c1r, c1i, c1n, c1fi;
+	
+	'PROCEDURE' outcomplex(channel, cr, ci); 'INTEGER' channel; 'REAL' cr, ci;
+	'BEGIN'
+		outreal (channel, cr); outstring (channel,"+ i * ");outreal (channel, ci) 
+	'END' ;
+	
+	'PROCEDURE' incomplex0( cr, ci);  'REAL' cr, ci;
+	'BEGIN'
+		outstring (1,"real part: ");inreal (0,cr); 
+		outstring (1,"imaginary part: "); inreal (0, ci)
+	'END' ;
+	
+	'PROCEDURE' complexToTrig( cr, ci, cn, cfi);
+	'REAL' cr, ci, cn, cfi;
+	'BEGIN'
+		cn  := sqrt(cr*cr + ci*ci);
+		cfi := arctan(ci / cr)
+	'END' ;
+	
+	'PROCEDURE' complexFromTrig(cn, cfi,  cr, ci);
+	'REAL' cn, cfi,  cr, ci;
+	'BEGIN'
+		cr := cn * cos(cfi);
+		ci := cn * sin(cfi)
+	'END' ;
+	
+	incomplex0(c1r, c1i);
+
+	complexToTrig( c1r, c1i, c1n, c1fi);
+	outreal (1, c1n); outreal (1, c1fi); outstring (1,"\n");
+	complexFromTrig(c1n, c1fi,  c1r, c1i);
+	outcomplex(1, c1r, c1i); outstring (1,"\n")
+'END'

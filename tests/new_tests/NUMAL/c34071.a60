@@ -1,0 +1,22 @@
+c̲o̲d̲e̲ 34071;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLBND(A, N, LW, RW, M, P, B); v̲a̲l̲u̲e̲ N, LW, RW;
+   i̲n̲t̲e̲g̲e̲r̲ N, LW, RW; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P; a̲r̲r̲a̲y̲ A, B, M;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ F, I, K, KK, W, W1, W2, SHIFT;
+   r̲e̲a̲l̲ S;
+
+   F:= LW; SHIFT:= - LW; W1:= LW - 1;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲i̲f̲ F < N t̲h̲e̲n̲ F:= F + 1; SHIFT:= SHIFT + W1;
+         I:=P[K]; S:= B[I]; i̲f̲ I ≠ K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ B[I]:= B[K]; B[K]:= S e̲n̲d̲;
+         ELMVEC(K + 1, F, SHIFT, B, M, - S)
+      e̲n̲d̲;
+   W1:= LW + RW; W:= W1 + 1; KK:= (N + 1) × W - W1; W2:= - 1;
+   SHIFT:= N × W1;
+   f̲o̲r̲ K:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK - W; SHIFT:= SHIFT - W1;
+         i̲f̲ W2 < W1 t̲h̲e̲n̲ W2:= W2 + 1;
+         B[K]:= (B[K] - VECVEC(K + 1, K + W2, SHIFT, B, A)) / A[KK]
+      e̲n̲d̲
+e̲n̲d̲ SOLBND;
+e̲o̲p̲

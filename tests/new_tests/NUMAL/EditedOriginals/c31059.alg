@@ -1,0 +1,21 @@
+'CODE'31059;
+'REAL''PROCEDURE'ODDCHEPOLSUM(N,X,A);
+'VALUE'N,X;'INTEGER'N;'REAL'X;'ARRAY'A;
+'COMMENT' ODDCHEPOLSUM:=A[0]T[1](X)+A[1]T[3](X)+....+A[N]T[2N+1](X);
+'IF' N=0 'THEN' ODDCHEPOLSUM:=X*A[0] 'ELSE'
+'IF' N=1 'THEN' ODDCHEPOLSUM:=X*(A[0]+A[1]*(4*X*X-3)) 'ELSE'
+'BEGIN'
+   'INTEGER' K;
+   'REAL' H,R,S,Y;
+   Y:=4*X*X-2;
+   R:=A[N];
+   H:=A[N-1]+R*Y;
+   'FOR' K:=N-2 'STEP' -1 'UNTIL' 0 'DO'
+   'BEGIN'
+     S:=R;
+     R:=H;
+     H:=A[K]+R*Y-S;
+   'END' K;
+   ODDCHEPOLSUM:=X*(H-R);
+'END' ODDCHEPOLSUM;
+        'EOP'

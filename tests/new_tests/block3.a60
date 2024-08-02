@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT' own qualifier;
+	'INTEGER' i;
+	
+	'FOR' i := 1 'STEP' 1 'UNTIL' 10 'DO'
+	'BEGIN'
+		'OWN' 'INTEGER' nn;
+		outreal (1,nn);
+		nn := nn + 1
+	'END'
+
+'END' 

@@ -1,0 +1,6 @@
+c̲o̲d̲e̲ 35115;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ARCCOSH(X); v̲a̲l̲u̲e̲ X; r̲e̲a̲l̲ X;
+   ARCCOSH:= i̲f̲ X ≤ 1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+     i̲f̲ X > @10 t̲h̲e̲n̲ 0·69314718055995 + LN(X) e̲l̲s̲e̲
+     LN(X+SQRT((X-1)×(X+1)));
+e̲o̲p̲

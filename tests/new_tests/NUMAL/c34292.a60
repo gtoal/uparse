@@ -1,0 +1,33 @@
+c̲o̲d̲e̲ 34292;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOLSYM2(A,N,B,P,DETAUX);
+   v̲a̲l̲u̲e̲ N;i̲n̲t̲e̲g̲e̲r̲ N;
+     a̲r̲r̲a̲y̲ A,B,DETAUX;i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I,II,J,K,IP1,PI,PII,DUMMY;
+   r̲e̲a̲l̲ DET,TEMP,SAVE;
+   I:=1;
+   f̲o̲r̲ DUMMY:=0 w̲h̲i̲l̲e̲ I<N d̲o̲
+      b̲e̲g̲i̲n̲ IP1:=I+1;PI:=P[I];SAVE:=B[PI];
+         i̲f̲ P[IP1]>0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ B[PI]:=B[I];B[I]:=SAVE/A[I,I];
+            ELMVECROW(IP1,N,I,B,A,SAVE);I:=IP1
+         e̲n̲d̲
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ TEMP:=B[I];B[PI]:=B[IP1];DET:=DETAUX[IP1];
+            B[I]:=(TEMP×A[IP1,IP1]-SAVE×A[I,IP1])/DET;
+            B[IP1]:=(SAVE×A[I,I]-TEMP×A[I,IP1])/DET;
+            ELMVECROW(I+2,N,I,B,A,TEMP);ELMVECROW(I+2,N,IP1,B,A,SAVE);
+            I:=I+2
+         e̲n̲d̲
+      e̲n̲d̲ WHILE I;
+   i̲f̲ I=N t̲h̲e̲n̲ b̲e̲g̲i̲n̲ B[I]:=B[I]/A[I,I];I:=N-1 e̲n̲d̲
+   e̲l̲s̲e̲ I:=N-2;
+   f̲o̲r̲ DUMMY:=0 w̲h̲i̲l̲e̲ I>0 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ P[I]=0 t̲h̲e̲n̲ II:=I-1 e̲l̲s̲e̲ II:=I;
+         f̲o̲r̲ K:=II s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I d̲o̲
+            b̲e̲g̲i̲n̲ SAVE:=B[K];SAVE:=SAVE+MATVEC(I+1,N,K,A,B);
+               B[K]:=SAVE
+            e̲n̲d̲;
+         PII:=P[II];B[I]:=B[PII];B[PII]:=SAVE;I:=II-1
+      e̲n̲d̲ WHILE I
+e̲n̲d̲ SOLSYM2;
+e̲o̲p̲

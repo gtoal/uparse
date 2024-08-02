@@ -1,0 +1,20 @@
+c̲o̲d̲e̲ 31204;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LNG INT POWER(U,EXPONENT,RESULT);
+   v̲a̲l̲u̲e̲ EXPONENT; i̲n̲t̲e̲g̲e̲r̲ EXPONENT; i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ U,RESULT;
+b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲ MAX,I,N;
+   MAX:=U[0] × EXPONENT;
+   b̲e̲g̲i̲n̲i̲n̲t̲e̲g̲e̲r̲a̲r̲r̲a̲y̲ Y,Z,H[0:MAX];
+      c̲o̲m̲m̲e̲n̲t̲ Y:=1, Z:=U;
+      Y[0]:=Y[1]:=1;
+      f̲o̲r̲ I:=U[0] s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ Z[I]:=U[I];
+      HALVE: N:=EXPONENT÷2; i̲f̲ N+N=EXPONENT t̲h̲e̲n̲ g̲o̲t̲o̲ SQUARE Z;
+      LNG INT MULT(Y,Z,H);
+      f̲o̲r̲ I:=H[0] s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ Y[I]:=H[I];
+      i̲f̲ N=0 t̲h̲e̲n̲ g̲o̲t̲o̲ READY;
+      SQUARE Z: LNG INT MULT(Z,Z,H);
+      f̲o̲r̲ I:=H[0] s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ Z[I]:=H[I];
+      EXPONENT:=N; g̲o̲t̲o̲HALVE;
+      READY: f̲o̲r̲ I:=Y[0] s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ RESULT[I]:=Y[I]
+   e̲n̲d̲
+e̲n̲d̲ LNG INT POWER;
+e̲o̲p̲

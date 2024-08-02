@@ -1,0 +1,152 @@
+c̲o̲d̲e̲ 33061;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ ARK (T, TE, M0, M, U, DERIVATIVE, DATA, OUT);
+   i̲n̲t̲e̲g̲e̲r̲ M0, M;
+     r̲e̲a̲l̲ T, TE;
+     a̲r̲r̲a̲y̲ U, DATA;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIVATIVE, OUT;
+
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ P, N, Q;
+   o̲w̲n̲ r̲e̲a̲l̲ EC0, EC1, EC2, TAU0, TAU1, TAU2, TAUS, T2;
+   r̲e̲a̲l̲ THETANM1, TAU, BETAN, QINV, ETA;
+   a̲r̲r̲a̲y̲ MU, LAMBDA[1:DATA[1]], THETHA[0:DATA[1]], RO, R[M0:M];
+   b̲o̲o̲l̲e̲a̲n̲ START, STEP1, LAST;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ INITIALIZE;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, K, L, N1; r̲e̲a̲l̲ S, THETA0;
+      a̲r̲r̲a̲y̲ ALFA[1:8, 1:DATA[1]+1], TH[1:8], AUX[1:3];
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ LABDA(I, J); v̲a̲l̲u̲e̲ I, J; i̲n̲t̲e̲g̲e̲r̲ I, J;
+         LABDA:= i̲f̲ P < 3 t̲h̲e̲n̲ (i̲f̲ J =I-1 t̲h̲e̲n̲ MUI(I) e̲l̲s̲e̲ 0)
+         e̲l̲s̲e̲ i̲f̲ P =3 t̲h̲e̲n̲ (i̲f̲ I =N t̲h̲e̲n̲ (i̲f̲ J=0
+           t̲h̲e̲n̲ ·25 e̲l̲s̲e̲ i̲f̲ J =N - 1 t̲h̲e̲n̲ ·75
+         e̲l̲s̲e̲ 0) e̲l̲s̲e̲ i̲f̲ J =0 t̲h̲e̲n̲ (i̲f̲ I =1
+           t̲h̲e̲n̲ MUI(1) e̲l̲s̲e̲ ·25) e̲l̲s̲e̲ i̲f̲ J =I - 1
+           t̲h̲e̲n̲ LAMBDA[I] e̲l̲s̲e̲ 0) e̲l̲s̲e̲ 0;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MUI(I); v̲a̲l̲u̲e̲ I; i̲n̲t̲e̲g̲e̲r̲ I;
+         MUI:= i̲f̲ I =N t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+           i̲f̲ I < 1 ∨ I > N t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+           i̲f̲ P < 3 t̲h̲e̲n̲ LAMBDA[I] e̲l̲s̲e̲
+           i̲f̲ P =3 t̲h̲e̲n̲ LAMBDA[I] + ·25 e̲l̲s̲e̲ 0;
+
+      r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ SUM(I, A, B, X);
+         v̲a̲l̲u̲e̲ B; i̲n̲t̲e̲g̲e̲r̲ I, A, B; r̲e̲a̲l̲ X;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S; S:= 0;
+         f̲o̲r̲ I:= A s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ B d̲o̲ S:= S + X;
+         SUM:= S
+      e̲n̲d̲ SUM;
+      N:= DATA[1]; P:= DATA[2]; EC1:= EC2 := 0;
+      BETAN:= DATA[3];
+      THETANM1:= i̲f̲ P=3 t̲h̲e̲n̲ ·75 e̲l̲s̲e̲ 1;
+      THETA0:= 1 - THETANM1; S:= 1;
+      f̲o̲r̲ J:= N - 1 s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ S:= - S × THETA0 + DATA[N + 10 - J];
+            MU[J]:= DATA[N + 11 - J] / S;
+            LAMBDA[J]:= MU[J] - THETA0
+         e̲n̲d̲;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ 8 d̲o̲
+           f̲o̲r̲ J:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              ALFA[I, J + 1]:= i̲f̲ I = 1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲
+              i̲f̲ J = 0 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ i̲f̲ I = 2 ∨ I = 4 ∨ I = 8 t̲h̲e̲n̲
+              MUI(J) ⭡ ENTIER((I + 2) / 3) e̲l̲s̲e̲
+              i̲f̲ (I = 3 ∨ I = 6) ∧ J > 1 t̲h̲e̲n̲ SUM(L, 1, J-1,
+              LABDA(J, L) × MUI(L) ⭡ ENTIER(I / 3)) e̲l̲s̲e̲
+              i̲f̲ I = 5 ∧ J > 2 t̲h̲e̲n̲ SUM(L, 2, J - 1, LABDA(J, L) ×
+              SUM(K, 1, L - 1, LABDA(L, K) × MUI(K))) e̲l̲s̲e̲
+              i̲f̲ I = 7 ∧ J > 1 t̲h̲e̲n̲ SUM(L, 1, J - 1, LABDA(J, L) ×
+              MUI(L)) × MUI(J) e̲l̲s̲e̲ 0;
+      N1:=i̲f̲ N < 4 t̲h̲e̲n̲ N + 1 e̲l̲s̲e̲ i̲f̲ N < 7 t̲h̲e̲n̲ 4
+      e̲l̲s̲e̲ 8;
+      I:= 1;
+      f̲o̲r̲ S:= 1, ·5, 1 / 6, 1 / 3, 1 / 24, 1 / 12, ·125, ·25 d̲o̲
+         b̲e̲g̲i̲n̲ TH[I]:= S; I:= I + 1 e̲n̲d̲;
+      i̲f̲ P = 3 ∧ N < 7 t̲h̲e̲n̲ TH[1]:= TH[2]:= 0;
+      AUX[2]:= @ - 14; DECSOL(ALFA, N1, AUX, TH);
+      INIVEC(0, N, THETHA, 0);
+      DUPVEC(0, N1 - 1, 1, THETHA, TH);
+      i̲f̲ ¬ (P = 3 ∧ N < 7) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ THETHA[0]:= THETHA[0] - THETA0;
+         THETHA[N - 1]:= THETHA[N - 1] - THETANM1; Q:= P + 1
+      e̲n̲d̲ e̲l̲s̲e̲ Q:= 3;
+      QINV:= 1 / Q;
+      START:= DATA[8] = 0; DATA[10]:= 0; LAST:= f̲a̲l̲s̲e̲;
+      DUPVEC(M0, M, 0, R, U); DERIVATIVE(T, R)
+   e̲n̲d̲ INITIALIZE;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCAL ERROR CONSTRUCTION(I); v̲a̲l̲u̲e̲ I; i̲n̲t̲e̲g̲e̲r̲ I;
+   b̲e̲g̲i̲n̲ i̲f̲ THETHA[I] ≠ 0 t̲h̲e̲n̲
+        ELMVEC(M0, M, 0, RO, R, THETHA[I]);
+      i̲f̲ I = N t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DATA[9]:= SQRT(VECVEC(M0, M, 0, RO, RO))× TAU;
+         EC0:= EC1; EC1:= EC2; EC2:= DATA[9] / TAU ⭡ Q
+      e̲n̲d̲
+   e̲n̲d̲ LEC;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ STEPSIZE;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ TAUACC, TAUSTAB, AA, BB, CC, EC;
+      ETA:= SQRT(VECVEC(M0, M, 0, U, U)) × DATA[7] + DATA[6];
+      i̲f̲ ETA > 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ START t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ DATA[8] = 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ TAUACC:= DATA[5];
+               STEP1:= t̲r̲u̲e̲
+            e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ STEP1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ TAUACC:= (ETA / EC2) ⭡ QINV;
+               i̲f̲ TAUACC > 10 × TAU2 t̲h̲e̲n̲
+                 TAUACC:= 10 × TAU2 e̲l̲s̲e̲ STEP1:= f̲a̲l̲s̲e̲
+            e̲n̲d̲ e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ BB:= (EC2 - EC1) / TAU1; CC:= - BB × T2 + EC2;
+               EC:= BB × T + CC;
+               TAUACC:= i̲f̲ EC < 0 t̲h̲e̲n̲ TAU2 e̲l̲s̲e̲
+                 (ETA / EC) ⭡ QINV;
+               START:= f̲a̲l̲s̲e̲
+            e̲n̲d̲
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ AA:= ((EC0 - EC1) / TAU0 + (EC2 - EC1) / TAU1)
+              / (TAU1 + TAU0);
+            BB:= (EC2 - EC1) / TAU1 - (2 × T2 - TAU1) × AA;
+            CC:= - (AA × T2 + BB) × T2 + EC2;
+            EC:= (AA × T + BB) × T + CC;
+            TAUACC:= i̲f̲ EC < 0 t̲h̲e̲n̲
+              TAUS e̲l̲s̲e̲ (ETA / EC) ⭡ QINV;
+            i̲f̲ TAUACC > 2 × TAUS t̲h̲e̲n̲ TAUACC:= 2 × TAUS;
+            i̲f̲ TAUACC < TAUS / 2 t̲h̲e̲n̲ TAUACC:= TAUS / 2
+         e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲ TAUACC:= DATA[5];
+      i̲f̲ TAUACC < DATA[5] t̲h̲e̲n̲ TAUACC:= DATA[5];
+      TAUSTAB:= BETAN / DATA[4]; i̲f̲ TAUSTAB < DATA[5] t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DATA[10]:= 1; g̲o̲t̲o̲ ENDARK e̲n̲d̲;
+      TAU:= i̲f̲ TAUACC > TAUSTAB t̲h̲e̲n̲ TAUSTAB e̲l̲s̲e̲ TAUACC;
+      TAUS:= TAU; i̲f̲ TAU ≥ TE - T t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ TAU:= TE - T; LAST:= t̲r̲u̲e̲ e̲n̲d̲;
+      TAU0:= TAU1; TAU1:= TAU2; TAU2:= TAU
+   e̲n̲d̲ STEPSIZE
+
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DIFFERENCE SCHEME;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J;
+      r̲e̲a̲l̲ MT, LT;
+      MULVEC(M0, M, 0, RO, R, THETHA[0]);
+      i̲f̲ P = 3 t̲h̲e̲n̲ ELMVEC(M0, M, 0, U, R, ·25 × TAU);
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+         b̲e̲g̲i̲n̲ MT:= MU[I] × TAU; LT:= LAMBDA[I] × TAU;
+            f̲o̲r̲ J:= M0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+                 R[J]:= LT × R[J] + U[J];
+            DERIVATIVE(T + MT, R); LOCAL ERROR CONSTRUCTION(I)
+         e̲n̲d̲;
+      ELMVEC(M0, M, 0, U, R, THETANM1 × TAU);
+      DUPVEC(M0, M, 0, R, U); DERIVATIVE(T + TAU, R);
+      LOCAL ERROR CONSTRUCTION(N); T2:= T;
+      i̲f̲ LAST t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ LAST:= f̲a̲l̲s̲e̲; T:= TE e̲n̲d̲ e̲l̲s̲e̲ T:= T + TAU;
+      DATA[8]:= DATA[8]+1
+   e̲n̲d̲ DIFSCH;
+
+   INITIALIZE;
+
+   NEXT STEP:
+   STEPSIZE; DIFFERENCE SCHEME; OUT;
+   i̲f̲ T ≠ TE t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT STEP;
+
+   ENDARK:
+e̲n̲d̲ ARK;
+e̲o̲p̲

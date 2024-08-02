@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT'  real to integer transform , try  1.1, 1.9, -1.1, -1.9 ;
+	'INTEGER' n;
+	'REAL' r;
+	
+start:;
+	inreal (0, r);
+	n := entier(r);
+	outinteger(1,n); outstring(1,"\n");
+	'GOTO' start;
+	
+'END'

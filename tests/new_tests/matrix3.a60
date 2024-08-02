@@ -1,0 +1,51 @@
+'BEGIN'
+'COMMENT' matrix and number addition and multiplication;	
+	'REAL' 'ARRAY' aa[1:100,1:100];
+	'INTEGER' n, i, j;
+	
+	'PROCEDURE' outmatrix(channel, a, dim);
+	'INTEGER' channel; 'REAL' 'ARRAY' a; 'INTEGER' dim;
+	'BEGIN'
+		'INTEGER' i, j;
+		outinteger (channel, dim); outstring(channel,"\n");
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' outreal (channel, a[i,j]);
+			outstring(channel,"\n")
+		'END'		
+	'END' ;
+	
+	'PROCEDURE' matrnumadd(a, dim, val);
+	'REAL' 'ARRAY' a; 'INTEGER' dim; 'REAL' val;
+	'BEGIN'
+		'INTEGER' i, j;
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' a[i,j] := a[i,j] + val
+		'END'		
+	'END' ;
+	
+	'PROCEDURE' matrnummult(a, dim, val);
+	'REAL' 'ARRAY' a; 'INTEGER' dim; 'REAL' val;
+	'BEGIN'
+		'INTEGER' i, j;
+		'FOR' i := 1 'STEP' 1 'UNTIL' dim 'DO'
+		'BEGIN'
+			'FOR' j := 1 'STEP' 1 'UNTIL' dim 'DO' a[i,j] := a[i,j] * val
+		'END'		
+	'END' ;
+	
+	'COMMENT' matrix generation;
+	n := 8;
+	'FOR' i := 1 'STEP' 1 'UNTIL' n 'DO'
+	'BEGIN'
+		'FOR' j := 1 'STEP' 1 'UNTIL' n 'DO' aa[i,j] := entier ( 100000 /i/j) / 100000
+	'END' ;
+
+	outmatrix(1, aa, n);
+	matrnumadd(aa, n, -3);	
+	outmatrix(1, aa, n);
+	matrnummult(aa, n, -2);	
+	outmatrix(1, aa, n)
+		
+'END'

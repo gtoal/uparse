@@ -1,0 +1,18 @@
+'BEGIN'
+'COMMENT' swap procedure;
+	'INTEGER' n, m;
+	
+	'PROCEDURE' swap(a,b); 'INTEGER' a, b;
+	'BEGIN'
+		'INTEGER' c;
+		c := a;
+		a := b;
+		b := c
+	'END';
+		
+	n := 2;  m := 3;
+	outinteger (1,n); outinteger (1,m); outstring (1,"\n");
+	swap(n, m);
+	outinteger (1,n); outinteger (1,m); outstring (1,"\n") 
+	
+'END'

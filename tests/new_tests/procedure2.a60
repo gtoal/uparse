@@ -1,0 +1,12 @@
+'BEGIN'
+'COMMENT' integer procedure without arguments;
+	'INTEGER' n;
+	
+	'INTEGER' 'PROCEDURE' test;
+	'BEGIN'
+		test := 12345
+	'END';
+	
+	n := test;
+	outinteger (1,n)
+'END'

@@ -1,0 +1,10 @@
+'BEGIN'
+	'INTEGER' n;
+	
+	ininteger (0,n);	
+	'IF' n < 0 'THEN' outstring (1,"negative")
+	'ELSE' 'IF' n=0 'THEN' outstring (1, "0")
+	'ELSE' outstring (1, "positive");	
+	outstring (1,"\n")
+	
+'END'

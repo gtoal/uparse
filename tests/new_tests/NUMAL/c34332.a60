@@ -1,0 +1,18 @@
+c̲o̲d̲e̲ 34332;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLSOLBND(A, N, W, B); v̲a̲l̲u̲e̲ N, W; i̲n̲t̲e̲g̲e̲r̲ N, W;
+     a̲r̲r̲a̲y̲ A, B;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, K, IMAX, KK, W1;
+   KK:= - W; W1:= W + 1;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ KK:= KK + W1;
+         B[K]:= (B[K] - VECVEC(i̲f̲ K ≤ W1 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ K - W,
+           K - 1, KK - K, B, A)) / A[KK]
+      e̲n̲d̲;
+   IMAX:= - 1;
+   f̲o̲r̲ K:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲i̲f̲ IMAX < W t̲h̲e̲n̲ IMAX:= IMAX + 1;
+         B[K]:= (B[K] - SCAPRD1(KK + W, W, K + 1, 1, IMAX, A, B)) /
+           A[KK]; KK:= KK - W1
+      e̲n̲d̲
+e̲n̲d̲ CHLSOLBND;
+e̲o̲p̲

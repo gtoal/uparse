@@ -1,0 +1,23 @@
+'BEGIN'
+	'COMMENT' polynomial division;
+	
+	'REAL' 'ARRAY' a[0:100];
+	'REAL' 'ARRAY' b[0:100];
+	'REAL' 'ARRAY' c[0:1];
+	'INTEGER' i, dim;
+	
+	dim := 3;
+	outstring(1,"coefficients of polynomial a0, a1, a2, a3 = ");
+	'FOR' i := 0 'STEP' 1 'UNTIL' dim 'DO' inreal (0,a[i]);
+	
+	c[0] := 1; c[1] := 1;
+	
+	'FOR' i := dim 'STEP' -1 'UNTIL' 1 'DO'
+	'BEGIN' 
+	'END'
+	
+	outstring(1,"result = \n");
+	'FOR' i := 0 'STEP' 1 'UNTIL' dim 'DO' outreal (1,b[i]);
+	outstring(1,"\n")
+	
+'END'

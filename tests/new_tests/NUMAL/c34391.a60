@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 34391;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ CHLSOL1(A, N, B); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, B;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, II;
+
+   II:= 0;
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ II:= II + I;
+         B[I]:= (B[I] - VECVEC(1, I - 1, II - I, B, A)) / A[II]
+      e̲n̲d̲;
+   f̲o̲r̲ I:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ B[I]:= (B[I] -
+           SEQVEC(I + 1, N, II + I, 0, A, B)) / A[II];
+         II:= II - I
+      e̲n̲d̲
+e̲n̲d̲ CHLSOL1;
+e̲o̲p̲

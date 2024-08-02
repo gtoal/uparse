@@ -1,0 +1,9 @@
+c̲o̲d̲e̲ 31072;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ HSHROWMAT(LR, UR, LC, UC, I, X, U, A);
+   v̲a̲l̲u̲e̲ LR, UR, LC, UC, I, X; i̲n̲t̲e̲g̲e̲r̲ LR, UR, LC, UC, I;
+     r̲e̲a̲l̲ X; a̲r̲r̲a̲y̲ U, A;
+b̲e̲g̲i̲n̲
+   f̲o̲r̲ LC:= LC s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ UC d̲o̲
+        ELMCOLROW(LR, UR, LC, I, A, U, MATMAT(LR, UR, I, LC, U, A) × X)
+e̲n̲d̲;
+e̲o̲p̲

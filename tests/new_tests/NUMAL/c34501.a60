@@ -1,0 +1,198 @@
+c̲o̲d̲e̲ 34501;
+i̲n̲t̲e̲g̲e̲r̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ ZERPOL(N, A, EM, RE, IM, D);
+   v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, RE, IM, D;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, TOTIT, IT, FAIL, START, UP, MAX, GIEX, ITMAX;
+   r̲e̲a̲l̲ X, Y, NEWF, OLDF, MAXRAD, AE, TOL, H1, H2, LN2;
+   a̲r̲r̲a̲y̲ F[0 : 5], TRIES[1 : 10];
+
+   b̲o̲o̲l̲e̲a̲n̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCTION;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, M1, M2;
+      r̲e̲a̲l̲ P, Q, QSQRT, F01, F02, F03, F11, F12, F13,
+        F21, F22, F23, STOP;
+      IT:= IT + 1;
+      P:= 2 × X; Q:= -(X × X + Y × Y); QSQRT:= SQRT(-Q);
+      F01:= F11:= F21:= D[0]; F02:= F12:= F22:= 0;
+      M1:= N - 4; M2:= N - 2;
+      STOP:= ABS(F01) × 0·8;
+      f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M1 d̲o̲
+         b̲e̲g̲i̲n̲ F03:= F02; F02:= F01; F01:= D[K] + P × F02 + Q × F03;
+            F13:= F12; F12:= F11; F11:= F01 + P × F12 + Q × F13;
+            F23:= F22; F22:= F21; F21:= F11 + P × F22 + Q × F23;
+            STOP:= QSQRT × STOP + ABS(F01)
+         e̲n̲d̲;
+      i̲f̲ M1 < 0 t̲h̲e̲n̲ M1:= 0;
+      f̲o̲r̲ K:= M1 + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M2 d̲o̲
+         b̲e̲g̲i̲n̲ F03:= F02; F02:= F01; F01:= D[K] + P × F02 + Q × F03;
+            F13:= F12; F12:= F11; F11:= F01 + P × F12 + Q × F13;
+            STOP:= QSQRT × STOP + ABS(F01)
+         e̲n̲d̲;
+      i̲f̲ N = 3 t̲h̲e̲n̲ F21:= 0;
+      F03:= F02; F02:= F01; F01:= D[N - 1] + P × F02 + Q × F03;
+      F[0]:= D[N] + X × F01 + Q × F02;
+      F[1]:= Y × F01;
+      F[2]:= F01 - 2 × F12 × Y × Y;
+      F[3]:= 2 × Y × (- X × F12 + F11);
+      F[4]:= 2 × (- X × F12 + F11) - 8 × Y × Y × (- X × F22 + F21);
+      F[5]:= Y × (6 × F12 - 8 × Y × Y × F22);
+      STOP:= QSQRT × (QSQRT × STOP + ABS(F01)) + ABS(F[0]);
+      NEWF:= F02:= COMABS(F[0], F[1]);
+      FUNCTION:= F02 < (2 × ABS(X × F01) - 8 × (ABS(F[0]) + ABS(F01)× QSQRT) + 10 × STOP) × TOL × (1 + TOL) ⭡ (4 × N + 3)
+   e̲n̲d̲;
+   b̲o̲o̲l̲e̲a̲n̲p̲r̲o̲c̲e̲d̲u̲r̲e̲ CONTROL;
+      i̲f̲ IT > ITMAX t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ TOTIT:= TOTIT + IT; FAIL:= 3; g̲o̲t̲o̲ EXIT e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ IT = 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, H; r̲e̲a̲l̲ H1, SIDE;
+         MAXRAD:= 0; MAX:= (GIEX - LN(ABS(D[0])) / LN2) / N;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ H1:= i̲f̲ D[I] = 0 t̲h̲e̲n̲ 0
+               e̲l̲s̲e̲ EXP(LN(ABS(D[I] / D[0])) / I);
+               i̲f̲ H1 > MAXRAD t̲h̲e̲n̲ MAXRAD:= H1
+            e̲n̲d̲;
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+              i̲f̲ D[I] ≠ 0 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ H:= (GIEX - LN(ABS(D[I])) / LN2) / (N - I);
+               i̲f̲ H < MAX t̲h̲e̲n̲ MAX:= H
+            e̲n̲d̲;
+         MAX:= MAX × LN2 / LN(N);
+         SIDE:= - D[1] / D[0];
+         SIDE:= i̲f̲ ABS(SIDE) < TOL t̲h̲e̲n̲ 0 e̲l̲s̲e̲ SIGN(SIDE);
+         i̲f̲ SIDE = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ TRIES[7]:= TRIES[2]:= MAXRAD; TRIES[9]:= -MAXRAD;
+            TRIES[6]:= TRIES[4]:= TRIES[3]:= MAXRAD / SQRT(2);
+            TRIES[5]:= -TRIES[3]; TRIES[10]:= TRIES[8]:= TRIES[1]:= 0
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ TRIES[8]:= TRIES[4]:= MAXRAD/ SQRT(2);
+            TRIES[1]:= SIDE × MAXRAD; TRIES[3]:= TRIES[4] × SIDE;
+            TRIES[6]:= MAXRAD; TRIES[7]:= -TRIES[3];
+            TRIES[9]:= -TRIES[1]; TRIES[2]:= TRIES[5]:= TRIES[10]:= 0
+         e̲n̲d̲;
+         i̲f̲ COMABS(X, Y) > 2 × MAXRAD t̲h̲e̲n̲ X:= Y:= 0;
+         CONTROL:= f̲a̲l̲s̲e̲
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲f̲ IT > 1 ∧ NEWF ≥ OLDF t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ UP:= UP+ 1;
+            i̲f̲ UP = 5 ∧ START < 5 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ START:= START + 1; UP:= 0; X:= TRIES[2 × START - 1];
+               Y:= TRIES[2 × START]; CONTROL:= f̲a̲l̲s̲e̲
+            e̲n̲d̲ e̲l̲s̲e̲ CONTROL:= t̲r̲u̲e̲
+         e̲n̲d̲ e̲l̲s̲e̲ CONTROL:= t̲r̲u̲e̲
+      e̲n̲d̲;
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DEFLATION;
+      i̲f̲ X = 0 ∧ Y = 0 t̲h̲e̲n̲ N:= N - 1 e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, SPLIT; r̲e̲a̲l̲ H1, H2;
+         a̲r̲r̲a̲y̲ B[0 : N - 1];
+         i̲f̲ Y = 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ N:= N - 1; B[N]:= -D[N + 1] / X;
+            f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 B[N - I]:= (B[N - I + 1] - D[N - I + 1]) / X;
+            f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 D[I]:= D[I] + D[I - 1] × X
+         e̲n̲d̲ e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ H1:= - 2 × X; H2:= X × X + Y × Y;
+            N:= N - 2;
+            B[N]:= D[N + 2] / H2; B[N - 1]:= (D[N + 1] - H1 × B[N]) / H2;
+            f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 B[N - I]:=  (D[N - I + 2] - H1 × B[N - I + 1] - B[N - I + 2])/H2;
+            D[1]:= D[1] - H1 × D[0];
+            f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 D[I]:= D[I] - H1 × D[I-1] - H2 × D[I-2]
+         e̲n̲d̲;
+         SPLIT:= N;
+         H2:= ABS(D[N] - B[N]) / (ABS(D[N]) + ABS(B[N]));
+         f̲o̲r̲ I:= N - 1 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+            b̲e̲g̲i̲n̲ H1:= ABS(D[I]) + ABS(B[I]);
+               i̲f̲ H1 > TOL t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ H1:= ABS(D[I] - B[I]) / H1;
+                  i̲f̲ H1 < H2 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ H2:= H1; SPLIT:= I e̲n̲d̲
+               e̲n̲d̲
+            e̲n̲d̲;
+         f̲o̲r̲ I := SPLIT + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I]:= B[I];
+         D[SPLIT]:= (D[SPLIT] + B[SPLIT]) / 2
+      e̲n̲d̲ OF DEFLATION;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LAGUERRE;
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M;
+      r̲e̲a̲l̲ S1RE, S1IM, S2RE, S2IM, DX, DY, H1, H2, H3, H4, H5, H6;
+      i̲f̲ ABS(F[0]) > ABS(F[1]) t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H1:= F[0]; H6:= F[1] / H1; H2:= F[2] + H6 × F[3];
+         H3:= F[3] - H6 × F[2]; H4:= F[4] + H6 × F[5];
+         H5:= F[5] - H6 × F[4]; H6:= H6 × F[1] + H1
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ H1:= F[1]; H6:= F[0] / H1; H2:= H6 × F[2] + F[3];
+         H3:= H6 × F[3] - F[2]; H4:= H6 × F[4] + F[5];
+         H5:= H6 × F[5] - F[4]; H6:= H6 × F[0] + F[1]
+      e̲n̲d̲;
+      S1RE:= H2 / H6; S1IM:= H3 / H6;
+      H2:= S1RE × S1RE - S1IM × S1IM; H3:= 2 × S1RE × S1IM;
+      S2RE:= H2 - H4 / H6; S2IM:= H3 - H5 / H6;
+      H1:= S2RE × S2RE + S2IM × S2IM;
+      H1:= i̲f̲ H1 ≠ 0 t̲h̲e̲n̲ (S2RE × H2 + S2IM × H3) / H1 e̲l̲s̲e̲ 1;
+      M:= i̲f̲ H1 ≥ N - 1 t̲h̲e̲n̲ (i̲f̲ N > 1 t̲h̲e̲n̲ N - 1 e̲l̲s̲e̲ 1)
+      e̲l̲s̲e̲ i̲f̲ H1 > 1 t̲h̲e̲n̲ H1 e̲l̲s̲e̲ 1;
+      H1:= (N - M) / M;
+      COMSQRT(H1 × (N × S2RE - H2), H1 × (N × S2IM - H3), H2, H3);
+      i̲f̲ S1RE × H2 + S1IM × H3 < 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H2:= - H2; H3:= - H3 e̲n̲d̲;
+      H2:= S1RE + H2; H3:= S1IM + H3;
+      H1:= H2 × H2 + H3 × H3;
+      i̲f̲ H1 = 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ DX:= -N; DY:= N e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ DX:= - N × H2 / H1; DY:= N × H3 / H1 e̲n̲d̲;
+      H1:= ABS(X) × TOL + AE; H2:= ABS(Y) × TOL+ AE;
+      i̲f̲ ABS(DX) < H1 ∧ ABS(DY) < H2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ DX:= i̲f̲ DX = 0 t̲h̲e̲n̲ H1 e̲l̲s̲e̲ SIGN(DX) × H1;
+         DY:= i̲f̲ DY = 0 t̲h̲e̲n̲ H2 e̲l̲s̲e̲ SIGN(DY) × H2
+      e̲n̲d̲;
+      X:= X + DX; Y:= Y + DY;
+      i̲f̲ COMABS(X, Y) > 2 × MAXRAD t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ H1:= i̲f̲ ABS(X) > ABS(Y) t̲h̲e̲n̲ ABS(X) e̲l̲s̲e̲ ABS(Y);
+         H2:= LN(H1) / LN2 + 1 - MAX;
+         i̲f̲ H2 > 0 t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ H2:= 2 ⭡ H2; X:= X / H2; Y:= Y / H2 e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ OF LAGUERRE;
+
+   TOTIT:= IT:= FAIL:= UP:= START:= 0; LN2:= LN(2);
+   NEWF:= GIANT; AE:= DWARF; GIEX:= LN(NEWF) / LN2 - 40;
+   TOL:= EM[0]; ITMAX:= EM[1];
+   f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ D[I]:= A[N-I];
+   i̲f̲ N ≤ 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FAIL:= 1; g̲o̲t̲o̲ EXIT e̲n̲d̲
+     e̲l̲s̲e̲ i̲f̲ D[0] = 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FAIL:= 2; g̲o̲t̲o̲ EXIT e̲n̲d̲;
+   f̲o̲r̲ I:= 1 w̲h̲i̲l̲e̲ D[N] = 0 ∧ N > 0 d̲o̲
+      b̲e̲g̲i̲n̲ RE[N]:= IM[N]:= 0; N:= N - 1 e̲n̲d̲;
+   f̲o̲r̲ I:= 1 w̲h̲i̲l̲e̲ N > 2 d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ CONTROL t̲h̲e̲n̲ LAGUERRE;
+         OLDF:= NEWF;
+         i̲f̲ FUNCTION t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ i̲f̲ Y ≠ 0 ∧ ABS(Y) < ·1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ r̲e̲a̲l̲ H; H:= Y; Y:= 0;
+               i̲f̲ ¬ FUNCTION t̲h̲e̲n̲ Y:= H
+            e̲n̲d̲;
+            RE[N]:= X; IM[N]:= Y;
+            i̲f̲ Y ≠ 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ RE[N - 1]:= X; IM[N - 1]:= -Y e̲n̲d̲;
+            DEFLATION; TOTIT:= TOTIT + IT; UP:= START:= IT:= 0
+         e̲n̲d̲
+      e̲n̲d̲;
+   i̲f̲ N = 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ RE[1]:= - D[1] / D[0]; IM[1]:= 0 e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ H1, H2;
+      H1:= - 0·5 × D[1] / D[0]; H2:= H1 × H1 - D[2] / D[0];
+      i̲f̲ H2 ≥ 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ RE[2]:= i̲f̲ H1 < 0 t̲h̲e̲n̲ H1 - SQRT(H2)
+         e̲l̲s̲e̲ H1 + SQRT(H2);
+         RE[1]:= D[2] / (D[0] × RE[2]);
+         IM[2]:= IM[1]:= 0
+      e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ RE[2]:= RE[1]:= H1;
+         IM[2]:= SQRT(-H2); IM[1]:= -IM[2]
+      e̲n̲d̲
+   e̲n̲d̲; N:= 0;
+   EXIT:  EM[2]:= FAIL; EM[3]:= START; EM[4]:= TOTIT;
+   f̲o̲r̲ I:= (N-1) ÷ 2 s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲
+      b̲e̲g̲i̲n̲ TOL := D[I]; D[I]:= D[N-I]; D[N-I]:= TOL
+      e̲n̲d̲;
+   ZERPOL:= N
+e̲n̲d̲ OF ZERPOL;
+e̲o̲p̲

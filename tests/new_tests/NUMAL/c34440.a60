@@ -1,0 +1,82 @@
+c̲o̲d̲e̲ 34440;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ MARQUARDT(M,N,PAR,G,V,FUNCT,JACOBIAN,IN,OUT);
+   v̲a̲l̲u̲e̲ M,N; i̲n̲t̲e̲g̲e̲r̲ M,N; a̲r̲r̲a̲y̲ PAR,G,V,IN,OUT;
+     b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT; p̲r̲o̲c̲e̲d̲u̲r̲e̲ JACOBIAN;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ MAXFE,FE,IT,I,J,ERR;
+   r̲e̲a̲l̲ VV,WW,W,MU,RES,FPAR,FPARPRES,LAMBDA,LAMBDAMIN,
+     P,PW,RELTOLRES,ABSTOLRES;
+   a̲r̲r̲a̲y̲ EM[0:7],VAL,B,BB,PARPRES[1:N],JAC[1:M,1:N];
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ LOCFUNCT(M,N,PAR,G); v̲a̲l̲u̲e̲ M, N;
+      i̲n̲t̲e̲g̲e̲r̲ M,N; a̲r̲r̲a̲y̲ PAR,G;
+   b̲e̲g̲i̲n̲ FE:= FE+1; i̲f̲ FE ≥ MAXFE t̲h̲e̲n̲ ERR:= 1 e̲l̲s̲e̲
+      i̲f̲ ¬ FUNCT(M,N,PAR,G) t̲h̲e̲n̲ ERR:= 2;
+      i̲f̲ ERR≠0 t̲h̲e̲n̲ g̲o̲t̲o̲ EXIT
+   e̲n̲d̲ LOCFUNCT;
+
+   VV:=10; W:=0·5; MU:= 0·01;
+   WW:=(i̲f̲ IN[6]<@-7 t̲h̲e̲n̲ @-8 e̲l̲s̲e̲ @-1×IN[6]);
+   EM[0]:=EM[2]:=EM[6]:=IN[0]; EM[4]:=10×N;
+   RELTOLRES:=IN[3]; ABSTOLRES:=IN[4]⭡2; MAXFE:=IN[5];
+   ERR:= 0; FE:= IT:= 1; P:=FPAR:= RES:= 0;
+   PW:=-LN(WW×IN[0])/2·30;
+
+   i̲f̲ ¬ FUNCT(M,N,PAR,G) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ ERR:= 3; g̲o̲t̲o̲ ESCAPE e̲n̲d̲;
+   FPAR:= VECVEC(1,M,0,G,G); OUT[3]:=SQRT(FPAR);
+
+   f̲o̲r̲ IT:= 1, IT+1 w̲h̲i̲l̲e̲ FPAR > ABSTOLRES ∧
+     RES > RELTOLRES×FPAR+ABSTOLRES d̲o̲
+      b̲e̲g̲i̲n̲ JACOBIAN(M,N,PAR,G,JAC,LOCFUNCT);
+         I:=QRISNGVALDEC(JAC,M,N,VAL,V,EM);
+         i̲f̲ IT=1 t̲h̲e̲n̲
+           LAMBDA:= IN[6] × VECVEC(1,N,0,VAL,VAL) e̲l̲s̲e̲
+         i̲f̲ P =0 t̲h̲e̲n̲ LAMBDA:= LAMBDA×W e̲l̲s̲e̲ P:= 0;
+
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              B[I]:=VAL[I]×TAMVEC(1,M,I,JAC,G);
+         L:   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              BB[I]:=B[I]/(VAL[I]×VAL[I]+LAMBDA);
+         f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              PARPRES[I]:= PAR[I] - MATVEC(1,N,I,V,BB);
+         LOCFUNCT(M,N,PARPRES,G);
+         FPARPRES:= VECVEC(1,M,0,G,G);
+         RES:=FPAR-FPARPRES;
+         i̲f̲ RES < MU × VECVEC(1,N,0,B,BB) t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ P:= P+1; LAMBDA:= VV × LAMBDA;
+            i̲f̲ P=1 t̲h̲e̲n̲
+            b̲e̲g̲i̲n̲ LAMBDAMIN:= WW × VECVEC(1,N,0,VAL,VAL);
+               i̲f̲ LAMBDA<LAMBDAMIN t̲h̲e̲n̲ LAMBDA:= LAMBDAMIN
+            e̲n̲d̲;
+            i̲f̲ P<PW t̲h̲e̲n̲ g̲o̲t̲o̲ L e̲l̲s̲e̲
+            b̲e̲g̲i̲n̲ ERR:= 4;
+               g̲o̲t̲o̲ EXIT
+            e̲n̲d̲;
+         e̲n̲d̲;
+
+         DUPVEC(1,N,0,PAR,PARPRES);
+         FPAR:=FPARPRES
+      e̲n̲d̲ ITERATION;
+
+   EXIT:
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        MULCOL(1,N,I,I,JAC,V,1/(VAL[I]+IN[0]));
+   f̲o̲r̲ I:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        f̲o̲r̲ J:=1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ I d̲o̲
+           V[I,J]:= V[J,I]:= MATTAM(1,N,I,J,JAC,JAC);
+
+   LAMBDA:= LAMBDAMIN:= VAL[1];
+   f̲o̲r̲ I:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+        i̲f̲ VAL[I]>LAMBDA    t̲h̲e̲n̲ LAMBDA   := VAL[I] e̲l̲s̲e̲
+      i̲f̲ VAL[I]<LAMBDAMIN t̲h̲e̲n̲ LAMBDAMIN:= VAL[I];
+
+   OUT[7]:=(LAMBDA/(LAMBDAMIN+IN[0]))⭡2;
+   OUT[2]:=SQRT(FPAR);
+   OUT[6]:=SQRT(RES+FPAR)-OUT[2];
+   ESCAPE:
+   OUT[4]:=FE;
+   OUT[5]:=IT-1;
+   OUT[1]:=ERR
+e̲n̲d̲ MARQUARDT;
+
+e̲o̲p̲

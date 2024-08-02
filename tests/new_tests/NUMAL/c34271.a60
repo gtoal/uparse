@@ -1,0 +1,55 @@
+c̲o̲d̲e̲ 34271;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRISNGVALDECBID(D, B, M, N, U, V, EM);
+   v̲a̲l̲u̲e̲ M, N; i̲n̲t̲e̲g̲e̲r̲ M, N; a̲r̲r̲a̲y̲ D, B, U, V, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N0, N1, K, K1, I, I1, COUNT, MAX, RNK;
+   r̲e̲a̲l̲ TOL, BMAX, Z, X, Y, G, H, F, C, S, MIN;
+
+   TOL:= EM[2] × EM[1]; COUNT:= 0; BMAX:= 0; MAX:= EM[4]; MIN:= EM[6];
+   RNK:= N0:= N;
+   IN: K:= N; N1:= N - 1;
+   NEXT: K:= K - 1; i̲f̲ K > 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(B[K]) ≥ TOL t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ i̲f̲ ABS(D[K]) ≥ TOL t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT;
+         C:= 0; S:= 1;
+         f̲o̲r̲ I:= K s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N1 d̲o̲
+            b̲e̲g̲i̲n̲ F:= S × B[I]; B[I]:= C × B[I]; I1:= I + 1;
+               i̲f̲ ABS(F) < TOL t̲h̲e̲n̲ g̲o̲t̲o̲ NEGLECT;
+               G:= D[I1]; D[I1]:= H:= SQRT(F × F + G × G);
+               C:= G / H; S:= - F / H;
+               ROTCOL(1, M, K, I1, U, C, S)
+            e̲n̲d̲;
+         NEGLECT:
+      e̲n̲d̲
+        e̲l̲s̲e̲ i̲f̲ ABS(B[K]) > BMAX t̲h̲e̲n̲ BMAX:= ABS(B[K])
+   e̲n̲d̲;
+   i̲f̲ K = N1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ D[N] < 0 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ D[N]:= - D[N];
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N0 d̲o̲ V[I,N]:= - V[I,N]
+      e̲n̲d̲;
+      i̲f̲ D[N] ≤ MIN t̲h̲e̲n̲ RNK:= RNK - 1; N:= N1
+   e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ COUNT:= COUNT + 1; i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+      K1:= K + 1; Z:= D[N]; X:= D[K1]; Y:= D[N1];
+      G:= i̲f̲ N1 = 1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲ B[N1 - 1]; H:= B[N1];
+      F:= ((Y - Z) × (Y + Z) + (G - H) × (G + H)) / (2 × H × Y);
+      G:= SQRT(F × F + 1);
+      F:= ((X - Z) × (X + Z) + H × (Y / (i̲f̲ F < 0 t̲h̲e̲n̲ F - G
+      e̲l̲s̲e̲ F + G) - H)) / X; C:= S:= 1;
+      f̲o̲r̲ I:= K1 + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ I1:= I - 1; G:= B[I1]; Y:= D[I]; H:= S × G; G:= C × G;
+            Z:= SQRT(F × F + H × H); C:= F / Z; S:= H / Z;
+            i̲f̲ I1 ≠ K1 t̲h̲e̲n̲ B[I1 - 1]:= Z; F:= X × C + G × S;
+            G:= G × C - X × S; H:= Y × S; Y:= Y × C;
+            ROTCOL(1, N0, I1, I, V, C, S);
+            D[I1]:= Z:= SQRT(F × F + H × H); C:= F / Z; S:= H / Z;
+            F:= C × G + S × Y; X:= C × Y - S × G;
+            ROTCOL(1, M, I1, I, U, C, S)
+         e̲n̲d̲;
+      B[N1]:= F; D[N]:= X
+   e̲n̲d̲;
+   i̲f̲ N > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   END: EM[3]:= BMAX; EM[5]:= COUNT; EM[7]:= RNK; QRISNGVALDECBID:= N
+e̲n̲d̲ QRISNGVALDECBID;
+e̲o̲p̲

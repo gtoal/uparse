@@ -1,0 +1,13 @@
+'CODE' 31045;
+'PROCEDURE'ALLORTPOL(N,X,B,C)RESULTS:(P);
+'VALUE' N,X; 'INTEGER' N;'REAL' X;'ARRAY' B,C,P;
+'IF' N=0 'THEN' P[0]:=1'ELSE'
+'BEGIN' 'INTEGER' K,K1; 'REAL' R,S,H;
+  R:=P[1]:=X-B[0]; S:=P[0]:=1;K:=1;
+  'FOR' K1:=2 'STEP' 1 'UNTIL' N 'DO'
+'BEGIN' H:=R;  P[K1]:=R:=(X-B[K])*R-C[K]*S;
+  S:=H; K:=K1;
+'END';
+'END' ALLORTPOL
+
+        ;'EOP'

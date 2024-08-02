@@ -1,0 +1,58 @@
+c̲o̲d̲e̲ 34180;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2410;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ REAVALQRI(A, N, EM, VAL); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, EM, VAL;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ N1, I, I1, J, Q, MAX, COUNT;
+   r̲e̲a̲l̲ DET, W, SHIFT, KAPPA, NU, MU, R, TOL, DELTA, MACHTOL, S;
+
+   MACHTOL:= EM[0] × EM[1]; TOL:= EM[1] × EM[2]; MAX:= EM[4];
+   COUNT:= 0; R:= 0;
+   IN: N1:= N - 1;
+   f̲o̲r̲ I:= N, I - 1 w̲h̲i̲l̲e̲ (i̲f̲ I ≥ 1 t̲h̲e̲n̲
+     ABS(A[I + 1,I]) > TOL e̲l̲s̲e̲ f̲a̲l̲s̲e̲) d̲o̲ Q:= I;
+   i̲f̲ Q > 1 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ ABS(A[Q,Q - 1]) > R t̲h̲e̲n̲
+        R:= ABS(A[Q,Q - 1])
+   e̲n̲d̲;
+   i̲f̲ Q = N t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ VAL[N]:= A[N,N]; N:= N1 e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ DELTA:= A[N,N] - A[N1,N1]; DET:= A[N,N1] × A[N1,N];
+      i̲f̲ ABS(DELTA) < MACHTOL t̲h̲e̲n̲ S:= SQRT(DET) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ W:= 2 / DELTA; S:= W × W × DET + 1;
+         S:= i̲f̲ S ≤ 0 t̲h̲e̲n̲ -DELTA × ·5 e̲l̲s̲e̲
+           W × DET / (SQRT(S) + 1)
+      e̲n̲d̲;
+      i̲f̲ Q = N1 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ VAL[N]:= A[N,N] + S;
+         VAL[N1]:= A[N1,N1] - S; N:= N - 2
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT + 1;
+         i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ OUT;
+         SHIFT:= A[N,N] + S; i̲f̲ ABS(DELTA) < TOL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= A[N1,N1] - S;
+            i̲f̲ ABS(W) < ABS(SHIFT) t̲h̲e̲n̲ SHIFT:= W
+         e̲n̲d̲;
+         A[Q,Q]:= A[Q,Q] - SHIFT;
+         f̲o̲r̲ I:= Q s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N - 1 d̲o̲
+            b̲e̲g̲i̲n̲ I1:= I + 1; A[I1,I1]:= A[I1,I1] - SHIFT;
+               KAPPA:= SQRT(A[I,I] ⭡ 2 + A[I1,I] ⭡ 2);
+               i̲f̲ I > Q t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ A[I,I - 1]:= KAPPA × NU;
+                  W:= KAPPA × MU
+               e̲n̲d̲
+               e̲l̲s̲e̲ W:= KAPPA; MU:= A[I,I] / KAPPA;
+               NU:= A[I1,I] / KAPPA; A[I,I]:= W;
+               ROTROW(I1, N, I, I1, A, MU, NU);
+               ROTCOL(Q, I, I, I1, A, MU, NU);
+               A[I,I]:= A[I,I] + SHIFT
+            e̲n̲d̲;
+         A[N,N - 1]:= A[N,N] × NU; A[N,N]:= A[N,N] × MU + SHIFT
+      e̲n̲d̲
+   e̲n̲d̲;
+   i̲f̲ N > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   OUT: EM[3]:= R; EM[5]:= COUNT; REAVALQRI:= N
+e̲n̲d̲ REAVALQRI
+
+;e̲o̲p̲

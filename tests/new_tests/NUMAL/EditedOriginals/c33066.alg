@@ -1,0 +1,74 @@
+'CODE' 33066;
+'PROCEDURE' ARKMAT( T, TE, M, N, U, DER, TYPE, ORDER, SPR, OUT);
+'VALUE' M,N,TYPE,ORDER;
+'INTEGER' M,N,TYPE,ORDER;
+'REAL' T,TE,SPR;
+'ARRAY' U;
+'PROCEDURE' DER,OUT;
+
+'BEGIN' 'INTEGER' SIG,L;
+    'REAL' TAU;
+    'ARRAY' LAMBDA[1:9],UH,DU[1:N,1:M];
+    'BOOLEAN' LAST;
+
+    'PROCEDURE' ELMMAT(A,B,X); 'VALUE' X; 'ARRAY' A,B; 'REAL' X;
+    'FOR' L:=1 'STEP' 1 'UNTIL' M 'DO' ELMCOL(1,N,L,L,A,B,X);
+
+    'PROCEDURE' INITIALIZE;
+    'BEGIN' 'INTEGER' I;'REAL' LBD;
+    'SWITCH' TYPEODE:=NOTSPECIFIED2,PARABOLIC1,PARABOLIC2,HYPERBOLIC2;
+
+    'IF' TYPE^=2 'AND' TYPE^=3 'THEN' TYPE:=1;
+    'IF' TYPE^=2 'THEN' ORDER:=2 'ELSE' 'IF' ORDER^=2 'THEN' ORDER:=1;
+    I:=1;
+    'GOTO' TYPEODE['IF' TYPE=1 'THEN' 1 'ELSE' TYPE+ORDER-1];
+
+    NOTSPECIFIED2: 'FOR' LBD:=1/9,1/8,1/7,1/6,1/5,1/4,1/3,1/2,4.3 'DO'
+                   'BEGIN' LAMBDA[I]:=LBD; I:=I+1 'END';
+                   'GOTO' EXIT;
+
+    PARABOLIC1:    'FOR'LBD:=.1418519249@-2,.3404154076@-2,.0063118569
+                              ,.01082794375,.01842733851,.03278507942,
+                              .0653627415,.1691078577,156 'DO'
+                   'BEGIN' LAMBDA[I]:=LBD; I:=I+1 'END';
+                   'GOTO' EXIT;
+
+    PARABOLIC2:    'FOR' LBD:=.3534355908@-2,.8532600867@-2,.015956206
+                              ,.02772229155,.04812587964,.08848689452,
+                              .1863578961,.5,64 'DO'
+                   'BEGIN' LAMBDA[I]:=LBD; I:=I+1 'END';
+                   'GOTO' EXIT;
+
+    HYPERBOLIC2:   'FOR' LBD:=1/8,1/20,5/32,2/17,17/80,5/22,11/32,1/2,
+                              8 'DO'
+                   'BEGIN' LAMBDA[I]:=LBD; I:=I+1 'END';
+                   'GOTO' EXIT;
+    EXIT: SIG:=SIGN(TE-T)
+
+    'END' INITIALIZE;
+
+   'PROCEDURE' DIFFERENCE SCHEME;
+   'BEGIN' 'INTEGER' I;'REAL' MLT;
+
+       DER(T,U,DU);
+       'FOR' I:=1 'STEP' 1 'UNTIL' 8 'DO'
+       'BEGIN' MLT:=LAMBDA[I]*TAU;
+          DUPMAT(1,N,1,M,UH,U);
+          ELMMAT(UH,DU,MLT);
+          DER(T+MLT,UH,DU)
+       'END';
+       ELMMAT(U,DU,TAU);
+       T:='IF' LAST 'THEN' TE 'ELSE' T+TAU;
+    'END' DIFFERENCE SCHEME;
+
+    INITIALIZE; LAST:='FALSE';
+
+    STEP:
+    TAU:=('IF' SPR=0 'THEN' ABS(TE-T) 'ELSE' ABS(LAMBDA[9]/SPR))*SIG;
+    'IF' T+TAU >= TE 'EQV' TAU>=0 'THEN'
+    'BEGIN' TAU:=TE-T;LAST:='TRUE' 'END';
+    DIFFERENCE SCHEME ; OUT;
+    'IF' 'NOT' LAST 'THEN' 'GOTO' STEP
+
+'END' ARKMAT;
+        'EOP'

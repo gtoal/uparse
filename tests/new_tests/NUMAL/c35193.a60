@@ -1,0 +1,30 @@
+c̲o̲d̲e̲ 35193;
+c̲o̲m̲m̲e̲n̲t̲ COMPUTATION OF NONEXPONENTIAL MODIFIED BESSEL
+  FUNCTIONS OF FRACTIONAL ORDER;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ NONEXP BESS IAPLUSN(A, X, N, IA); v̲a̲l̲u̲e̲ A, X, N;
+   r̲e̲a̲l̲ X, A; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ IA;
+   i̲f̲ X= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ IA[0]:= i̲f̲ A= 0 t̲h̲e̲n̲ 1 e̲l̲s̲e̲ 0;
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲ IA[N]:= 0 e̲n̲d̲
+     e̲l̲s̲e̲ i̲f̲ A= 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲
+      NONEXP BESSI(X, N, IA)
+   e̲n̲d̲ e̲l̲s̲e̲ i̲f̲ A= ·5 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ C;
+      C:= ·797 884 560 802 865 × SQRT(X);
+      NONEXP SPHER BESSI(X, N, IA);
+      f̲o̲r̲ N:= N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 0 d̲o̲ IA[N]:= C × IA[N]
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ M, NU; r̲e̲a̲l̲ R, S, LABDA, L, A2, X2;
+      A2:= A+A; X2:= 2/X; L:=1;
+      NU:= START(X,N,1) ; R:= S:= 0;
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ NU d̲o̲ L:= L × (M+A2)/(M+1);
+      f̲o̲r̲ M:= NU s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+         b̲e̲g̲i̲n̲ R:= 1/(X2 ×(A+M)+R); L:= L×(M+1)/(M+A2);
+            LABDA:= L×(M+A) × 2; S:= R × (LABDA + S);
+            i̲f̲ M  ≤  N t̲h̲e̲n̲ IA[M]:= R
+         e̲n̲d̲;
+      IA[0]:= R:= 1/(1+S)/GAMMA(1+A)/X2 ⭡A;
+      f̲o̲r̲ M:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲ IA[M]:= R:= IA[M] × R;
+   e̲n̲d̲;
+e̲o̲p̲

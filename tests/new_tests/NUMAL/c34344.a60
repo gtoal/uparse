@@ -1,0 +1,12 @@
+c̲o̲d̲e̲34344;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲CARPOL(AR,AI,R,C,S);
+   v̲a̲l̲u̲e̲ AR,AI; r̲e̲a̲l̲ AR,AI,R,C,S;
+   i̲f̲ AR=0∧AI=0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ C:=1;R:=S:=0 e̲n̲d̲
+   e̲l̲s̲e̲ b̲e̲g̲i̲n̲
+      R:=i̲f̲ ABS(AR)>ABS(AI) t̲h̲e̲n̲
+        ABS(AR)×SQRT(1+(AI/AR)⭡2)
+      e̲l̲s̲e̲ ABS(AI)× SQRT(1+(AR/AI)⭡2);
+      C:=AR/R;S:=AI/R
+   e̲n̲d̲CARPOL;
+e̲o̲p̲

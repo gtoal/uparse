@@ -1,0 +1,15 @@
+c̲o̲d̲e̲ 34051;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ SOL(A, N, P, B); v̲a̲l̲u̲e̲ N; i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, B;
+     i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, PK;
+   r̲e̲a̲l̲ R;
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+      b̲e̲g̲i̲n̲ R:= B[K]; PK:= P[K];
+         B[K]:= (B[PK] - MATVEC(1, K - 1, K, A, B)) / A[K,K];
+         i̲f̲ PK ≠ K t̲h̲e̲n̲ B[PK]:= R
+      e̲n̲d̲;
+   f̲o̲r̲ K:= N s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+        B[K]:= B[K] - MATVEC(K + 1, N, K, A, B)
+e̲n̲d̲ SOL
+
+;e̲o̲p̲

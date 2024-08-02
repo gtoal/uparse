@@ -1,0 +1,11 @@
+'CODE' 34374;
+    'INTEGER' 'PROCEDURE' EIGVALCOM(AR, AI, N, EM, VALR, VALI);
+    'VALUE' N; 'INTEGER' N; 'ARRAY' AR, AI, EM, VALR, VALI;
+    'BEGIN' 'INTEGER' 'ARRAY' INT[1:N];
+        'ARRAY' D, B, DEL, TR, TI[1:N];
+        EQILBRCOM(AR, AI, N, EM, D, INT);
+        EM[1]:= COMEUCNRM(AR, AI, N - 1, N);
+        HSHCOMHES(AR, AI, N, EM, B, TR, TI, DEL);
+        EIGVALCOM:= VALQRICOM(AR, AI, B, N, EM, VALR, VALI)
+    'END' EIGVALCOM;
+        'EOP'

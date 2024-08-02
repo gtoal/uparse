@@ -1,0 +1,45 @@
+c̲o̲d̲e̲ 32051;
+r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ INTEGRAL(X, A, B, FX, E, UA, UB);
+   v̲a̲l̲u̲e̲ A,B;r̲e̲a̲l̲ X, A, B, FX; a̲r̲r̲a̲y̲ E; b̲o̲o̲l̲e̲a̲n̲ UA, UB;
+b̲e̲g̲i̲n̲
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ TRANSF;
+   b̲e̲g̲i̲n̲ Z:= 1 / X; X:= Z + B1; TRANSF:= FX × Z × Z e̲n̲d̲;
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QAD(FX); r̲e̲a̲l̲ FX;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ T, V, SUM, HMIN;
+      p̲r̲o̲c̲e̲d̲u̲r̲e̲ INT;
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ X3, X4, F3, F4, H;
+         X4:= X2; X2:= X1; F4:= F2; F2:= F1;
+         ANEW: X:= X1:= (X0 + X2) × ·5; F1:= FX;
+         X:= X3:= (X2 + X4) × ·5; F3:= FX; H:= X4 - X0;
+         V:= (4 × (F1 + F3) +2  × F2 + F0 + F4) × 15;
+         T:= 6 × F2 -4  × (F1 + F3) + F0 + F4;
+         i̲f̲ ABS(T) < ABS(V) × RE + AE t̲h̲e̲n̲
+           SUM:=SUM + (V - T) × H e̲l̲s̲e̲
+         i̲f̲ ABS(H) < HMIN t̲h̲e̲n̲ E[3]:= E[3] +1
+         e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ INT; X2:= X3; F2:= F3; g̲o̲t̲o̲ ANEW e̲n̲d̲;
+         X0:= X4; F0:= F4
+      e̲n̲d̲ INT;
+
+      HMIN:= ABS(X0 - X2) × RE; X:= X1:= (X0 + X2) × ·5;
+      F1:=FX;SUM:= 0; INT; QAD:= SUM / 180
+   e̲n̲d̲ QAD;
+   r̲e̲a̲l̲ X0, X1, X2, F0, F1, F2, RE, AE, B1, Z;
+   RE:= E[1]; i̲f̲ UB t̲h̲e̲n̲ AE:= E[2] × 180 / ABS(B - A)
+   e̲l̲s̲e̲ AE:= E[2] × 90 / ABS(B - A); i̲f̲ UA t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ E[3]:= E[4]:= 0; X:= X0:= A; F0:= FX e̲n̲d̲
+   e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ X:= X0:= A:= E[5]; F0:= E[6] e̲n̲d̲;
+   E[5]:= X:= X2:= B; E[6]:= F2:= FX; E[4]:= E[4] + QAD(FX);
+   i̲f̲ ¬ UB t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ A < B t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ B1:= B -1 ; X0:= 1 e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ B1:= B +1 ; X0:= -1  e̲n̲d̲;
+      F0:= E[6]; E[5]:= X2:= 0; E[6]:= F2:= 0;
+      AE:= E[2] × 90;
+      E[4]:= E[4] - QAD(TRANSF)
+   e̲n̲d̲;
+   INTEGRAL:= E[4]
+e̲n̲d̲ INTEGRAL;
+e̲o̲p̲

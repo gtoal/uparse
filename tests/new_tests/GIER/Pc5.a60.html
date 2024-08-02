@@ -1,0 +1,195 @@
+<html><head><meta charset="utf-8"></head><body><pre>
+
+algol&lt;
+<u>begin</u>
+   <u>comment</u>
+
+   https://projecteuler.net/problem=61
+
+   Answer:  28684
+   Time:    8030.38s = 2h 13m 50.38s
+   Time:        Classic:        7893.65s
+   Time:        Turbo:          6974.42s
+
+   No buffer, no index check:
+
+   Time classic:        7938.42
+   Time turbo:          7036.65 11.4pct
+
+   Buffer, no index check:
+
+   Time classic:        6655.42
+   Time turbo:          6091.44 8.5pct
+
+   No buffer, index check:
+
+   Time classic:        7893.65
+   Time turbo:          7045.71 10.7pct
+
+   Buffer, index check:
+
+   Time classic:        8032.21
+   Time turbo:          7153.58 10.9pct
+
+   PERM code taken from APL/360 ADVANCEDEX PERM function.
+
+   ;
+   <u>real</u> clock;
+   <u>real</u> <u>procedure</u> clock count;
+   <u>code</u> clock count;
+   1, 37;
+     zl        , grf p−1   ; RF ≔ clock count; stack[p−1] ≔ RF;
+   <u>e</u>;
+   <u>integer</u> <u>procedure</u> triangle(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔ −0.5+sqrt(0.25+2×n);
+      triangle ≔ <u>if</u> (n2×(n2+1)÷2)=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u>;
+   <u>integer</u> <u>procedure</u> square(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔ sqrt(n);
+      square ≔  <u>if</u> n2×n2=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u> square;
+   <u>integer</u> <u>procedure</u> pentagonal(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔ (0.5+sqrt(0.25+6×n))/3;
+      pentagonal ≔ <u>if</u> (n2×(3×n2−1)÷2)=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u>;
+   <u>integer</u> <u>procedure</u> hexagonal(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔  (1+sqrt(1+8×n))/4;
+      hexagonal ≔  <u>if</u> n2×(2×n2−1)=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u> hexagonal;
+   <u>integer</u> <u>procedure</u> heptagonal(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔  (1.5+sqrt(2.25+10×n))/5;
+      heptagonal ≔  <u>if</u> n2×(5×n2−3)÷2=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u> heptagonal;
+   <u>integer</u> <u>procedure</u> octagonal(n);
+   <u>value</u> n;
+   <u>integer</u> n;
+   <u>begin</u>
+      <u>integer</u> n2;
+      n2 ≔  (2+sqrt(4+12×n))/6;
+      octagonal ≔  <u>if</u> n2×(3×n2−2)=n <u>then</u> n2 <u>else</u> 0
+   <u>end</u> octagonal;
+   <u>procedure</u> PERM(Z,a,b);
+   <u>value</u> a,b;
+   <u>integer</u> a,b;
+   <u>integer</u> <u>array</u> Z;
+   <u>begin</u>
+      <u>integer</u> i,j,rem;
+      rem ≔ b−1;
+      <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> a <u>do</u>
+      <u>begin</u>
+         Z[a−i+1] ≔ 1+rem <u>mod</u> i;
+         rem ≔ rem÷i
+      <u>end</u>;
+      <u>for</u> i ≔ a−1 <u>step</u> −1 <u>until</u> 1 <u>do</u>
+      <u>for</u> j ≔ i+1 <u>step</u> 1 <u>until</u> a <u>do</u>
+      <u>if</u> Z[i]&LessSlantEqual;Z[j] <u>then</u> Z[j] ≔ Z[j]+1
+   <u>end</u> PERM;
+   <u>integer</u> <u>array</u> list,Z[1:6];
+   <u>integer</u> i,j;
+   <u>integer</u> aa,bb,cc,dd,ee,ff,
+      aabb,bbcc,ccdd,ddee,eeff,ffaa;
+   clock count;
+   <u>for</u> aa ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+   <u>for</u> bb ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+   <u>if</u> aa=bb <u>then</u> <u>goto</u> notbb;
+   list[1] ≔ aabb ≔ aa×100+bb;
+   <u>if</u> octagonal(aabb)=0 <u>then</u> <u>goto</u> notbb;
+   <u>for</u> cc ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+   <u>if</u> aa=cc <u>then</u> <u>goto</u> notcc;
+   <u>if</u> bb=cc <u>then</u> <u>goto</u> notcc;
+   list[2] ≔ bbcc ≔ bb×100+cc;
+   <u>if</u> heptagonal(bbcc)=0 ∧
+         hexagonal(bbcc)=0 ∧
+         pentagonal(bbcc)=0 ∧
+         square(bbcc)=0 ∧
+         triangle(bbcc)=0 <u>then</u> <u>goto</u> notcc;
+   <u>for</u> dd ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+      <u>if</u> aa=dd <u>then</u> <u>goto</u> notdd;
+      <u>if</u> bb=dd <u>then</u> <u>goto</u> notdd;
+      <u>if</u> cc=dd <u>then</u> <u>goto</u> notdd;
+      list[3] ≔ ccdd ≔ cc×100+dd;
+   <u>if</u> heptagonal(ccdd)=0 ∧
+         hexagonal(ccdd)=0 ∧
+         pentagonal(ccdd)=0 ∧
+         square(ccdd)=0 ∧
+         triangle(ccdd)=0 <u>then</u> <u>goto</u> notdd;
+   <u>for</u> ee ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+      <u>if</u> aa=ee <u>then</u> <u>goto</u> notee;
+      <u>if</u> bb=ee <u>then</u> <u>goto</u> notee;
+      <u>if</u> cc=ee <u>then</u> <u>goto</u> notee;
+      <u>if</u> dd=ee <u>then</u> <u>goto</u> notee;
+      list[4] ≔ ddee ≔ dd×100+ee;
+   <u>if</u> heptagonal(ddee)=0 ∧
+         hexagonal(ddee)=0 ∧
+         pentagonal(ddee)=0 ∧
+         square(ddee)=0 ∧
+         triangle(ddee)=0 <u>then</u> <u>goto</u> notee;
+   <u>for</u> ff ≔ 10 <u>step</u> 1 <u>until</u> 99 <u>do</u>
+   <u>begin</u>
+      <u>if</u> aa=ff <u>then</u> <u>goto</u> notff;
+      <u>if</u> bb=ff <u>then</u> <u>goto</u> notff;
+      <u>if</u> cc=ff <u>then</u> <u>goto</u> notff;
+      <u>if</u> dd=ff <u>then</u> <u>goto</u> notff;
+      <u>if</u> ee=ff <u>then</u> <u>goto</u> notff;
+      list[5] ≔ eeff ≔ ee×100+ff;
+   <u>if</u> heptagonal(eeff)=0 ∧
+         hexagonal(eeff)=0 ∧
+         pentagonal(eeff)=0 ∧
+         square(eeff)=0 ∧
+         triangle(eeff)=0 <u>then</u> <u>goto</u> notff;
+      list[6] ≔ ffaa ≔ ff×100+aa;
+   <u>if</u> heptagonal(ffaa)=0 ∧
+         hexagonal(ffaa)=0 ∧
+         pentagonal(ffaa)=0 ∧
+         square(ffaa)=0 ∧
+         triangle(ffaa)=0 <u>then</u> <u>goto</u> notff;
+         <u>for</u> i ≔ 1 <u>step</u> 1 <u>until</u> 720 <u>do</u>
+         <u>begin</u>
+   PERM(Z,6,i);
+         <u>if</u> triangle(list[Z[1]])=0 <u>then</u> <u>goto</u> notperm;
+         <u>if</u> square(list[Z[2]])=0 <u>then</u> <u>goto</u> notperm;
+         <u>if</u> pentagonal(list[Z[3]])=0 <u>then</u> <u>goto</u> notperm;
+         <u>if</u> hexagonal(list[Z[4]])=0 <u>then</u> <u>goto</u> notperm;
+         <u>if</u> heptagonal(list[Z[5]])=0 <u>then</u> <u>goto</u> notperm;
+         <u>if</u> octagonal(list[Z[6]])=0 <u>then</u> <u>goto</u> notperm;
+         writecr;
+         write(«dddddd»,aabb,bbcc,ccdd,ddee,eeff,ffaa,
+                          aabb+bbcc+ccdd+ddee+eeff+ffaa);
+notperm: <u>end</u> for i;
+notff: <u>end</u> ff;
+notee: <u>end</u> ee;
+notdd: <u>end</u> dd;
+notcc: <u>end</u> cc;
+notbb: <u>end</u> bb;
+ <u>end</u> aa;
+   clock ≔ clock count;
+   writecr;
+   write(«dddddddd.dd»,clock)
+<u>end</u>;
+t&lt;
+</pre></body></html>

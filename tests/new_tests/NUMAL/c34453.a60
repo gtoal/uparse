@@ -1,0 +1,34 @@
+c̲o̲d̲e̲ 34453;
+b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ ZEROINDER(X, Y, FX, DFX, TOLX);
+   r̲e̲a̲l̲ X, Y, FX, DFX, TOLX;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ EXT;
+   r̲e̲a̲l̲ B, FB, DFB, A, FA, DFA, C, FC, DFC, D, W, MB,
+     TOL, M, P, Q, DW;
+   DW:= DWARF;
+   B:= X; FB:= FX; DFB:= DFX; A:= X:= Y; FA:= FX; DFA:= DFX;
+   INTERPOLATE: C:= A; FC:= FA; DFC:= DFA; EXT:= 0;
+   EXTRAPOLATE: i̲f̲ ABS(FC) < ABS(FB) t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ A:= B; FA:= FB; DFA:= DFB; B:= X:= C; FB:= FC;
+      DFB:= DFC; C:= A; FC:= FA; DFC:= DFA
+   e̲n̲d̲ INTERCHANGE;
+   TOL:= TOLX; M:= (C + B) × 0·5; MB:= M - B;
+   i̲f̲ ABS(MB) > TOL t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ EXT > 2 t̲h̲e̲n̲ W:= MB e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ TOL:= TOL × SIGN(MB);
+         D:= i̲f̲ EXT = 2 t̲h̲e̲n̲ DFA e̲l̲s̲e̲ (FB - FA) / (B - A);
+         P:= FB × D × (B - A);
+         Q:= FA × DFB - FB × D;
+         i̲f̲ P < 0 t̲h̲e̲n̲ b̲e̲g̲i̲n̲ P:= -P; Q:= -Q e̲n̲d̲;
+         W:= i̲f̲ P < DW ∨ P ≤ Q × TOL t̲h̲e̲n̲ TOL e̲l̲s̲e̲
+           i̲f̲ P < MB × Q t̲h̲e̲n̲ P / Q e̲l̲s̲e̲ MB;
+      e̲n̲d̲; A:= B; FA:= FB; DFA:= DFB;
+      X:= B:= B + W; FB:= FX; DFB:= DFX;
+      i̲f̲ (i̲f̲ FC ≥ 0 t̲h̲e̲n̲ FB ≥ 0 e̲l̲s̲e̲ FB ≤ 0) t̲h̲e̲n̲
+        g̲o̲t̲o̲ INTERPOLATE e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ EXT:= i̲f̲ W = MB t̲h̲e̲n̲ 0 e̲l̲s̲e̲ EXT + 1;
+         g̲o̲t̲o̲ EXTRAPOLATE
+      e̲n̲d̲
+   e̲n̲d̲; Y:= C;
+   ZEROINDER:= i̲f̲ FC ≥ 0 t̲h̲e̲n̲ FB ≤ 0 e̲l̲s̲e̲ FB ≥ 0
+e̲n̲d̲ ZEROINDER;
+e̲o̲p̲

@@ -1,0 +1,14 @@
+'CODE' 31044;
+'REAL' 'PROCEDURE' ORTPOL(N,X,B,C);
+'VALUE' N,X; 'INTEGER' N; 'REAL' X; 'ARRAY' B,C;
+'IF' N=0 'THEN' ORTPOL:=1 'ELSE'
+'BEGIN' 'INTEGER' K,L; 'REAL' R,S,H;
+  R:=X-B[0]; S:=1; L:=N-1;
+  'FOR' K:=1 'STEP' 1 'UNTIL' L 'DO'
+'BEGIN' H:=R;
+  R:=(X-B[K])*R-C[K]*S;
+  S:=H;
+'END';
+  ORTPOL:=R;
+'END' ORTPOL;
+        'EOP'

@@ -1,0 +1,12 @@
+c̲o̲d̲e̲ 34438;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ JACOBNMF(N, M, X, F, JAC, I, DI, FUNCT); v̲a̲l̲u̲e̲ N, M;
+   i̲n̲t̲e̲g̲e̲r̲ N, M, I; r̲e̲a̲l̲ DI; a̲r̲r̲a̲y̲ X, F, JAC; p̲r̲o̲c̲e̲d̲u̲r̲e̲ FUNCT;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ J; r̲e̲a̲l̲ STEP, AID; a̲r̲r̲a̲y̲ F1[1:N];
+   f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+      b̲e̲g̲i̲n̲ STEP:= DI; AID:= X[I]; X[I]:= AID + STEP;
+         STEP:= 1 / STEP; FUNCT(N, M, X, F1);
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              JAC[J,I]:= (F1[J] - F[J]) × STEP; X[I]:= AID
+      e̲n̲d̲
+e̲n̲d̲ JACOBNMF;
+e̲o̲p̲

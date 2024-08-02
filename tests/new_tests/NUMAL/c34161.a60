@@ -1,0 +1,50 @@
+c̲o̲d̲e̲ 34161;
+c̲o̲m̲m̲e̲n̲t̲ MCA 2321;
+i̲n̲t̲e̲g̲e̲r̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ QRISYMTRI(A, N, D, B, BB, EM); v̲a̲l̲u̲e̲ N;
+   i̲n̲t̲e̲g̲e̲r̲ N; a̲r̲r̲a̲y̲ A, D, B, BB, EM;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ I, J, J1, K, M, M1, COUNT, MAX;
+   r̲e̲a̲l̲ BBMAX, R, S, SIN, T, C, COS, OLDCOS, G, P, W, TOL, TOL2,
+     LAMBDA, DK1, A0, A1;
+
+   TOL:= EM[2] × EM[1]; TOL2:= TOL × TOL; COUNT:= 0; BBMAX:= 0;
+   MAX:= EM[4]; M:= N;
+   IN: K:= M; M1:= M - 1;
+   NEXT: K:= K - 1; i̲f̲ K > 0 t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ i̲f̲ BB[K] ≥ TOL2 t̲h̲e̲n̲ g̲o̲t̲o̲ NEXT;
+      i̲f̲ BB[K] > BBMAX t̲h̲e̲n̲ BBMAX:= BB[K]
+   e̲n̲d̲;
+   i̲f̲ K = M1 t̲h̲e̲n̲ M:= M1 e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲
+      T:= D[M] - D[M1]; R:= BB[M1];
+      i̲f̲ ABS(T) < TOL t̲h̲e̲n̲ S:= SQRT(R) e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ W:= 2 / T; S:= W × R / (SQRT(W × W × R + 1) + 1)
+      e̲n̲d̲; i̲f̲ K = M - 2 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ D[M]:= D[M] + S; D[M1]:= D[M1] - S;
+         T:= - S / B[M1]; R:= SQRT(T × T + 1); COS:= 1 / R;
+         SIN:= T / R; ROTCOL(1,N,M1,M,A,COS,SIN); M:= M - 2
+      e̲n̲d̲
+      e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ COUNT:= COUNT + 1;
+         i̲f̲ COUNT > MAX t̲h̲e̲n̲ g̲o̲t̲o̲ END;
+         LAMBDA:= D[M] + S; i̲f̲ ABS(T) < TOL t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= D[M1] - S;
+            i̲f̲ ABS(W) < ABS(LAMBDA) t̲h̲e̲n̲ LAMBDA:= W
+         e̲n̲d̲;
+         K:= K + 1; T:= D[K] - LAMBDA; COS:= 1; W:= B[K];
+         P:= SQRT(T × T + W × W); J1:= K;
+         f̲o̲r̲ J:= K + 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲
+            b̲e̲g̲i̲n̲ OLDCOS:= COS; COS:= T / P; SIN:= W / P;
+               DK1:= D[J] - LAMBDA; T:= OLDCOS × T;
+               D[J1]:= (T + DK1) × SIN × SIN + LAMBDA + T;
+               T:= COS × DK1 - SIN × W × OLDCOS; W:= B[J];
+               P:= SQRT(T × T + W × W); G:= B[J1]:= SIN × P;
+               BB[J1]:= G × G; ROTCOL(1, N, J1, J, A, COS, SIN);
+               J1:= J
+            e̲n̲d̲;
+         D[M]:= COS × T + LAMBDA; i̲f̲ T < 0 t̲h̲e̲n̲ B[M1]:= - G
+      e̲n̲d̲ QRSTEP
+   e̲n̲d̲;
+   i̲f̲ M > 0 t̲h̲e̲n̲ g̲o̲t̲o̲ IN;
+   END: EM[3]:= SQRT(BBMAX); EM[5]:= COUNT; QRISYMTRI:= M
+e̲n̲d̲ QRISYMTRI;
+e̲o̲p̲

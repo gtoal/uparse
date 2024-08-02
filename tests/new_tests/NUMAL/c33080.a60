@@ -1,0 +1,270 @@
+c̲o̲d̲e̲  33080;
+b̲o̲o̲l̲e̲a̲n̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ MULTISTEP(X,XEND,Y,HMIN,HMAX,YMAX,EPS,
+  FIRST,SAVE,DERIV,AVAILABLE,JACOBIAN,STIFF,N,OUT);
+   v̲a̲l̲u̲e̲ HMIN,HMAX,EPS,XEND,N,STIFF;
+   b̲o̲o̲l̲e̲a̲n̲ FIRST,AVAILABLE,STIFF;
+     i̲n̲t̲e̲g̲e̲r̲ N;
+     r̲e̲a̲l̲ X,XEND,HMIN,HMAX,EPS;
+     a̲r̲r̲a̲y̲ Y,YMAX,SAVE,JACOBIAN;
+     p̲r̲o̲c̲e̲d̲u̲r̲e̲ DERIV,OUT;
+b̲e̲g̲i̲n̲ o̲w̲n̲ b̲o̲o̲l̲e̲a̲n̲ ADAMS,WITH JACOBIAN;
+   o̲w̲n̲ i̲n̲t̲e̲g̲e̲r̲ M,SAME,KOLD;
+   o̲w̲n̲ r̲e̲a̲l̲ XOLD,HOLD,A0,TOLUP,TOL,TOLDWN,TOLCONV;
+   b̲o̲o̲l̲e̲a̲n̲ EVALUATE,EVALUATED,DECOMPOSE,DECOMPOSED,CONV;
+   i̲n̲t̲e̲g̲e̲r̲ I,J,L,K,KNEW,FAILS;
+   r̲e̲a̲l̲ H, CH, CHNEW,ERROR,DFI,C;
+   a̲r̲r̲a̲y̲ A[0:5],DELTA,LAST DELTA,DF[1:N],JAC[1:N, 1:N],AUX[1:3];
+   i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ P[1:N];
+
+   r̲e̲a̲l̲ p̲r̲o̲c̲e̲d̲u̲r̲e̲ NORM2(AI); r̲e̲a̲l̲ AI;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ S,A; S:= 1·0@-100;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ A:= AI/YMAX[I]; S:= S + A × A e̲n̲d̲;
+      NORM2:= S
+   e̲n̲d̲ NORM2;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ RESET;
+   b̲e̲g̲i̲n̲ i̲f̲ CH < HMIN/HOLD t̲h̲e̲n̲ CH:= HMIN/HOLD e̲l̲s̲e̲
+      i̲f̲ CH > HMAX/HOLD t̲h̲e̲n̲ CH:= HMAX/HOLD;
+      X:= XOLD; H:= HOLD × CH; C:= 1;
+      f̲o̲r̲ J:= 0 s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ K×M d̲o̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 Y[J+I]:= SAVE[J+I] × C;
+            C:= C × CH
+         e̲n̲d̲;
+      DECOMPOSED:= f̲a̲l̲s̲e̲
+   e̲n̲d̲;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ METHOD;
+   b̲e̲g̲i̲n̲ I:= -39;
+      i̲f̲ ADAMS t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ f̲o̲r̲ C:= 1,1,144,4,0,·5,1,·5,576,144,1,5/12,1,·75,1/6,1436,576,4,·375,1,11/12,1/3,1/24,
+           2844,1436,1,251/720,1,25/24,35/72,
+           5/48,1/120,0,2844,0·1
+           d̲o̲ b̲e̲g̲i̲n̲ I:= I+ 1; SAVE[I]:= C e̲n̲d̲
+      e̲n̲d̲ e̲l̲s̲e̲
+
+      b̲e̲g̲i̲n̲ f̲o̲r̲ C:= 1,1,9,4,0,2/3,1,1/3,36,20·25,1,6/11,
+           1,6/11,1/11,84·028,53·778,0·25,·48,1,·7,·2,·02,
+           156·25, 108·51, ·027778, 120/274, 1, 225/274,
+           85/274, 15/274, 1/274, 0, 187·69, ·0047361
+           d̲o̲ b̲e̲g̲i̲n̲ I:= I + 1; SAVE[I]:= C e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ METHOD;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ ORDER;
+   b̲e̲g̲i̲n̲ C:= EPS × EPS; J:= (K-1) × (K + 8)/2 - 38;
+      f̲o̲r̲ I:= 0 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲ A[I]:= SAVE[I+J];
+      TOLUP  := C × SAVE[J + K + 1];
+      TOL    := C × SAVE[J + K + 2];
+      TOLDWN := C × SAVE[J + K + 3];
+      TOLCONV:= EPS/(2 × N × (K + 2));
+      A0:= A[0];  DECOMPOSE:= t̲r̲u̲e̲;
+   e̲n̲d̲ ORDER;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ EVALUATE JACOBIAN;
+   b̲e̲g̲i̲n̲ EVALUATE:= f̲a̲l̲s̲e̲;
+      DECOMPOSE:= EVALUATED:= t̲r̲u̲e̲;
+      i̲f̲ AVAILABLE t̲h̲e̲n̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ r̲e̲a̲l̲ D; a̲r̲r̲a̲y̲ FIXY,FIXDY,DY[1:N];
+         f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+              FIXY[I]:= Y[I];
+         DERIV(FIXDY);
+         f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ D:= i̲f̲ EPS > ABS(FIXY[J])
+                 t̲h̲e̲n̲ EPS × EPS
+               e̲l̲s̲e̲ EPS × ABS(FIXY[J]);
+               Y[J]:= Y[J] + D; DERIV(DY);
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    JACOBIAN[I,J]:= (DY[I]-FIXDY[I])/D;
+               Y[J]:= FIXY[J]
+            e̲n̲d̲
+      e̲n̲d̲
+   e̲n̲d̲ EVALUATE JACOBIAN;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ DECOMPOSE JACOBIAN;
+   b̲e̲g̲i̲n̲ DECOMPOSE:= f̲a̲l̲s̲e̲;
+      DECOMPOSED:= t̲r̲u̲e̲; C:= -A0 × H;
+      f̲o̲r̲ J:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                 JAC[I,J]:= JACOBIAN[I,J] × C;
+            JAC[J,J]:= JAC[J,J] + 1
+         e̲n̲d̲;
+      AUX[2]:=1·0@-12;
+      DEC(JAC,N,AUX,P)
+   e̲n̲d̲ DECOMPOSE JACOBIAN;
+
+   p̲r̲o̲c̲e̲d̲u̲r̲e̲ CALCULATE STEP AND ORDER;
+   b̲e̲g̲i̲n̲ r̲e̲a̲l̲ A1,A2,A3;
+      A1:= i̲f̲ K ≤ 1 t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+        0·75 × (TOLDWN/NORM2(Y[K×M+I])) ⭡ (0·5/K);
+      A2:= 0·80 × (TOL/ERROR) ⭡ (0·5/(K + 1));
+      A3:= i̲f̲ K ≥ 5 ∨ FAILS ≠ 0
+        t̲h̲e̲n̲ 0 e̲l̲s̲e̲
+        0·70 × (TOLUP/NORM2(DELTA[I] - LAST DELTA[I])) ⭡
+        (0·5/(K+2));
+
+      i̲f̲ A1 > A2 ∧ A1 > A3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ KNEW:= K-1; CHNEW:= A1 e̲n̲d̲ e̲l̲s̲e̲
+      i̲f̲ A2 > A3 t̲h̲e̲n̲
+      b̲e̲g̲i̲n̲ KNEW:= K  ; CHNEW:= A2 e̲n̲d̲ e̲l̲s̲e̲
+      b̲e̲g̲i̲n̲ KNEW:= K+1; CHNEW:= A3 e̲n̲d̲
+   e̲n̲d̲ CALCULATE STEP AND ORDER;
+
+   i̲f̲ FIRST t̲h̲e̲n̲
+   b̲e̲g̲i̲n̲ FIRST:= f̲a̲l̲s̲e̲; M:= N;
+      f̲o̲r̲ I:= -1,-2,-3 d̲o̲ SAVE[I]:= 0;
+      OUT(0,0);
+      ADAMS:= ¬ STIFF; WITH JACOBIAN:= ¬ ADAMS;
+      i̲f̲ WITH JACOBIAN t̲h̲e̲n̲ EVALUATE JACOBIAN;
+      METHOD;
+      NEW START: K:= 1; SAME:= 2; ORDER; DERIV(DF);
+      H:= i̲f̲ ¬ WITH JACOBIAN t̲h̲e̲n̲ HMIN e̲l̲s̲e̲
+        SQRT(2 × EPS/SQRT(NORM2 (MATVEC(1,N,I,JACOBIAN,DF))));
+      i̲f̲ H > HMAX t̲h̲e̲n̲ H:= HMAX e̲l̲s̲e̲
+      i̲f̲ H < HMIN t̲h̲e̲n̲ H:= HMIN;
+      XOLD:= X; HOLD:= H; KOLD:= K; CH:= 1;
+      f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+         b̲e̲g̲i̲n̲ SAVE[I]:= Y[I]; SAVE[M+I]:= Y[M+I]:= DF[I] × H
+         e̲n̲d̲;
+      OUT(0,0)
+   e̲n̲d̲ e̲l̲s̲e̲
+   b̲e̲g̲i̲n̲ WITH JACOBIAN:= ¬ ADAMS; CH:= 1;
+      K:=KOLD; RESET; ORDER;
+      DECOMPOSE:= WITH JACOBIAN
+   e̲n̲d̲;
+   f̲o̲r̲ L:= 0 w̲h̲i̲l̲e̲ X < XEND d̲o̲
+      b̲e̲g̲i̲n̲ i̲f̲ X + H ≤ XEND t̲h̲e̲n̲ X:= X + H e̲l̲s̲e̲
+         b̲e̲g̲i̲n̲ H:= XEND-X; X:= XEND; CH:= H/HOLD; C:= 1;
+            f̲o̲r̲ J:= M s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ K×M d̲o̲
+               b̲e̲g̲i̲n̲ C:= C× CH;
+                  f̲o̲r̲ I:= J+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ J+N d̲o̲
+                       Y[I]:= Y[I] × C
+               e̲n̲d̲;
+            SAME:= i̲f̲ SAME<3 t̲h̲e̲n̲ 3 e̲l̲s̲e̲ SAME+1;
+         e̲n̲d̲;
+
+         c̲o̲m̲m̲e̲n̲t̲ PREDICTION;
+         f̲o̲r̲ L:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+            b̲e̲g̲i̲n̲ f̲o̲r̲ I:= L s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ (K-1)×M+L d̲o̲
+                    f̲o̲r̲ J:= (K-1)×M+L s̲t̲e̲p̲ -M u̲n̲t̲i̲l̲ I d̲o̲
+                       Y[J]:= Y[J] + Y[J+M];
+               DELTA[L]:= 0
+            e̲n̲d̲;  EVALUATED:= f̲a̲l̲s̲e̲;
+
+         c̲o̲m̲m̲e̲n̲t̲ CORRECTION AND ESTIMATION LOCAL ERROR;
+         f̲o̲r̲ L:= 1,2,3 d̲o̲
+            b̲e̲g̲i̲n̲ DERIV(DF);
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                    DF[I]:= DF[I] × H - Y[M+I];
+               i̲f̲ WITH JACOBIAN t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲f̲ EVALUATE t̲h̲e̲n̲ EVALUATE JACOBIAN;
+                  i̲f̲ DECOMPOSE t̲h̲e̲n̲ DECOMPOSE JACOBIAN;
+                  SOL(JAC,N,P,DF)
+               e̲n̲d̲;
+
+               CONV:= t̲r̲u̲e̲;
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ DFI:= DF[I];
+                     Y[  I]:= Y[  I] + A0 × DFI;
+                     Y[M+I]:= Y[M+I] +      DFI;
+                     DELTA[I]:= DELTA[I] +  DFI;
+                     CONV:= CONV ∧ ABS(DFI) < TOLCONV × YMAX[I]
+                  e̲n̲d̲;
+               i̲f̲ CONV t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ ERROR:= NORM2(DELTA[I]);
+                  g̲o̲t̲o̲ CONVERGENCE
+               e̲n̲d̲
+                 c̲o̲m̲m̲e̲n̲t̲ ACCEPTANCE OR REJECTION;
+               i̲f̲ ¬ CONV t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ i̲f̲ ¬ WITH JACOBIAN t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ EVALUATE:= WITH JACOBIAN:= SAME ≥ K∨ H<1·1 × HMIN;
+                     i̲f̲ ¬ WITH JACOBIAN t̲h̲e̲n̲ CH:= CH/4;
+                  e̲n̲d̲ e̲l̲s̲e̲
+                  i̲f̲ ¬ DECOMPOSED t̲h̲e̲n̲ DECOMPOSE:= t̲r̲u̲e̲ e̲l̲s̲e̲
+                  i̲f̲ ¬ EVALUATED  t̲h̲e̲n̲ EVALUATE := t̲r̲u̲e̲ e̲l̲s̲e̲
+                  i̲f̲ H > 1·1 × HMIN   t̲h̲e̲n̲ CH:= CH/4 e̲l̲s̲e̲
+                  i̲f̲ ADAMS            t̲h̲e̲n̲ g̲o̲t̲o̲ TRY CURTISS e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲ SAVE[-1]:= 1; g̲o̲t̲o̲ RETURN e̲n̲d̲;
+
+                  RESET
+               e̲n̲d̲ e̲l̲s̲e̲ CONVERGENCE:
+
+               i̲f̲ ERROR > TOL t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ FAILS:= FAILS + 1;
+                  i̲f̲ H > 1·1 × HMIN t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ i̲f̲ FAILS > 2 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ i̲f̲ ADAMS t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲ ADAMS:= f̲a̲l̲s̲e̲; METHOD e̲n̲d̲;
+                        KOLD:= 0; RESET; g̲o̲t̲o̲ NEW START
+                     e̲n̲d̲ e̲l̲s̲e̲
+                     b̲e̲g̲i̲n̲ CALCULATE STEP AND ORDER;
+                        i̲f̲ KNEW ≠ K t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲ K:= KNEW; ORDER e̲n̲d̲;
+                        CH:= CH × CHNEW; RESET
+                     e̲n̲d̲
+                  e̲n̲d̲ e̲l̲s̲e̲
+                  b̲e̲g̲i̲n̲ i̲f̲ ADAMS t̲h̲e̲n̲ TRY CURTISS:
+                     b̲e̲g̲i̲n̲ ADAMS:= f̲a̲l̲s̲e̲; METHOD
+                     e̲n̲d̲ e̲l̲s̲e̲
+                     i̲f̲ K = 1 t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ c̲o̲m̲m̲e̲n̲t̲ VIOLATE EPS CRITERION;
+                        C:= EPS × SQRT(ERROR/TOL);
+                        i̲f̲ C > SAVE[-3] t̲h̲e̲n̲ SAVE[-3]:= C;
+                        SAVE[-2]:= SAVE[-2] + 1;
+                        SAME:= 4; g̲o̲t̲o̲ ERROR TEST OK
+                     e̲n̲d̲;
+                     K:= KOLD:= 1; RESET; ORDER; SAME:= 2
+                  e̲n̲d̲
+               e̲n̲d̲ e̲l̲s̲e̲ ERROR TEST OK:
+               FAILS:= 0;
+               f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                  b̲e̲g̲i̲n̲ C:= DELTA[I];
+                     f̲o̲r̲ L:= 2 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ K d̲o̲
+                          Y[L×M+I]:= Y[L×M+I] + A[L] × C;
+                     i̲f̲ ABS(Y[I]) > YMAX[I] t̲h̲e̲n̲
+                       YMAX[I]:=  ABS(Y[I])
+                  e̲n̲d̲;
+
+               SAME:= SAME-1;
+               i̲f̲ SAME= 1 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ N d̲o̲
+                       LAST DELTA[I]:= DELTA[I]
+               e̲n̲d̲ e̲l̲s̲e̲
+               i̲f̲ SAME= 0 t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ CALCULATE STEP AND ORDER;
+                  i̲f̲ CHNEW > 1·1 t̲h̲e̲n̲
+                  b̲e̲g̲i̲n̲ DECOMPOSED:= f̲a̲l̲s̲e̲;
+                     i̲f̲ K ≠ KNEW t̲h̲e̲n̲
+                     b̲e̲g̲i̲n̲ i̲f̲ KNEW > K t̲h̲e̲n̲
+                        b̲e̲g̲i̲n̲ f̲o̲r̲ I:= 1 s̲t̲e̲p̲ 1
+                             u̲n̲t̲i̲l̲ N d̲o̲ Y[KNEW×M+I]
+                                := DELTA[I] × A[K]/KNEW
+                        e̲n̲d̲;
+                        K:= KNEW; ORDER
+                     e̲n̲d̲;
+                     SAME:= K+1;
+                     i̲f̲ CHNEW × H > HMAX
+                       t̲h̲e̲n̲ CHNEW:= HMAX/H;
+                     H:= H × CHNEW; C:= 1;
+                     f̲o̲r̲ J:= M s̲t̲e̲p̲ M u̲n̲t̲i̲l̲ K×M d̲o̲
+                        b̲e̲g̲i̲n̲ C:= C × CHNEW;
+                           f̲o̲r̲ I:= J+1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲
+                             J+N d̲o̲ Y[I]:= Y[I] × C
+                        e̲n̲d̲
+                  e̲n̲d̲
+                  e̲l̲s̲e̲ SAME:= 10
+               e̲n̲d̲;
+               i̲f̲ X ≠ XEND t̲h̲e̲n̲
+               b̲e̲g̲i̲n̲ XOLD:= X; HOLD:= H; KOLD:= K; CH:= 1;
+                  f̲o̲r̲ I:= K × M + N s̲t̲e̲p̲ -1 u̲n̲t̲i̲l̲ 1 d̲o̲
+                       SAVE[I]:= Y[I];
+                  OUT(H,K)
+               e̲n̲d̲
+            e̲n̲d̲ CORRECTION AND ESTIMATION LOCAL ERROR;
+      e̲n̲d̲ STEP;
+
+   RETURN: SAVE[0]:= i̲f̲ ADAMS t̲h̲e̲n̲ 0 e̲l̲s̲e̲ 1;
+   MULTISTEP:= SAVE[-1]= 0 ∧ SAVE[-2]=0
+e̲n̲d̲ MULTISTEP;
+e̲o̲p̲

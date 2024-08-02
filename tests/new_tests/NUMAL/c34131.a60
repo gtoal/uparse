@@ -1,0 +1,16 @@
+c̲o̲d̲e̲ 34131;
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ LSQSOL(A, N, M, AID, CI, B); v̲a̲l̲u̲e̲ N, M;
+   i̲n̲t̲e̲g̲e̲r̲ N, M; a̲r̲r̲a̲y̲ A, AID, B; i̲n̲t̲e̲g̲e̲r̲ a̲r̲r̲a̲y̲ CI;
+b̲e̲g̲i̲n̲ i̲n̲t̲e̲g̲e̲r̲ K, CIK;
+   r̲e̲a̲l̲ W;
+
+   f̲o̲r̲ K:= 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ M d̲o̲ ELMVECCOL(K, N, K, B, A,
+        TAMVEC(K, N, K, A, B) / (AID[K] × A[K,K]));
+   f̲o̲r̲ K:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲ B[K]:= (B[K] - MATVEC
+        (K + 1, M, K, A, B)) / AID[K];
+   f̲o̲r̲ K:= M s̲t̲e̲p̲ - 1 u̲n̲t̲i̲l̲ 1 d̲o̲
+      b̲e̲g̲i̲n̲ CIK:= CI[K]; i̲f̲ CIK ≠ K t̲h̲e̲n̲
+         b̲e̲g̲i̲n̲ W:= B[K]; B[K]:= B[CIK]; B[CIK]:= W e̲n̲d̲
+      e̲n̲d̲
+e̲n̲d̲ LSQSOL;
+e̲o̲p̲
