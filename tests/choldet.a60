@@ -1,0 +1,54 @@
+c̲o̲m̲m̲e̲n̲t̲ Example taken from https://dl.acm.org/doi/pdf/10.1145/355681.355683
+        See also Handbook for Automatic Computation: Volume II: Linear Algebra
+                 By John H. Wilkinson, C. Reinsch
+                 p15 et seq.
+        https://link.springer.com/book/10.1007/978-3-662-39778-7
+        https://books.google.com/books?id=ebmrCAAAQBAJ&pg=PA14&lpg=PA14&dq=%22choldet+1%22&source=bl&ots=_MlJa1lbhU&sig=ACfU3U1AyYV3VDFQv-B5Ecd-YcbEex7YGQ&hl=en&sa=X&ved=2ahUKEwjU5Zr899eHAxUXL9AFHb3BDdAQ6AF6BAgaEAM#v=onepage&q=%22choldet%201%22&f=false
+
+     The upper triangle of a positive definite symmetric matrix,
+     A, is stored in the upper triangle of an N*N array A(I,J),
+     I=1,N, J=1,N. The Cholesky decomposition A = LU, where
+     U is the transpose of L, is performed and stored in the
+     remainder of the array A except for the reciprocals of the
+     diagonal elements which are stored in P(I), I = 1,N,
+     instead of the elements themselves. A is retained so that
+     the solution obtained can be subsequently improved. The
+     determinant, D1 * 2.0**ID, of A is also computed. The
+     subroutine will fail if A, modified by the rounding errors,
+     is not positive definite.
+
+  (documentation of calls in the Fortran version of NAG at http://ag.riken.jp/kcpc38/s236/nag.html )
+;
+
+p̲r̲o̲c̲e̲d̲u̲r̲e̲ choldet 1 (n,a,p,d1,d2,fail);
+   v̲a̲l̲u̲e̲ n;
+   i̲n̲t̲e̲g̲e̲r̲ d2, n;
+   r̲e̲a̲l̲ d1;
+   a̲r̲r̲a̲y̲ a,p;
+   l̲a̲b̲e̲l̲ fail;
+b̲e̲g̲i̲n̲
+   i̲n̲t̲e̲g̲e̲r̲ i,j,k;
+   r̲e̲a̲l̲ x,xx;
+   d1 := 1; d2 := 0;
+   f̲o̲r̲ i := 1 s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+      f̲o̲r̲ j := i s̲t̲e̲p̲ 1 u̲n̲t̲i̲l̲ n d̲o̲
+         b̲e̲g̲i̲n̲
+            innerprod(1,1,i-1,-a[i,j],0,a[i,k],a[j,k],k,x,xx);
+            x := -x;
+            i̲f̲ j = i t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+               d1 := d1×x;
+               i̲f̲ x < 0 t̲h̲e̲n̲ g̲o̲t̲o̲ fail;
+           l1: i̲f̲ abs(d1) > 1 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                  d1 := d1×0·0625;
+                  d2 := d2+4;
+                  g̲o̲t̲o̲ l1
+               e̲n̲d̲;
+           l2: i̲f̲ abs(d1) < 0·0625 t̲h̲e̲n̲ b̲e̲g̲i̲n̲
+                  d1 := d1×16;
+                  d2 := d2-4;
+                  g̲o̲t̲o̲ l2
+               e̲n̲d̲;
+               p[i] := 1/sqrt(x)
+            e̲n̲d̲ e̲l̲s̲e̲ a[j,i] := x×p[i]
+         e̲n̲d̲ ij;
+e̲n̲d̲ choldet 1;
