@@ -7,6 +7,6 @@ b̲e̲g̲i̲n̲
 
    i:=1;
    f̲o̲r̲ i:= i+1 w̲h̲i̲l̲e̲ i≤10 d̲o̲
-        outinteger(1,fatorial(5));
+        outinteger(1,factorial(5));
 
 e̲n̲d̲
