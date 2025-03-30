@@ -604,7 +604,7 @@ which was reported as:<br/>
 <pre>* Error: P&lt;operand> can left-recurse indirectly through &lt;rest_of_exprn></pre>
 
 &hellip; Parsing an &lt;operand> resolved into parsing a &lt;plus-opt> followed by an &lt;exprn>.  The &lt;plus-opt> could be null,
-and the &lt;exprn> in turned called &lt;operand> and thus would loop indefinitely without consuming any characters.  The fact that
+and the &lt;exprn> in turn called &lt;operand> and thus would loop indefinitely without consuming any characters.  The fact that
 &lt;operand> also had an unwanted null option was just the cherry on the cake :-(
 <h4>EMACS support</h4>
 I'm not very practised in Emacs Lisp and I'm sure this can be done better, but on the principle of something being better than
