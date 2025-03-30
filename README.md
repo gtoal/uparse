@@ -379,7 +379,7 @@ the Imp to C translator:
 
 The entire grammar must be present in the source file, commented in this
 fashion. The grammar file can be extracted from these embedded comments
-using any convenient utility on the host system such such as:  
+using any convenient utility on the host system such as:  
 
           sed -ne 's|\(.*\)//\\\\ \(.*\)|\2|gp' language.g
 
