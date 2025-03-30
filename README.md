@@ -655,7 +655,7 @@ which was reported as:
 
 … Parsing an \<operand\> resolved into parsing a \<plus-opt\> followed
 by an \<exprn\>. The \<plus-opt\> could be null, and the \<exprn\> in
-turned called \<operand\> and thus would loop indefinitely without
+turn called \<operand\> and thus would loop indefinitely without
 consuming any characters. The fact that \<operand\> also had an unwanted
 null option was just the cherry on the cake :-(
 
