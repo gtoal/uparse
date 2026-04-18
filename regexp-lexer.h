@@ -11,7 +11,13 @@
 // Convert from data being char* to data being in a struct...
 
 typedef wint_t CHAR;
-CHAR XSTRING[10240]; // global!!!
+// (I can't remember what I added this for but with some linker change that must have
+//  happened to gcc subsequent to when this was uploaded, it's breaking compilations
+//  if this header is used twice within the same project.  Careless of me.  I'm now
+//  commenting it out and nothing in the released code was using it anyway.
+//  If I do need it, it should be declared as 'extern' and the actual array declared
+//  in regexp-lexer.c...)
+//CHAR XSTRING[10240]; // global!!!
 
 typedef int CHARINDEX;
 
