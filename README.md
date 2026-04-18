@@ -17,17 +17,12 @@ lexing is built-in to the parser which is capable of matching terminals
 against regular expressions. 'Scannerless parsing' is supported and
 old-style 'line reconstruction' can be done if needed.)
 
-The file you are currently reading is
-<http://gtoal.com/languages/algol60/new-unicode-parser/README.html> and
-the associated files are all available at
-<http://gtoal.com/languages/algol60/new-unicode-parser/>
-
 ### How to use it - the short version
 
 -   Create a working directory somewhere and `cd` into it.
 -   Fetch the code:
-    `wget `[`http://www.gtoal.com/languages/algol60/new-unicode-parser/algol60.tar`](http://www.gtoal.com/languages/algol60/new-unicode-parser/algol60.tar)  
-    `tar -xvf algol60.tar`
+    `wget `[`https://github.com/gtoal/uparse/archive/refs/heads/main.zip`]([http://www.gtoal.com/languages/algol60/new-unicode-parser/algol60.tar](https://github.com/gtoal/uparse/archive/refs/heads/main.zip))  
+    `unzip main`
 -   Build the executable: `make`
 -   run the regression tests for the example supplied: `./REGRESSION.sh`
 
